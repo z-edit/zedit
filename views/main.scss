@@ -1,45 +1,96 @@
+.content, ui-view, .viewport {
+  display: block;
+  height: 100%;
+}
+
 .pane-container {
   display: flex;
-  align-items: stretch;
+  height: 100%;
 
-  .pane-group {
-    border-right: 1px solid #555;
+  &.horizontal {
+    flex-direction: row;
 
-    &:last-of-type {
-      border: none;
+    split-bar {
+      width: 12px;
+      margin: 0 -6px;
+      cursor: ew-resize;
+
+      .bar {
+        border-left: 1px solid #888;
+        height: 100%;
+      }
     }
   }
 
-  .pane {
-    border-bottom: 1px solid #555;
+  &.vertical {
+    flex-direction: column;
 
-    &:last-of-type {
-      border: none;
+    split-bar {
+      height: 12px;
+      margin: -6px 0;
+      cursor: ns-resize;
+
+      .bar {
+        border-top: 1px solid #888;
+        width: 100%;
+      }
     }
   }
 
-  .tabs {
-    background-color: #aaa;
-
-    .tab {
-      border: 1px solid #000;
-      border-bottom: 0;
-    }
-
-    .active-tab {
-      background-color: #ddd;
-    }
-
-    .add-tab:hover {
-      background-color: #ddd;
-      border: 1px solid #000;
-      border-bottom: 0;
-    }
-  }
-
-  tab-view {
-    display: block;
-    border-top: 1px solid #000;
+  pane:last-of-type {
+    flex-grow: 1;
   }
 }
 
+pane {
+  display: block;
+  min-width: 140px;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+split-bar {
+  position: relative;
+  z-index: 1;
+
+  .bar {
+    display: inline-block;
+    cursor: inherit;
+  }
+}
+
+.tabs-container {
+  height: 100%;
+
+  .tabs-bar {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    font-size: 14px;
+    line-height: 22px;
+
+    .tab {
+      min-width: 120px;
+      border-left: 1px solid #000;
+      border-right: 1px solid #000;
+      user-select: none;
+
+      .close-tab {
+        cursor: pointer;
+        float: right;
+        margin-right: 5px;
+        margin-top: 1px;
+        color: #a00;
+      }
+
+      &:first-of-type {
+        border-left: none;
+      }
+    }
+
+    .add-tab {
+      margin: 2px 6px -2px;
+      cursor: pointer;
+    }
+  }
+}
