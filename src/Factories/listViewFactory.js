@@ -48,7 +48,11 @@ export default function(ngapp) {
                 // load plugins on enter
                 else if (e.keyCode == 13) {
                     defaultAction();
+                } else {
+                    return;
                 }
+                e.stopImmediatePropagation();
+                e.preventDefault();
             };
         };
     });
