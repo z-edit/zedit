@@ -1,0 +1,18 @@
+<div ng-if="tabs" class="tabs-container">
+    <div class="tabs-bar">
+        <div ng-repeat="tab in tabs" class="tab" ng-class="{'active' : tab.active}">
+            <span title="{{tab.data.tabLabel}}">{{tab.data.tabLabel}}</span>
+            <span class="close-tab" ng-click="closeTab($index)" title="Close tab (Ctrl + W)">
+                <i class="fa fa-times"></i>
+            </span>
+        </div>
+        <div class="add-tab" title="Open a new tab (Ctrl + T)">
+            <i class="fa fa-plus"></i>
+        </div>
+    </div>
+    <tab-view ng-repeat="tab in tabs" ng-show="tab.active"></tab-view>
+</div>
+<div ng-if="panes" class="pane-container {{layout}}">
+    <pane ng-repeat-start="pane in panes"></pane>
+    <split-bar ng-repeat-end ng-if="!$last"></split-bar>
+</div>
