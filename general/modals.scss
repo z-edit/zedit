@@ -1,0 +1,74 @@
+.modal-container {
+  position: fixed;
+  top: 45px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 45px);
+  overflow-y: auto;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  .modal {
+    position: relative;
+    max-width: 400px;
+    padding: 40px;
+    margin: 150px auto;
+    box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.8);
+    background-color: #fff;
+
+    &:focus {
+      outline: none;
+    }
+
+    .section-title {
+      display: block;
+      vertical-align: top;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .huge-modal {
+    max-width: 900px;
+    min-height: 500px;
+    margin: 100px auto;
+  }
+
+  .big-modal {
+    max-width: 600px;
+  }
+
+  .skinny-modal {
+    max-width: 400px;
+    margin: 80px auto;
+  }
+
+  .messages {
+    background-color: transparent;
+
+    .error-message, .success-message {
+      font-size: 18px;
+    }
+  }
+
+  .section-title {
+    margin-top: 0;
+  }
+
+  section {
+    margin: 15px;
+  }
+}
+
+.remove-item, .close-modal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 3px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.remove-item {
+  color: #CC0000;
+}

@@ -1,109 +1,12 @@
-@import "roboto";
-
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: 'Roboto', sans-serif;
-    overflow: hidden;
-}
-
-* {
-    box-sizing: border-box;
-    cursor: inherit;
-}
-
-div {
-    cursor: default;
-}
-
-a {
-    text-decoration: none;
-}
-
-
-ui-view {
-    text-align: center;
-}
-
-.title-bar {
-    -webkit-user-select: none;
-    border-bottom: 1px solid #aaa;
-    display: table;
-    width: 100%;
-
-    .title {
-        cursor: default;
-        display: table-cell;
-        padding: 4px 0 0 4px;
-        
-        .draggable {
-            padding: 7px 11px 11px;
-            -webkit-app-region: drag;
-        }
-    }
-    
-    .actions {
-        display: table-cell;
-        width: 114px;
-        font-size: 22px;
-        cursor: default;
-
-        span {
-            cursor: pointer;
-            display: inline-block;
-            vertical-align: middle;
-            min-width: 18px;
-        }
-
-        .help {
-            &::before {
-                content: '?';
-            }
-        }
-
-        .divider {
-            cursor: default;
-            opacity: 0.4;
-            border-right: 1px solid #aaa;
-            min-width: initial;
-            min-height: 26px;
-            margin-right: 8px;
-        }
-
-        .minimize {
-            margin-top: -6px;
-
-            &::before {
-                content: '_';
-            }
-        }
-
-        .restore {
-            font-size: 33px;
-            line-height: 16px;
-            margin-top: -6px;
-
-            &::before {
-                content: '\25A1';
-            }
-        }
-
-        .close {
-            margin-top: 1px;
-
-            &::before {
-                content: 'X';
-            }
-        }
-    }
-}
-
-.monospace {
-    font-family: 'Courier New', monospace;
-}
-
-.clickable {
-    cursor: pointer;
-}
+@import
+'roboto',
+'general/content',
+'general/buttons',
+'general/utility',
+'general/modals',
+'general/forms',
+'components/settingsModal',
+'components/profilesModal',
+'components/loadOrderModal',
+'components/loader',
+'views/start';

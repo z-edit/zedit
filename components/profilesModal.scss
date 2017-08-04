@@ -1,0 +1,48 @@
+profiles-modal {
+  .modal {
+    max-width: 700px !important;
+  }
+
+  .profile-container {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    margin: 8px 0;
+    padding: 8px 0;
+    position: relative;
+
+    select {
+      min-width: 100px;
+    }
+
+    img {
+      width: 105px;
+      margin: 6px 8px;
+      vertical-align: middle;
+    }
+
+    .fa-folder-open-o {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    .right-column {
+      display: inline-block;
+      width: 460px;
+      text-align: left;
+      vertical-align: top;
+      padding-right: 12px;
+
+      label {
+        display: block;
+
+        .input-label {
+          min-width: 100px;
+        }
+
+        .path-input {
+          width: 320px;
+        }
+      }
+    }
+  }
+}
