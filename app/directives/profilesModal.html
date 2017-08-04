@@ -1,0 +1,54 @@
+<div class="modal-container" ng-click="unfocusProfilesModal($event)">
+    <div class="modal big-modal">
+        <form>
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="close()"></span>
+            </div>
+
+            <h3>Game Profiles</h3>
+            <section>
+                <div class="profile-container" ng-repeat="profile in profiles">
+                    <div class="remove-item" title="Delete Profile">
+                        <span class="fa fa-times" ng-click="removeProfile(profile)"></span>
+                    </div>
+                    <img ng-src="images/games/{{profile.gameMode}}.png"/>
+                    <div class="right-column">
+                        <label>
+                            <span class="input-label">Name</span>
+                            <input type="text" ng-model="profile.name" ng-change="validateProfile(profile)" ng-class="{ 'invalid' : !profile.name.length }"/>
+                        </label>
+                        <label>
+                            <span class="input-label">Game</span>
+                            <select ng-model="profile.gameMode" ng-change="validateProfile(profile)" ng-options="game.mode as game.name for game in games"></select>
+                        </label>
+                        <label>
+                            <span class="input-label">Path</span>
+                            <input class="path-input" type="text" ng-model="profile.gamePath" ng-change="validateProfile(profile)" ng-class="{ 'invalid' : !profile.valid }"/>
+                            <span class="fa fa-folder-open-o" ng-click="browse(profile)" title="Browse"></span>
+                        </label>
+                        <label>
+                            <span class="input-label">Language</span>
+                            <select ng-model="profile.language">
+                                <option ng-repeat="language in languages">{{::language}}</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="subsection default-profile-section">
+                    <span class="input-label">Default Profile</span>
+                    <select ng-model="defaultProfile" ng-options="profile as profile.name for profile in profiles | profileValid">
+                        <option value="">None</option>
+                    </select>
+                </div>
+            </section>
+
+            <div class="action-button-container">
+                <span class="action-box green-box" ng-click="addProfile()">Add Profile</span>
+                <span class="action-box" ng-click="close()">Close</span>
+            </div>
+        </form>
+    </div>
+</div>

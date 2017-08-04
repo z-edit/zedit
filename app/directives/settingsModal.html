@@ -1,0 +1,88 @@
+<div class="modal-container" ng-click="unfocusSettingsModal($event)">
+    <div class="modal big-modal">
+        <form ng-hide="showErrorCache">
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="saveSettings()"></span>
+            </div>
+
+            <h3>{{::profileName}} Settings</h3>
+
+            <h4>Error caching</h4>
+            <section>
+                <div class="subsection">
+                    <label>
+                        <input type="checkbox" ng-model="settings.cacheErrors"/>
+                        Cache errors to disk
+                    </label>
+                </div>
+                <div class="subsection">
+                    <span class="action-box" ng-click="toggleErrorCache(true)">
+                        Manage plugin error cache
+                    </span>
+                </div>
+            </section>
+
+            <h4>Display</h4>
+            <section>
+                <div class="subsection">
+                    <span class="input-label">Theme</span>
+                    <input type="text" disabled value="Coming soon"/>
+                    <!--<select ng-model="settings.theme" ng-options="theme as theme.name for theme in themes"></select>-->
+                </div>
+            </section>
+
+            <div class="action-button-container">
+                <span class="action-box" ng-click="saveSettings()">OK</span>
+            </div>
+        </form>
+
+        <form ng-if="showErrorCache">
+            <h3>{{::profileName}} Error Cache</h3>
+
+            <div class="cache-container">
+                <div class="cache-item" ng-repeat="item in errorCache" ng-hide="item.deleted">
+                    <div class="delete-item">
+                        <span class="action-box red-box" ng-click="deleteCache(item)">
+                            Delete
+                        </span>
+                    </div>
+                    <div class="filename">{{::item.filename}}</div>
+                    <div class="clickable" ng-click="item.showFiles = !item.showFiles">
+                        <i class="fa fa-chevron-{{item.showFiles ? 'down' : 'right'}}"></i>
+                        {{item.files.length}} Cache File{{item.files.length != 1 ? 's' : ''}}
+                    </div>
+                    <div ng-show="item.showFiles">
+                        <table class="cache-files-table">
+                            <thead>
+                            <tr>
+                                <th>Hash</th>
+                                <th>Error Count</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="file in item.files">
+                                <td class="monospace">{{::file.hash}}</td>
+                                <td>{{::file.error_count}}</td>
+                                <td title="{{::file.modified | date:'longDate'}} {{::file.modified | date:'mediumTime'}}">{{::file.modified | date}}</td>
+                                <td class="clickable" ng-click="deleteCache(item, file)">
+                                    <span class="fa fa-times" title="Delete cache file"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div ng-if="!errorCache.length" class="content-message">
+                    The Error Cache is empty.
+                </div>
+            </div>
+
+            <div class="action-button-container">
+                <span class="action-box red-box" ng-click="clearErrorCache()">Clear</span>
+                <span class="action-box" ng-click="toggleErrorCache()">Back</span>
+            </div>
+        </form>
+    </div>
+</div>

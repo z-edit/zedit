@@ -1,0 +1,20 @@
+<div class="modal-container">
+    <div class="modal skinny-modal" ng-click="clearSelection()" tabindex="0" ng-keypress="onKeyPress($event)">
+        <form>
+            <h3>Load Order</h3>
+            <section>
+                <ul class="checkbox-list">
+                    <li ng-repeat="item in loadOrder" ng-class="{ 'selected' : item.selected }" ng-click="select($event, item, $index)">
+                        <input type="checkbox" ng-model="item.active" ng-change="updateIndexes()" />
+                        <span ng-show="item.active">[{{item.index | hex:2 }}]</span>
+                        {{::item.filename}}
+                    </li>
+                </ul>
+            </section>
+
+            <div class="action-button-container">
+                <span class="action-box" ng-click="loadPlugins()">OK</span>
+            </div>
+        </form>
+    </div>
+</div>
