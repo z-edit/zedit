@@ -1,5 +1,5 @@
 export default function(ngapp, xelib) {
-    ngapp.service('mainTreeViewFactory', function(viewFactory) {
+    ngapp.service('mainTreeViewFactory', function() {
         let factory = this;
 
         this.releaseChildren = function(node) {
@@ -23,8 +23,9 @@ export default function(ngapp, xelib) {
                 destroy: factory.destroy
             }
         };
+    });
 
-        // register view
-        viewFactory.registerView('mainTreeView', factory.new);
+    ngapp.run(function(viewFactory, mainTreeViewFactory) {
+        viewFactory.registerView('mainTreeView', mainTreeViewFactory.new);
     });
 };
