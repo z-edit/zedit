@@ -65,4 +65,4 @@ settingsModal(ngapp, fileHelpers);
 
 // VIEWS
 baseView(ngapp, remote);
-startView(ngapp);
+startView(ngapp, xelib, fileHelpers);

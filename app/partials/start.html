@@ -1,3 +1,20 @@
-<div>
-    <h1>{{message}}</h1>
+<div class="flex-container">
+    <div>
+        <h1>zEdit</h1>
+        <div class="game-logo-container">
+            <img ng-src="images/games/{{selectedProfile.gameMode || 0}}.png"/>
+        </div>
+        <div class="profile-controls">
+            <select ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles | profileValid">
+                <option value="">None</option>
+            </select>
+            <span class="fa fa-gear" ng-click="toggleProfilesModal(true)"></span>
+        </div>
+        <div class="primary-actions">
+            <span class="action-box" ng-click="startSession()" ng-class="{'disabled' : !selectedProfile}">Start Session</span>
+        </div>
+
+        <profiles-modal ng-if="showProfilesModal" ></profiles-modal>
+        <load-order-modal ng-if="showLoadOrderModal" ></load-order-modal>
+    </div>
 </div>
