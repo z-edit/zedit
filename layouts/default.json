@@ -1,0 +1,16 @@
+[
+  {
+    "panes": [
+      {
+        "tabs": ["mainTreeView"]
+      }
+    ]
+  },
+  {
+    "panes": [
+      {
+        "tabs": ["recordTreeView"]
+      }
+    ]
+  }
+]
