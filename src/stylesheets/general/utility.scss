@@ -1,0 +1,20 @@
+.monospace {
+  font-family: 'Courier New', monospace;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.limit-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: bottom;
+  max-width: 100%;
+}
+
+.subtitle {
+  color: gray;
+}

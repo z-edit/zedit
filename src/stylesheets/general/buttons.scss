@@ -1,0 +1,45 @@
+.primary-actions {
+  margin: 16px;
+
+  .action-box {
+    font-size: 28px;
+    padding: 8px 16px;
+  }
+}
+
+.action-box {
+  color: #fff !important;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  background-color: #53b6bf;
+  border-radius: 2px;
+  margin: 2px;
+  font-size: 18px;
+  padding: 4px 8px;
+  font-weight: 500;
+  user-select: none;
+  -webkit-transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #4d5e6b !important;
+  }
+
+  &.red-box {
+    background-color: red;
+  }
+
+  &.green-box {
+    background-color: green;
+  }
+
+  &.small {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  &.disabled {
+    background-color: #555 !important;
+    cursor: default;
+  }
+}
