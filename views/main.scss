@@ -1,0 +1,45 @@
+.pane-container {
+  display: flex;
+  align-items: stretch;
+
+  .pane-group {
+    border-right: 1px solid #555;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  .pane {
+    border-bottom: 1px solid #555;
+
+    &:last-of-type {
+      border: none;
+    }
+  }
+
+  .tabs {
+    background-color: #aaa;
+
+    .tab {
+      border: 1px solid #000;
+      border-bottom: 0;
+    }
+
+    .active-tab {
+      background-color: #ddd;
+    }
+
+    .add-tab:hover {
+      background-color: #ddd;
+      border: 1px solid #000;
+      border-bottom: 0;
+    }
+  }
+
+  tab-view {
+    display: block;
+    border-top: 1px solid #000;
+  }
+}
+
