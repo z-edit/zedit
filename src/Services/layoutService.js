@@ -3,18 +3,15 @@ export default function(ngapp, fileHelpers) {
         let service = this;
         let defaultLayout = fileHelpers.loadJsonFile('layouts/default.json');
 
-        this.buildLayout = function(layout) {
-            layout.forEach(function(group) {
-                group.panes.forEach(function(pane) {
-                    pane.tabs = pane.tabs.map(function(viewName) {
-                        return viewFactory.newView(viewName);
-                    });
-                });
-            });
+        this.buildPane = function(pane) {
+            if (pane.panes) pane.panes.forEach(service.buildPane);
+            if (pane.tabs) pane.tabs = pane.tabs.map(viewFactory.newView);
         };
 
-        this.loadDefaultLayout = function(scope) {
-            scope.paneGroups = service.buildLayout(defaultLayout);
+        this.getDefaultLayout = function() {
+            let layout = angular.copy(defaultLayout);
+            service.buildPane(layout);
+            return layout;
         }
     });
 }

@@ -1,16 +1,12 @@
-[
-  {
-    "panes": [
-      {
-        "tabs": ["mainTreeView"]
-      }
-    ]
-  },
-  {
-    "panes": [
-      {
-        "tabs": ["recordTreeView"]
-      }
-    ]
-  }
-]
+{
+  "layout": "horizontal",
+  "panes": [
+    {
+      "width": "45%",
+      "tabs": ["mainTreeView"]
+    },
+    {
+      "tabs": ["recordTreeView"]
+    }
+  ]
+}
