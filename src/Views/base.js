@@ -10,6 +10,8 @@ export default function(ngapp, remote) {
 
     ngapp.controller('baseController', function ($scope, $document) {
         var hostWindow = remote.getCurrentWindow();
+        
+        $scope.title = 'zEdit - New Session';
 
         $scope.helpClick = function () {
             //$scope.toggleHelpModal();
@@ -34,6 +36,11 @@ export default function(ngapp, remote) {
         $scope.$on('terminate', function() {
             remote.app.forceClose = true;
             $scope.closeClick();
+        });
+        
+        $scope.$on('setTitle', function(e, title) {
+            $scope.title = title;
+            e.stopPropagation();
         });
 
         // keyboard shortcuts
