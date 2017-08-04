@@ -1,20 +1,5 @@
-<div ng-if="loaded" class="pane-container">
-    <div ng-repeat="group in paneGroups" class="pane-group">
-        <div ng-repeat="pane in group.panes" class="pane">
-            <div class="tabs">
-                <div ng-repeat="tab in pane.tabs" class="tab" ng-class="{'active' : tab.active}">
-                    {{tab.label}}
-                    <span class="close-tab" ng-click="closeTab(pane, tab)">
-                        <i class="fa fa-times"></i>
-                    </span>
-                </div>
-                <div class="add-tab" title="Open a new tab (Ctrl + T)">
-                    <i class="fa fa-plus"></i>
-                </div>
-            </div>
-            <tab-view ng-repeat="tab in pane.tabs" ng-show="tab.active"></tab-view>
-        </div>
-    </div>
+<div class="viewport" ng-if="loaded" >
+    <pane pane="$parent.mainPane"></pane>
 </div>
 
 <div ng-if="!loaded" class="flex-container">

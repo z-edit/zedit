@@ -14,7 +14,7 @@ export default function(ngapp, xelib, remote) {
         xelibService.printGlobals();
 
         // load default layout
-        layoutService.loadDefaultLayout($scope);
+        $scope.mainPane = layoutService.getDefaultLayout();
 
         // scope functions
         $scope.toggleSettingsModal = function(visible) {
