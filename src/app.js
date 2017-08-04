@@ -8,6 +8,10 @@ import settingsService from './Services/settingsService.js';
 import xelibService from './Services/xelibService.js';
 import profileService from './Services/profileService.js';
 import formUtils from './Services/formUtils.js';
+import layoutService from './Services/layoutService.js';
+import viewFactory from './Factories/viewFactory.js';
+import mainTreeViewFactory from './Factories/mainTreeViewFactory.js';
+import recordTreeViewFactory from './Factories/recordTreeViewFactory.js';
 import spinnerFactory from './Factories/spinnerFactory.js';
 import listViewFactory from './Factories/listViewFactory.js';
 import profilesModal from './Directives/profilesModal.js';
@@ -17,6 +21,7 @@ import hexFilter from './Filters/hexFilter.js';
 import profileValidFilter from './Filters/profileValidFilter.js';
 import baseView from './Views/base.js';
 import startView from './Views/start.js';
+import mainView from './Views/main.js';
 
 // set up helpers
 var fileHelpers = fh(remote, jetpack);
@@ -49,8 +54,12 @@ xelibService(ngapp, xelib);
 profileService(ngapp, xelib, fileHelpers);
 formUtils(ngapp);
 settingsService(ngapp, fileHelpers);
+layoutService(ngapp, fileHelpers);
 
 // FACTORIES
+viewFactory(ngapp);
+mainTreeViewFactory(ngapp, xelib);
+recordTreeViewFactory(ngapp, xelib);
 spinnerFactory(ngapp);
 listViewFactory(ngapp);
 
@@ -66,3 +75,4 @@ settingsModal(ngapp, fileHelpers);
 // VIEWS
 baseView(ngapp, remote);
 startView(ngapp, xelib, fileHelpers);
+mainView(ngapp, xelib, remote);
