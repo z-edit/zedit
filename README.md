@@ -25,4 +25,4 @@ You can build a release of the application using `npm run release`.  The applica
 # contact
 If you're looking for support or want to contribute, join the [Modding Tools discord server](https://discord.gg/GUfRdpT).
 
-You can view project progress and user stories on the [trello board](https://trello.com/b/CPX0FReQ/shampoo-plugin-cleaner).
+You can view project progress and user stories on the [trello board](https://trello.com/b/AudbG6UN/zedit).
