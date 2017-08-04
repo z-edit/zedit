@@ -14,47 +14,45 @@ import createWindow from './helpers/window';
 // in config/env_xxx.json file.
 import env from './env';
 
-const setApplicationMenu = () => {
-  const menus = [editMenuTemplate];
-  if (env.name !== 'production') {
-    menus.push(devMenuTemplate);
-  }
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menus));
+var mainWindow;
+
+var setApplicationMenu = function () {
+    Menu.setApplicationMenu(Menu.buildFromTemplate([]));
 };
 
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
 // on same machine like those are two separate apps.
 if (env.name !== 'production') {
-  const userDataPath = app.getPath('userData');
-  app.setPath('userData', `${userDataPath} (${env.name})`);
+    let userDataPath = app.getPath('userData');
+    app.setPath('userData', userDataPath + ' (' + env.name + ')');
 }
 
-app.on('ready', () => {
-  //setApplicationMenu();
+app.on('ready', function () {
+    setApplicationMenu();
 
-  var appUrl = url.format({
-    pathname: path.join(__dirname, 'app.html'),
-    protocol: 'file:',
-    slashes: true
-  });
-
-  const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
-    frame: false
-  });
-
-  if (env.name === 'development') {
-    mainWindow.openDevTools();
-    mainWindow.webContents.on('devtools-opened', function() {
-      mainWindow.loadURL(appUrl);
+    var appUrl = url.format({
+        pathname: path.join(__dirname, 'app.html'),
+        protocol: 'file:',
+        slashes: true
     });
-  } else {
-    mainWindow.loadURL(appUrl);
-  }
+
+    mainWindow = createWindow('main', {
+        width: 1000,
+        height: 600,
+        frame: false
+    });
+
+    if (env.name === 'development') {
+        mainWindow.openDevTools();
+        mainWindow.webContents.on('devtools-opened', function() {
+            mainWindow.loadURL(appUrl);
+        });
+    } else {
+        mainWindow.loadURL(appUrl);
+    }
 });
 
-app.on('window-all-closed', () => {
-  app.quit();
+app.on('window-all-closed', function () {
+    app.quit();
 });

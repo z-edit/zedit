@@ -3,11 +3,15 @@ import { remote } from 'electron'; // native electron module
 import jetpack from 'fs-jetpack'; // module loaded from npm
 import fh from './helpers/fileHelpers.js';
 import env from './env';
+import xelib from './xelib.js';
 import baseView from './Views/base.js';
 import startView from './Views/start.js';
 
 // set up helpers
 var fileHelpers = fh(remote, jetpack);
+
+// initialize xelib when application starts
+xelib.Initialize();
 
 // set up angular application
 var ngapp = angular.module('application', [
