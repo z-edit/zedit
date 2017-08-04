@@ -1,6 +1,7 @@
 // Use new ES6 modules syntax for everything.
 import { remote } from 'electron'; // native electron module
 import jetpack from 'fs-jetpack'; // module loaded from npm
+import './polyfills';
 import fh from './helpers/fileHelpers.js';
 import env from './env';
 import xelib from './xelib.js';
@@ -16,6 +17,8 @@ import spinnerFactory from './Factories/spinnerFactory.js';
 import listViewFactory from './Factories/listViewFactory.js';
 import profilesModal from './Directives/profilesModal.js';
 import loadOrderModal from './Directives/loadOrderModal.js';
+import pane from './Directives/pane.js';
+import splitBar from './Directives/splitBar.js';
 import settingsModal from './Directives/settingsModal.js';
 import hexFilter from './Filters/hexFilter.js';
 import profileValidFilter from './Filters/profileValidFilter.js';
@@ -71,6 +74,8 @@ profileValidFilter(ngapp);
 profilesModal(ngapp, fileHelpers);
 loadOrderModal(ngapp, xelib);
 settingsModal(ngapp, fileHelpers);
+pane(ngapp);
+splitBar(ngapp);
 
 // VIEWS
 baseView(ngapp, remote);
