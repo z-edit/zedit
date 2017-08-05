@@ -5,7 +5,10 @@ export default function(ngapp, fileHelpers) {
 
         this.buildPane = function(pane) {
             if (pane.panes) pane.panes.forEach(service.buildPane);
-            if (pane.tabs) pane.tabs = pane.tabs.map(viewFactory.newView);
+            if (pane.tabs) {
+                pane.tabs = pane.tabs.map(viewFactory.newView);
+                pane.tabs[0].active = true;
+            }
         };
 
         this.getDefaultLayout = function() {
