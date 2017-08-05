@@ -1,0 +1,6 @@
+<div class="columns">
+    <span ng-repeat="column in columns" class="column-{{::$index}}">{{::column.label}}</span>
+</div>
+<div class="tree">
+    <main-tree-node ng-repeat="node in data.tree"></main-tree-node>
+</div>
