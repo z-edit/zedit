@@ -175,6 +175,9 @@ Array.prototype.trimFalsy = function() {
     return n < this.length - 1 ? this.slice(0, n + 1) : this;
 };
 
+Array.prototype.last = function() {
+    return this[this.length - 1];
+};
 
 Object.prototype.equals = function(otherObject) {
     if (!otherObject) return false;
