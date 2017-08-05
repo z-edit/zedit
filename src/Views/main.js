@@ -38,11 +38,11 @@ export default function(ngapp, xelib, remote) {
         };
 
         // terminate xelib when application is done
-        window.onbeforeunload = function(e) {
+        /*window.onbeforeunload = function(e) {
             if (remote.app.forceClose) return;
             //$scope.toggleSaveModal(true);
             e.returnValue = true;//false;
-        };
+        };*/
 
         $scope.checkIfLoaded();
         $scope.$emit('setTitle', 'zEdit - Loading Plugins');
