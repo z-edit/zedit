@@ -1,29 +1,32 @@
 .main-tree-view {
   text-align: left;
   font-size: 13px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   user-select: none;
+  padding-top: 24px;
 
   .columns {
     display: flex;
     border-bottom: 1px solid #aaa;
+    margin-top: -24px;
+    padding-right: 16px;
 
     > span {
       padding: 4px 8px;
-      border-right: 1px solid #aaa;
+      border-right: 1px solid #ccc;
       min-width: 100px;
 
       &:last-of-type {
         flex: 1;
-        border-right: none;
       }
     }
   }
 
   .tree {
     min-width: 400px;
+    max-height: 100%;
     padding-bottom: 4px;
+    overflow-y: auto;
   }
 }
 
