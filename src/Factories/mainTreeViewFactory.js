@@ -42,6 +42,11 @@ export default function(ngapp, xelib) {
             }
         ];
 
+        $scope.sort = {
+            index: 0,
+            reverse: false
+        };
+
         $scope.getNodeStatus = function(node) {
             let status = {
                 modified: false //xelib.GetModified(handle)
@@ -57,11 +62,6 @@ export default function(ngapp, xelib) {
         $scope.getChildrenCount = function(node) {
             if (node.element_type === 'etMainRecord') {
                 node.children_count = 0;
-                /*if (xelib.HasElement(node.handle, 'Child Group')) {
-                    xelibService.withElement(node.handle, 'Child Group', function(childGroup) {
-                        node.children_count = xelib.ElementCount(childGroup);
-                    });
-                }*/
             } else {
                 node.children_count = xelib.ElementCount(node.handle);
             }
@@ -89,10 +89,25 @@ export default function(ngapp, xelib) {
             return node;
         };
 
+        $scope.sortNodes = function(nodes) {
+            nodes.sort(function(a, b) {
+                if (a.fid === 0) return -1;
+                if (b.fid === 0) return 1;
+                let valueA = a.column_values[$scope.sort.index];
+                let valueB = b.column_values[$scope.sort.index];
+                if (valueA < valueB) return -1;
+                if (valueA > valueB) return 1;
+                return 0;
+            });
+            if ($scope.sort.reverse) nodes.reverse();
+        };
+
         $scope.buildNodes = function(handle, depth = -1) {
-            return xelib.GetElements(handle).map(function(handle) {
+            let nodes = xelib.GetElements(handle).map(function(handle) {
                 return $scope.buildNode(handle, depth);
             });
+            $scope.sortNodes(nodes);
+            return nodes;
         };
 
         $scope.expandNode = function(node) {
