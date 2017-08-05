@@ -10,7 +10,7 @@
             <i class="fa fa-plus"></i>
         </div>
     </div>
-    <tab-view ng-repeat="tab in tabs" ng-show="tab.active"></tab-view>
+    <div class="tab-view {{tab.class}}" ng-repeat="tab in tabs" ng-show="tab.active" ng-controller="tab.controller" ng-include="tab.templateUrl"></div>
 </div>
 <div ng-if="panes" class="pane-container {{layout}}">
     <pane ng-repeat-start="pane in panes"></pane>
