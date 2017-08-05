@@ -175,16 +175,6 @@ Array.prototype.trimFalsy = function() {
     return n < this.length - 1 ? this.slice(0, n + 1) : this;
 };
 
-if (!Object.prototype.keys) {
-    Object.prototype.keys = function() {
-        var a = [];
-        for (var key in this) {
-            if (this.hasOwnProperty(key)) a.push(key);
-        }
-        return a;
-    };
-    Object.defineProperty(Object.prototype, "keys", {enumerable: false});
-}
 
 Object.prototype.equals = function(otherObject) {
     if (!otherObject) return false;
