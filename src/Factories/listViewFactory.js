@@ -4,32 +4,31 @@ export default function(ngapp) {
             // helper variables
             let collection = scope[collectionName];
             let defaultAction = scope[defaultActionName];
-
-            // initialize scope variables
-            scope.prevIndex = undefined;
+            let prevIndex = undefined;
 
             // scope functions
             scope.clearSelection = function() {
                 collection.forEach(function(item) {
                     item.selected = false;
                 });
-                scope.prevIndex = undefined;
+                prevIndex = undefined;
             };
 
             scope.select = function(e, item, index) {
-                if (e.shiftKey && scope.prevIndex !== undefined) {
-                    var start = Math.min(index, scope.prevIndex);
-                    var end = Math.max(index, scope.prevIndex);
+                if (e.shiftKey && prevIndex !== undefined) {
+                    var start = Math.min(index, prevIndex);
+                    var end = Math.max(index, prevIndex);
+                    if (!e.ctrlKey) scope.clearSelection();
                     for (var i = start; i <= end; i++) {
                         collection[i].selected = true;
                     }
                 } else if (e.ctrlKey) {
                     item.selected = !item.selected;
-                    scope.prevIndex = index;
+                    prevIndex = index;
                 } else {
                     scope.clearSelection();
                     item.selected = true;
-                    scope.prevIndex = index;
+                    prevIndex = index;
                 }
                 e.stopPropagation();
             };
