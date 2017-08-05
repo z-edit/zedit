@@ -7,7 +7,7 @@ var Void = 'void';
 var WString = wchar_t.string;
 var Cardinal = ref.types.uint32;
 var Integer = ref.types.int32;
-var WordBool = ref.types.bool;
+var WordBool = ref.types.uint16;
 var Double = ref.types.double;
 var Byte = ref.types.byte;
 var PWChar = ref.refType(WString);
@@ -223,7 +223,7 @@ var GetInteger = function(callback) {
 var GetBool = function(callback) {
     var _bool = createTypedBuffer(2, PWordBool);
     callback(_bool);
-    return _bool.readInt16LE(0) > 0;
+    return _bool.readUInt16LE(0) > 0;
 };
 
 var GetArray = function(callback) {
