@@ -1,0 +1,70 @@
+.main-tree-view {
+  text-align: left;
+  font-size: 13px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
+
+  .columns {
+    display: flex;
+    border-bottom: 1px solid #aaa;
+
+    > span {
+      padding: 4px 8px;
+      border-right: 1px solid #aaa;
+
+      &:last-of-type {
+        flex: 1;
+        border-right: none;
+      }
+    }
+  }
+
+  .tree {
+    min-width: 400px;
+    padding-bottom: 4px;
+  }
+}
+
+main-tree-node {
+  display: block;
+
+  .expand-node {
+    margin-right: 8px;
+  }
+
+  .placeholder {
+    padding-left: 21px;
+  }
+
+  .column {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 2px 6px;
+    border-right: 1px solid #f8f8f8;
+
+    &:last-of-type {
+      border: none;
+      flex: 1;
+    }
+  }
+
+  .body {
+    display: flex;
+    white-space: nowrap;
+    border-top: 1px solid #f8f8f8;
+
+    &.selected {
+      background-color: aliceblue;
+    }
+  }
+}
+
+// TEMPORARY HARDCODED COLUMN CLASSES
+.column-0 {
+  width: 300px;
+}
+
+.column-1 {
+  width: 200px;
+}
