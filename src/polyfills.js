@@ -111,6 +111,12 @@ Array.prototype.contains = function(needle) {
     return (this.indexOf(needle) > -1);
 };
 
+Array.prototype.remove = function(needle) {
+    var n = this.indexOf(needle);
+    if (n > -1) this.splice(n, 1);
+    return n;
+};
+
 Array.prototype.sortAlphabetically = function(key) {
     return this.sort(function(a, b) {
         if (a[key] < b[key]) {
