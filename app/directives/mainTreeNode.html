@@ -1,12 +1,11 @@
-<div ng-click="selectNode($event, node, $index)" ng-class="{'selected' : node.selected}" class="body">
-    <span class="column column-0" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
-        <span class="expand-node" ng-click="toggleNode($event, node)" ng-if="::node.children_count">
-            <i class="fa fa-{{node.expanded ? 'minus' : 'plus'}}"></i>
+<div ng-click="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="body">
+    <span ng-repeat="value in node.column_values track by $index" class="column column-{{::$index}}">
+        <span ng-if="::!$index" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
+            <span class="expand-node" ng-click="toggleNode($event, node)" ng-if="::node.children_count">
+                <i class="fa fa-{{node.expanded ? 'minus' : 'plus'}}"></i>
+            </span>
+            <span class="placeholder" ng-if="::!node.children_count"></span>
         </span>
-        <span class="placeholder" ng-if="::!node.children_count"></span>
-        {{::node.column_values[0]}}
-    </span>
-    <span ng-repeat="value in (node.column_values | limitTo: 1 - node.column_values.length) track by $index" class="column column-{{::$index + 1}}">
         {{::value}}
     </span>
 </div>
