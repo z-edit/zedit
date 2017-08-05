@@ -155,14 +155,16 @@ export default function(ngapp, xelib) {
             selectedNodes = [];
         };
 
-        $scope.selectNode = function(e, node, index) {
-            if (e.shiftKey && $scope.prevIndex !== undefined) {
+        var prevIndex;
+        $scope.selectNode = function(e, node) {
+            if (e && e.shiftKey && prevIndex !== undefined) {
                 // TODO
-            } else if (e.ctrlKey) {
+            } else if (e && e.ctrlKey) {
                 if (selectedNodes.length > 0 && node.depth != selectedNodes[0].depth) {
                     return;
                 }
                 node.selected = !node.selected;
+                prevIndex = node.index;
                 if (node.selected) {
                     selectedNodes.push(node);
                 } else {
@@ -172,9 +174,96 @@ export default function(ngapp, xelib) {
                 $scope.clearSelection();
                 node.selected = true;
                 selectedNodes.push(node);
-                $scope.prevIndex = index;
+                prevIndex = node.index;
+            }
+            e && e.stopPropagation();
+        };
+
+        // expand node or navigate to first child when right arrow is pressed
+        var handleRightArrow = function() {
+            let node = selectedNodes.last();
+            if (!node || !node.children_count) return;
+            if (!node.expanded) {
+                $scope.clearSelection();
+                $scope.expandNode(node);
+                node.selected = true;
+                selectedNodes.push(node);
+            } else {
+                $scope.selectNode(null, node.children[0]);
+            }
+        };
+
+        // navigate to parent or collapse node when left arrow is pressed
+        var handleLeftArrow = function() {
+            let node = selectedNodes.last();
+            if (!node) return;
+            if (node.expanded) {
+                $scope.clearSelection();
+                $scope.collapseNode(node);
+                node.selected = true;
+                selectedNodes.push(node);
+            } else {
+                node = node.parent;
+                $scope.selectNode(null, node, node.index);
+            }
+        };
+
+        var selectNextNode = function(node) {
+            let nextIndex = node.index + 1;
+            let collection = node.parent && node.parent.children || $scope.data.tree;
+            if (nextIndex < collection.length) {
+                $scope.selectNode(null, collection[nextIndex]);
+            } else if (node.parent) {
+                selectNextNode(node.parent);
+            }
+        };
+
+        //navigate down a node or to first child when down arrow is pressed
+        var handleDownArrow = function() {
+            let node = selectedNodes.last();
+            if (!node) return;
+            if (node.expanded) {
+                $scope.selectNode(null, node.children[0]);
+            } else {
+                selectNextNode(node);
+            }
+        };
+
+        var selectPreviousNode = function(node) {
+            let prevIndex = node.index - 1;
+            let collection = node.parent && node.parent.children || $scope.data.tree;
+            if (prevIndex > -1) {
+                let prevNode = collection[prevIndex];
+                while (prevNode.expanded) {
+                    prevNode = prevNode.children.last();
+                }
+                $scope.selectNode(null, prevNode);
+            } else if (node.parent) {
+                $scope.selectNode(null, node.parent);
+            }
+        };
+
+        //navigate down a node or to first child when down arrow is pressed
+        var handleUpArrow = function() {
+            let node = selectedNodes.last();
+            if (!node) return;
+            selectPreviousNode(node);
+        };
+
+        $scope.onKeyDown = function(e) {
+            if (e.keyCode == 39) {
+                handleRightArrow();
+            } else if (e.keyCode == 37) {
+                handleLeftArrow();
+            } else if (e.keyCode == 40) {
+                handleDownArrow()
+            } else if (e.keyCode == 38) {
+                handleUpArrow();
+            } else {
+                return;
             }
             e.stopPropagation();
+            e.preventDefault();
         };
 
         // initialize tree
