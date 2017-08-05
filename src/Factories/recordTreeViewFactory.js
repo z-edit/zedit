@@ -1,4 +1,8 @@
 export default function(ngapp, xelib) {
+    var recordTreeViewController = function($scope) {
+
+    };
+
     ngapp.service('recordTreeViewFactory', function() {
         let factory = this;
 
@@ -15,7 +19,9 @@ export default function(ngapp, xelib) {
 
         this.new = function() {
             return {
-                name: 'recordTreeView',
+                templateUrl: 'partials/recordTreeView.html',
+                controller: recordTreeViewController,
+                class: 'record-tree-view',
                 data: {
                     tabLabel: 'Record View',
                     tree: {}

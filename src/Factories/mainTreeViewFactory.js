@@ -172,7 +172,9 @@ export default function(ngapp, xelib) {
 
         this.new = function() {
             return {
-                name: 'mainTreeView',
+                templateUrl: 'partials/mainTreeView.html',
+                controller: mainTreeViewController,
+                class: 'main-tree-view',
                 data: {
                     tabLabel: 'Tree View',
                     tree: {}
