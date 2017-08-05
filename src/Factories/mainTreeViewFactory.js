@@ -162,7 +162,7 @@ export default function(ngapp, xelib) {
         this.releaseChildren = function(node) {
             node.children.forEach(function(child) {
                 if (child.children) factory.releaseChildren(child);
-                xelib.Release(child);
+                xelib.Release(child.handle);
             });
         };
 
