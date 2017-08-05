@@ -1,5 +1,13 @@
-.content, ui-view, .viewport {
+ui-view {
   display: block;
+  height: calc(100% - 42px);
+}
+
+.content,.viewport {
+  height: 100%;
+}
+
+.viewport > pane {
   height: 100%;
 }
 
@@ -10,42 +18,49 @@
   &.horizontal {
     flex-direction: row;
 
-    split-bar {
-      width: 12px;
-      margin: 0 -6px;
-      cursor: ew-resize;
+    > split-bar {
+      width: 7px;
+      margin: 0 -3px;
+      cursor: col-resize;
 
       .bar {
         border-left: 1px solid #888;
         height: 100%;
       }
     }
+
+    > pane {
+      height: 100%;
+    }
   }
 
   &.vertical {
     flex-direction: column;
 
-    split-bar {
-      height: 12px;
-      margin: -6px 0;
-      cursor: ns-resize;
+    > split-bar {
+      height: 7px;
+      margin: -3px 0;
+      cursor: row-resize;
 
       .bar {
         border-top: 1px solid #888;
         width: 100%;
+        position: absolute;
+        left: 0;
+        top: 3px;
       }
     }
   }
 
   pane:last-of-type {
-    flex-grow: 1;
+    flex: 1;
   }
 }
 
 pane {
   display: block;
   min-width: 140px;
-  height: 100%;
+  min-height: 100px;
   max-height: 100%;
   max-width: 100%;
 }
@@ -92,5 +107,9 @@ split-bar {
       margin: 2px 6px -2px;
       cursor: pointer;
     }
+  }
+
+  .tab-view {
+    height: calc(100% - 25px);
   }
 }
