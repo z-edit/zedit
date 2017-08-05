@@ -69,7 +69,12 @@ export default function(ngapp, xelib) {
 
         $scope.buildColumnValues = function(node) {
             node.column_values = $scope.columns.map(function(column) {
-                return column.getData(node) || "";
+                try {
+                    return column.getData(node) || "";
+                } catch (x) {
+                    console.log(x);
+                    return "";
+                }
             }).trimFalsy();
         };
 
