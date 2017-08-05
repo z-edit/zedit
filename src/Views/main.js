@@ -30,6 +30,7 @@ export default function(ngapp, xelib, remote) {
             $scope.getLoadingMessage();
             if (xelib.GetLoaderDone()) {
                 console.log($scope.log);
+                $scope.$emit('setTitle', `zEdit - ${$rootScope.selectedProfile.name}`);
                 $scope.loaded = true;
             } else {
                 $timeout($scope.checkIfLoaded, 250);
@@ -44,5 +45,6 @@ export default function(ngapp, xelib, remote) {
         };
 
         $scope.checkIfLoaded();
+        $scope.$emit('setTitle', 'zEdit - Loading Plugins');
     });
 }

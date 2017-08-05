@@ -52,6 +52,7 @@ export default function(ngapp, xelib, fileHelpers) {
             settingsService.loadSettings(p);
             console.log("Setting game mode to: " + p.gameMode);
             xelibService.startSession(p);
+            $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
             $scope.getLoadOrder();
             $scope.toggleLoadOrderModal(true);
         };
