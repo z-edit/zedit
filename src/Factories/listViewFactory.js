@@ -25,11 +25,12 @@ export default function(ngapp) {
                     }
                 } else if (e.ctrlKey) {
                     item.selected = !item.selected;
+                    scope.prevIndex = index;
                 } else {
                     scope.clearSelection();
                     item.selected = true;
+                    scope.prevIndex = index;
                 }
-                scope.prevIndex = index;
                 e.stopPropagation();
             };
 
