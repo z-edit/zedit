@@ -155,26 +155,37 @@ export default function(ngapp, xelib) {
             selectedNodes = [];
         };
 
-        var prevIndex;
+        var getFirstNode = function(n1, n2) {
+            let m1 = n1;
+            let m2 = n2;
+            while (m1.parent !== m2.parent) {
+                m1 = m1.parent;
+                m2 = m2.parent;
+            }
+            return (m1.index > m2.index) ? m2 : m1;
+        };
+
+        var selectRange = function(n1, n2) {
+            if (n1.depth !== n2.depth || n1 === n2) return;
+            let firstNode = getFirstNode(n1, n2);
+            let lastNode = firstNode === n1 ? n2 : n1;
+            // TODO
+        };
+
+        var selectSingle = function(node) {
+            if (selectedNodes.length > 0 && node.depth != prevNode.depth) return;
+            node.selected = !node.selected;
+            prevNode = node;
+            selectedNodes[node.selected ? 'push' : 'remove'](node);
+        };
+
+        var prevNode;
         $scope.selectNode = function(e, node) {
-            if (e && e.shiftKey && prevIndex !== undefined) {
-                // TODO
-            } else if (e && e.ctrlKey) {
-                if (selectedNodes.length > 0 && node.depth != selectedNodes[0].depth) {
-                    return;
-                }
-                node.selected = !node.selected;
-                prevIndex = node.index;
-                if (node.selected) {
-                    selectedNodes.push(node);
-                } else {
-                    selectedNodes.remove(node);
-                }
+            if (!e || !e.ctrlKey) $scope.clearSelection();
+            if (e && e.shiftKey && prevNode) {
+                selectRange(node, prevNode);
             } else {
-                $scope.clearSelection();
-                node.selected = true;
-                selectedNodes.push(node);
-                prevIndex = node.index;
+                selectSingle(node);
             }
             e && e.stopPropagation();
         };
