@@ -167,6 +167,14 @@ Array.prototype.forEachNested = function(callback, nestingKey) {
     this.forEachDesc(nestedCallback);
 };
 
+Array.prototype.trimFalsy = function() {
+    var n;
+    for (n = this.length - 1; n > -1; n--) {
+        if (this[n]) break;
+    }
+    return n < this.length - 1 ? this.slice(0, n + 1) : this;
+};
+
 if (!Object.prototype.keys) {
     Object.prototype.keys = function() {
         var a = [];
