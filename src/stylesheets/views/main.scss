@@ -19,8 +19,8 @@ ui-view {
     flex-direction: row;
 
     > split-bar {
-      width: 7px;
-      margin: 0 -3px;
+      width: 5px;
+      margin: 0 -2px;
       cursor: col-resize;
 
       .bar {
@@ -38,8 +38,8 @@ ui-view {
     flex-direction: column;
 
     > split-bar {
-      height: 7px;
-      margin: -3px 0;
+      height: 5px;
+      margin: -2px 0;
       cursor: row-resize;
 
       .bar {
@@ -47,7 +47,7 @@ ui-view {
         width: 100%;
         position: absolute;
         left: 0;
-        top: 3px;
+        top: 2px;
       }
     }
   }
