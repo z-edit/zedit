@@ -230,7 +230,7 @@ export default function(ngapp, xelib) {
         };
 
         // expand node or navigate to first child when right arrow is pressed
-        var handleRightArrow = function() {
+        var handleRightArrow = function(e) {
             let node = selectedNodes.last();
             if (!node || !node.children_count) return;
             if (!node.expanded) {
@@ -239,76 +239,86 @@ export default function(ngapp, xelib) {
                 node.selected = true;
                 selectedNodes.push(node);
             } else {
-                $scope.selectNode(null, node.children[0]);
+                $scope.selectNode(e, node.children[0]);
             }
         };
 
         // navigate to parent or collapse node when left arrow is pressed
-        var handleLeftArrow = function() {
+        var handleLeftArrow = function(e) {
             let node = selectedNodes.last();
             if (!node) return;
+            if (!e.shiftKey) $scope.clearSelection();
             if (node.expanded) {
-                $scope.clearSelection();
                 $scope.collapseNode(node);
-                node.selected = true;
-                selectedNodes.push(node);
+                prevNode = node;
+                selectSingle(node);
             } else {
                 node = node.parent;
-                $scope.selectNode(null, node, node.index);
+                prevNode = node;
+                selectSingle(node);
             }
         };
 
-        var selectNextNode = function(node) {
+        var getNextNode = function(node) {
+            if (node.expanded) return node.children[0];
             let nextIndex = node.index + 1;
             let collection = node.parent && node.parent.children || $scope.data.tree;
             if (nextIndex < collection.length) {
-                $scope.selectNode(null, collection[nextIndex]);
+                return collection[nextIndex];
             } else if (node.parent) {
-                selectNextNode(node.parent);
+                return getNextNode(node.parent);
             }
         };
 
         //navigate down a node or to first child when down arrow is pressed
-        var handleDownArrow = function() {
+        var handleDownArrow = function(e) {
             let node = selectedNodes.last();
             if (!node) return;
-            if (node.expanded) {
-                $scope.selectNode(null, node.children[0]);
+            let targetNode = getNextNode(node);
+            if (!targetNode) return;
+            if (e.shiftKey) {
+                selectRange(targetNode, prevNode);
             } else {
-                selectNextNode(node);
+                $scope.clearSelection();
+                selectSingle(targetNode);
             }
         };
 
-        var selectPreviousNode = function(node) {
+        var getPreviousNode = function(node) {
             let prevIndex = node.index - 1;
             let collection = node.parent && node.parent.children || $scope.data.tree;
             if (prevIndex > -1) {
-                let prevNode = collection[prevIndex];
-                while (prevNode.expanded) {
-                    prevNode = prevNode.children.last();
-                }
-                $scope.selectNode(null, prevNode);
-            } else if (node.parent) {
-                $scope.selectNode(null, node.parent);
+                let targetNode = collection[prevIndex];
+                while (targetNode.expanded) targetNode = targetNode.children.last();
+                return targetNode;
+            } else {
+                return node.parent;
             }
         };
 
         //navigate down a node or to first child when down arrow is pressed
-        var handleUpArrow = function() {
+        var handleUpArrow = function(e) {
             let node = selectedNodes.last();
             if (!node) return;
-            selectPreviousNode(node);
+            let targetNode = getPreviousNode(node);
+            if (!targetNode) return;
+            if (e.shiftKey) {
+                selectRange(prevNode, targetNode);
+            } else {
+                $scope.clearSelection();
+                selectSingle(targetNode);
+            }
         };
 
         $scope.onKeyDown = function(e) {
             if (e.keyCode == 39) {
-                handleRightArrow();
+                handleRightArrow(e);
             } else if (e.keyCode == 37) {
-                handleLeftArrow();
+                handleLeftArrow(e);
             } else if (e.keyCode == 40) {
-                handleDownArrow()
+                handleDownArrow(e)
             } else if (e.keyCode == 38) {
-                handleUpArrow();
+                handleUpArrow(e);
             } else {
                 return;
             }
