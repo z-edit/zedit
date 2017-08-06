@@ -119,11 +119,13 @@ export default function(ngapp, xelib) {
         };
 
         $scope.expandNode = function(node) {
+            let start = Date.now();
             node.expanded = true;
             node.children = $scope.buildNodes(node.handle, node.depth);
             node.children.forEach(function(child) {
                 child.parent = node;
             });
+            console.log(`Built ${node.children_count} nodes in ${Date.now() - start}ms`);
             if (!node.children.length) {
                 node.children_count = 0;
                 $scope.collapseNode(node);
