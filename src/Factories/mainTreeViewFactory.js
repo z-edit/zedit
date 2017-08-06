@@ -130,9 +130,23 @@ export default function(ngapp, xelib) {
             }
         };
 
+        var clearSelectedChildren = function(node) {
+            node.children.forEach(function(child) {
+                if (child.selected) {
+                    child.selected = false;
+                    selectedNodes.remove(child);
+                }
+                if (child.expanded) clearSelectedChildren(child);
+            });
+            if (prevNode.parent === node) {
+                prevNode = undefined;
+            }
+        };
+
         $scope.collapseNode = function(node) {
             if (node.expanded) delete node.expanded;
             if (node.children) {
+                clearSelectedChildren(node);
                 mainTreeViewFactory.releaseChildren(node);
                 delete node.children;
             }
@@ -148,11 +162,13 @@ export default function(ngapp, xelib) {
         };
 
         var selectedNodes = [];
-        $scope.clearSelection = function() {
+        var prevNode;
+        $scope.clearSelection = function(clearPrevNode) {
             selectedNodes.forEach(function(node) {
                 node.selected = false;
             });
             selectedNodes = [];
+            if (clearPrevNode) prevNode = undefined;
         };
 
         var getFirstNode = function(n1, n2) {
@@ -217,7 +233,6 @@ export default function(ngapp, xelib) {
             selectedNodes[node.selected ? 'push' : 'remove'](node);
         };
 
-        var prevNode;
         $scope.selectNode = function(e, node) {
             if (!e.ctrlKey) $scope.clearSelection();
             if (e.shiftKey && prevNode) {
