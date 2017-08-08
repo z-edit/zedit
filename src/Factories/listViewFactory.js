@@ -16,8 +16,8 @@ export default function(ngapp) {
 
             scope.select = function(e, item, index) {
                 if (e.shiftKey && prevIndex !== undefined) {
-                    var start = Math.min(index, prevIndex);
-                    var end = Math.max(index, prevIndex);
+                    let start = Math.min(index, prevIndex),
+                        end = Math.max(index, prevIndex);
                     if (!e.ctrlKey) scope.clearSelection();
                     for (var i = start; i <= end; i++) {
                         collection[i].selected = true;

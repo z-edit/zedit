@@ -213,11 +213,11 @@ export default function(ngapp, xelib) {
 
         var selectRange = function(n1, n2) {
             if (n1.depth !== n2.depth || n1 === n2) return;
-            let firstNode = getFirstNode(n1, n2);
-            let lastNode = firstNode === n1 ? n2 : n1;
-            let targetDepth = n1.depth;
-            let current = firstNode.parent;
-            let prev = firstNode;
+            let firstNode = getFirstNode(n1, n2),
+                lastNode = firstNode === n1 ? n2 : n1,
+                targetDepth = n1.depth,
+                current = firstNode.parent,
+                prev = firstNode;
             if (firstNode.parent === lastNode.parent) {
                 selectNodesBetween(firstNode, lastNode);
             } else {
@@ -302,8 +302,8 @@ export default function(ngapp, xelib) {
         };
 
         var getPreviousNode = function(node) {
-            let prevIndex = node.index - 1;
-            let collection = node.parent && node.parent.children || $scope.data.tree;
+            let prevIndex = node.index - 1,
+                collection = node.parent && node.parent.children || $scope.data.tree;
             if (prevIndex > -1) {
                 let targetNode = collection[prevIndex];
                 while (targetNode.expanded) targetNode = targetNode.children.last();

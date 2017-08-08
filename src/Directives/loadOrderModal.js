@@ -16,14 +16,14 @@ export default function(ngapp, xelib) {
 
         // scope functions
         $scope.updateIndexes = function() {
-            var n = 0;
+            let n = 0;
             $scope.loadOrder.forEach(function(item) {
                 if (item.active) item.index = n++;
             });
         };
 
         $scope.loadPlugins = function() {
-            var loadOrder = $scope.loadOrder.filter(function (item) {
+            let loadOrder = $scope.loadOrder.filter(function (item) {
                 return item.active;
             }).map(function (item) {
                 return item.filename;
@@ -39,7 +39,7 @@ export default function(ngapp, xelib) {
         $scope.clearSelection();
 
         // focus modal
-        var modalElement = $element[0].firstElementChild.firstElementChild;
+        let modalElement = $element[0].firstElementChild.firstElementChild;
         modalElement.focus();
     });
 }

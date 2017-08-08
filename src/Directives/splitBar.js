@@ -6,19 +6,19 @@ export default function(ngapp) {
             scope: true,
             link: function(scope, element) {
                 // helper variables
-                let htmlElement = document.documentElement;
-                let container = element[0].parentElement;
-                let vertical = container.classList.contains('vertical');
-                let targetDimension = vertical ? 'height' : 'width';
-                let clientLabel = vertical ? 'clientY' : 'clientX';
-                let offsetLabel = vertical ? 'offsetTop' : 'offsetLeft';
-                let sizeLabel = vertical ? 'offsetHeight' : 'offsetWidth';
-                let moving = false;
+                let htmlElement = document.documentElement,
+                    container = element[0].parentElement,
+                    vertical = container.classList.contains('vertical'),
+                    targetDimension = vertical ? 'height' : 'width',
+                    clientLabel = vertical ? 'clientY' : 'clientX',
+                    offsetLabel = vertical ? 'offsetTop' : 'offsetLeft',
+                    sizeLabel = vertical ? 'offsetHeight' : 'offsetWidth',
+                    moving = false;
 
                 // event handlers
                 let handleMouseMove = function(e) {
-                    let paneElement = element[0].previousElementSibling;
-                    let percentage = (e[clientLabel] - paneElement[offsetLabel]) / container[sizeLabel];
+                    let paneElement = element[0].previousElementSibling,
+                        percentage = (e[clientLabel] - paneElement[offsetLabel]) / container[sizeLabel];
                     paneElement.style[targetDimension] = Math.min(percentage, 1.0).toPercentage(1);
                 };
                 let handleMouseDown = function(e) {

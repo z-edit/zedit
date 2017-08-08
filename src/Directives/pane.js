@@ -14,10 +14,10 @@ export default function(ngapp) {
         angular.inheritScope($scope, 'pane');
 
         // helper variables
-        let paneElement = $element[0];
-        let container = paneElement.parentElement;
-        let parentVertical = container.classList.contains('vertical');
-        let dimension = parentVertical ? 'height' : 'width';
+        let paneElement = $element[0],
+            container = paneElement.parentElement,
+            parentVertical = container.classList.contains('vertical'),
+            dimension = parentVertical ? 'height' : 'width';
 
         // initialize pane size
         paneElement.style[dimension] = $scope[dimension];
