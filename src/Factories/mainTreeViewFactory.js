@@ -78,20 +78,23 @@ export default function(ngapp, xelib) {
             }).trimFalsy();
         };
 
-        $scope.buildNode = function(handle, depth) {
-            let node = {
-                handle: handle,
-                element_type: xelib.ElementType(handle),
-                depth: depth + 1
-            };
+        $scope.getNodeData = function(node) {
+            node.element_type = xelib.ElementType(node.handle);
             if (node.element_type === 'etMainRecord') {
                 node.fid = xelib.GetFormID(node.handle);
                 node.is_record = true;
             }
             $scope.getNodeStatus(node);
             $scope.getChildrenCount(node);
-            //$scope.buildColumnValues(node);
+            $scope.buildColumnValues(node);
             return node;
+        };
+
+        $scope.buildNode = function(handle, depth) {
+            return {
+                handle: handle,
+                depth: depth + 1
+            }
         };
 
         $scope.sortNodes = function(nodes) {
@@ -108,11 +111,9 @@ export default function(ngapp, xelib) {
         };
 
         $scope.buildNodes = function(handle, depth = -1) {
-            let nodes = xelib.GetElements(handle).map(function(handle) {
+            return xelib.GetElements(handle).map(function(handle) {
                 return $scope.buildNode(handle, depth);
             });
-            //$scope.sortNodes(nodes);
-            return nodes;
         };
 
         $scope.expandNode = function(node) {
