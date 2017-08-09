@@ -4,6 +4,7 @@ export default function(ngapp, xelib) {
         $scope.columns = [
             {
                 label: "FormID",
+                canSort: true,
                 width: '315px',
                 getData: function(node) {
                     switch (node.element_type) {
@@ -23,6 +24,7 @@ export default function(ngapp, xelib) {
             },
             {
                 label: "EditorID",
+                canSort: true,
                 width: '150px',
                 getData: function(node) {
                     if (node.element_type === 'etMainRecord' && node.fid > 0) {
@@ -32,6 +34,7 @@ export default function(ngapp, xelib) {
             },
             {
                 label: "Name",
+                canSort: true,
                 getData: function(node) {
                     if (node.element_type === 'etMainRecord' && node.fid > 0) {
                         return xelib.FullName(node.handle, true);
@@ -41,6 +44,7 @@ export default function(ngapp, xelib) {
         ];
 
         $scope.sort = {
+            label: 'FormID',
             index: 0,
             reverse: false
         };
@@ -108,9 +112,10 @@ export default function(ngapp, xelib) {
             if ($scope.sort.reverse) nodes.reverse();
         };
 
-        $scope.buildNodes = function(handle, depth = -1) {
-            return xelib.GetElements(handle).map(function(handle) {
-                return $scope.buildNode(handle, depth);
+        $scope.buildNodes = function(node) {
+            let path = node.element_type === 'etMainRecord' ? 'Child Group' : '';
+            return xelib.GetElements(node.handle, path, $scope.sort.label).map(function(handle) {
+                return $scope.buildNode(handle, node.depth);
             });
         };
 
@@ -277,7 +282,9 @@ export default function(ngapp, xelib) {
 
         // initialize tree
         $scope.data = $scope.$parent.tab.data;
-        $scope.data.tree = $scope.buildNodes(0);
+        $scope.data.tree = xelib.GetElements(0, '', $scope.sort.label).map(function(handle) {
+            return $scope.buildNode(handle, -1);
+        });
     };
 
     ngapp.service('mainTreeViewFactory', function() {
