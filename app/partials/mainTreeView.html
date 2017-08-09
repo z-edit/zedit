@@ -1,6 +1,6 @@
 <div class="columns">
     <span ng-repeat="column in columns" class="column-{{::$index}}">{{::column.label}}</span>
 </div>
-<div class="tree" tabindex="0" ng-keydown="onKeyDown($event)" ng-click="clearSelection(true)">
-    <main-tree-node ng-repeat="node in data.tree"></main-tree-node>
+<div class="tree clusterize-scroll" tabindex="0" ng-keydown="onKeyDown($event)" ng-click="clearSelection(true)">
+    <main-tree-nodes></main-tree-nodes>
 </div>

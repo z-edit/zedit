@@ -9,8 +9,3 @@
         {{::value}}
     </span>
 </div>
-<div ng-if="::node.children_count">
-    <div ng-if="node.expanded" class="children">
-        <main-tree-node ng-repeat="node in node.children"></main-tree-node>
-    </div>
-</div>
