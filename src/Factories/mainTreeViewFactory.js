@@ -134,7 +134,7 @@ export default function(ngapp, xelib) {
             let startIndex = $scope.data.tree.indexOf(node) + 1,
                 endIndex = startIndex;
             for (; endIndex < $scope.data.tree.length; endIndex++) {
-                let child = $scope.data.tree[i];
+                let child = $scope.data.tree[endIndex];
                 if (child.depth <= node.depth) return;
                 if (child.selected) {
                     child.selected = false;
@@ -165,58 +165,18 @@ export default function(ngapp, xelib) {
             if (clearPrevNode) prevNode = undefined;
         };
 
-        var getFirstNode = function(n1, n2) {
-            let m1 = n1;
-            let m2 = n2;
-            while (m1.parent !== m2.parent) {
-                m1 = m1.parent;
-                m2 = m2.parent;
-            }
-            return (m1.index > m2.index) ? m2 : m1;
-        };
-
-        var selectChildren = function(node, targetDepth, lastNode, minIndex = -1) {
-            if (!node.expanded) return;
-            for (let i = 0; i < node.children.length; i++) {
-                let child = node.children[i];
-                if (child.index < minIndex) continue;
-                if (child.depth == targetDepth) {
-                    if (!child.selected) {
-                        child.selected = true;
-                        selectedNodes.push(child);
-                    }
-                    if (child == lastNode) return true;
-                } else if (child.depth < targetDepth) {
-                    if (selectChildren(child, targetDepth, lastNode)) return true;
-                }
-            }
-        };
-
-        var selectNodesBetween = function(n1, n2) {
-            let context = n1.parent && n1.parent.children || $scope.data.tree;
-            for (let i = n1.index; i <= n2.index; i++) {
-                let node = context[i];
-                if (!node.selected) {
-                    node.selected = true;
-                    selectedNodes.push(node);
-                }
-            }
-        };
-
         var selectRange = function(n1, n2) {
             if (n1.depth !== n2.depth || n1 === n2) return;
-            let firstNode = getFirstNode(n1, n2),
-                lastNode = firstNode === n1 ? n2 : n1,
-                targetDepth = n1.depth,
-                current = firstNode.parent,
-                prev = firstNode;
-            if (firstNode.parent === lastNode.parent) {
-                selectNodesBetween(firstNode, lastNode);
-            } else {
-                while (current) {
-                    if (selectChildren(current, targetDepth, lastNode, prev.index)) return;
-                    prev = current;
-                    current = current.parent;
+            let i1 = $scope.data.tree.indexOf(n1),
+                i2 = $scope.data.tree.indexOf(n2),
+                startIndex = Math.min(i1, i2),
+                endIndex = Math.max(i1, i2),
+                targetDepth = n1.depth;
+            for (let i = startIndex; i <= endIndex; i++) {
+                let node = $scope.data.tree[i];
+                if (node.depth === targetDepth && !node.selected) {
+                    node.selected = true;
+                    selectedNodes.push(node);
                 }
             }
         };
@@ -337,8 +297,7 @@ export default function(ngapp, xelib) {
 
         // initialize tree
         $scope.data = $scope.$parent.tab.data;
-        $scope.nodes = $scope.buildNodes(0);
-        $scope.data.tree = $scope.nodes;
+        $scope.data.tree = $scope.buildNodes(0);
     };
 
     ngapp.service('mainTreeViewFactory', function() {
