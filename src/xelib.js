@@ -459,10 +459,10 @@ var xelib = {
                 Fail(`Failed to check if element exists at: ${elementContext(_id, path)}`);
         });
     },
-    'GetElement': function(_id, path = '') {
+    'GetElement': function(_id, path = '', noException = false) {
         return GetHandle(function(_res) {
             if (!lib.GetElement(_id, wcb(path), _res))
-                Fail(`Failed to get element at: ${elementContext(_id, path)}`);
+                if (!noException) Fail(`Failed to get element at: ${elementContext(_id, path)}`);
         });
     },
     'AddElement': function(_id, path = '') {
@@ -592,10 +592,10 @@ var xelib = {
     'SmashType': function(_id) {
         return GetEnumValue(_id, 'SmashType', smashTypes);
     },
-    'GetValue': function(_id, path = '') {
+    'GetValue': function(_id, path = '', noException = false) {
         return GetString(function(_len) {
             if (!lib.GetValue(_id, wcb(path), _len))
-                Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
+                if (!noException) Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
         });
     },
     'SetValue': function(_id, path, value) {
@@ -743,11 +743,11 @@ var xelib = {
     },
 
     // RECORD VALUE METHODS
-    'EditorID': function(_id) {
-        return this.GetValue(_id, 'EDID');
+    'EditorID': function(_id, noException = false) {
+        return this.GetValue(_id, 'EDID', noException);
     },
-    'FullName': function(_id) {
-        return this.GetValue(_id, 'FULL');
+    'FullName': function(_id, noException = false) {
+        return this.GetValue(_id, 'FULL', noException);
     },
     'Translate': function(_id, vector) {
         var xelib = this;
