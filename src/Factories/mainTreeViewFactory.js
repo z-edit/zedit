@@ -43,9 +43,73 @@ export default function(ngapp, xelib) {
             }
         ];
 
+        var tree;
         $scope.sort = {
             column: 'FormID',
             reverse: false
+        };
+
+        $scope.buildTree = function() {
+            tree = xelib.GetElements(0, '', $scope.sort.column).map(function(handle) {
+                return $scope.buildNode(handle, -1);
+            });
+            if ($scope.sort.reverse) tree.reverse();
+            $scope.data.tree = tree;
+        };
+
+        var resolvePathPart = function(node, part) {
+            if (node && !node.expanded) $scope.expandNode(node);
+            let start = node ? tree.indexOf(node) + 1 : 0;
+            let targetDepth = node ? node.depth + 1 : 0;
+            for (let i = start; i < tree.length; i++) {
+                let child = tree[i];
+                if (child.depth == targetDepth) {
+                    if (!child.column_values) $scope.getNodeData(child);
+                    if (child.column_values[0] === part) return child;
+                } else if (child.depth < targetDepth) {
+                    return;
+                }
+            }
+        };
+
+        var resolvePath = function(path) {
+            let node = undefined;
+            path.split('\\').forEach(function(part) {
+                node = resolvePathPart(node, part);
+            });
+            return node;
+        };
+
+        var getNodePath = function(node) {
+            let path = [];
+            while (node) {
+                path.unshift(node.column_values[0]);
+                node = node.parent;
+            }
+            return path.join('\\');
+        };
+
+        $scope.reloadNodes = function() {
+            let start = Date.now();
+            $scope.reloading = true;
+            let expandedNodes = tree.filter((node) => { return node.expanded; });
+            let nodePaths = expandedNodes.map((node) => { return getNodePath(node); });
+            tree.forEach((node) => xelib.Release(node.handle));
+            $scope.buildTree();
+            nodePaths.forEach((path) => $scope.expandNode(resolvePath(path)));
+            console.log(`Rebuilt tree (${tree.length} nodes) in ${Date.now() - start}ms`);
+        };
+
+        $scope.toggleSort = function(column) {
+            let oldReverse = $scope.sort.reverse;
+            if ($scope.sort.column !== column.label) {
+                $scope.sort.column = column.label;
+                $scope.sort.reverse = false;
+            } else {
+                $scope.sort.reverse = !$scope.sort.reverse;
+            }
+            let reverseChanged = oldReverse != $scope.sort.reverse;
+            $scope.reloadNodes(reverseChanged);
         };
 
         $scope.getNodeStatus = function(node) {
@@ -116,8 +180,8 @@ export default function(ngapp, xelib) {
             if (childrenLength > 0) {
                 node.children_count = childrenLength;
                 children.forEach((child) => child.parent = node);
-                let insertionIndex = $scope.data.tree.indexOf(node) + 1;
-                $scope.data.tree.splice(insertionIndex, 0, ...children);
+                let insertionIndex = tree.indexOf(node) + 1;
+                tree.splice(insertionIndex, 0, ...children);
                 console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
             } else {
                 node.children_count = 0;
@@ -127,17 +191,17 @@ export default function(ngapp, xelib) {
 
         $scope.collapseNode = function(node) {
             if (node.expanded) delete node.expanded;
-            let startIndex = $scope.data.tree.indexOf(node) + 1,
+            let startIndex = tree.indexOf(node) + 1,
                 endIndex = startIndex;
-            for (; endIndex < $scope.data.tree.length; endIndex++) {
-                let child = $scope.data.tree[endIndex];
+            for (; endIndex < tree.length; endIndex++) {
+                let child = tree[endIndex];
                 if (child.depth <= node.depth) break;
                 if (child.selected) {
                     child.selected = false;
                     selectedNodes.remove(child);
                 }
             }
-            let removedNodes = $scope.data.tree.splice(startIndex, endIndex - startIndex);
+            let removedNodes = tree.splice(startIndex, endIndex - startIndex);
             removedNodes.forEach((node) => xelib.Release(node.handle));
             if (prevNode && prevNode.parent === node) {
                 prevNode = undefined;
@@ -169,7 +233,7 @@ export default function(ngapp, xelib) {
 
         var nodeHeight = 20;
         var scrollToNode = function(node) {
-            let index = $scope.data.tree.indexOf(node);
+            let index = tree.indexOf(node);
             let nodeOffset = index * nodeHeight;
             let scrollOffset = treeElement.scrollTop;
             let height = treeElement.clientHeight;
@@ -191,17 +255,17 @@ export default function(ngapp, xelib) {
 
         var persistRange = function(start, end) {
             if (start > lastRange[0]) {
-                selectSingle($scope.data.tree[lastRange[0]], false, false);
+                selectSingle(tree[lastRange[0]], false, false);
             }
             if (end < lastRange[1]) {
-                selectSingle($scope.data.tree[lastRange[1]], false, false);
+                selectSingle(tree[lastRange[1]], false, false);
             }
         };
 
         var selectRange = function(n1, n2, persist = false) {
             if (n1.depth !== n2.depth) return;
-            let i1 = $scope.data.tree.indexOf(n1),
-                i2 = $scope.data.tree.indexOf(n2),
+            let i1 = tree.indexOf(n1),
+                i2 = tree.indexOf(n2),
                 startIndex = Math.min(i1, i2),
                 endIndex = Math.max(i1, i2),
                 targetDepth = n1.depth;
@@ -209,14 +273,14 @@ export default function(ngapp, xelib) {
             lastRange = [startIndex, endIndex];
             if (i1 < i2) {
                 for (let i = i2; i >= i1; i--) {
-                    let node = $scope.data.tree[i];
+                    let node = tree[i];
                     if (node.depth === targetDepth) {
                         selectSingle(node, true, false);
                     }
                 }
             } else {
                 for (let i = i2; i <= i1; i++) {
-                    let node = $scope.data.tree[i];
+                    let node = tree[i];
                     if (node.depth === targetDepth) {
                         selectSingle(node, true, false);
                     }
@@ -244,8 +308,8 @@ export default function(ngapp, xelib) {
                 $scope.expandNode(node);
                 selectSingle(node);
             } else {
-                let index = $scope.data.tree.indexOf(node) + 1;
-                selectSingle($scope.data.tree[index]);
+                let index = tree.indexOf(node) + 1;
+                selectSingle(tree[index]);
             }
         };
 
@@ -263,13 +327,13 @@ export default function(ngapp, xelib) {
         };
 
         var findNextNode = function(node, sameDepth = true) {
-            let index = $scope.data.tree.indexOf(node);
+            let index = tree.indexOf(node);
             if (!sameDepth) {
-                return $scope.data.tree[index + 1];
+                return tree[index + 1];
             } else {
                 let targetDepth = node.depth;
-                for (let i = index + 1; i < $scope.data.tree.length; i++) {
-                    let n = $scope.data.tree[i];
+                for (let i = index + 1; i < tree.length; i++) {
+                    let n = tree[i];
                     if (n.depth == targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }
@@ -292,13 +356,13 @@ export default function(ngapp, xelib) {
         };
 
         var findPreviousNode = function(node, sameDepth = true) {
-            let index = $scope.data.tree.indexOf(node);
+            let index = tree.indexOf(node);
             if (!sameDepth) {
-                return $scope.data.tree[index - 1];
+                return tree[index - 1];
             } else {
                 let targetDepth = node.depth;
                 for (let i = index - 1; i >= 0; i++) {
-                    let n = $scope.data.tree[i];
+                    let n = tree[i];
                     if (n.depth == targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }
@@ -338,9 +402,7 @@ export default function(ngapp, xelib) {
 
         // initialize tree
         $scope.data = $scope.$parent.tab.data;
-        $scope.data.tree = xelib.GetElements(0, '', $scope.sort.column).map(function(handle) {
-            return $scope.buildNode(handle, -1);
-        });
+        $scope.buildTree();
 
         var treeElement;
         $timeout(function() {
