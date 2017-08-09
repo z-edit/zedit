@@ -121,6 +121,7 @@ export default function(ngapp, xelib) {
             node.expanded = true;
             let children = $scope.buildNodes(node.handle, node.depth);
             if (children.length > 0) {
+                children.forEach((child) => child.parent = node);
                 let insertionIndex = $scope.data.tree.indexOf(node) + 1;
                 $scope.data.tree.splice(insertionIndex, 0, ...children);
                 console.log(`Built ${node.children_count} nodes in ${Date.now() - start}ms`);
@@ -209,7 +210,8 @@ export default function(ngapp, xelib) {
                 node.selected = true;
                 selectedNodes.push(node);
             } else {
-                $scope.selectNode(e, node.children[0]);
+                let index = $scope.data.tree.indexOf(node) + 1;
+                $scope.selectNode(e, $scope.data.tree[index]);
             }
         };
 
@@ -229,22 +231,12 @@ export default function(ngapp, xelib) {
             }
         };
 
-        var getNextNode = function(node) {
-            if (node.expanded) return node.children[0];
-            let nextIndex = node.index + 1;
-            let collection = node.parent && node.parent.children || $scope.data.tree;
-            if (nextIndex < collection.length) {
-                return collection[nextIndex];
-            } else if (node.parent) {
-                return getNextNode(node.parent);
-            }
-        };
-
-        //navigate down a node or to first child when down arrow is pressed
+        //navigate down a node when down arrow is pressed
         var handleDownArrow = function(e) {
             let node = selectedNodes.last();
             if (!node) return;
-            let targetNode = getNextNode(node);
+            let index = $scope.data.tree.indexOf(node) + 1;
+            let targetNode = $scope.data.tree[index];
             if (!targetNode) return;
             if (e.shiftKey) {
                 selectRange(targetNode, prevNode);
@@ -254,23 +246,12 @@ export default function(ngapp, xelib) {
             }
         };
 
-        var getPreviousNode = function(node) {
-            let prevIndex = node.index - 1,
-                collection = node.parent && node.parent.children || $scope.data.tree;
-            if (prevIndex > -1) {
-                let targetNode = collection[prevIndex];
-                while (targetNode.expanded) targetNode = targetNode.children.last();
-                return targetNode;
-            } else {
-                return node.parent;
-            }
-        };
-
-        //navigate down a node or to first child when down arrow is pressed
+        //navigate up a node when up arrow is pressed
         var handleUpArrow = function(e) {
             let node = selectedNodes.last();
             if (!node) return;
-            let targetNode = getPreviousNode(node);
+            let index = $scope.data.tree.indexOf(node) - 1;
+            let targetNode = $scope.data.tree[index];
             if (!targetNode) return;
             if (e.shiftKey) {
                 selectRange(prevNode, targetNode);
