@@ -63,7 +63,8 @@ export default function(ngapp, xelib) {
 
         $scope.getChildrenCount = function(node) {
             if (node.element_type === 'etMainRecord') {
-                node.children_count = 0;
+                let childGroup = xelib.GetElement(node.handle, 'Child Group', true);
+                node.children_count = childGroup && xelib.ElementCount(childGroup);
             } else {
                 node.children_count = xelib.ElementCount(node.handle);
             }
@@ -122,12 +123,14 @@ export default function(ngapp, xelib) {
         $scope.expandNode = function(node) {
             let start = Date.now();
             node.expanded = true;
-            let children = $scope.buildNodes(node.handle, node.depth);
-            if (children.length > 0) {
+            let children = $scope.buildNodes(node);
+            let childrenLength = children.length;
+            if (childrenLength > 0) {
+                node.children_count = childrenLength;
                 children.forEach((child) => child.parent = node);
                 let insertionIndex = $scope.data.tree.indexOf(node) + 1;
                 $scope.data.tree.splice(insertionIndex, 0, ...children);
-                console.log(`Built ${node.children_count} nodes in ${Date.now() - start}ms`);
+                console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
             } else {
                 node.children_count = 0;
                 node.expanded = false;
