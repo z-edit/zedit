@@ -44,8 +44,7 @@ export default function(ngapp, xelib) {
         ];
 
         $scope.sort = {
-            label: 'FormID',
-            index: 0,
+            column: 'FormID',
             reverse: false
         };
 
@@ -100,24 +99,13 @@ export default function(ngapp, xelib) {
             }
         };
 
-        $scope.sortNodes = function(nodes) {
-            nodes.sort(function(a, b) {
-                if (a.fid === 0) return -1;
-                if (b.fid === 0) return 1;
-                let valueA = a.column_values[$scope.sort.index];
-                let valueB = b.column_values[$scope.sort.index];
-                if (valueA < valueB) return -1;
-                if (valueA > valueB) return 1;
-                return 0;
-            });
-            if ($scope.sort.reverse) nodes.reverse();
-        };
-
         $scope.buildNodes = function(node) {
             let path = node.element_type === 'etMainRecord' ? 'Child Group' : '';
-            return xelib.GetElements(node.handle, path, $scope.sort.label).map(function(handle) {
+            let nodes = xelib.GetElements(node.handle, path, $scope.sort.column).map(function(handle) {
                 return $scope.buildNode(handle, node.depth);
             });
+            if ($scope.sort.reverse) nodes.reverse();
+            return nodes;
         };
 
         $scope.expandNode = function(node) {
@@ -350,7 +338,7 @@ export default function(ngapp, xelib) {
 
         // initialize tree
         $scope.data = $scope.$parent.tab.data;
-        $scope.data.tree = xelib.GetElements(0, '', $scope.sort.label).map(function(handle) {
+        $scope.data.tree = xelib.GetElements(0, '', $scope.sort.column).map(function(handle) {
             return $scope.buildNode(handle, -1);
         });
 
