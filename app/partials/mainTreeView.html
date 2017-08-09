@@ -1,5 +1,10 @@
 <div class="columns">
-    <span ng-repeat="column in columns" class="column-{{::$index}}">{{::column.label}}</span>
+    <span ng-repeat="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
+        {{::column.label}}
+        <span class="sort-arrow" ng-if="column.label === sort.column" title="Elements are sorted by this column in {{sort.reverse ? 'ascending' : 'descending'}} order.">
+            <i class="fa fa-arrow-{{sort.reverse ? 'up' : 'down'}}"></i>
+        </span>
+    </span>
 </div>
 <div class="tree" tabindex="0" ng-keydown="onKeyDown($event)" ng-click="clearSelection(true)" vs-repeat>
     <div ng-repeat="node in data.tree" ng-click="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="main-tree-node" ng-init="node.element_type || getNodeData(node)">
