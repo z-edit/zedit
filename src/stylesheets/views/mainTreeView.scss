@@ -34,8 +34,14 @@
   }
 }
 
-main-tree-node {
-  display: block;
+.main-tree-node {
+  display: flex;
+  white-space: nowrap;
+  border-top: 1px solid #f8f8f8;
+
+  &.selected {
+    background-color: aliceblue;
+  }
 
   .expand-node {
     margin-right: 8px;
@@ -57,28 +63,12 @@ main-tree-node {
     }
   }
 
-  .body {
-    display: flex;
-    white-space: nowrap;
-    border-top: 1px solid #f8f8f8;
-
-    &.selected {
-      background-color: aliceblue;
-    }
+  // TEMPORARY HARDCODED COLUMN CLASSES
+  .column-0 {
+    width: 300px;
   }
-}
 
-.clusterize-content {
-  &:focus {
-    outline: none;
+  .column-1 {
+    width: 200px;
   }
-}
-
-// TEMPORARY HARDCODED COLUMN CLASSES
-.column-0 {
-  width: 300px;
-}
-
-.column-1 {
-  width: 200px;
 }
