@@ -72,7 +72,7 @@ try {
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
-        'GetElements': [WordBool, [Cardinal, PWChar, PInteger]],
+        'GetElements': [WordBool, [Cardinal, PWChar, Byte, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         //'GetElementRecord': [WordBool, [Cardinal, PCardinal]], TODO: Uncomment when this is exported.
@@ -153,6 +153,12 @@ var conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMas
     'ctConflictLoses'];
 var conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict',
     'caConflictCritical'];
+var sortBy = {
+  'None': 0,
+  'FormID': 1,
+  'EditorID': 2,
+  'Name': 3
+};
 
 // helper functions
 var createTypedBuffer = function(size, type) {
@@ -473,9 +479,9 @@ var xelib = {
         if (!lib.RemoveElementOrParent(_id))
             Fail(`Failed to remove element ${_id}`);
     },
-    'GetElements': function(_id, path = '') {
+    'GetElements': function(_id, path = '', sort = 'None') {
         return GetArray(function(_len) {
-            if (!lib.GetElements(_id, wcb(path), _len))
+            if (!lib.GetElements(_id, wcb(path), sortBy[sort] || 0, _len))
                 Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
         });
     },
