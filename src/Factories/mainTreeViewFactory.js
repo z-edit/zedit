@@ -26,7 +26,7 @@ export default function(ngapp, xelib) {
                 width: '150px',
                 getData: function(node) {
                     if (node.element_type === 'etMainRecord' && node.fid > 0) {
-                        return xelib.EditorID(node.handle);
+                        return xelib.EditorID(node.handle, true);
                     }
                 }
             },
@@ -34,9 +34,7 @@ export default function(ngapp, xelib) {
                 label: "Name",
                 getData: function(node) {
                     if (node.element_type === 'etMainRecord' && node.fid > 0) {
-                        if (xelib.HasElement(node.handle, 'FULL')) {
-                            return xelib.FullName(node.handle);
-                        }
+                        return xelib.FullName(node.handle, true);
                     }
                 }
             }
