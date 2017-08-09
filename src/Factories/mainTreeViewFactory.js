@@ -135,7 +135,7 @@ export default function(ngapp, xelib) {
                 endIndex = startIndex;
             for (; endIndex < $scope.data.tree.length; endIndex++) {
                 let child = $scope.data.tree[endIndex];
-                if (child.depth <= node.depth) return;
+                if (child.depth <= node.depth) break;
                 if (child.selected) {
                     child.selected = false;
                     selectedNodes.remove(child);
@@ -143,7 +143,7 @@ export default function(ngapp, xelib) {
             }
             let removedNodes = $scope.data.tree.splice(startIndex, endIndex - startIndex);
             removedNodes.forEach((node) => xelib.Release(node.handle));
-            if (prevNode.parent === node) {
+            if (prevNode && prevNode.parent === node) {
                 prevNode = undefined;
             }
         };
