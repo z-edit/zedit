@@ -11,13 +11,23 @@
     margin-top: -24px;
     padding-right: 16px;
 
-    > span {
+    .column {
       padding: 4px 8px;
       border-right: 1px solid #aaa;
       min-width: 100px;
 
       &:last-of-type {
         flex: 1;
+      }
+
+      &.sortable {
+        &:hover {
+          background-color: aliceblue;
+        }
+      }
+
+      .sort-arrow {
+        margin-left: 6px;
       }
     }
   }
@@ -31,6 +41,15 @@
     &:focus {
       outline: none;
     }
+  }
+
+  // TEMPORARY HARDCODED COLUMN CLASSES
+  .column-0 {
+    width: 300px;
+  }
+
+  .column-1 {
+    width: 200px;
   }
 }
 
@@ -61,16 +80,5 @@
       border: none;
       flex: 1;
     }
-  }
-}
-
-.main-tree-view {
-  // TEMPORARY HARDCODED COLUMN CLASSES
-  .column-0 {
-    width: 300px;
-  }
-
-  .column-1 {
-    width: 200px;
   }
 }
