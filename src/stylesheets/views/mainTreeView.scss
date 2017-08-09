@@ -68,6 +68,12 @@ main-tree-node {
   }
 }
 
+.clusterize-content {
+  &:focus {
+    outline: none;
+  }
+}
+
 // TEMPORARY HARDCODED COLUMN CLASSES
 .column-0 {
   width: 300px;
