@@ -19,7 +19,6 @@ import profilesModal from './Directives/profilesModal.js';
 import loadOrderModal from './Directives/loadOrderModal.js';
 import pane from './Directives/pane.js';
 import mainTreeNode from './Directives/mainTreeNode.js';
-import mainTreeNodes from './Directives/mainTreeNodes.js';
 import splitBar from './Directives/splitBar.js';
 import settingsModal from './Directives/settingsModal.js';
 import hexFilter from './Filters/hexFilter.js';
@@ -79,7 +78,6 @@ settingsModal(ngapp, fileHelpers);
 pane(ngapp);
 splitBar(ngapp);
 mainTreeNode(ngapp);
-mainTreeNodes(ngapp);
 
 // VIEWS
 baseView(ngapp, remote);
