@@ -198,6 +198,7 @@ export default function(ngapp, xelib) {
             if (setPrev) prevNode = node;
             node.selected = angular.isDefined(newValue) ? newValue : !node.selected;
             selectedNodes[node.selected ? 'push' : 'remove'](node);
+            scrollToNode(node);
         };
 
         var persistRange = function(start, end) {
@@ -295,6 +296,7 @@ export default function(ngapp, xelib) {
             if (!targetNode) return;
             if (e.shiftKey) {
                 selectRange(targetNode, prevNode, true);
+                scrollToNode(targetNode);
             } else {
                 $scope.clearSelection();
                 selectSingle(targetNode);
@@ -323,6 +325,7 @@ export default function(ngapp, xelib) {
             if (!targetNode) return;
             if (e.shiftKey) {
                 selectRange(targetNode, prevNode, true);
+                scrollToNode(targetNode);
             } else {
                 $scope.clearSelection();
                 selectSingle(targetNode);
