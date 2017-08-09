@@ -90,7 +90,7 @@ export default function(ngapp, xelib) {
             }
             $scope.getNodeStatus(node);
             $scope.getChildrenCount(node);
-            $scope.buildColumnValues(node);
+            //$scope.buildColumnValues(node);
             return node;
         };
 
@@ -111,7 +111,7 @@ export default function(ngapp, xelib) {
             let nodes = xelib.GetElements(handle).map(function(handle) {
                 return $scope.buildNode(handle, depth);
             });
-            $scope.sortNodes(nodes);
+            //$scope.sortNodes(nodes);
             return nodes;
         };
 
