@@ -37,17 +37,16 @@ module.exports = function (src, dest, opts) {
         cached[src] = bundle;
 
         var jsFile = path.basename(dest);
-        var result = bundle.generate({
+        return bundle.generate({
             format: 'cjs',
             sourceMap: true,
             sourceMapFile: jsFile
+        }).then(function(result) {
+            var isolatedCode = '(function () {' + result.code + '\n}());';
+            return Promise.all([
+                jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
+                jetpack.writeAsync(dest + '.map', result.map.toString())
+            ]);
         });
-        // Wrap code in self invoking function so the variables don't
-        // pollute the global namespace.
-        var isolatedCode = '(function () {' + result.code + '\n}());';
-        return Promise.all([
-            jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
-            jetpack.writeAsync(dest + '.map', result.map.toString()),
-        ]);
     });
 };
