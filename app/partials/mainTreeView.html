@@ -5,7 +5,7 @@
             <i class="fa fa-arrow-{{sort.reverse ? 'up' : 'down'}}"></i>
         </span>
     </span>
-    <split-bar ng-repeat-end ng-if="!$last" offset="16"></split-bar>
+    <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
 </div>
 <div class="tree" tabindex="0" ng-keydown="onKeyDown($event)" ng-click="clearSelection(true)" vs-repeat>
     <div ng-repeat="node in data.tree" ng-click="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="main-tree-node" ng-init="node.element_type || getNodeData(node)">

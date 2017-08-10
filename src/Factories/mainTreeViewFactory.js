@@ -1,5 +1,5 @@
 export default function(ngapp, xelib) {
-    var mainTreeViewController = function($scope, $element, $timeout, xelibService) {
+    var mainTreeViewController = function($scope, $element, $timeout, xelibService, stylesheetService) {
         // TODO: Load this from disk
         $scope.columns = [
             {
@@ -119,6 +119,21 @@ export default function(ngapp, xelib) {
             }
             let reverseChanged = oldReverse != $scope.sort.reverse;
             $scope.reloadNodes(reverseChanged);
+        };
+
+        var mainStylesheet = stylesheetService.getStylesheet(1);
+        $scope.columnResized = function(index, width) {
+            let selector = `.main-tree-view .column-${index}`;
+            let rule = stylesheetService.getRule(mainStylesheet, selector);
+            if (!rule) {
+                stylesheetService.makeRule(mainStylesheet, selector, `width: ${width};`);
+            } else {
+                rule.style["width"] = width;
+            }
+        };
+
+        $scope.toggleColumnsModal = function(visible) {
+            $scope.showColumnsModal = visible;
         };
 
         $scope.getNodeStatus = function(node) {
