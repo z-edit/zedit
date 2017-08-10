@@ -57,46 +57,32 @@ export default function(ngapp, xelib) {
             $scope.data.tree = tree;
         };
 
-        var resolvePathPart = function(node, part) {
-            if (node && !node.expanded) $scope.expandNode(node);
-            let start = node ? tree.indexOf(node) + 1 : 0;
-            let targetDepth = node ? node.depth + 1 : 0;
-            for (let i = start; i < tree.length; i++) {
-                let child = tree[i];
-                if (child.depth == targetDepth) {
-                    if (!child.column_values) $scope.getNodeData(child);
-                    if (child.column_values[0] === part) return child;
-                } else if (child.depth < targetDepth) {
+        var reExpandNode = function(node) {
+            let handles = xelib.GetDuplicateHandles(node.handle);
+            let newNode;
+            for (let i = 0; i < handles.length; i++) {
+                let handle = handles[i];
+                newNode = tree.find((node) => { return node.handle == handle; });
+                if (newNode) {
+                    $scope.getNodeData(newNode);
+                    $scope.expandNode(newNode);
                     return;
                 }
             }
         };
 
-        var resolvePath = function(path) {
-            let node = undefined;
-            path.split('\\').forEach(function(part) {
-                node = resolvePathPart(node, part);
-            });
-            return node;
-        };
-
-        var getNodePath = function(node) {
-            let path = [];
-            while (node) {
-                path.unshift(node.column_values[0]);
-                node = node.parent;
-            }
-            return path.join('\\');
-        };
-
         $scope.reloadNodes = function() {
             let start = Date.now();
             $scope.reloading = true;
-            let expandedNodes = tree.filter((node) => { return node.expanded; });
-            let nodePaths = expandedNodes.map((node) => { return getNodePath(node); });
-            tree.forEach((node) => xelib.Release(node.handle));
+            let expandedNodes = [];
+            tree.forEach(function(node) {
+                node.expanded ? expandedNodes.push(node) : xelib.Release(node.handle);
+            });
             $scope.buildTree();
-            nodePaths.forEach((path) => $scope.expandNode(resolvePath(path)));
+            expandedNodes.forEach(function(node) {
+                reExpandNode(node);
+                xelib.Release(node.handle);
+            });
             console.log(`Rebuilt tree (${tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
