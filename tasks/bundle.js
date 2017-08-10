@@ -42,8 +42,6 @@ module.exports = function (src, dest, opts) {
             sourceMap: true,
             sourceMapFile: jsFile
         }).then(result => {
-          // Wrap code in self invoking function so the variables don't
-          // pollute the global namespace.
           var isolatedCode = '(function () {' + result.code + '\n}());';
           return Promise.all([
               jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
