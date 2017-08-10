@@ -74,31 +74,38 @@ export default function(ngapp, xelib) {
             }
         };
 
-        var reSelectNode = function(node) {
+        var reSelectNode = function(node, scroll) {
             let newNode = getNewNode(node);
-            selectSingle(newNode, true, true, false);
-            scrollToNode(newNode, true)
+            if (newNode) {
+                selectSingle(newNode, true, true, false);
+                if (scroll) scrollToNode(newNode, true);
+            }
+        };
+
+        var freeHandles = function(nodes1, nodes2) {
+            let a = [];
+            nodes1.forEach((n) => a.contains(n.handle) || a.push(n.handle));
+            nodes2.forEach((n) => a.contains(n.handle) || a.push(n.handle));
+            a.forEach((handle) => xelib.Release(handle));
         };
 
         $scope.reloadNodes = function() {
             let start = Date.now();
             $scope.reloading = true;
-            let expandedNodes = [];
-            let selectedNode = selectedNodes.last();
-            $scope.clearSelection(true);
+            let oldExpandedNodes = [];
+            let oldSelectedNodes = selectedNodes.slice();
             tree.forEach(function(node) {
                 if (node.expanded) {
-                    expandedNodes.push(node);
-                } else if (node.handle !== selectedNode.handle) {
+                    oldExpandedNodes.push(node);
+                } else if (!node.selected) {
                     xelib.Release(node.handle);
                 }
             });
+            $scope.clearSelection(true);
             $scope.buildTree();
-            expandedNodes.forEach(function(node) {
-                reExpandNode(node);
-                xelib.Release(node.handle);
-            });
-            reSelectNode(selectedNode);
+            oldExpandedNodes.forEach((n) => reExpandNode(n));
+            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
+            freeHandles(oldExpandedNodes, oldSelectedNodes);
             console.log(`Rebuilt tree (${tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
