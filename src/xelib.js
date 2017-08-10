@@ -29,6 +29,7 @@ try {
         'GetGlobals': [WordBool, [PInteger]],
         'Release': [WordBool, [Cardinal]],
         'Switch': [WordBool, [Cardinal, Cardinal]],
+        'GetDuplicateHandles': [WordBool, [Cardinal, PInteger]],
         'ResetStore': [WordBool, []],
         // MESSAGE FUNCTIONS
         'GetMessagesLength': [Void, [PInteger]],
@@ -319,6 +320,12 @@ var xelib = {
     'Switch': function(_id, _id2) {
         if (!lib.Switch(_id, _id2))
             Fail(`Failed to switch interface #${_id} and #${_id2}`);
+    },
+    'GetDuplicateHandles': function(_id) {
+        return GetArray(function(_len) {
+            if (!lib.GetDuplicateHandles(_id, _len))
+                Fail(`Failed to get duplicate handles for: ${_id}`);
+        });
     },
     'ResetStore': function() {
         if (!lib.ResetStore())
