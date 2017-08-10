@@ -205,10 +205,7 @@ export default function(ngapp, xelib) {
             for (; endIndex < tree.length; endIndex++) {
                 let child = tree[endIndex];
                 if (child.depth <= node.depth) break;
-                if (child.selected) {
-                    child.selected = false;
-                    selectedNodes.remove(child);
-                }
+                if (child.selected) selectSingle(child, false);
             }
             let removedNodes = tree.splice(startIndex, endIndex - startIndex);
             removedNodes.forEach((node) => xelib.Release(node.handle));
@@ -258,10 +255,12 @@ export default function(ngapp, xelib) {
         var selectSingle = function(node, newValue, setPrev = true, scroll = true) {
             if (!node || newValue && node.selected) return;
             if (selectedNodes.length > 0 && node.depth != prevNode.depth) return;
-            if (setPrev) prevNode = node;
             node.selected = angular.isDefined(newValue) ? newValue : !node.selected;
             selectedNodes[node.selected ? 'push' : 'remove'](node);
-            if (scroll) scrollToNode(node);
+            if (node.selected) {
+                if (setPrev) prevNode = node;
+                if (scroll) scrollToNode(node);
+            }
         };
 
         var persistRange = function(start, end) {
