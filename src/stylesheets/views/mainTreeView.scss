@@ -11,13 +11,37 @@
     margin-top: -24px;
     padding-right: 16px;
 
-    > span {
+    > split-bar {
+      width: 5px;
+      margin: 0 -2px;
+      cursor: col-resize;
+
+      .bar {
+        border-left: 1px solid #888;
+        height: 100%;
+        position: absolute;
+        left: 2px;
+        top: 0;
+      }
+    }
+
+    .column {
       padding: 4px 8px;
-      border-right: 1px solid #aaa;
       min-width: 100px;
 
       &:last-of-type {
         flex: 1;
+        border-right: 1px solid #aaa;
+      }
+
+      &.sortable {
+        &:hover {
+          background-color: aliceblue;
+        }
+      }
+
+      .sort-arrow {
+        margin-left: 6px;
       }
     }
   }
@@ -32,12 +56,22 @@
       outline: none;
     }
   }
+
+  // TEMPORARY HARDCODED COLUMN CLASSES
+  .column-0 {
+    width: 300px;
+  }
+
+  .column-1 {
+    width: 200px;
+  }
 }
 
 .main-tree-node {
   display: flex;
   white-space: nowrap;
   border-top: 1px solid #f8f8f8;
+  height: 20px;
 
   &.selected {
     background-color: aliceblue;
@@ -61,14 +95,5 @@
       border: none;
       flex: 1;
     }
-  }
-
-  // TEMPORARY HARDCODED COLUMN CLASSES
-  .column-0 {
-    width: 300px;
-  }
-
-  .column-1 {
-    width: 200px;
   }
 }

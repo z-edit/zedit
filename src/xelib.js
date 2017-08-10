@@ -29,6 +29,7 @@ try {
         'GetGlobals': [WordBool, [PInteger]],
         'Release': [WordBool, [Cardinal]],
         'Switch': [WordBool, [Cardinal, Cardinal]],
+        'GetDuplicateHandles': [WordBool, [Cardinal, PInteger]],
         'ResetStore': [WordBool, []],
         // MESSAGE FUNCTIONS
         'GetMessagesLength': [Void, [PInteger]],
@@ -72,7 +73,7 @@ try {
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
-        'GetElements': [WordBool, [Cardinal, PWChar, PInteger]],
+        'GetElements': [WordBool, [Cardinal, PWChar, Byte, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         //'GetElementRecord': [WordBool, [Cardinal, PCardinal]], TODO: Uncomment when this is exported.
@@ -153,6 +154,12 @@ var conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMas
     'ctConflictLoses'];
 var conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict',
     'caConflictCritical'];
+var sortBy = {
+  'None': 0,
+  'FormID': 1,
+  'EditorID': 2,
+  'Name': 3
+};
 
 // helper functions
 var createTypedBuffer = function(size, type) {
@@ -314,6 +321,12 @@ var xelib = {
         if (!lib.Switch(_id, _id2))
             Fail(`Failed to switch interface #${_id} and #${_id2}`);
     },
+    'GetDuplicateHandles': function(_id) {
+        return GetArray(function(_len) {
+            if (!lib.GetDuplicateHandles(_id, _len))
+                Fail(`Failed to get duplicate handles for: ${_id}`);
+        });
+    },
     'ResetStore': function() {
         if (!lib.ResetStore())
             Fail('Failed to reset interface store');
@@ -453,10 +466,10 @@ var xelib = {
                 Fail(`Failed to check if element exists at: ${elementContext(_id, path)}`);
         });
     },
-    'GetElement': function(_id, path = '') {
+    'GetElement': function(_id, path = '', noException = false) {
         return GetHandle(function(_res) {
             if (!lib.GetElement(_id, wcb(path), _res))
-                Fail(`Failed to get element at: ${elementContext(_id, path)}`);
+                if (!noException) Fail(`Failed to get element at: ${elementContext(_id, path)}`);
         });
     },
     'AddElement': function(_id, path = '') {
@@ -473,9 +486,9 @@ var xelib = {
         if (!lib.RemoveElementOrParent(_id))
             Fail(`Failed to remove element ${_id}`);
     },
-    'GetElements': function(_id, path = '') {
+    'GetElements': function(_id, path = '', sort = 'None') {
         return GetArray(function(_len) {
-            if (!lib.GetElements(_id, wcb(path), _len))
+            if (!lib.GetElements(_id, wcb(path), sortBy[sort] || 0, _len))
                 Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
         });
     },
@@ -586,10 +599,10 @@ var xelib = {
     'SmashType': function(_id) {
         return GetEnumValue(_id, 'SmashType', smashTypes);
     },
-    'GetValue': function(_id, path = '') {
+    'GetValue': function(_id, path = '', noException = false) {
         return GetString(function(_len) {
             if (!lib.GetValue(_id, wcb(path), _len))
-                Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
+                if (!noException) Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
         });
     },
     'SetValue': function(_id, path, value) {
@@ -737,11 +750,11 @@ var xelib = {
     },
 
     // RECORD VALUE METHODS
-    'EditorID': function(_id) {
-        return this.GetValue(_id, 'EDID');
+    'EditorID': function(_id, noException = false) {
+        return this.GetValue(_id, 'EDID', noException);
     },
-    'FullName': function(_id) {
-        return this.GetValue(_id, 'FULL');
+    'FullName': function(_id, noException = false) {
+        return this.GetValue(_id, 'FULL', noException);
     },
     'Translate': function(_id, vector) {
         var xelib = this;

@@ -10,6 +10,8 @@ import xelibService from './Services/xelibService.js';
 import profileService from './Services/profileService.js';
 import formUtils from './Services/formUtils.js';
 import layoutService from './Services/layoutService.js';
+import styleSheetService from './Services/stylesheetService.js';
+import columnsService from './Services/columnsService.js';
 import viewFactory from './Factories/viewFactory.js';
 import mainTreeViewFactory from './Factories/mainTreeViewFactory.js';
 import recordTreeViewFactory from './Factories/recordTreeViewFactory.js';
@@ -34,7 +36,7 @@ xelib.Initialize();
 
 // set up angular application
 var ngapp = angular.module('application', [
-    'ui.router', 'ct.ui.router.extras', 'vs-repeat'
+    'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat'
 ]);
 
 //this allows urls with and without trailing slashes to go to the same state
@@ -58,6 +60,8 @@ profileService(ngapp, xelib, fileHelpers);
 formUtils(ngapp);
 settingsService(ngapp, fileHelpers);
 layoutService(ngapp, fileHelpers);
+styleSheetService(ngapp);
+columnsService(ngapp, fileHelpers, xelib);
 
 // FACTORIES
 viewFactory(ngapp);

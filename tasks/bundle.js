@@ -41,12 +41,12 @@ module.exports = function (src, dest, opts) {
             format: 'cjs',
             sourceMap: true,
             sourceMapFile: jsFile
-        }).then(result => {
-          var isolatedCode = '(function () {' + result.code + '\n}());';
-          return Promise.all([
-              jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
-              jetpack.writeAsync(dest + '.map', result.map.toString()),
-          ]);
-		});
+        }).then(function(result) {
+            var isolatedCode = '(function () {' + result.code + '\n}());';
+            return Promise.all([
+                jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
+                jetpack.writeAsync(dest + '.map', result.map.toString())
+            ]);
+        });
     });
 };

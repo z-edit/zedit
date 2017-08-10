@@ -3,8 +3,14 @@ export default function(ngapp) {
         return {
             restrict: 'E',
             template: '<div class="bar"></div>',
-            scope: true,
+            scope: {
+                offset: '=?',
+                resizeCallback: '=?'
+            },
             link: function(scope, element) {
+                angular.default(scope, 'offset', 0);
+                angular.inherit(scope, '$index');
+
                 // helper variables
                 let htmlElement = document.documentElement,
                     container = element[0].parentElement,
@@ -18,8 +24,10 @@ export default function(ngapp) {
                 // event handlers
                 let handleMouseMove = function(e) {
                     let paneElement = element[0].previousElementSibling,
-                        percentage = (e[clientLabel] - paneElement[offsetLabel]) / container[sizeLabel];
-                    paneElement.style[targetDimension] = Math.min(percentage, 1.0).toPercentage(1);
+                        percentage = (e[clientLabel] - paneElement[offsetLabel]) / (container[sizeLabel] - scope.offset),
+                        width = Math.min(percentage, 1.0).toPercentage(1);
+                    paneElement.style[targetDimension] = width;
+                    scope.resizeCallback && scope.resizeCallback(scope.$index, width);
                 };
                 let handleMouseDown = function(e) {
                     // only trigger when left mouse button is pressed
