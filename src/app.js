@@ -10,6 +10,7 @@ import xelibService from './Services/xelibService.js';
 import profileService from './Services/profileService.js';
 import formUtils from './Services/formUtils.js';
 import layoutService from './Services/layoutService.js';
+import styleSheetService from './Services/stylesheetService.js';
 import viewFactory from './Factories/viewFactory.js';
 import mainTreeViewFactory from './Factories/mainTreeViewFactory.js';
 import recordTreeViewFactory from './Factories/recordTreeViewFactory.js';
@@ -58,6 +59,7 @@ profileService(ngapp, xelib, fileHelpers);
 formUtils(ngapp);
 settingsService(ngapp, fileHelpers);
 layoutService(ngapp, fileHelpers);
+styleSheetService(ngapp);
 
 // FACTORIES
 viewFactory(ngapp);
