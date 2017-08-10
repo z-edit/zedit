@@ -34,7 +34,7 @@ xelib.Initialize();
 
 // set up angular application
 var ngapp = angular.module('application', [
-    'ui.router', 'ct.ui.router.extras', 'vs-repeat'
+    'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat'
 ]);
 
 //this allows urls with and without trailing slashes to go to the same state
