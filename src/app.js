@@ -11,6 +11,7 @@ import profileService from './Services/profileService.js';
 import formUtils from './Services/formUtils.js';
 import layoutService from './Services/layoutService.js';
 import styleSheetService from './Services/stylesheetService.js';
+import columnsService from './Services/columnsService.js';
 import viewFactory from './Factories/viewFactory.js';
 import mainTreeViewFactory from './Factories/mainTreeViewFactory.js';
 import recordTreeViewFactory from './Factories/recordTreeViewFactory.js';
@@ -60,6 +61,7 @@ formUtils(ngapp);
 settingsService(ngapp, fileHelpers);
 layoutService(ngapp, fileHelpers);
 styleSheetService(ngapp);
+columnsService(ngapp, fileHelpers, xelib);
 
 // FACTORIES
 viewFactory(ngapp);

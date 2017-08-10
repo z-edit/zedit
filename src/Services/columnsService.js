@@ -1,11 +1,10 @@
-export default function (ngapp, fileHelpers) {
-    ngapp.service('columnsService', function () {
+export default function (ngapp, fileHelpers, xelib) {
+    ngapp.service('columnsService', function (xelibService) {
         var service = this;
 
         var formIDColumn = {
             label: "FormID",
             canSort: true,
-            width: '315px',
             getData: function (node) {
                 switch (node.element_type) {
                     case 'etFile':
@@ -25,8 +24,7 @@ export default function (ngapp, fileHelpers) {
         var editorIDColumn = {
             label: "EditorID",
             canSort: true,
-            width: '150px',
-            getData: function (node) {
+            getData: function(node) {
                 if (node.element_type === 'etMainRecord' && node.fid > 0) {
                     return xelib.EditorID(node.handle, true);
                 }
@@ -35,7 +33,7 @@ export default function (ngapp, fileHelpers) {
         var nameColumn = {
             label: "Name",
             canSort: true,
-            getData: function (node) {
+            getData: function(node) {
                 if (node.element_type === 'etMainRecord' && node.fid > 0) {
                     return xelib.FullName(node.handle, true);
                 }
@@ -88,8 +86,21 @@ export default function (ngapp, fileHelpers) {
             }
         };
 
+        var defaultColumnsConfig = {
+            customColumns: [],
+            activeColumns: [{
+                label: 'FormID',
+                width: '300px'
+            }, {
+                label: 'EditorID',
+                width: '200px'
+            }, {
+                label: 'Name'
+            }]
+        };
+
         this.loadColumns = function() {
-            let data = fileHelpers.loadJsonFile('columns.json');
+            let data = fileHelpers.loadJsonFile('columns.json', defaultColumnsConfig);
             service.columns = [formIDColumn, editorIDColumn, nameColumn];
             data.customColumns.forEach((column) => service.addColumn(column));
             data.activeColumns.forEach((column) => service.setColumnData(column));
