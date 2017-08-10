@@ -3,8 +3,12 @@ export default function(ngapp) {
         return {
             restrict: 'E',
             template: '<div class="bar"></div>',
-            scope: true,
+            scope: {
+                offset: '=?'
+            },
             link: function(scope, element) {
+                angular.default(scope, 'offset', 0);
+
                 // helper variables
                 let htmlElement = document.documentElement,
                     container = element[0].parentElement,
@@ -18,7 +22,7 @@ export default function(ngapp) {
                 // event handlers
                 let handleMouseMove = function(e) {
                     let paneElement = element[0].previousElementSibling,
-                        percentage = (e[clientLabel] - paneElement[offsetLabel]) / container[sizeLabel];
+                        percentage = (e[clientLabel] - paneElement[offsetLabel]) / (container[sizeLabel] - scope.offset);
                     paneElement.style[targetDimension] = Math.min(percentage, 1.0).toPercentage(1);
                 };
                 let handleMouseDown = function(e) {

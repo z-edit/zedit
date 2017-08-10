@@ -11,9 +11,22 @@
     margin-top: -24px;
     padding-right: 16px;
 
+    > split-bar {
+      width: 5px;
+      margin: 0 -2px;
+      cursor: col-resize;
+
+      .bar {
+        border-left: 1px solid #888;
+        height: 100%;
+        position: absolute;
+        left: 2px;
+        top: 0;
+      }
+    }
+
     .column {
       padding: 4px 8px;
-      border-right: 1px solid #aaa;
       min-width: 100px;
 
       &:last-of-type {
