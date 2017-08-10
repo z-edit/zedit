@@ -57,32 +57,48 @@ export default function(ngapp, xelib) {
             $scope.data.tree = tree;
         };
 
-        var reExpandNode = function(node) {
+        var getNewNode = function(node) {
             let handles = xelib.GetDuplicateHandles(node.handle);
-            let newNode;
             for (let i = 0; i < handles.length; i++) {
                 let handle = handles[i];
-                newNode = tree.find((node) => { return node.handle == handle; });
-                if (newNode) {
-                    $scope.getNodeData(newNode);
-                    $scope.expandNode(newNode);
-                    return;
-                }
+                let newNode = tree.find((node) => { return node.handle == handle; });
+                if (newNode) return newNode;
             }
+        };
+
+        var reExpandNode = function(node) {
+            let newNode = getNewNode(node);
+            if (newNode) {
+                $scope.getNodeData(newNode);
+                $scope.expandNode(newNode);
+            }
+        };
+
+        var reSelectNode = function(node) {
+            let newNode = getNewNode(node);
+            selectSingle(newNode, true, true, false);
+            scrollToNode(newNode, true)
         };
 
         $scope.reloadNodes = function() {
             let start = Date.now();
             $scope.reloading = true;
             let expandedNodes = [];
+            let selectedNode = selectedNodes.last();
+            $scope.clearSelection(true);
             tree.forEach(function(node) {
-                node.expanded ? expandedNodes.push(node) : xelib.Release(node.handle);
+                if (node.expanded) {
+                    expandedNodes.push(node);
+                } else if (node.handle !== selectedNode.handle) {
+                    xelib.Release(node.handle);
+                }
             });
             $scope.buildTree();
             expandedNodes.forEach(function(node) {
                 reExpandNode(node);
                 xelib.Release(node.handle);
             });
+            reSelectNode(selectedNode);
             console.log(`Rebuilt tree (${tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
@@ -218,25 +234,27 @@ export default function(ngapp, xelib) {
         };
 
         var nodeHeight = 20;
-        var scrollToNode = function(node) {
+        var scrollToNode = function(node, center = false) {
             let index = tree.indexOf(node);
             let nodeOffset = index * nodeHeight;
             let scrollOffset = treeElement.scrollTop;
             let height = treeElement.clientHeight;
-            if (scrollOffset + height < nodeOffset + nodeHeight) {
+            if (center) {
+                scrollTo(nodeOffset - Math.floor(height / 2));
+            } else if (scrollOffset + height < nodeOffset + nodeHeight) {
                 scrollTo(nodeOffset - height + nodeHeight);
             } else if (scrollOffset > nodeOffset) {
                 scrollTo(nodeOffset);
             }
         };
 
-        var selectSingle = function(node, newValue, setPrev = true) {
+        var selectSingle = function(node, newValue, setPrev = true, scroll = true) {
             if (!node || newValue && node.selected) return;
             if (selectedNodes.length > 0 && node.depth != prevNode.depth) return;
             if (setPrev) prevNode = node;
             node.selected = angular.isDefined(newValue) ? newValue : !node.selected;
             selectedNodes[node.selected ? 'push' : 'remove'](node);
-            scrollToNode(node);
+            if (scroll) scrollToNode(node);
         };
 
         var persistRange = function(start, end) {
