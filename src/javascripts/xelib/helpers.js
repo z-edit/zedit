@@ -129,3 +129,7 @@ var SetNativeValue = function(_id, path, method, value) {
     if (!lib[method](_id, wcb(path), value))
         Fail(`Failed to ${method} to ${value} at: ${elementContext(_id, path)}`);
 };
+
+var applyEnums = function(context, enums) {
+    enums.forEach((value, ord) => context[value] = ord);
+};

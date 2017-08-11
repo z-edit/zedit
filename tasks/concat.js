@@ -12,18 +12,24 @@ var loadTree = function(path) {
     }, '');
 };
 
-module.exports = function() {
+module.exports = function(options) {
+    options = options || {};
     return {
         name: 'concat',
         transform: function(code, id) {
             var dir = path.dirname(id);
             var regex = /\/\/= concat(_tree)? ([^\n\r]+)/gi;
             var result = code.replace(regex, function(match, tree, target) {
-                console.log('rollup-plugin-concat: processing "' + match + '" in "' + id + '"');
+                if (options.debug) {
+                    console.log('rollup-plugin-concat: processing "' + match + '" in "' + id + '"');
+                }
                 let targetPath = path.join(dir, target);
                 return tree ? loadTree(targetPath) : load(targetPath);
             });
-            return { code: result };
+            return {
+                code: result,
+                map: {mappings: '' }
+            };
         }
     };
 };
