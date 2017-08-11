@@ -782,6 +782,13 @@ var xelib = {
     },
     'SetRecordFlag': function(_id, name, enabled) {
         this.SetFlag(_id, 'Record Header\\Record Flags', name, enabled);
+    },
+
+    // UTILITY METHODS
+    'IntToHex': function(n, padding = 8) {
+        let str = Number(n).toString(16).toUpperCase();
+        while (str.length < padding) str = '0' + str;
+        return str;
     }
 };
 
