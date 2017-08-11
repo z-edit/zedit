@@ -90,10 +90,10 @@ export default function(ngapp, fileHelpers, xelib) {
             customColumns: [],
             activeColumns: [{
                 label: 'FormID',
-                width: '300px'
+                width: '40%'
             }, {
                 label: 'EditorID',
-                width: '200px'
+                width: '25%'
             }, {
                 label: 'Name'
             }]
