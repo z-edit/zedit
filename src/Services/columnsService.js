@@ -7,12 +7,12 @@ export default function (ngapp, fileHelpers, xelib) {
             canSort: true,
             getData: function (node) {
                 switch (node.element_type) {
-                    case 'etFile':
+                    case xelib.etFile:
                         return xelib.DisplayName(node.handle);
-                    case 'etGroupRecord':
+                    case xelib.etGroupRecord:
                         // TODO: include signature as well based on setting
                         return xelib.Name(node.handle);
-                    case 'etMainRecord':
+                    case xelib.etMainRecord:
                         if (node.fid == 0) {
                             return 'File Header';
                         } else {
@@ -25,7 +25,7 @@ export default function (ngapp, fileHelpers, xelib) {
             label: "EditorID",
             canSort: true,
             getData: function(node) {
-                if (node.element_type === 'etMainRecord' && node.fid > 0) {
+                if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                     return xelib.EditorID(node.handle, true);
                 }
             }
@@ -34,7 +34,7 @@ export default function (ngapp, fileHelpers, xelib) {
             label: "Name",
             canSort: true,
             getData: function(node) {
-                if (node.element_type === 'etMainRecord' && node.fid > 0) {
+                if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                     return xelib.FullName(node.handle, true);
                 }
             }

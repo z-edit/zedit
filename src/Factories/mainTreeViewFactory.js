@@ -140,7 +140,7 @@ export default function(ngapp, xelib) {
             let status = {
                 modified: false //xelib.GetModified(handle)
             };
-            if (node.element_type === 'etMainRecord') {
+            if (node.element_type === xelib.etMainRecord) {
                 status.override = xelib.IsOverride(node.handle);
                 status.injected = xelib.IsInjected(node.handle);
                 status.conflict = 'ctNoConflict'; //xelib.ConflictThis(node.handle);
@@ -149,7 +149,7 @@ export default function(ngapp, xelib) {
         };
 
         $scope.getChildrenCount = function(node) {
-            if (node.element_type === 'etMainRecord') {
+            if (node.element_type === xelib.etMainRecord) {
                 let childGroup = xelib.GetElement(node.handle, 'Child Group', true);
                 node.children_count = childGroup && xelib.ElementCount(childGroup);
             } else {
@@ -170,7 +170,7 @@ export default function(ngapp, xelib) {
 
         $scope.getNodeData = function(node) {
             node.element_type = xelib.ElementType(node.handle);
-            if (node.element_type === 'etMainRecord') {
+            if (node.element_type === xelib.etMainRecord) {
                 node.fid = xelib.GetFormID(node.handle);
                 node.is_record = true;
             }
@@ -188,7 +188,7 @@ export default function(ngapp, xelib) {
         };
 
         $scope.buildNodes = function(node) {
-            let path = node.element_type === 'etMainRecord' ? 'Child Group' : '';
+            let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '';
             let nodes = xelib.GetElements(node.handle, path, $scope.sort.column).map(function(handle) {
                 return $scope.buildNode(handle, node.depth);
             });
