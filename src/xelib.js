@@ -273,7 +273,8 @@ var GetEnumValue = function(_id, method, enums) {
     var _res = createTypedBuffer(4, PByte);
     if (!lib[method](_id, _res))
         Fail(`${method} failed on ${_id}`);
-    return enums[_res.readUInt8(0)];
+    let n = _res.readUInt8(0);
+    return enums && enums[n] || n;
 };
 
 var GetNativeValue = function(_id, path, method, refType) {
@@ -590,14 +591,14 @@ var xelib = {
     'SortKey': function(_id) {
         return GetStringValue(_id, 'SortKey');
     },
-    'ElementType': function(_id) {
-        return GetEnumValue(_id, 'ElementType', elementTypes);
+    'ElementType': function(_id, asString = false) {
+        return GetEnumValue(_id, 'ElementType', asString && elementTypes);
     },
-    'DefType': function(_id) {
-        return GetEnumValue(_id, 'DefType', defTypes);
+    'DefType': function(_id, asString = false) {
+        return GetEnumValue(_id, 'DefType', asString && defTypes);
     },
-    'SmashType': function(_id) {
-        return GetEnumValue(_id, 'SmashType', smashTypes);
+    'SmashType': function(_id, asString = false) {
+        return GetEnumValue(_id, 'SmashType', asString && smashTypes);
     },
     'GetValue': function(_id, path = '', noException = false) {
         return GetString(function(_len) {
