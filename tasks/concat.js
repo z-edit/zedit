@@ -8,7 +8,7 @@ var load = function(path) {
 
 var loadTree = function(path) {
     return jetpack.find(path, { matching: '*.js' }).reduce(function(code, filePath) {
-        return code  + (code != '' && '\n' || '') + load(filePath);
+        return code  + (code != '' && '\n\n' || '') + load(filePath);
     }, '');
 };
 
