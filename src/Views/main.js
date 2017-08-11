@@ -37,13 +37,19 @@ export default function(ngapp, xelib, remote) {
             }
         };
 
-        // terminate xelib when application is done
+        // event handlers
+        $scope.$on('settingsClicked', function() {
+            $scope.toggleSettingsModal(true);
+        });
+
+        // save data and terminate xelib when application is being closed
         /*window.onbeforeunload = function(e) {
             if (remote.app.forceClose) return;
             //$scope.toggleSaveModal(true);
             e.returnValue = true;//false;
         };*/
 
+        // initialization
         $scope.checkIfLoaded();
         $scope.$emit('setTitle', 'zEdit - Loading Plugins');
     });

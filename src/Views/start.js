@@ -56,5 +56,11 @@ export default function(ngapp, xelib, fileHelpers) {
             $scope.getLoadOrder();
             $scope.toggleLoadOrderModal(true);
         };
+
+        // event listeners
+        $scope.$on('settingsClick', function() {
+            if ($scope.showLoadOrderModal) return;
+            $scope.toggleProfilesModal(true);
+        });
     });
 }

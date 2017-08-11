@@ -13,8 +13,12 @@ export default function(ngapp, remote) {
         
         $scope.title = 'zEdit - New Session';
 
+        $scope.settingsClick = function() {
+            $scope.$broadcast('settingsClick');
+        };
+
         $scope.helpClick = function () {
-            //$scope.toggleHelpModal();
+            $scope.$broadcast('helpClick');
         };
 
         $scope.minimizeClick = function () {
