@@ -81,6 +81,7 @@ export default function(ngapp, xelib) {
         };
 
         $scope.toggleSort = function(column) {
+            if (!column.canSort) return;
             let oldReverse = $scope.sort.reverse;
             if ($scope.sort.column !== column.label) {
                 $scope.sort.column = column.label;
