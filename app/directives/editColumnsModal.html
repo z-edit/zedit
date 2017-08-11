@@ -1,0 +1,43 @@
+<div class="modal-container" ng-click="unfocusColumnsModal($event)">
+    <div class="modal huge-modal">
+        <form>
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="close()"></span>
+            </div>
+
+            <h2>Edit Columns</h2>
+            <section class="columns-container">
+                <div ng-repeat="column in allColumns" class="column-item" ng-click="selectColumn(column)" ng-class="{ 'selected' : column.selected }">
+                    <input type="checkbox" ng-model="column.enabled">
+                    {{column.label}}
+                </div>
+            </section>
+
+            <h3 ng-if="selectedColumn.custom">
+                Edit Custom Column
+                <span class="action-box red-box small" ng-click="deleteColumn()" title="Delete this custom column.">Delete</span>
+            </h3>
+            <section ng-if="selectedColumn.custom" class="edit-custom-column">
+                <label>
+                    <span class="input-label">Label</span>
+                    <input type="text" ng-model="selectedColumn.label"/>
+                </label>
+                <div class="flex-header">
+                    <span>Data Retrieval Code</span>
+                    <span>
+                        <span class="action-box small" ng-click="testCode()">Test</span>
+                        <span class="help-tooltip clickable" title="Click here to learn how to create custom column data retrieval code." ng-click="getCodeHelp()">
+                            <i class="fa fa-question-circle"></i>
+                        </span>
+                    </span>
+                </div>
+                <textarea ng-model="selectedColumn.getDataCode"></textarea>
+            </section>
+
+            <div class="action-button-container">
+                <span class="action-box green-box" ng-click="addColumn()">New Column</span>
+                <span class="action-box" ng-click="close()">OK</span>
+            </div>
+        </form>
+    </div>
+</div>
