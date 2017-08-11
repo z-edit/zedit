@@ -785,4 +785,14 @@ var xelib = {
     }
 };
 
+var applyEnums = function(context, enums) {
+    enums.forEach((value, ord) => context[value] = ord);
+};
+
+applyEnums(xelib, elementTypes);
+applyEnums(xelib, defTypes);
+applyEnums(xelib, smashTypes);
+applyEnums(xelib, conflictThis);
+applyEnums(xelib, conflictAll);
+
 export default xelib;
