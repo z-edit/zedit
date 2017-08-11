@@ -704,6 +704,12 @@ var xelib = {
     'IsWinningOverride': function(_id) {
         return GetBoolValue(_id, "IsWinningOverride");
     },
+    'ConflictThis': function(_id, asString = false) {
+        return GetEnumValue(_id, 'ConflictThis', asString && conflictThis);
+    },
+    'ConflictAll': function(_id, asString = false) {
+        return GetEnumValue(_id, 'ConflictAll', asString && conflictAll);
+    },
 
     /*** WRAPPER METHODS ***/
 
