@@ -6,6 +6,9 @@
         </span>
     </span>
     <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
+    <div class="edit-columns" ng-click="toggleColumnsModal(true)">
+        <i class="fa fa-columns"></i>
+    </div>
 </div>
 <div class="tree" tabindex="0" ng-keydown="onKeyDown($event)" ng-click="clearSelection(true)" vs-repeat>
     <div ng-repeat="node in data.tree" ng-click="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="main-tree-node" ng-init="node.element_type || getNodeData(node)">
@@ -20,3 +23,5 @@
         </span>
     </div>
 </div>
+
+<edit-columns-modal ng-if="showColumnsModal"></edit-columns-modal>
