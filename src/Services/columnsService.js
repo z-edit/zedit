@@ -1,5 +1,5 @@
-export default function (ngapp, fileHelpers, xelib) {
-    ngapp.service('columnsService', function (xelibService) {
+export default function(ngapp, fileHelpers, xelib) {
+    ngapp.service('columnsService', function(xelibService) {
         var service = this;
 
         var formIDColumn = {
@@ -41,8 +41,8 @@ export default function (ngapp, fileHelpers, xelib) {
         };
 
         this.addColumn = function(column) {
-            column.getData = Function("node", column.getDataCode);
             column.canSort = false;
+            eval(`column.getData = function(node){${column.getDataCode}}`);
             service.columns.push(column);
         };
 
