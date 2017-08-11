@@ -12,9 +12,8 @@ export default function(ngapp) {
             }
         };
 
-        this.makeRule = function(stylesheet, selector) {
-            let rules = styleSheet.cssRules || styleSheet.rules;
-            rules.addRule(selector, "", 1);
+        this.makeRule = function(styleSheet, selector, style) {
+            styleSheet.addRule(selector, style, 1);
         };
     });
 }
