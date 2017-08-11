@@ -22,6 +22,7 @@ import loadOrderModal from './Directives/loadOrderModal.js';
 import pane from './Directives/pane.js';
 import splitBar from './Directives/splitBar.js';
 import settingsModal from './Directives/settingsModal.js';
+import editColumnsModal from './Directives/editColumnsModal.js';
 import hexFilter from './Filters/hexFilter.js';
 import profileValidFilter from './Filters/profileValidFilter.js';
 import baseView from './Views/base.js';
@@ -80,6 +81,7 @@ loadOrderModal(ngapp, xelib);
 settingsModal(ngapp, fileHelpers);
 pane(ngapp);
 splitBar(ngapp);
+editColumnsModal(ngapp, xelib);
 
 // VIEWS
 baseView(ngapp, remote);
