@@ -18,3 +18,19 @@
 .subtitle {
   color: gray;
 }
+
+.right-item {
+  float: right;
+}
+
+.help-tooltip {
+  color: burlywood;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
