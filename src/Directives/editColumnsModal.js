@@ -51,6 +51,7 @@ export default function(ngapp, xelib) {
                 if (column.custom) columnsService.buildDataFunction(column);
             });
             $scope.buildColumns();
+            $scope.reloadNodes();
             columnsService.saveColumns();
             $scope.toggleColumnsModal();
         };
