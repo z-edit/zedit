@@ -63,7 +63,7 @@ export default function (ngapp, fileHelpers, xelib) {
             }).map(function(column) {
                 return {
                     label: column.label,
-                    width: column.width
+                    getDataCode: column.getDataCode
                 };
             });
         };
