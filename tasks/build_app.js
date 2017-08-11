@@ -9,15 +9,20 @@ var wait = require('gulp-wait');
 var jetpack = require('fs-jetpack');
 var bundle = require('./bundle');
 var utils = require('./utils');
+var concat = require('./concat');
 
 var projectDir = jetpack;
 var srcDir = jetpack.cwd('./src');
+var jsDir = srcDir.cwd('./javascripts');
 var destDir = jetpack.cwd('./app');
+var rollupOptions = {
+    rollupPlugins: [concat()]
+};
 
 gulp.task('bundle', function () {
     return Promise.all([
-        bundle(srcDir.path('javascripts/background.js'), destDir.path('background.js')),
-        bundle(srcDir.path('javascripts/app.js'), destDir.path('app.js'))
+        bundle(jsDir.path('background.js'), destDir.path('background.js'), rollupOptions),
+        bundle(jsDir.path('app.js'), destDir.path('app.js'), rollupOptions)
     ]);
 });
 
