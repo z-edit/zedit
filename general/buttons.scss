@@ -21,6 +21,12 @@
   user-select: none;
   -webkit-transition: background-color 0.2s ease-in-out;
 
+  &.small {
+    font-size: 14px;
+    padding: 2px 6px;
+    vertical-align: middle;
+  }
+
   &:hover {
     background-color: #4d5e6b !important;
   }
@@ -41,5 +47,11 @@
   &.disabled {
     background-color: #555 !important;
     cursor: default;
+  }
+}
+
+h2, h3 {
+  .action-box {
+    margin-left: 4px;
   }
 }
