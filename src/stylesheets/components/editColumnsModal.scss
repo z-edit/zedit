@@ -10,6 +10,7 @@ edit-columns-modal {
     padding: 2px 8px;
     border-right: 1px solid #aaa;
     white-space: nowrap;
+    flex: 1;
 
     input {
       vertical-align: middle;
@@ -17,7 +18,6 @@ edit-columns-modal {
 
     &:last-of-type {
       border-right: none;
-      flex: 1;
     }
 
     &.selected {
