@@ -1,52 +1,23 @@
 export default function(ngapp, xelib) {
-    var mainTreeViewController = function($scope, $element, $timeout, xelibService, stylesheetService) {
-        // TODO: Load this from disk
-        $scope.columns = [
-            {
-                label: "FormID",
-                canSort: true,
-                width: '315px',
-                getData: function(node) {
-                    switch (node.element_type) {
-                        case 'etFile':
-                            return xelib.DisplayName(node.handle);
-                        case 'etGroupRecord':
-                            // TODO: include signature as well based on setting
-                            return xelib.Name(node.handle);
-                        case 'etMainRecord':
-                            if (node.fid == 0) {
-                                return 'File Header';
-                            } else {
-                                return xelibService.intToHex(node.fid, 8);
-                            }
-                    }
-                }
-            },
-            {
-                label: "EditorID",
-                canSort: true,
-                width: '150px',
-                getData: function(node) {
-                    if (node.element_type === 'etMainRecord' && node.fid > 0) {
-                        return xelib.EditorID(node.handle, true);
-                    }
-                }
-            },
-            {
-                label: "Name",
-                canSort: true,
-                getData: function(node) {
-                    if (node.element_type === 'etMainRecord' && node.fid > 0) {
-                        return xelib.FullName(node.handle, true);
-                    }
-                }
-            }
-        ];
-
+    var mainTreeViewController = function($scope, $element, $timeout, xelibService, stylesheetService, columnsService) {
         var tree;
+        $scope.allColumns = columnsService.columns;
         $scope.sort = {
             column: 'FormID',
             reverse: false
+        };
+
+        $scope.buildColumns = function() {
+            $scope.columns = $scope.allColumns.filter((column) => { return column.enabled; });
+            let width = $scope.columns.reduce(function(width, c) {
+                if (c.width) width += parseInt(c.width.slice(0, -1));
+                return width;
+            }, 0);
+            if (width > 100) {
+                let defaultWidth = Math.floor(100 / $scope.columns.length) + '%';
+                $scope.columns.slice(0, -1).forEach((column) => column.width = defaultWidth);
+            }
+            $scope.resizeColumns();
         };
 
         $scope.buildTree = function() {
@@ -132,6 +103,12 @@ export default function(ngapp, xelib) {
             }
         };
 
+        $scope.resizeColumns = function() {
+            $scope.columns.forEach(function(column, index) {
+                if (column.width) $scope.columnResized(index, column.width)
+            });
+        };
+
         $scope.toggleColumnsModal = function(visible) {
             $scope.showColumnsModal = visible;
         };
@@ -160,7 +137,8 @@ export default function(ngapp, xelib) {
         $scope.buildColumnValues = function(node) {
             node.column_values = $scope.columns.map(function(column) {
                 try {
-                    return column.getData(node) || "";
+                    if (column.getData) return column.getData(node) || "";
+                    return eval(column.getDataCode) || "";
                 } catch (x) {
                     console.log(x);
                     return "";
@@ -425,8 +403,9 @@ export default function(ngapp, xelib) {
             e.preventDefault();
         };
 
-        // initialize tree
+        // initialization
         $scope.data = $scope.$parent.tab.data;
+        $scope.buildColumns();
         $scope.buildTree();
 
         var treeElement;
