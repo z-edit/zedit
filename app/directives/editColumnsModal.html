@@ -8,7 +8,7 @@
             <h2>Edit Columns</h2>
             <section class="columns-container">
                 <div ng-repeat="column in allColumns" class="column-item" ng-click="selectColumn(column)" ng-class="{ 'selected' : column.selected }">
-                    <input type="checkbox" ng-model="column.enabled">
+                    <input type="checkbox" ng-model="column.enabled" ng-if="!$first">
                     {{column.label}}
                 </div>
             </section>
