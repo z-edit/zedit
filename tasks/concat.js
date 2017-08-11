@@ -24,7 +24,7 @@ module.exports = function(options) {
                     console.log('rollup-plugin-concat: processing "' + match + '" in "' + id + '"');
                 }
                 let targetPath = path.join(dir, target);
-                return tree ? loadTree(targetPath) : load(targetPath);
+                return (tree ? loadTree(targetPath) : load(targetPath)) + '\n';
             });
             return {
                 code: result,
