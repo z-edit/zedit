@@ -1,11 +1,11 @@
 export default function(ngapp, fileHelpers, xelib) {
-    ngapp.service('columnsService', function(xelibService) {
+    ngapp.service('columnsService', function() {
         var service = this;
 
         var formIDColumn = {
             label: "FormID",
             canSort: true,
-            getData: function (node) {
+            getData: function (node, xelib) {
                 switch (node.element_type) {
                     case xelib.etFile:
                         return xelib.DisplayName(node.handle);
@@ -13,18 +13,14 @@ export default function(ngapp, fileHelpers, xelib) {
                         // TODO: include signature as well based on setting
                         return xelib.Name(node.handle);
                     case xelib.etMainRecord:
-                        if (node.fid == 0) {
-                            return 'File Header';
-                        } else {
-                            return xelibService.intToHex(node.fid, 8);
-                        }
+                        return node.fid == 0 ? 'File Header' : xelib.IntToHex(node.fid);
                 }
             }
         };
         var editorIDColumn = {
             label: "EditorID",
             canSort: true,
-            getData: function(node) {
+            getData: function(node, xelib) {
                 if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                     return xelib.EditorID(node.handle, true);
                 }
@@ -33,16 +29,27 @@ export default function(ngapp, fileHelpers, xelib) {
         var nameColumn = {
             label: "Name",
             canSort: true,
-            getData: function(node) {
+            getData: function(node, xelib) {
                 if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                     return xelib.FullName(node.handle, true);
                 }
             }
         };
 
+        this.buildDataFunction = function(column) {
+            try {
+                column.getData = new Function('node', 'xelib', column.getDataCode);
+            } catch(e) {
+                console.log(`Exception building data function for column: ${column.label}:`);
+                console.log(e);
+                column.getData = function() { return ''; };
+            }
+        };
+
         this.addColumn = function(column) {
             column.canSort = false;
-            eval(`column.getData = function(node){${column.getDataCode}}`);
+            column.custom = true;
+            service.buildDataFunction(column);
             service.columns.push(column);
         };
 

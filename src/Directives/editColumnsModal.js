@@ -48,7 +48,7 @@ export default function(ngapp, xelib) {
         $scope.close = function() {
             $scope.selectedColumn.selected = false;
             $scope.allColumns.forEach(function(column) {
-                if (column.custom) eval(`column.getData = function(node){${column.getDataCode}}`);
+                if (column.custom) columnsService.buildDataFunction(column);
             });
             $scope.buildColumns();
             columnsService.saveColumns();

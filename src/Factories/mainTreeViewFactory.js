@@ -137,8 +137,7 @@ export default function(ngapp, xelib) {
         $scope.buildColumnValues = function(node) {
             node.column_values = $scope.columns.map(function(column) {
                 try {
-                    if (column.getData) return column.getData(node) || "";
-                    return eval(column.getDataCode) || "";
+                    return column.getData(node, xelib) || "";
                 } catch (x) {
                     console.log(x);
                     return "";
