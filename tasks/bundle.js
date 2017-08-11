@@ -37,16 +37,15 @@ module.exports = function (src, dest, opts) {
         cached[src] = bundle;
 
         var jsFile = path.basename(dest);
-        return bundle.generate({
+        var result = bundle.generate({
             format: 'cjs',
             sourceMap: true,
             sourceMapFile: jsFile
-        }).then(function(result) {
-            var isolatedCode = '(function () {' + result.code + '\n}());';
-            return Promise.all([
-                jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
-                jetpack.writeAsync(dest + '.map', result.map.toString())
-            ]);
         });
+        var isolatedCode = '(function () {' + result.code + '\n}());';
+        return Promise.all([
+            jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
+            jetpack.writeAsync(dest + '.map', result.map.toString())
+        ]);
     });
 };

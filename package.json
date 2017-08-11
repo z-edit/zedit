@@ -39,7 +39,7 @@
     "bindings": "^1.2.1",
     "ffi": "^2.0",
     "font-awesome": "^4.7.0",
-    "fs-jetpack": "^0.10.2",
+    "fs-jetpack": "^0.10.5",
     "ref": "^1.0",
     "ref-array": "^1.2.0",
     "ref-wchar": "^1.0",
@@ -60,7 +60,7 @@
     "istanbul": "^0.4.3",
     "minimist": "^1.2.0",
     "mocha": "^3.0.2",
-    "rollup": "^0.36.3",
+    "rollup": "^0.36.4",
     "rollup-plugin-istanbul": "^1.1.0",
     "source-map-support": "^0.4.2",
     "spectron": "^3.3.0"
