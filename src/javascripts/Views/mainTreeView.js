@@ -116,6 +116,7 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
 
     $scope.toggleSearch = function(visible) {
         $scope.showSearch = visible;
+        if (!visible) $scope.treeElement.focus();
     };
 
     $scope.resolveNode = function(path) {
