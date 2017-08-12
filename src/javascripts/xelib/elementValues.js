@@ -10,13 +10,19 @@ xelib.DisplayName = function(_id) {
 };
 xelib.Path = function(_id) {
     return GetString(function(_len) {
-        if (!lib.Path(_id, false, _len))
+        if (!lib.Path(_id, false, false, _len))
             Fail(`Path failed on ${_id}`);
     });
 };
-xelib.FullPath = function(_id) {
+xelib.LongPath = function(_id) {
     return GetString(function(_len) {
-        if (!lib.Path(_id, true, _len))
+        if (!lib.Path(_id, false, true, _len))
+            Fail(`Path failed on ${_id}`);
+    });
+};
+xelib.LocalPath = function(_id) {
+    return GetString(function(_len) {
+        if (!lib.Path(_id, true, false, _len))
             Fail(`Path failed on ${_id}`);
     });
 };
