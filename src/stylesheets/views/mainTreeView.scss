@@ -5,11 +5,74 @@
   user-select: none;
   padding-top: 24px;
 
+  .search {
+    display: flex;
+    margin-top: -24px;
+    margin-bottom: 24px;
+    padding: 3px 2px;
+    border-bottom: 1px solid #aaa;
+    align-items: center;
+
+    input[type="text"] {
+      margin-left: 2px;
+      padding: 1px 3px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 2px dodgerblue;
+        border-color: dodgerblue;
+      }
+    }
+
+    > button {
+      border: none;
+      background: none;
+      color: dodgerblue;
+      cursor: pointer;
+
+      &.disabled {
+        color: #888;
+      }
+
+      &:hover {
+        background: #eee;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+    }
+
+    .previous-result {
+      margin-left: 4px;
+    }
+
+    .next-result {
+      margin-right: 8px;
+    }
+
+    > label {
+      padding: 0 4px;
+    }
+
+    .close-bar {
+      flex-grow: 1;
+      text-align: right;
+      padding-right: 4px;
+
+      > span {
+        cursor: pointer;
+      }
+    }
+  }
+
   .columns {
     display: flex;
     border-bottom: 1px solid #aaa;
     margin-top: -24px;
     padding-right: 16px;
+    position: relative;
 
     > split-bar {
       width: 5px;
@@ -44,6 +107,18 @@
         margin-left: 6px;
       }
     }
+
+    .edit-columns {
+      font-size: 16px;
+      cursor: pointer;
+      position: absolute;
+      right: 16px;
+      padding: 2px 8px;
+
+      &:hover {
+        color: crimson;
+      }
+    }
   }
 
   .tree {
@@ -55,15 +130,6 @@
     &:focus {
       outline: none;
     }
-  }
-
-  // TEMPORARY HARDCODED COLUMN CLASSES
-  .column-0 {
-    width: 300px;
-  }
-
-  .column-1 {
-    width: 200px;
   }
 }
 

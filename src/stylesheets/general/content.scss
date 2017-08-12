@@ -38,7 +38,7 @@ a {
 
   .actions {
     display: table-cell;
-    width: 114px;
+    width: 137px;
     font-size: 22px;
     cursor: default;
 
@@ -47,6 +47,17 @@ a {
       display: inline-block;
       vertical-align: middle;
       min-width: 18px;
+    }
+
+    .settings {
+      font: normal normal normal 22px FontAwesome;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      margin-right: 4px;
+
+      &::before {
+        content: "\f013";
+      }
     }
 
     .help {

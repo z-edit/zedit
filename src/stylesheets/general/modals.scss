@@ -1,9 +1,9 @@
 .modal-container {
   position: fixed;
-  top: 45px;
+  top: 42px;
   left: 0;
   width: 100%;
-  height: calc(100% - 45px);
+  height: calc(100% - 42px);
   overflow-y: auto;
   z-index: 200;
   background-color: rgba(0, 0, 0, 0.4);
@@ -15,6 +15,14 @@
     margin: 150px auto;
     box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.8);
     background-color: #fff;
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
+
+    h3 {
+      margin-top: 24px;
+    }
 
     &:focus {
       outline: none;
@@ -30,7 +38,6 @@
 
   .huge-modal {
     max-width: 900px;
-    min-height: 500px;
     margin: 100px auto;
   }
 
@@ -41,6 +48,11 @@
   .skinny-modal {
     max-width: 400px;
     margin: 80px auto;
+  }
+
+  .transparent-modal {
+    background: none;
+    box-shadow: none;
   }
 
   .messages {

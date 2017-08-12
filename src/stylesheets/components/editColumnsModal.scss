@@ -1,0 +1,39 @@
+edit-columns-modal {
+  .columns-container {
+    overflow-x: auto;
+    border: 1px solid #aaa;
+    display: flex;
+  }
+
+  .column-item {
+    display: inline-block;
+    padding: 2px 8px;
+    border-right: 1px solid #aaa;
+    white-space: nowrap;
+    flex: 1;
+
+    input {
+      vertical-align: middle;
+    }
+
+    &:last-of-type {
+      border-right: none;
+    }
+
+    &.selected {
+      background: aliceblue;
+    }
+  }
+
+  .edit-custom-column{
+    font-size: 14px;
+
+    textarea {
+      display: block;
+      margin-top: 4px;
+      width: 100%;
+      min-height: 100px;
+      padding: 4px;
+    }
+  }
+}

@@ -39,7 +39,7 @@
     "bindings": "^1.2.1",
     "ffi": "^2.0",
     "font-awesome": "^4.7.0",
-    "fs-jetpack": "^0.10.2",
+    "fs-jetpack": "^0.10.5",
     "ref": "^1.0",
     "ref-array": "^1.2.0",
     "ref-wchar": "^1.0",
