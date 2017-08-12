@@ -72,7 +72,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
     };
 
     $scope.closeSearch = function() {
-        if ($scope.handle) xelib.release($scope.handle);
+        if ($scope.handle) xelib.Release($scope.handle);
         $scope.toggleSearch();
     };
 
