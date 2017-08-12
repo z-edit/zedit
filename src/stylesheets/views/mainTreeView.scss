@@ -30,13 +30,12 @@
       border: none;
       background: none;
       color: dodgerblue;
-      cursor: pointer;
 
       &.disabled {
         color: #888;
       }
 
-      &:hover {
+      &:hover:not(.disabled) {
         background: #eee;
         border: 1px solid #aaa;
         border-radius: 4px;
