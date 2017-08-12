@@ -10,6 +10,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
+    $scope.whiteOpts = spinnerFactory.whiteOptions;
     xelibService.printGlobals();
 
     // load default layout
@@ -39,6 +40,17 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     // event handlers
     $scope.$on('settingsClicked', function() {
         $scope.toggleSettingsModal(true);
+    });
+
+    $scope.$on('loading', function(e, message, canCancel) {
+        if ($scope.showLoadingModal && $scope.loadingMessage === "Cancelling...") return;
+        $scope.showLoadingModal = true;
+        $scope.loadingMessage = message || "Loading...";
+        $scope.canCancel = canCancel;
+    });
+
+    $scope.$on('doneLoading', function() {
+        $scope.showLoadingModal = false;
     });
 
     // save data and terminate xelib when application is being closed
