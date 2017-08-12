@@ -1,17 +1,15 @@
 ngapp.service('stylesheetService', function() {
-    this.getStylesheet = function(index) {
-        return document.styleSheets[index];
-    };
+    var mainStylesheet = document.styleSheets[1];
 
-    this.getRule = function(styleSheet, selector) {
-        let rules = styleSheet.cssRules || styleSheet.rules;
+    this.getRule = function(selector) {
+        let rules = mainStylesheet.cssRules;
         for (let j = 0; j < rules.length; j++) {
             let rule = rules[j];
             if (rule.selectorText == selector) return rule;
         }
     };
 
-    this.makeRule = function(styleSheet, selector, style) {
-        styleSheet.addRule(selector, style, 1);
+    this.makeRule = function(selector, style) {
+        mainStylesheet.addRule(selector, style, 1);
     };
 });
