@@ -100,7 +100,7 @@ try {
         'Name': [WordBool, [Cardinal, PInteger]],
         'LongName': [WordBool, [Cardinal, PInteger]],
         'DisplayName': [WordBool, [Cardinal, PInteger]],
-        'Path': [WordBool, [Cardinal, WordBool, PInteger]],
+        'Path': [WordBool, [Cardinal, WordBool, WordBool, PInteger]],
         'Signature': [WordBool, [Cardinal, PInteger]],
         'GetValue': [WordBool, [Cardinal, PWChar, PInteger]],
         'SetValue': [WordBool, [Cardinal, PWChar, PWChar]],
