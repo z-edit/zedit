@@ -31,6 +31,5 @@ ngapp.run(['$rootScope', '$state', function ($rootScope, $state) {
 //= concat_tree ./Directives
 //= concat_tree ./Factories
 //= concat_tree ./Filters
-//= concat_tree ./Filters
 //= concat_tree ./Services
 //= concat_tree ./Views
