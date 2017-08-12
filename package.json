@@ -58,6 +58,7 @@
     "gulp-wait": "0.0.2",
     "gulp-watch": "^4.3.5",
     "istanbul": "^0.4.3",
+    "magic-string": "^0.22.4",
     "minimist": "^1.2.0",
     "mocha": "^3.0.2",
     "rollup": "^0.36.4",
