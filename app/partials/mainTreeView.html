@@ -1,3 +1,28 @@
+<div ng-if="showSearch" class="search" ng-controller="mainTreeSearchController">
+    <input type="text" ng-model="search" ng-keydown="searchKeyDown($event)"/>
+    <button class="previous-result" ng-class="{'disabled' : !search.length}" ng-click="previousResult()">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    <button class="next-result" ng-class="{'disabled' : !search.length}" ng-click="nextResult()">
+        <i class="fa fa-arrow-down"></i>
+    </button>
+    <span class="divider"></span>
+    <label>
+        Search by
+        <select ng-model="searchOptions.searchBy">
+            <option ng-repeat="(key, value) in searchBy" value="{{key}}">{{value}}</option>
+        </select>
+    </label>
+    <label>
+        <input type="checkbox" ng-model="searchOptions.exact"/>
+        Exact Match
+    </label>
+    <div class="close-bar">
+        <span ng-click="closeSearch()">
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+</div>
 <div class="columns">
     <span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
         {{::column.label}}
