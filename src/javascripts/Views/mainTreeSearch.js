@@ -22,7 +22,21 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
     };
 
     // helper functions
-    let findNextMatch = function(search) {
+    let getElementIndex = function(elements, element) {
+        return element.findIndex(function(e) {
+            return xelib.Equals(e, element);
+        });
+    };
+
+    let getStartIndex = function(files, file, reverse) {
+        if (file) {
+            return getElementIndex(files, file) + (reverse ? -1 : 1);
+        } else {
+            return reverse ? files.length : 0;
+        }
+    };
+
+    let findExactMatch = function(search, reverse = false) {
         let action = $q.defer();
         $timeout(function() {
             let start = Date.now(),
@@ -30,11 +44,8 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
                 currentNode = $scope.lastSelectedNode(),
                 currentFile = currentNode && xelib.GetElementFile(currentNode.handle);
             xelibService.withElements(0, '', function(files) {
-                let currentFileIndex = currentFile ? files.findIndex(function(file) {
-                    return xelib.ElementEquals(file, currentFile);
-                }) : -1;
-                if (currentNode && currentNode.element_type == xelib.etFile) currentFileIndex--;
-                for (let i = currentFileIndex + 1; i < files.length; i++) {
+                let startIndex = getStartIndex(files, currentFile, reverse);
+                for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
                     if ($scope.cancelled) return;
                     result = xelib.GetElement(files[i], search, true);
                     if (result) return;
@@ -46,27 +57,49 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
         return action.promise;
     };
 
-    let findNextElement = function(search, options) {
-        if (options.exact) {
-            return findNextMatch(options.searchBy == 2 ? `"${search}"` : search);
+    let findPartialMatch = function(search, byName, reverse) {
+        let action = $q.defer();
+        $timeout(function() {
+            let functionName = `Find${(reverse ? 'Previous' : 'Next')}Record`;
+            let node = $scope.lastSelectedNode();
+            let handle = node ? node.handle : 0;
+            let result = xelib[functionName](handle, search, !byName, byName, true);
+            action.resolve(result);
+        }, 100);
+        return action.promise;
+    };
+
+    let findElement = function(reverse) {
+        let byName = $scope.searchOptions.searchBy == 2;
+        let search = $scope.search;
+        // search by FormID is always exact
+        if ($scope.searchOptions.exact) {
+            // search by FormID uses the same syntax as search by EditorID
+            return findExactMatch(byName ? `"${search}"` : search, reverse);
         } else {
-            // TODO
+            return findPartialMatch(search, byName, reverse);
         }
     };
 
     // scope functions
+    $scope.foundResult = function(handle) {
+        if ($scope.handle) xelib.Release($scope.handle);
+        $scope.handle = handle;
+        $scope.navigateToElement(handle);
+    };
+
     $scope.previousResult = function() {
-        // TODO
+        $scope.$emit('loading', 'Searching...', true);
+        findElement(true).then(function(handle) {
+            handle && $scope.foundResult(handle);
+            $scope.$emit('doneLoading');
+        });
     };
 
     $scope.nextResult = function() {
         $scope.$emit('loading', 'Searching...', true);
-        findNextElement($scope.search, $scope.searchOptions).then(function(handle) {
-            if (handle) {
-                if ($scope.handle) xelib.Release($scope.handle);
-                $scope.handle = handle;
-                $scope.navigateToElement(handle);
-            }
+        findElement().then(function(handle) {
+            handle && $scope.foundResult(handle);
             $scope.$emit('doneLoading');
         });
     };
