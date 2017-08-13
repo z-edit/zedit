@@ -1,3 +1,11 @@
+// ENUMERATIONS
+var sortBy = {
+    'None': 0,
+    'FormID': 1,
+    'EditorID': 2,
+    'Name': 3
+};
+
 // META METHODS
 xelib.Initialize = function() {
     lib.InitXEdit();
@@ -16,6 +24,10 @@ xelib.GetGlobals = function() {
         if (!lib.GetGlobals(_len))
             Fail('GetGlobals failed.');
     });
+};
+xelib.SetSortMode = function(sort, reverse) {
+    if (!lib.SetSortMode(sortBy[sort], reverse))
+        Fail(`Failed to set sort mode to ${sort} ${reverse ? 'ASC' : 'DESC'}`)
 };
 xelib.Release = function(_id) {
     if (!lib.Release(_id))

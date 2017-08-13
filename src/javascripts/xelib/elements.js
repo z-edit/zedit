@@ -2,12 +2,6 @@
 var elementTypes = ['etFile', 'etMainRecord', 'etGroupRecord', 'etSubRecord', 'etSubRecordStruct', 'etSubRecordArray', 'etSubRecordUnion', 'etArray', 'etStruct', 'etValue', 'etFlag', 'etStringListTerminator', 'etUnion', 'etStructChapter'];
 var defTypes = [ 'dtRecord', 'dtSubRecord', 'dtSubRecordArray', 'dtSubRecordStruct', 'dtSubRecordUnion', 'dtString', 'dtLString', 'dtLenString', 'dtByteArray', 'dtInteger', 'dtIntegerFormater', 'dtIntegerFormaterUnion', 'dtFlag', 'dtFloat', 'dtArray', 'dtStruct', 'dtUnion', 'dtEmpty', 'dtStructChapter'];
 var smashTypes = ['stUnknown', 'stRecord', 'stString', 'stInteger', 'stFlag', 'stFloat', 'stStruct', 'stUnsortedArray', 'stUnsortedStructArray', 'stSortedArray', 'stSortedStructArray', 'stByteArray', 'stUnion'];
-var sortBy = {
-    'None': 0,
-    'FormID': 1,
-    'EditorID': 2,
-    'Name': 3
-};
 
 applyEnums(xelib, elementTypes);
 applyEnums(xelib, defTypes);
@@ -40,9 +34,9 @@ xelib.RemoveElementOrParent = function(_id) {
     if (!lib.RemoveElementOrParent(_id))
         Fail(`Failed to remove element ${_id}`);
 };
-xelib.GetElements = function(_id, path = '', sort = 'None') {
+xelib.GetElements = function(_id, path = '') {
     return GetArray(function(_len) {
-        if (!lib.GetElements(_id, wcb(path), sortBy[sort] || 0, _len))
+        if (!lib.GetElements(_id, wcb(path), _len))
             Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
     });
 };

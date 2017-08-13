@@ -27,6 +27,7 @@ try {
         'GetResultArray': [WordBool, [PCardinal, Integer]],
         'GetGlobal': [WordBool, [PWChar, PInteger]],
         'GetGlobals': [WordBool, [PInteger]],
+        'SetSortMode': [WordBool, [Byte, WordBool]],
         'Release': [WordBool, [Cardinal]],
         'Switch': [WordBool, [Cardinal, Cardinal]],
         'GetDuplicateHandles': [WordBool, [Cardinal, PInteger]],
@@ -73,7 +74,7 @@ try {
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
-        'GetElements': [WordBool, [Cardinal, PWChar, Byte, PInteger]],
+        'GetElements': [WordBool, [Cardinal, PWChar, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         //'GetElementRecord': [WordBool, [Cardinal, PCardinal]], TODO: Uncomment when this is exported.
