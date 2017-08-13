@@ -28,15 +28,27 @@ xelib.GetOverrides = function(_id) {
             Fail(`Failed to get overrides for: ${_id}`);
     });
 };
-xelib.ExchangeReferences = function(_id, oldFormID, newFormID) {
-    if (!lib.ExchangeReferences(_id, oldFormID, newFormID))
-        Fail(`Failed to exchange references on ${_id} from ${oldFormID} to ${newFormID}`)
-};
 xelib.GetReferencedBy = function(_id) {
     return GetArray(function(_len) {
         if (!lib.GetReferencedBy(_id, _len))
             Fail(`Failed to get referenced by for: ${_id}`);
     });
+};
+xelib.FindNextRecord = function(_id, search, byEdid, byName, noException = false) {
+    return GetHandle(function(_res) {
+        if (!lib.FindNextRecord(_id, wcb(search), byEdid, byName, _res))
+            if (!noException) Fail(`Failed to find next record for: ${search}`);
+    });
+};
+xelib.FindPreviousRecord = function(_id, search, byEdid, byName, noException = false) {
+    return GetHandle(function(_res) {
+        if (!lib.FindPreviousRecord(_id, wcb(search), byEdid, byName, _res))
+            if (!noException) Fail(`Failed to find previous record for: ${search}`);
+    });
+};
+xelib.ExchangeReferences = function(_id, oldFormID, newFormID) {
+    if (!lib.ExchangeReferences(_id, oldFormID, newFormID))
+        Fail(`Failed to exchange references on ${_id} from ${oldFormID} to ${newFormID}`)
 };
 xelib.IsMaster = function(_id) {
     return GetBoolValue(_id, "IsMaster");

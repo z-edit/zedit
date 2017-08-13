@@ -127,6 +127,8 @@ try {
         'GetRecords': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
         'GetOverrides': [WordBool, [Cardinal, PInteger]],
         'GetReferencedBy': [WordBool, [Cardinal, PInteger]],
+        'FindNextRecord': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
+        'FindPreviousRecord': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
         'ExchangeReferences': [WordBool, [Cardinal, Cardinal, Cardinal]],
         'IsMaster': [WordBool, [Cardinal, PWordBool]],
         'IsInjected': [WordBool, [Cardinal, PWordBool]],
