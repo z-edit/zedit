@@ -89,7 +89,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
     };
 
     $scope.previousResult = function() {
-        $scope.$emit('loading', 'Searching...', true);
+        $scope.$emit('loading', 'Searching...');
         findElement(true).then(function(handle) {
             handle && $scope.foundResult(handle);
             $scope.$emit('doneLoading');
@@ -97,7 +97,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
     };
 
     $scope.nextResult = function() {
-        $scope.$emit('loading', 'Searching...', true);
+        $scope.$emit('loading', 'Searching...');
         findElement().then(function(handle) {
             handle && $scope.foundResult(handle);
             $scope.$emit('doneLoading');
