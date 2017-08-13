@@ -22,10 +22,10 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
     };
 
     $scope.buildTree = function() {
-        tree = xelib.GetElements(0, '', $scope.sort.column).map(function(handle) {
+        xelib.SetSortMode($scope.sort.column, $scope.sort.reverse);
+        tree = xelib.GetElements(0, '').map(function(handle) {
             return $scope.buildNode(handle, -1);
         });
-        if ($scope.sort.reverse) tree.reverse();
         $scope.data.tree = tree;
     };
 
@@ -127,7 +127,7 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
                 node = getNodeForElement(handle);
                 if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
                 if (!node.has_data) $scope.getNodeData(node);
-                if (node.children_count) $scope.expandNode(node);
+                if (!node.expanded) $scope.expandNode(node);
             }
         });
         return node;

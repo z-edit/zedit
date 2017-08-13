@@ -54,11 +54,9 @@ ngapp.service('mainTreeNodeService', function() {
 
         scope.buildNodes = function(node) {
             let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '';
-            let nodes = xelib.GetElements(node.handle, path, scope.sort.column).map(function(handle) {
+            return xelib.GetElements(node.handle, path).map(function(handle) {
                 return scope.buildNode(handle, node.depth);
             });
-            if (scope.sort.reverse) nodes.reverse();
-            return nodes;
         };
     };
 });
