@@ -2,9 +2,8 @@
 <div class="tree-columns">
     <span ng-repeat-start="column in columns" class="column column-{{::$index}}">
         {{::column.label}}
-        <div ng-if="::$first" class="expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes">
-            <i class="fa fa-sitemap"></i>
-        </div>
+        <div ng-if="::$first" class="column-action expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes"></div>
+        <div ng-if="::$first" class="column-action collapse-all-nodes" ng-click="collapseAllNodes()" title="Collapse all nodes"></div>
     </span>
     <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
 </div>
