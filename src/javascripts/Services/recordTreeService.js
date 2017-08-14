@@ -109,7 +109,7 @@ ngapp.service('recordTreeService', function() {
                 len = scope.tree.length;
             while (i < len) {
                 let node = scope.tree[i];
-                if (node.can_expand) {
+                if (node.can_expand && !node.expanded) {
                     scope.expandNode(node);
                     len = scope.tree.length;
                 }
