@@ -1,0 +1,10 @@
+<span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
+    {{::column.label}}
+    <span class="sort-arrow" ng-if="column.label === sort.column" title="Elements are sorted by this column in {{sort.reverse ? 'ascending' : 'descending'}} order.">
+        <i class="fa fa-arrow-{{sort.reverse ? 'up' : 'down'}}"></i>
+    </span>
+</span>
+<split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
+<div class="edit-columns" ng-if="::toggleColumnsModal" ng-click="toggleColumnsModal(true)">
+    <i class="fa fa-columns"></i>
+</div>
