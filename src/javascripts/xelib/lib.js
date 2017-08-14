@@ -75,6 +75,7 @@ try {
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
         'GetElements': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
+        'GetDefNames': [WordBool, [Cardinal, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         //'GetElementRecord': [WordBool, [Cardinal, PCardinal]], TODO: Uncomment when this is exported.

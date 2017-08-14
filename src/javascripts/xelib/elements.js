@@ -40,6 +40,12 @@ xelib.GetElements = function(_id = 0, path = '', sort = false) {
             Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
     });
 };
+xelib.GetDefNames = function(_id) {
+    return GetString(function(_len) {
+        if (!lib.GetDefNames(_id, _len))
+            Fail(`Failed to get def names for: ${_id}`);
+    }).split('\r\n');
+};
 xelib.GetLinksTo = function(_id, path) {
     return GetHandle(function(_res) {
         if (!lib.GetLinksTo(_id, wcb(path), _res))
