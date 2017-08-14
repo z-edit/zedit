@@ -38,7 +38,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         path.split('\\').forEach(function(part) {
             let handle = xelib.GetElement(node ? node.handle : 0, `${part}`);
             if (part !== 'Child Group') {
-                node = getNodeForElement(handle);
+                node = $scope.getNodeForElement(handle);
                 if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
                 if (!node.has_data) $scope.getNodeData(node);
                 if (!node.expanded) $scope.expandNode(node);

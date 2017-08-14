@@ -6,7 +6,7 @@ ngapp.service('mainTreeService', function() {
 
         // helper functions
         let reExpandNode = function(node) {
-            let newNode = getNodeForElement(node.handle);
+            let newNode = scope.getNodeForElement(node.handle);
             if (newNode) {
                 scope.getNodeData(newNode);
                 scope.expandNode(newNode);
@@ -14,7 +14,7 @@ ngapp.service('mainTreeService', function() {
         };
 
         let reSelectNode = function(node, scroll) {
-            let newNode = getNodeForElement(node.handle);
+            let newNode = scope.getNodeForElement(node.handle);
             if (newNode) {
                 scope.selectSingle(newNode, true, true, false);
                 if (scroll) scope.scrollToNode(newNode, true);
