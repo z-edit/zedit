@@ -1,5 +1,8 @@
 ngapp.service('mainTreeNodeService', function() {
     this.buildNodeFunctions = function(scope) {
+        let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
+        let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
+
         scope.getNodeStatus = function(node) {
             let status = {
                 modified: false //xelib.GetModified(handle)
@@ -7,7 +10,9 @@ ngapp.service('mainTreeNodeService', function() {
             if (node.element_type === xelib.etMainRecord) {
                 status.override = xelib.IsOverride(node.handle);
                 status.injected = xelib.IsInjected(node.handle);
-                status.conflict = 'ctNoConflict'; //xelib.ConflictThis(node.handle);
+                let conflictThis = xelib.ConflictThis(node.handle);
+                let conflictAll = xelib.ConflictAll(node.handle);
+                status.conflictClass = `${ctClasses[conflictThis]} ${caClasses[conflictAll]}`;
             }
             node.status = status;
         };
