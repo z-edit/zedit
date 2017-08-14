@@ -92,7 +92,8 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
     $scope.previousResult = function() {
         $scope.$emit('loading', 'Searching...');
         findElement(true).then(function(handle) {
-            handle && $scope.foundResult(handle);
+            $scope.notFound = !handle;
+            if (handle) $scope.foundResult(handle);
             $scope.$emit('doneLoading');
         });
     };
@@ -100,7 +101,8 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
     $scope.nextResult = function() {
         $scope.$emit('loading', 'Searching...');
         findElement().then(function(handle) {
-            handle && $scope.foundResult(handle);
+            $scope.notFound = !handle;
+            if (handle) $scope.foundResult(handle);
             $scope.$emit('doneLoading');
         });
     };
@@ -129,6 +131,10 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
         }
         e.stopPropagation();
         e.preventDefault();
+    };
+
+    $scope.blurSearch = function() {
+        $scope.notFound = false;
     };
 
     // event listeners

@@ -11,11 +11,17 @@ search-bar {
     padding: 1px 3px;
     border-radius: 5px;
     border: 1px solid #aaa;
+    -webkit-transition: background 2.0s ease-in-out;
 
     &:focus {
       outline: none;
       box-shadow: 0 0 2px dodgerblue;
       border-color: dodgerblue;
+    }
+
+    &.result-not-found {
+      background-color: rgba(255, 0, 0, 0.15);
+      -webkit-transition: none;
     }
   }
 
@@ -50,6 +56,11 @@ search-bar {
 
   > select {
     min-width: 85px;
+  }
+
+  .no-match-found {
+    color: crimson;
+    margin-left: 12px;
   }
 
   .close-bar {
