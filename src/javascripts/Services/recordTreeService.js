@@ -26,10 +26,10 @@ ngapp.service('recordTreeService', function() {
             node.class = classes.join(' ');
         };
 
-        scope.buildColumnValues = function(node) {
-            node.column_values = [{value: node.label}];
+        scope.buildCells = function(node) {
+            node.cells = [{value: node.label}];
             node.handles.forEach(function(handle) {
-                node.column_values.push({
+                node.cells.push({
                     value: handle ? xelib.GetValue(handle, '', true) : '',
                     //class: handle ? ctClasses[xelib.ConflictThis(handle)] : ''
                 });
@@ -39,7 +39,7 @@ ngapp.service('recordTreeService', function() {
         scope.getNodeData = function(node) {
             node.has_data = true;
             scope.getNodeClass(node);
-            scope.buildColumnValues(node);
+            scope.buildCells(node);
         };
 
         scope.buildStructNode = function(parentHandles, depth, name) {
