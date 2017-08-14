@@ -25,7 +25,7 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     $scope.buildColumns = function() {
         $scope.columns = [{
             label: 'Element Name',
-            width: '30%'
+            width: '25%'
         },{
             label: getRecordFileName($scope.record),
             handle: $scope.record,
