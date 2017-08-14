@@ -1,0 +1,45 @@
+tree-nodes {
+  display: block;
+  height: 100%;
+
+  > div {
+    height: 100%;
+    padding-bottom: 4px;
+    overflow-y: scroll;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .node {
+    display: flex;
+    white-space: nowrap;
+    border-top: 1px solid #f8f8f8;
+    height: 20px;
+
+    &.selected {
+      background-color: #e5f2ff;
+    }
+
+    .expand-node {
+      margin-right: 8px;
+    }
+
+    .placeholder {
+      padding-left: 21px;
+    }
+
+    .column {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding: 2px 6px;
+      border-right: 1px solid #f8f8f8;
+
+      &:last-of-type {
+        border: none;
+        flex: 1;
+      }
+    }
+  }
+}
