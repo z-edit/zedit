@@ -205,6 +205,14 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
         e.preventDefault();
     };
 
+    let scrollbarWidth = 17;
+    $scope.treeMouseDown = function(e) {
+        let t = $scope.treeElement;
+        if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
+            $scope.clearSelection(true);
+        }
+    };
+
     // initialization
     var tree;
     $scope.sort = {
