@@ -2,7 +2,8 @@ ngapp.service('mainTreeViewFactory', function() {
     let factory = this;
 
     this.destroy = function(view) {
-        view.data.tree.forEach((node) => xelib.Release(node.handle));
+        let dataScope = view.data.scope;
+        dataScope.tree.forEach((node) => xelib.Release(node.handle));
     };
 
     this.new = function() {
@@ -11,8 +12,7 @@ ngapp.service('mainTreeViewFactory', function() {
             controller: mainTreeViewController,
             class: 'main-tree-view',
             data: {
-                tabLabel: 'Tree View',
-                tree: {}
+                tabLabel: 'Tree View'
             },
             destroy: factory.destroy
         }

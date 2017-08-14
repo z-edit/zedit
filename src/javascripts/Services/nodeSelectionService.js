@@ -18,7 +18,7 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         scope.scrollToNode = function(node, center = false) {
-            let index = scope.data.tree.indexOf(node);
+            let index = scope.tree.indexOf(node);
             let nodeOffset = index * nodeHeight;
             let scrollOffset = scope.treeElement.scrollTop;
             let height = scope.treeElement.clientHeight;
@@ -48,17 +48,17 @@ ngapp.service('nodeSelectionService', function() {
 
         var persistRange = function(start, end) {
             if (start > lastRange[0]) {
-                scope.selectSingle(scope.data.tree[lastRange[0]], false, false, false);
+                scope.selectSingle(scope.tree[lastRange[0]], false, false, false);
             }
             if (end < lastRange[1]) {
-                scope.selectSingle(scope.data.tree[lastRange[1]], false, false, false);
+                scope.selectSingle(scope.tree[lastRange[1]], false, false, false);
             }
         };
 
         scope.selectRange = function(n1, n2, persist = false) {
             if (n1.depth !== n2.depth) return;
-            let i1 = scope.data.tree.indexOf(n1),
-                i2 = scope.data.tree.indexOf(n2),
+            let i1 = scope.tree.indexOf(n1),
+                i2 = scope.tree.indexOf(n2),
                 startIndex = Math.min(i1, i2),
                 endIndex = Math.max(i1, i2),
                 targetDepth = n1.depth;
@@ -66,14 +66,14 @@ ngapp.service('nodeSelectionService', function() {
             lastRange = [startIndex, endIndex];
             if (i1 < i2) {
                 for (let i = i2; i >= i1; i--) {
-                    let node = scope.data.tree[i];
+                    let node = scope.tree[i];
                     if (node.depth === targetDepth) {
                         scope.selectSingle(node, true, false, false);
                     }
                 }
             } else {
                 for (let i = i2; i <= i1; i++) {
-                    let node = scope.data.tree[i];
+                    let node = scope.tree[i];
                     if (node.depth === targetDepth) {
                         scope.selectSingle(node, true, false, false);
                     }
@@ -101,8 +101,8 @@ ngapp.service('nodeSelectionService', function() {
                 scope.expandNode(node);
                 scope.selectSingle(node);
             } else {
-                let index = scope.data.tree.indexOf(node) + 1;
-                scope.selectSingle(scope.data.tree[index]);
+                let index = scope.tree.indexOf(node) + 1;
+                scope.selectSingle(scope.tree[index]);
             }
         };
 
@@ -120,13 +120,13 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         var findNextNode = function(node, sameDepth = true) {
-            let index = scope.data.tree.indexOf(node);
+            let index = scope.tree.indexOf(node);
             if (!sameDepth) {
-                return scope.data.tree[index + 1];
+                return scope.tree[index + 1];
             } else {
                 let targetDepth = node.depth;
-                for (let i = index + 1; i < scope.data.tree.length; i++) {
-                    let n = scope.data.tree[i];
+                for (let i = index + 1; i < scope.tree.length; i++) {
+                    let n = scope.tree[i];
                     if (n.depth == targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }
@@ -149,13 +149,13 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         var findPreviousNode = function(node, sameDepth = true) {
-            let index = scope.data.tree.indexOf(node);
+            let index = scope.tree.indexOf(node);
             if (!sameDepth) {
-                return scope.data.tree[index - 1];
+                return scope.tree[index - 1];
             } else {
                 let targetDepth = node.depth;
                 for (let i = index - 1; i >= 0; i++) {
-                    let n = scope.data.tree[i];
+                    let n = scope.tree[i];
                     if (n.depth == targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }

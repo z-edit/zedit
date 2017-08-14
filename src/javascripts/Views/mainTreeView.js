@@ -1,7 +1,8 @@
 var mainTreeViewController = function($scope, $element, $timeout, xelibService, stylesheetService, columnsService, mainTreeNodeService, nodeSelectionService) {
     // inherited variables
     $scope.allColumns = columnsService.columns;
-    $scope.data = $scope.$parent.tab.data;
+    let data = $scope.$parent.tab.data;
+    data.scope = $scope;
 
     // inherited functions
     mainTreeNodeService.buildNodeFunctions($scope);
@@ -23,17 +24,16 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
 
     $scope.buildTree = function() {
         xelib.SetSortMode($scope.sort.column, $scope.sort.reverse);
-        tree = xelib.GetElements(0, '').map(function(handle) {
+        $scope.tree = xelib.GetElements(0, '').map(function(handle) {
             return $scope.buildNode(handle, -1);
         });
-        $scope.data.tree = tree;
     };
 
     var getNodeForElement = function(handle) {
         let handles = xelib.GetDuplicateHandles(handle);
         for (let i = 0; i < handles.length; i++) {
             let h = handles[i];
-            let newNode = tree.find((node) => { return node.handle == h; });
+            let newNode = $scope.tree.find((node) => { return node.handle == h; });
             if (newNode) return newNode;
         }
     };
@@ -66,7 +66,7 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
         $scope.reloading = true;
         let oldExpandedNodes = [];
         let oldSelectedNodes = $scope.selectedNodes.slice();
-        tree.forEach(function(node) {
+        $scope.tree.forEach(function(node) {
             if (node.expanded) {
                 oldExpandedNodes.push(node);
             } else if (!node.selected) {
@@ -78,7 +78,7 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
         oldExpandedNodes.forEach((n) => reExpandNode(n));
         oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
         freeHandles(oldExpandedNodes, oldSelectedNodes);
-        console.log(`Rebuilt tree (${tree.length} nodes) in ${Date.now() - start}ms`);
+        console.log(`Rebuilt tree (${$scope.tree.length} nodes) in ${Date.now() - start}ms`);
     };
 
     $scope.toggleSort = function(column) {
@@ -153,8 +153,8 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
         if (childrenLength > 0) {
             node.children_count = childrenLength;
             children.forEach((child) => child.parent = node);
-            let insertionIndex = tree.indexOf(node) + 1;
-            tree.splice(insertionIndex, 0, ...children);
+            let insertionIndex = $scope.tree.indexOf(node) + 1;
+            $scope.tree.splice(insertionIndex, 0, ...children);
             console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
         } else {
             node.children_count = 0;
@@ -164,14 +164,14 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
 
     $scope.collapseNode = function(node) {
         if (node.expanded) delete node.expanded;
-        let startIndex = tree.indexOf(node) + 1,
+        let startIndex = $scope.tree.indexOf(node) + 1,
             endIndex = startIndex;
-        for (; endIndex < tree.length; endIndex++) {
-            let child = tree[endIndex];
+        for (; endIndex < $scope.tree.length; endIndex++) {
+            let child = $scope.tree[endIndex];
             if (child.depth <= node.depth) break;
             if (child.selected) $scope.selectSingle(child, false);
         }
-        let removedNodes = tree.splice(startIndex, endIndex - startIndex);
+        let removedNodes = $scope.tree.splice(startIndex, endIndex - startIndex);
         removedNodes.forEach((node) => xelib.Release(node.handle));
         if ($scope.prevNode && $scope.prevNode.parent === node) {
             $scope.prevNode = undefined;
@@ -214,7 +214,6 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
     };
 
     // initialization
-    var tree;
     $scope.sort = {
         column: 'FormID',
         reverse: false
@@ -223,6 +222,8 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
     $scope.buildTree();
 
     $timeout(function() {
-        $scope.treeElement = $element[0].nextElementSibling.lastElementChild;
+        let tabView = $element[0].nextElementSibling;
+        let treeNodes = tabView.lastElementChild;
+        $scope.treeElement = treeNodes.firstElementChild;
     }, 20);
 };
