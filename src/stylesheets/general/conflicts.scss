@@ -1,0 +1,81 @@
+// conflict colors
+$medium_gray: #A4A0A0;
+$gray: #808080;
+$black: #000;
+$silver: #c0c0c0;
+$purple: #800080;
+$green: #008000;
+$olive: #008080;
+$orange: #FF8040;
+$red: #FF0000;
+$lime: #00FF00;
+$yellow: #FFFF00;
+$fuschia: #FF00FF;
+$transparency: 0.15;
+
+// mixin for adding two colors together
+@mixin conflict-bg($color) {
+  $bg: rgba($color, $transparency);
+  background: linear-gradient(to right, $bg, $bg);
+}
+
+// classes
+.ct-not-defined {
+  color: $medium_gray;
+}
+
+.ct-identical-to-master {
+  color: $gray;
+}
+
+.ct-only-one {
+  color: $black;
+}
+
+.ct-hidden-by-mod-group {
+  color: $silver;
+}
+
+.ct-master {
+  color: $purple;
+}
+
+.ct-conflict-benign {
+  color: $black;
+}
+
+.ct-override {
+  color: $green;
+}
+
+.ct-identical-to-master-wins-conflict {
+  color: $olive;
+}
+
+.ct-conflict-wins {
+  color: $orange;
+}
+
+.ct-conflict-loses {
+  color: $red;
+}
+
+.ca-no-conflict {
+  @include conflict-bg($lime);
+}
+
+.ca-conflict-benign {
+  @include conflict-bg($yellow);
+}
+
+.ca-override {
+  @include conflict-bg($yellow);
+}
+
+.ca-conflict {
+  @include conflict-bg($red);
+}
+
+.ca-conflict-critical {
+  @include conflict-bg($fuschia);
+}
