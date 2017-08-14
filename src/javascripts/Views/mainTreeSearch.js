@@ -23,14 +23,14 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
 
     // helper functions
     let getElementIndex = function(elements, element) {
-        return element.findIndex(function(e) {
-            return xelib.Equals(e, element);
+        return elements.findIndex(function(e) {
+            return xelib.ElementEquals(e, element);
         });
     };
 
-    let getStartIndex = function(files, file, reverse) {
+    let getStartIndex = function(files, file, reverse, noOffset) {
         if (file) {
-            return getElementIndex(files, file) + (reverse ? -1 : 1);
+            return getElementIndex(files, file) + noOffset ? 0 : (reverse ? -1 : 1);
         } else {
             return reverse ? files.length : 0;
         }
@@ -42,9 +42,10 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
             let start = Date.now(),
                 result = 0,
                 currentNode = $scope.lastSelectedNode(),
-                currentFile = currentNode && xelib.GetElementFile(currentNode.handle);
+                currentFile = currentNode && xelib.GetElementFile(currentNode.handle),
+                currentNodeIsFile = currentNode.element_type === xelib.etFile;
             xelibService.withElements(0, '', function(files) {
-                let startIndex = getStartIndex(files, currentFile, reverse);
+                let startIndex = getStartIndex(files, currentFile, reverse, currentNodeIsFile);
                 for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
                     if ($scope.cancelled) return;
                     result = xelib.GetElement(files[i], search, true);
