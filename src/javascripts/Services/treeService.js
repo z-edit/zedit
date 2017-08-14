@@ -1,6 +1,6 @@
 // functions shared by mainTreeView and recordTreeView
 ngapp.service('treeService', function() {
-    this.buildFunctions = function(scope) {
+    this.buildFunctions = function(scope, element) {
         scope.getNodeForElement = function(handle) {
             let handles = xelib.GetDuplicateHandles(handle);
             for (let i = 0; i < handles.length; i++) {
@@ -82,6 +82,12 @@ ngapp.service('treeService', function() {
             }
             e.stopPropagation();
             e.preventDefault();
+        };
+
+        scope.resolveTreeElement = function() {
+            let tabView = element[0].nextElementSibling;
+            let treeNodes = tabView.lastElementChild;
+            scope.treeElement = treeNodes.firstElementChild;
         };
     }
 });

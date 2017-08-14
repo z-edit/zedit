@@ -7,7 +7,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     $scope.allColumns = columnsService.columns;
 
     // inherited functions
-    treeService.buildFunctions($scope);
+    treeService.buildFunctions($scope, $element);
     mainTreeService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
@@ -59,16 +59,8 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     // initialization
-    $scope.sort = {
-        column: 'FormID',
-        reverse: false
-    };
+    $scope.sort = { column: 'FormID', reverse: false };
     $scope.buildColumns();
     $scope.buildTree();
-
-    $timeout(function() {
-        let tabView = $element[0].nextElementSibling;
-        let treeNodes = tabView.lastElementChild;
-        $scope.treeElement = treeNodes.firstElementChild;
-    }, 20);
+    $timeout($scope.resolveTreeElement, 20);
 };
