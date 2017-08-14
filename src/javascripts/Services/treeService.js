@@ -1,5 +1,5 @@
 // functions shared by mainTreeView and recordTreeView
-ngapp.service('treeService', function() {
+ngapp.service('treeService', function($timeout) {
     this.buildFunctions = function(scope, element) {
         scope.getNodeForElement = function(handle) {
             let handles = xelib.GetDuplicateHandles(handle);
@@ -65,9 +65,20 @@ ngapp.service('treeService', function() {
             }
         };
 
+        scope.focusSearchInput = function() {
+            let tabView = element[0].nextElementSibling;
+            let searchBar = tabView.firstElementChild;
+            let searchInput = searchBar.firstElementChild;
+            searchInput.focus();
+        };
+
         scope.toggleSearch = function(visible) {
             scope.showSearch = visible;
-            if (!visible) scope.treeElement.focus();
+            if (visible) {
+                $timeout(scope.focusSearchInput, 50);
+            } else {
+                scope.treeElement.focus();
+            }
         };
 
         scope.onKeyDown = function(e) {
