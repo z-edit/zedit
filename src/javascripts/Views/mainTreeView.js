@@ -1,12 +1,16 @@
-var mainTreeViewController = function($scope, $element, $timeout, xelibService, stylesheetService, columnsService, mainTreeNodeService, nodeSelectionService) {
-    // inherited variables
-    $scope.allColumns = columnsService.columns;
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeNodeService, nodeSelectionService, treeColumnService) {
+    // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
 
+    // inherited variables
+    $scope.allColumns = columnsService.columns;
+
     // inherited functions
-    mainTreeNodeService.buildNodeFunctions($scope);
-    nodeSelectionService.buildSelectionFunctions($scope);
+    treeService.buildFunctions($scope);
+    mainTreeNodeService.buildFunctions($scope);
+    nodeSelectionService.buildFunctions($scope);
+    treeColumnService.buildFunctions($scope, '.main-tree-view', true);
 
     // scope functions
     $scope.buildColumns = function() {
@@ -27,96 +31,6 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
         $scope.tree = xelib.GetElements(0, '').map(function(handle) {
             return $scope.buildNode(handle, -1);
         });
-    };
-
-    var getNodeForElement = function(handle) {
-        let handles = xelib.GetDuplicateHandles(handle);
-        for (let i = 0; i < handles.length; i++) {
-            let h = handles[i];
-            let newNode = $scope.tree.find((node) => { return node.handle == h; });
-            if (newNode) return newNode;
-        }
-    };
-
-    var reExpandNode = function(node) {
-        let newNode = getNodeForElement(node.handle);
-        if (newNode) {
-            $scope.getNodeData(newNode);
-            $scope.expandNode(newNode);
-        }
-    };
-
-    var reSelectNode = function(node, scroll) {
-        let newNode = getNodeForElement(node.handle);
-        if (newNode) {
-            $scope.selectSingle(newNode, true, true, false);
-            if (scroll) $scope.scrollToNode(newNode, true);
-        }
-    };
-
-    var freeHandles = function(nodes1, nodes2) {
-        let a = [];
-        nodes1.forEach((n) => a.contains(n.handle) || a.push(n.handle));
-        nodes2.forEach((n) => a.contains(n.handle) || a.push(n.handle));
-        a.forEach((handle) => xelib.Release(handle));
-    };
-
-    $scope.reloadNodes = function() {
-        let start = Date.now();
-        $scope.reloading = true;
-        let oldExpandedNodes = [];
-        let oldSelectedNodes = $scope.selectedNodes.slice();
-        $scope.tree.forEach(function(node) {
-            if (node.expanded) {
-                oldExpandedNodes.push(node);
-            } else if (!node.selected) {
-                xelib.Release(node.handle);
-            }
-        });
-        $scope.clearSelection(true);
-        $scope.buildTree();
-        oldExpandedNodes.forEach((n) => reExpandNode(n));
-        oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
-        freeHandles(oldExpandedNodes, oldSelectedNodes);
-        console.log(`Rebuilt tree (${$scope.tree.length} nodes) in ${Date.now() - start}ms`);
-    };
-
-    $scope.toggleSort = function(column) {
-        if (!column.canSort) return;
-        let oldReverse = $scope.sort.reverse;
-        if ($scope.sort.column !== column.label) {
-            $scope.sort.column = column.label;
-            $scope.sort.reverse = false;
-        } else {
-            $scope.sort.reverse = !$scope.sort.reverse;
-        }
-        let reverseChanged = oldReverse != $scope.sort.reverse;
-        $scope.reloadNodes(reverseChanged);
-    };
-
-    $scope.columnResized = function(index, width) {
-        let selector = `.main-tree-view .column-${index}`;
-        let rule = stylesheetService.getRule(selector);
-        if (!rule) {
-            stylesheetService.makeRule(selector, `width: ${width};`);
-        } else {
-            rule.style["width"] = width;
-        }
-    };
-
-    $scope.resizeColumns = function() {
-        $scope.columns.forEach(function(column, index) {
-            if (column.width) $scope.columnResized(index, column.width)
-        });
-    };
-
-    $scope.toggleColumnsModal = function(visible) {
-        $scope.showColumnsModal = visible;
-    };
-
-    $scope.toggleSearch = function(visible) {
-        $scope.showSearch = visible;
-        if (!visible) $scope.treeElement.focus();
     };
 
     $scope.resolveNode = function(path) {
@@ -141,75 +55,6 @@ var mainTreeViewController = function($scope, $element, $timeout, xelibService, 
             $timeout(function() {
                 $scope.scrollToNode(node, true);
             });
-        }
-    };
-
-    $scope.expandNode = function(node) {
-        if (!node.children_count) return;
-        let start = Date.now();
-        node.expanded = true;
-        let children = $scope.buildNodes(node);
-        let childrenLength = children.length;
-        if (childrenLength > 0) {
-            node.children_count = childrenLength;
-            children.forEach((child) => child.parent = node);
-            let insertionIndex = $scope.tree.indexOf(node) + 1;
-            $scope.tree.splice(insertionIndex, 0, ...children);
-            console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
-        } else {
-            node.children_count = 0;
-            node.expanded = false;
-        }
-    };
-
-    $scope.collapseNode = function(node) {
-        if (node.expanded) delete node.expanded;
-        let startIndex = $scope.tree.indexOf(node) + 1,
-            endIndex = startIndex;
-        for (; endIndex < $scope.tree.length; endIndex++) {
-            let child = $scope.tree[endIndex];
-            if (child.depth <= node.depth) break;
-            if (child.selected) $scope.selectSingle(child, false);
-        }
-        let removedNodes = $scope.tree.splice(startIndex, endIndex - startIndex);
-        removedNodes.forEach((node) => xelib.Release(node.handle));
-        if ($scope.prevNode && $scope.prevNode.parent === node) {
-            $scope.prevNode = undefined;
-        }
-    };
-
-    $scope.toggleNode = function(e, node) {
-        if (node.expanded) {
-            $scope.collapseNode(node);
-        } else {
-            $scope.expandNode(node);
-        }
-        e.stopPropagation();
-    };
-
-    $scope.onKeyDown = function(e) {
-        if (e.keyCode == 39) {
-            $scope.handleRightArrow(e);
-        } else if (e.keyCode == 37) {
-            $scope.handleLeftArrow(e);
-        } else if (e.keyCode == 40) {
-            $scope.handleDownArrow(e)
-        } else if (e.keyCode == 38) {
-            $scope.handleUpArrow(e);
-        } else if (e.ctrlKey && !e.shiftKey && e.keyCode == 70) {
-            $scope.toggleSearch(true);
-        } else {
-            return;
-        }
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    let scrollbarWidth = 17;
-    $scope.treeMouseDown = function(e) {
-        let t = $scope.treeElement;
-        if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
-            $scope.clearSelection(true);
         }
     };
 

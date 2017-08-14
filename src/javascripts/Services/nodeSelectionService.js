@@ -1,5 +1,5 @@
 ngapp.service('nodeSelectionService', function() {
-    this.buildSelectionFunctions = function(scope) {
+    this.buildFunctions = function(scope) {
         // initialize variables
         var lastRange = [];
         var nodeHeight = 20;
