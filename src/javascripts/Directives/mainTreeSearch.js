@@ -124,7 +124,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
             } else {
                 let n = searchOptionKeys.indexOf(e.keyCode);
                 if (n == -1) return;
-                $scope.searchOptions.searchBy = n;
+                $scope.searchOptions.searchBy = n.toString();
             }
         } else {
             return;
