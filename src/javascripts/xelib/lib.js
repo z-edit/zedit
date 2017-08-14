@@ -74,7 +74,7 @@ try {
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
-        'GetElements': [WordBool, [Cardinal, PWChar, PInteger]],
+        'GetElements': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         //'GetElementRecord': [WordBool, [Cardinal, PCardinal]], TODO: Uncomment when this is exported.
