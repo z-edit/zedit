@@ -1,14 +1,10 @@
-tree-nodes {
+.tree-nodes {
   display: block;
   height: 100%;
+  padding-bottom: 4px;
 
-  > div {
-    height: 100%;
-    padding-bottom: 4px;
-
-    &:focus {
-      outline: none;
-    }
+  &:focus {
+    outline: none;
   }
 
   .node {
@@ -23,6 +19,18 @@ tree-nodes {
 
     .expand-node {
       margin-right: 8px;
+      display: inline-block;
+      font: 14px FontAwesome;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+
+      &.expanded::before {
+        content: "\f147";
+      }
+
+      &.collapsed::before {
+        content: "\f196";
+      }
     }
 
     .placeholder {
