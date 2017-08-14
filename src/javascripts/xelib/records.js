@@ -28,10 +28,10 @@ xelib.GetOverrides = function(_id) {
             Fail(`Failed to get overrides for: ${_id}`);
     });
 };
-xelib.GetReferencedBy = function(_id) {
-    return GetArray(function(_len) {
-        if (!lib.GetReferencedBy(_id, _len))
-            Fail(`Failed to get referenced by for: ${_id}`);
+xelib.GetMaster = function(_id) {
+    return GetHandle(function(_res) {
+        if (!lib.GetMaster(_id, _res))
+            Fail(`Failed to get master for: ${_id}`);
     });
 };
 xelib.FindNextRecord = function(_id, search, byEdid, byName, noException = false) {
@@ -44,6 +44,12 @@ xelib.FindPreviousRecord = function(_id, search, byEdid, byName, noException = f
     return GetHandle(function(_res) {
         if (!lib.FindPreviousRecord(_id, wcb(search), byEdid, byName, _res))
             if (!noException) Fail(`Failed to find previous record for: ${search}`);
+    });
+};
+xelib.GetReferencedBy = function(_id) {
+    return GetArray(function(_len) {
+        if (!lib.GetReferencedBy(_id, _len))
+            Fail(`Failed to get referenced by for: ${_id}`);
     });
 };
 xelib.ExchangeReferences = function(_id, oldFormID, newFormID) {
