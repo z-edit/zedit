@@ -8,8 +8,8 @@
   tree-nodes {
     min-width: 400px;
 
-    &:focus {
-      outline: none;
+    > div {
+      overflow-y: scroll;
     }
   }
 }
