@@ -37,7 +37,12 @@ ngapp.service('treeService', function() {
                 if (child.selected) scope.selectSingle(child, false);
             }
             let removedNodes = scope.tree.splice(startIndex, endIndex - startIndex);
-            removedNodes.forEach((node) => xelib.Release(node.handle));
+            removedNodes.forEach(function(node) {
+                if (node.handle) xelib.Release(node.handle);
+                if (node.handles) {
+                    node.handles.forEach((handle) => handle && xelib.Release(handle));
+                }
+            });
             if (scope.prevNode && scope.prevNode.parent === node) {
                 scope.prevNode = undefined;
             }
