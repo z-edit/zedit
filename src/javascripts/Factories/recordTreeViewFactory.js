@@ -1,7 +1,3 @@
-var recordTreeViewController = function($scope) {
-
-};
-
 ngapp.service('recordTreeViewFactory', function() {
     let factory = this;
 
