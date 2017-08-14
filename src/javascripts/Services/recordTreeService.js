@@ -51,6 +51,7 @@ ngapp.service('recordTreeService', function() {
                 label: name,
                 handles: handles,
                 first_handle: firstHandle,
+                disabled: !firstHandle,
                 can_expand: firstHandle && xelib.ElementCount(firstHandle) > 0,
                 depth: depth + 1
             }

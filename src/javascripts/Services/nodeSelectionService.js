@@ -36,7 +36,7 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         scope.selectSingle = function(node, newValue, setPrev = true, scroll = true) {
-            if (!node || newValue && node.selected) return;
+            if (!node || node.disabled || newValue && node.selected) return;
             if (scope.selectedNodes.length > 0 && node.depth != scope.prevNode.depth) return;
             node.selected = angular.isDefined(newValue) ? newValue : !node.selected;
             scope.selectedNodes[node.selected ? 'push' : 'remove'](node);
