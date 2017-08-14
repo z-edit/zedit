@@ -1,0 +1,19 @@
+.record-tree-view {
+  text-align: left;
+  font-size: 13px;
+  overflow: hidden;
+  user-select: none;
+  padding-top: 24px;
+
+  tree-nodes {
+    min-width: 300px;
+
+    > div {
+      overflow: scroll;
+    }
+
+    .element-unassigned {
+      color: #aaa;
+    }
+  }
+}
