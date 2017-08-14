@@ -88,3 +88,9 @@ xelib.GetSignatureAllowed = function(_id, signature) {
             Fail(`Failed to check if signature ${signature} is allowed on ${_id}`);
     });
 };
+xelib.IsFlags = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.IsFlags(_id, _bool))
+            Fail(`Failed to check if element ${_id} is flags.`);
+    });
+};
