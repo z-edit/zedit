@@ -95,5 +95,31 @@ ngapp.service('recordTreeService', function() {
                 return scope.buildStructNodes(node.handles, node.depth, names);
             }
         };
+
+        scope.expandAllNodes = function() {
+            let i = 0,
+                len = scope.tree.length;
+            while (i < len) {
+                let node = scope.tree[i];
+                if (node.can_expand) {
+                    scope.expandNode(node);
+                    len = scope.tree.length;
+                }
+                i++;
+            }
+        };
+
+        scope.collapseAllNodes = function() {
+            let i = 0,
+                len = scope.tree.length;
+            while (i < len) {
+                let node = scope.tree[i];
+                if (node.expanded) {
+                    scope.collapseNode(node);
+                    len = scope.tree.length;
+                }
+                i++;
+            }
+        }
     };
 });
