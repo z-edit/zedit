@@ -90,8 +90,7 @@ ngapp.service('treeService', function() {
 
         scope.resolveTreeElement = function() {
             let tabView = element[0].nextElementSibling;
-            let treeNodes = tabView.lastElementChild;
-            scope.treeElement = treeNodes.firstElementChild;
+            scope.treeElement = tabView.lastElementChild;
         };
     }
 });
