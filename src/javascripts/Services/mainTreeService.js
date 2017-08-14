@@ -72,12 +72,19 @@ ngapp.service('mainTreeService', function() {
         scope.buildColumnValues = function(node) {
             node.column_values = scope.columns.map(function(column) {
                 try {
-                    return column.getData(node, xelib) || "";
+                    return { value: column.getData(node, xelib) || '' };
                 } catch (x) {
                     console.log(x);
-                    return "";
+                    return { value: '' };
                 }
-            }).trimFalsy();
+            });
+            for (let i = node.column_values.length - 1; i > 0; i--) {
+                if (node.column_values[i].value) {
+                    break;
+                } else {
+                    node.column_values.pop();
+                }
+            }
         };
 
         scope.getNodeData = function(node) {
