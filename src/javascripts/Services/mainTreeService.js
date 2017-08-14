@@ -60,12 +60,12 @@ ngapp.service('mainTreeService', function() {
             console.log(`Rebuilt tree (${scope.tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
-        scope.getChildrenCount = function(node) {
+        scope.getCanExpand = function(node) {
             if (node.element_type === xelib.etMainRecord) {
                 let childGroup = xelib.GetElement(node.handle, 'Child Group', true);
-                node.children_count = childGroup && xelib.ElementCount(childGroup);
+                node.can_expand = childGroup && xelib.ElementCount(childGroup) > 0;
             } else {
-                node.children_count = xelib.ElementCount(node.handle);
+                node.can_expand = xelib.ElementCount(node.handle) > 0;
             }
         };
 
@@ -87,9 +87,8 @@ ngapp.service('mainTreeService', function() {
                 node.fid = xelib.GetFormID(node.handle);
             }
             scope.getNodeClass(node);
-            scope.getChildrenCount(node);
+            scope.getCanExpand(node);
             scope.buildColumnValues(node);
-            return node;
         };
 
         scope.buildNode = function(handle, depth) {

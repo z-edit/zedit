@@ -11,19 +11,18 @@ ngapp.service('treeService', function() {
         };
 
         scope.expandNode = function(node) {
-            if (!node.children_count) return;
+            if (!node.can_expand) return;
             let start = Date.now();
             node.expanded = true;
             let children = scope.buildNodes(node);
             let childrenLength = children.length;
             if (childrenLength > 0) {
-                node.children_count = childrenLength;
                 children.forEach((child) => child.parent = node);
                 let insertionIndex = scope.tree.indexOf(node) + 1;
                 scope.tree.splice(insertionIndex, 0, ...children);
                 console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
             } else {
-                node.children_count = 0;
+                node.can_expand = false;
                 node.expanded = false;
             }
         };
