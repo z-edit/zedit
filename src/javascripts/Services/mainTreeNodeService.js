@@ -4,17 +4,14 @@ ngapp.service('mainTreeNodeService', function() {
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
 
         scope.getNodeStatus = function(node) {
-            let status = {
-                modified: false //xelib.GetModified(handle)
-            };
+            let classes = [];
+            //if (xelib.GetModified(node.handle)) classes.push('modified');
             if (node.element_type === xelib.etMainRecord) {
-                status.override = xelib.IsOverride(node.handle);
-                status.injected = xelib.IsInjected(node.handle);
-                let conflictThis = xelib.ConflictThis(node.handle);
-                let conflictAll = xelib.ConflictAll(node.handle);
-                status.conflictClass = `${ctClasses[conflictThis]} ${caClasses[conflictAll]}`;
+                if (xelib.IsInjected(node.handle)) classes.push('injected');
+                classes.push(ctClasses[xelib.ConflictThis(node.handle)]);
+                classes.push(caClasses[xelib.ConflictAll(node.handle)]);
             }
-            node.status = status;
+            node.status = classes.join(' ');
         };
 
         scope.getChildrenCount = function(node) {
@@ -42,7 +39,6 @@ ngapp.service('mainTreeNodeService', function() {
             node.has_data = true;
             if (node.element_type === xelib.etMainRecord) {
                 node.fid = xelib.GetFormID(node.handle);
-                node.is_record = true;
             }
             scope.getNodeStatus(node);
             scope.getChildrenCount(node);
