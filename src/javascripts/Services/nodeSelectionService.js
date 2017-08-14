@@ -48,10 +48,10 @@ ngapp.service('nodeSelectionService', function() {
 
         var persistRange = function(start, end) {
             if (start > lastRange[0]) {
-                scope.selectSingle(scope.data.tree[lastRange[0]], false, false);
+                scope.selectSingle(scope.data.tree[lastRange[0]], false, false, false);
             }
             if (end < lastRange[1]) {
-                scope.selectSingle(scope.data.tree[lastRange[1]], false, false);
+                scope.selectSingle(scope.data.tree[lastRange[1]], false, false, false);
             }
         };
 
@@ -68,14 +68,14 @@ ngapp.service('nodeSelectionService', function() {
                 for (let i = i2; i >= i1; i--) {
                     let node = scope.data.tree[i];
                     if (node.depth === targetDepth) {
-                        scope.selectSingle(node, true, false);
+                        scope.selectSingle(node, true, false, false);
                     }
                 }
             } else {
                 for (let i = i2; i <= i1; i++) {
                     let node = scope.data.tree[i];
                     if (node.depth === targetDepth) {
-                        scope.selectSingle(node, true, false);
+                        scope.selectSingle(node, true, false, false);
                     }
                 }
             }
