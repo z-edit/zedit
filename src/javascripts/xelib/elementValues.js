@@ -83,7 +83,7 @@ xelib.GetFlag = function(_id, path, name) {
             Fail(`Failed to get flag value at: ${flagContext(_id, path, name)}`);
     });
 };
-xelib.GetEnabledFlags = function(_id, path) {
+xelib.GetEnabledFlags = function(_id, path = '') {
     return GetString(function(_len) {
         if (!lib.GetEnabledFlags(_id, wcb(path), _len))
             Fail(`Failed to get enabled flags at: ${elementContext(_id, path)}`);

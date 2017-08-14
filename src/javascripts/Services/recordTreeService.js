@@ -30,8 +30,9 @@ ngapp.service('recordTreeService', function() {
         scope.buildCells = function(node) {
             node.cells = [{value: node.label}];
             node.handles.forEach(function(handle) {
+                let value = handle && (node.isFlags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true));
                 node.cells.push({
-                    value: handle ? xelib.GetValue(handle, '', true) : '',
+                    value: value || '',
                     //class: handle ? ctClasses[xelib.ConflictThis(handle)] : ''
                 });
             });
@@ -45,17 +46,19 @@ ngapp.service('recordTreeService', function() {
 
         scope.buildStructNode = function(parentHandles, depth, name) {
             let handles = parentHandles.map(function(handle) {
-                return xelib.GetElement(handle, name, true);
-            });
-            let firstHandle = handles.find((handle) => { return handle > 0; });
-            let defType = firstHandle && xelib.DefType(firstHandle);
+                    return handle ? xelib.GetElement(handle, name, true) : 0;
+                }),
+                firstHandle = handles.find((handle) => { return handle > 0; }),
+                defType = firstHandle && xelib.DefType(firstHandle),
+                isFlags = defType == xelib.dtInteger && xelib.IsFlags(firstHandle);
             return {
                 label: name,
                 def_type: defType,
+                isFlags: isFlags,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
-                can_expand: firstHandle && xelib.ElementCount(firstHandle) > 0,
+                can_expand: firstHandle && !isFlags && xelib.ElementCount(firstHandle),
                 depth: depth + 1
             }
         };
@@ -67,9 +70,9 @@ ngapp.service('recordTreeService', function() {
         };
 
         scope.buildArrayNode = function(depth, baseName, elementArrays, i) {
-            let handles = elementArrays.map((a) => { return a[i] || 0 });
-            let firstHandle = handles.find((handle) => { return handle > 0; });
-            let defType = firstHandle && xelib.DefType(firstHandle);
+            let handles = elementArrays.map((a) => { return a[i] || 0 }),
+                firstHandle = handles.find((handle) => { return handle > 0; }),
+                defType = firstHandle && xelib.DefType(firstHandle);
             return {
                 label: `[${i}] ${baseName}`,
                 def_type: defType,
@@ -82,10 +85,10 @@ ngapp.service('recordTreeService', function() {
 
         scope.buildArrayNodes = function(handles, depth, baseName) {
             let elementArrays = handles.map(function(handle) {
-                return handle ? xelib.GetElements(handle) : [];
-            });
-            let maxLen = getMaxLength(elementArrays);
-            let nodes = [];
+                    return handle ? xelib.GetElements(handle) : [];
+                }),
+                maxLen = getMaxLength(elementArrays),
+                nodes = [];
             for (let i = 0; i < maxLen; i++) {
                 nodes.push(scope.buildArrayNode(depth, baseName, elementArrays, i));
             }
