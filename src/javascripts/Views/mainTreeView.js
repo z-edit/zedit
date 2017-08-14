@@ -62,5 +62,5 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     $scope.sort = { column: 'FormID', reverse: false };
     $scope.buildColumns();
     $scope.buildTree();
-    $timeout($scope.resolveTreeElement, 20);
+    $timeout($scope.resolveTreeElement, 100);
 };
