@@ -1,6 +1,15 @@
 loading-modal {
   color: #fff;
 
+  .modal-container {
+    background-color: rgba(0, 0, 0, 0.6);
+
+    .modal {
+      background: none;
+      box-shadow: none;
+    }
+  }
+
   .loading-content {
     margin-top: 16px;
     font-size: 20px;
