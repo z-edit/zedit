@@ -48,6 +48,10 @@ search-bar {
     padding: 0 4px;
   }
 
+  > select {
+    min-width: 85px;
+  }
+
   .close-bar {
     flex-grow: 1;
     text-align: right;
