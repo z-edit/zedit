@@ -22,10 +22,10 @@ ngapp.directive('splitBar', function () {
 
             // event handlers
             let handleMouseMove = function(e) {
-                let paneElement = element[0].previousElementSibling,
-                    percentage = (e[clientLabel] - paneElement[offsetLabel]) / (container[sizeLabel] - scope.offset),
+                let sizeElement = element[0].previousElementSibling,
+                    percentage = (e[clientLabel] - sizeElement[offsetLabel] - container[offsetLabel]) / (container[sizeLabel] - scope.offset),
                     width = Math.min(percentage, 1.0).toPercentage(1);
-                paneElement.style[targetDimension] = width;
+                sizeElement.style[targetDimension] = width;
                 scope.resizeCallback && scope.resizeCallback(scope.$index, width);
             };
             let handleMouseDown = function(e) {
