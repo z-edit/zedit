@@ -34,7 +34,7 @@ xelib.RemoveElementOrParent = function(_id) {
     if (!lib.RemoveElementOrParent(_id))
         Fail(`Failed to remove element ${_id}`);
 };
-xelib.GetElements = function(_id, path = '', sort = false) {
+xelib.GetElements = function(_id = 0, path = '', sort = false) {
     return GetArray(function(_len) {
         if (!lib.GetElements(_id, wcb(path), sort, _len))
             Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
