@@ -3,6 +3,7 @@ ngapp.service('recordTreeService', function() {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
+        let arrayTypes = [xelib.dtSubRecordArray, xelib.dtArray];
 
         // helper functions
         let getMaxLength = function(arrays) {
@@ -47,8 +48,10 @@ ngapp.service('recordTreeService', function() {
                 return xelib.GetElement(handle, name, true);
             });
             let firstHandle = handles.find((handle) => { return handle > 0; });
+            let defType = firstHandle && xelib.DefType(firstHandle);
             return {
                 label: name,
+                def_type: defType,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
@@ -66,11 +69,13 @@ ngapp.service('recordTreeService', function() {
         scope.buildArrayNode = function(depth, baseName, elementArrays, i) {
             let handles = elementArrays.map((a) => { return a[i] || 0 });
             let firstHandle = handles.find((handle) => { return handle > 0; });
+            let defType = firstHandle && xelib.DefType(firstHandle);
             return {
                 label: `[${i}] ${baseName}`,
+                def_type: defType,
                 handles: handles,
                 first_handle: firstHandle,
-                can_expand: xelib.ElementCount(firstHandle) > 0,
+                can_expand: firstHandle && xelib.ElementCount(firstHandle) > 0,
                 depth: depth + 1
             }
         };
@@ -89,7 +94,7 @@ ngapp.service('recordTreeService', function() {
 
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
-            if (node.is_array) {
+            if (arrayTypes.contains(node.def_type)) {
                 return scope.buildArrayNodes(node.handles, node.depth, names[0]);
             } else {
                 return scope.buildStructNodes(node.handles, node.depth, names);
