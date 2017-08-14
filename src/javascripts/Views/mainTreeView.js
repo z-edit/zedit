@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeNodeService, nodeSelectionService, treeColumnService) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -8,7 +8,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
 
     // inherited functions
     treeService.buildFunctions($scope);
-    mainTreeNodeService.buildFunctions($scope);
+    mainTreeService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
 
