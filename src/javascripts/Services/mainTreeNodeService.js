@@ -101,7 +101,7 @@ ngapp.service('mainTreeNodeService', function() {
 
         scope.buildNodes = function(node) {
             let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '';
-            return xelib.GetElements(node.handle, path).map(function(handle) {
+            return xelib.GetElements(node.handle, path, true).map(function(handle) {
                 return scope.buildNode(handle, node.depth);
             });
         };

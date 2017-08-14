@@ -28,7 +28,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
 
     $scope.buildTree = function() {
         xelib.SetSortMode($scope.sort.column, $scope.sort.reverse);
-        $scope.tree = xelib.GetElements(0, '').map(function(handle) {
+        $scope.tree = xelib.GetElements(0, '', true).map(function(handle) {
             return $scope.buildNode(handle, -1);
         });
     };
