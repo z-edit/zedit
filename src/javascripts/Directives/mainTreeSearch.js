@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xelibService) {
+ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
     // helper variables
     let enterKey = 13;
     let escapeKey = 27;
@@ -44,7 +44,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, xeli
                 currentNode = $scope.lastSelectedNode(),
                 currentFile = currentNode && xelib.GetElementFile(currentNode.handle),
                 currentNodeIsFile = currentNode.element_type === xelib.etFile;
-            xelibService.withElements(0, '', function(files) {
+            xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
                 let startIndex = getStartIndex(files, currentFile, reverse, currentNodeIsFile);
                 for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
                     if ($scope.cancelled) return;
