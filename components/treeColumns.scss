@@ -39,4 +39,17 @@
       margin-left: 6px;
     }
   }
+
+  .column-action {
+    font: 16px FontAwesome;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 3px 6px 4px;
+
+    &:hover {
+      color: crimson;
+    }
+  }
 }

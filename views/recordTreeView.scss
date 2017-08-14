@@ -15,15 +15,18 @@
   }
 
   .expand-all-nodes {
-    font-size: 16px;
-    cursor: pointer;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 2px 8px;
+    right: 20px;
 
-    &:hover {
-      color: crimson;
+    &::before {
+      content: "\f0fe";
+    }
+  }
+
+  .collapse-all-nodes {
+    padding-left: 4px;
+
+    &::before {
+      content: "\f146";
     }
   }
 }
