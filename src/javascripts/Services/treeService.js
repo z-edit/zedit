@@ -11,7 +11,7 @@ ngapp.service('treeService', function($timeout) {
         };
 
         scope.expandNode = function(node) {
-            if (!node.can_expand) return;
+            if (!node.can_expand || node.expanded) return;
             let start = Date.now();
             node.expanded = true;
             let children = scope.buildNodes(node);
@@ -28,7 +28,8 @@ ngapp.service('treeService', function($timeout) {
         };
 
         scope.collapseNode = function(node) {
-            if (node.expanded) delete node.expanded;
+            if (!node.expanded) return;
+            delete node.expanded;
             let startIndex = scope.tree.indexOf(node) + 1,
                 endIndex = startIndex;
             for (; endIndex < scope.tree.length; endIndex++) {
