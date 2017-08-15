@@ -1,12 +1,6 @@
 ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
     // helper variables
-    let enterKey = 13;
-    let escapeKey = 27;
-    let aKey = 65;
-    let eKey = 69;
-    let fKey = 70;
-    let nKey = 78;
-    let xKey = 88;
+    let enterKey = 13, escapeKey = 27, aKey = 65, eKey = 69, fKey = 70, nKey = 78, xKey = 88;
     let searchOptionKeys = [fKey, eKey, nKey, aKey];
 
     // scope variables
@@ -61,18 +55,18 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
     let findPartialMatch = function(search, byName, reverse) {
         let action = $q.defer();
         $timeout(function() {
-            let functionName = `Find${(reverse ? 'Previous' : 'Next')}Record`;
-            let node = $scope.lastSelectedNode();
-            let handle = node ? node.handle : 0;
-            let result = xelib[functionName](handle, search, !byName, byName, true);
+            let functionName = `Find${(reverse ? 'Previous' : 'Next')}Record`,
+                node = $scope.lastSelectedNode(),
+                handle = node ? node.handle : 0,
+                result = xelib[functionName](handle, search, !byName, byName, true);
             action.resolve(result);
         }, 100);
         return action.promise;
     };
 
     let findElement = function(reverse) {
-        let byName = $scope.searchOptions.searchBy == 2;
-        let search = $scope.search;
+        let byName = $scope.searchOptions.searchBy == 2,
+            search = $scope.search;
         // search by FormID is always exact
         if ($scope.searchOptions.exact) {
             // search by FormID uses the same syntax as search by EditorID

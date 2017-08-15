@@ -4,8 +4,8 @@ ngapp.service('treeService', function($timeout) {
         scope.getNodeForElement = function(handle) {
             let handles = xelib.GetDuplicateHandles(handle);
             for (let i = 0; i < handles.length; i++) {
-                let h = handles[i];
-                let newNode = scope.tree.find((node) => { return node.handle == h; });
+                let h = handles[i],
+                    newNode = scope.tree.find((node) => { return node.handle == h; });
                 if (newNode) return newNode;
             }
         };
@@ -14,8 +14,8 @@ ngapp.service('treeService', function($timeout) {
             if (!node.can_expand || node.expanded) return;
             let start = Date.now();
             node.expanded = true;
-            let children = scope.buildNodes(node);
-            let childrenLength = children.length;
+            let children = scope.buildNodes(node),
+                childrenLength = children.length;
             if (childrenLength > 0) {
                 children.forEach((child) => child.parent = node);
                 let insertionIndex = scope.tree.indexOf(node) + 1;
@@ -67,9 +67,9 @@ ngapp.service('treeService', function($timeout) {
         };
 
         scope.focusSearchInput = function() {
-            let tabView = element[0].nextElementSibling;
-            let searchBar = tabView.firstElementChild;
-            let searchInput = searchBar.firstElementChild;
+            let tabView = element[0].nextElementSibling,
+                searchBar = tabView.firstElementChild,
+                searchInput = searchBar.firstElementChild;
             searchInput.focus();
         };
 
