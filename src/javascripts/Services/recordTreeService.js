@@ -99,6 +99,7 @@ ngapp.service('recordTreeService', function(layoutService) {
 
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
+            if (!names[0].length) return [];
             if (node.is_array) {
                 return scope.buildArrayNodes(node.handles, node.depth, names[0]);
             } else {
