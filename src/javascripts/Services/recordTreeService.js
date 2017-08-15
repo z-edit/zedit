@@ -30,7 +30,7 @@ ngapp.service('recordTreeService', function() {
         scope.buildCells = function(node) {
             node.cells = [{value: node.label}];
             node.handles.forEach(function(handle) {
-                let value = handle && (node.isFlags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true));
+                let value = handle && (node.is_flags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true));
                 node.cells.push({
                     value: value || '',
                     //class: handle ? ctClasses[xelib.ConflictThis(handle)] : ''
@@ -50,11 +50,13 @@ ngapp.service('recordTreeService', function() {
                 }),
                 firstHandle = handles.find((handle) => { return handle > 0; }),
                 defType = firstHandle && xelib.DefType(firstHandle),
-                isFlags = defType == xelib.dtInteger && xelib.IsFlags(firstHandle);
+                isFlags = defType == xelib.dtInteger && xelib.IsFlags(firstHandle),
+                isArray = arrayTypes.contains(defType);
             return {
                 label: name,
                 def_type: defType,
-                isFlags: isFlags,
+                is_flags: isFlags,
+                is_array: isArray,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
@@ -97,7 +99,7 @@ ngapp.service('recordTreeService', function() {
 
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
-            if (arrayTypes.contains(node.def_type)) {
+            if (node.is_array) {
                 return scope.buildArrayNodes(node.handles, node.depth, names[0]);
             } else {
                 return scope.buildStructNodes(node.handles, node.depth, names);
