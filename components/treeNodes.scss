@@ -23,13 +23,28 @@
       font: 14px FontAwesome;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
+      position: relative;
+      color: #000;
 
-      &.expanded::before {
-        content: "\f147";
+      &::before {
+        content: ' ';
+        width: 9px;
+        height: 9px;
+        display: block;
+        position: absolute;
+        top: 2px;
+        right: 1px;
+        background: #fff;
       }
 
-      &.collapsed::before {
+      &.expanded::after {
+        content: "\f147";
+        position: relative;
+      }
+
+      &.collapsed::after {
         content: "\f196";
+        position: relative;
       }
     }
 
