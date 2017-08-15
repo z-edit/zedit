@@ -15,7 +15,7 @@
                 <span class="placeholder" ng-if="::!node.can_expand"></span>
             </span>
             {{::cell.value}}
-            <span ng-if="::!$first" class="action-buttons">
+            <!--<span ng-if="::!$first" class="action-buttons">
                 <span ng-if="::node.is_array">
                     <span class="add-element" ng-click="addElement(node, $index - 1)">Add</span><span ng-if="node.handles[$index - 1]" class="remove-element" ng-click="removeElement(node, $index - 1)">Remove</span>
                 </span>
@@ -23,7 +23,7 @@
                     <span ng-if="!node.handles[$index - 1]" class="add-element" ng-click="addElement(node, $index - 1)">Add</span>
                     <span ng-if="node.can_expand && node.handles[$index - 1]" class="remove-element">Remove</span>
                 </span>
-            </span>
+            </span>-->
         </span>
     </div>
 </div>
