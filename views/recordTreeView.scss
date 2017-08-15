@@ -30,3 +30,29 @@
     }
   }
 }
+
+.node {
+  .column:hover {
+    .action-buttons {
+      opacity: 1.0;
+    }
+  }
+
+  .action-buttons {
+    opacity: 0;
+    -webkit-transition: opacity 0.1s ease-in-out;
+    margin-left: -4px;
+
+    .add-element {
+      color: darkblue;
+      cursor: pointer;
+      padding: 1px 4px;
+    }
+
+    .remove-element {
+      color: crimson;
+      cursor: pointer;
+      padding: 1px 4px;
+    }
+  }
+}
