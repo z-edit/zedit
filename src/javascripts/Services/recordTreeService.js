@@ -1,4 +1,4 @@
-ngapp.service('recordTreeService', function() {
+ngapp.service('recordTreeService', function(layoutService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
@@ -130,6 +130,15 @@ ngapp.service('recordTreeService', function() {
                 }
                 i++;
             }
-        }
+        };
+
+        scope.linkToMainTreeView = function() {
+            let mainTreeView = layoutService.findView(function(view) {
+                return view.class === 'main-tree-view';
+            });
+            if (!mainTreeView.data.linkedScope) {
+                mainTreeView.data.linkedScope = scope;
+            }
+        };
     };
 });

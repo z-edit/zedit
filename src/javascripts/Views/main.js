@@ -14,7 +14,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     xelibService.printGlobals();
 
     // load default layout
-    $scope.mainPane = layoutService.getDefaultLayout();
+    $scope.mainPane = layoutService.buildDefaultLayout();
 
     // scope functions
     $scope.toggleSettingsModal = function(visible) {

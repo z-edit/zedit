@@ -10,9 +10,24 @@ ngapp.service('layoutService', function(viewFactory) {
         }
     };
 
-    this.getDefaultLayout = function() {
-        let layout = angular.copy(defaultLayout);
-        service.buildPane(layout);
-        return layout;
-    }
+    this.buildDefaultLayout = function() {
+        service.layout = angular.copy(defaultLayout);
+        service.buildPane(service.layout);
+        return service.layout;
+    };
+
+    this.findView = function(callback) {
+        let view = undefined,
+            findPane = function(pane) {
+                for (let i = 0; i < pane.tabs.length; i++) {
+                    if (callback(pane.tabs[i])) {
+                        view = pane.tabs[i];
+                        return true;
+                    }
+                }
+                return pane.panes.find(findPane);
+            };
+        service.layout.panes.find(findPane);
+        return view;
+    };
 });

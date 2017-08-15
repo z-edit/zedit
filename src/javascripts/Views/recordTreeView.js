@@ -51,10 +51,11 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     // TODO: $scope.navigateToElement
 
     // initialization
-    $scope.$watch('record', function(oldValue, newValue) {
+    $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue && oldValue !== newValue) xelib.Release(oldValue);
         overrides.forEach(xelib.Release);
         overrides = [];
+        if (!$scope.record) return;
         if (!xelib.IsMaster($scope.record)) {
             $scope.record = xelib.GetMaster($scope.record);
         } else {
@@ -65,5 +66,5 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
 
     $timeout($scope.resolveTreeElement, 100);
     $scope.autoExpand = true;
-    $scope.record = xelib.GetElement(0, 'Skyrim.esm\\00012E46'); // TODO: remove this
+    $timeout($scope.linkToMainTreeView, 100);
 };

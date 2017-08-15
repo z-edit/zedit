@@ -58,6 +58,15 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         }
     };
 
+    $scope.dblClickNode = function(node) {
+        if (node.element_type !== xelib.etMainRecord) return;
+        if (data.linkedScope) {
+            // we do this to get a new handle for the record to be used
+            // with the record view
+            data.linkedScope.record = xelib.GetElement(node.handle);
+        }
+    };
+
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };
     $scope.buildColumns();
