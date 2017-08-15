@@ -54,7 +54,7 @@ ngapp.service('treeService', function($timeout) {
             } else {
                 scope.expandNode(node);
             }
-            e.stopPropagation();
+            e && e.stopPropagation();
         };
 
         let scrollbarWidth = 17;
