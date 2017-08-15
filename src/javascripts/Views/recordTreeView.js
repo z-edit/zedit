@@ -50,6 +50,11 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     // TODO: $scope.resolveNode
     // TODO: $scope.navigateToElement
 
+    $scope.handleEnter = function(e) {
+        // TODO
+        e.stopPropagation();
+    };
+
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue && oldValue !== newValue) xelib.Release(oldValue);

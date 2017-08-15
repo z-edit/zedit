@@ -68,6 +68,11 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         }
     };
 
+    $scope.handleEnter = function(e) {
+        $scope.dblClickNode($scope.lastSelectedNode());
+        e.stopPropagation();
+    };
+
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };
     $scope.buildColumns();
