@@ -44,6 +44,7 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     $scope.buildTree = function() {
         let names = xelib.GetDefNames($scope.record);
         let handles = $scope.columns.map((column) => { return column.handle; });
+        $scope.virtualNodes = xelib.GetNodes($scope.record);
         $scope.tree = $scope.buildStructNodes(handles.slice(1), -1, names);
     };
 
@@ -57,7 +58,11 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
 
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
-        if (oldValue && oldValue !== newValue) xelib.Release(oldValue);
+        if (oldValue == newValue) return;
+        if (oldValue) {
+            xelib.Release(oldValue);
+            xelib.ReleaseNodes($scope.virtualNodes);
+        }
         overrides.forEach(xelib.Release);
         overrides = [];
         if (!$scope.record) return;
