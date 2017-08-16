@@ -35,7 +35,7 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             if (!rule) {
                 stylesheetService.makeRule(selector, `min-width: ${width}px;`);
             } else {
-                rule.style["min-width"] = width;
+                rule.style["min-width"] = `${width}px`;
             }
         };
 
