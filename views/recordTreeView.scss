@@ -6,8 +6,7 @@
   padding-top: 24px;
 
   .tree-nodes {
-    min-width: 300px;
-    overflow: scroll;
+    overflow-y: scroll;
 
     .element-unassigned {
       color: #aaa;
@@ -27,6 +26,42 @@
 
     &::before {
       content: "\f146";
+    }
+  }
+
+  .tree-columns, .node {
+    .column:last-of-type {
+      flex: 0;
+    }
+  }
+
+  .column-wrapper {
+    overflow-x: scroll;
+    white-space: nowrap;
+    margin-top: -24px;
+
+    .tree-columns {
+      margin-top: 0;
+    }
+
+    .column-0 {
+      z-index: 2;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .column-0 {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+  }
+
+  .node.selected {
+    .column-0 {
+      background-color: #e5f2ff;
     }
   }
 }
