@@ -107,7 +107,7 @@ var GetStringValue = function(_id, method) {
 };
 
 var GetEnumValue = function(_id, method, enums) {
-    var _res = createTypedBuffer(4, PByte);
+    var _res = createTypedBuffer(1, PByte);
     if (!lib[method](_id, _res))
         Fail(`${method} failed on ${_id}`);
     let n = _res.readUInt8(0);
