@@ -33,6 +33,10 @@ xelib.Release = function(_id) {
     if (!lib.Release(_id))
         Fail(`Failed to release interface #${_id}`);
 };
+xelib.ReleaseNodes = function(_id) {
+    if (!lib.ReleaseNodes(_id))
+        Fail(`Failed to release nodes #${_id}`);
+};
 xelib.Switch = function(_id, _id2) {
     if (!lib.Switch(_id, _id2))
         Fail(`Failed to switch interface #${_id} and #${_id2}`);

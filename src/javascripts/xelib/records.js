@@ -68,9 +68,26 @@ xelib.IsOverride = function(_id) {
 xelib.IsWinningOverride = function(_id) {
     return GetBoolValue(_id, "IsWinningOverride");
 };
-xelib.ConflictThis = function(_id, asString = false) {
-    return GetEnumValue(_id, 'ConflictThis', asString && conflictThis);
+xelib.GetNodes = function(_id) {
+    return GetHandle(function(_res) {
+        if (!lib.GetNodes(_id, _res))
+            Fail(`Failed to get nodes for ${_id}`);
+    });
 };
-xelib.ConflictAll = function(_id, asString = false) {
-    return GetEnumValue(_id, 'ConflictAll', asString && conflictAll);
+xelib.GetConflictData = function(_id1, _id2, asString = false) {
+    let _res1 = createTypedBuffer(1, PByte),
+        _res2 = createTypedBuffer(1, PByte);
+    if (!lib.GetConflictData(_id1, _id2, _res1, _res2))
+        Fail(`GetConflictData failed on ${_id1}, ${_id2}`);
+    let n1 = _res1.readUInt8(0),
+        n2 = _res2.readUInt8(0);
+    return asString ? [conflictAll[n1], conflictThis[n2]] : [n1, n2];
+};
+xelib.GetRecordConflictData = function(_id) {
+    let nodes = xelib.GetNodes(_id);
+    try {
+        return xelib.GetConflictData(nodes, _id);
+    } finally {
+        xelib.ReleaseNodes(nodes);
+    }
 };
