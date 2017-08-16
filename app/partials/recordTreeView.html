@@ -1,15 +1,17 @@
 <search-bar ng-if="showSearch" ng-controller="recordTreeSearchController"></search-bar>
-<div class="tree-columns">
-    <span ng-repeat-start="column in columns" class="column column-{{::$index}}">
-        {{::column.label}}
-        <div ng-if="::$first" class="column-action expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes"></div>
-        <div ng-if="::$first" class="column-action collapse-all-nodes" ng-click="collapseAllNodes()" title="Collapse all nodes"></div>
-    </span>
-    <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
+<div class="column-wrapper">
+    <div class="tree-columns fix-width">
+        <span ng-repeat-start="column in columns" class="column column-{{::$index}}">
+            {{::column.label}}
+            <div ng-if="::$first" class="column-action expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes"></div>
+            <div ng-if="::$first" class="column-action collapse-all-nodes" ng-click="collapseAllNodes()" title="Collapse all nodes"></div>
+        </span>
+        <split-bar ng-repeat-end mode="1" resize-callback="columnResized"></split-bar>
+    </div>
 </div>
-<div class="tree-nodes" tabindex="0" ng-keydown="onKeyDown($event)" ng-mousedown="treeMouseDown($event)" vs-repeat>
-    <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="node {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
-        <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}}">
+<div class="tree-nodes" tabindex="0" ng-keydown="onKeyDown($event)" ng-mousedown="treeMouseDown($event)" ng-scroll="onScroll($event)" vs-repeat>
+    <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="node fix-width {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
+        <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}} {{::$index == 0 && node.class}}">
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
                 <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="::node.can_expand"></span>
                 <span class="placeholder" ng-if="::!node.can_expand"></span>
