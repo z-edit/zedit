@@ -29,13 +29,13 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
         },{
             label: getRecordFileName($scope.record),
             handle: $scope.record,
-            width: '350px'
+            width: '300px'
         }];
         xelib.GetOverrides($scope.record).forEach(function(override) {
             $scope.columns.push({
                 label: getRecordFileName(override),
                 handle: override,
-                width: '350px'
+                width: '300px'
             })
         });
         $scope.resizeColumns();
