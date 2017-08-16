@@ -32,10 +32,11 @@ ngapp.service('mainTreeService', function() {
         scope.getNodeClass = function(node) {
             let classes = [];
             //if (xelib.GetModified(node.handle)) classes.push('modified');
-            if (node.element_type === xelib.etMainRecord) {
+            if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                 if (xelib.IsInjected(node.handle)) classes.push('injected');
-                classes.push(ctClasses[xelib.ConflictThis(node.handle)]);
-                classes.push(caClasses[xelib.ConflictAll(node.handle)]);
+                let conflictData = xelib.GetRecordConflictData(node.handle);
+                classes.push(caClasses[conflictData[0]]);
+                classes.push(ctClasses[conflictData[1]]);
             }
             node.class = classes.join(' ');
         };
