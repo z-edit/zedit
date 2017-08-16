@@ -29,6 +29,7 @@ try {
         'GetGlobals': [WordBool, [PInteger]],
         'SetSortMode': [WordBool, [Byte, WordBool]],
         'Release': [WordBool, [Cardinal]],
+        'ReleaseNodes': [WordBool, [Cardinal]],
         'Switch': [WordBool, [Cardinal, Cardinal]],
         'GetDuplicateHandles': [WordBool, [Cardinal, PInteger]],
         'ResetStore': [WordBool, []],
@@ -138,8 +139,8 @@ try {
         'IsInjected': [WordBool, [Cardinal, PWordBool]],
         'IsOverride': [WordBool, [Cardinal, PWordBool]],
         'IsWinningOverride': [WordBool, [Cardinal, PWordBool]],
-        'ConflictThis': [WordBool, [Cardinal, PByte]],
-        'ConflictAll': [WordBool, [Cardinal, PByte]]
+        'GetNodes': [WordBool, [Cardinal, PCardinal]],
+        'GetConflictData': [WordBool, [Cardinal, Cardinal, PByte, PByte]]
     });
 } catch (x) {
     alert('The required file XEditLib.dll was not found.  Please try re-installing the application.');
