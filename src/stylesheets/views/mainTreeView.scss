@@ -7,7 +7,12 @@
 
   .tree-nodes {
     min-width: 400px;
+    padding-right: 16px;
     overflow-y: scroll;
+
+    .column {
+      min-width: 100px;
+    }
   }
 
   .edit-columns {
