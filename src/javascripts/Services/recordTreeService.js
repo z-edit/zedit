@@ -20,7 +20,7 @@ ngapp.service('recordTreeService', function(layoutService) {
             let classes = [];
             if (node.first_handle) {
                 //if (xelib.GetModified(node.first_handle)) classes.push('modified');
-                let conflictData = xelib.GetConflictData(scope.virtualNodes, node.first_handle);
+                let conflictData = xelib.GetConflictData(scope.virtualNodes, node.first_handle, false, true);
                 classes.push(`${caClasses[conflictData[0]]}`);
             } else {
                 classes.push('element-unassigned');
@@ -32,7 +32,7 @@ ngapp.service('recordTreeService', function(layoutService) {
             node.cells = [{value: node.label}];
             node.handles.forEach(function(handle) {
                 let value = handle && (node.is_flags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true));
-                let conflictData = handle && xelib.GetConflictData(scope.virtualNodes, handle);
+                let conflictData = handle && xelib.GetConflictData(scope.virtualNodes, handle, false, true);
                 node.cells.push({
                     value: value || '',
                     class: handle ? ctClasses[conflictData[1]] : ''

@@ -74,11 +74,13 @@ xelib.GetNodes = function(_id) {
             Fail(`Failed to get nodes for ${_id}`);
     });
 };
-xelib.GetConflictData = function(_id1, _id2, asString = false) {
+xelib.GetConflictData = function(_id1, _id2, asString = false, noException = false) {
     let _res1 = createTypedBuffer(1, PByte),
         _res2 = createTypedBuffer(1, PByte);
-    if (!lib.GetConflictData(_id1, _id2, _res1, _res2))
+    if (!lib.GetConflictData(_id1, _id2, _res1, _res2)) {
+        if (noException) return [0, 0];
         Fail(`GetConflictData failed on ${_id1}, ${_id2}`);
+    }
     let n1 = _res1.readUInt8(0),
         n2 = _res2.readUInt8(0);
     return asString ? [conflictAll[n1], conflictThis[n2]] : [n1, n2];
