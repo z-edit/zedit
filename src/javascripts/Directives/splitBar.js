@@ -4,10 +4,12 @@ ngapp.directive('splitBar', function () {
         template: '<div class="bar"></div>',
         scope: {
             offset: '=?',
-            resizeCallback: '=?'
+            resizeCallback: '=?',
+            mode: '=?'
         },
         link: function(scope, element) {
             angular.default(scope, 'offset', 0);
+            angular.default(scope, 'mode', 0);
             angular.inherit(scope, '$index');
 
             // helper variables
@@ -23,8 +25,9 @@ ngapp.directive('splitBar', function () {
             // event handlers
             let handleMouseMove = function(e) {
                 let sizeElement = element[0].previousElementSibling,
-                    percentage = (e[clientLabel] - sizeElement[offsetLabel] - container[offsetLabel]) / (container[sizeLabel] - scope.offset),
-                    width = Math.min(percentage, 1.0).toPercentage(1);
+                    size = e[clientLabel] - sizeElement[offsetLabel] - container[offsetLabel],
+                    ratio = size / (container[sizeLabel] - scope.offset),
+                    width = scope.mode ? Math.min(ratio, 1.0).toPercentage(1) : size + 'px';
                 sizeElement.style[targetDimension] = width;
                 scope.resizeCallback && scope.resizeCallback(scope.$index, width);
             };
