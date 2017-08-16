@@ -10,7 +10,7 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     treeService.buildFunctions($scope, $element);
     recordTreeService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
-    treeColumnService.buildFunctions($scope, '.record-tree-view', false);
+    treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
 
     // helper functions
     let getRecordFileName = function(record) {
@@ -25,17 +25,17 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     $scope.buildColumns = function() {
         $scope.columns = [{
             label: 'Element Name',
-            width: '25%'
+            width: '250px'
         },{
             label: getRecordFileName($scope.record),
             handle: $scope.record,
-            width: '40%'
+            width: '350px'
         }];
         xelib.GetOverrides($scope.record).forEach(function(override) {
             $scope.columns.push({
                 label: getRecordFileName(override),
                 handle: override,
-                width: '40%'
+                width: '350px'
             })
         });
         $scope.resizeColumns();
@@ -54,6 +54,10 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     $scope.handleEnter = function(e) {
         // TODO
         e.stopPropagation();
+    };
+
+    $scope.onScroll = function(e) {
+        $scope.columnsElement.scrollLeft = e.currentTarget.scrollLeft;
     };
 
     // initialization
