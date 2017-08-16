@@ -106,9 +106,10 @@ ngapp.service('treeService', function($timeout) {
             e.preventDefault();
         };
 
-        scope.resolveTreeElement = function() {
+        scope.resolveElements = function() {
             let tabView = element[0].nextElementSibling;
             scope.treeElement = tabView.lastElementChild;
+            scope.columnsElement = tabView.firstElementChild;
         };
     }
 });

@@ -74,7 +74,7 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
         }
     });
 
-    $timeout($scope.resolveTreeElement, 100);
+    $timeout($scope.resolveElements, 100);
     $scope.autoExpand = true;
     $timeout($scope.linkToMainTreeView, 100);
 };
