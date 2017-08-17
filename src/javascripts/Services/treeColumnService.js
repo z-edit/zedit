@@ -13,8 +13,15 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             scope.reloadNodes(reverseChanged);
         };
 
+        scope.setFirstSplitBarLeft = function(width) {
+            let selector = `${treeSelector} .first-split-bar`,
+                left = parseInt(width.slice(0, -2)) - 3;
+            stylesheetService.setProperty(selector, 'left', `${left}px`)
+        };
+
         scope.columnResized = function(index, width, skipWidth) {
             scope.columns[index].width = width;
+            if (allowOverflow && !index) scope.setFirstSplitBarLeft(width);
             if (allowOverflow && !skipWidth) scope.updateWidths();
             let selector = `${treeSelector} .column-${index}`,
                 property = allowOverflow ? 'min-width' : 'width';
