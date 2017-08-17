@@ -141,6 +141,7 @@ ngapp.service('recordTreeService', function(layoutService) {
             });
             if (!mainTreeView.data.linkedScope) {
                 mainTreeView.data.linkedScope = scope;
+                scope.linked = true;
             }
         };
     };

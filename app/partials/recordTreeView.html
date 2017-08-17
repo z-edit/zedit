@@ -1,5 +1,5 @@
 <search-bar ng-if="showSearch" ng-controller="recordTreeSearchController"></search-bar>
-<div class="column-wrapper">
+<div ng-if="record" class="column-wrapper">
     <div class="tree-columns fix-width">
         <span ng-repeat-start="column in columns" class="column column-{{::$index}}">
             {{::column.label}}
@@ -9,7 +9,7 @@
         <split-bar ng-repeat-end mode="1" resize-callback="columnResized" class="{{::$first ? 'first-split-bar' : ''}}"></split-bar>
     </div>
 </div>
-<div class="tree-nodes" tabindex="0" ng-keydown="onKeyDown($event)" ng-mousedown="treeMouseDown($event)" ng-scroll="onScroll($event)" vs-repeat>
+<div ng-if="record" class="tree-nodes" tabindex="0" ng-keydown="onKeyDown($event)" ng-mousedown="treeMouseDown($event)" ng-scroll="onScroll($event)" vs-repeat>
     <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="node fix-width {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
         <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}} {{::$index == 0 && node.class}}">
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
@@ -27,6 +27,14 @@
                 </span>
             </span>-->
         </span>
+    </div>
+</div>
+<div ng-if="!record" class="message-container">
+    <div ng-if="linked" class="pane-message">
+        Double click a record in the main tree view <b>OR</b> drag and drop a record here to view it.
+    </div>
+    <div ng-if="!linked" class="pane-message">
+        Drag and drop a record here to view it.
     </div>
 </div>
 
