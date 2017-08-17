@@ -5,9 +5,16 @@
   user-select: none;
   padding-top: 24px;
 
+  .tree-columns {
+    padding-right: 16px;
+
+    .column:last-of-type {
+      border-right: 1px solid #aaa;
+    }
+  }
+
   .tree-nodes {
     min-width: 400px;
-    padding-right: 16px;
     overflow-y: scroll;
 
     .column {
