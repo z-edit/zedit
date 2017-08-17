@@ -15,9 +15,11 @@ ngapp.directive('splitBar', function () {
             // helper variables
             let htmlElement = document.documentElement,
                 container = element[0].parentElement,
+                scrollContainer = container.parentElement,
                 vertical = container.classList.contains('vertical'),
                 targetDimension = vertical ? 'height' : 'width',
                 clientLabel = vertical ? 'clientY' : 'clientX',
+                scrollLabel = vertical ? 'scrollTop' : 'scrollLeft',
                 offsetLabel = vertical ? 'offsetTop' : 'offsetLeft',
                 sizeLabel = vertical ? 'offsetHeight' : 'offsetWidth',
                 moving = false;
@@ -25,9 +27,10 @@ ngapp.directive('splitBar', function () {
             // event handlers
             let handleMouseMove = function(e) {
                 let sizeElement = element[0].previousElementSibling,
-                    size = e[clientLabel] - sizeElement[offsetLabel] - container[offsetLabel],
+                    localOffset = e[clientLabel] + scrollContainer[scrollLabel],
+                    size = localOffset - sizeElement[offsetLabel] - container[offsetLabel],
                     ratio = size / (container[sizeLabel] - scope.offset),
-                    width = scope.mode ? Math.min(ratio, 1.0).toPercentage(1) : size + 'px';
+                    width = scope.mode ? size + 'px' :  Math.min(ratio, 1.0).toPercentage(1);
                 sizeElement.style[targetDimension] = width;
                 scope.resizeCallback && scope.resizeCallback(scope.$index, width);
             };
