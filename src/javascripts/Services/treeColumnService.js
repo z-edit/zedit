@@ -17,13 +17,8 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             scope.columns[index].width = width;
             if (allowOverflow && !skipWidth) scope.updateWidths();
             let selector = `${treeSelector} .column-${index}`,
-                rule = stylesheetService.getRule(selector),
                 property = allowOverflow ? 'min-width' : 'width';
-            if (!rule) {
-                stylesheetService.makeRule(selector, `${property}: ${width};`);
-            } else {
-                rule.style[property] = width;
-            }
+            stylesheetService.setProperty(selector, property, width);
         };
 
         scope.updateWidths = function() {
@@ -31,12 +26,7 @@ ngapp.service('treeColumnService', function(stylesheetService) {
                 return total + parseInt(column.width.slice(0, -2));
             }, 0);
             let selector = `${treeSelector} .fix-width`;
-            let rule = stylesheetService.getRule(selector);
-            if (!rule) {
-                stylesheetService.makeRule(selector, `min-width: ${width}px;`);
-            } else {
-                rule.style["min-width"] = `${width}px`;
-            }
+            stylesheetService.setProperty(selector, 'min-width', `${width}px`);
         };
 
         scope.resizeColumns = function() {
