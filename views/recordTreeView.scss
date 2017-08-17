@@ -50,6 +50,11 @@
       z-index: 2;
     }
 
+    .first-split-bar {
+      position: sticky;
+      z-index: 3;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
