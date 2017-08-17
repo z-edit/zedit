@@ -23,9 +23,13 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             scope.columns[index].width = width;
             if (allowOverflow && !index) scope.setFirstSplitBarLeft(width);
             if (allowOverflow && !skipWidth) scope.updateWidths();
-            let selector = `${treeSelector} .column-${index}`,
-                property = allowOverflow ? 'min-width' : 'width';
-            stylesheetService.setProperty(selector, property, width);
+            let selector = `${treeSelector} .column-${index}`;
+            stylesheetService.setProperty(selector, 'width', width);
+            // this hack really shouldn't be necessary, but if it isn't set
+            // the column widths don't get applied properly
+            if (allowOverflow) {
+                stylesheetService.setProperty(selector, 'min-width', width);
+            }
         };
 
         scope.updateWidths = function() {
