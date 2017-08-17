@@ -1,4 +1,5 @@
 ngapp.service('stylesheetService', function() {
+    var service = this;
     var mainStylesheet = document.styleSheets[1];
 
     this.getRule = function(selector) {
@@ -11,5 +12,14 @@ ngapp.service('stylesheetService', function() {
 
     this.makeRule = function(selector, style) {
         mainStylesheet.addRule(selector, style, 1);
+    };
+
+    this.setProperty = function(selector, property, value) {
+        let rule = service.getRule(selector);
+        if (!rule) {
+            service.makeRule(selector, `${property}: ${value}`);
+        } else {
+            rule.style[property] = value;
+        }
     };
 });
