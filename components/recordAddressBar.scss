@@ -1,0 +1,47 @@
+record-address-bar {
+  display: flex;
+  margin-top: -24px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #aaa;
+  padding: 2px;
+  align-items: center;
+
+  > button {
+    font-size: 16px;
+    color: dodgerblue;
+  }
+
+  .forward-record {
+    margin-left: -3px;
+  }
+
+  input[type="text"] {
+    flex: 1;
+    margin-left: 2px;
+    padding: 1px 3px;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    -webkit-transition: background 2.0s ease-in-out;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 2px dodgerblue;
+      border-color: dodgerblue;
+    }
+
+    &.error {
+      background-color: rgba(255, 0, 0, 0.15);
+      -webkit-transition: none;
+    }
+  }
+
+  .close-bar {
+    text-align: right;
+    padding-right: 4px;
+    padding-left: 12px;
+
+    > span {
+      cursor: pointer;
+    }
+  }
+}
