@@ -58,7 +58,8 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         }
     };
 
-    $scope.dblClickNode = function(node) {
+    $scope.dblClickNode = function(e, node) {
+        if (e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
         if (node.element_type !== xelib.etMainRecord) return;
         if (data.linkedScope) {
