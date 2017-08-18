@@ -1,4 +1,4 @@
-ngapp.service('mainTreeService', function() {
+ngapp.service('mainTreeService', function(recordTreeViewFactory) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
@@ -42,15 +42,16 @@ ngapp.service('mainTreeService', function() {
         };
 
         scope.reloadNodes = function() {
-            let start = Date.now();
             scope.reloading = true;
-            let oldExpandedNodes = [];
-            let oldSelectedNodes = scope.selectedNodes.slice();
+            let start = Date.now(),
+                oldExpandedNodes = [],
+                oldSelectedNodes = scope.selectedNodes.slice();
             scope.tree.forEach(function(node) {
                 if (node.expanded) {
                     oldExpandedNodes.push(node);
-                } else if (!node.selected) {
-                    xelib.Release(node.handle);
+                } else {
+                    if (!node.selected) xelib.Release(node.handle);
+                    recordTreeViewFactory.releaseChildren(node);
                 }
             });
             scope.clearSelection(true);
