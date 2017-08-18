@@ -1,5 +1,5 @@
 // functions shared by mainTreeView and recordTreeView
-ngapp.service('treeService', function($timeout) {
+ngapp.service('treeService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
         // helper variables
         let enterKey = 13, leftArrow = 37, upArrow = 38, rightArrow = 39, downArrow = 40, fKey = 70;
@@ -71,9 +71,7 @@ ngapp.service('treeService', function($timeout) {
         };
 
         scope.focusSearchInput = function() {
-            let tabView = element[0].nextElementSibling,
-                searchBar = tabView.firstElementChild,
-                searchInput = searchBar.firstElementChild;
+            let searchInput = htmlHelpers.resolveElement(scope.tabView, 'search-bar/input');
             searchInput.focus();
         };
 
@@ -107,9 +105,9 @@ ngapp.service('treeService', function($timeout) {
         };
 
         scope.resolveElements = function() {
-            let tabView = element[0].nextElementSibling;
-            scope.treeElement = tabView.lastElementChild;
-            scope.columnsElement = tabView.firstElementChild;
+            scope.tabView = element[0].nextElementSibling;
+            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.tree-nodes');
+            scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
         };
     }
 });
