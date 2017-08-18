@@ -74,6 +74,12 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         $scope.columnsElement.scrollLeft = e.currentTarget.scrollLeft;
     };
 
+    // event handling
+    $scope.$on('setRecord', function(e, record) {
+        $scope.record = record;
+        e.stopPropagation();
+    });
+
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue == newValue) return;
@@ -89,6 +95,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         } else {
             $scope.buildColumns();
             $scope.buildTree();
+            $scope.$broadcast('recordChanged');
         }
         $timeout($scope.resolveElements, 100);
     });
