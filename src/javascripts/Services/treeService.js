@@ -84,7 +84,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
-        scope.onKeyDown = function(e) {
+        scope.treeKeyDown = function(e) {
             if (e.keyCode == rightArrow) {
                 scope.handleRightArrow(e);
             } else if (e.keyCode == leftArrow) {
