@@ -19,27 +19,14 @@ search-bar {
       border-color: dodgerblue;
     }
 
-    &.result-not-found {
+    &.error {
       background-color: rgba(255, 0, 0, 0.15);
       -webkit-transition: none;
     }
   }
 
   > button {
-    border: none;
-    background: none;
     color: dodgerblue;
-
-    &.disabled {
-      color: #888;
-    }
-
-    &:hover:not(.disabled) {
-      background: #eee;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-      padding: 1px 5px;
-    }
   }
 
   .previous-result {
