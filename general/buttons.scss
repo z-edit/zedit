@@ -62,8 +62,13 @@ h2, h3 {
 }
 
 .glyph-button {
+  font-size: 14px;
   border: none;
   background: none;
+
+  &:focus {
+    outline: none;
+  }
 
   &.disabled {
     color: #888;
@@ -73,6 +78,6 @@ h2, h3 {
     background: #eee;
     border: 1px solid #aaa;
     border-radius: 4px;
-    padding: 1px 5px;
+    padding: 0 5px;
   }
 }
