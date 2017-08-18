@@ -11,7 +11,7 @@
             <span class="fa fa-gear" ng-click="toggleProfilesModal(true)"></span>
         </div>
         <div class="primary-actions">
-            <span class="action-box" ng-click="startSession()" ng-class="{'disabled' : !selectedProfile}">Start Session</span>
+            <button class="action-btn" ng-click="startSession()" ng-class="{'disabled' : !selectedProfile}">Start Session</button>
         </div>
 
         <profiles-modal ng-if="showProfilesModal" ></profiles-modal>

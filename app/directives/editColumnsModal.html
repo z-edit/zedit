@@ -15,7 +15,7 @@
 
             <h3 ng-if="selectedColumn.custom">
                 Edit Custom Column
-                <span class="action-box red-box small" ng-click="deleteColumn()" title="Delete this custom column.">Delete</span>
+                <button class="action-btn red small" ng-click="deleteColumn()" title="Delete this custom column.">Delete</button>
             </h3>
             <section ng-if="selectedColumn.custom" class="edit-custom-column">
                 <label>
@@ -25,7 +25,7 @@
                 <div class="flex-header">
                     <span>Data Retrieval Code</span>
                     <span>
-                        <span class="action-box small" ng-click="testCode()">Test</span>
+                        <button class="action-btn small" ng-click="testCode()">Test</button>
                         <span class="help-tooltip clickable" title="Click here to learn how to create custom column data retrieval code." ng-click="getCodeHelp()">
                             <i class="fa fa-question-circle"></i>
                         </span>
@@ -35,8 +35,8 @@
             </section>
 
             <div class="action-button-container">
-                <span class="action-box green-box" ng-click="addColumn()">New Column</span>
-                <span class="action-box" ng-click="close()">OK</span>
+                <button class="action-btn green" ng-click="addColumn()">New Column</button>
+                <button class="action-btn" ng-click="close()">OK</button>
             </div>
         </form>
     </div>
