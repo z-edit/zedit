@@ -76,7 +76,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.toggleSearch = function(visible) {
-            scope.showSearch = visible;
+            scope.showSearchBar = visible;
             if (visible) {
                 $timeout(scope.focusSearchInput, 50);
             } else {
