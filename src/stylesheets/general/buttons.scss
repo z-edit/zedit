@@ -60,3 +60,19 @@ h2, h3 {
     margin-left: 4px;
   }
 }
+
+.glyph-button {
+  border: none;
+  background: none;
+
+  &.disabled {
+    color: #888;
+  }
+
+  &:hover:not(.disabled) {
+    background: #eee;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+}
