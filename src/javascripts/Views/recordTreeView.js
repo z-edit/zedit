@@ -1,4 +1,4 @@
-var recordTreeViewController = function($scope, $element, $timeout, stylesheetService, treeService, recordTreeService, nodeSelectionService, treeColumnService) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, nodeSelectionService, treeColumnService) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -51,6 +51,20 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
     // TODO: $scope.resolveNode
     // TODO: $scope.navigateToElement
 
+    $scope.focusAddressInput = function () {
+        let addressInput = htmlHelpers.resolveElement($scope.tabView, 'record-address-bar/input');
+        if (addressInput) addressInput.focus();
+    };
+
+    $scope.toggleAddressBar = function(visible) {
+        $scope.showAddressBar = visible;
+        if (visible) {
+            $timeout($scope.focusAddressInput, 50);
+        } else {
+            $scope.treeElement.focus();
+        }
+    };
+
     $scope.handleEnter = function(e) {
         // TODO
         e.stopPropagation();
@@ -76,9 +90,10 @@ var recordTreeViewController = function($scope, $element, $timeout, stylesheetSe
             $scope.buildColumns();
             $scope.buildTree();
         }
+        $timeout($scope.resolveElements, 100);
     });
 
-    $timeout($scope.resolveElements, 100);
+    $scope.showAddressBar = true;
     $scope.autoExpand = true;
     $timeout($scope.linkToMainTreeView, 100);
 };
