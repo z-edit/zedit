@@ -46,10 +46,8 @@ ngapp.service('recordTreeService', function(layoutService) {
             scope.buildCells(node);
         };
 
-        scope.buildStructNode = function(parentHandles, depth, name) {
-            let handles = parentHandles.map(function(handle) {
-                    return handle ? xelib.GetElement(handle, name, true) : 0;
-                }),
+        scope.buildNode = function(depth, name, elementArrays, i) {
+            let handles = elementArrays.map((a) => { return a[i]; }),
                 firstHandle = handles.find((handle) => { return handle > 0; }),
                 defType = firstHandle && xelib.DefType(firstHandle),
                 isFlags = defType == xelib.dtInteger && xelib.IsFlags(firstHandle),
@@ -62,39 +60,30 @@ ngapp.service('recordTreeService', function(layoutService) {
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
-                can_expand: firstHandle && !isFlags && xelib.ElementCount(firstHandle),
+                can_expand: firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0,
                 depth: depth + 1
             }
         };
 
-        scope.buildStructNodes = function(handles, depth, names) {
-            return names.map(function(name) {
-                return scope.buildStructNode(handles, depth, name);
-            });
-        };
-
-        scope.buildArrayNode = function(depth, baseName, elementArrays, i) {
-            let handles = elementArrays.map((a) => { return a[i] || 0 }),
-                firstHandle = handles.find((handle) => { return handle > 0; }),
-                defType = firstHandle && xelib.DefType(firstHandle);
-            return {
-                label: `[${i}] ${baseName}`,
-                def_type: defType,
-                handles: handles,
-                first_handle: firstHandle,
-                can_expand: firstHandle && xelib.ElementCount(firstHandle) > 0,
-                depth: depth + 1
+        scope.buildStructNodes = function(parentHandles, depth, names) {
+            let elementArrays = parentHandles.map(function(handle) {
+                    return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
+                }),
+                nodes = [];
+            for (let i = 0; i < names.length; i++) {
+                nodes.push(scope.buildNode(depth, names[i], elementArrays, i))
             }
+            return nodes;
         };
 
-        scope.buildArrayNodes = function(handles, depth, baseName) {
-            let elementArrays = handles.map(function(handle) {
-                    return handle ? xelib.GetElements(handle) : [];
+        scope.buildArrayNodes = function(parentHandles, depth, name) {
+            let elementArrays = parentHandles.map(function(handle) {
+                    return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
                 }),
                 maxLen = getMaxLength(elementArrays),
                 nodes = [];
             for (let i = 0; i < maxLen; i++) {
-                nodes.push(scope.buildArrayNode(depth, baseName, elementArrays, i));
+                nodes.push(scope.buildNode(depth, name, elementArrays, i));
             }
             return nodes;
         };
