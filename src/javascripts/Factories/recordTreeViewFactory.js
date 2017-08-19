@@ -1,15 +1,12 @@
 ngapp.service('recordTreeViewFactory', function() {
     let factory = this;
 
-    this.releaseChildren = function(node) {
-        node.children.forEach(function(child) {
-            if (child.children) factory.releaseChildren(child);
-            xelib.Release(child.handle);
-        });
+    this.releaseTree = function(tree) {
+        tree.forEach((node) => xelib.Release(node.handle));
     };
 
     this.destroy = function(view) {
-        factory.releaseChildren(view.data.tree);
+        factory.releaseTree(view.data.tree);
     };
 
     this.new = function() {

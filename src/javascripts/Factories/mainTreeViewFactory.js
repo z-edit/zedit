@@ -1,9 +1,12 @@
 ngapp.service('mainTreeViewFactory', function() {
     let factory = this;
 
+    this.releaseTree = function(tree) {
+        tree.forEach((node) => xelib.Release(node.handle));
+    };
+
     this.destroy = function(view) {
-        let dataScope = view.data.scope;
-        dataScope.tree.forEach((node) => xelib.Release(node.handle));
+        factory.releaseTree(view.data.tree);
     };
 
     this.new = function() {

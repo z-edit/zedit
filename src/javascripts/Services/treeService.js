@@ -17,14 +17,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         scope.expandNode = function(node) {
             if (!node.can_expand || node.expanded) return;
             let start = Date.now(),
-                children = node.children || scope.buildNodes(node),
+                children = scope.buildNodes(node),
                 childrenLength = children.length;
             if (childrenLength > 0) {
-                if (!node.children) {
-                    children.forEach((child) => child.parent = node);
-                    node.children = children;
-                    console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
-                }
+                children.forEach((child) => child.parent = node);
+                console.log(`Built ${childrenLength} nodes in ${Date.now() - start}ms`);
                 node.expanded = true;
                 let insertionIndex = scope.tree.indexOf(node) + 1;
                 scope.tree.splice(insertionIndex, 0, ...children);
@@ -43,7 +40,13 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 if (child.depth <= node.depth) break;
                 if (child.selected) scope.selectSingle(child, false);
             }
-            scope.tree.splice(startIndex, endIndex - startIndex);
+            let removedNodes = scope.tree.splice(startIndex, endIndex - startIndex);
+            removedNodes.forEach(function(node) {
+                if (node.handle) xelib.Release(node.handle);
+                if (node.handles) {
+                    node.handles.forEach((handle) => handle && xelib.Release(handle));
+                }
+            });
             if (scope.prevNode && scope.prevNode.parent === node) {
                 scope.prevNode = undefined;
             }

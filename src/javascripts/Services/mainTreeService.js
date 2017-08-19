@@ -1,4 +1,4 @@
-ngapp.service('mainTreeService', function(recordTreeViewFactory) {
+ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
@@ -21,13 +21,6 @@ ngapp.service('mainTreeService', function(recordTreeViewFactory) {
             }
         };
 
-        let freeHandles = function(nodes1, nodes2) {
-            let a = [];
-            nodes1.forEach((n) => a.contains(n.handle) || a.push(n.handle));
-            nodes2.forEach((n) => a.contains(n.handle) || a.push(n.handle));
-            a.forEach((handle) => xelib.Release(handle));
-        };
-
         // scope functions
         scope.getNodeClass = function(node) {
             let classes = [];
@@ -42,23 +35,15 @@ ngapp.service('mainTreeService', function(recordTreeViewFactory) {
         };
 
         scope.reloadNodes = function() {
-            scope.reloading = true;
             let start = Date.now(),
-                oldExpandedNodes = [],
-                oldSelectedNodes = scope.selectedNodes.slice();
-            scope.tree.forEach(function(node) {
-                if (node.expanded) {
-                    oldExpandedNodes.push(node);
-                } else {
-                    if (!node.selected) xelib.Release(node.handle);
-                    recordTreeViewFactory.releaseChildren(node);
-                }
-            });
+                oldExpandedNodes = scope.tree.filter((node) => { return node.expanded; }),
+                oldSelectedNodes = scope.selectedNodes.slice(),
+                oldTree = scope.tree;
             scope.clearSelection(true);
             scope.buildTree();
             oldExpandedNodes.forEach((n) => reExpandNode(n));
             oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
-            freeHandles(oldExpandedNodes, oldSelectedNodes);
+            mainTreeViewFactory.releaseTree(oldTree);
             console.log(`Rebuilt tree (${scope.tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
