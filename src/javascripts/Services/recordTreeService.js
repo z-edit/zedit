@@ -31,8 +31,12 @@ ngapp.service('recordTreeService', function(layoutService) {
         scope.buildCells = function(node) {
             node.cells = [{value: node.label}];
             node.handles.forEach(function(handle) {
-                let value = handle && (node.is_flags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true));
-                let conflictData = handle && xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+                let value, conflictData;
+                if (handle) {
+                    let isFlags = node.value_type === xelib.vtFlags;
+                    value = isFlags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true);
+                    conflictData = xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+                }
                 node.cells.push({
                     value: value || '',
                     class: handle ? ctClasses[conflictData[1]] : ''
@@ -49,18 +53,16 @@ ngapp.service('recordTreeService', function(layoutService) {
         scope.buildNode = function(depth, name, elementArrays, i) {
             let handles = elementArrays.map((a) => { return a[i]; }),
                 firstHandle = handles.find((handle) => { return handle > 0; }),
-                defType = firstHandle && xelib.DefType(firstHandle),
-                isFlags = defType == xelib.dtInteger && xelib.IsFlags(firstHandle),
-                isArray = arrayTypes.contains(defType);
+                valueType = firstHandle && xelib.ValueType(firstHandle),
+                isFlags = valueType === xelib.vtFlags,
+                canExpand = firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0;
             return {
                 label: name,
-                def_type: defType,
-                is_flags: isFlags,
-                is_array: isArray,
+                value_type: valueType,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
-                can_expand: firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0,
+                can_expand: canExpand,
                 depth: depth + 1
             }
         };
@@ -91,7 +93,7 @@ ngapp.service('recordTreeService', function(layoutService) {
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
             if (!names[0].length) return [];
-            if (node.is_array) {
+            if (node.value_type === xelib.vtArray) {
                 return scope.buildArrayNodes(node.handles, node.depth, names[0]);
             } else {
                 return scope.buildStructNodes(node.handles, node.depth, names);
