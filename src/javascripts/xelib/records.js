@@ -93,3 +93,9 @@ xelib.GetRecordConflictData = function(_id) {
         xelib.ReleaseNodes(nodes);
     }
 };
+xelib.GetNodeElements = function(_id1, _id2) {
+    return GetArray(function(_len) {
+        if (!lib.GetNodeElements(_id1, _id2, _len))
+            Fail(`GetNodeElements failed on ${_id1}, ${_id2}`);
+    });
+};

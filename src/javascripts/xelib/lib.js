@@ -140,7 +140,8 @@ try {
         'IsOverride': [WordBool, [Cardinal, PWordBool]],
         'IsWinningOverride': [WordBool, [Cardinal, PWordBool]],
         'GetNodes': [WordBool, [Cardinal, PCardinal]],
-        'GetConflictData': [WordBool, [Cardinal, Cardinal, PByte, PByte]]
+        'GetConflictData': [WordBool, [Cardinal, Cardinal, PByte, PByte]],
+        'GetNodeElements': [WordBool, [Cardinal, Cardinal, PInteger]]
     });
 } catch (x) {
     alert('The required file XEditLib.dll was not found.  Please try re-installing the application.');
