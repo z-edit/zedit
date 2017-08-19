@@ -2,10 +2,12 @@
 var elementTypes = ['etFile', 'etMainRecord', 'etGroupRecord', 'etSubRecord', 'etSubRecordStruct', 'etSubRecordArray', 'etSubRecordUnion', 'etArray', 'etStruct', 'etValue', 'etFlag', 'etStringListTerminator', 'etUnion', 'etStructChapter'];
 var defTypes = [ 'dtRecord', 'dtSubRecord', 'dtSubRecordArray', 'dtSubRecordStruct', 'dtSubRecordUnion', 'dtString', 'dtLString', 'dtLenString', 'dtByteArray', 'dtInteger', 'dtIntegerFormater', 'dtIntegerFormaterUnion', 'dtFlag', 'dtFloat', 'dtArray', 'dtStruct', 'dtUnion', 'dtEmpty', 'dtStructChapter'];
 var smashTypes = ['stUnknown', 'stRecord', 'stString', 'stInteger', 'stFlag', 'stFloat', 'stStruct', 'stUnsortedArray', 'stUnsortedStructArray', 'stSortedArray', 'stSortedStructArray', 'stByteArray', 'stUnion'];
+var valueTypes = ['vtBytes', 'vtNumber', 'vtString', 'vtText', 'vtReference', 'vtFlags', 'vtColor', 'vtArray', 'vtStruct'];
 
 applyEnums(xelib, elementTypes);
 applyEnums(xelib, defTypes);
 applyEnums(xelib, smashTypes);
+applyEnums(xelib, valueTypes);
 
 // ELEMENT HANDLING METHODS
 xelib.HasElement = function(_id, path = '') {
@@ -88,9 +90,18 @@ xelib.GetSignatureAllowed = function(_id, signature) {
             Fail(`Failed to check if signature ${signature} is allowed on ${_id}`);
     });
 };
+xelib.ElementType = function(_id, asString = false) {
+    return GetEnumValue(_id, 'ElementType', asString && elementTypes);
+};
+xelib.DefType = function(_id, asString = false) {
+    return GetEnumValue(_id, 'DefType', asString && defTypes);
+};
+xelib.SmashType = function(_id, asString = false) {
+    return GetEnumValue(_id, 'SmashType', asString && smashTypes);
+};
+xelib.ValueType = function(_id, asString = false) {
+    return GetEnumValue(_id, 'ValueType', asString && valueTypes);
+};
 xelib.IsFlags = function(_id) {
-    return GetBool(function(_bool) {
-        if (!lib.IsFlags(_id, _bool))
-            Fail(`Failed to check if element ${_id} is flags.`);
-    });
+    return xelib.ValueType(_id) === xelib.vtFlags;
 };

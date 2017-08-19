@@ -32,15 +32,6 @@ xelib.Signature = function(_id) {
 xelib.SortKey = function(_id) {
     return GetStringValue(_id, 'SortKey');
 };
-xelib.ElementType = function(_id, asString = false) {
-    return GetEnumValue(_id, 'ElementType', asString && elementTypes);
-};
-xelib.DefType = function(_id, asString = false) {
-    return GetEnumValue(_id, 'DefType', asString && defTypes);
-};
-xelib.SmashType = function(_id, asString = false) {
-    return GetEnumValue(_id, 'SmashType', asString && smashTypes);
-};
 xelib.GetValue = function(_id, path = '', noException = false) {
     return GetString(function(_len) {
         if (!lib.GetValue(_id, wcb(path), _len))

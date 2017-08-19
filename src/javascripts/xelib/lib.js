@@ -95,7 +95,7 @@ try {
         'ElementType': [WordBool, [Cardinal, PByte]],
         'DefType': [WordBool, [Cardinal, PByte]],
         'SmashType': [WordBool, [Cardinal, PByte]],
-        'IsFlags': [WordBool, [Cardinal, PWordBool]],
+        'ValueType': [WordBool, [Cardinal, PByte]],
         // ERROR CHECKING METHODS
         'CheckForErrors': [WordBool, [Cardinal]],
         'GetErrorThreadDone': [WordBool, []],
