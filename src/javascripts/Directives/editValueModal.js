@@ -147,9 +147,9 @@ ngapp.controller('editValueModalController', function($scope, $timeout, formUtil
             if ($scope.invalid) return;
             alertException(function() {
                 let c = tryParseColor($scope.value);
-                xelib.SetValue(handle, 'Red', c.getRed());
-                xelib.SetValue(handle, 'Green', c.getGreen());
-                xelib.SetValue(handle, 'Blue', c.getBlue());
+                xelib.SetValue(handle, 'Red', c.getRed().toString());
+                xelib.SetValue(handle, 'Green', c.getGreen().toString());
+                xelib.SetValue(handle, 'Blue', c.getBlue().toString());
                 $scope.afterApplyValue();
             });
         };
