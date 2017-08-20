@@ -40,7 +40,56 @@ ngapp.controller('editValueModalController', function($scope, $timeout, formUtil
     };
 
     $scope.setupBytes = function(value) {
-        $scope.value = value.replace(/ /g, '');
+        let isHexKey = function(key) {
+            return (key > 47 && key < 58) || (key > 64 && key < 71);
+        };
+
+        let isPrintable = function(key) {
+            return key > 33 && key !== 127;
+        };
+
+        let bytesToStr = function(bytes) {
+            let a = bytes.map((byte) => { return parseInt(byte, 16); });
+            return a.reduce(function(str, byte) {
+                return str + (isPrintable(byte) ? String.fromCharCode(byte) : '.');
+            }, '');
+        };
+
+        $scope.applyValue = function() {
+            alertException(function() {
+                xelib.SetValue(handle, '', $scope.bytes.join(' '));
+                $scope.afterApplyValue();
+            });
+        };
+
+        $scope.onByteKeyDown = function(e, index) {
+            if (!isHexKey(e.keyCode)) return;
+            let newChar = String.fromCharCode(e.keyCode).toUpperCase(),
+                byte = $scope.bytes[index];
+            if (byte[1] === ' ') {
+                $scope.bytes[index] = byte[0] + newChar;
+                $scope.text = bytesToStr($scope.bytes);
+                let nextSpan = e.srcElement.nextElementSibling;
+                if (nextSpan) {
+                    nextSpan.focus();
+                } else {
+                    e.srcElement.blur();
+                }
+            } else {
+                $scope.bytes[index] = newChar + ' ';
+            }
+        };
+
+        $scope.onByteBlur = function(index) {
+            let byte = $scope.bytes[index];
+            if (byte[1] === ' ') {
+                $scope.bytes[index] = '0' + byte[0];
+                $scope.text = bytesToStr($scope.bytes);
+            }
+        };
+
+        $scope.bytes = value.split(' ');
+        $scope.text = bytesToStr($scope.bytes);
     };
 
     $scope.setupNumber = function(value) {

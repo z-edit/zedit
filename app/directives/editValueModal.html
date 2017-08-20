@@ -5,6 +5,30 @@
                 <span class="fa fa-times" ng-click="toggleEditModal()"></span>
             </div>
 
+            <div ng-if="::targetNode.value_type == vtBytes">
+                <h2>Edit Bytes
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <table class="hexeditor">
+                    <thead>
+                    <tr>
+                        <th>Hex</th>
+                        <th>Text</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="hex">
+                            <span ng-repeat="byte in bytes track by $index" tabindex="0" ng-keydown="onByteKeyDown($event, $index)" ng-blur="onByteBlur($index)">{{byte}}</span>
+                        </td>
+                        <td class="text">
+                            {{text}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
             <div ng-if="::targetNode.value_type == vtString">
                 <h2>Edit String
                     <div class="path">{{::path}}</div>
