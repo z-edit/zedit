@@ -45,6 +45,13 @@
                 </div>
             </div>
 
+            <div ng-if="::targetNode.value_type == vtEnum">
+                <h2>Edit Enumeration
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <select ng-model="$parent.value" ng-options="option for option in $parent.options"></select>
+            </div>
+
             <div ng-if="::targetNode.value_type == vtFlags">
                 <h2>Edit Flags
                     <div class="path">{{::path}}</div>

@@ -7,7 +7,7 @@ ngapp.directive('editValueModal', function () {
     }
 });
 
-ngapp.controller('editValueModalController', function($scope, formUtils, listViewFactory) {
+ngapp.controller('editValueModalController', function($scope, $timeout, formUtils, listViewFactory) {
     // variables
     let node = $scope.targetNode,
         handle = node.handles[$scope.targetIndex],
@@ -37,6 +37,51 @@ ngapp.controller('editValueModalController', function($scope, formUtils, listVie
     $scope.afterApplyValue = function() {
         $scope.updateNode(node);
         $scope.toggleEditModal();
+    };
+
+    $scope.setupBytes = function(value) {
+        $scope.value = value.replace(/ /g, '');
+    };
+
+    $scope.setupNumber = function(value) {
+        $scope.textChanged = function() {
+            let match = /^([0-9]+)(\.[0-9]+)?$/i.exec($scope.value);
+            $scope.invalid = !match;
+        };
+        $scope.value = value;
+        $scope.textChanged();
+    };
+
+    $scope.setupReference = function(value) {
+        // TODO: load allowed references
+        $scope.value = value;
+    };
+
+    $scope.setupFlags = function(value) {
+        $scope.applyValue = function() {
+            let activeFlags = $scope.flags.filter((flag) => { return flag.active; });
+            $scope.value = activeFlags.map((flag) => { return flag.name; });
+            xelib.SetEnabledFlags(handle, '', $scope.value);
+            $scope.afterApplyValue();
+        };
+
+        // initialize flags
+        $scope.prevIndex = undefined;
+        let enabledFlags = value.split(', ');
+        $scope.flags = xelib.GetAllFlags(handle).map(function(flag) {
+            return {
+                name: flag,
+                active: flag !== '' && enabledFlags.contains(flag)
+            }
+        });
+
+        // inherited functions
+        listViewFactory.build($scope, 'flags', 'applyValue');
+    };
+
+    $scope.setupEnum = function(value) {
+        $scope.options = xelib.GetEnumOptions(handle);
+        $scope.value = value;
     };
 
     $scope.setupColor = function(value) {
@@ -74,52 +119,14 @@ ngapp.controller('editValueModalController', function($scope, formUtils, listVie
         $scope.textChanged();
     };
 
-    $scope.setupBytes = function(value) {
-        $scope.value = value.replace(/ /g, '');
-    };
-
-    $scope.setupReference = function(value) {
-        // TODO: load allowed references
-        $scope.value = value;
-    };
-
-    $scope.setupFlags = function(value) {
-        $scope.applyValue = function() {
-            let activeFlags = $scope.flags.filter((flag) => { return flag.active; });
-            $scope.value = activeFlags.map((flag) => { return flag.name; });
-            xelib.SetEnabledFlags(handle, '', $scope.value);
-            $scope.afterApplyValue();
-        };
-
-        // initialize flags
-        $scope.prevIndex = undefined;
-        let enabledFlags = value.split(', ');
-        $scope.flags = xelib.GetAllFlags(handle).map(function(flag) {
-            return {
-                name: flag,
-                active: flag !== '' && enabledFlags.contains(flag)
-            }
-        });
-
-        // inherited functions
-        listViewFactory.build($scope, 'flags', 'applyValue');
-    };
-
-    $scope.setupNumber = function(value) {
-        $scope.textChanged = function() {
-            let match = /^([0-9]+)(\.[0-9]+)?$/i.exec($scope.value);
-            $scope.invalid = !match;
-        };
-        $scope.value = value;
-    };
-
     // initialization
     let setupFunctions = {
-        vtNumber: $scope.setupNumber,
-        vtColor: $scope.setupColor,
-        vtFlags: $scope.setupFlags,
         vtBytes: $scope.setupBytes,
-        vtReference: $scope.setupReference
+        vtNumber: $scope.setupNumber,
+        vtReference: $scope.setupReference,
+        vtFlags: $scope.setupFlags,
+        vtEnum: $scope.setupEnum,
+        vtColor: $scope.setupColor
     };
 
     if (setupFunctions.hasOwnProperty(vtLabel)) {
