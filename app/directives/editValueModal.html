@@ -47,7 +47,7 @@
                 <h2>Edit Number
                     <div class="path">{{::path}}</div>
                 </h2>
-                <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
+                <input type="text" class="numeric" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
             </div>
 
             <div ng-if="::targetNode.value_type == vtReference">
