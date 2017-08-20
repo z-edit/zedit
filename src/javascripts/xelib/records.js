@@ -2,8 +2,8 @@
 var conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMaster', 'ctOnlyOne', 'ctHiddenByModGroup', 'ctMaster', 'ctConflictBenign', 'ctOverride', 'ctIdenticalToMasterWinsConflict','ctConflictWins', 'ctConflictLoses'];
 var conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict', 'caConflictCritical'];
 
-applyEnums(xelib, conflictThis);
-applyEnums(xelib, conflictAll);
+applyEnums(xelib, conflictThis, 'conflictThis');
+applyEnums(xelib, conflictAll, 'conflictAll');
 
 // RECORD HANDLING METHODS
 xelib.GetFormID = function(_id, local = false) {

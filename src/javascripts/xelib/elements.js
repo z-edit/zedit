@@ -4,10 +4,10 @@ var defTypes = [ 'dtRecord', 'dtSubRecord', 'dtSubRecordArray', 'dtSubRecordStru
 var smashTypes = ['stUnknown', 'stRecord', 'stString', 'stInteger', 'stFlag', 'stFloat', 'stStruct', 'stUnsortedArray', 'stUnsortedStructArray', 'stSortedArray', 'stSortedStructArray', 'stByteArray', 'stUnion'];
 var valueTypes = ['vtUnknown', 'vtBytes', 'vtNumber', 'vtString', 'vtText', 'vtReference', 'vtFlags', 'vtColor', 'vtArray', 'vtStruct'];
 
-applyEnums(xelib, elementTypes);
-applyEnums(xelib, defTypes);
-applyEnums(xelib, smashTypes);
-applyEnums(xelib, valueTypes);
+applyEnums(xelib, elementTypes, 'elementTypes');
+applyEnums(xelib, defTypes, 'defTypes');
+applyEnums(xelib, smashTypes, 'smashTypes');
+applyEnums(xelib, valueTypes, 'valueTypes');
 
 // ELEMENT HANDLING METHODS
 xelib.HasElement = function(_id, path = '') {

@@ -84,7 +84,7 @@ xelib.SetEnabledFlags = function(_id, path, flags) {
     if (!lib.SetEnabledFlags(_id, wcb(path), wcb(flags.join(','))))
         Fail(`Failed to set enabled flags at: ${elementContext(_id, path)}`);
 };
-xelib.GetAllFlags = function(_id, path) {
+xelib.GetAllFlags = function(_id, path = '') {
     return GetString(function(_len) {
         if (!lib.GetAllFlags(_id, wcb(path), _len))
             Fail(`Failed to get all flags at: ${elementContext(_id, path)}`);
