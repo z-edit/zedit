@@ -105,8 +105,17 @@ ngapp.controller('editValueModalController', function($scope, formUtils, listVie
         listViewFactory.build($scope, 'flags', 'applyValue');
     };
 
+    $scope.setupNumber = function(value) {
+        $scope.textChanged = function() {
+            let match = /^([0-9]+)(\.[0-9]+)?$/i.exec($scope.value);
+            $scope.invalid = !match;
+        };
+        $scope.value = value;
+    };
+
     // initialization
     let setupFunctions = {
+        vtNumber: $scope.setupNumber,
         vtColor: $scope.setupColor,
         vtFlags: $scope.setupFlags,
         vtBytes: $scope.setupBytes,
