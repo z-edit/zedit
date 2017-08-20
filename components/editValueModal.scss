@@ -19,6 +19,12 @@ edit-value-modal {
 
   input {
     width: 100%;
+    
+    &.numeric {
+      padding: 2px 4px;
+      font-size: 16px;
+      width: 100px;
+    }
   }
 
   textarea {
