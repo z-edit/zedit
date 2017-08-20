@@ -130,6 +130,7 @@ var SetNativeValue = function(_id, path, method, value) {
         Fail(`Failed to ${method} to ${value} at: ${elementContext(_id, path)}`);
 };
 
-var applyEnums = function(context, enums) {
+var applyEnums = function(context, enums, label) {
     enums.forEach((value, ord) => context[value] = ord);
+    context[label] = enums;
 };
