@@ -149,7 +149,7 @@
         }
 
         toRGB () {
-            return `rgba(${this.getComponents(10).join(', ')})`;
+            return `rgb(${this.getComponents(10).join(', ')})`;
         }
 
         toRGBA () {
