@@ -3,7 +3,6 @@ ngapp.service('recordTreeService', function(layoutService) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
-        let arrayTypes = [xelib.dtSubRecordArray, xelib.dtArray];
 
         // helper functions
         let getMaxLength = function(arrays) {
@@ -16,6 +15,35 @@ ngapp.service('recordTreeService', function(layoutService) {
         };
 
         // scope functions
+        scope.getBaseParent = function(node) {
+            while (node.parent) node = node.parent;
+            return node;
+        };
+
+        scope.rebuildNodes = function(node) {
+            // TODO: re-expand all expanded children
+            let nodeWasExpanded = node.expanded;
+            if (node.expanded) scope.collapseNode(node);
+            let index = scope.tree.indexOf(node);
+            scope.tree.splice(index, 1, {
+                label: node.label,
+                value_type: node.value_type,
+                handles: node.handles,
+                first_handle: node.first_handle,
+                disabled: node.disabled,
+                can_expand: node.can_expand,
+                depth: node.depth
+            });
+            if (nodeWasExpanded) scope.expandNode(scope.tree[index]);
+        };
+
+        scope.updateNode = function(node) {
+            xelib.ReleaseNodes(scope.virtualNodes);
+            scope.virtualNodes = xelib.GetNodes(scope.record);
+            let baseParent = scope.getBaseParent(node);
+            scope.rebuildNodes(baseParent);
+        };
+
         scope.getNodeClass = function(node) {
             let classes = [];
             if (node.first_handle) {
