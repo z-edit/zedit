@@ -1,0 +1,66 @@
+<div class="modal-container" ng-click="unfocusEditModal($event)">
+    <div class="modal {{vtClass}}" ng-click="clearSelection()" tabindex="0" ng-keypress="onKeyPress($event)">
+        <form>
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="toggleEditModal()"></span>
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtString">
+                <h2>Edit String
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <input type="text" ng-model="$parent.value" maxlength="255"/>
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtText">
+                <h2>Edit Text
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <textarea ng-model="$parent.value" maxlength="65535"></textarea>
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtNumber">
+                <h2>Edit Number
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtReference">
+                <h2>Edit Reference
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
+                <!-- TODO: autocomplete dropdown -->
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtColor">
+                <h2>Edit Color
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <color-picker ng-model="$parent.color"></color-picker>
+                <div class="color-input-container">
+                    <div class="color-sample" ng-style="$parent.colorStyle"></div>
+                    <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
+                </div>
+            </div>
+
+            <div ng-if="::targetNode.value_type == vtFlags">
+                <h2>Edit Flags
+                    <div class="path">{{::path}}</div>
+                </h2>
+                <div class="checkbox-list">
+                    <div ng-repeat="flag in flags" ng-class="{ 'selected' : flag.selected }" ng-click="select($event, flag, $index)">
+                        <input type="checkbox" ng-model="flag.active" />
+                        {{::flag.name}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
+                <button class="action-btn" ng-click="toggleEditModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
