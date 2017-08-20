@@ -38,7 +38,7 @@ ngapp.service('listViewFactory', function () {
                 collection.forEach(function(item) {
                     if (item.selected) item.active = !item.active;
                 });
-                scope.updateIndexes();
+                scope.updateIndexes && scope.updateIndexes();
             }
             // clear selection on escape
             else if (e.keyCode == 27) {
