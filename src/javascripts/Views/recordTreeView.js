@@ -5,6 +5,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
 
     // helper variables
     let overrides = [];
+    let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -43,9 +44,9 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
 
     $scope.buildTree = function() {
         let names = xelib.GetDefNames($scope.record);
-        let handles = $scope.columns.map((column) => { return column.handle; });
+        let handles = $scope.columns.slice(1).map((column) => { return column.handle; });
         $scope.virtualNodes = xelib.GetNodes($scope.record);
-        $scope.tree = $scope.buildStructNodes(handles.slice(1), -1, names);
+        $scope.tree = $scope.buildStructNodes(handles, -1, names);
     };
 
     // TODO: $scope.resolveNode
@@ -65,6 +66,10 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         }
     };
 
+    $scope.toggleEditModal = function(visible) {
+        $scope.showEditModal = visible;
+    };
+
     $scope.handleEnter = function(e) {
         // TODO
         e.stopPropagation();
@@ -72,6 +77,20 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
 
     $scope.onScroll = function(e) {
         $scope.columnsElement.scrollLeft = e.currentTarget.scrollLeft;
+    };
+
+    $scope.onNodeDoubleClick = function(e, node) {
+        if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
+        if (node.can_expand) $scope.toggleNode(null, node);
+    };
+
+    $scope.onCellDoubleClick = function(e, node, index) {
+        if (!node.handles[index - 1]) return; // TODO: assign element, and edit if editable
+        if (uneditableValueTypes.contains(node.value_type)) return;
+        $scope.targetNode = node;
+        $scope.targetIndex = index - 1;
+        $scope.toggleEditModal(true);
+        e.stopImmediatePropagation();
     };
 
     // event handling

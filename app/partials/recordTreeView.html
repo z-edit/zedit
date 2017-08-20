@@ -11,22 +11,13 @@
     </div>
 </div>
 <div ng-if="record" class="tree-nodes" tabindex="0" ng-keydown="treeKeyDown($event)" ng-mousedown="treeMouseDown($event)" ng-scroll="onScroll($event)" vs-repeat>
-    <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-class="{'selected' : node.selected}" class="node fix-width {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
-        <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}} {{::$index == 0 && node.class}}">
+    <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-dblclick="onNodeDoubleClick($event, node)" ng-class="{'selected' : node.selected}" class="node fix-width {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
+        <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}} {{::$index == 0 && node.class}}" ng-dblclick="onCellDoubleClick($event, node, $index)">
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
                 <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="::node.can_expand"></span>
                 <span class="placeholder" ng-if="::!node.can_expand"></span>
             </span>
             {{::cell.value}}
-            <!--<span ng-if="::!$first" class="action-buttons">
-                <span ng-if="::node.is_array">
-                    <span class="add-element" ng-click="addElement(node, $index - 1)">Add</span><span ng-if="node.handles[$index - 1]" class="remove-element" ng-click="removeElement(node, $index - 1)">Remove</span>
-                </span>
-                <span ng-if="::!node.is_array">
-                    <span ng-if="!node.handles[$index - 1]" class="add-element" ng-click="addElement(node, $index - 1)">Add</span>
-                    <span ng-if="node.can_expand && node.handles[$index - 1]" class="remove-element">Remove</span>
-                </span>
-            </span>-->
         </span>
     </div>
 </div>
@@ -40,3 +31,4 @@
 </div>
 
 <edit-columns-modal ng-if="showColumnsModal"></edit-columns-modal>
+<edit-value-modal ng-if="showEditModal"></edit-value-modal>
