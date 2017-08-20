@@ -26,6 +26,59 @@ edit-value-modal {
     min-height: 150px;
   }
 
+  select {
+    font-size: 16px;
+  }
+
+  .hexeditor {
+    font-family: 'Courier New', 'Consolas', monospace;
+    border-collapse: collapse;
+    border: 1px solid #aaa;
+    margin: 0 auto;
+
+    th {
+      padding: 2px 6px;
+    }
+
+    th, td {
+      border-right: 1px solid #aaa;
+    }
+
+    tr {
+      border-bottom: 1px solid #aaa;
+    }
+
+    .hex, .text {
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    .hex {
+      padding-right: 10px;
+      min-width: 100px;
+    }
+
+    .text {
+      padding-left: 4px;
+      min-width: 100px;
+    }
+
+    .hex > span {
+      padding: 1px 4px;
+      white-space: pre;
+
+      &:hover {
+        background: #dae4ea;
+      }
+
+      &:focus {
+        background: #6b9aba;
+        color: #fff;
+        outline: none;
+      }
+    }
+  }
+
   .checkbox-list {
     .selected {
       background-color: #e5f2ff;
