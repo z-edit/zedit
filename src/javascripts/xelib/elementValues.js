@@ -90,3 +90,9 @@ xelib.GetAllFlags = function(_id, path = '') {
             Fail(`Failed to get all flags at: ${elementContext(_id, path)}`);
     }).split(',');
 };
+xelib.GetEnumOptions = function(_id, path = '') {
+    return GetString(function(_len) {
+        if (!lib.GetEnumOptions(_id, wcb(path), _len))
+            Fail(`Failed to get all enum options at: ${elementContext(_id, path)}`);
+    }).split(',');
+};

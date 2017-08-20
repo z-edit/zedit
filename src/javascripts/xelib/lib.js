@@ -119,6 +119,7 @@ try {
         'GetEnabledFlags': [WordBool, [Cardinal, PWChar, PInteger]],
         'SetEnabledFlags': [WordBool, [Cardinal, PWChar, PWChar]],
         'GetAllFlags': [WordBool, [Cardinal, PWChar, PInteger]],
+        'GetEnumOptions': [WordBool, [Cardinal, PWChar, PInteger]],
         'SignatureFromName': [WordBool, [PWChar, PInteger]],
         'NameFromSignature': [WordBool, [PWChar, PInteger]],
         'GetSignatureNameMap': [WordBool, [PInteger]],
