@@ -117,7 +117,7 @@ try {
         'GetFlag': [WordBool, [Cardinal, PWChar, PWChar, PWordBool]],
         'SetFlag': [WordBool, [Cardinal, PWChar, PWChar, WordBool]],
         'GetEnabledFlags': [WordBool, [Cardinal, PWChar, PInteger]],
-        'SetEnabledFlags': [WordBool, [Cardinal, PWChar]],
+        'SetEnabledFlags': [WordBool, [Cardinal, PWChar, PWChar]],
         'GetAllFlags': [WordBool, [Cardinal, PWChar, PInteger]],
         'SignatureFromName': [WordBool, [PWChar, PInteger]],
         'NameFromSignature': [WordBool, [PWChar, PInteger]],
