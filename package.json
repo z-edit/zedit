@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "angular": "1.5.1",
+    "angular-color-picker": "^1.0.11",
     "angular-spinner": "^1.0.1",
     "angular-ui-router": "^0.4.2",
     "bindings": "^1.2.1",
