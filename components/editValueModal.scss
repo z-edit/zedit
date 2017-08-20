@@ -19,7 +19,7 @@ edit-value-modal {
 
   input {
     width: 100%;
-    
+
     &.numeric {
       padding: 2px 4px;
       font-size: 16px;
@@ -118,6 +118,8 @@ edit-value-modal {
     > ._hues > ._cursor {
       left: -3px;
       width: 34px;
+      border-left-color: #303030;
+      border-right-color: #303030;
     }
   }
 
