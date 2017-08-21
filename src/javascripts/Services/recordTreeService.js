@@ -1,10 +1,19 @@
 ngapp.service('recordTreeService', function(layoutService) {
     this.buildFunctions = function(scope) {
         // helper variables
+        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
 
         // helper functions
+        let getRecordFileName = function(record) {
+            let fileName = '';
+            xelib.WithHandle(xelib.GetElementFile(record), function(file) {
+                fileName = xelib.DisplayName(file);
+            });
+            return fileName;
+        };
+
         let getMaxLength = function(arrays) {
             let maxLen = 0;
             arrays.forEach(function(a) {
@@ -15,6 +24,33 @@ ngapp.service('recordTreeService', function(layoutService) {
         };
 
         // scope functions
+        scope.buildColumns = function() {
+            scope.columns = [{
+                label: 'Element Name',
+                width: '250px'
+            },{
+                label: getRecordFileName(scope.record),
+                handle: scope.record,
+                width: '300px'
+            }];
+            scope.overrides = xelib.GetOverrides(scope.record);
+            scope.overrides.forEach(function(override) {
+                scope.columns.push({
+                    label: getRecordFileName(override),
+                    handle: override,
+                    width: '300px'
+                })
+            });
+            scope.resizeColumns();
+        };
+
+        scope.buildTree = function() {
+            let names = xelib.GetDefNames(scope.record);
+            let handles = scope.columns.slice(1).map((column) => { return column.handle; });
+            scope.virtualNodes = xelib.GetNodes(scope.record);
+            scope.tree = scope.buildStructNodes(handles, -1, names);
+        };
+
         scope.getBaseParent = function(node) {
             while (node.parent) node = node.parent;
             return node;
@@ -36,6 +72,9 @@ ngapp.service('recordTreeService', function(layoutService) {
             });
             if (nodeWasExpanded) scope.expandNode(scope.tree[index]);
         };
+
+        // TODO: $scope.resolveNode
+        // TODO: $scope.navigateToElement
 
         scope.updateNode = function(node) {
             xelib.ReleaseNodes(scope.virtualNodes);
