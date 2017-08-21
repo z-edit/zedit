@@ -1,0 +1,64 @@
+ngapp.service('hotkeyFactory', function() {
+    this.mainTreeHotkeys = function() {
+        return {
+            rightArrow: 'handleRightArrow',
+            leftArrow: 'handleLeftArrow',
+            upArrow: 'handleUpArrow',
+            downArrow: 'handleDownArrow',
+            pageUp: 'handlePageUp',
+            pageDown: 'handlePageDown',
+            f: [{
+                modifiers: ['ctrlKey', 'shiftKey'],
+                callback: 'toggleAdvancedSearch'
+            }, {
+                modifiers: ['ctrlKey'],
+                callback: 'toggleSearchBar'
+            }]
+        }
+    };
+
+    this.recordTreeHotkeys = function() {
+        return {
+            rightArrow: 'handleRightArrow',
+            leftArrow: 'handleLeftArrow',
+            upArrow: 'handleUpArrow',
+            downArrow: 'handleDownArrow',
+            pageUp: 'handlePageUp',
+            pageDown: 'handlePageDown',
+            f: [{
+                modifiers: ['ctrlKey'],
+                callback: 'toggleSearchBar'
+            }],
+            a: [{
+                modifiers: ['ctrlKey'],
+                callback: 'toggleAddressBar'
+            }],
+            r: [{
+                modifiers: ['ctrlKey'],
+                callback: 'toggleReplaceBar'
+            }],
+            f6: 'focusAddressInput'
+        }
+    };
+
+    this.treeSearchHotkeys = function() {
+        return {
+            escape: 'closeSearch',
+            enter: [{
+                modifiers: ['shiftKey'],
+                callback: 'previousResult'
+            }, {
+                modifiers: [],
+                callback: 'nextResult'
+            }],
+            x: [{
+                modifiers: ['altKey'],
+                callback: 'toggleExact'
+            }],
+            else: [{
+                modifiers: ['altKey'],
+                callback: 'setSearchBy'
+            }]
+        }
+    };
+});
