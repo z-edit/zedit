@@ -1,4 +1,4 @@
-<input type="text" ng-model="search" ng-keydown="searchKeyDown($event)" ng-class="{'error' : notFound}" ng-blur="blurSearch()"/>
+<input type="text" ng-model="search" ng-keydown="onSearchKeyDown($event)" ng-class="{'error' : notFound}" ng-blur="blurSearch()"/>
 <button class="glyph-button previous-result" ng-class="{'disabled' : !search.length}" ng-click="previousResult()">
     <i class="fa fa-arrow-up"></i>
 </button>

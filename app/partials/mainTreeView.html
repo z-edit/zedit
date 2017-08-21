@@ -9,7 +9,7 @@
     <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
     <div class="column-action edit-columns" ng-click="toggleColumnsModal(true)" title="Edit columns"></div>
 </div>
-<div class="tree-nodes" tabindex="0" ng-keydown="treeKeyDown($event)" ng-mousedown="treeMouseDown($event)" vs-repeat>
+<div class="tree-nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" vs-repeat>
     <div ng-repeat="node in tree" ng-mousedown="selectNode($event, node)" ng-dblclick="onNodeDoubleClick($event, node)" ng-class="{'selected' : node.selected}" class="node {{:: node.class }}" ng-init="node.has_data || getNodeData(node)">
         <span ng-repeat="value in node.column_values track by $index" class="column column-{{::$index}}">
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
