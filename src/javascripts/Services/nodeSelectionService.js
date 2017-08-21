@@ -1,8 +1,7 @@
 ngapp.service('nodeSelectionService', function() {
     this.buildFunctions = function(scope) {
         // initialize variables
-        var lastRange = [];
-        var nodeHeight = 20;
+        let lastRange = [], nodeHeight = 20;
         scope.selectedNodes = [];
 
         // scope and helper functions
@@ -175,6 +174,26 @@ ngapp.service('nodeSelectionService', function() {
                 scope.clearSelection();
                 scope.selectSingle(targetNode);
             }
+        };
+
+        scope.getPageLength = function() {
+            return Math.floor(scope.treeElement.offsetHeight / nodeHeight);
+        };
+
+        // navigate up a page of nodes when page up is pressed
+        scope.handlePageUp = function(e) {
+            let currentNode = scope.selectedNodes.last(),
+                index = scope.tree.indexOf(currentNode);
+            index = Math.max(index - scope.getPageLength(), 0);
+            scope.selectNode(e, scope.tree[index]);
+        };
+
+        // navigate down a page of nodes  when page down is pressed
+        scope.handlePageDown = function(e) {
+            let currentNode = scope.selectedNodes.last(),
+                index = scope.tree.indexOf(currentNode);
+            index = Math.min(index + scope.getPageLength(), scope.tree.length - 1);
+            scope.selectNode(e, scope.tree[index]);
         };
     };
 });
