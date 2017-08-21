@@ -89,7 +89,7 @@ ngapp.service('nodeSelectionService', function() {
             } else {
                 scope.selectSingle(node);
             }
-            e.stopPropagation();
+            e.stopImmediatePropagation();
         };
 
         // expand node or navigate to first child when right arrow is pressed

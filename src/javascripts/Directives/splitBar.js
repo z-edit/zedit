@@ -41,7 +41,7 @@ ngapp.directive('splitBar', function () {
                 htmlElement.addEventListener('mousemove', handleMouseMove);
                 htmlElement.addEventListener('touchmove', handleMouseMove);
                 e.preventDefault();
-                e.stopPropagation();
+                e.stopImmediatePropagation();
             };
             let handleMouseUp = function(e) {
                 if (!moving) return;
@@ -49,7 +49,7 @@ ngapp.directive('splitBar', function () {
                 htmlElement.removeEventListener('mousemove', handleMouseMove);
                 htmlElement.removeEventListener('touchmove', handleMouseMove);
                 e.preventDefault();
-                e.stopPropagation();
+                e.stopImmediatePropagation();
             };
 
             // event bindings

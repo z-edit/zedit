@@ -29,7 +29,7 @@ ngapp.service('listViewFactory', function () {
                 item.selected = true;
                 prevIndex = index;
             }
-            e.stopPropagation();
+            e.stopImmediatePropagation();
         };
 
         scope.onKeyPress = function(e) {
