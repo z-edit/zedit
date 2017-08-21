@@ -1,9 +1,10 @@
-var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, nodeSelectionService, treeColumnService) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
 
     // helper/scope variables
+    let hotkeys = hotkeyFactory.recordTreeHotkeys();
     $scope.overrides = [];
 
     // inherited functions
@@ -11,6 +12,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     recordTreeService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
 
     // scope functions
     $scope.toggleAddressBar = function(visible) {

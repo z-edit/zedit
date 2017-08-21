@@ -1,9 +1,10 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
 
-    // inherited variables
+    // helper variables
+    let hotkeys = hotkeyFactory.mainTreeHotkeys();
     $scope.allColumns = columnsService.columns;
 
     // inherited functions
@@ -11,6 +12,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     mainTreeService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
 
     // scope functions
     $scope.onNodeDoubleClick = function(e, node) {
@@ -25,8 +27,8 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     $scope.handleEnter = function(e) {
-        $scope.dblClickNode($scope.lastSelectedNode());
-        e.stopPropagation();
+        $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
+        e.stopImmediatePropagation();
     };
 
     // initialization
