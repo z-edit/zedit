@@ -1,19 +1,20 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
+ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory) {
     // helper variables
-    let enterKey = 13, escapeKey = 27, aKey = 65, eKey = 69, fKey = 70, nKey = 78, xKey = 88;
-    let searchOptionKeys = [fKey, eKey, nKey, aKey];
+    let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
+        searchOptionKeys = [fKey, eKey, nKey, aKey],
+        hotkeys = hotkeyFactory.treeSearchHotkeys();
 
     // scope variables
     $scope.search = '';
-    $scope.searchOptions = {
-        searchBy: "1",
-        exact: true
-    };
+    $scope.searchOptions = { searchBy: "1", exact: true };
     $scope.searchBy = {
         0: "Form ID",
         1: "Editor ID",
         2: "Name"
     };
+
+    // inherited functions
+    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', hotkeys);
 
     // helper functions
     let getElementIndex = function(elements, element) {
@@ -103,36 +104,23 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout) {
 
     $scope.closeSearch = function() {
         if ($scope.handle) xelib.Release($scope.handle);
-        $scope.toggleSearch();
-    };
-
-    // keydown in the search field
-    $scope.searchKeyDown = function(e) {
-        if (e.keyCode == enterKey) {
-            $scope[(e.shiftKey ? 'previous' : 'next') + 'Result']();
-        } else if (e.keyCode == escapeKey) {
-            $scope.closeSearch();
-        } else if (e.altKey) {
-            if (e.keyCode == xKey) {
-                $scope.searchOptions.exact = !$scope.searchOptions.exact;
-            } else {
-                let n = searchOptionKeys.indexOf(e.keyCode);
-                if (n == -1) return;
-                $scope.searchOptions.searchBy = n.toString();
-            }
-        } else {
-            return;
-        }
-        e.stopPropagation();
-        e.preventDefault();
+        $scope.toggleSearchBar();
     };
 
     $scope.blurSearch = function() {
         $scope.notFound = false;
     };
 
+    $scope.toggleExact = function() {
+        $scope.searchOptions.exact = !$scope.searchOptions.exact;
+    };
+
+    $scope.setSearchBy = function(e) {
+        let n = searchOptionKeys.indexOf(e.keyCode);
+        if (n == -1) return;
+        $scope.searchOptions.searchBy = n.toString();
+    };
+
     // event listeners
-    $scope.$on('cancel', function() {
-        $scope.cancelled = true;
-    });
+    $scope.$on('cancel', () => $scope.cancelled = true);
 });
