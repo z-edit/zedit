@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function ($scope, $document) {
+ngapp.controller('baseController', function ($scope, $document, $timeout) {
     var hostWindow = remote.getCurrentWindow();
 
     $scope.title = 'zEdit - New Session';
@@ -46,12 +46,17 @@ ngapp.controller('baseController', function ($scope, $document) {
     });
 
     $scope.$on('openContextMenu', function(e, offset, items) {
-        $scope.showContextMenu = true;
-        $scope.contextMenuOffset = offset;
-        items.forEach(function(item) {
-            item.templateUrl = `directives/contextMenu${item.divider ? 'Divider' : 'Item'}.html`;
+        if (!items.length) return;
+        $timeout(function() {
+            $scope.showContextMenu = true;
+            $scope.contextMenuOffset = offset;
+            let buildTemplateUrl = function(item) {
+                item.templateUrl = `directives/contextMenu${item.divider ? 'Divider' : 'Item'}.html`;
+                if (item.children) item.children.forEach(buildTemplateUrl);
+            };
+            items.forEach(buildTemplateUrl);
+            $scope.contextMenuItems = items;
         });
-        $scope.contextMenuItems = items;
     });
 
     $scope.$on('closeContextMenu', function(e) {

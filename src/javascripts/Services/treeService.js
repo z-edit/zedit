@@ -55,6 +55,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         let scrollbarWidth = 17;
         scope.onTreeMouseDown = function(e) {
+            if (!e.srcElement.classList.contains('tree-nodes')) return;
             let t = scope.treeElement;
             if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
                 scope.clearSelection(true);
