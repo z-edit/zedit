@@ -43,7 +43,27 @@ ngapp.controller('baseController', function ($scope, $document) {
 
     $scope.$on('setTitle', function(e, title) {
         $scope.title = title;
+    });
+
+    $scope.$on('openContextMenu', function(e, offset, items) {
+        $scope.showContextMenu = true;
+        $scope.contextMenuOffset = offset;
+        items.forEach(function(item) {
+            item.templateUrl = `directives/contextMenu${item.divider ? 'Divider' : 'Item'}.html`;
+        });
+        $scope.contextMenuItems = items;
+    });
+
+    $scope.$on('closeContextMenu', function(e) {
+        $scope.showContextMenu = false;
         e.stopPropagation();
+    });
+
+    // hide context menu when user clicks in document
+    $document.bind('mousedown', function() {
+        if ($scope.showContextMenu) {
+            $scope.$applyAsync(() => $scope.showContextMenu = false);
+        }
     });
 
     // keyboard shortcuts
