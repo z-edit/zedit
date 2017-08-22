@@ -1,0 +1,8 @@
+<td class="icon {{::item.iconClass}}"></td>
+<td class="label">{{::item.label}}</td>
+<td class="hotkey">{{::item.hotkey}}</td>
+<td ng-if="::!item.children" class="padding"></td>
+<td ng-if="::item.children" class="children-container">
+    <span class="caret-right"></span>
+    <context-menu ng-if="item.selected" items="item.children"></context-menu>
+</td>
