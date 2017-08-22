@@ -25,7 +25,18 @@ ngapp.directive('contextMenu', function($timeout) {
                     e.style.visibility = 'visible';
                 });
             } else {
-                // TODO
+                e.style.top = '0';
+                e.style.left = '0';
+                e.style.visibility = 'hidden';
+                scope.offset = { top: -2, left: 16 };
+                $timeout(function() {
+                    // TODO: move up/down as necessary
+                    // TODO: move to left side of parent if necessary
+                    // TODO: enable scrolling if necessary
+                    e.style.top = scope.offset.top + 'px';
+                    e.style.left = scope.offset.left + 'px';
+                    e.style.visibility = 'visible';
+                });
             }
         }
     }
