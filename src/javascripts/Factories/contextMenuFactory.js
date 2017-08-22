@@ -1,6 +1,6 @@
 ngapp.service('contextMenuFactory', function() {
     this.mainTreeItems = [{
-        available: (items, node) => { return xelib.GetIsEditable(node.handle); },
+        available: (items, node) => { return xelib.GetCanAdd(node.handle); },
         build: (items, node, scope) => {
             let addList = xelib.GetAddList(node.handle);
             items.push({
