@@ -1,0 +1,68 @@
+context-menu {
+  position: absolute;
+  display: inline-block;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font: 12px sans-serif;
+  padding: 2px 0;
+  box-shadow: 4px 4px 6px -3px #000;
+
+  table {
+    border-collapse: collapse;
+  }
+
+  .divider {
+    height: 11px;
+    position: relative;
+
+    .bar {
+      width: 100%;
+      position: absolute;
+      margin-top: 3px;
+      left: 0;
+      border-bottom: 1px solid #eee;
+    }
+  }
+
+  .item {
+   height: 22px;
+
+    .icon {
+      min-width: 32px;
+      padding: 2px 8px;
+    }
+
+    .label {
+      padding-right: 10px;
+    }
+
+    .hotkey {
+      color: #888;
+    }
+
+    .padding {
+      min-width: 20px;
+    }
+
+    .children-container {
+      position: relative;
+
+      .caret-right {
+        border: 4px transparent;
+        border-left: 4px solid #000;
+      }
+    }
+
+    &.selected:not(.disabled) {
+      background-color: #ebebeb;
+
+      .hotkey {
+        color: #000;
+      }
+    }
+
+    &.disabled {
+      color: #888;
+    }
+  }
+}
