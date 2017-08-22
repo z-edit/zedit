@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -24,6 +24,13 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
             // with the record view
             data.linkedScope.record = xelib.GetElement(node.handle);
         }
+    };
+
+    $scope.showNodeContextMenu = function(e, node) {
+        let offset = { top: e.clientY, left: e.clientX},
+            items = contextMenuFactory.mainTreeItems,
+            menuItems = contextMenuService.buildNodeMenuItems(node, $scope, items);
+        $timeout(() => $scope.$emit('openContextMenu', offset, menuItems));
     };
 
     $scope.handleEnter = function(e) {

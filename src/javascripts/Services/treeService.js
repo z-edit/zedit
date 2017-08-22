@@ -53,6 +53,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             scope[node.expanded ? 'collapseNode' : 'expandNode'](node);
         };
 
+        scope.onNodeMouseDown = function(e, node) {
+            if (e.button == 2) scope.showNodeContextMenu(e, node);
+            scope.selectNode(e, node);
+        };
+
         let scrollbarWidth = 17;
         scope.onTreeMouseDown = function(e) {
             if (!e.srcElement.classList.contains('tree-nodes')) return;
