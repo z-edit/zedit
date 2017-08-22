@@ -6,19 +6,8 @@ ngapp.directive('contextMenu', function($timeout) {
             items: '=',
             offset: '=?'
         },
+        controller: 'contextMenuController',
         link: function(scope, element) {
-            scope.selectItem = function(item) {
-                if (item.selected) return;
-                scope.items.forEach((item) => item.selected = false);
-                item.selected = true;
-            };
-
-            scope.clickItem = function(e, item) {
-                e.stopPropagation();
-                item.callback && item.callback();
-                scope.$emit('closeContextMenu')
-            };
-
             let e = element[0];
             if (scope.offset) {
                 e.style.top = '0';
@@ -38,4 +27,29 @@ ngapp.directive('contextMenu', function($timeout) {
             }
         }
     }
+});
+
+ngapp.controller('contextMenuController', function($scope, $element) {
+    $scope.selectItem = function(item) {
+        if (item.selected) return;
+        item.selected = true;
+    };
+
+    $scope.deselectItem = function(e, item) {
+        let container = $element[0],
+            src = e.srcElement,
+            depth = 0;
+        while (src !== container) {
+            src = src.parentElement;
+            depth++;
+        }
+        if (depth > 4) return;
+        item.selected = false;
+    };
+
+    $scope.clickItem = function(e, item) {
+        e.stopImmediatePropagation();
+        item.callback && item.callback();
+        $scope.$emit('closeContextMenu')
+    };
 });

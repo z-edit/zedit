@@ -1,3 +1,5 @@
 <table>
-    <tr ng-repeat="item in items" ng-include="item.templateUrl" class="{{::item.divider ? 'divider' : 'item'}}" ng-mouseenter="selectItem(item)" ng-click="clickItem($event, item)" ng-class="{'selected' : item.selected, 'disabled' : item.disabled}"></tr>
+    <tbody>
+    <tr ng-repeat="item in items" ng-include="item.templateUrl" class="{{::item.divider ? 'divider' : 'item'}}" ng-mouseenter="selectItem(item)" ng-mouseleave="deselectItem($event, item)" ng-click="clickItem($event, item)" ng-class="{'selected' : item.selected, 'disabled' : item.disabled}"></tr>
+    </tbody>
 </table>
