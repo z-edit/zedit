@@ -95,6 +95,7 @@ try {
         'GetIsModified': [WordBool, [Cardinal, PWordBool]],
         'GetIsEditable': [WordBool, [Cardinal, PWordBool]],
         'GetIsRemoveable': [WordBool, [Cardinal, PWordBool]],
+        'GetCanAdd': [WordBool, [Cardinal, PWordBool]],
         'SortKey': [WordBool, [Cardinal, PInteger]],
         'ElementType': [WordBool, [Cardinal, PByte]],
         'DefType': [WordBool, [Cardinal, PByte]],

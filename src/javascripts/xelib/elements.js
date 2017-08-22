@@ -50,7 +50,7 @@ xelib.GetDefNames = function(_id) {
 };
 xelib.GetAddList = function(_id) {
     return GetString(function(_len) {
-        if (!lib.GetDefNames(_id, _len))
+        if (!lib.GetAddList(_id, _len))
             Fail(`Failed to get add list for: ${_id}`);
     }).split('\r\n');
 };
@@ -112,6 +112,12 @@ xelib.GetIsRemoveable = function(_id) {
     return GetBool(function(_bool) {
         if (!lib.GetIsRemoveable(_id, _bool))
             Fail(`Failed to get is removeable for ${_id}`);
+    });
+};
+xelib.GetCanAdd = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.GetCanAdd(_id, _bool))
+            Fail(`Failed to get can add for ${_id}`);
     });
 };
 xelib.ElementType = function(_id, asString = false) {
