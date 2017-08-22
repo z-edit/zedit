@@ -48,6 +48,12 @@ xelib.GetDefNames = function(_id) {
             Fail(`Failed to get def names for: ${_id}`);
     }).split('\r\n');
 };
+xelib.GetAddList = function(_id) {
+    return GetString(function(_len) {
+        if (!lib.GetDefNames(_id, _len))
+            Fail(`Failed to get add list for: ${_id}`);
+    }).split('\r\n');
+};
 xelib.GetLinksTo = function(_id, path) {
     return GetHandle(function(_res) {
         if (!lib.GetLinksTo(_id, wcb(path), _res))
@@ -88,6 +94,24 @@ xelib.GetSignatureAllowed = function(_id, signature) {
     return GetBool(function(_bool) {
         if (!lib.GetSignatureAllowed(_id, wcb(signature), _bool))
             Fail(`Failed to check if signature ${signature} is allowed on ${_id}`);
+    });
+};
+xelib.GetIsModified = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.GetIsModified(_id, _bool))
+            Fail(`Failed to get is modified for ${_id}`);
+    });
+};
+xelib.GetIsEditable = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.GetIsEditable(_id, _bool))
+            Fail(`Failed to get is editable for ${_id}`);
+    });
+};
+xelib.GetIsRemoveable = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.GetIsRemoveable(_id, _bool))
+            Fail(`Failed to get is removeable for ${_id}`);
     });
 };
 xelib.ElementType = function(_id, asString = false) {
