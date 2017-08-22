@@ -12,6 +12,7 @@ ngapp.directive('contextMenu', function($timeout) {
             if (scope.offset) {
                 e.style.top = '0';
                 e.style.left = '0';
+                e.style.visibility = 'hidden';
                 $timeout(function() {
                     if (scope.offset.top + e.offsetHeight > window.innerHeight) {
                         scope.offset.top = window.innerHeight - e.offsetHeight - 16;
@@ -21,6 +22,7 @@ ngapp.directive('contextMenu', function($timeout) {
                     }
                     e.style.top = scope.offset.top + 'px';
                     e.style.left = scope.offset.left + 'px';
+                    e.style.visibility = 'visible';
                 });
             } else {
                 // TODO
