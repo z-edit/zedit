@@ -1,0 +1,18 @@
+<div class="modal-container" ng-click="unfocusEditModal($event)">
+    <div class="modal">
+        <form>
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="toggleEditModal()"></span>
+            </div>
+
+            <h2>{{::editOptions.title}}</h2>
+            <input ng-if="::(editOptions.editType === 'string')" type="text" ng-model="value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"/>
+            <textarea ng-if="::(editOptions.editType === 'text')" ng-model="value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"></textarea>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
+                <button class="action-btn" ng-click="toggleEditModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
