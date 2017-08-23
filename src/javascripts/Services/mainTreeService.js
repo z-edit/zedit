@@ -56,13 +56,14 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
             return node;
         };
 
-        scope.navigateToElement = function(handle) {
+        scope.navigateToElement = function(handle, open) {
             let node = scope.resolveNode(xelib.LongPath(handle));
             if (node) {
                 scope.clearSelection(true);
                 scope.selectSingle(node, true, true, false);
                 $timeout(function() {
                     scope.scrollToNode(node, true);
+                    if (open) scope.open(node);
                 });
             }
         };

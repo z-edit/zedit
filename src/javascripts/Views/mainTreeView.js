@@ -15,15 +15,18 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
 
     // scope functions
+    $scope.open = function(node) {
+        if (node.element_type !== xelib.etMainRecord) return;
+        if (data.linkedScope) {
+            // get a new handle for the record to be used with the record view
+            data.linkedScope.record = xelib.GetElement(node.handle);
+        }
+    };
+
     $scope.onNodeDoubleClick = function(e, node) {
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
-        if (node.element_type !== xelib.etMainRecord) return;
-        if (data.linkedScope) {
-            // we do this to get a new handle for the record to be used
-            // with the record view
-            data.linkedScope.record = xelib.GetElement(node.handle);
-        }
+        $scope.open(node);
     };
 
     $scope.showNodeContextMenu = function(e, node) {
@@ -34,7 +37,12 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     $scope.handleEnter = function(e) {
-        $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
+        $scope.open($scope.lastSelectedNode());
+        e.stopImmediatePropagation();
+    };
+
+    $scope.handleDelete = function(e) {
+        $scope.selectedNodes.forEach((node) => $scope.deleteElement(node));
         e.stopImmediatePropagation();
     };
 

@@ -7,6 +7,8 @@ ngapp.service('hotkeyFactory', function() {
             downArrow: 'handleDownArrow',
             pageUp: 'handlePageUp',
             pageDown: 'handlePageDown',
+            enter: 'handleEnter',
+            delete: 'handleDelete',
             f: [{
                 modifiers: ['ctrlKey', 'shiftKey'],
                 callback: 'toggleAdvancedSearch'
