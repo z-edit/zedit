@@ -1,4 +1,4 @@
-var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -10,6 +10,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     // inherited functions
     treeService.buildFunctions($scope, $element);
     recordTreeService.buildFunctions($scope);
+    recordTreeElementService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
@@ -24,9 +25,9 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         $scope.showEditModal = visible;
     };
 
-    $scope.handleEnter = function(e) {
-        // TODO
-        e.stopPropagation();
+    $scope.focusAddressInput = function () {
+        let addressInput = htmlHelpers.resolveElement($scope.tabView, 'record-address-bar/input');
+        if (addressInput) addressInput.focus();
     };
 
     $scope.onScroll = function(e) {
@@ -39,11 +40,17 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     };
 
     $scope.onCellDoubleClick = function(e, node, index) {
-        if (!node.handles[index - 1]) return; // TODO: assign element, and edit if editable
-        if (uneditableValueTypes.contains(node.value_type)) return;
-        $scope.targetNode = node;
-        $scope.targetIndex = index - 1;
-        $scope.toggleEditModal(true);
+        if (!node.handles[index - 1]) {
+            $scope.addElement(node, index);
+            $timeout(() => $scope.editElement(node, index), 50);
+        } else {
+            $scope.editElement(node, index);
+        }
+        e.stopImmediatePropagation();
+    };
+
+    $scope.handleEnter = function(e) {
+        $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
         e.stopImmediatePropagation();
     };
 
