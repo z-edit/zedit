@@ -56,6 +56,7 @@ try {
         'FileByLoadOrder': [WordBool, [Integer, PCardinal]],
         'FileByName': [WordBool, [PWChar, PCardinal]],
         'FileByAuthor': [WordBool, [PWChar, PCardinal]],
+        'RenameFile': [WordBool, [Cardinal, PWChar]],
         'SaveFile': [WordBool, [Cardinal]],
         'OverrideRecordCount': [WordBool, [Cardinal, PInteger]],
         'MD5Hash': [WordBool, [Cardinal, PInteger]],

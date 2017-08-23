@@ -29,6 +29,14 @@ xelib.FileByAuthor = function(author) {
             Fail(`Failed to find file with author: ${author}`);
     });
 };
+xelib.RenameFile = function(_id, newFileName) {
+    if (!lib.RenameFile(_id, wcb(newFileName)))
+        Fail(`Failed to rename file to ${newFileName}`);
+};
+xelib.SaveFile = function(_id) {
+    if (!lib.SaveFile(_id))
+        Fail(`Failed to save file: ${_id}`);
+};
 xelib.MD5Hash = function(_id) {
     return GetString(function(_len) {
         if (!lib.MD5Hash(_id, _len))
@@ -40,8 +48,4 @@ xelib.CRCHash = function(_id) {
         if (!lib.CRCHash(_id, _len))
             Fail(`Failed to get CRC Hash for: ${_id}`);
     });
-};
-xelib.SaveFile = function(_id) {
-    if (!lib.SaveFile(_id))
-        Fail(`Failed to save file: ${_id}`);
 };
