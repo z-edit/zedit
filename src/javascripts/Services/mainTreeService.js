@@ -69,7 +69,7 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
         
         scope.getNodeClass = function(node) {
             let classes = [];
-            //if (xelib.GetModified(node.handle)) classes.push('modified');
+            if (xelib.GetIsModified(node.handle)) classes.push('modified');
             if (node.element_type === xelib.etMainRecord && node.fid > 0) {
                 if (xelib.IsInjected(node.handle)) classes.push('injected');
                 let conflictData = xelib.GetRecordConflictData(node.handle);
