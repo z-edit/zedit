@@ -54,8 +54,8 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.onNodeMouseDown = function(e, node) {
-            if (e.button == 2) scope.showNodeContextMenu(e, node);
             scope.selectNode(e, node);
+            if (e.button == 2) scope.showNodeContextMenu(e, node);
         };
 
         let scrollbarWidth = 17;
