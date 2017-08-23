@@ -36,6 +36,13 @@ ngapp.service('htmlHelpers', function() {
         }
     };
 
+    this.findParent = function(element, testFn) {
+        while (element) {
+            if (testFn(element)) return element;
+            element = element.parentElement;
+        }
+    };
+
     this.resolve = function(element, part) {
         let resolveFn = service.getResolveFunction(part);
         return service.findChild(element, resolveFn);
