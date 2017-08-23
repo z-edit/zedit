@@ -12,16 +12,18 @@ xelib.GetFileName = function(_id) {
     return xelib.Name(_id);
 };
 xelib.GetAuthor = function(_id) {
-    return xelib.GetValue(_id, 'File Header\\CNAM');
+    return xelib.GetValue(_id, 'File Header\\CNAM', true);
 };
 xelib.SetAuthor = function(_id, author) {
-    return xelib.SetValue(_id, 'File Header\\CNAM', wcb(author));
+    return xelib.SetValue(_id, 'File Header\\CNAM', author);
 };
 xelib.GetDescription = function(_id) {
-    return xelib.GetValue(_id, 'File Header\\SNAM');
+    return xelib.GetValue(_id, 'File Header\\SNAM', true);
 };
 xelib.SetDescription = function(_id, description) {
-    return xelib.SetValue(_id, 'File Header\\SNAM', wcb(description));
+    if (!xelib.HasElement(_id, 'File Header\\SNAM'))
+        xelib.AddElement(_id, 'File Header\\SNAM');
+    return xelib.SetValue(_id, 'File Header\\SNAM', description);
 };
 xelib.GetIsESM = function(_id) {
     return xelib.GetFlag(_id, 'File Header\\Record Header\\Record Flags', 'ESM');
