@@ -44,27 +44,112 @@ ngapp.directive('contextMenu', function($timeout, htmlHelpers) {
     }
 });
 
-ngapp.controller('contextMenuController', function($scope, $element) {
-    $scope.selectItem = function(item) {
-        if (item.selected) return;
-        item.selected = true;
+ngapp.controller('contextMenuController', function($scope, $element, $timeout, hotkeyService, hotkeyFactory) {
+    // scope and helper variables
+    $scope.currentIndex = -1;
+    let hotkeys = hotkeyFactory.contextMenuHotkeys(),
+        table = $element[0].firstElementChild;
+
+    // inherited functions
+    hotkeyService.buildOnKeyDown($scope, 'onMenuKeyDown', hotkeys);
+
+    // helper functions
+    let getCurrentItem = function() {
+        return $scope.items[$scope.currentIndex];
     };
 
-    $scope.deselectItem = function(e, item) {
+    let decrementCurrentIndex = function() {
+        if ($scope.currentIndex < 1) {
+            $scope.currentIndex = $scope.items.length - 1;
+        } else {
+            $scope.currentIndex--;
+        }
+        let currentItem = getCurrentItem();
+        if (currentItem.divider || currentItem.disabled) decrementCurrentIndex();
+    };
+
+    let incrementCurrentIndex = function() {
+        if ($scope.currentIndex == $scope.items.length - 1) {
+            $scope.currentIndex = 0;
+        } else {
+            $scope.currentIndex++;
+        }
+        let currentItem = getCurrentItem();
+        if (currentItem.divider || currentItem.disabled) incrementCurrentIndex();
+    };
+
+    let getMenuDepth = function(src) {
         let container = $element[0],
-            src = e.srcElement,
             depth = 0;
         while (src !== container) {
             src = src.parentElement;
             depth++;
         }
-        if (depth > 4) return;
-        item.selected = false;
+        return depth;
+    };
+
+    // scope functions
+    $scope.closeChildMenus = function() {
+        $scope.items.forEach((item) => item.expanded = false);
+    };
+
+    $scope.selectItem = function(index) {
+        $scope.closeChildMenus();
+        $scope.currentIndex = index;
+        if (index > -1) getCurrentItem().expanded = true;
+    };
+
+    $scope.deselectItem = function(e, item) {
+        if (getMenuDepth(e.srcElement) > 4) return;
+        item.expanded = false;
+        $scope.currentIndex = -1;
     };
 
     $scope.clickItem = function(e, item) {
         e.stopImmediatePropagation();
-        item.callback && item.callback();
-        $scope.$emit('closeContextMenu')
+        if (!item) item = getCurrentItem();
+        if (!item || item.disabled || !item.callback) return;
+        item.callback();
+        $scope.closeMenu();
     };
+
+    $scope.handleRightArrow = function(e) {
+        e.stopPropagation();
+        if ($scope.currentIndex == -1) return;
+        let currentItem = getCurrentItem();
+        if (!currentItem.children) return;
+        currentItem.expanded = true;
+        $timeout(() =>$scope.$broadcast('focusFirstChild'));
+    };
+
+    $scope.handleLeftArrow = function(e) {
+        e.stopPropagation();
+        if (!$scope.nested) return;
+        $scope.closeChildMenus();
+        $scope.$emit('closeChildMenu');
+    };
+
+    $scope.handleUpArrow = function(e) {
+        e.stopPropagation();
+        decrementCurrentIndex();
+    };
+
+    $scope.handleDownArrow = function(e) {
+        e.stopPropagation();
+        incrementCurrentIndex();
+    };
+
+    $scope.closeMenu = () => $scope.$emit('closeContextMenu');
+
+    $scope.$on('closeChildMenu', function(e) {
+        if (e.targetScope === $scope) return;
+        e.stopPropagation();
+        getCurrentItem().expanded = false;
+        table.focus();
+    });
+
+    $scope.$on('focusFirstChild', function(e) {
+        if (e.targetScope === $scope) return;
+        $scope.currentIndex = 0;
+    });
 });
