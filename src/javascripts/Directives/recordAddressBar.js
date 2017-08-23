@@ -14,14 +14,19 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
     $scope.historyIndex = -1;
 
     $scope.historyGo = function() {
-        let entry = $scope.history[$scope.historyIndex];
-        $scope.skipHistory = true;
-        $scope.address = entry.path;
-        $scope.go();
+        if ($scope.historyIndex < 0) {
+            $scope.address = '';
+            $scope.$emit('setRecord', undefined);
+        } else {
+            let entry = $scope.history[$scope.historyIndex];
+            $scope.skipHistory = true;
+            $scope.address = entry.path;
+            $scope.go();
+        }
     };
 
     $scope.back = function() {
-        if (!$scope.historyIndex) return;
+        if ($scope.historyIndex <= 0) return;
         $scope.historyIndex--;
         $scope.historyGo();
     };
@@ -76,6 +81,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
         return entry;
     };
 
+    // event handling
     $scope.$on('recordChanged', function() {
         if ($scope.skipHistory) {
             $scope.skipHistory = false;
@@ -87,5 +93,17 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
         $scope.history.push(entry);
         $scope.historyIndex = $scope.history.length - 1;
         $scope.setAddress();
+    });
+
+    $scope.$on('deleteElement', function(e, handle, elementType) {
+        if (elementType !== xelib.etMainRecord) return;
+        let path = xelib.Path(handle),
+            newIndex = $scope.historyIndex;
+        $scope.history = $scope.history.filter(function(entry, index) {
+            if (index < $scope.historyIndex) newIndex--;
+            return entry.path !== path;
+        });
+        $scope.historyIndex = Math.min(newIndex, $scope.history.length - 1);
+        $scope.historyGo();
     });
 });
