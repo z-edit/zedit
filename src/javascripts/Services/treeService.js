@@ -51,6 +51,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         scope.toggleNode = function(e, node) {
             e && e.stopImmediatePropagation();
             scope[node.expanded ? 'collapseNode' : 'expandNode'](node);
+            scope.$emit('closeContextMenu');
         };
 
         scope.onNodeMouseDown = function(e, node) {
