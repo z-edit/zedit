@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -10,6 +10,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     // inherited functions
     treeService.buildFunctions($scope, $element);
     mainTreeService.buildFunctions($scope);
+    mainTreeElementService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);

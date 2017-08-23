@@ -42,6 +42,14 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
             });
         };
 
+        scope.rebuildNode = function(node) {
+            scope.getNodeData(node);
+            if (node.expanded) {
+                scope.collapseNode(node);
+                scope.expandNode(node);
+            }
+        };
+
         scope.resolveNode = function(path) {
             let node = undefined;
             path.split('\\').forEach(function(part) {
