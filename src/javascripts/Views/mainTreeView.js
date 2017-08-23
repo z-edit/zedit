@@ -38,6 +38,21 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         e.stopImmediatePropagation();
     };
 
+    $scope.$on('setRecordModified', function(e, record) {
+        let node, element = xelib.GetElement(record);
+        while (!node) {
+            node = $scope.getNodeForElement(element);
+            if (!node) {
+                let container = xelib.GetContainer(element, true);
+                xelib.Release(element);
+                if (!container) return;
+                element = container;
+            }
+        }
+        $scope.setNodeModified(node);
+        xelib.Release(element);
+    });
+
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };
     $scope.buildColumns();

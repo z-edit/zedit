@@ -31,6 +31,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     $scope.afterApplyValue = function() {
+        $scope.$root.$broadcast('setRecordModified', $scope.record);
         $scope.updateNode(node);
         $scope.toggleEditModal();
     };

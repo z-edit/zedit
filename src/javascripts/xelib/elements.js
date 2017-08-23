@@ -60,10 +60,10 @@ xelib.GetLinksTo = function(_id, path) {
             Fail(`Failed to get link at: ${elementContext(_id, path)}`);
     });
 };
-xelib.GetContainer = function(_id) {
+xelib.GetContainer = function(_id, noException = false) {
     return GetHandle(function(_res) {
         if (!lib.GetContainer(_id, _res))
-            Fail(`Failed to get container for: ${_id}`);
+            if (!noException) Fail(`Failed to get container for: ${_id}`);
     });
 };
 xelib.GetElementFile = function(_id) {
