@@ -1,11 +1,13 @@
 context-menu {
-  position: absolute;
+  position: fixed;
   display: inline-block;
   border: 1px solid #aaa;
   background-color: #fff;
   font: 12px sans-serif;
   padding: 2px 0;
   box-shadow: 4px 4px 6px -3px #000;
+  z-index: 10;
+  overflow-y: auto;
 
   table {
     border-collapse: collapse;
