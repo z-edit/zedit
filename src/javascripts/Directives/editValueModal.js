@@ -7,7 +7,7 @@ ngapp.directive('editValueModal', function () {
     }
 });
 
-ngapp.controller('editValueModalController', function($scope, $timeout, formUtils, listViewFactory) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService, formUtils, listViewFactory) {
     // variables
     let node = $scope.targetNode,
         handle = node.handles[$scope.targetIndex],
@@ -17,18 +17,14 @@ ngapp.controller('editValueModalController', function($scope, $timeout, formUtil
     $scope.path = xelib.Path(handle);
     $scope.vtClass = vtLabel;
 
-    var tryParseColor = function(color) {
+    let tryParseColor = function(color) {
         try { return new Color(color) } catch (e) {}
-    };
-
-    var alertException = function(callback) {
-        try { callback() } catch (e) { alert(e) }
     };
 
     // scope functions
     $scope.applyValue = function() {
         if ($scope.invalid) return;
-        alertException(function() {
+        errorService.try(function() {
             xelib.SetValue(handle, '', $scope.value);
             $scope.afterApplyValue();
         });
@@ -56,7 +52,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, formUtil
         };
 
         $scope.applyValue = function() {
-            alertException(function() {
+            errorService.try(function() {
                 xelib.SetValue(handle, '', $scope.bytes.join(' '));
                 $scope.afterApplyValue();
             });
@@ -145,7 +141,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, formUtil
 
         $scope.applyValue = function() {
             if ($scope.invalid) return;
-            alertException(function() {
+            errorService.try(function() {
                 let c = tryParseColor($scope.value);
                 xelib.SetValue(handle, 'Red', c.getRed().toString());
                 xelib.SetValue(handle, 'Green', c.getGreen().toString());
