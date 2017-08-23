@@ -61,4 +61,15 @@ ngapp.service('hotkeyFactory', function() {
             }]
         }
     };
+
+    this.contextMenuHotkeys = function() {
+        return {
+            rightArrow: 'handleRightArrow',
+            leftArrow: 'handleLeftArrow',
+            upArrow: 'handleUpArrow',
+            downArrow: 'handleDownArrow',
+            escape: 'closeMenu',
+            enter: 'clickItem'
+        }
+    };
 });
