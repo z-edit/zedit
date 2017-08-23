@@ -1,6 +1,21 @@
 // functions shared by mainTreeView and recordTreeView
 ngapp.service('treeService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
+        scope.addModifiedClass = function(item) {
+            let classes = item.class.split(' ');
+            if (!classes.contains('modified')) {
+                classes.push('modified');
+                item.class = classes.join(' ');
+            }
+        };
+
+        scope.setNodeModified = function(node) {
+            while (node) {
+                scope.addModifiedClass(node);
+                node = node.parent;
+            }
+        };
+
         scope.getNodeForElement = function(handle) {
             let handles = xelib.GetDuplicateHandles(handle);
             for (let i = 0; i < handles.length; i++) {
