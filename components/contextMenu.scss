@@ -6,11 +6,16 @@ context-menu {
   font: 12px sans-serif;
   padding: 2px 0;
   box-shadow: 4px 4px 6px -3px #000;
+  user-select: none;
   z-index: 10;
   overflow-y: auto;
 
   table {
     border-collapse: collapse;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   .divider {
@@ -62,7 +67,7 @@ context-menu {
     &.selected:not(.disabled) {
       background-color: #ebebeb;
 
-      .hotkey {
+      > .hotkey {
         color: #000;
       }
     }
