@@ -65,8 +65,12 @@ ngapp.controller('baseController', function ($scope, $document, $timeout) {
     });
 
     // hide context menu when user clicks in document
-    $document.bind('mousedown', function() {
+    $document.bind('mousedown', function(e) {
         if ($scope.showContextMenu) {
+            let parentMenu = htmlHelpers.findParent(e.srcElement, function(element) {
+                return element.tagName === 'CONTEXT-MENU';
+            });
+            if (parentMenu) return;
             $scope.$applyAsync(() => $scope.showContextMenu = false);
         }
     });
