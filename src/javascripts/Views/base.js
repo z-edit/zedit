@@ -7,35 +7,22 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function ($scope, $document, $timeout) {
+ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHelpers) {
     var hostWindow = remote.getCurrentWindow();
 
     $scope.title = 'zEdit - New Session';
 
-    $scope.settingsClick = function() {
-        $scope.$broadcast('settingsClick');
+    // scope functions
+    $scope.settingsClick = () => $scope.$broadcast('settingsClick');
+    $scope.helpClick = () => $scope.$broadcast('helpClick');
+    $scope.minimizeClick = () => hostWindow.minimize();
+    $scope.restoreClick = () => {
+        hostWindow.isMaximized() ? hostWindow.unmaximize() : hostWindow.maximize();
     };
+    $scope.closeClick = () => hostWindow.close();
+    $scope.toggleEditModal = (visible) => $scope.showEditModal = visible;
 
-    $scope.helpClick = function () {
-        $scope.$broadcast('helpClick');
-    };
-
-    $scope.minimizeClick = function () {
-        hostWindow.minimize();
-    };
-
-    $scope.restoreClick = function () {
-        if (hostWindow.isMaximized()) {
-            hostWindow.unmaximize();
-        } else {
-            hostWindow.maximize();
-        }
-    };
-
-    $scope.closeClick = function () {
-        hostWindow.close();
-    };
-
+    // event handlers
     $scope.$on('terminate', function() {
         remote.app.forceClose = true;
         $scope.closeClick();
@@ -61,6 +48,12 @@ ngapp.controller('baseController', function ($scope, $document, $timeout) {
 
     $scope.$on('closeContextMenu', function(e) {
         $scope.showContextMenu = false;
+        e.stopPropagation();
+    });
+
+    $scope.$on('openEditModal', function(e, options) {
+        $scope.showEditModal = true;
+        $scope.editOptions = options;
         e.stopPropagation();
     });
 
