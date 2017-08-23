@@ -91,7 +91,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
     $scope.setupNumber = function(value) {
         $scope.textChanged = function() {
-            let match = /^([0-9]+)(\.[0-9]+)?$/i.exec($scope.value);
+            let match = /^\-?([0-9]+)(\.[0-9]+)?$/i.exec($scope.value);
             $scope.invalid = !match;
         };
         $scope.value = value;
