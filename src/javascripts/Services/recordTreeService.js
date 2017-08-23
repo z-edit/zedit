@@ -1,7 +1,6 @@
 ngapp.service('recordTreeService', function(layoutService) {
     this.buildFunctions = function(scope) {
         // helper variables
-        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
 
@@ -83,11 +82,14 @@ ngapp.service('recordTreeService', function(layoutService) {
             scope.rebuildNodes(baseParent);
         };
 
+        let getConflictData = function(handle) {
+            return xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+        };
+
         scope.getNodeClass = function(node) {
             let classes = [];
             if (node.first_handle) {
-                //if (xelib.GetModified(node.first_handle)) classes.push('modified');
-                let conflictData = xelib.GetConflictData(scope.virtualNodes, node.first_handle, false, true);
+                let conflictData = getConflictData(node.first_handle);
                 classes.push(`${caClasses[conflictData[0]]}`);
             } else {
                 classes.push('element-unassigned');
@@ -95,20 +97,35 @@ ngapp.service('recordTreeService', function(layoutService) {
             node.class = classes.join(' ');
         };
 
+        let getValue = function(node, handle) {
+            if (node.value_type === xelib.vtFlags) {
+                return xelib.GetEnabledFlags(handle).join(', ');
+            } else {
+                return xelib.GetValue(handle, '', true);
+            }
+        };
+
         scope.buildCells = function(node) {
-            node.cells = [{value: node.label}];
+            let nodeModified = false;
+            node.cells = [];
             node.handles.forEach(function(handle) {
-                let value, conflictData;
+                let value, classes = [];
                 if (handle) {
-                    let isFlags = node.value_type === xelib.vtFlags;
-                    value = isFlags ? xelib.GetEnabledFlags(handle).join(', ') : xelib.GetValue(handle, '', true);
-                    conflictData = xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+                    let conflictData = getConflictData(handle);
+                    value = getValue(node, handle);
+                    classes.push(ctClasses[conflictData[1]]);
+                    if (xelib.GetIsModified(handle)) {
+                        nodeModified = true;
+                        classes.push('modified');
+                    }
                 }
                 node.cells.push({
                     value: value || '',
-                    class: handle ? ctClasses[conflictData[1]] : ''
+                    class: classes.join(' ')
                 });
             });
+            if (nodeModified) scope.addModifiedClass(node);
+            node.cells.unshift({value: node.label, class: node.class});
         };
 
         scope.getNodeData = function(node) {
