@@ -50,7 +50,7 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
             if (column.custom) columnsService.buildDataFunction(column);
         });
         $scope.buildColumns();
-        $scope.reloadNodes();
+        $scope.reload();
         columnsService.saveColumns();
         $scope.toggleColumnsModal();
     };

@@ -1,4 +1,4 @@
-ngapp.service('recordTreeService', function(layoutService) {
+ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeViewFactory) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
@@ -21,6 +21,21 @@ ngapp.service('recordTreeService', function(layoutService) {
             });
             return maxLen;
         };
+
+        let getConflictData = function(handle) {
+            return xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+        };
+
+        let getValue = function(node, handle) {
+            if (node.value_type === xelib.vtFlags) {
+                return xelib.GetEnabledFlags(handle).join(', ');
+            } else {
+                return xelib.GetValue(handle, '', true);
+            }
+        };
+
+        // inherited functions
+        scope.releaseTree = recordTreeViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {
@@ -55,35 +70,37 @@ ngapp.service('recordTreeService', function(layoutService) {
             return node;
         };
 
-        scope.rebuildNodes = function(node) {
-            // TODO: re-expand all expanded children
-            let nodeWasExpanded = node.expanded;
-            if (node.expanded) scope.collapseNode(node);
-            let index = scope.tree.indexOf(node);
-            scope.tree.splice(index, 1, {
-                label: node.label,
-                value_type: node.value_type,
-                handles: node.handles,
-                first_handle: node.first_handle,
-                disabled: node.disabled,
-                can_expand: node.can_expand,
-                depth: node.depth
-            });
-            if (nodeWasExpanded) scope.expandNode(scope.tree[index]);
+        scope.nodeMatches = function(oldNode, newNode) {
+            if (oldNode.depth !== newNode.depth || oldNode.label !== newNode.label) {
+                return false;
+            }
+            return oldNode.handles.reduce(function(b, oldHandle, index) {
+                let newHandle = newNode.handles[index];
+                return b || oldHandle && newHandle && xelib.ElementEquals(oldHandle, newHandle);
+            }, false);
         };
 
-        // TODO: $scope.resolveNode
-        // TODO: $scope.navigateToElement
+        scope.nodeHasHandle = function(node, handle) {
+            return node.handles.contains(handle);
+        };
 
-        scope.updateNode = function(node) {
+        scope.getNewNode = function(node) {
+            for (let i = 0; i < node.handles.length; i++) {
+                let handle = node.handles[i];
+                if (!handle) continue;
+                let newNode = scope.getNodeForElement(handle);
+                if (newNode) return newNode;
+            }
+        };
+
+        scope.getElementPath = function(handle) {
+            return xelib.LocalPath(handle);
+        };
+
+        scope.updateNode = function() {
             xelib.ReleaseNodes(scope.virtualNodes);
             scope.virtualNodes = xelib.GetNodes(scope.record);
-            let baseParent = scope.getBaseParent(node);
-            scope.rebuildNodes(baseParent);
-        };
-
-        let getConflictData = function(handle) {
-            return xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+            scope.reload();
         };
 
         scope.getNodeClass = function(node) {
@@ -95,14 +112,6 @@ ngapp.service('recordTreeService', function(layoutService) {
                 classes.push('element-unassigned');
             }
             node.class = classes.join(' ');
-        };
-
-        let getValue = function(node, handle) {
-            if (node.value_type === xelib.vtFlags) {
-                return xelib.GetEnabledFlags(handle).join(', ');
-            } else {
-                return xelib.GetValue(handle, '', true);
-            }
         };
 
         scope.buildCells = function(node) {

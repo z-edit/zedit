@@ -9,8 +9,7 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             } else {
                 scope.sort.reverse = !scope.sort.reverse;
             }
-            let reverseChanged = oldReverse != scope.sort.reverse;
-            scope.reloadNodes(reverseChanged);
+            scope.reload();
         };
 
         scope.setFirstSplitBarLeft = function(width) {

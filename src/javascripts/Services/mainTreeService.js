@@ -4,22 +4,8 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
         let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
 
-        // helper functions
-        let reExpandNode = function(node) {
-            let newNode = scope.getNodeForElement(node.handle);
-            if (newNode) {
-                scope.getNodeData(newNode);
-                scope.expandNode(newNode);
-            }
-        };
-
-        let reSelectNode = function(node, scroll) {
-            let newNode = scope.getNodeForElement(node.handle);
-            if (newNode) {
-                scope.selectSingle(newNode, true, true, false);
-                if (scroll) scope.scrollToNode(newNode, true);
-            }
-        };
+        // inherited functions
+        scope.releaseTree = mainTreeViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {
@@ -56,30 +42,16 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
             scope.expandNode(node);
         };
 
-        scope.resolveNode = function(path) {
-            let node = undefined;
-            path.split('\\').forEach(function(part) {
-                let handle = xelib.GetElement(node ? node.handle : 0, `${part}`);
-                if (part !== 'Child Group') {
-                    node = scope.getNodeForElement(handle);
-                    if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
-                    if (!node.has_data) scope.getNodeData(node);
-                    if (!node.expanded) scope.expandNode(node);
-                }
-            });
-            return node;
+        scope.nodeHasHandle = function(node, handle) {
+            return node.handle === handle;
         };
 
-        scope.navigateToElement = function(handle, open) {
-            let node = scope.resolveNode(xelib.LongPath(handle));
-            if (node) {
-                scope.clearSelection(true);
-                scope.selectSingle(node, true, true, false);
-                $timeout(function() {
-                    scope.scrollToNode(node, true);
-                    if (open) scope.open(node);
-                });
-            }
+        scope.getNewNode = function(node) {
+            return scope.getNodeForElement(node.handle);
+        };
+
+        scope.getElementPath = function(handle) {
+            return xelib.LongPath(handle);
         };
 
         scope.setParentsModified = function(handle) {
@@ -107,19 +79,6 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
                 classes.push(ctClasses[conflictData[1]]);
             }
             node.class = classes.join(' ');
-        };
-
-        scope.reloadNodes = function() {
-            let start = Date.now(),
-                oldExpandedNodes = scope.tree.filter((node) => { return node.expanded; }),
-                oldSelectedNodes = scope.selectedNodes.slice(),
-                oldTree = scope.tree;
-            scope.clearSelection(true);
-            scope.buildTree();
-            oldExpandedNodes.forEach((n) => reExpandNode(n));
-            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
-            mainTreeViewFactory.releaseTree(oldTree);
-            console.log(`Rebuilt tree (${scope.tree.length} nodes) in ${Date.now() - start}ms`);
         };
 
         scope.getCanExpand = function(node) {

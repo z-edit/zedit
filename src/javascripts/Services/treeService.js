@@ -1,6 +1,73 @@
 // functions shared by mainTreeView and recordTreeView
 ngapp.service('treeService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
+        // helper fucntions
+        let reExpandNode = function(node) {
+            let newNode = scope.getNewNode(node);
+            if (newNode) {
+                scope.getNodeData(newNode);
+                scope.expandNode(newNode);
+            }
+        };
+
+        let reSelectNode = function(node, scroll) {
+            let newNode = scope.getNewNode(node);
+            if (newNode) {
+                scope.selectSingle(newNode, true, true, false);
+                if (scroll) scope.scrollToNode(newNode, true);
+            }
+        };
+
+        scope.reload = function() {
+            let oldExpandedNodes = scope.tree.filter((node) => { return node.expanded; }),
+                oldSelectedNodes = scope.selectedNodes.slice(),
+                oldTree = scope.tree;
+            scope.clearSelection(true);
+            scope.buildTree();
+            oldExpandedNodes.forEach((n) => reExpandNode(n));
+            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
+            scope.releaseTree(oldTree);
+        };
+
+        scope.getNodeForElement = function(handle) {
+            let handles = xelib.GetDuplicateHandles(handle);
+            for (let j = 0; j < handles.length; j++) {
+                let h = handles[j],
+                    newNode = scope.tree.find(function(node) {
+                        return scope.nodeHasHandle(node, h)
+                    });
+                if (newNode) return newNode;
+            }
+        };
+
+        scope.resolveNode = function(path) {
+            let node = undefined;
+            path.split('\\').forEach(function(part) {
+                let handle = node ? node.handle : 0;
+                xelib.WithHandle(xelib.GetElement(handle, `${part}`), function(handle) {
+                    if (part !== 'Child Group') {
+                        node = scope.getNodeForElement(handle);
+                        if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
+                        if (!node.has_data) scope.getNodeData(node);
+                        if (!node.expanded) scope.expandNode(node);
+                    }
+                });
+            });
+            return node;
+        };
+
+        scope.navigateToElement = function(handle, open) {
+            let node = scope.resolveNode(scope.getPath(handle));
+            if (node) {
+                scope.clearSelection(true);
+                scope.selectSingle(node, true, true, false);
+                $timeout(function() {
+                    scope.scrollToNode(node, true);
+                    if (open) scope.open(node);
+                });
+            }
+        };
+
         scope.addModifiedClass = function(item) {
             let classes = item.class.split(' ');
             if (!classes.contains('modified')) {
@@ -13,15 +80,6 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             while (node) {
                 scope.addModifiedClass(node);
                 node = node.parent;
-            }
-        };
-
-        scope.getNodeForElement = function(handle) {
-            let handles = xelib.GetDuplicateHandles(handle);
-            for (let i = 0; i < handles.length; i++) {
-                let h = handles[i],
-                    newNode = scope.tree.find((node) => { return node.handle == h; });
-                if (newNode) return newNode;
             }
         };
 
