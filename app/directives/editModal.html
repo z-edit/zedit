@@ -6,8 +6,8 @@
             </div>
 
             <h2>{{::editOptions.title}}</h2>
-            <input ng-if="::(editOptions.editType === 'string')" type="text" ng-model="value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"/>
-            <textarea ng-if="::(editOptions.editType === 'text')" ng-model="value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"></textarea>
+            <input ng-if="::(editOptions.editType === 'string')" type="text" ng-model="$parent.value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"/>
+            <textarea ng-if="::(editOptions.editType === 'text')" ng-model="$parent.value" maxlength="{{::editOptions.maxLength}}" ng-change="validate()"></textarea>
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
