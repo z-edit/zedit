@@ -57,7 +57,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.navigateToElement = function(handle, open) {
-            let node = scope.resolveNode(scope.getPath(handle));
+            let node = scope.resolveNode(scope.getElementPath(handle));
             if (node) {
                 scope.clearSelection(true);
                 scope.selectSingle(node, true, true, false);
