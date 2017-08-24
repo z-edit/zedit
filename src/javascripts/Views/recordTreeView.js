@@ -60,6 +60,23 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         e.stopPropagation();
     });
 
+    $scope.$on('nodeUpdated', function(e, node) {
+        let recordMatches = function(targetHandle) {
+            let handles = [$scope.record].concat($scope.overrides);
+            return handles.reduce(function(b, handle) {
+                return b || xelib.ElementEquals(handle, targetHandle);
+            }, false);
+        };
+        let h = node.handle;
+        if (node.element_type === xelib.etFile) {
+            xelib.WithHandle(xelib.GetElement(h, 'File Header'), function(handle) {
+                if (recordMatches(handle)) $scope.reload();
+            });
+        } else {
+            if (recordMatches(h)) $scope.reload();
+        }
+    });
+
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue == newValue) return;
