@@ -4,7 +4,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService)
             errorService.try(function() {
                 let signature = key.split(' ')[0],
                     element = xelib.AddElement(node.handle, signature);
-                scope.rebuildNode(node);
+                scope.rebuildChildren(node);
                 if (!node.expanded) scope.expandNode(node);
                 scope.navigateToElement(element, true);
             });

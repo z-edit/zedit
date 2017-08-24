@@ -43,11 +43,17 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
         };
 
         scope.rebuildNode = function(node) {
-            scope.getNodeData(node);
-            if (node.expanded) {
-                scope.collapseNode(node);
-                scope.expandNode(node);
-            }
+            let index = scope.tree.indexOf(node);
+            scope.tree.splice(index, 1, {
+                handle: node.handle,
+                depth: node.depth
+            });
+        };
+
+        scope.rebuildChildren = function(node) {
+            if (!node.expanded) return;
+            scope.collapseNode(node);
+            scope.expandNode(node);
         };
 
         scope.resolveNode = function(path) {
@@ -74,6 +80,21 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
                     if (open) scope.open(node);
                 });
             }
+        };
+
+        scope.setParentsModified = function(handle) {
+            let node, element = xelib.GetElement(handle);
+            while (!node) {
+                node = scope.getNodeForElement(element);
+                if (!node) {
+                    let container = xelib.GetContainer(element, true);
+                    xelib.Release(element);
+                    if (!container) return;
+                    element = container;
+                }
+            }
+            scope.setNodeModified(node);
+            xelib.Release(element);
         };
         
         scope.getNodeClass = function(node) {

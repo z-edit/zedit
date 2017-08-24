@@ -16,6 +16,11 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
 
     // scope functions
+    $scope.toggleRefactorModal = function(visible, mode) {
+        $scope.showRefactorModal = visible;
+        $scope.refactorMode = mode;
+    };
+
     $scope.open = function(node) {
         if (node.element_type !== xelib.etMainRecord) return;
         if (data.linkedScope) {
@@ -47,20 +52,12 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         e.stopImmediatePropagation();
     };
 
-    $scope.$on('setRecordModified', function(e, record) {
-        let node, element = xelib.GetElement(record);
-        while (!node) {
-            node = $scope.getNodeForElement(element);
-            if (!node) {
-                let container = xelib.GetContainer(element, true);
-                xelib.Release(element);
-                if (!container) return;
-                element = container;
-            }
-        }
-        $scope.setNodeModified(node);
-        xelib.Release(element);
+    // event handling
+    $scope.$on('elementUpdated', (e, element) => {
+        let node = $scope.getNodeForElement(element);
+        node ? $scope.rebuildNode(node) : $scope.setParentsModified(element);
     });
+    $scope.$on('nodeUpdated', (e, node) => $scope.rebuildNode(node));
 
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };
