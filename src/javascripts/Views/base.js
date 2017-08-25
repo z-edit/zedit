@@ -68,6 +68,9 @@ ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHe
         }
     });
 
+    // hide context menu when window loses focus
+    window.onblur = () => $scope.$applyAsync(() => $scope.showContextMenu = false);
+
     // keyboard shortcuts
     $document.bind('keypress', function(e) {
         // ctrl + shift + i
