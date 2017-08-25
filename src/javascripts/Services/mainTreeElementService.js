@@ -45,6 +45,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService)
                 }
                 scope.navigateToElement(element, true);
                 scope.setNodeModified(node);
+                scope.$root.$broadcast('nodeAdded');
             });
         };
 

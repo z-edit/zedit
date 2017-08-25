@@ -54,41 +54,29 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         e.stopImmediatePropagation();
     };
 
+    $scope.releaseHandles = function(oldValue) {
+        xelib.Release(oldValue);
+        xelib.ReleaseNodes($scope.virtualNodes);
+        $scope.overrides.forEach(xelib.Release);
+        $scope.overrides = [];
+    };
+
     // event handling
     $scope.$on('setRecord', function(e, record) {
         $scope.record = record;
         e.stopPropagation();
     });
 
-    $scope.$on('nodeUpdated', function(e, node) {
-        let recordMatches = function(targetHandle) {
-            let handles = [$scope.record].concat($scope.overrides);
-            return handles.reduce(function(b, handle) {
-                return b || xelib.ElementEquals(handle, targetHandle);
-            }, false);
-        };
-        let h = node.handle;
-        if (node.element_type === xelib.etFile) {
-            xelib.WithHandle(xelib.GetElement(h, 'File Header'), function(handle) {
-                if (recordMatches(handle)) $scope.reload();
-            });
-        } else {
-            if (recordMatches(h)) $scope.reload();
-        }
-    });
+    $scope.$on('nodeUpdated', $scope.reload);
+    $scope.$on('nodeAdded', $scope.reload);
 
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue == newValue) return;
-        if (oldValue) {
-            xelib.Release(oldValue);
-            xelib.ReleaseNodes($scope.virtualNodes);
-            $scope.overrides.forEach(xelib.Release);
-            $scope.overrides = [];
-        }
-        if (!$scope.record) return;
-        if (!xelib.IsMaster($scope.record)) {
-            $scope.record = xelib.GetMaster($scope.record);
+        if (oldValue) $scope.releaseHandles(oldValue);
+        if (!newValue) return;
+        if (!xelib.IsMaster(newValue)) {
+            $scope.record = xelib.GetMaster(newValue);
         } else {
             $scope.buildColumns();
             $scope.buildTree();
