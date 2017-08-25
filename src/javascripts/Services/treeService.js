@@ -128,7 +128,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.onNodeMouseDown = function(e, node) {
-            scope.selectNode(e, node);
+            if (e.button != 2 || !node.selected) scope.selectNode(e, node);
             if (e.button == 2) scope.showNodeContextMenu(e, node);
         };
 
