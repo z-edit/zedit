@@ -120,10 +120,12 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
         };
 
         scope.buildNodes = function(node) {
-            let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '';
-            return xelib.GetElements(node.handle, path, true).map(function(handle) {
-                return scope.buildNode(handle, node.depth);
-            });
+            let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '',
+                elements = xelib.GetElements(node.handle, path, true);
+            if (node.element_type === xelib.etFile) {
+                elements[scope.sort.reverse ? 'pop' : 'shift']();
+            }
+            return elements.map((e) => { return scope.buildNode(e, node.depth); });
         };
     };
 });

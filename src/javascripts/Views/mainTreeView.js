@@ -4,7 +4,8 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     data.scope = $scope;
 
     // helper variables
-    let hotkeys = hotkeyFactory.mainTreeHotkeys();
+    let hotkeys = hotkeyFactory.mainTreeHotkeys(),
+        openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
 
     // inherited functions
@@ -22,10 +23,11 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     $scope.open = function(node) {
-        if (node.element_type !== xelib.etMainRecord) return;
+        if (!openableTypes.contains(node.element_type)) return;
         if (data.linkedScope) {
             // get a new handle for the record to be used with the record view
-            data.linkedScope.record = xelib.GetElement(node.handle);
+            let path = node.element_type === xelib.etFile ? 'File Header' : '';
+            data.linkedScope.record = xelib.GetElement(node.handle, path);
         }
     };
 
