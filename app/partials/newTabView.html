@@ -1,6 +1,6 @@
-<div class="previews">
-    <div ng-repeat="viewName in viewNames" class="preview" ng-click="selectView(viewName)">
-        <div class="icon preview-{{::viewName.underscore('-')}}"></div>
+<div class="view-items">
+    <div ng-repeat="viewName in viewNames" class="view-item" ng-click="selectView(viewName)">
+        <div class="icon {{::viewName.underscore('-')}}-icon"></div>
         <div class="label">{{::viewName}}</div>
     </div>
 </div>
