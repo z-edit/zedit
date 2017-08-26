@@ -55,6 +55,19 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         $scope.focusedIndex = index;
     };
 
+    $scope.onDragOver = function() {
+        let dragData = $scope.$root.dragData;
+        if (dragData && dragData.source === 'mainTreeView') return true;
+    };
+
+    $scope.onDrop = function() {
+        let dragData = $scope.$root.dragData;
+        if (!dragData || dragData.source !== 'mainTreeView') return;
+        let node = dragData.node,
+            path = node.element_type === xelib.etFile ? 'File Header' : '';
+        $scope.record = xelib.GetElement(node.handle, path);
+    };
+
     $scope.showNodeContextMenu = function(e) {
         let offset = { top: e.clientY, left: e.clientX},
             items = contextMenuFactory.recordTreeItems,

@@ -38,6 +38,15 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         $scope.open(node);
     };
 
+    $scope.onNodeDrag = function(node) {
+        if (node.element_type === xelib.etGroupRecord) return;
+        $scope.$root.dragData = {
+            source: 'mainTreeView',
+            node: node
+        };
+        return true;
+    };
+
     $scope.handleEnter = function(e) {
         $scope.open($scope.lastSelectedNode());
         e.stopImmediatePropagation();
