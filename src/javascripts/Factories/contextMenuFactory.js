@@ -1,4 +1,6 @@
 ngapp.service('contextMenuFactory', function() {
+    let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
+
     let divider = {
         visible: (scope, items) => { return items.length > 0 && !items.last().divider; },
         build: (scope, items) => items.push({ divider: true })
@@ -187,4 +189,95 @@ ngapp.service('contextMenuFactory', function() {
             })
         }
     }];
+
+    this.recordTreeItems = [{
+        id: 'Add',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last(),
+                index = scope.focusedIndex - 1,
+                handle = node.handles[index],
+                record = index ? scope.overrides[index - 1] : scope.record,
+                parentAvailable = !node.parent || node.parent.handles[index];
+            if (!xelib.GetIsEditable(record)) return false;
+            return parentAvailable && (handle === 0 || node.value_type === xelib.vtArray);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last(),
+                index = scope.focusedIndex - 1;
+            items.push({
+                label: 'Add',
+                hotkey: 'Insert',
+                callback: () => scope.addElement(node, index)
+            });
+        }
+    }, {
+        id: 'Edit',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last(),
+                index = scope.focusedIndex - 1,
+                handle = node.handles[index],
+                record = index === 0 ? scope.record : scope.overrides[index - 1];
+            if (!xelib.GetIsEditable(record)) return false;
+            return handle !== 0 && !uneditableValueTypes.contains(node.value_type);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last(),
+                index = scope.focusedIndex - 1;
+            items.push({
+                label: 'Add',
+                hotkey: 'Insert',
+                callback: () => scope.editElement(node, index)
+            });
+        }
+    }, {
+        id: 'Delete',
+        visible: (scope) => {
+            let index = scope.focusedIndex - 1;
+            return testNodes(scope.selectedNodes, function(node) {
+                return xelib.GetIsRemoveable(node.handles[index]);
+            });
+        },
+        build: (scope, items) => {
+            items.push({
+                label: 'Delete',
+                hotkey: 'Del',
+                callback: () => scope.deleteElements()
+            });
+        }
+    }, divider, {
+        id: 'Copy',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Copy',
+                hotkey: 'Ctrl+C',
+                disabled: !node,
+                callback: () => scope.copyNodes()
+            })
+        }
+    }, {
+        id: 'Copy Path',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Copy Path',
+                hotkey: 'Ctrl+Shift+C',
+                disabled: !node,
+                callback: () => scope.copyNodePaths()
+            })
+        }
+    }, {
+        id: 'Paste',
+        visible: () => { return true },
+        build: (scope, items) => {
+            items.push({
+                label: 'Paste',
+                hotkey: 'Ctrl+V',
+                disabled: !scope.canPaste(),
+                callback: () => scope.paste()
+            })
+        }
+    }]
 });
