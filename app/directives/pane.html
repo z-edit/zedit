@@ -1,18 +1,18 @@
 <div ng-if="tabs" class="tabs-container">
     <div class="tabs-bar">
-        <div ng-repeat="tab in tabs" class="tab" ng-class="{'active' : tab.active}">
+        <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-click="selectTab($index)">
             <span title="{{tab.data.tabLabel}}">{{tab.data.tabLabel}}</span>
-            <span class="close-tab" ng-click="closeTab($index)" title="Close tab (Ctrl + W)">
+            <span class="close-tab" title="Close tab (Ctrl + W)" ng-click="closeTab($index)">
                 <i class="fa fa-times"></i>
             </span>
         </div>
-        <div class="add-tab" title="Open a new tab (Ctrl + T)">
+        <div class="add-tab" title="Open a new tab (Ctrl + T)" ng-click="newTab()">
             <i class="fa fa-plus"></i>
         </div>
     </div>
     <div class="tab-view {{tab.class}}" ng-repeat="tab in tabs" ng-show="tab.active" ng-controller="tab.controller" ng-include="tab.templateUrl"></div>
 </div>
 <div ng-if="panes" class="pane-container {{layout}}">
-    <pane ng-repeat-start="pane in panes"></pane>
+    <pane ng-repeat-start="pane in panes track by pane.id"></pane>
     <split-bar ng-repeat-end ng-if="!$last"></split-bar>
 </div>
