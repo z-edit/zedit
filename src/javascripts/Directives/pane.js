@@ -9,15 +9,46 @@ ngapp.directive('pane', function () {
     }
 });
 
-ngapp.controller('paneController', function ($scope, $element) {
+ngapp.controller('paneController', function ($scope, $element, viewFactory) {
     angular.inheritScope($scope, 'pane');
 
-    // helper variables
+    // initialize pane size
     let paneElement = $element[0],
         container = paneElement.parentElement,
         parentVertical = container.classList.contains('vertical'),
         dimension = parentVertical ? 'height' : 'width';
-
-    // initialize pane size
     paneElement.style[dimension] = $scope[dimension];
+
+    // scope functions
+    $scope.closeTab = function(index) {
+        let closedTab = $scope.tabs.splice(index, 1)[0];
+        closedTab.destroy(closedTab);
+        if (closedTab.active) {
+            let nextTab = $scope.tabs[index] || $scope.tabs[index - 1];
+            if (nextTab) {
+                nextTab.active = true;
+            } else {
+                $scope.$emit('removePane');
+            }
+        }
+    };
+
+    $scope.newTab = function() {
+        let newTab = viewFactory.newView('newTabView', true);
+        $scope.$applyAsync(function() {
+            $scope.tabs.forEach((tab) => tab.active = false);
+            $scope.tabs.push(newTab);
+        });
+    };
+
+    $scope.selectTab = function(index) {
+        $scope.tabs.forEach((tab, i) => tab.active = i == index);
+    };
+
+    $scope.$on('changeView', function(e, viewName) {
+        let tabIndex = e.targetScope.$index,
+            viewTab = viewFactory.newView(viewName, true);
+        $scope.tabs.splice(tabIndex, 1, viewTab);
+        e.stopPropagation();
+    });
 });
