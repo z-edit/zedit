@@ -1,5 +1,5 @@
 ngapp.service('contextMenuService', function() {
-    this.buildNodeMenuItems = function(node, scope, items) {
+    this.buildMenuItems = function(scope, items) {
         let menuItems = [];
         items.forEach(function(item) {
             if (!item.visible(scope, menuItems)) return;

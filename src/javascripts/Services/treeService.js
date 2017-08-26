@@ -1,5 +1,5 @@
 // functions shared by mainTreeView and recordTreeView
-ngapp.service('treeService', function($timeout, htmlHelpers) {
+ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService) {
     this.buildFunctions = function(scope, element) {
         // helper fucntions
         let reExpandNode = function(node) {
@@ -76,6 +76,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
+        scope.hasNoChildren = function(node) {
+            let checkIndex = scope.tree.indexOf(node) + 1;
+            return scope.tree[checkIndex].depth <= node.depth;
+        };
+
         scope.setNodeModified = function(node) {
             while (node) {
                 scope.addModifiedClass(node);
@@ -125,6 +130,13 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             e && e.stopImmediatePropagation();
             scope[node.expanded ? 'collapseNode' : 'expandNode'](node);
             scope.$emit('closeContextMenu');
+        };
+
+        scope.showNodeContextMenu = function(e) {
+            let offset = { top: e.clientY, left: e.clientX},
+                items = scope.nodeContextMenuItems,
+                menuItems = contextMenuService.buildMenuItems(scope, items);
+            $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
         };
 
         scope.onNodeMouseDown = function(e, node) {

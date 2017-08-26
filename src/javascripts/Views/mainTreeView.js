@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -7,6 +7,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     let hotkeys = hotkeyFactory.mainTreeHotkeys(),
         openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
+    $scope.nodeContextMenuItems = contextMenuFactory.mainTreeItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -35,13 +36,6 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
         $scope.open(node);
-    };
-
-    $scope.showNodeContextMenu = function(e, node) {
-        let offset = { top: e.clientY, left: e.clientX},
-            items = contextMenuFactory.mainTreeItems,
-            menuItems = contextMenuService.buildNodeMenuItems(node, $scope, items);
-        $timeout(() => $scope.$emit('openContextMenu', offset, menuItems));
     };
 
     $scope.handleEnter = function(e) {

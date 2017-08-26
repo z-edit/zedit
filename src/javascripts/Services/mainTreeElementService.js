@@ -1,11 +1,6 @@
 ngapp.service('mainTreeElementService', function(editModalFactory, errorService) {
     this.buildFunctions = function(scope) {
         // helper functions
-        let hasNoChildren = function(node) {
-            let checkIndex = scope.tree.indexOf(node) + 1;
-            return scope.tree[checkIndex].depth <= node.depth;
-        };
-
         let getSortIndex = function(container, element) {
             let index = -1;
             xelib.WithHandles(xelib.GetElements(container, '', true), function(handles) {
@@ -25,7 +20,8 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService)
                 if (n.depth < targetDepth) return -1;
                 if (n.depth === targetDepth) childIndex++;
                 if (childIndex === sortIndex) return i + 1;
-            }        };
+            }
+        };
 
         // scope functions
         scope.addElement = function(node, key) {
