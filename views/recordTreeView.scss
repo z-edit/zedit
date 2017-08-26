@@ -38,13 +38,14 @@
   }
 
   .column-wrapper {
+    border-bottom: 1px solid #aaa;
     overflow-x: scroll;
     white-space: nowrap;
     margin-top: -24px;
-    width: calc(100% - 17px);
 
     .tree-columns {
       margin-top: 0;
+      border: none;
     }
 
     .column-0 {
