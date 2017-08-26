@@ -1,4 +1,4 @@
-var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -6,6 +6,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     // helper/scope variables
     let hotkeys = hotkeyFactory.recordTreeHotkeys();
     $scope.overrides = [];
+    $scope.contextMenuItems = contextMenuFactory.recordTreeItems;
     $scope.focusedIndex = -1;
 
     // inherited functions
@@ -52,6 +53,13 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
 
     $scope.onCellMouseDown = function(index) {
         $scope.focusedIndex = index;
+    };
+
+    $scope.showNodeContextMenu = function(e) {
+        let offset = { top: e.clientY, left: e.clientX},
+            items = contextMenuFactory.recordTreeItems,
+            menuItems = contextMenuService.buildMenuItems($scope, items);
+        $timeout(() => $scope.$emit('openContextMenu', offset, menuItems));
     };
 
     $scope.handleEnter = function(e) {
