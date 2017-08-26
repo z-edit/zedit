@@ -1,0 +1,31 @@
+.new-tab-view {
+  .previews {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    padding: 20px 40px 80px;
+  }
+
+  .preview {
+    display: inline-block;
+    width: 128px;
+    height: 128px;
+    padding: 10px 2px;
+    margin: 12px;
+    border: 3px solid #aaa;
+    border-radius: 8px;
+
+    &:hover {
+      border-color: #0b97c4;
+    }
+
+    .icon {
+      font: 80px FontAwesome;
+    }
+
+    .label {
+      text-align: center;
+    }
+  }
+}
