@@ -49,11 +49,19 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     // event handling
-    $scope.$on('elementUpdated', (e, element) => {
+    $scope.$on('recordUpdated', (e, element) => {
         let node = $scope.getNodeForElement(element);
-        node ? $scope.rebuildNode(node) : $scope.setParentsModified(element);
+        if (node) {
+            $scope.rebuildNode(node);
+            $scope.setNodeModified(node);
+        } else {
+            $scope.setParentsModified(element);
+        }
     });
-    $scope.$on('nodeUpdated', (e, node) => $scope.rebuildNode(node));
+    $scope.$on('nodeUpdated', (e, node) => {
+        $scope.rebuildNode(node);
+        $scope.setNodeModified(node);
+    });
 
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };
