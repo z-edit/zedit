@@ -14,6 +14,10 @@ String.prototype.titleCase = function() {
     });
 };
 
+String.prototype.humanize = function() {
+    return this.underscore(' ').titleCase();
+};
+
 String.prototype.toCamelCase = function() {
     return this.uncapitalize().replace(/(\s|\-|\_|\.)+(.)/g, function(match) {
         return match.slice(-1).toUpperCase();
