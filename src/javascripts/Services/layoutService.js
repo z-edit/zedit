@@ -6,8 +6,9 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
         pane.id = randomService.generateUniqueId();
         if (pane.panes) pane.panes.forEach(service.buildPane);
         if (pane.tabs) {
-            pane.tabs = pane.tabs.map(viewFactory.newView);
-            pane.tabs[0].active = true;
+            pane.tabs = pane.tabs.map(function(viewName, index) {
+                return viewFactory.newView(viewName, index == 0);
+            });
         }
     };
 
