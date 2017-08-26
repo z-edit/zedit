@@ -9,13 +9,6 @@ ngapp.directive('ngDrop', function($parse) {
             };
 
         // event listeners
-        el.addEventListener('dragover', function(e) {
-            e.dataTransfer.dropEffect = 'move';
-            e.preventDefault();
-            el.classList.add('dragover');
-        });
-        el.addEventListener('dragenter', () => el.classList.add('dragover'));
-        el.addEventListener('dragleave', () => el.classList.remove('dragover'));
         el.addEventListener('drop', function(e) {
             if (!callback || !executeCallback(e)) return;
             e.stopPropagation();
