@@ -6,6 +6,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     // helper/scope variables
     let hotkeys = hotkeyFactory.recordTreeHotkeys();
     $scope.overrides = [];
+    $scope.focusedIndex = -1;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -47,6 +48,10 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
             $scope.editElement(node, index);
         }
         e.stopImmediatePropagation();
+    };
+
+    $scope.onCellMouseDown = function(index) {
+        $scope.focusedIndex = index;
     };
 
     $scope.handleEnter = function(e) {

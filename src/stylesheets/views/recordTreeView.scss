@@ -8,8 +8,9 @@
   .tree-nodes {
     overflow-y: scroll;
 
-    .element-unassigned {
+    .node.element-unassigned {
       color: #aaa;
+      background-color: #fff;
     }
   }
 
@@ -71,9 +72,14 @@
   }
 
   .node.selected {
-    .column-0 {
-      background-color: #e5f2ff;
+    .column.focused {
+      border: 1px dashed #808080;
+      padding: 1px 5px;
     }
+  }
+
+  .node.selected:not(.element-unassigned) .column-0 {
+    background-color: #e5f2ff;
   }
 }
 
