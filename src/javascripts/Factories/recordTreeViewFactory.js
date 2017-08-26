@@ -8,8 +8,9 @@ ngapp.service('recordTreeViewFactory', function() {
     };
 
     this.destroy = function(view) {
-        factory.releaseTree(view.data.tree);
-        let virtualNodes = view.data.scope.virtualNodes;
+        let virtualNodes = view.data.scope.virtualNodes,
+            tree = view.data.tree;
+        tree && factory.releaseTree(tree);
         virtualNodes && xelib.ReleaseNodes(virtualNodes);
     };
 
@@ -18,15 +19,12 @@ ngapp.service('recordTreeViewFactory', function() {
             templateUrl: 'partials/recordTreeView.html',
             controller: recordTreeViewController,
             class: 'record-tree-view',
-            data: {
-                tabLabel: 'Record View',
-                tree: {}
-            },
+            data: { tabLabel: 'Record View' },
             destroy: factory.destroy
         }
     };
 });
 
 ngapp.run(function(viewFactory, recordTreeViewFactory) {
-    viewFactory.registerView('recordTreeView', recordTreeViewFactory.new);
+    viewFactory.registerView('recordTreeView', recordTreeViewFactory.new, 'Record View');
 });

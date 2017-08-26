@@ -6,7 +6,8 @@ ngapp.service('mainTreeViewFactory', function() {
     };
 
     this.destroy = function(view) {
-        factory.releaseTree(view.data.tree);
+        let tree = view.data.tree;
+        tree && factory.releaseTree(tree);
     };
 
     this.new = function() {
@@ -14,14 +15,12 @@ ngapp.service('mainTreeViewFactory', function() {
             templateUrl: 'partials/mainTreeView.html',
             controller: mainTreeViewController,
             class: 'main-tree-view',
-            data: {
-                tabLabel: 'Tree View'
-            },
+            data: { tabLabel: 'Tree View' },
             destroy: factory.destroy
         }
     };
 });
 
 ngapp.run(function(viewFactory, mainTreeViewFactory) {
-    viewFactory.registerView('mainTreeView', mainTreeViewFactory.new);
+    viewFactory.registerView('mainTreeView', mainTreeViewFactory.new, 'Tree View');
 });
