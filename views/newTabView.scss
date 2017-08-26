@@ -1,5 +1,5 @@
 .new-tab-view {
-  .previews {
+  .view-items {
     display: flex;
     align-items: center;
     height: 100%;
@@ -7,7 +7,7 @@
     padding: 20px 40px 80px;
   }
 
-  .preview {
+  .view-item {
     display: inline-block;
     width: 128px;
     height: 128px;

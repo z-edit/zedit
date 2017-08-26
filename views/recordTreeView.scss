@@ -5,6 +5,11 @@
   user-select: none;
   padding-top: 24px;
 
+  &.drag-over {
+    outline: auto;
+    outline-color: #0b97c4;
+  }
+
   .tree-nodes {
     overflow-y: scroll;
 
@@ -38,6 +43,7 @@
   }
 
   .column-wrapper {
+    border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     overflow-x: scroll;
     white-space: nowrap;
@@ -107,5 +113,14 @@
       cursor: pointer;
       padding: 1px 4px;
     }
+  }
+}
+
+.record-view-icon {
+  font-size: 88px;
+  margin-bottom: -8px;
+
+  &::before {
+    content: "\f0ce";
   }
 }

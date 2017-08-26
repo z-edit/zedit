@@ -34,3 +34,9 @@
     }
   }
 }
+
+.tree-view-icon {
+  &::before {
+    content: "\f0e8";
+  }
+}
