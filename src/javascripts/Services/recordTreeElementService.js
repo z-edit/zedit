@@ -14,7 +14,8 @@ ngapp.service('recordTreeElementService', function(errorService) {
                     // create element in struct
                     handle = node.parent ? node.parent.handles[index] : record;
                     if (!handle) return; // this should never happen
-                    xelib.AddElement(handle, node.label);
+                    let path = node.label.indexOf(' - ') == 4 ? node.label.substr(0, 4) : node.label;
+                    xelib.AddElement(handle, path);
                 }
                 scope.reload(); // TODO? This is kind of greedy, but it's simple
                 scope.$root.$broadcast('recordUpdated', record);
@@ -32,12 +33,13 @@ ngapp.service('recordTreeElementService', function(errorService) {
             errorService.try(function() {
                 let handle = node.handles[scope.focusedIndex - 1];
                 xelib.RemoveElement(handle);
-                xelib.Release(handle);
+                //xelib.Release(handle);
             });
         };
 
         scope.deleteElements = function() {
             scope.selectedNodes.forEach(scope.deleteElement);
+            scope.clearSelection(true);
             scope.reload(); // TODO? This is kind of greedy, but it's simple
         };
 
