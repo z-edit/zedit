@@ -197,7 +197,7 @@ ngapp.service('contextMenuFactory', function() {
                 index = scope.focusedIndex - 1,
                 handle = node.handles[index],
                 record = index ? scope.overrides[index - 1] : scope.record,
-                parentAvailable = !node.parent || node.parent.handles[index];
+                parentAvailable = !node.depth || (node.parent && node.parent.handles[index]);
             if (!xelib.GetIsEditable(record)) return false;
             return parentAvailable && (handle === 0 || node.value_type === xelib.vtArray);
         },
@@ -222,10 +222,10 @@ ngapp.service('contextMenuFactory', function() {
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),
-                index = scope.focusedIndex - 1;
+                index = scope.focusedIndex;
             items.push({
-                label: 'Add',
-                hotkey: 'Insert',
+                label: 'Edit',
+                hotkey: 'Enter',
                 callback: () => scope.editElement(node, index)
             });
         }
@@ -234,7 +234,8 @@ ngapp.service('contextMenuFactory', function() {
         visible: (scope) => {
             let index = scope.focusedIndex - 1;
             return testNodes(scope.selectedNodes, function(node) {
-                return xelib.GetIsRemoveable(node.handles[index]);
+                let handle = node.handles[index];
+                return handle && xelib.GetIsRemoveable(handle);
             });
         },
         build: (scope, items) => {
