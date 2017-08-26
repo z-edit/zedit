@@ -2,7 +2,6 @@ ngapp.service('treeColumnService', function(stylesheetService) {
     this.buildFunctions = function(scope, treeSelector, columnsEditable, allowOverflow) {
         scope.toggleSort = function(column) {
             if (!column.canSort) return;
-            let oldReverse = scope.sort.reverse;
             if (scope.sort.column !== column.label) {
                 scope.sort.column = column.label;
                 scope.sort.reverse = false;
@@ -33,10 +32,12 @@ ngapp.service('treeColumnService', function(stylesheetService) {
 
         scope.updateWidths = function() {
             let width = scope.columns.reduce(function(total, column) {
-                return total + parseInt(column.width.slice(0, -2));
-            }, 0);
-            let selector = `${treeSelector} .fix-width`;
-            stylesheetService.setProperty(selector, 'min-width', `${width}px`);
+                    return total + parseInt(column.width.slice(0, -2));
+                }, 0),
+                columnsSelector = `${treeSelector} .tree-columns.fix-width`,
+                nodeSelector = `${treeSelector} .node.fix-width`;
+            stylesheetService.setProperty(columnsSelector, 'min-width', `${width + 17}px`);
+            stylesheetService.setProperty(nodeSelector, 'min-width', `${width}px`);
         };
 
         scope.resizeColumns = function() {

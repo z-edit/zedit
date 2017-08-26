@@ -7,7 +7,7 @@
             <div ng-if="::$first" class="column-action expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes"></div>
             <div ng-if="::$first" class="column-action collapse-all-nodes" ng-click="collapseAllNodes()" title="Collapse all nodes"></div>
         </span>
-        <split-bar ng-repeat-end mode="1" resize-callback="columnResized" class="{{::$first ? 'first-split-bar' : ''}}"></split-bar>
+        <split-bar ng-repeat-end mode="1" resize-callback="columnResized" class="{{::$first ? 'first-split-bar' : ''}}" offset="17"></split-bar>
     </div>
 </div>
 <div ng-if="record" class="tree-nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" ng-scroll="onScroll($event)" vs-repeat>
