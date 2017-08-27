@@ -80,14 +80,15 @@ split-bar {
 
   .tabs-bar {
     display: flex;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #000;
     font-size: 14px;
     line-height: 22px;
+    margin-bottom: 5px;
 
     .tab {
       min-width: 120px;
-      border-left: 1px solid #000;
       border-right: 1px solid #000;
+      background-color: #ddd;
       user-select: none;
 
       .close-tab {
@@ -98,8 +99,10 @@ split-bar {
         color: crimson;
       }
 
-      &:first-of-type {
-        border-left: none;
+      &.active {
+        border-bottom: 1px solid #fff;
+        margin-bottom: -1px;
+        background-color: #fff;
       }
     }
 
@@ -110,7 +113,7 @@ split-bar {
   }
 
   .tab-view {
-    height: calc(100% - 25px);
+    height: calc(100% - 29px);
     display: flex;
     flex-direction: column;
   }
