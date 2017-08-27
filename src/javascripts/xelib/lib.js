@@ -76,6 +76,7 @@ try {
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
+        'SetElement': [WordBool, [Cardinal, Cardinal, PCardinal]],
         'GetElements': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
         'GetDefNames': [WordBool, [Cardinal, PInteger]],
         'GetAddList': [WordBool, [Cardinal, PInteger]],

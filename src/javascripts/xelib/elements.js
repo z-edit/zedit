@@ -36,6 +36,12 @@ xelib.RemoveElementOrParent = function(_id) {
     if (!lib.RemoveElementOrParent(_id))
         Fail(`Failed to remove element ${_id}`);
 };
+xelib.SetElement = function(_id1, _id2) {
+    return GetHandle(function(_res) {
+        if (!lib.SetElement(_id1, _id2, _res))
+            Fail(`Failed to set element at ${_id2} to ${_id1}`);
+    });
+};
 xelib.GetElements = function(_id = 0, path = '', sort = false) {
     return GetArray(function(_len) {
         if (!lib.GetElements(_id, wcb(path), sort, _len))
