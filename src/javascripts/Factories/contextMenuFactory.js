@@ -78,14 +78,17 @@ ngapp.service('contextMenuFactory', function() {
                 children.push({
                     label: 'Rename',
                     hotkey: 'F2, Alt+Shift+R',
+                    disabled: true,
                     callback: () => scope.toggleRefactorModal(true, 'Name')
                 }, {
                     label: 'Change EditorIDs',
                     hotkey: 'Alt+Shift+E',
+                    disabled: true,
                     callback: () => scope.toggleRefactorModal(true, 'EditorID')
                 }, {
                     label: 'Change FormIDs',
                     hotkey: 'Alt+Shift+F',
+                    disabled: true,
                     callback: () => scope.toggleRefactorModal(true, 'FormID')
                 });
             }
@@ -105,6 +108,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Enable Editing',
                 hotkey: 'Ctrl+E',
+                disabled: true,
                 callback: () => scope.enableEditing(node)
             })
         }
@@ -115,6 +119,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Automate',
                 hotkey: 'Ctrl+M',
+                disabled: true,
                 callback: () => scope.toggleAutomateModal()
             })
         }
@@ -125,6 +130,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Advanced Search',
                 hotkey: 'Ctrl+Shift+F',
+                disabled: true,
                 callback: () => scope.toggleSearchModal()
             })
         }
@@ -150,7 +156,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Copy',
                 hotkey: 'Ctrl+C',
-                disabled: !node,
+                disabled: true,//!node,
                 callback: () => scope.copyNodes()
             })
         }
@@ -162,7 +168,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
-                disabled: !node,
+                disabled: true,//!node,
                 callback: () => scope.copyNodePaths()
             })
         }
@@ -173,7 +179,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Paste',
                 hotkey: 'Ctrl+V',
-                disabled: !scope.canPaste(),
+                disabled: true,//!scope.canPaste(),
                 callback: () => scope.paste()
             })
         }
@@ -184,7 +190,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Paste as Override',
                 hotkey: 'Ctrl+Shift+V',
-                disabled: !scope.canPaste(true),
+                disabled: true,//!scope.canPaste(true),
                 callback: () => scope.paste(true)
             })
         }
@@ -253,7 +259,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Copy',
                 hotkey: 'Ctrl+C',
-                disabled: !node,
+                disabled: true,//!node,
                 callback: () => scope.copyNodes()
             })
         }
@@ -265,7 +271,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
-                disabled: !node,
+                disabled: true,//!node,
                 callback: () => scope.copyNodePaths()
             })
         }
@@ -276,7 +282,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Paste',
                 hotkey: 'Ctrl+V',
-                disabled: !scope.canPaste(),
+                disabled: true,//!scope.canPaste(),
                 callback: () => scope.paste()
             })
         }
