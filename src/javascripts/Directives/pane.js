@@ -19,6 +19,12 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
         dimension = parentVertical ? 'height' : 'width';
     paneElement.style[dimension] = $scope[dimension];
 
+    // helper functions
+    let isCloseTab = function(element) {
+        let closeTabClasses = ['add-tab', 'fa fa-times'];
+        return element && closeTabClasses.contains(element.className);
+    };
+
     // scope functions
     $scope.closeTab = function(index) {
         let closedTab = $scope.tabs.splice(index, 1)[0];
@@ -41,7 +47,8 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
         });
     };
 
-    $scope.selectTab = function(index) {
+    $scope.selectTab = function(e, index) {
+        if (isCloseTab(e.srcElement)) return;
         $scope.tabs.forEach((tab, i) => tab.active = i == index);
     };
 

@@ -1,7 +1,7 @@
 <div ng-if="tabs" class="tabs-container">
     <div class="tabs-bar">
-        <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-click="selectTab($index)">
-            <span title="{{tab.data.tabLabel}}">{{tab.data.tabLabel}}</span>
+        <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-mousedown="selectTab($event, $index)">
+            <span class="label" title="{{tab.data.tabLabel}}">{{tab.data.tabLabel}}</span>
             <span class="close-tab" title="Close tab (Ctrl + W)" ng-click="closeTab($index)">
                 <i class="fa fa-times"></i>
             </span>
