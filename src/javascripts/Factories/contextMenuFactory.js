@@ -131,15 +131,15 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Open',
         visible: (scope) => {
-            return testNodes(scope.selectedNodes, function(node) {
-                return node.element_type === xelib.etMainRecord;
-            });
+            let node = scope.selectedNodes.last();
+            return node.element_type !== xelib.etGroupRecord;
         },
         build: (scope, items) => {
+            let node = scope.selectedNodes.last();
             items.push({
                 label: 'Open in Record View',
                 hotkey: 'Enter',
-                callback: () => scope.onNodeDoubleClick({}, node)
+                callback: () => scope.open(node)
             })
         }
     }, divider, {
