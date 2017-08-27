@@ -7,7 +7,6 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     let hotkeys = hotkeyFactory.recordTreeHotkeys();
     $scope.overrides = [];
     $scope.contextMenuItems = contextMenuFactory.recordTreeItems;
-    $scope.focusedIndex = -1;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -106,6 +105,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         if (!xelib.IsMaster(newValue)) {
             $scope.record = xelib.GetMaster(newValue);
         } else {
+            $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();
             $scope.$broadcast('recordChanged');
