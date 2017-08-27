@@ -106,6 +106,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
         scope.rebuildNode = function(node, index) {
             if (!index) index = scope.tree.indexOf(node);
             scope.tree.splice(index, 1, {
+                parent: node.parent,
                 label: node.label,
                 child_index: node.child_index,
                 value_type: node.value_type,
