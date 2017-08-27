@@ -96,7 +96,13 @@ ngapp.controller('contextMenuController', function($scope, $element, $timeout, h
     $scope.selectItem = function(index) {
         $scope.closeChildMenus();
         $scope.currentIndex = index;
-        if (index > -1) getCurrentItem().expanded = true;
+        if (index > -1) {
+            let currentItem = getCurrentItem();
+            $timeout(function() {
+                if ($scope.currentIndex !== index) return;
+                currentItem.expanded = true;
+            }, 100);
+        }
     };
 
     $scope.deselectItem = function(e, item) {
