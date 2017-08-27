@@ -189,7 +189,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             scope.buildCells(node);
         };
 
-        scope.buildNode = function(depth, name, elementArrays, i) {
+        scope.buildNode = function(depth, name, elementArrays, i, setChildIndex) {
             let handles = elementArrays.map((a) => { return a[i]; }),
                 firstHandle = handles.find((handle) => { return handle > 0; }),
                 valueType = firstHandle && xelib.ValueType(firstHandle),
@@ -198,6 +198,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
                 canExpand = firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0;
             return {
                 label: name,
+                child_index: setChildIndex ? i : undefined,
                 value_type: valueType,
                 is_sorted: isSorted,
                 handles: handles,
@@ -219,14 +220,14 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             return nodes;
         };
 
-        scope.buildArrayNodes = function(parentHandles, depth, name) {
+        scope.buildArrayNodes = function(parentHandles, depth, name, sorted) {
             let elementArrays = parentHandles.map(function(handle) {
                     return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
                 }),
                 maxLen = getMaxLength(elementArrays),
                 nodes = [];
             for (let i = 0; i < maxLen; i++) {
-                nodes.push(scope.buildNode(depth, name, elementArrays, i));
+                nodes.push(scope.buildNode(depth, name, elementArrays, i, !sorted));
             }
             return nodes;
         };
@@ -235,7 +236,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             let names = xelib.GetDefNames(node.first_handle);
             if (!names[0].length) return [];
             if (node.value_type === xelib.vtArray) {
-                return scope.buildArrayNodes(node.handles, node.depth, names[0]);
+                return scope.buildArrayNodes(node.handles, node.depth, names[0], node.is_sorted);
             } else {
                 return scope.buildStructNodes(node.handles, node.depth, names);
             }
