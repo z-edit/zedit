@@ -43,7 +43,6 @@
   }
 
   .column-wrapper {
-    border-top: 1px solid #aaa;
     border-bottom: 1px solid #aaa;
     overflow-x: scroll;
     white-space: nowrap;
@@ -65,6 +64,10 @@
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    &:first-child {
+      border-top: 1px solid #aaa;
     }
   }
 
