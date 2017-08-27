@@ -10,7 +10,6 @@
   .node {
     display: flex;
     white-space: nowrap;
-    border-top: 1px solid #f8f8f8;
     height: 20px;
 
     &.selected {
@@ -57,9 +56,10 @@
       overflow: hidden;
       padding: 2px 6px;
       border-right: 1px solid #f8f8f8;
+      border-top: 1px solid #f8f8f8;
 
       &:last-of-type {
-        border: none;
+        border-right: none;
         flex: 1;
       }
     }

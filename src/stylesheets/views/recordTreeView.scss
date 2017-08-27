@@ -37,7 +37,7 @@
 
   .tree-columns, .node {
     .column:last-of-type {
-      border: 0;
+      border-right: 0;
       flex: 0;
     }
   }
@@ -84,7 +84,7 @@
   .node.selected {
     .column.focused {
       border: 1px dashed #808080;
-      padding: 1px 5px;
+      padding: 2px 5px 1px;
     }
   }
 
