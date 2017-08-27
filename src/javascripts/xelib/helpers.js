@@ -34,7 +34,10 @@ let flagContext = function(_id, path, name) {
 let Fail = function(message) {
     try {
         let libMessage = xelib.GetExceptionMessage();
-        if (libMessage) console.log(libMessage);
+        if (libMessage) {
+            console.log(libMessage);
+            message +=  '\r\n' + libMessage;
+        }
     } catch (e) {
         console.log('Unknown critical exception!');
     }

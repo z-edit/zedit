@@ -8,10 +8,7 @@ xelib.ClearMessages = function() {
     lib.ClearMessages();
 };
 xelib.GetExceptionMessage = function() {
-    var len = createTypedBuffer(4, PInteger);
-    if (!lib.GetExceptionMessageLength(len) || len == 0)
-        return '';
-    var str = createTypedBuffer(2 * len, PWChar);
-    lib.GetExceptionMessage(str, len);
-    return readPWCharString(str);
+    return GetString(function(_len) {
+        lib.GetExceptionMessageLength(_len);
+    }, 'GetExceptionMessage');
 };
