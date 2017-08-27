@@ -1,4 +1,4 @@
-var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -67,6 +67,48 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         let node = dragData.node,
             path = node.element_type === xelib.etFile ? 'File Header' : '';
         $scope.record = xelib.GetElement(node.handle, path);
+    };
+
+    $scope.onCellDrag = function(node, index) {
+        if (!node.handles[index - 1]) return;
+        $scope.$root.dragData = {
+            source: 'recordTreeView',
+            node: node,
+            index: index - 1
+        };
+        return true;
+    };
+
+    $scope.onCellDragOver = function(node, index) {
+        let dragData = $scope.$root.dragData,
+            isReference = node.value_type === xelib.vtReference;
+        if (node.parent && !node.parent.handles[index - 1] > 0) return;
+        if (dragData && dragData.source === 'mainTreeView') {
+            return isReference && dragData.node.element_type === xelib.etMainRecord;
+        } else if (dragData && dragData.source === 'recordTreeView' ) {
+            if (dragData.node.value_type !== node.value_type) return;
+            if (node.value_type === xelib.vtEnum || node.value_type === xelib.vtFlags) {
+                return node.label === dragData.node.label;
+            } else {
+                return true;
+            }
+        }
+    };
+
+    $scope.onCellDrop = function(node, index) {
+        let dragData = $scope.$root.dragData;
+        if (!dragData || dragData.node === node && dragData.index === index - 1) return;
+        let handle = node.handles[index - 1],
+            draggedElement = dragData.node.handle || dragData.node.handles[dragData.index];
+        if (!handle) {
+            let parentElement = $scope.getParentHandle(node, index - 1),
+                path = $scope.getNewElementPath(node, index - 1);
+            handle = xelib.AddElement(parentElement, path);
+        }
+        errorService.try(function() {
+            xelib.SetElement(handle, draggedElement);
+            $scope.reload();
+        });
     };
 
     $scope.showNodeContextMenu = function(e) {
