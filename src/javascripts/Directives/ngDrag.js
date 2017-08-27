@@ -1,4 +1,4 @@
-ngapp.directive('ngDrag', function($parse) {
+ngapp.directive('ngDrag', function($parse, $rootScope) {
     return function(scope, element, attrs) {
         let el = element[0],
             callback = $parse(attrs.ngDrag),
@@ -19,7 +19,7 @@ ngapp.directive('ngDrag', function($parse) {
             el.classList.add('dragging');
         });
         el.addEventListener('dragend', () => {
-            scope.$root.dragData = undefined;
+            $rootScope.dragData = undefined;
             el.classList.remove('dragging');
         });
     }
