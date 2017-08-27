@@ -103,6 +103,44 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             scope.reload();
         };
 
+        scope.rebuildNode = function(node, index) {
+            if (!index) index = scope.tree.indexOf(node);
+            scope.tree.splice(index, 1, {
+                label: node.label,
+                child_index: node.child_index,
+                value_type: node.value_type,
+                is_sorted: node.is_sorted,
+                handles: node.handles,
+                first_handle: node.first_handle,
+                disabled: node.disabled,
+                can_expand: node.can_expand,
+                depth: node.depth,
+                expanded: node.expanded
+            });
+        };
+
+        scope.updateSortedArrayLabels = function(index, targetDepth) {
+            let recordIndex = scope.focusedIndex - 1,
+                counter = 0;
+            for (let i = index + 1; i < scope.tree.length; i++) {
+                let node = scope.tree[i];
+                if (node.depth === targetDepth) {
+                    node.child_index = node.handles[recordIndex] ? counter++ : undefined;
+                    scope.rebuildNode(node, i);
+                } else if (node.depth < targetDepth) {
+                    return;
+                }
+            }
+        };
+
+        scope.updateNodeLabels = function() {
+            scope.tree.forEach(function(node, index) {
+                if (node.value_type === xelib.vtArray && node.is_sorted) {
+                    scope.updateSortedArrayLabels(index, node.depth + 1);
+                }
+            });
+        };
+
         scope.getNodeClass = function(node) {
             let classes = [];
             if (node.first_handle) {
@@ -112,6 +150,14 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
                 classes.push('element-unassigned');
             }
             node.class = classes.join(' ');
+        };
+
+        scope.getLabel = function(node) {
+            if (angular.isDefined(node.child_index)) {
+                return `${node.label} [${node.child_index}]`;
+            } else {
+                return node.label;
+            }
         };
 
         scope.buildCells = function(node) {
@@ -134,7 +180,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
                 });
             });
             if (nodeModified) scope.addModifiedClass(node);
-            node.cells.unshift({value: node.label, class: node.class});
+            node.cells.unshift({value: scope.getLabel(node), class: node.class});
         };
 
         scope.getNodeData = function(node) {
@@ -148,10 +194,12 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
                 firstHandle = handles.find((handle) => { return handle > 0; }),
                 valueType = firstHandle && xelib.ValueType(firstHandle),
                 isFlags = valueType === xelib.vtFlags,
+                isSorted = valueType === xelib.vtArray && xelib.IsSorted(firstHandle),
                 canExpand = firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0;
             return {
                 label: name,
                 value_type: valueType,
+                is_sorted: isSorted,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
