@@ -53,7 +53,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     $scope.onCellMouseDown = function(index) {
         let oldIndex = $scope.focusedIndex;
         $scope.focusedIndex = index;
-        if (oldIndex !== index) $scope.updateNodeLabels();
+        if (oldIndex !== index) $timeout($scope.updateNodeLabels);
     };
 
     $scope.onDragOver = function() {
