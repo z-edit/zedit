@@ -1,4 +1,4 @@
-ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeViewFactory) {
+ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeViewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
@@ -105,19 +105,14 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
 
         scope.rebuildNode = function(node, index) {
             if (!index) index = scope.tree.indexOf(node);
-            scope.tree.splice(index, 1, {
-                parent: node.parent,
-                label: node.label,
-                child_index: node.child_index,
-                value_type: node.value_type,
-                is_sorted: node.is_sorted,
-                handles: node.handles,
-                first_handle: node.first_handle,
-                disabled: node.disabled,
-                can_expand: node.can_expand,
-                depth: node.depth,
-                expanded: node.expanded
-            });
+            let allowedKeys = ['parent', 'label', 'child_index', 'value_type', 'is_sorted', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected'],
+                selectedIndex = scope.selectedNodes.indexOf(node),
+                rebuiltNode = objectUtils.rebuildObject(node, allowedKeys);
+            scope.tree.splice(index, 1, rebuiltNode);
+            if (selectedIndex > -1) {
+                scope.selectedNodes.splice(selectedIndex, 1, rebuiltNode);
+                if (scope.prevNode === node) scope.prevNode = rebuiltNode;
+            }
         };
 
         scope.updateSortedArrayLabels = function(index, targetDepth) {
