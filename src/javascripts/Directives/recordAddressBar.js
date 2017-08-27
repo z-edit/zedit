@@ -48,6 +48,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
         }
     };
 
+    // TODO: More hotkeys?
     $scope.onAddressKeyDown = function(e) {
         if (e.keyCode == enterKey) $scope.go();
     };
