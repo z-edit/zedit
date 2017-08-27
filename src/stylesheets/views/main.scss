@@ -91,12 +91,18 @@ split-bar {
       background-color: #ddd;
       user-select: none;
 
+      .label {
+        display: inline-block;
+        padding-top: 2px;
+      }
+
       .close-tab {
         cursor: pointer;
         float: right;
-        margin-right: 5px;
-        margin-top: 1px;
+        margin: 2px 4px 2px 0;
+        padding: 1px;
         color: crimson;
+        line-height: initial;
       }
 
       &.active {
