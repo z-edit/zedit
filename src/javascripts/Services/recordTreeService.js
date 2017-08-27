@@ -97,7 +97,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             return xelib.LocalPath(handle);
         };
 
-        scope.updateNode = function() {
+        scope.updateNodes = function() {
             xelib.ReleaseNodes(scope.virtualNodes);
             scope.virtualNodes = xelib.GetNodes(scope.record);
             scope.reload();

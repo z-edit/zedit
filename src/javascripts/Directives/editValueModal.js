@@ -34,7 +34,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         let index = $scope.targetIndex,
             record = index == 0 ? $scope.record : $scope.overrides[index - 1];
         $scope.$root.$broadcast('recordUpdated', record);
-        $scope.updateNode(node);
+        $scope.updateNodes();
         $scope.toggleEditModal();
     };
 
