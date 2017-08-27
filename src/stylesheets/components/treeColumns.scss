@@ -4,6 +4,10 @@
   margin-top: -24px;
   position: relative;
 
+  &:first-child {
+    border-top: 1px solid #aaa;
+  }
+
   > split-bar {
     width: 5px;
     margin: 0 -2px 0 -3px;
@@ -19,7 +23,7 @@
   }
 
   .column {
-    padding: 5px 8px;
+    padding: 5px 8px 4px;
     position: relative;
 
     &:last-of-type {

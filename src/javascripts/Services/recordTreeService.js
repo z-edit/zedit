@@ -135,6 +135,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
 
         scope.updateNodeLabels = function() {
             scope.tree.forEach(function(node, index) {
+                if (node.disabled) return;
                 if (node.value_type === xelib.vtArray && node.is_sorted) {
                     scope.updateSortedArrayLabels(index, node.depth + 1);
                 }
