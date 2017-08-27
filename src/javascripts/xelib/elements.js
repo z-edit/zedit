@@ -132,6 +132,12 @@ xelib.SmashType = function(_id, asString = false) {
 xelib.ValueType = function(_id, asString = false) {
     return GetEnumValue(_id, 'ValueType', asString && valueTypes);
 };
+xelib.IsSorted = function(_id) {
+    return GetBool(function(_bool) {
+        if (!lib.IsSorted(_id, _bool))
+            Fail(`Failed to get is sorted for ${_id}`);
+    });
+};
 xelib.IsFlags = function(_id) {
     return xelib.ValueType(_id) === xelib.vtFlags;
 };

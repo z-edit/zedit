@@ -102,6 +102,7 @@ try {
         'DefType': [WordBool, [Cardinal, PByte]],
         'SmashType': [WordBool, [Cardinal, PByte]],
         'ValueType': [WordBool, [Cardinal, PByte]],
+        'IsSorted': [WordBool, [Cardinal, PWordBool]],
         // ERROR CHECKING METHODS
         'CheckForErrors': [WordBool, [Cardinal]],
         'GetErrorThreadDone': [WordBool, []],
