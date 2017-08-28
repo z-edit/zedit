@@ -3,7 +3,7 @@
         <form>
             <h3>Load Order</h3>
             <section>
-                <list-view items="loadOrder" list-class="checkbox-list" item-template-url="partials/loadOrderItem.html" reorderable>
+                <list-view items="loadOrder" list-class="checkbox-list" item-template-url="partials/loadOrderItem.html" list-type="loadOrderList" reorderable>
                     <input type="checkbox" ng-model="$parent.item.active" ng-change="updateIndexes()" />
                     <span ng-show="$parent.item.active">[{{$parent.item.index | hex:2 }}]</span>
                     {{::$parent.item.filename}}
