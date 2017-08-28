@@ -20,6 +20,8 @@ ngapp.directive('ngDragOver', function($parse) {
             e.dataTransfer.dropEffect = 'move';
             e.preventDefault();
         });
-        el.addEventListener('dragleave', () => el.classList.remove('dragover'));
+        if (!attrs.ngDragLeave) {
+            el.addEventListener('dragleave', () => el.classList.remove('dragover'));
+        }
     }
 });
