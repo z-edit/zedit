@@ -28,6 +28,12 @@ ngapp.controller('loadOrderModalController', function ($scope, $state, $element,
         $state.go('base.main');
     };
 
+    // event handlers
+    $scope.$on('selectionChanged', function(e) {
+        $scope.updateIndexes();
+        e.stopPropagation();
+    });
+
     // initialize view model properties
     $scope.defaultAction = $scope.loadPlugins;
     $scope.updateIndexes();

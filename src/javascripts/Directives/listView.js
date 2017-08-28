@@ -22,9 +22,10 @@ ngapp.controller('listViewController', function($scope) {
     $scope.clearSelection = function() {
         $scope.items.forEach((item) => item.selected = false);
         prevIndex = undefined;
+        $scope.$emit('selectionChanged');
     };
 
-    $scope.select = function(e, item, index) {
+    $scope.onItemClick = function(e, item, index) {
         if (e.shiftKey && prevIndex !== undefined) {
             let start = Math.min(index, prevIndex),
                 end = Math.max(index, prevIndex);
@@ -44,20 +45,15 @@ ngapp.controller('listViewController', function($scope) {
     };
 
     $scope.onKeyPress = function(e) {
-        // toggle selected items if space pressed
-        if (e.keyCode == 32) {
+        if (e.keyCode == 32) { // toggle selected items on space
             $scope.items.forEach(function(item) {
                 if (item.selected) item.active = !item.active;
             });
-            $scope.updateIndexes && $scope.updateIndexes();
-        }
-        // clear selection on escape
-        else if (e.keyCode == 27) {
+            $scope.$emit('selectionChanged');
+        } else if (e.keyCode == 27) { // clear selection on escape
             $scope.clearSelection();
-        }
-        // load plugins on enter
-        else if (e.keyCode == 13) {
-            $scope.defaultAction();
+        } else if (e.keyCode == 13) { // default action on enter
+            $scope.defaultAction && $scope.defaultAction();
         } else {
             return;
         }
