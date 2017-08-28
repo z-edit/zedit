@@ -1,0 +1,3 @@
+<ul class="{{::listClass}}">
+    <li ng-repeat="item in items" ng-class="{'selected': item.selected}" ng-click="onItemClick($event, item, $index)" ng-include="$parent.itemTemplateUrl"></li>
+</ul>
