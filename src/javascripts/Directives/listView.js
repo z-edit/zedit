@@ -9,7 +9,6 @@ ngapp.directive('listView', function() {
             scope.reorderable = attrs.hasOwnProperty('reorderable');
             scope.items = scope.$eval(attrs.items);
             scope.listClass = attrs.listClass;
-            scope.itemTemplateUrl = attrs.itemTemplateUrl;
         }
     }
 });
