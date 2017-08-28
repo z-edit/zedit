@@ -7,7 +7,7 @@ ngapp.directive('editValueModal', function () {
     }
 });
 
-ngapp.controller('editValueModalController', function($scope, $timeout, errorService, formUtils, listViewFactory) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService, formUtils) {
     // variables
     let node = $scope.targetNode,
         handle = node.handles[$scope.targetIndex],
@@ -114,7 +114,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         };
 
         // initialize flags
-        $scope.prevIndex = undefined;
+        $scope.defaultAction = $scope.applyValue;
         let enabledFlags = value.split(', ');
         $scope.flags = xelib.GetAllFlags(handle).map(function(flag) {
             return {
@@ -122,9 +122,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
                 active: flag !== '' && enabledFlags.contains(flag)
             }
         });
-
-        // inherited functions
-        listViewFactory.build($scope, 'flags', 'applyValue');
     };
 
     $scope.setupEnum = function(value) {
