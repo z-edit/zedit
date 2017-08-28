@@ -7,12 +7,7 @@ ngapp.directive('loadOrderModal', function () {
     }
 });
 
-ngapp.controller('loadOrderModalController', function ($scope, $state, $element, listViewFactory) {
-    $scope.prevIndex = undefined;
-
-    // inherited functions
-    listViewFactory.build($scope, 'loadOrder', 'loadPlugins');
-
+ngapp.controller('loadOrderModalController', function ($scope, $state, $element, $timeout) {
     // scope functions
     $scope.updateIndexes = function() {
         let n = 0;
@@ -34,10 +29,11 @@ ngapp.controller('loadOrderModalController', function ($scope, $state, $element,
     };
 
     // initialize view model properties
+    $scope.defaultAction = $scope.loadPlugins;
     $scope.updateIndexes();
-    $scope.clearSelection();
 
     // focus modal
-    let modalElement = $element[0].firstElementChild.firstElementChild;
+    let modalContainer = $element[0].firstElementChild,
+        modalElement = modalContainer.firstElementChild;
     modalElement.focus();
 });

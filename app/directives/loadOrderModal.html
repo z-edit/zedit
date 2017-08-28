@@ -3,13 +3,7 @@
         <form>
             <h3>Load Order</h3>
             <section>
-                <ul class="checkbox-list">
-                    <li ng-repeat="item in loadOrder" ng-class="{ 'selected' : item.selected }" ng-click="select($event, item, $index)">
-                        <input type="checkbox" ng-model="item.active" ng-change="updateIndexes()" />
-                        <span ng-show="item.active">[{{item.index | hex:2 }}]</span>
-                        {{::item.filename}}
-                    </li>
-                </ul>
+                <list-view items="loadOrder" list-class="checkbox-list" item-template-url="partials/loadOrderItem.html" reorderable></list-view>
             </section>
 
             <div class="action-button-container">
