@@ -1,4 +1,4 @@
-ngapp.service('treeColumnService', function(stylesheetService) {
+ngapp.service('treeColumnService', function(stylesheetService, formUtils) {
     this.buildFunctions = function(scope, treeSelector, columnsEditable, allowOverflow) {
         scope.toggleSort = function(column) {
             if (!column.canSort) return;
@@ -48,9 +48,7 @@ ngapp.service('treeColumnService', function(stylesheetService) {
         };
 
         if (columnsEditable) {
-            scope.toggleColumnsModal = function(visible) {
-                scope.showColumnsModal = visible;
-            };
+            formUtils.buildToggleModalFunction(scope, 'ColumnsModal');
         }
     }
 });

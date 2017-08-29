@@ -1,4 +1,4 @@
-var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory) {
+var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -15,15 +15,12 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
+    formUtils.buildToggleModalFunction($scope, 'EditModal');
 
     // scope functions
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
         visible ? $timeout($scope.focusAddressInput, 50) : $scope.treeElement.focus();
-    };
-
-    $scope.toggleEditModal = function(visible) {
-        $scope.showEditModal = visible;
     };
 
     $scope.focusAddressInput = function () {

@@ -80,7 +80,7 @@
                 <h2>Edit Flags
                     <div class="path">{{::path}}</div>
                 </h2>
-                <list-view items="flags" list-class="checkbox-list" item-template-url="partials/flagItem.html">
+                <list-view items="flags" list-class="checkbox-list">
                     <input type="checkbox" ng-model="$parent.item.active" />
                     {{::$parent.item.name}}
                 </list-view>

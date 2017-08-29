@@ -7,10 +7,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHelpers) {
     var hostWindow = remote.getCurrentWindow();
 
+ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHelpers, formUtils) {
     $scope.title = 'zEdit - New Session';
+
+    // inherited functions
+    formUtils.buildToggleModalFunction($scope, 'EditModal');
 
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');

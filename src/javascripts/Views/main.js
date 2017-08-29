@@ -6,21 +6,22 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, layoutService) {
+ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, layoutService, formUtils) {
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
     $scope.whiteOpts = spinnerFactory.whiteOptions;
     xelibService.printGlobals();
 
+    // inherited functions
+    formUtils.buildToggleModalFunction($scope, 'LoadingModal');
+    formUtils.buildToggleModalFunction($scope, 'SettingsModal');
+    formUtils.buildToggleModalFunction($scope, 'SaveModal');
+
     // load default layout
     $scope.mainPane = layoutService.buildDefaultLayout();
 
     // scope functions
-    $scope.toggleSettingsModal = function(visible) {
-        $scope.showSettingsModal = visible;
-    };
-
     $scope.getLoadingMessage = function() {
         $scope.loadingMessage = $scope.log.split('\n').slice(-2)[0];
     };
@@ -38,19 +39,15 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     };
 
     // event handlers
-    $scope.$on('settingsClicked', function() {
-        $scope.toggleSettingsModal(true);
+    $scope.$on('settingsClicked', () => $scope.toggleSettingsModal(true));
+    $scope.$on('doneLoading', () => $scope.toggleLoadingModal());
     });
 
     $scope.$on('loading', function(e, message, canCancel) {
         if ($scope.showLoadingModal && $scope.loadingMessage === "Cancelling...") return;
-        $scope.showLoadingModal = true;
+        if (!$scope.showLoadingModal) $scope.toggleLoadingModal(true);
         $scope.loadingMessage = message || "Loading...";
         $scope.canCancel = canCancel;
-    });
-
-    $scope.$on('doneLoading', function() {
-        $scope.showLoadingModal = false;
     });
 
     // save data and terminate xelib when application is being closed

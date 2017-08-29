@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory) {
+var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -21,6 +21,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     $scope.toggleRefactorModal = function(visible, mode) {
         $scope.showRefactorModal = visible;
         $scope.refactorMode = mode;
+        $scope.$root.modalActive = visible;
     };
 
     $scope.open = function(node) {
