@@ -7,9 +7,9 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-    var hostWindow = remote.getCurrentWindow();
-
 ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHelpers, formUtils) {
+    // initialization
+    var win = remote.getCurrentWindow();
     $scope.title = 'zEdit - New Session';
 
     // inherited functions
@@ -18,22 +18,13 @@ ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHe
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
     $scope.helpClick = () => $scope.$broadcast('helpClick');
-    $scope.minimizeClick = () => hostWindow.minimize();
-    $scope.restoreClick = () => {
-        hostWindow.isMaximized() ? hostWindow.unmaximize() : hostWindow.maximize();
-    };
-    $scope.closeClick = () => hostWindow.close();
-    $scope.toggleEditModal = (visible) => $scope.showEditModal = visible;
+    $scope.minimizeClick = () => win.minimize();
+    $scope.restoreClick = () => win.isMaximized() ? win.unmaximize() : win.maximize();
+    $scope.closeClick = () => win.close();
 
     // event handlers
-    $scope.$on('terminate', function() {
-        remote.app.forceClose = true;
-        $scope.closeClick();
-    });
-
-    $scope.$on('setTitle', function(e, title) {
-        $scope.title = title;
-    });
+    $scope.$on('terminate', () => { remote.app.forceClose = true;  win.close(); });
+    $scope.$on('setTitle', (e, title) => $scope.title = title);
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
@@ -55,8 +46,8 @@ ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHe
     });
 
     $scope.$on('openEditModal', function(e, options) {
-        $scope.showEditModal = true;
         $scope.editOptions = options;
+        $scope.toggleEditModal(true);
         e.stopPropagation();
     });
 
@@ -75,13 +66,13 @@ ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHe
     window.onblur = () => $scope.$applyAsync(() => $scope.showContextMenu = false);
 
     // keyboard shortcuts
-    $document.bind('keypress', function(e) {
-        // ctrl + shift + i
-        if (e.which === 9 && e.shiftKey && e.ctrlKey) {
-            hostWindow.toggleDevTools();
-        // ctrl + r
-        } else if (e.which === 18 && e.ctrlKey) {
+    $document.bind('keydown', function(e) {
+        if (e.keyCode === 73 && e.shiftKey && e.ctrlKey) { // ctrl + shift + i
+            win.toggleDevTools();
+        } else if (e.keyCode === 82 && e.ctrlKey) { // ctrl + r
             location.reload();
+        } else if (e.keyCode === 83 && e.ctrlKey) { // ctrl + s
+            $scope.$broadcast('save');
         }
     });
 });

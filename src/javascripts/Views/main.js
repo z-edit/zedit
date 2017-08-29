@@ -41,6 +41,14 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     // event handlers
     $scope.$on('settingsClicked', () => $scope.toggleSettingsModal(true));
     $scope.$on('doneLoading', () => $scope.toggleLoadingModal());
+    $scope.$on('save', function() {
+        if ($scope.$root.modalActive) return;
+        let hasFilesToSave = false;
+        xelib.WithHandles(xelib.GetElements(), function(files) {
+            hasFilesToSave = !!files.find((file) => { return xelib.GetIsModified(file); });
+        });
+        if (!hasFilesToSave) return;
+        $scope.toggleSaveModal(true);
     });
 
     $scope.$on('loading', function(e, message, canCancel) {
@@ -51,11 +59,12 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     });
 
     // save data and terminate xelib when application is being closed
-    /*window.onbeforeunload = function(e) {
+    window.onbeforeunload = function(e) {
         if (remote.app.forceClose) return;
-        //$scope.toggleSaveModal(true);
-        e.returnValue = true;//false;
-    };*/
+        $scope.shouldFinalize = true;
+        $scope.toggleSaveModal(true);
+        e.returnValue = false;
+    };
 
     // initialization
     $scope.checkIfLoaded();
