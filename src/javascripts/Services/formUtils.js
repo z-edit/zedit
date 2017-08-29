@@ -6,4 +6,11 @@ ngapp.service('formUtils', function () {
             }
         }
     };
+
+    this.buildToggleModalFunction = function($scope, modalName) {
+        $scope['toggle' + modalName] = function(visible) {
+            $scope.$applyAsync(() => $scope['show' + modalName] = visible);
+            $scope.$root.modalActive = visible;
+        };
+    };
 });
