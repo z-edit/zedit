@@ -1,0 +1,22 @@
+<div class="modal-container">
+    <div class="modal">
+        <form ng-if="saving">
+            <h2>{{message}}</h2>
+            <h3>{{detailedMessage}}...</h3>
+        </form>
+        <form ng-if="!saving">
+            <h3>Select Plugins to Save</h3>
+            <section>
+                <list-view items="pluginsToProcess" list-class="checkbox-list">
+                    <input type="checkbox" ng-model="$parent.item.active"/>
+                    {{::$parent.item.filename}}
+                </list-view>
+            </section>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="save()">Save</button>
+                <button class="action-btn" ng-click="toggleSaveModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
