@@ -39,7 +39,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     };
 
     // event handlers
-    $scope.$on('settingsClicked', () => $scope.toggleSettingsModal(true));
+    $scope.$on('settingsClick', () => $scope.toggleSettingsModal(true));
     $scope.$on('doneLoading', () => $scope.toggleLoadingModal());
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
