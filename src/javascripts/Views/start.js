@@ -48,7 +48,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         if (!$scope.checkHardcodedDat()) return;
         let p = $scope.selectedProfile;
         $rootScope.selectedProfile = p;
-        settingsService.loadSettings(p);
+        settingsService.loadSettings(p.name);
         console.log("Setting game mode to: " + p.gameMode);
         xelibService.startSession(p);
         $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
