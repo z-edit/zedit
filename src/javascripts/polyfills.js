@@ -41,7 +41,7 @@ String.prototype.underscore = function(separator) {
 
 String.prototype.wordCount = function() {
     if (this.length) {
-        var match = this.match(/(\S+)/g);
+        let match = this.match(/(\S+)/g);
         return (match && match.length) || 0;
     } else {
         return 0;
@@ -53,8 +53,8 @@ String.prototype.surround = function(str) {
 };
 
 String.prototype.reduceText = function(numWords) {
-    var lines = this.split('\n');
-    var result = '';
+    let lines = this.split('\n');
+    let result = '';
     while (result.wordCount() < numWords && lines.length) {
         result += lines.shift() + '\n';
     }
@@ -64,7 +64,7 @@ String.prototype.reduceText = function(numWords) {
 String.prototype.wordwrap = function(width, brk, cut) {
     brk = brk || '\n';
     width = width || 60;
-    var regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
+    let regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
 
     return this.match(new RegExp(regex, 'g')).map(function(str) {
         return str.trim()
@@ -74,17 +74,17 @@ String.prototype.wordwrap = function(width, brk, cut) {
 // convert integer to a bytes string
 Number.prototype.toBytes = function(precision) {
     if (typeof precision === 'undefined') precision = 1;
-    var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+    let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
         number = Math.floor(Math.log(this) / Math.log(1024));
     return (this / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
 };
 
 // parse input bytes string into an integer
 Number.prototype.parseBytes = function(bytesString) {
-    var sp = bytesString.split(' ');
+    let sp = bytesString.split(' ');
     if (!sp || sp.length < 2) return 0;
-    var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
-    var power = units.indexOf(sp[1]);
+    let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+    let power = units.indexOf(sp[1]);
     if (power == -1) {
         return 0;
     } else {
@@ -100,7 +100,7 @@ Number.prototype.toPercentage = function(precision) {
 // does nothing if either this or array are undefined
 Array.prototype.unite = function(array) {
     if (this && array) {
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             this.push(array[i]);
         }
     }
@@ -116,7 +116,7 @@ Array.prototype.contains = function(needle) {
 };
 
 Array.prototype.remove = function(needle) {
-    var n = this.indexOf(needle);
+    let n = this.indexOf(needle);
     if (n > -1) this.splice(n, 1);
     return n;
 };
@@ -134,9 +134,9 @@ Array.prototype.sortAlphabetically = function(key) {
 };
 
 Array.prototype.groupBy = function(propertyName) {
-    var obj = {};
+    let obj = {};
     this.forEach(function(item) {
-        var key = item[propertyName] + '';
+        let key = item[propertyName] + '';
         if (obj.hasOwnProperty(key)) {
             obj[key].push(item);
         } else {
@@ -148,22 +148,29 @@ Array.prototype.groupBy = function(propertyName) {
 
 Array.prototype.equals = function(otherArray) {
     if (!otherArray || this.length != otherArray.length) return false;
-    return this.reduce(function(equal, item, index) {
-        var otherItem = otherArray[index];
-        var itemType = typeof item, otherItemType = typeof otherItem;
+    for (let index = 0; index < this.length; index++) {
+        let item = this[index],
+            otherItem = otherArray[index],
+            itemType = typeof item,
+            otherItemType = typeof otherItem;
         if (itemType !== otherItemType) return false;
-        return equal && (itemType === "object" ? item.equals(otherItem) : item === otherItem);
-    }, true);
+        if (itemType === 'object') {
+            if (!item.equals(otherItem)) return false;
+        } else if (item !== otherItem) {
+            return false;
+        }
+    }
+    return true;
 };
 
 Array.prototype.forEachDesc = function(callback) {
-    for (var i = this.length; i > -1; i--) {
+    for (let i = this.length; i > -1; i--) {
         callback(this[i], i, this);
     }
 };
 
 Array.prototype.forEachNested = function(callback, nestingKey) {
-    var nestedCallback = function(element, index, array) {
+    let nestedCallback = function(element, index, array) {
         if (callback(element, index, array) && element.hasOwnProperty(nestingKey)) {
             element[nestingKey].forEachDesc(nestedCallback);
         }
@@ -172,7 +179,7 @@ Array.prototype.forEachNested = function(callback, nestingKey) {
 };
 
 Array.prototype.trimFalsy = function() {
-    var n;
+    let n;
     for (n = this.length - 1; n > -1; n--) {
         if (this[n]) break;
     }
@@ -183,19 +190,53 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
-Object.prototype.equals = function(otherObject) {
-    if (!otherObject) return false;
-    var object = this, objectKeys = Object.prototype.keys(object);
-    if (!objectKeys.equals(Object.prototype.keys(otherObject))) return false;
-    return objectKeys.reduce(function(equal, key) {
-        var value = object[key], otherValue = otherObject[key];
-        var valueType = typeof value, otherValueType = typeof otherValue;
-        if (valueType !== otherValueType) return false;
-        // this will call Array.prototype.equals for arrays and Object.prototype.equals for objects
-        return equal && (valueType === "object" ? value.equals(otherValue) : value === otherValue);
-    }, true);
-};
-Object.defineProperty(Object.prototype, "equals", {enumerable: false});
+Object.prototype.equals = () => {};
+Object.defineProperty(Object.prototype, 'equals', {
+    enumerable: false,
+    value: function(otherObject) {
+        if (!object || !otherObject) return false;
+        let object = this,
+            objectKeys = Object.keys(object);
+        if (!objectKeys.equals(Object.keys(otherObject))) return false;
+        for (let i = 0; i < objectKeys.length; i++) {
+            let key = objectKeys[i],
+                value = object[key], otherValue = otherObject[key],
+                valueType = typeof value, otherValueType = typeof otherValue;
+            if (valueType !== otherValueType) return false;
+            if (valueType === 'object') {
+                if (!value.equals(otherValue)) return false;
+            }  else if (value !== otherValue) {
+                return false;
+            }
+        }
+        return true;
+    }
+});
+
+Object.defineProperty(Object.prototype, 'deepAssign', {
+    enumerable: false,
+    value: function (target, letArgs) {
+        if (target == null) { // TypeError if undefined or null
+            throw new TypeError('Cannot convert undefined or null to object');
+        }
+
+        let to = Object(target);
+        for (let index = 1; index < arguments.length; index++) {
+            let nextSource = arguments[index];
+            if (nextSource == null) continue; // Skip over if undefined or null
+            Object.keys(nextSource).forEach(function (nextKey) {
+                if (typeof nextSource[nextKey] === 'object') {
+                    if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
+                        to[nextKey] = {};
+                    }
+                    Object.prototype.deepAssign.call(to[nextKey], nextSource[nextKey]);
+                } else {
+                    to[nextKey] = nextSource[nextKey];
+                }
+            });
+        }
+    }
+});
 
 // angular polyfills
 angular.inherit = function(scope, attribute) {
@@ -211,7 +252,7 @@ angular.default = function(scope, attribute, value) {
 };
 
 angular.copyProperties = function(source, destination) {
-    for (var prop in source) {
+    for (let prop in source) {
         if (source.hasOwnProperty(prop)) {
             destination[prop] = source[prop];
         }
