@@ -1,20 +1,17 @@
 <div class="modal-container" ng-click="unfocusSettingsModal($event)">
     <div class="modal big-modal">
-        <form>
-            <div class="close-modal">
-                <span class="fa fa-times" ng-click="saveSettings()"></span>
+        <div class="close-modal">
+            <span class="fa fa-times" ng-click="saveSettings()"></span>
+        </div>
+
+        <div class="tabs-container">
+            <div ng-repeat="tab in tabs" class="tab" ng-click="onTabClick($event, tab)">
+                {{::tab.label}}
             </div>
+        </div>
 
-            <h3>{{::profileName}} Settings</h3>
-
-            <h4>Display</h4>
-            <section>
-                <div class="subsection">
-                    <span class="input-label">Theme</span>
-                    <input type="text" disabled value="Coming soon"/>
-                    <!--<select ng-model="settings.theme" ng-options="theme as theme.name for theme in themes"></select>-->
-                </div>
-            </section>
+        <form class="tab-contents">
+            <ng-include src=currentTab.templateUrl" ng-controller="currentTab.controller"></ng-include>
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="saveSettings()">OK</button>
