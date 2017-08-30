@@ -215,7 +215,7 @@ Object.defineProperty(Object.prototype, 'equals', {
 
 Object.defineProperty(Object.prototype, 'deepAssign', {
     enumerable: false,
-    value: function (target, letArgs) {
+    value: function (target, varArgs) {
         if (target == null) { // TypeError if undefined or null
             throw new TypeError('Cannot convert undefined or null to object');
         }
@@ -229,12 +229,13 @@ Object.defineProperty(Object.prototype, 'deepAssign', {
                     if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
                         to[nextKey] = {};
                     }
-                    Object.prototype.deepAssign.call(to[nextKey], nextSource[nextKey]);
+                    Object.deepAssign(to[nextKey], nextSource[nextKey]);
                 } else {
                     to[nextKey] = nextSource[nextKey];
                 }
             });
         }
+        return to;
     }
 });
 
