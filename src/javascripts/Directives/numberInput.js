@@ -19,7 +19,16 @@ ngapp.directive('numberInput', function() {
             if (!scope.testFn || scope.testFn.constructor !== Function) {
                 scope.testFn = testFunctions.decimal;
             }
+            if (typeof scope.model !== 'number') {
+                scope.model = 0;
+            }
 
+            scope.onInputBlur = () => {
+                if (scope.invalid) {
+                    scope.invalid = false;
+                    scope.str = scope.model.toString();
+                }
+            };
             scope.updateModel = function() {
                 scope.invalid = !scope.testFn(scope.str);
                 if (!scope.invalid) scope.model = parseFloat(scope.str);
