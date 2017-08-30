@@ -31,11 +31,15 @@ form {
         cursor: pointer;
       }
     }
+
+    label {
+      display: block;
+    }
   }
 
   .input-label {
     display: inline-block;
-    min-width: 180px;
+    min-width: 200px;
     margin-bottom: 5px;
     margin-top: 5px;
   }
@@ -66,5 +70,12 @@ input.invalid {
 
   .selected {
     background-color: #e5f2ff;
+  }
+}
+
+number-input {
+  input {
+    width: 100px;
+    padding: 2px;
   }
 }

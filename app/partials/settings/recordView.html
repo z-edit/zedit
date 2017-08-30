@@ -1,15 +1,15 @@
 <h3>Record View Settings</h3>
 
 <section>
-    <label class="subsection">
+    <label>
         <input type="checkbox" ng-model="settings.recordView.autoExpand"/>
         <span class="input-label">Auto-expand nodes</span>
     </label>
-    <label class="subsection">
+    <label>
         <input type="checkbox" ng-model="settings.recordView.showArrayIndexes"/>
         <span class="input-label">Show array element indexes</span>
     </label>
-    <label class="subsection">
+    <label>
         <input type="checkbox" ng-model="settings.recordView.promptOnDeletion"/>
         <span class="input-label">Prompt on element deletion</span>
     </label>
@@ -17,12 +17,12 @@
 
 <h4>Default Column Widths</h4>
 <section>
-    <div class="subsection">
+    <div>
         <span class="input-label">Element Names Column</span>
-        <number-input test-function="'positiveInteger'" model="settings.recordView.defaultColumnWidths.names"></number-input>
+        <number-input type="positiveInteger" model="settings.recordView.defaultColumnWidths.names"></number-input>
     </div>
-    <div class="subsection">
+    <div>
         <span class="input-label">Record Columns</span>
-        <number-input test-function="'positiveInteger'" model="settings.recordView.defaultColumnWidths.records"></number-input>
+        <number-input type="positiveInteger" model="settings.recordView.defaultColumnWidths.records"></number-input>
     </div>
 </section>
