@@ -13,9 +13,20 @@ ngapp.controller('settingsModalController', function($scope, formUtils, settings
 
     // initialize scope variables
     $scope.settings = settingsService.settings;
-    $scope.profileName = settingsService.currentProfile.name;
+    $scope.profileName = settingsService.currentProfile;
+    $scope.tabs = settingsService.getTabs();
+    $scope.currentTab = $scope.tabs[0];
+    $scope.currentTab.selected = true;
 
     // scope functions
+    $scope.onTabClick = function(e, tab) {
+        e.stopPropagation();
+        if (tab === $scope.currentTab) return;
+        $scope.currentTab.selected = false;
+        $scope.currentTab = tab;
+        $scope.currentTab.selected = true;
+    };
+
     $scope.saveSettings = function() {
         settingsService.saveSettings($scope.settings);
         $scope.toggleSettingsModal();
