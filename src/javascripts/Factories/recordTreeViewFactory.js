@@ -25,6 +25,17 @@ ngapp.service('recordTreeViewFactory', function() {
     };
 });
 
-ngapp.run(function(viewFactory, recordTreeViewFactory) {
+ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
     viewFactory.registerView('recordTreeView', recordTreeViewFactory.new, 'Record View');
+    settingsService.registerSettings({
+        label: 'Record View',
+        templateUrl: 'partials/settings/recordView.html',
+        controller: recordViewSettingsController,
+        defaultSettings: { recordView: {
+            autoExpand: false,
+            showArrayIndexes: true,
+            promptOnDeletion: false,
+            defaultColumnWidths: { names: 250, records: 300 }
+        }}
+    });
 });

@@ -21,6 +21,15 @@ ngapp.service('mainTreeViewFactory', function() {
     };
 });
 
-ngapp.run(function(viewFactory, mainTreeViewFactory) {
+ngapp.run(function(viewFactory, mainTreeViewFactory, settingsService) {
     viewFactory.registerView('mainTreeView', mainTreeViewFactory.new, 'Tree View');
+    settingsService.registerSettings({
+        label: 'Tree View',
+        templateUrl: 'partials/settings/treeView.html',
+        defaultSettings: { treeView: {
+            showGroupSignatures: false,
+            promptOnDeletion: true,
+            showFileHeaders: false
+        }}
+    });
 });
