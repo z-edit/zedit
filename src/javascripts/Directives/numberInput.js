@@ -7,14 +7,15 @@ ngapp.directive('numberInput', function() {
 
     return {
         restrict: 'E',
-        replace: true,
+        template: '<input type="text" ng-model="str" ng-class="{\'invalid\' : invalid}" ng-change="updateModel()" ng-blur="onInputBlur()"/>',
         scope: {
-            testFn: '=testFunction',
+            testFn: '=?',
+            type: '@',
             model: '='
         },
         link: function(scope) {
-            if (typeof scope.testFn === 'string') {
-                scope.testFn = testFunctions[scope.testFn];
+            if (scope.type) {
+                scope.testFn = testFunctions[scope.type];
             }
             if (!scope.testFn || scope.testFn.constructor !== Function) {
                 scope.testFn = testFunctions.decimal;
