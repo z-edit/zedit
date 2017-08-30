@@ -30,6 +30,7 @@ ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Record View',
         templateUrl: 'partials/settings/recordView.html',
+        controller: () => {},
         defaultSettings: {
             recordView: {
                 autoExpand: false,

@@ -26,6 +26,7 @@ ngapp.run(function(viewFactory, mainTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Tree View',
         templateUrl: 'partials/settings/treeView.html',
+        controller: () => {},
         defaultSettings: {
             treeView: {
                 showGroupSignatures: false,

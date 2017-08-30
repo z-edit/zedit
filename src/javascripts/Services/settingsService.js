@@ -3,6 +3,7 @@ ngapp.service('settingsService', function() {
         tabs = [{
             label: 'Core',
             templateUrl: 'partials/settings/core.html',
+            controller: () => {},
             defaultSettings: { theme: 'Vanilla' }
         }];
 
