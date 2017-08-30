@@ -1,17 +1,17 @@
 <div class="modal-container" ng-click="unfocusSettingsModal($event)">
-    <div class="modal big-modal">
+    <div class="modal">
         <div class="close-modal">
             <span class="fa fa-times" ng-click="saveSettings()"></span>
         </div>
 
         <div class="tabs-container">
-            <div ng-repeat="tab in tabs" class="tab" ng-click="onTabClick($event, tab)">
+            <div ng-repeat="tab in tabs" class="tab" ng-class="{'selected': tab.selected}" ng-click="onTabClick($event, tab)">
                 {{::tab.label}}
             </div>
         </div>
 
         <form class="tab-contents">
-            <ng-include src=currentTab.templateUrl" ng-controller="currentTab.controller"></ng-include>
+            <ng-include src="currentTab.templateUrl" ng-controller="currentTab.controller"></ng-include>
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="saveSettings()">OK</button>

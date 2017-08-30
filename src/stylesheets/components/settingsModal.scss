@@ -1,19 +1,46 @@
 settings-modal {
-  h3 {
-    margin-top: 0;
-  }
+  .modal-container {
+    .modal {
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+      align-content: stretch;
+      max-width: 800px;
+      min-height: 400px;
 
-  h4 {
-    margin: 8px 0;
-  }
+      h3 {
+        margin-top: 0;
+      }
 
-  form {
-    text-align: left;
-  }
-
-  .default-profile-section {
-    select {
-      min-width: 100px;
+      h4 {
+        margin: 8px 0;
+      }
     }
+  }
+
+  .tabs-container {
+    border-right: 1px solid #aaa;
+    margin-right: 4px;
+    height: initial;
+    padding: 6px 0;
+    width: 200px;
+
+    .tab {
+      padding: 2px 16px;
+      user-select: none;
+
+      &.selected {
+        background-color: #e5f2ff;
+      }
+    }
+  }
+
+  .tab-contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    padding: 24px;
+    flex: 1;
   }
 }
