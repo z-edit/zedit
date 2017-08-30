@@ -26,10 +26,12 @@ ngapp.run(function(viewFactory, mainTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Tree View',
         templateUrl: 'partials/settings/treeView.html',
-        defaultSettings: { treeView: {
-            showGroupSignatures: false,
-            promptOnDeletion: true,
-            showFileHeaders: false
-        }}
+        defaultSettings: {
+            treeView: {
+                showGroupSignatures: false,
+                promptOnDeletion: true,
+                showFileHeaders: false
+            }
+        }
     });
 });

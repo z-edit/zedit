@@ -30,12 +30,13 @@ ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Record View',
         templateUrl: 'partials/settings/recordView.html',
-        controller: recordViewSettingsController,
-        defaultSettings: { recordView: {
-            autoExpand: false,
-            showArrayIndexes: true,
-            promptOnDeletion: false,
-            defaultColumnWidths: { names: 250, records: 300 }
-        }}
+        defaultSettings: {
+            recordView: {
+                autoExpand: false,
+                showArrayIndexes: true,
+                promptOnDeletion: false,
+                defaultColumnWidths: { names: 250, records: 300 }
+            }
+        }
     });
 });
