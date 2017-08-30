@@ -11,24 +11,28 @@ ngapp.controller('settingsModalController', function($scope, formUtils, settings
     // inherited functions
     $scope.unfocusSettingsModal = formUtils.unfocusModal($scope.saveSettings);
 
+    // helper function
+    let selectTab = function(tab) {
+        $scope.tabs.forEach((tab) => tab.selected = false);
+        $scope.currentTab = tab;
+        $scope.currentTab.selected = true;
+    };
+
     // initialize scope variables
     $scope.settings = settingsService.settings;
     $scope.profileName = settingsService.currentProfile;
     $scope.tabs = settingsService.getTabs();
-    $scope.currentTab = $scope.tabs[0];
-    $scope.currentTab.selected = true;
+    selectTab($scope.tabs[0]);
 
     // scope functions
     $scope.onTabClick = function(e, tab) {
         e.stopPropagation();
         if (tab === $scope.currentTab) return;
-        $scope.currentTab.selected = false;
-        $scope.currentTab = tab;
-        $scope.currentTab.selected = true;
+        selectTab(tab);
     };
 
     $scope.saveSettings = function() {
-        settingsService.saveSettings($scope.settings);
+        settingsService.saveSettings();
         $scope.toggleSettingsModal();
     };
 });
