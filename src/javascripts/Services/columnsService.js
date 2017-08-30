@@ -1,7 +1,8 @@
-ngapp.service('columnsService', function() {
-    var service = this;
+ngapp.service('columnsService', function(settingsService) {
+    let service = this,
+        settings = settingsService.settings;
 
-    var formIDColumn = {
+    let formIDColumn = {
         label: "FormID",
         canSort: true,
         getData: function (node, xelib) {
@@ -9,14 +10,17 @@ ngapp.service('columnsService', function() {
                 case xelib.etFile:
                     return xelib.DisplayName(node.handle);
                 case xelib.etGroupRecord:
-                    // TODO: include signature as well based on setting
-                    return xelib.Name(node.handle);
+                    let name = xelib.Name(node.handle);
+                    if (settings.treeView.showGroupSignatures) {
+                        name = `${xelib.Signature(node.handle)} - ` + name;
+                    }
+                    return name;
                 case xelib.etMainRecord:
                     return node.fid == 0 ? 'File Header' : xelib.IntToHex(node.fid);
             }
         }
     };
-    var editorIDColumn = {
+    let editorIDColumn = {
         label: "EditorID",
         canSort: true,
         getData: function(node, xelib) {
@@ -25,7 +29,7 @@ ngapp.service('columnsService', function() {
             }
         }
     };
-    var nameColumn = {
+    let nameColumn = {
         label: "Name",
         canSort: true,
         getData: function(node, xelib) {
