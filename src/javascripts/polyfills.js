@@ -205,7 +205,7 @@ Object.defineProperty(Object.prototype, 'equals', {
             if (valueType !== otherValueType) return false;
             if (valueType === 'object') {
                 if (!value.equals(otherValue)) return false;
-            }  else if (value !== otherValue) {
+            } else if (value !== otherValue) {
                 return false;
             }
         }
@@ -213,31 +213,28 @@ Object.defineProperty(Object.prototype, 'equals', {
     }
 });
 
-Object.defineProperty(Object.prototype, 'deepAssign', {
-    enumerable: false,
-    value: function (target, varArgs) {
-        if (target == null) { // TypeError if undefined or null
-            throw new TypeError('Cannot convert undefined or null to object');
-        }
-
-        let to = Object(target);
-        for (let index = 1; index < arguments.length; index++) {
-            let nextSource = arguments[index];
-            if (nextSource == null) continue; // Skip over if undefined or null
-            Object.keys(nextSource).forEach(function (nextKey) {
-                if (typeof nextSource[nextKey] === 'object') {
-                    if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
-                        to[nextKey] = {};
-                    }
-                    Object.deepAssign(to[nextKey], nextSource[nextKey]);
-                } else {
-                    to[nextKey] = nextSource[nextKey];
-                }
-            });
-        }
-        return to;
+Object.deepAssign = function (target, varArgs) {
+    if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
     }
-});
+
+    let to = Object(target);
+    for (let index = 1; index < arguments.length; index++) {
+        let nextSource = arguments[index];
+        if (nextSource == null) continue; // Skip over if undefined or null
+        Object.keys(nextSource).forEach(function (nextKey) {
+            if (typeof nextSource[nextKey] === 'object') {
+                if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
+                    to[nextKey] = {};
+                }
+                Object.deepAssign(to[nextKey], nextSource[nextKey]);
+            } else {
+                to[nextKey] = nextSource[nextKey];
+            }
+        });
+    }
+    return to;
+};
 
 // angular polyfills
 angular.inherit = function(scope, attribute) {
