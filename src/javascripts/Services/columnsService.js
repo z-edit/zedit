@@ -83,7 +83,7 @@ ngapp.service('columnsService', function(settingsService) {
             activeColumns: service.activeColumns(),
             customColumns: service.customColumns()
         };
-        fileHelpers.saveJsonFile('columns.json', data);
+        fh.saveJsonFile('columns.json', data);
     };
 
     this.setColumnData = function(columnData) {
@@ -110,7 +110,7 @@ ngapp.service('columnsService', function(settingsService) {
     };
 
     this.loadColumns = function() {
-        let data = fileHelpers.loadJsonFile('columns.json', defaultColumnsConfig);
+        let data = fh.loadJsonFile('columns.json', defaultColumnsConfig);
         service.columns = [formIDColumn, editorIDColumn, nameColumn];
         data.customColumns.forEach((column) => service.addColumn(column));
         data.activeColumns.forEach((column) => service.setColumnData(column));

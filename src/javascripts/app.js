@@ -2,7 +2,7 @@ import { remote } from 'electron';
 import jetpack from 'fs-jetpack';
 import './polyfills.js';
 import './color.js';
-import fileHelpers from './helpers/fileHelpers.js';
+import fh from './helpers/fileHelpers.js';
 import env from './env';
 import xelib from './xelib.js';
 

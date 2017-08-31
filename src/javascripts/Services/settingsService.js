@@ -17,13 +17,13 @@ ngapp.service('settingsService', function() {
         service.currentProfile = profileName;
         service.profilePath = `app/profiles/${profileName}`;
         service.settingsPath = `${service.profilePath}/settings.json`;
-        let settings = fileHelpers.loadJsonFile(service.settingsPath, {});
+        let settings = fh.loadJsonFile(service.settingsPath, {});
         service.buildSettings(settings);
         service.saveSettings();
     };
 
     this.saveSettings = function() {
-        fileHelpers.saveJsonFile(service.settingsPath, service.settings);
+        fh.saveJsonFile(service.settingsPath, service.settings);
     };
 
     this.registerSettings = function(settingsTab) {

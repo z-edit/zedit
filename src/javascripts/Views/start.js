@@ -40,7 +40,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
     $scope.checkHardcodedDat = function() {
         let game = profileService.getGame($scope.selectedProfile.gameMode);
         let fileName = game.shortName + '.Hardcoded.dat';
-        if (fileHelpers.jetpack.exists(fileName)) return true;
+        if (fh.jetpack.exists(fileName)) return true;
         alert(`Error: Required file "${fileName}" not found, please re-install the application.`);
     };
 

@@ -1,8 +1,8 @@
 ngapp.service('profileService', function() {
     var service = this;
 
-    this.games = fileHelpers.loadResource('app/games.json');
-    this.profiles = fileHelpers.loadJsonFile('profiles.json');
+    this.games = fh.loadResource('app/games.json');
+    this.profiles = fh.loadJsonFile('profiles.json');
     this.languages = ['English'];
 
     this.saveProfiles = function() {
@@ -14,7 +14,7 @@ ngapp.service('profileService', function() {
                 language: profile.language
             };
         });
-        fileHelpers.saveJsonFile('profiles.json', sanitizedProfiles);
+        fh.saveJsonFile('profiles.json', sanitizedProfiles);
     };
 
     this.newProfileName = function(name) {
@@ -75,7 +75,7 @@ ngapp.service('profileService', function() {
 
     this.validateProfile = function(profile) {
         let game = service.getGame(profile.gameMode);
-        profile.valid = fileHelpers.jetpack.exists(profile.gamePath + game.exeName);
+        profile.valid = fh.jetpack.exists(profile.gamePath + game.exeName);
     };
 
     this.validateProfiles = function() {

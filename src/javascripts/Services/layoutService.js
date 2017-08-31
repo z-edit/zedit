@@ -1,6 +1,6 @@
 ngapp.service('layoutService', function(viewFactory, randomService) {
     let service = this,
-        defaultLayout = fileHelpers.loadJsonFile('layouts/default.json');
+        defaultLayout = fh.loadJsonFile('layouts/default.json');
 
     this.buildPane = function(pane) {
         pane.id = randomService.generateUniqueId();
