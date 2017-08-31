@@ -19,6 +19,7 @@ ngapp.service('settingsService', function() {
         service.settingsPath = `${service.profilePath}/settings.json`;
         let settings = fileHelpers.loadJsonFile(service.settingsPath, {});
         service.buildSettings(settings);
+        service.saveSettings();
     };
 
     this.saveSettings = function() {
