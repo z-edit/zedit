@@ -7,13 +7,14 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHelpers, formUtils) {
+ngapp.controller('baseController', function ($scope, $document, $q, $timeout, htmlHelpers, formUtils) {
     // initialization
     var win = remote.getCurrentWindow();
     $scope.title = 'zEdit - New Session';
 
     // inherited functions
     formUtils.buildToggleModalFunction($scope, 'EditModal');
+    formUtils.buildToggleModalFunction($scope, 'PromptModal');
 
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
@@ -21,6 +22,14 @@ ngapp.controller('baseController', function ($scope, $document, $timeout, htmlHe
     $scope.minimizeClick = () => win.minimize();
     $scope.restoreClick = () => win.isMaximized() ? win.unmaximize() : win.maximize();
     $scope.closeClick = () => win.close();
+
+    // prompt modal functions
+    $scope.$root.prompt = function(promptOptions) {
+        $scope.promptPromise = $q.defer();
+        $scope.promptOptions = promptOptions;
+        $scope.togglePromptModal(true);
+        return $scope.promptPromise.promise;
+    };
 
     // event handlers
     $scope.$on('terminate', () => { remote.app.forceClose = true;  win.close(); });
