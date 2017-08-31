@@ -19,6 +19,14 @@ fh.loadJsonFile = function(filename, defaultValue = []) {
     }
 };
 
+fh.loadTextFile = function(filename, defaultValue = '') {
+    if (fh.jetpack.exists(filename) === 'file') {
+        return fh.jetpack.read(filename);
+    } else {
+        return defaultValue;
+    }
+};
+
 fh.loadResource = function(filename, defaultValue = []) {
     if (fh.appDir.exists(filename) === 'file') {
         return fh.appDir.read(filename, 'json');
@@ -30,6 +38,10 @@ fh.loadResource = function(filename, defaultValue = []) {
 // helper function for saving json files
 fh.saveJsonFile = function(filename, value, minify = false) {
     fh.jetpack.write(filename, minify ? JSON.stringify(value) : value);
+};
+
+fh.saveTextFile = function(filename, value) {
+    fh.jetpack.write(filename, value);
 };
 
 fh.getDateModified = function(filename) {
