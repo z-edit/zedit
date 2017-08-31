@@ -1,0 +1,24 @@
+dropdown {
+  position: relative;
+
+  dropdown-display {
+    cursor: pointer;
+  }
+
+  .dropdown-items {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    text-align: left;
+    padding: 2px 0;
+    font-size: 14px;
+
+    .dropdown-item {
+      padding: 2px 12px;
+
+      &.selected {
+        background-color: #e5f2ff;
+      }
+    }
+  }
+}
