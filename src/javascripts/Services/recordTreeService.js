@@ -132,6 +132,8 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         };
 
         scope.updateNodeLabels = function() {
+            // TODO: When we figure out union name display, we need to move this
+            if (!settings.recordView.showArrayIndexes) return;
             scope.tree.forEach(function(node, index) {
                 if (node.disabled) return;
                 if (node.value_type === xelib.vtArray && node.is_sorted) {
@@ -224,9 +226,10 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
                     return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
                 }),
                 maxLen = getMaxLength(elementArrays),
-                nodes = [];
+                nodes = [],
+                setChildIndex = settings.recordView.showArrayIndexes && !sorted;
             for (let i = 0; i < maxLen; i++) {
-                nodes.push(scope.buildNode(depth, name, elementArrays, i, !sorted));
+                nodes.push(scope.buildNode(depth, name, elementArrays, i, setChildIndex));
             }
             return nodes;
         };
