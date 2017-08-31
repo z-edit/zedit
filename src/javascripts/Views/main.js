@@ -61,9 +61,11 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     // save data and terminate xelib when application is being closed
     window.onbeforeunload = function(e) {
         if (remote.app.forceClose) return;
-        $scope.shouldFinalize = true;
-        $scope.toggleSaveModal(true);
         e.returnValue = false;
+        if (!$scope.$root.modalActive) {
+            $scope.shouldFinalize = true;
+            $scope.toggleSaveModal(true);
+        }
     };
 
     // initialization
