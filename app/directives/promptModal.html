@@ -1,0 +1,13 @@
+<div class="modal-container">
+    <div class="modal">
+        <form>
+            <h2>{{::promptOptions.title}}</h2>
+            <div class="prompt">{{::promptOptions.prompt}}</div>
+
+            <div class="action-button-container" ng-if="promptOptions.type === 'yesNo'">
+                <button class="action-btn" ng-click="yes()">Yes</button>
+                <button class="action-btn" ng-click="no()">No</button>
+            </div>
+        </form>
+    </div>
+</div>
