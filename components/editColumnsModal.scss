@@ -28,12 +28,10 @@ edit-columns-modal {
   .edit-custom-column{
     font-size: 14px;
 
-    textarea {
-      display: block;
+    .CodeMirror {
+      border: 1px solid #aaa;
       margin-top: 4px;
-      width: 100%;
-      min-height: 100px;
-      padding: 4px;
+      height: 150px;
     }
   }
 }
