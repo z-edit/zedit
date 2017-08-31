@@ -17,6 +17,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     formUtils.buildToggleModalFunction($scope, 'LoadingModal');
     formUtils.buildToggleModalFunction($scope, 'SettingsModal');
     formUtils.buildToggleModalFunction($scope, 'SaveModal');
+    formUtils.buildToggleModalFunction($scope, 'AutomateModal');
 
     // load default layout
     $scope.mainPane = layoutService.buildDefaultLayout();
@@ -39,6 +40,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     };
 
     // event handlers
+    $scope.$on('showAutomateModal', () => $scope.toggleAutomateModal(true));
     $scope.$on('settingsClick', () => $scope.toggleSettingsModal(true));
     $scope.$on('doneLoading', () => $scope.toggleLoadingModal());
     $scope.$on('save', function() {

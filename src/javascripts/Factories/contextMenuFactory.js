@@ -119,8 +119,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Automate',
                 hotkey: 'Ctrl+M',
-                disabled: true,
-                callback: () => scope.toggleAutomateModal()
+                callback: () => scope.$emit('showAutomateModal')
             })
         }
     }, {
@@ -131,7 +130,7 @@ ngapp.service('contextMenuFactory', function() {
                 label: 'Advanced Search',
                 hotkey: 'Ctrl+Shift+F',
                 disabled: true,
-                callback: () => scope.toggleSearchModal()
+                callback: () => scope.toggleSearchModal(true)
             })
         }
     }, {
