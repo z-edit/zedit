@@ -89,12 +89,13 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
         };
 
         scope.deleteElements = function() {
+            let doDelete = () => scope.selectedNodes.forEach(scope.deleteElement);
             if (settings.treeView.promptOnDeletion) {
                 scope.deletionPrompt().then(function(result) {
-                    if (result) scope.selectedNodes.forEach(scope.deleteElement);
+                    if (result) doDelete();
                 });
             } else {
-                scope.selectedNodes.forEach(scope.deleteElement);
+                doDelete();
             }
         };
 

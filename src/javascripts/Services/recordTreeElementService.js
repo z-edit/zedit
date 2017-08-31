@@ -1,8 +1,13 @@
-ngapp.service('recordTreeElementService', function(errorService) {
+ngapp.service('recordTreeElementService', function(errorService, settingsService) {
     this.buildFunctions = function(scope) {
-        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
+        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct],
+            settings = settingsService.settings;
 
         // scope functions
+        scope.getFileName = function(index) {
+            return scope.columns[index].label;
+        };
+
         scope.getRecord = function(index) {
             return (index ? scope.overrides[index - 1] : scope.record)
         };
@@ -62,10 +67,48 @@ ngapp.service('recordTreeElementService', function(errorService) {
             });
         };
 
+        scope.deletionPromptMessage = function() {
+            let recordIndex = scope.focusedIndex - 1,
+                recordName = xelib.Name(scope.getRecord(recordIndex)),
+                fileName = scope.getFileName(recordIndex);
+            if (scope.selectedNodes.length == 1) {
+                let node = scope.selectedNodes[0],
+                    path = xelib.LocalPath(node.handles[recordIndex]);
+                return `Delete ${path} from ${recordName} in ${fileName}?`;
+            } else {
+                let message = `Delete ${scope.selectedNodes.length} elements from ${recordName} in ${fileName}?`;
+                scope.selectedNodes.forEach(function(node, index) {
+                    if (index > 7) {
+                        if (index == 8) message += '\r\n  - ... etc.';
+                        return;
+                    }
+                    message += `\r\n  - ${xelib.LocalPath(node.handles[recordIndex])}`;
+                });
+                return message;
+            }
+        };
+
+        scope.deletionPrompt = function() {
+            return scope.$root.prompt({
+                title: 'Delete elements',
+                prompt: scope.deletionPromptMessage(),
+                type: 'yesNo'
+            });
+        };
+
         scope.deleteElements = function() {
-            scope.selectedNodes.forEach(scope.deleteElement);
-            scope.clearSelection(true);
-            scope.reload(); // TODO? This is kind of greedy, but it's simple
+            let doDelete = function() {
+                scope.selectedNodes.forEach(scope.deleteElement);
+                scope.clearSelection(true);
+                scope.reload(); // TODO? This is kind of greedy, but it's simple
+            };
+            if (settings.recordView.promptOnDeletion) {
+                scope.deletionPrompt().then(function(result) {
+                    if (result) doDelete();
+                });
+            } else {
+                doDelete();
+            }
         };
 
         scope.canPaste = function(asOverride) {
