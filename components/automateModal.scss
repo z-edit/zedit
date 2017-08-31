@@ -42,9 +42,10 @@ automate-modal {
     }
   }
 
-  textarea {
+  .CodeMirror {
+    text-align: left;
+    border: 1px solid #aaa;
     margin-top: 10px;
-    width: 100%;
-    min-height: 350px;
+    height: 400px;
   }
 }
