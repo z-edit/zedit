@@ -1,8 +1,9 @@
-ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeViewFactory, objectUtils) {
+ngapp.service('recordTreeService', function($timeout, layoutService, settingsService, recordTreeViewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
-        let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
-        let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
+        let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
+            caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
+            settings = settingsService.settings;
 
         // helper functions
         let getRecordFileName = function(record) {
@@ -63,6 +64,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, recordTreeV
             let handles = scope.columns.slice(1).map((column) => { return column.handle; });
             scope.virtualNodes = xelib.GetNodes(scope.record);
             scope.tree = scope.buildStructNodes(handles, -1, names);
+            if (settings.recordView.autoExpand) scope.expandAllNodes();
         };
 
         scope.getBaseParent = function(node) {
