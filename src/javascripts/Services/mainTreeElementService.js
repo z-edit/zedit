@@ -1,5 +1,8 @@
-ngapp.service('mainTreeElementService', function(editModalFactory, errorService) {
+ngapp.service('mainTreeElementService', function(editModalFactory, errorService, settingsService, xelibService) {
     this.buildFunctions = function(scope) {
+        // helper variables
+        let settings = settingsService.settings;
+
         // helper functions
         let getSortIndex = function(container, element) {
             let index = -1;
@@ -60,8 +63,39 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService)
             });
         };
 
+        scope.deletionPromptMessage = function() {
+            if (scope.selectedNodes.length == 1) {
+                let node = scope.selectedNodes[0];
+                return `Delete ${xelib.Name(node.handle)}?`;
+            } else {
+                let message = `Delete ${scope.selectedNodes.length} elements?`;
+                scope.selectedNodes.forEach(function(node, index) {
+                    if (index > 7) {
+                        if (index == 8) message += '\r\n  - ... etc.';
+                        return;
+                    }
+                    message += `\r\n  - ${xelib.Name(node.handle)}`;
+                });
+                return message;
+            }
+        };
+
+        scope.deletionPrompt = function() {
+            return scope.$root.prompt({
+                title: 'Delete elements',
+                prompt: scope.deletionPromptMessage(),
+                type: 'yesNo'
+            });
+        };
+
         scope.deleteElements = function() {
-            scope.selectedNodes.forEach(scope.deleteElement);
+            if (settings.treeView.promptOnDeletion) {
+                scope.deletionPrompt().then(function(result) {
+                    if (result) scope.selectedNodes.forEach(scope.deleteElement);
+                });
+            } else {
+                scope.selectedNodes.forEach(scope.deleteElement);
+            }
         };
 
         scope.changeFileName = function(node) {

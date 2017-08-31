@@ -1,5 +1,5 @@
 ngapp.service('xelibService', function() {
-    var service = this;
+    let service = this;
 
     this.getExceptionInformation = function() {
         try {

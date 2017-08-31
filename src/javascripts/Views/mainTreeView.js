@@ -54,7 +54,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     };
 
     $scope.handleDelete = function(e) {
-        $scope.selectedNodes.forEach((node) => $scope.deleteElement(node));
+        $scope.deleteElements();
         e.stopImmediatePropagation();
     };
 
