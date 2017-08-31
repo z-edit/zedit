@@ -221,15 +221,26 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
             return nodes;
         };
 
+        scope.setArrayChildIndexes = function(nodes) {
+            let recordIndex = scope.focusedIndex - 1,
+                counter = 0;
+            nodes.forEach(function(node) {
+                if (node.handles[recordIndex]) node.child_index = counter++;
+            });
+        };
+
         scope.buildArrayNodes = function(parentHandles, depth, name, sorted) {
             let elementArrays = parentHandles.map(function(handle) {
                     return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
                 }),
                 maxLen = getMaxLength(elementArrays),
-                nodes = [],
-                setChildIndex = settings.recordView.showArrayIndexes && !sorted;
+                setChildIndex = settings.recordView.showArrayIndexes && !sorted,
+                nodes = [];
             for (let i = 0; i < maxLen; i++) {
                 nodes.push(scope.buildNode(depth, name, elementArrays, i, setChildIndex));
+            }
+            if (sorted && settings.recordView.showArrayIndexes) {
+                scope.setArrayChildIndexes(nodes);
             }
             return nodes;
         };
