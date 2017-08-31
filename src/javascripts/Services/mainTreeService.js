@@ -1,8 +1,9 @@
-ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
+ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, settingsService) {
     this.buildFunctions = function(scope) {
         // helper variables
-        let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'];
-        let caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'];
+        let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
+            caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
+            settings = settingsService.settings;
 
         // inherited functions
         scope.releaseTree = mainTreeViewFactory.releaseTree;
@@ -122,7 +123,7 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory) {
         scope.buildNodes = function(node) {
             let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '',
                 elements = xelib.GetElements(node.handle, path, true);
-            if (node.element_type === xelib.etFile) {
+            if (node.element_type === xelib.etFile && !settings.treeView.showFileHeaders) {
                 elements[scope.sort.reverse ? 'pop' : 'shift']();
             }
             return elements.map((e) => { return scope.buildNode(e, node.depth); });
