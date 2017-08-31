@@ -1,0 +1,50 @@
+automate-modal {
+  .modal-container {
+    .modal {
+      max-width: 800px;
+      padding: 20px;
+    }
+  }
+
+  .select-script-container {
+    display: flex;
+    align-items: center;
+
+    > span {
+      text-align: left;
+      margin-right: 10px;
+    }
+
+    > select {
+      flex: 1;
+      min-height: 26px;
+    }
+
+    > button {
+      font-size: 16px;
+      padding: 4px 6px;
+    }
+
+    > dropdown {
+      margin: 0 6px;
+
+      dropdown-contents {
+        left: -2px;
+      }
+
+      .dropdown-item {
+        width: 130px;
+      }
+    }
+
+    .fa {
+      font-size: 20px;
+    }
+  }
+
+  textarea {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 350px;
+  }
+}
