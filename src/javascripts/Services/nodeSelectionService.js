@@ -1,5 +1,5 @@
 ngapp.service('nodeSelectionService', function() {
-    this.buildFunctions = function(scope) {
+    this.buildFunctions = function(scope, allowMultiSelect) {
         // initialize variables
         let lastRange = [], nodeHeight = 20;
         scope.selectedNodes = [];
@@ -82,8 +82,8 @@ ngapp.service('nodeSelectionService', function() {
 
         scope.selectNode = function(e, node) {
             lastRange = [];
-            if (!e.ctrlKey) scope.clearSelection();
-            if (e.shiftKey && scope.prevNode) {
+            if (!e.ctrlKey || !allowMultiSelect) scope.clearSelection();
+            if (e.shiftKey && scope.prevNode && allowMultiSelect) {
                 scope.selectRange(node, scope.prevNode);
             } else {
                 scope.selectSingle(node);
@@ -137,7 +137,7 @@ ngapp.service('nodeSelectionService', function() {
             if (!node) return;
             let targetNode = findNextNode(node, e.shiftKey);
             if (!targetNode) return;
-            if (e.shiftKey) {
+            if (e.shiftKey && allowMultiSelect) {
                 scope.selectRange(targetNode, scope.prevNode, true);
                 scope.scrollToNode(targetNode);
             } else {
@@ -166,7 +166,7 @@ ngapp.service('nodeSelectionService', function() {
             if (!node) return;
             let targetNode = findPreviousNode(node, e.shiftKey);
             if (!targetNode) return;
-            if (e.shiftKey) {
+            if (e.shiftKey && allowMultiSelect) {
                 scope.selectRange(targetNode, scope.prevNode, true);
                 scope.scrollToNode(targetNode);
             } else {

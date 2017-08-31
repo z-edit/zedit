@@ -13,7 +13,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     treeService.buildFunctions($scope, $element);
     mainTreeService.buildFunctions($scope);
     mainTreeElementService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope);
+    nodeSelectionService.buildFunctions($scope, true);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
 
