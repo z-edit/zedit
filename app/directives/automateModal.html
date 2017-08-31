@@ -1,0 +1,31 @@
+<div class="modal-container" ng-click="unfocusAutomateModal($event)">
+    <div class="modal">
+        <form>
+            <div class="close-modal">
+                <span class="fa fa-times" ng-click="toggleAutomateModal()"></span>
+            </div>
+
+            <h2>Automate</h2>
+            <div class="select-script-container">
+                <span>Script</span>
+                <select ng-model="selectedScript" ng-options="script as script.fileName for script in scripts"></select>
+                <dropdown items="sortModes" on-item-click="setSortMode">
+                    <dropdown-display>
+                        <i class="fa fa-sort-amount-desc" title="Sort by"></i>
+                    </dropdown-display>
+                    <dropdown-item>{{::$parent.item.label}}</dropdown-item>
+                </dropdown>
+                <button class="action-btn" ng-click="newScript()" title="Create a new script file.">New</button>
+                <button class="action-btn" ng-click="saveScript()" title="Save edits made tot he current script.">Save</button>
+            </div>
+
+            <!-- TODO: CodeMirror -->
+            <textarea ng-model="scriptContents"></textarea>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="runScript()">OK</button>
+                <button class="action-btn" ng-click="toggleAutomateModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
