@@ -31,10 +31,7 @@ xelib.GetLoaderDone = function() {
     return lib.GetLoaderDone();
 };
 xelib.GetGamePath = function(gameMode) {
-    var len = createTypedBuffer(4, PInteger);
-    if (!lib.GetGamePath(gameMode, len) || len == 0)
-        return '';
-    var str = createTypedBuffer(2 * len, PWChar);
-    lib.GetResultString(str, len);
-    return readPWCharString(str);
+    return GetString(function(len) {
+        lib.GetGamePath(gameMode, len);
+    }) || '';
 };
