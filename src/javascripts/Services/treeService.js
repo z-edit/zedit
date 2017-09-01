@@ -19,6 +19,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService)
         };
 
         scope.reload = function() {
+            if (!scope.tree) return;
             let oldExpandedNodes = scope.tree.filter((node) => { return node.expanded; }),
                 oldSelectedNodes = scope.selectedNodes.slice(),
                 oldTree = scope.tree;
