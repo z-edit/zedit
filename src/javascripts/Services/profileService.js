@@ -2,7 +2,7 @@ ngapp.service('profileService', function() {
     var service = this;
 
     this.games = fh.loadResource('app/games.json');
-    this.profiles = fh.loadJsonFile('profiles.json');
+    this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json');
     this.languages = ['English'];
 
     this.saveProfiles = function() {
@@ -14,7 +14,7 @@ ngapp.service('profileService', function() {
                 language: profile.language
             };
         });
-        fh.saveJsonFile('profiles.json', sanitizedProfiles);
+        fh.saveJsonFile(fh.userPath + 'resources/profiles.json', sanitizedProfiles);
     };
 
     this.newProfileName = function(name) {
