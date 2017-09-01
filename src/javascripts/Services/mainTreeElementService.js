@@ -40,6 +40,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
                         parent: node
                     });
                 } else {
+                    if (!node.can_expand) node.can_expand = true;
                     scope.expandNode(node);
                 }
                 scope.navigateToElement(element, true);
