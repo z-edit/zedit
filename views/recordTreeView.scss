@@ -57,6 +57,10 @@
       z-index: 2;
     }
 
+    .column.focused:not(.column-0) {
+      background-color: #e5f2ff;
+    }
+
     .first-split-bar {
       position: sticky;
       z-index: 3;
