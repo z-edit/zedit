@@ -74,4 +74,13 @@ ngapp.service('hotkeyFactory', function() {
             enter: 'clickItem'
         }
     };
+
+    this.autocompleteInputHotkeys = function() {
+        return {
+            upArrow: 'handleUpArrow',
+            downArrow: 'handleDownArrow',
+            escape: 'handleEscape',
+            enter: 'handleEnter'
+        }
+    };
 });
