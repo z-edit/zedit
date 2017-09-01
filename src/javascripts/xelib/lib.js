@@ -142,6 +142,7 @@ try {
         'GetMaster': [WordBool, [Cardinal, PCardinal]],
         'FindNextRecord': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
         'FindPreviousRecord': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
+        'FindValidReferences': [WordBool, [Cardinal, PWChar, Integer, PInteger]],
         'GetReferencedBy': [WordBool, [Cardinal, PInteger]],
         'ExchangeReferences': [WordBool, [Cardinal, Cardinal, Cardinal]],
         'IsMaster': [WordBool, [Cardinal, PWordBool]],

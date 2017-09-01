@@ -46,6 +46,14 @@ xelib.FindPreviousRecord = function(_id, search, byEdid, byName, noException = f
             if (!noException) Fail(`Failed to find previous record for: ${search}`);
     });
 };
+xelib.FindValidReferences = function(_id, search, limitTo) {
+    let str = GetString(function(_len) {
+        if (!lib.FindValidReferences(_id, wcb(search), limitTo, _len))
+            Fail(`Failed to find valid references on ${_id} searching for: ${search}`);
+    });
+    if (str === '') return [];
+    return str.split('\r\n');
+};
 xelib.GetReferencedBy = function(_id) {
     return GetArray(function(_len) {
         if (!lib.GetReferencedBy(_id, _len))

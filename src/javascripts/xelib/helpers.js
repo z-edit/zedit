@@ -48,7 +48,7 @@ let GetString = function(callback, method = 'GetResultString') {
     let _len = createTypedBuffer(4, PInteger);
     callback(_len);
     let len = _len.readInt32LE(0);
-    if (len == 0) return '';
+    if (len < 1) return '';
     let str = createTypedBuffer(2 * len, PWChar);
     if (!lib[method](str, len))
         Fail(`${method} failed.`);
@@ -79,7 +79,7 @@ let GetArray = function(callback) {
     let _len = createTypedBuffer(4, PInteger);
     callback(_len);
     let len = _len.readInt32LE(0);
-    if (len == 0) return [];
+    if (len < 1) return [];
     let buf = createTypedBuffer(4 * len, PCardinal);
     if (!lib.GetResultArray(buf, len))
         Fail('GetResultArray failed');
