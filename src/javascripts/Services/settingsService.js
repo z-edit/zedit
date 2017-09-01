@@ -15,7 +15,7 @@ ngapp.service('settingsService', function() {
 
     this.loadSettings = function(profileName) {
         service.currentProfile = profileName;
-        service.profilePath = `app/profiles/${profileName}`;
+        service.profilePath = `profiles/${profileName}`;
         service.settingsPath = `${service.profilePath}/settings.json`;
         let settings = fh.loadJsonFile(service.settingsPath, {});
         service.buildSettings(settings);
