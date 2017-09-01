@@ -15,8 +15,6 @@ ngapp.directive('dropdown', function() {
 });
 
 ngapp.controller('dropdownController', function($scope, hotkeyService, hotkeyFactory) {
-    $scope.showDropdown = false;
-
     // helper variables
     let hotkeys = hotkeyFactory.dropdownHotkeys();
 
@@ -24,12 +22,27 @@ ngapp.controller('dropdownController', function($scope, hotkeyService, hotkeyFac
     hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', hotkeys);
 
     // scope functions
-    $scope.toggleDropdown = (visible) => $scope.showDropdown = visible;
+    $scope.toggleDropdown = function(visible) {
+        $scope.showDropdown = visible;
+        $scope.currentIndex = -1;
+    };
     $scope.onDropdownBlur = () => $scope.showDropdown = false;
+    $scope.handleEscape = () => $scope.showDropdown = false;
+    $scope.handleEnter = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
+
+    $scope.handleUpArrow = function() {
+        $scope.currentIndex--;
+        if ($scope.currentIndex < 0) $scope.currentIndex = $scope.items.length - 1;
+    };
+
+    $scope.handleDownArrow = function() {
+        $scope.currentIndex++;
+        if ($scope.currentIndex >= $scope.items.length) $scope.currentIndex = 0;
+    };
 
     // event handlers
     $scope.onItemClick = function(item) {
-        $scope.callback(item);
+        if (item) $scope.callback(item);
         $scope.showDropdown = false;
     };
     $scope.onMouseOver = (index) => $scope.currentIndex = index;
