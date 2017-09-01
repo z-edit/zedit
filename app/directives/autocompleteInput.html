@@ -1,0 +1,6 @@
+<input type="text" ng-model="text" ng-keydown="onInputKeyDown($event)" ng-change="onTextChanged()" ng-blur="onInputBlur()">
+<div class="dropdown" ng-show="showDropdown">
+    <span ng-show="searching">Searching...</span>
+    <span ng-show="!searching && !results.length">No results found</span>
+    <div class="dropdown-item" ng-repeat="result in results" ng-click="onItemClick(result)" ng-mouseover="onItemMouseOver($index)" ng-class="{'selected' : $index == currentIndex}" ng-transclude></div>
+</div>
