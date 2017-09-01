@@ -29,14 +29,14 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
         $scope.selectColumn($scope.allColumns.last());
     };
 
-    $scope.selectColumn = function(column) {
-        if ($scope.selectedColumn) $scope.selectedColumn.selected = false;
-        column.selected = true;
-        $scope.selectedColumn = column;
+    $scope.selectColumn = function(index) {
+        $scope.selectedIndex = index;
+        $scope.selectedColumn = $scope.allColumns[index];
     };
 
     $scope.deleteColumn = function() {
-        $scope.allColumns.remove($scope.selectedColumn);
+        $scope.allColumns.splice($scope.selectedIndex, 1);
+        $scope.selectedIndex = -1;
         $scope.selectedColumn = undefined;
     };
 
@@ -45,7 +45,6 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
     };
 
     $scope.close = function() {
-        $scope.selectedColumn.selected = false;
         $scope.allColumns.forEach(function(column) {
             if (column.custom) columnsService.buildDataFunction(column);
         });
