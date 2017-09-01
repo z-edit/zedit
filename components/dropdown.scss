@@ -1,5 +1,6 @@
 dropdown {
   position: relative;
+  user-select: none;
 
   dropdown-display {
     cursor: pointer;
@@ -13,6 +14,10 @@ dropdown {
     text-align: left;
     padding: 2px 0;
     font-size: 14px;
+
+    &:focus {
+      outline: none;
+    }
 
     .dropdown-item {
       padding: 2px 12px;
