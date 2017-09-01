@@ -72,6 +72,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
         $scope.rebuildNode(node);
         $scope.setNodeModified(node);
     });
+    $scope.$on('fileAdded', $scope.reload);
 
     // initialization
     $scope.sort = { column: 'FormID', reverse: false };

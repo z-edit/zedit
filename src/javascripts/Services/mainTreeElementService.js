@@ -1,4 +1,4 @@
-ngapp.service('mainTreeElementService', function(editModalFactory, errorService, settingsService, xelibService) {
+ngapp.service('mainTreeElementService', function(editModalFactory, errorService, settingsService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let settings = settingsService.settings;
@@ -47,6 +47,11 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
                 scope.setNodeModified(node);
                 scope.$root.$broadcast('nodeAdded');
             });
+        };
+
+        scope.addFile = function() {
+            let modalOptions = editModalFactory.addFile(scope);
+            errorService.try(() => scope.$emit('openEditModal', modalOptions));
         };
 
         scope.deleteElement = function(node) {
