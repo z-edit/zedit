@@ -16,6 +16,7 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Add',
         visible: (scope) => {
             let node = scope.selectedNodes.last();
+            if (!node) return;
             return node.element_type !== xelib.etMainRecord && xelib.GetCanAdd(node.handle);
         },
         build: (scope, items) => {
@@ -49,6 +50,7 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Delete',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             return testNodes(scope.selectedNodes, function(node) {
                 return xelib.GetIsRemoveable(node.handle);
             });
@@ -63,6 +65,7 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Refactor',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             let nodes = scope.selectedNodes, node = nodes.last();
             return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle) ||
                 testNodes(nodes, function(node) {
@@ -112,6 +115,7 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Enable Editing',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             return testNodes(scope.selectedNodes, function(node) {
                 return node.element_type === xelib.etFile && !xelib.GetIsEditable(node.handle);
             });
@@ -149,6 +153,7 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Open',
         visible: (scope) => {
             let node = scope.selectedNodes.last();
+            if (!node) return;
             return node.element_type !== xelib.etGroupRecord;
         },
         build: (scope, items) => {
@@ -210,6 +215,7 @@ ngapp.service('contextMenuFactory', function() {
     this.recordTreeItems = [{
         id: 'Add',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             let node = scope.selectedNodes.last(),
                 index = scope.focusedIndex - 1,
                 handle = node.handles[index],
@@ -230,6 +236,7 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Edit',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             let node = scope.selectedNodes.last(),
                 index = scope.focusedIndex - 1,
                 handle = node.handles[index],
@@ -249,6 +256,7 @@ ngapp.service('contextMenuFactory', function() {
     }, {
         id: 'Delete',
         visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
             let index = scope.focusedIndex - 1;
             return testNodes(scope.selectedNodes, function(node) {
                 let handle = node.handles[index];

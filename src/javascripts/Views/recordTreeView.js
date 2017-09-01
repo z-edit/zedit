@@ -108,13 +108,6 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
         });
     };
 
-    $scope.showNodeContextMenu = function(e) {
-        let offset = { top: e.clientY, left: e.clientX},
-            items = contextMenuFactory.recordTreeItems,
-            menuItems = contextMenuService.buildMenuItems($scope, items);
-        $timeout(() => $scope.$emit('openContextMenu', offset, menuItems));
-    };
-
     $scope.handleEnter = function(e) {
         $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
         e.stopImmediatePropagation();

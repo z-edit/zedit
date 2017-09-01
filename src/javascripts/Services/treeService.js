@@ -132,16 +132,16 @@ ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService)
             scope.$emit('closeContextMenu');
         };
 
-        scope.showNodeContextMenu = function(e) {
+        scope.showContextMenu = function(e) {
             let offset = { top: e.clientY, left: e.clientX},
-                items = scope.nodeContextMenuItems,
+                items = scope.contextMenuItems,
                 menuItems = contextMenuService.buildMenuItems(scope, items);
             $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
         };
 
         scope.onNodeMouseDown = function(e, node) {
             if (e.button != 2 || !node.selected) scope.selectNode(e, node);
-            if (e.button == 2) scope.showNodeContextMenu(e, node);
+            if (e.button == 2) scope.showContextMenu(e);
         };
 
         let scrollbarWidth = 17;
@@ -151,6 +151,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService)
             if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
                 scope.clearSelection(true);
             }
+            if (e.button == 2) scope.showContextMenu(e);
         };
 
         scope.focusSearchInput = function() {

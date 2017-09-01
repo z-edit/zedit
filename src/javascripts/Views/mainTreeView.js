@@ -7,7 +7,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     let hotkeys = hotkeyFactory.mainTreeHotkeys(),
         openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
-    $scope.nodeContextMenuItems = contextMenuFactory.mainTreeItems;
+    $scope.contextMenuItems = contextMenuFactory.mainTreeItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
