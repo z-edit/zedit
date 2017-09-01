@@ -2,6 +2,7 @@ const remote = require('electron').remote;
 const ref = require('ref');
 const wchar_t = require('ref-wchar');
 const ffi = require('ffi');
+const jetpack = require('fs-jetpack');
 
 var Void = 'void';
 var WString = wchar_t.string;
@@ -154,6 +155,8 @@ try {
         'GetNodeElements': [WordBool, [Cardinal, Cardinal, PInteger]]
     });
 } catch (x) {
-    alert('The required file XEditLib.dll was not found.  Please try re-installing the application.');
+    console.log(x);
+    alert(`The required file XEditLib.dll was not found or could not be accessed.  Please try re-installing the application or running it as an administrator.\r\n\r\n` +
+        `${x.stack}`);
     remote.getCurrentWindow().close();
 }

@@ -17,6 +17,7 @@
     ],
     "extraFiles": [
       "XEditLib.dll",
+      "borlndmm.dll",
       "*.Hardcoded.dat"
     ]
   },
