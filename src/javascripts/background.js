@@ -37,11 +37,7 @@ app.on('ready', function () {
         slashes: true
     });
 
-    mainWindow = createWindow('main', {
-        width: 1000,
-        height: 600,
-        frame: false
-    });
+    mainWindow = createWindow('main', { frame: false });
 
     if (env.name === 'development') {
         mainWindow.openDevTools();
