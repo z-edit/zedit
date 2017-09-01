@@ -1,6 +1,16 @@
 ngapp.service('layoutService', function(viewFactory, randomService) {
     let service = this,
-        defaultLayout = fh.loadJsonFile('layouts/default.json');
+        defaultLayout = {
+            "layout": "horizontal",
+            "panes": [{
+                "width": "45%",
+                "tabs": ["mainTreeView"]
+            }, {
+                "tabs": ["recordTreeView"]
+            }]
+        };
+    // TODO: load from disk instead
+    //defaultLayout = fh.loadJsonFile('layouts/default.json');
 
     this.buildPane = function(pane) {
         pane.id = randomService.generateUniqueId();
