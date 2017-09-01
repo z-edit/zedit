@@ -24,7 +24,7 @@ ngapp.service('contextMenuFactory', function() {
                 isFile = node.element_type === xelib.etFile;
             items.push({
                 label: `Add ${isFile ? 'Group' : 'Record'}`,
-                hotkey: isFile ? 'Ctrl+G' : (addList.length == 1 && 'Ctrl+N'),
+                hotkey: 'Insert',
                 disabled: !addList.length,
                 children: addList.map(function(item) {
                     return {
