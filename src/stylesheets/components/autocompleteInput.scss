@@ -1,0 +1,23 @@
+autocomplete-input {
+  position: relative;
+
+  .dropdown {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #fff;
+    border: 1px solid #aaa;
+
+    > span {
+      display: block;
+      padding: 2px 6px;
+    }
+
+    .dropdown-item {
+      padding: 2px 12px;
+
+      &.selected {
+        background-color: #e5f2ff;
+      }
+    }
+  }
+}
