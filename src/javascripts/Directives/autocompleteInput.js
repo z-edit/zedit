@@ -22,7 +22,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     angular.default($scope, 'getText', (item) => { return item; });
 
     // helper variables
-    let hotkeys = hotkeyFactory.autocompleteInputHotkeys();
+    let hotkeys = hotkeyFactory.dropdownHotkeys();
 
     // helper functions
     let hideDropdown = function() {

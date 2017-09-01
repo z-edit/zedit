@@ -6,6 +6,7 @@ autocomplete-input {
     padding: 2px 0;
     background-color: #fff;
     border: 1px solid #aaa;
+    user-select: none;
 
     > span {
       display: block;

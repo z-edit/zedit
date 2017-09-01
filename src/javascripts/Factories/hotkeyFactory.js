@@ -75,7 +75,7 @@ ngapp.service('hotkeyFactory', function() {
         }
     };
 
-    this.autocompleteInputHotkeys = function() {
+    this.dropdownHotkeys = function() {
         return {
             upArrow: 'handleUpArrow',
             downArrow: 'handleDownArrow',
