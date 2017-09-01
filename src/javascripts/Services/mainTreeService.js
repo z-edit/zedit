@@ -87,7 +87,9 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, setting
                 let childGroup = xelib.GetElement(node.handle, 'Child Group', true);
                 node.can_expand = childGroup && xelib.ElementCount(childGroup) > 0;
             } else {
-                node.can_expand = xelib.ElementCount(node.handle) > 0;
+                let isFile = node.element_type === xelib.etFile,
+                    targetCount = +(isFile && !settings.treeView.showFileHeaders);
+                node.can_expand = xelib.ElementCount(node.handle) > targetCount;
             }
         };
 
