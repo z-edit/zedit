@@ -35,6 +35,18 @@ ngapp.service('contextMenuFactory', function() {
             });
         }
     }, {
+        id: 'Add File',
+        visible: (scope) => {
+            return !scope.selectedNodes.length;
+        },
+        build: (scope, items) => {
+            items.push({
+                label: 'Add File',
+                hotkey: 'Insert',
+                callback: () => scope.addFile()
+            });
+        }
+    }, {
         id: 'Delete',
         visible: (scope) => {
             return testNodes(scope.selectedNodes, function(node) {
