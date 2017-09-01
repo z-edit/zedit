@@ -101,7 +101,10 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     $scope.setupReference = function(value) {
-        // TODO: load allowed references
+        $scope.referenceSearch = function(str) {
+            return xelib.FindValidReferences(handle, str, 10);
+        };
+        $scope.setCustomResult = (str) => $scope.value = str;
         $scope.value = value;
     };
 

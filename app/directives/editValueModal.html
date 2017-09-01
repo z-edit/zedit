@@ -54,8 +54,9 @@
                 <h2>Edit Reference
                     <div class="path">{{::path}}</div>
                 </h2>
-                <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
-                <!-- TODO: autocomplete dropdown -->
+                <autocomplete-input selected-item="$parent.value" search="referenceSearch" set-custom="setCustomResult">
+                    {{::$parent.result}}
+                </autocomplete-input>
             </div>
 
             <div ng-if="::targetNode.value_type == vtColor">
