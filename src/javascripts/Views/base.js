@@ -34,6 +34,7 @@ ngapp.controller('baseController', function ($scope, $document, $q, $timeout, ht
     // event handlers
     $scope.$on('terminate', () => { remote.app.forceClose = true;  win.close(); });
     $scope.$on('setTitle', (e, title) => $scope.title = title);
+    $scope.$watch('title', () => document.title = $scope.title);
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
