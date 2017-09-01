@@ -40,4 +40,18 @@ ngapp.service('editModalFactory', function() {
             }
         };
     };
+
+    this.addFile = function(scope) {
+        return {
+            title: 'Add File',
+            editType: 'string',
+            maxLength: 64,
+            initialValue: 'New File.esp',
+            isValid: () => { return true },
+            callback: (fileName) => {
+                xelib.AddFile(fileName);
+                scope.$root.$broadcast('fileAdded');
+            }
+        };
+    };
 });
