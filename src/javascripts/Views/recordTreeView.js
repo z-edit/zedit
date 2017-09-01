@@ -127,7 +127,9 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     });
 
     $scope.$on('nodeUpdated', $scope.reload);
-    $scope.$on('nodeAdded', $scope.reload);
+    $scope.$on('nodeAdded', function() {
+        if (!xelib.GetFormID($scope.record)) $scope.reload();
+    });
 
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
