@@ -75,6 +75,16 @@ let GetBool = function(callback) {
     return _bool.readUInt16LE(0) > 0;
 };
 
+let GetByte = function(callback) {
+    let _res = createTypedBuffer(1, PByte);
+    callback(_res);
+    return _res.readUInt8(0);
+};
+
+let GetEnum = function(callback, enums) {
+    return enums[GetByte(callback)];
+};
+
 let GetArray = function(callback) {
     let _len = createTypedBuffer(4, PInteger);
     callback(_len);
@@ -114,10 +124,10 @@ let GetStringValue = function(_id, method) {
 };
 
 let GetEnumValue = function(_id, method, enums) {
-    let _res = createTypedBuffer(1, PByte);
-    if (!lib[method](_id, _res))
-        Fail(`${method} failed on ${_id}`);
-    let n = _res.readUInt8(0);
+    let n = GetByte(function(_byte) {
+        if (!lib[method](_id, _byte))
+            Fail(`${method} failed on ${_id}`);
+    });
     return enums && enums[n] || n;
 };
 

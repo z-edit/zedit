@@ -47,10 +47,10 @@ try {
         'GetGamePath': [WordBool, [Integer, PInteger]],
         'GetLoadOrder': [WordBool, [PInteger]],
         'GetActivePlugins': [WordBool, [PInteger]],
-        'LoadPlugins': [WordBool, [PWChar]],
+        'LoadPlugins': [WordBool, [PWChar, WordBool]],
         'LoadPlugin': [WordBool, [PWChar]],
         'UnloadPlugin': [WordBool, [Cardinal]],
-        'GetLoaderDone': [WordBool, []],
+        'GetLoaderStatus': [WordBool, [PByte]],
         // FILE HANDLING METHODS
         'AddFile': [WordBool, [PWChar, PCardinal]],
         'FileByIndex': [WordBool, [Integer, PCardinal]],

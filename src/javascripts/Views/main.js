@@ -30,10 +30,17 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     $scope.checkIfLoaded = function() {
         $scope.log = $scope.log + xelib.GetMessages();
         $scope.getLoadingMessage();
-        if (xelib.GetLoaderDone()) {
+        let loaderStatus = xelib.GetLoaderStatus();
+
+        if (loaderStatus === xelib.lsDone) {
             console.log($scope.log);
             $scope.$emit('setTitle', `zEdit - ${$rootScope.selectedProfile.name}`);
             $scope.loaded = true;
+        } else if (loaderStatus === xelib.lsError) {
+            alert('There was a critical error during plugin/resource loading.  Please see the error log for more details.');
+            fh.saveTextFile('erorr_log.txt', $scope.log);
+            fh.open('error_log.txt');
+            $scope.$emit('terminate');
         } else {
             $timeout($scope.checkIfLoaded, 250);
         }

@@ -1,3 +1,7 @@
+// ENUMERATIONS
+const loaderStates = ['lsInactive', 'lsActive', 'lsDone', 'lsError'];
+applyEnums(xelib, loaderStates, 'loaderStates');
+
 // LOADING AND SET UP METHODS
 xelib.SetGamePath = function(gamePath) {
     if (!lib.SetGamePath(wcb(gamePath)))
@@ -23,12 +27,15 @@ xelib.GetActivePlugins = function() {
             Fail('Failed to get active plugins');
     });
 };
-xelib.LoadPlugins = function(loadOrder) {
-    if (!lib.LoadPlugins(wcb(loadOrder)))
+xelib.LoadPlugins = function(loadOrder, smartLoad = true) {
+    if (!lib.LoadPlugins(wcb(loadOrder), smartLoad))
         Fail('Failed to load plugins.');
 };
-xelib.GetLoaderDone = function() {
-    return lib.GetLoaderDone();
+xelib.GetLoaderStatus = function() {
+    return GetByte(function(_byte) {
+        if (!lib.GetLoaderStatus(_byte))
+            Fail('Failed to get loader status.');
+    });
 };
 xelib.GetGamePath = function(gameMode) {
     return GetString(function(len) {
