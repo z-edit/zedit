@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
 
 let fh = {};
@@ -43,6 +43,12 @@ fh.saveJsonFile = function(filename, value, minify = false) {
 
 fh.saveTextFile = function(filename, value) {
     fh.jetpack.write(filename, value);
+};
+
+fh.open = function(filename) {
+    if (fh.jetpack.exists(filename)) {
+        shell.openItem(fh.jetpack.cwd() + '\\' + filename);
+    }
 };
 
 fh.getDateModified = function(filename) {

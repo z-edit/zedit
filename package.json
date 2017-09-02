@@ -47,7 +47,6 @@
     "ref": "^1.0",
     "ref-array": "^1.2.0",
     "ref-wchar": "^1.0",
-    "shelljs": "^0.7.8",
     "ui-router-extras": "^0.1.3"
   },
   "devDependencies": {
