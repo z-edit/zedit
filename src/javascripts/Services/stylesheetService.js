@@ -1,6 +1,6 @@
 ngapp.service('stylesheetService', function() {
-    var service = this;
-    var mainStylesheet = document.styleSheets[1];
+    let service = this,
+        mainStylesheet = document.styleSheets[1];
 
     this.getRule = function(selector) {
         let rules = mainStylesheet.cssRules;

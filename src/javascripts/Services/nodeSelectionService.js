@@ -45,7 +45,7 @@ ngapp.service('nodeSelectionService', function() {
             }
         };
 
-        var persistRange = function(start, end) {
+        let persistRange = function(start, end) {
             if (start > lastRange[0]) {
                 scope.selectSingle(scope.tree[lastRange[0]], false, false, false);
             }
@@ -117,7 +117,7 @@ ngapp.service('nodeSelectionService', function() {
             }
         };
 
-        var findNextNode = function(node, sameDepth = true) {
+        let findNextNode = function(node, sameDepth = true) {
             let index = scope.tree.indexOf(node);
             if (!sameDepth) {
                 return scope.tree[index + 1];
@@ -146,7 +146,7 @@ ngapp.service('nodeSelectionService', function() {
             }
         };
 
-        var findPreviousNode = function(node, sameDepth = true) {
+        let findPreviousNode = function(node, sameDepth = true) {
             let index = scope.tree.indexOf(node);
             if (!sameDepth) {
                 return scope.tree[index - 1];

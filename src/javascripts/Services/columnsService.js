@@ -96,7 +96,7 @@ ngapp.service('columnsService', function(settingsService) {
         }
     };
 
-    var defaultColumnsConfig = {
+    let defaultColumnsConfig = {
         customColumns: [],
         activeColumns: [{
             label: 'FormID',

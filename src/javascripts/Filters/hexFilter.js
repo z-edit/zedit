@@ -6,7 +6,7 @@ ngapp.filter('hex', function() {
         if (typeof padding === 'undefined') padding = 2;
 
         // convert number to hex
-        var hex = Number(number).toString(16).toUpperCase();
+        let hex = Number(number).toString(16).toUpperCase();
         // add 0 padding as necessary
         while (hex.length < padding) {
             hex = "0" + hex;

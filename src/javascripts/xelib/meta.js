@@ -1,5 +1,5 @@
 // ENUMERATIONS
-var sortBy = {
+let sortBy = {
     'None': 0,
     'FormID': 1,
     'EditorID': 2,

@@ -1,13 +1,13 @@
 // ENUMERATIONS
-var conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMaster', 'ctOnlyOne', 'ctHiddenByModGroup', 'ctMaster', 'ctConflictBenign', 'ctOverride', 'ctIdenticalToMasterWinsConflict','ctConflictWins', 'ctConflictLoses'];
-var conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict', 'caConflictCritical'];
+const conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMaster', 'ctOnlyOne', 'ctHiddenByModGroup', 'ctMaster', 'ctConflictBenign', 'ctOverride', 'ctIdenticalToMasterWinsConflict','ctConflictWins', 'ctConflictLoses'];
+const conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict', 'caConflictCritical'];
 
 applyEnums(xelib, conflictThis, 'conflictThis');
 applyEnums(xelib, conflictAll, 'conflictAll');
 
 // RECORD HANDLING METHODS
 xelib.GetFormID = function(_id, local = false) {
-    var _res = createTypedBuffer(4, PCardinal);
+    let _res = createTypedBuffer(4, PCardinal);
     if (!lib.GetFormID(_id, _res, local))
         Fail(`Failed to get FormID for ${_id}`);
     return _res.readUInt32LE();

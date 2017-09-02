@@ -1,5 +1,5 @@
 ngapp.service('htmlHelpers', function() {
-    var service = this;
+    let service = this;
 
     this.resolveByClass = function(klass) {
         return function(child) {

@@ -6,19 +6,19 @@ xelib.FullName = function(_id, noException = false) {
     return xelib.GetValue(_id, 'FULL', noException);
 };
 xelib.Translate = function(_id, vector) {
-    var position = xelib.GetElement(_id, 'DATA\\Position');
+    let position = xelib.GetElement(_id, 'DATA\\Position');
     ['X', 'Y', 'Z'].forEach(function(coord) {
         if (vector.hasOwnProperty(coord)) {
-            var newValue = xelib.GetFloatValue(position, coord) + vector[coord];
+            let newValue = xelib.GetFloatValue(position, coord) + vector[coord];
             xelib.SetFloatValue(position, coord, newValue);
         }
     });
 };
 xelib.Rotate = function(_id, vector) {
-    var rotation = xelib.GetElement(_id, 'DATA\\Rotation');
+    let rotation = xelib.GetElement(_id, 'DATA\\Rotation');
     ['X', 'Y', 'Z'].forEach(function(coord) {
         if (vector.hasOwnProperty(coord)) {
-            var newValue = xelib.GetFloatValue(rotation, coord) + vector[coord];
+            let newValue = xelib.GetFloatValue(rotation, coord) + vector[coord];
             xelib.SetFloatValue(rotation, coord, newValue);
         }
     });

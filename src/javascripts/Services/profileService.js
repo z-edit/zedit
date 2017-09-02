@@ -1,5 +1,5 @@
 ngapp.service('profileService', function() {
-    var service = this;
+    let service = this;
 
     this.games = fh.loadResource('app/games.json');
     this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json');

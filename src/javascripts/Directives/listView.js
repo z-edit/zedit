@@ -55,7 +55,7 @@ ngapp.controller('listViewController', function($scope, $timeout, hotkeyService,
             let start = Math.min(index, prevIndex),
                 end = Math.max(index, prevIndex);
             if (!e.ctrlKey) $scope.clearSelection();
-            for (var i = start; i <= end; i++) {
+            for (let i = start; i <= end; i++) {
                 $scope.items[i].selected = true;
             }
         } else if (e.ctrlKey) {

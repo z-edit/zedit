@@ -25,8 +25,8 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
     };
 
     $scope.getLoadOrder = function () {
-        var loadOrder = xelib.GetLoadOrder().split('\r\n');
-        var activePlugins = xelib.GetActivePlugins().split('\r\n');
+        let loadOrder = xelib.GetLoadOrder().split('\r\n');
+        let activePlugins = xelib.GetActivePlugins().split('\r\n');
         console.log('Load Order:\n' + loadOrder);
         console.log('Active Plugins:\n' + activePlugins);
         $scope.loadOrder = loadOrder.map(function (filename) {

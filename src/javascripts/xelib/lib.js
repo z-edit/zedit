@@ -4,19 +4,19 @@ const wchar_t = require('ref-wchar');
 const ffi = require('ffi');
 const jetpack = require('fs-jetpack');
 
-var Void = 'void';
-var WString = wchar_t.string;
-var Cardinal = ref.types.uint32;
-var Integer = ref.types.int32;
-var WordBool = ref.types.uint16;
-var Double = ref.types.double;
-var Byte = ref.types.byte;
-var PWChar = ref.refType(WString);
-var PCardinal = ref.refType(Cardinal);
-var PInteger = ref.refType(Integer);
-var PWordBool = ref.refType(WordBool);
-var PDouble = ref.refType(Double);
-var PByte = ref.refType(Byte);
+const Void = 'void';
+const WString = wchar_t.string;
+const Cardinal = ref.types.uint32;
+const Integer = ref.types.int32;
+const WordBool = ref.types.uint16;
+const Double = ref.types.double;
+const Byte = ref.types.byte;
+const PWChar = ref.refType(WString);
+const PCardinal = ref.refType(Cardinal);
+const PInteger = ref.refType(Integer);
+const PWordBool = ref.refType(WordBool);
+const PDouble = ref.refType(Double);
+const PByte = ref.refType(Byte);
 
 // function binding
 try {
