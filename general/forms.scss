@@ -59,7 +59,7 @@ input.invalid {
   outline-offset: -2px;
 }
 
-input, textarea {
+input, textarea, select {
   background-color: $background;
   color: $font_color;
 }
