@@ -14,7 +14,7 @@ ngapp.service('profileService', function() {
                 language: profile.language
             };
         });
-        fh.saveJsonFile(fh.userPath + 'resources/profiles.json', sanitizedProfiles);
+        fh.saveJsonFile(fh.userPath + 'profiles.json', sanitizedProfiles);
     };
 
     this.newProfileName = function(name) {
