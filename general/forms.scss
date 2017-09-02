@@ -64,16 +64,6 @@ input, textarea, select {
   color: $font_color;
 }
 
-.checkbox-list {
-  padding-left: 10px;
-  text-align: left;
-  user-select: none;
-
-  .selected {
-    background-color: $selected;
-  }
-}
-
 number-input {
   input {
     width: 100px;
