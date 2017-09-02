@@ -3,6 +3,7 @@ autocomplete-input {
 
   .dropdown {
     position: absolute;
+    z-index: 5;
     padding: 2px 0;
     background-color: $background;
     border: 1px solid $medium_border;
