@@ -1,7 +1,7 @@
 import { remote } from 'electron';
 import jetpack from 'fs-jetpack';
 
-var fh = {};
+let fh = {};
 
 fh.jetpack = jetpack;
 fh.appPath = remote.app.getAppPath();

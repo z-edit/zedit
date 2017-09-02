@@ -1,4 +1,4 @@
-var mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
+let mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;

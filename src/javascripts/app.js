@@ -10,7 +10,7 @@ import xelib from './xelib.js';
 xelib.Initialize();
 
 // set up angular application
-var ngapp = angular.module('application', [
+const ngapp = angular.module('zedit', [
     'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat', 'mp.colorPicker'
 ]);
 

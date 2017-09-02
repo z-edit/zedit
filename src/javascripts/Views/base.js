@@ -1,4 +1,4 @@
-ngapp.config(['$stateProvider', function ($stateProvider) {
+ngapp.config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('base', {
         url: '',
         redirectTo: 'base.start',
@@ -7,10 +7,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function ($scope, $document, $q, $timeout, htmlHelpers, formUtils) {
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, htmlHelpers, formUtils) {
     // initialization
-    var win = remote.getCurrentWindow();
+    let currentWindow = remote.getCurrentWindow();
     $scope.title = 'zEdit - New Session';
+
+    // helper functions
+    let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
 
     // inherited functions
     formUtils.buildToggleModalFunction($scope, 'EditModal');
@@ -19,9 +22,9 @@ ngapp.controller('baseController', function ($scope, $document, $q, $timeout, ht
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
     $scope.helpClick = () => $scope.$broadcast('helpClick');
-    $scope.minimizeClick = () => win.minimize();
-    $scope.restoreClick = () => win.isMaximized() ? win.unmaximize() : win.maximize();
-    $scope.closeClick = () => win.close();
+    $scope.minimizeClick = () => currentWindow.minimize();
+    $scope.restoreClick = () => toggleMaximized(currentWindow);
+    $scope.closeClick = () => currentWindow.close();
 
     // prompt modal functions
     $scope.$root.prompt = function(promptOptions) {
@@ -32,7 +35,10 @@ ngapp.controller('baseController', function ($scope, $document, $q, $timeout, ht
     };
 
     // event handlers
-    $scope.$on('terminate', () => { remote.app.forceClose = true;  win.close(); });
+    $scope.$on('terminate', () => {
+        remote.app.forceClose = true;
+        currentWindow.close();
+    });
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$watch('title', () => document.title = $scope.title);
 
@@ -78,7 +84,7 @@ ngapp.controller('baseController', function ($scope, $document, $q, $timeout, ht
     // keyboard shortcuts
     $document.bind('keydown', function(e) {
         if (e.keyCode === 73 && e.shiftKey && e.ctrlKey) { // ctrl + shift + i
-            win.toggleDevTools();
+            currentWindow.toggleDevTools();
         } else if (e.keyCode === 82 && e.ctrlKey) { // ctrl + r
             location.reload();
         } else if (e.keyCode === 83 && e.ctrlKey) { // ctrl + s
