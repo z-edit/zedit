@@ -1,0 +1,110 @@
+$background: #222;
+$background_tint: #303036;
+$soft_border: #333;
+$medium_border: #555;
+$hard_border: #777;
+$shadow: #AAA;
+$modal_shadow: #000;
+$selected: #22223A;
+$strong_selected: #456594;
+$font_color: #CCC;
+$medium_font_color: #999;
+$soft_font_color: #555;
+$inverse_font_color: #000;
+$negative: #FF5555;
+$positive: #55FF55;
+$action: #6069CC;
+$action_hover: #94A1B2;
+$action_disabled: #AAA;
+$secondary_action: #228FFF;
+
+// conflict colors
+$base: #FFF;
+$very_soft: #C0C0C0;
+$soft: #A4A0A0;
+$medium: #909090;
+$purple: #B000B0;
+$green: #00B000;
+$olive: #B0B000;
+$orange: #FFB060;
+$red: #F00;
+$lime: #0F0;
+$yellow: #FF0;
+$fuschia: #F0F;
+$transparency: 0.05;
+
+@import '../app.scss';
+
+// style scrollbars
+@mixin gradient-triangle($color, $orientation) {
+  // 1% gradient shift is to fix aliasing issues
+  @if ($orientation == 'up') {
+    background-image: linear-gradient(45deg, transparent 49%, $color 51%), linear-gradient(135deg, $color 51%, transparent 49%);
+    background-position: 4px 6px, 8px 6px;
+  } @else if ($orientation == 'down') {
+    background-image: linear-gradient(135deg, transparent 49%, $color 51%), linear-gradient(45deg, $color 51%, transparent 49%);
+    background-position: 4px 6px, 8px 6px;
+  } @else if ($orientation == 'left') {
+    background-image: linear-gradient(135deg, transparent 50%, $color 51%), linear-gradient(225deg, $color 51%, transparent 49%);
+    background-position: 6px 4px, 6px 8px;
+  } @else if ($orientation == 'right') {
+    background-image: linear-gradient(225deg, transparent 49%, $color 51%), linear-gradient(135deg, $color 51%, transparent 49%);
+    background-position: 6px 4px, 6px 8px;
+  }
+  background-size: 4px;
+  background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar {
+  display: block;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $medium_border;
+  border: solid $background-tint;
+
+  &:horizontal {
+    border-width: 2px 0;
+  }
+
+  &:vertical {
+    border-width: 0 2px;
+  }
+
+  &:hover {
+    background: $hard_border;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: $background-tint;
+}
+
+::-webkit-scrollbar-track {
+  background: $background_tint;
+}
+
+::-webkit-scrollbar-button {
+  display: inline;
+  background-color: $background_tint;
+
+  &:enabled:hover {
+    background-color: $medium_border;
+  }
+
+  &:vertical:start {
+    @include gradient-triangle($hard_border, 'down');
+  }
+
+  &:vertical:end {
+    @include gradient-triangle($hard_border, 'up');
+  }
+
+  &:horizontal:start {
+    @include gradient-triangle($hard_border, 'left');
+  }
+
+  &:horizontal:end {
+    @include gradient-triangle($hard_border, 'right');
+  }
+}
