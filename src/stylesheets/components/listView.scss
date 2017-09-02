@@ -1,0 +1,22 @@
+list-view {
+  text-align: left;
+  user-select: none;
+
+  .list-item {
+    &.dragging {
+      opacity: 0.5;
+    }
+
+    &.insert-after {
+      padding-bottom: 20px;
+    }
+
+    &.insert-before {
+      padding-top: 20px;
+    }
+
+    &.selected {
+      background-color: $selected;
+    }
+  }
+}
