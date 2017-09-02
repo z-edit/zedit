@@ -16,6 +16,7 @@ var mainTreeViewController = function($scope, $element, $timeout, columnsService
     nodeSelectionService.buildFunctions($scope, true);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
+    formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
     $scope.toggleRefactorModal = function(visible, mode) {

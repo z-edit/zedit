@@ -16,6 +16,7 @@ var recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
     formUtils.buildToggleModalFunction($scope, 'EditModal');
+    formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
     $scope.toggleAddressBar = function(visible) {

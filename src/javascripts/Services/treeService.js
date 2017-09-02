@@ -133,13 +133,6 @@ ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService)
             scope.$emit('closeContextMenu');
         };
 
-        scope.showContextMenu = function(e) {
-            let offset = { top: e.clientY, left: e.clientX},
-                items = scope.contextMenuItems,
-                menuItems = contextMenuService.buildMenuItems(scope, items);
-            $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
-        };
-
         scope.onNodeMouseDown = function(e, node) {
             if (e.button != 2 || !node.selected) scope.selectNode(e, node);
             if (e.button == 2) scope.showContextMenu(e);
