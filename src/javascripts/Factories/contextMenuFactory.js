@@ -12,6 +12,44 @@ ngapp.service('contextMenuFactory', function() {
         }, true);
     };
 
+    this.checkboxListItems = [{
+        id: 'Check All',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            items.push({
+                label: 'Check All',
+                callback: () => {
+                    scope.items.forEach((item) => item.active = true);
+                    scope.$emit('selectionChanged');
+                }
+            });
+        }
+    }, {
+        id: 'Uncheck All',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            items.push({
+                label: 'Uncheck All',
+                callback: () => {
+                    scope.items.forEach((item) => item.active = false);
+                    scope.$emit('selectionChanged');
+                }
+            });
+        }
+    }, {
+        id: 'Toggle All',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            items.push({
+                label: 'Toggle All',
+                callback: () => {
+                    scope.items.forEach((item) => item.active = !item.active);
+                    scope.$emit('selectionChanged');
+                }
+            });
+        }
+    }];
+
     this.mainTreeItems = [{
         id: 'Add',
         visible: (scope) => {
