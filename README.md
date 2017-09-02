@@ -23,6 +23,7 @@ You can build a release of the application using `npm run release`.  The applica
 - If you get `Exception loading X, *.hardcoded.dat not found` when loading plugins copy the appropriate dat file from the base directory to the `node_modules\electron\dist` folder.
 - Fall back to `npm run release` if `npm start` doesn't work for you due to a DLL not found error.
 - If you run into an error with `bindings.js` with the ref module you're probably using 64-bit node, switch to 32-bit node and things should work.
+- If when running `npm install` you get `MSBUILD : error MSB3428: Could not load the Visual C++ component "VCBuild.exe".`, install the package `windows-build-tools` with npm as admin (`npm install --global --production windows-build-tools`).
 
 # contact
 If you're looking for support or want to contribute, join the [Modding Tools discord server](https://discord.gg/GUfRdpT).
