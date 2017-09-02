@@ -1,5 +1,5 @@
 <div class="modal-container" ng-click="unfocusEditModal($event)">
-    <div class="modal {{vtClass}}" ng-click="$broadcast('clearSelection')" tabindex="0" ng-keypress="$broadcast('keyPress', $event)">
+    <div class="modal {{vtClass}}" ng-click="$broadcast('clearSelection')" tabindex="0" ng-keydown="$broadcast('keyDown', $event)">
         <form>
             <div class="close-modal">
                 <span class="fa fa-times" ng-click="toggleEditModal()"></span>
@@ -81,7 +81,7 @@
                 <h2>Edit Flags
                     <div class="path">{{::path}}</div>
                 </h2>
-                <list-view items="flags" list-class="checkbox-list">
+                <list-view items="flags" default-action="applyValue">
                     <input type="checkbox" ng-model="$parent.item.active" />
                     {{::$parent.item.name}}
                 </list-view>

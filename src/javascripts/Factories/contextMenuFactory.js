@@ -13,39 +13,43 @@ ngapp.service('contextMenuFactory', function() {
     };
 
     this.checkboxListItems = [{
-        id: 'Check All',
+        id: 'Select All',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Check All',
-                callback: () => {
-                    scope.items.forEach((item) => item.active = true);
-                    scope.$emit('selectionChanged');
-                }
+                label: 'Select All',
+                hotkey: 'Ctrl+A',
+                callback: scope.selectAll
             });
         }
     }, {
-        id: 'Uncheck All',
+        id: 'Toggle selected',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Uncheck All',
-                callback: () => {
-                    scope.items.forEach((item) => item.active = false);
-                    scope.$emit('selectionChanged');
-                }
+                label: 'Toggle selected',
+                hotkey: 'Space',
+                callback: () => scope.toggleSelected()
             });
         }
     }, {
-        id: 'Toggle All',
+        id: 'Check Selected',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Toggle All',
-                callback: () => {
-                    scope.items.forEach((item) => item.active = !item.active);
-                    scope.$emit('selectionChanged');
-                }
+                label: 'Check Selected',
+                hotkey: 'Ctrl+Space',
+                callback: () => scope.toggleSelected(true)
+            });
+        }
+    }, {
+        id: 'Uncheck Selected',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            items.push({
+                label: 'Uncheck Selected',
+                hotkey: 'Shift+Space',
+                callback: () => scope.toggleSelected(false)
             });
         }
     }];

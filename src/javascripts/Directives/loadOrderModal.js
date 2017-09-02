@@ -29,13 +29,12 @@ ngapp.controller('loadOrderModalController', function ($scope, $state, $element)
     };
 
     // event handlers
-    $scope.$on('selectionChanged', function(e) {
+    $scope.$on('itemsChanged', function(e) {
         $scope.updateIndexes();
         e.stopPropagation();
     });
 
     // initialize view model properties
-    $scope.defaultAction = $scope.loadPlugins;
     $scope.updateIndexes();
 
     // focus modal

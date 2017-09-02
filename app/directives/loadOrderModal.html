@@ -1,9 +1,9 @@
 <div class="modal-container">
-    <div class="modal skinny-modal" ng-click="onParentClick($event)" tabindex="0" ng-keypress="onKeyPress($event)">
+    <div class="modal skinny-modal" ng-click="$broadcast('parentClick', $event)" tabindex="0" ng-keydown="$broadcast('keyDown', $event)">
         <form>
             <h3>Load Order</h3>
             <section>
-                <list-view items="loadOrder" list-type="loadOrderList" reorderable>
+                <list-view items="loadOrder" drag-type="loadOrderList" default-action="loadPlugins">
                     <input type="checkbox" ng-model="$parent.item.active" ng-change="updateIndexes()" />
                     <span ng-show="$parent.item.active">[{{$parent.item.index | hex:2 }}]</span>
                     {{::$parent.item.filename}}

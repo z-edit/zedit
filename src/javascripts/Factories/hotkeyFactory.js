@@ -83,4 +83,18 @@ ngapp.service('hotkeyFactory', function() {
             enter: 'handleEnter'
         }
     };
+
+    this.listViewHotkeys = function() {
+        return {
+            upArrow: 'handleUpArrow',
+            downArrow: 'handleDownArrow',
+            space: 'handleSpace',
+            escape: 'clearSelection',
+            enter: 'handleEnter',
+            a: [{
+                modifiers: ['ctrlKey'],
+                callback: 'selectAll'
+            }]
+        }
+    };
 });
