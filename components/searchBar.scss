@@ -3,20 +3,20 @@ search-bar {
   margin-top: -24px;
   margin-bottom: 24px;
   padding: 3px 2px;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $medium_border;
   align-items: center;
 
   input[type="text"] {
     margin-left: 2px;
     padding: 1px 3px;
     border-radius: 5px;
-    border: 1px solid #aaa;
+    border: 1px solid $medium_border;
     -webkit-transition: background 2.0s ease-in-out;
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 2px dodgerblue;
-      border-color: dodgerblue;
+      box-shadow: 0 0 2px $secondary_action;
+      border-color: $secondary_action;
     }
 
     &.error {
@@ -26,7 +26,7 @@ search-bar {
   }
 
   > button {
-    color: dodgerblue;
+    color: $secondary_action;
   }
 
   .previous-result {
@@ -46,7 +46,7 @@ search-bar {
   }
 
   .no-match-found {
-    color: crimson;
+    color: $negative;
     margin-left: 12px;
   }
 

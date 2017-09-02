@@ -1,11 +1,11 @@
 context-menu {
   position: fixed;
   display: inline-block;
-  border: 1px solid #aaa;
-  background-color: #fff;
+  border: 1px solid $medium_border;
+  background-color: $background;
   font: 12px sans-serif;
   padding: 2px 0;
-  box-shadow: 4px 4px 6px -3px #000;
+  box-shadow: 4px 4px 6px -3px $shadow;
   user-select: none;
   z-index: 10;
   overflow-y: auto;
@@ -27,7 +27,7 @@ context-menu {
       position: absolute;
       margin-top: 3px;
       left: 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #eee; // $medium_border or $soft_border?
     }
   }
 
@@ -45,7 +45,7 @@ context-menu {
     }
 
     .hotkey {
-      color: #888;
+      color: $soft_font_color;
     }
 
     .padding {
@@ -57,7 +57,7 @@ context-menu {
 
       .caret-right {
         border: 4px solid transparent;
-        border-left: 4px solid #555;
+        border-left: 4px solid $medium_font_color;
         height: 0;
         display: inline-block;
         margin-left: 6px;
@@ -65,15 +65,15 @@ context-menu {
     }
 
     &.selected:not(.disabled) {
-      background-color: #ebebeb;
+      background-color: $background_tint;
 
       > .hotkey {
-        color: #000;
+        color: $font_color;
       }
     }
 
     &.disabled {
-      color: #888;
+      color: $soft_font_color;
     }
   }
 }

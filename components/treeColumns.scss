@@ -1,11 +1,11 @@
 .tree-columns {
   display: flex;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $medium_border;
   margin-top: -24px;
   position: relative;
 
   &:first-child {
-    border-top: 1px solid #aaa;
+    border-top: 1px solid $medium_border;
   }
 
   > split-bar {
@@ -14,7 +14,7 @@
     cursor: col-resize;
 
     .bar {
-      border-left: 1px solid #888;
+      border-left: 1px solid $hard_border;
       height: 100%;
       position: absolute;
       left: 2px;
@@ -28,13 +28,11 @@
 
     &:last-of-type {
       flex: 1;
-      border-right: 1px solid #aaa;
+      border-right: 1px solid $medium_border;
     }
 
-    &.sortable {
-      &:hover {
-        background-color: aliceblue;
-      }
+    &.sortable:hover {
+      background-color: $selected;
     }
 
     .sort-arrow {
@@ -51,7 +49,7 @@
     padding: 4px 6px 5px;
 
     &:hover {
-      color: crimson;
+      color: $secondary_action;
     }
   }
 }

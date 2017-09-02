@@ -7,15 +7,15 @@
 
   &.drag-over {
     outline: auto;
-    outline-color: #0b97c4;
+    outline-color: $secondary_action;
   }
 
   .tree-nodes {
     overflow-y: scroll;
 
     .node.element-unassigned {
-      color: #aaa;
-      background-color: #fff;
+      color: $medium_border;
+      background-color: $background;
     }
   }
 
@@ -43,7 +43,7 @@
   }
 
   .column-wrapper {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid $medium_border;
     overflow-x: scroll;
     white-space: nowrap;
     margin-top: -24px;
@@ -58,7 +58,7 @@
     }
 
     .column.focused:not(.column-0) {
-      background-color: #e5f2ff;
+      background-color: $selected;
     }
 
     .first-split-bar {
@@ -71,14 +71,14 @@
     }
 
     &:first-child {
-      border-top: 1px solid #aaa;
+      border-top: 1px solid $medium_border;
     }
   }
 
   .column-0 {
     position: sticky;
     left: 0;
-    background-color: #fff;
+    background-color: $background;
   }
 
   .column.modified {
@@ -87,13 +87,13 @@
 
   .node.selected {
     .column.focused {
-      border: 1px dashed #808080;
+      border: 1px dashed $hard_border;
       padding: 2px 5px 1px;
     }
   }
 
   .node.selected:not(.element-unassigned) .column-0 {
-    background-color: #e5f2ff;
+    background-color: $selected;
   }
 }
 
@@ -108,18 +108,6 @@
     opacity: 0;
     -webkit-transition: opacity 0.1s ease-in-out;
     margin-left: -4px;
-
-    .add-element {
-      color: darkblue;
-      cursor: pointer;
-      padding: 1px 4px;
-    }
-
-    .remove-element {
-      color: crimson;
-      cursor: pointer;
-      padding: 1px 4px;
-    }
   }
 }
 

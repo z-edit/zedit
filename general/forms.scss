@@ -59,6 +59,11 @@ input.invalid {
   outline-offset: -2px;
 }
 
+input, textarea {
+  background-color: $background;
+  color: $font_color;
+}
+
 .checkbox-list {
   list-style: none;
   padding-left: 10px;
@@ -69,7 +74,7 @@ input.invalid {
   }
 
   .selected {
-    background-color: #e5f2ff;
+    background-color: $selected;
   }
 }
 

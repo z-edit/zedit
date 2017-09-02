@@ -1,14 +1,14 @@
 edit-columns-modal {
   .columns-container {
     overflow-x: auto;
-    border: 1px solid #aaa;
+    border: 1px solid $medium_border;
     display: flex;
   }
 
   .column-item {
     display: inline-block;
     padding: 2px 8px;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid $medium_border;
     white-space: nowrap;
     flex: 1;
 
@@ -21,7 +21,7 @@ edit-columns-modal {
     }
 
     &.selected {
-      background: aliceblue;
+      background: $selected;
     }
   }
 
@@ -29,7 +29,7 @@ edit-columns-modal {
     font-size: 14px;
 
     .CodeMirror {
-      border: 1px solid #aaa;
+      border: 1px solid $medium_border;
       margin-top: 4px;
       height: 150px;
     }

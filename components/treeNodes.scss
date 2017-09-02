@@ -13,7 +13,7 @@
     height: 20px;
 
     &.selected {
-      background-color: #e5f2ff;
+      background-color: $selected;
     }
 
     .expand-node {
@@ -23,7 +23,7 @@
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
       position: relative;
-      color: #000;
+      color: $font_color;
 
       &::before {
         content: ' ';
@@ -33,7 +33,7 @@
         position: absolute;
         top: 2px;
         right: 1px;
-        background: #fff;
+        background: $background;
       }
 
       &.expanded::after {
@@ -55,8 +55,8 @@
       text-overflow: ellipsis;
       overflow: hidden;
       padding: 2px 6px;
-      border-right: 1px solid #f8f8f8;
-      border-top: 1px solid #f8f8f8;
+      border-right: 1px solid $soft_border;
+      border-top: 1px solid $soft_border;
 
       &:last-of-type {
         border-right: none;
@@ -66,6 +66,6 @@
   }
 
   .vs-repeat-after-content {
-    border-top: 1px solid #f8f8f8;
+    border-top: 1px solid $soft_border;
   }
 }

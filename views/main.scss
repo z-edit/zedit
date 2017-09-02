@@ -24,7 +24,7 @@ ui-view {
       cursor: col-resize;
 
       .bar {
-        border-left: 1px solid #888;
+        border-left: 1px solid $hard_border;
         height: 100%;
       }
     }
@@ -43,7 +43,7 @@ ui-view {
       cursor: row-resize;
 
       .bar {
-        border-top: 1px solid #888;
+        border-top: 1px solid $hard_border;
         width: 100%;
         position: absolute;
         left: 0;
@@ -80,15 +80,15 @@ split-bar {
 
   .tabs-bar {
     display: flex;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid $shadow;
     font-size: 14px;
     line-height: 22px;
     margin-bottom: 5px;
 
     .tab {
       min-width: 120px;
-      border-right: 1px solid #000;
-      background-color: #ddd;
+      border-right: 1px solid $shadow;
+      background-color: $background_tint;
       user-select: none;
 
       .label {
@@ -101,14 +101,14 @@ split-bar {
         float: right;
         margin: 2px 4px 2px 0;
         padding: 1px;
-        color: crimson;
+        color: $negative;
         line-height: initial;
       }
 
       &.active {
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid $background;
         margin-bottom: -1px;
-        background-color: #fff;
+        background-color: $background;
       }
     }
 

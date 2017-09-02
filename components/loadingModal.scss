@@ -2,7 +2,7 @@ loading-modal {
   color: #fff;
 
   .modal-container {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba($shadow, 0.6);
 
     .modal {
       background: none;
