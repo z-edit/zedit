@@ -36,9 +36,4 @@ ngapp.controller('loadOrderModalController', function ($scope, $state, $element)
 
     // initialize view model properties
     $scope.updateIndexes();
-
-    // focus modal
-    let modalContainer = $element[0].firstElementChild,
-        modalElement = modalContainer.firstElementChild;
-    modalElement.focus();
 });
