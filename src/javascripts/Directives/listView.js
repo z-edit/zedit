@@ -14,7 +14,7 @@ ngapp.directive('listView', function() {
     }
 });
 
-ngapp.controller('listViewController', function($scope) {
+ngapp.controller('listViewController', function($scope, $timeout, formUtils, contextMenuFactory) {
     // helper variables
     let prevIndex = undefined;
 
@@ -24,6 +24,10 @@ ngapp.controller('listViewController', function($scope) {
         element.classList.remove('insert-before');
     };
 
+    // inherited variables and functions
+    $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
+    formUtils.buildShowContextMenuFunction($scope);
+
     // scope functions
     $scope.clearSelection = function() {
         $scope.items.forEach((item) => item.selected = false);
@@ -31,7 +35,7 @@ ngapp.controller('listViewController', function($scope) {
         $scope.$emit('selectionChanged');
     };
 
-    $scope.onItemClick = function(e, item, index) {
+    $scope.selectItem = function(e, item, index) {
         if (e.shiftKey && prevIndex !== undefined) {
             let start = Math.min(index, prevIndex),
                 end = Math.max(index, prevIndex);
@@ -47,13 +51,18 @@ ngapp.controller('listViewController', function($scope) {
             item.selected = true;
             prevIndex = index;
         }
-        e.stopImmediatePropagation();
+    };
+
+    $scope.onItemMouseDown = function(e, item, index) {
+        if (e.button != 2 || !item.selected) $scope.selectItem(e, item, index);
+        if (e.button == 2) $scope.showContextMenu(e);
     };
 
     $scope.onKeyPress = function(e) {
         if (e.keyCode == 32) { // toggle selected items on space
             $scope.items.forEach(function(item) {
-                if (item.selected) item.active = !item.active;
+                // Ctrl+Space enables
+                if (item.selected) item.active = e.ctrlKey || !item.active;
             });
             $scope.$emit('selectionChanged');
         } else if (e.keyCode == 27) { // clear selection on escape
@@ -63,8 +72,13 @@ ngapp.controller('listViewController', function($scope) {
         } else {
             return;
         }
-        e.stopImmediatePropagation();
+        e.stopPropagation();
         e.preventDefault();
+    };
+
+    $scope.onParentClick = function(e) {
+        if (e.srcElement.classList.contains('list-item')) return;
+        $scope.clearSelection();
     };
 
     $scope.onItemDrag = function(index) {

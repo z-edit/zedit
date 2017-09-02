@@ -7,7 +7,7 @@ ngapp.directive('loadOrderModal', function () {
     }
 });
 
-ngapp.controller('loadOrderModalController', function ($scope, $state, $element, $timeout) {
+ngapp.controller('loadOrderModalController', function ($scope, $state, $element) {
     // scope functions
     $scope.updateIndexes = function() {
         let n = 0;
