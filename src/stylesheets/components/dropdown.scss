@@ -9,8 +9,8 @@ dropdown {
   .dropdown-items {
     position: absolute;
     z-index: 20;
-    background-color: #fff;
-    border: 1px solid #aaa;
+    background-color: $background;
+    border: 1px solid $medium_border;
     text-align: left;
     padding: 2px 0;
     font-size: 14px;
@@ -23,7 +23,7 @@ dropdown {
       padding: 2px 12px;
 
       &.selected {
-        background-color: #e5f2ff;
+        background-color: $selected;
       }
     }
   }

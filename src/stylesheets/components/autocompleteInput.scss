@@ -4,8 +4,8 @@ autocomplete-input {
   .dropdown {
     position: absolute;
     padding: 2px 0;
-    background-color: #fff;
-    border: 1px solid #aaa;
+    background-color: $background;
+    border: 1px solid $medium_border;
     user-select: none;
 
     > span {
@@ -17,7 +17,7 @@ autocomplete-input {
       padding: 2px 12px;
 
       &.selected {
-        background-color: #e5f2ff;
+        background-color: $selected;
       }
     }
   }

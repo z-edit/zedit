@@ -4,6 +4,8 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+  color: $font_color;
+  background: $background;
   overflow: hidden;
 }
 
@@ -21,7 +23,7 @@ a {
 
 .title-bar {
   -webkit-user-select: none;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid $shadow;
   display: table;
   width: 100%;
 
@@ -69,7 +71,7 @@ a {
     .divider {
       cursor: default;
       opacity: 0.4;
-      border-right: 1px solid #aaa;
+      border-right: 1px solid $medium_border;
       min-width: initial;
       min-height: 26px;
       margin-right: 8px;
@@ -129,8 +131,8 @@ ui-view {
       padding: 15px;
       text-align: center;
       width: 100vw;
-      border-top: 1px solid #aaa;
-      background-color: #fff;
+      border-top: 1px solid $medium_border;
+      background-color: $background;
     }
   }
 

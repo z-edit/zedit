@@ -2,12 +2,12 @@ record-address-bar {
   display: flex;
   margin-top: -24px;
   margin-bottom: 24px;
-  border-bottom: 1px solid #aaa;
+  border-bottom: 1px solid $medium_border;
   padding: 3px 2px;
   align-items: center;
 
   > button {
-    color: dodgerblue;
+    color: $secondary_action;
   }
 
   .back-record {
@@ -19,17 +19,17 @@ record-address-bar {
     margin-left: 2px;
     padding: 1px 3px;
     border-radius: 3px;
-    border: 1px solid #aaa;
+    border: 1px solid $medium_border;
     -webkit-transition: background 2.0s ease-in-out;
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 2px dodgerblue;
-      border-color: dodgerblue;
+      box-shadow: 0 0 2px $secondary_action;
+      border-color: $secondary_action;
     }
 
     &.error {
-      background-color: rgba(255, 0, 0, 0.15);
+      background-color: rgba($negative, 0.15);
       -webkit-transition: none;
     }
   }

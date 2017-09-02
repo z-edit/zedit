@@ -42,7 +42,7 @@ edit-value-modal {
   .hexeditor {
     font-family: 'Courier New', 'Consolas', monospace;
     border-collapse: collapse;
-    border: 1px solid #aaa;
+    border: 1px solid $medium_border;
     margin: 0 auto;
 
     th {
@@ -50,11 +50,11 @@ edit-value-modal {
     }
 
     th, td {
-      border-right: 1px solid #aaa;
+      border-right: 1px solid $medium_border;
     }
 
     tr {
-      border-bottom: 1px solid #aaa;
+      border-bottom: 1px solid $medium_border;
     }
 
     .hex, .text {
@@ -77,12 +77,12 @@ edit-value-modal {
       white-space: pre;
 
       &:hover {
-        background: #dae4ea;
+        background: $background_tint;
       }
 
       &:focus {
-        background: #6b9aba;
-        color: #fff;
+        background: $strong_selected;
+        color: $inverse_font_color;
         outline: none;
       }
     }

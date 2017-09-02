@@ -1,18 +1,3 @@
-// conflict colors
-$medium_gray: #A4A0A0;
-$gray: #808080;
-$black: #000;
-$silver: #c0c0c0;
-$purple: #800080;
-$green: #008000;
-$olive: #808000;
-$orange: #FF8040;
-$red: #FF0000;
-$lime: #00FF00;
-$yellow: #FFFF00;
-$fuschia: #FF00FF;
-$transparency: 0.15;
-
 // mixin for adding two colors together
 @mixin conflict-bg($color) {
   $bg: rgba($color, $transparency);
@@ -21,19 +6,19 @@ $transparency: 0.15;
 
 // classes
 .ct-not-defined {
-  color: $medium_gray;
+  color: $soft;
 }
 
 .ct-identical-to-master {
-  color: $gray;
+  color: $medium;
 }
 
 .ct-only-one {
-  color: $black;
+  color: $base;
 }
 
 .ct-hidden-by-mod-group {
-  color: $silver;
+  color: $very_soft;
 }
 
 .ct-master {
@@ -41,7 +26,7 @@ $transparency: 0.15;
 }
 
 .ct-conflict-benign {
-  color: $black;
+  color: $base;
 }
 
 .ct-override {

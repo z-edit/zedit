@@ -1,0 +1,36 @@
+$background: #fff;
+$background_tint: #dae4ea; // or #eee, #ebebeb
+$soft_border: #f8f8f8;
+$medium_border: #aaa;
+$hard_border: #888;
+$shadow: #000;
+$modal_shadow: #000;
+$selected: #e5f2ff;
+$strong_selected: #6b9aba;
+$font_color: #000;
+$medium_font_color: #555;
+$soft_font_color: #888;
+$inverse_font_color: #fff;
+$negative: crimson;
+$positive: green;
+$action: #53b6bf;
+$action_hover: #4d5e6b;
+$action_disabled: #555;
+$secondary_action: dodgerblue;
+
+// conflict colors
+$base: #000;
+$very_soft: #C0C0C0;
+$soft: #A4A0A0;
+$medium: #808080;
+$purple: #800080;
+$green: #008000;
+$olive: #808000;
+$orange: #FF8040;
+$red: #F00;
+$lime: #0F0;
+$yellow: #FF0;
+$fuschia: #F0F;
+$transparency: 0.15;
+
+@import '../app.scss';

@@ -19,7 +19,7 @@ settings-modal {
   }
 
   .tabs-container {
-    border-right: 1px solid #aaa;
+    border-right: 1px solid $medium_border;
     margin-right: 4px;
     height: initial;
     padding: 6px 0;
@@ -30,7 +30,7 @@ settings-modal {
       user-select: none;
 
       &.selected {
-        background-color: #e5f2ff;
+        background-color: $selected;
       }
     }
   }

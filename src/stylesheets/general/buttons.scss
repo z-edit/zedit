@@ -12,11 +12,11 @@ button {
 }
 
 .action-btn {
-  color: #fff !important;
+  color: $inverse_font_color !important;
   text-align: center;
   cursor: pointer;
   display: inline-block;
-  background-color: #53b6bf;
+  background-color: $action;
   border-radius: 2px;
   border: none;
   margin: 2px;
@@ -33,15 +33,15 @@ button {
   }
 
   &:hover {
-    background-color: #4d5e6b !important;
+    background-color: $action_hover !important;
   }
 
   &.red {
-    background-color: red;
+    background-color: $negative;
   }
 
   &.green {
-    background-color: green;
+    background-color: $positive;
   }
 
   &.small {
@@ -50,7 +50,7 @@ button {
   }
 
   &.disabled {
-    background-color: #555 !important;
+    background-color: $action_disabled !important;
     cursor: default;
   }
 }
@@ -71,12 +71,12 @@ h2, h3 {
   }
 
   &.disabled {
-    color: #888;
+    color: $soft_font_color;
   }
 
   &:hover:not(.disabled) {
-    background: #eee;
-    border: 1px solid #aaa;
+    background: $background_tint;
+    border: 1px solid $medium_border;
     border-radius: 4px;
     padding: 0 5px;
   }
