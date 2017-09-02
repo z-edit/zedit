@@ -65,13 +65,9 @@ input, textarea {
 }
 
 .checkbox-list {
-  list-style: none;
   padding-left: 10px;
   text-align: left;
-
-  li {
-    -webkit-user-select: none;
-  }
+  user-select: none;
 
   .selected {
     background-color: $selected;
