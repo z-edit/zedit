@@ -9,6 +9,7 @@ ngapp.service('formUtils', function ($timeout, contextMenuService) {
 
     this.buildToggleModalFunction = function($scope, modalName) {
         $scope['toggle' + modalName] = function(visible) {
+            if ($scope.$root.modalActive && visible) return;
             $scope.$applyAsync(() => $scope['show' + modalName] = visible);
             $scope.$root.modalActive = visible;
         };
