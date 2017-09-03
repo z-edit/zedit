@@ -12,7 +12,7 @@ ngapp.directive('listView', function() {
     }
 });
 
-ngapp.controller('listViewController', function($scope, $timeout, hotkeyService, formUtils, contextMenuFactory, hotkeyFactory) {
+ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, formUtils, htmlHelpers, contextMenuFactory, hotkeyFactory) {
     // helper variables
     let prevIndex = -1;
 
@@ -40,13 +40,19 @@ ngapp.controller('listViewController', function($scope, $timeout, hotkeyService,
     };
 
     $scope.toggleSelected = function(targetValue) {
-        let selectedItems = $scope.items.filter((item) => { return item.selected; });
-        if (angular.isUndefined(targetValue)) {
-            selectedItems.forEach((item) => item.active = !item.active);
-        } else {
-            selectedItems.forEach((item) => item.active = targetValue);
-        }
-        $scope.$emit('itemsChanged');
+        let selectedItems = $scope.items.filter(function(item) {
+                return item.selected && !item.disabled;
+            }),
+            toggle = angular.isUndefined(targetValue),
+            newActiveValues = selectedItems.map(function(item) {
+                return toggle ? !item.active : targetValue;
+            });
+        selectedItems.forEach(function(item, index) {
+            if (item.active !== newActiveValues[index]) {
+                item.active = newActiveValues[index];
+                $scope.$emit('itemToggled', item);
+            }
+        });
     };
 
     $scope.selectItem = function(e, index) {
@@ -96,8 +102,10 @@ ngapp.controller('listViewController', function($scope, $timeout, hotkeyService,
     };
 
     $scope.onParentClick = function(e) {
-        if (e.srcElement.classList.contains('list-item')) return;
-        $scope.clearSelection(true);
+        let parentListView = htmlHelpers.findParent(e.srcElement, function(parentNode) {
+            return parentNode === $element[0];
+        });
+        if (!parentListView) $scope.clearSelection(true);
     };
 
     $scope.onItemDrag = function(index) {
@@ -133,7 +141,7 @@ ngapp.controller('listViewController', function($scope, $timeout, hotkeyService,
             movedItem = $scope.items.splice(dragData.index, 1)[0];
         $scope.items.splice(index + after, 0, movedItem);
         prevIndex = index + after;
-        $scope.$emit('itemsChanged');
+        $scope.$emit('itemsReordered');
         return true;
     };
 
