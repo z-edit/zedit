@@ -17,3 +17,11 @@ xelib.GetMasters = function(_id) {
             Fail(`Failed to get masters for ${_id}`);
     });
 };
+xelib.GetMasterNames = function(_id) {
+    let masterNames = GetString(function(_len) {
+        if (!lib.GetMasterNames(_id, _len))
+            Fail(`Failed to get master names for ${_id}`);
+    });
+    if (masterNames === '') return [];
+    return masterNames.split('\r\n');
+};

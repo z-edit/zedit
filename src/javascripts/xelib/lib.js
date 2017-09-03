@@ -49,6 +49,7 @@ try {
         'GetActivePlugins': [WordBool, [PInteger]],
         'LoadPlugins': [WordBool, [PWChar, WordBool]],
         'LoadPlugin': [WordBool, [PWChar]],
+        'LoadPluginHeader': [WordBool, [PWChar, PCardinal]],
         'UnloadPlugin': [WordBool, [Cardinal]],
         'GetLoaderStatus': [WordBool, [PByte]],
         // FILE HANDLING METHODS
@@ -71,6 +72,7 @@ try {
         'AddMasters': [WordBool, [Cardinal, PWChar]],
         'GetMasters': [WordBool, [Cardinal, PInteger]],
         'GetRequiredBy': [WordBool, [Cardinal, PInteger]],
+        'GetMasterNames': [WordBool, [Cardinal, PInteger]],
         // ELEMENT HANDLING METHODS
         'HasElement': [WordBool, [Cardinal, PWChar, PWordBool]],
         'GetElement': [WordBool, [Cardinal, PWChar, PCardinal]],

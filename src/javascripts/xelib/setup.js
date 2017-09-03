@@ -31,6 +31,12 @@ xelib.LoadPlugins = function(loadOrder, smartLoad = true) {
     if (!lib.LoadPlugins(wcb(loadOrder), smartLoad))
         Fail('Failed to load plugins.');
 };
+xelib.LoadPluginHeader = function(filename) {
+    return GetHandle(function(_res) {
+        if (!lib.LoadPluginHeader(wcb(filename), _res))
+            Fail(`Failed to load plugin header for ${filename}`);
+    });
+};
 xelib.GetLoaderStatus = function() {
     return GetByte(function(_byte) {
         if (!lib.GetLoaderStatus(_byte))
