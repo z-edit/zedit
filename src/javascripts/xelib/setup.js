@@ -31,11 +31,19 @@ xelib.LoadPlugins = function(loadOrder, smartLoad = true) {
     if (!lib.LoadPlugins(wcb(loadOrder), smartLoad))
         Fail('Failed to load plugins.');
 };
+xelib.LoadPlugin = function(filename) {
+    if (!lib.LoadPlugin(wcb(filename)))
+        Fail(`Failed to load ${filename}`);
+};
 xelib.LoadPluginHeader = function(filename) {
     return GetHandle(function(_res) {
         if (!lib.LoadPluginHeader(wcb(filename), _res))
             Fail(`Failed to load plugin header for ${filename}`);
     });
+};
+xelib.UnloadPlugin = function(_id) {
+    if (!lib.UnloadPlugin(_id))
+        Fail(`Failed to unload plugin ${_id}`);
 };
 xelib.GetLoaderStatus = function() {
     return GetByte(function(_byte) {
