@@ -1,0 +1,9 @@
+load-order-modal {
+  .disabled {
+    color: $negative;
+  }
+
+  .required {
+    color: $positive;
+  }
+}
