@@ -29,12 +29,18 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         let activePlugins = xelib.GetActivePlugins().split('\r\n');
         console.log('Load Order:\n' + loadOrder);
         console.log('Active Plugins:\n' + activePlugins);
-        $scope.loadOrder = loadOrder.map(function (filename) {
-            return {
-                filename: filename,
-                active: activePlugins.indexOf(filename) > -1
+        $scope.loadOrder = loadOrder.map(function(filename) {
+            let handle = xelib.LoadPluginHeader(filename);
+            try {
+                return {
+                    filename: filename,
+                    masterNames: xelib.GetMasterNames(handle),
+                    active: activePlugins.indexOf(filename) > -1
+                }
+            } finally {
+                xelib.UnloadPlugin(handle);
             }
-        });
+        })
     };
 
     $scope.checkHardcodedDat = function() {
