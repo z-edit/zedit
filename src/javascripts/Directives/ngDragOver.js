@@ -16,6 +16,7 @@ ngapp.directive('ngDragOver', function($parse) {
             el.classList.add('dragover');
         });
         el.addEventListener('dragover', function(e) {
+            canDrop = callback && executeCallback(e);
             if (!canDrop) return;
             e.dataTransfer.dropEffect = 'move';
             e.preventDefault();

@@ -1,5 +1,5 @@
 // functions shared by mainTreeView and recordTreeView
-ngapp.service('treeService', function($timeout, htmlHelpers, contextMenuService) {
+ngapp.service('treeService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
         // helper fucntions
         let reExpandNode = function(node) {

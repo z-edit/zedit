@@ -117,11 +117,12 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
-    $scope.onItemDragOver = function(e) {
+    $scope.onItemDragOver = function(e, index) {
         if (!$scope.dragType) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
-        let after = e.clientX > e.target.offsetHeight / 2;
+        if (dragData.index === index) return true;
+        let after = e.offsetY > (e.target.offsetHeight / 2);
         e.target.classList[after ? 'add' : 'remove']('insert-after');
         e.target.classList[after ? 'remove' : 'add']('insert-before');
         return true;
@@ -135,12 +136,13 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!$scope.dragType) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
-        removeClasses(e.target);
         if (dragData.index === index) return;
-        let after = e.clientX > e.target.offsetHeight / 2,
+        let after = e.offsetY > (e.target.offsetHeight / 2),
+            adjust = index > dragData.index,
             movedItem = $scope.items.splice(dragData.index, 1)[0];
-        $scope.items.splice(index + after, 0, movedItem);
-        prevIndex = index + after;
+        removeClasses(e.target);
+        $scope.items.splice(index + after - adjust, 0, movedItem);
+        prevIndex = index + after - adjust;
         $scope.$emit('itemsReordered');
         return true;
     };
