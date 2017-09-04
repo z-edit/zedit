@@ -88,7 +88,7 @@ split-bar {
     .tab {
       min-width: 120px;
       border-right: 1px solid $shadow;
-      background-color: $background_tint;
+      background-color: $medium_border;
       user-select: none;
 
       .label {
