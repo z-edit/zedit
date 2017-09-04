@@ -7,10 +7,13 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, htmlHelpers, formUtils) {
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, htmlHelpers, formUtils) {
     // initialization
-    let currentWindow = remote.getCurrentWindow();
+    let currentWindow = remote.getCurrentWindow(),
+        themeStylesheet = document.getElementById('theme');
+    settingsService.loadGlobalSettings();
     $scope.title = 'zEdit - New Session';
+    $scope.theme = settingsService.globalSettings.theme;
 
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
@@ -40,7 +43,9 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, htm
         currentWindow.close();
     });
     $scope.$on('setTitle', (e, title) => $scope.title = title);
+    $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$watch('title', () => document.title = $scope.title);
+    $scope.$watch('theme', () => themeStylesheet.href = `themes/${$scope.theme}.css`);
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
@@ -81,7 +86,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, htm
     // hide context menu when window loses focus
     window.onblur = () => $scope.$applyAsync(() => $scope.showContextMenu = false);
 
-    // keyboard shortcuts
+    // global keyboard shortcuts
     $document.bind('keydown', function(e) {
         if (e.keyCode === 73 && e.shiftKey && e.ctrlKey) { // ctrl + shift + i
             currentWindow.toggleDevTools();
