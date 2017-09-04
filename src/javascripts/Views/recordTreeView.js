@@ -1,4 +1,4 @@
-let recordTreeViewController = function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
+ngapp.controller('recordTreeViewController', function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -151,4 +151,4 @@ let recordTreeViewController = function($scope, $element, $timeout, htmlHelpers,
     $scope.showAddressBar = true;
     $scope.autoExpand = true;
     $timeout($scope.linkToMainTreeView, 100);
-};
+});

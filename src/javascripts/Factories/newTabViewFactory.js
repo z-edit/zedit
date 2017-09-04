@@ -1,8 +1,8 @@
-ngapp.service('newTabViewFactory', function() {
+ngapp.service('newTabViewFactory', function($controller) {
     this.new = function() {
         return {
             templateUrl: 'partials/newTabView.html',
-            controller: newTabViewController,
+            controller: $controller('newTabViewController'),
             class: 'new-tab-view',
             data: { tabLabel: 'New Tab' },
             destroy: () => {}

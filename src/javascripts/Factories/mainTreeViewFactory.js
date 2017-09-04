@@ -1,4 +1,4 @@
-ngapp.service('mainTreeViewFactory', function() {
+ngapp.service('mainTreeViewFactory', function($controller) {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -13,7 +13,7 @@ ngapp.service('mainTreeViewFactory', function() {
     this.new = function() {
         return {
             templateUrl: 'partials/mainTreeView.html',
-            controller: mainTreeViewController,
+            controller: $controller('mainTreeViewController'),
             class: 'main-tree-view',
             data: { tabLabel: 'Tree View' },
             destroy: factory.destroy
