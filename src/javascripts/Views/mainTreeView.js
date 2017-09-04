@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
+let mainTreeViewController = function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -80,4 +80,8 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     $scope.buildColumns();
     $scope.buildTree();
     $timeout($scope.resolveElements, 100);
+};
+
+ngapp.run(function(controllerRegistry) {
+    controllerRegistry.register('mainTreeViewController', mainTreeViewController);
 });

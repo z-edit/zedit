@@ -1,4 +1,4 @@
-ngapp.service('mainTreeViewFactory', function($controller) {
+ngapp.service('mainTreeViewFactory', function(controllerRegistry) {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -13,7 +13,7 @@ ngapp.service('mainTreeViewFactory', function($controller) {
     this.new = function() {
         return {
             templateUrl: 'partials/mainTreeView.html',
-            controller: $controller('mainTreeViewController'),
+            controller: controllerRegistry.get('mainTreeViewController'),
             class: 'main-tree-view',
             data: { tabLabel: 'Tree View' },
             destroy: factory.destroy
@@ -26,7 +26,6 @@ ngapp.run(function(viewFactory, mainTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Tree View',
         templateUrl: 'partials/settings/treeView.html',
-        controller: () => {},
         defaultSettings: {
             treeView: {
                 showGroupSignatures: false,

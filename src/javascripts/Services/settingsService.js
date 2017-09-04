@@ -1,9 +1,9 @@
-ngapp.service('settingsService', function($controller) {
+ngapp.service('settingsService', function(controllerRegistry) {
     let service = this,
         tabs = [{
             label: 'Core',
             templateUrl: 'partials/settings/core.html',
-            controller: () => {},
+            controller: 'coreSettingsController',
             defaultGlobalSettings: { theme: 'day' }
         }];
 
@@ -45,6 +45,10 @@ ngapp.service('settingsService', function($controller) {
     };
 
     this.getTabs = function() {
-        return tabs;
+        return angular.copy(tabs).map(function(tab) {
+            let ctrlName = tab.controller;
+            tab.controller = ctrlName ? controllerRegistry.get(ctrlName) : () => {};
+            return tab;
+        });
     }
 });

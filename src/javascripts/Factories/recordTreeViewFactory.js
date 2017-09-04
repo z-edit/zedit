@@ -1,4 +1,4 @@
-ngapp.service('recordTreeViewFactory', function($controller) {
+ngapp.service('recordTreeViewFactory', function(controllerRegistry) {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -17,7 +17,7 @@ ngapp.service('recordTreeViewFactory', function($controller) {
     this.new = function() {
         return {
             templateUrl: 'partials/recordTreeView.html',
-            controller: $controller('recordTreeViewController'),
+            controller: controllerRegistry.get('recordTreeViewController'),
             class: 'record-tree-view',
             data: { tabLabel: 'Record View' },
             destroy: factory.destroy
@@ -30,7 +30,6 @@ ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
     settingsService.registerSettings({
         label: 'Record View',
         templateUrl: 'partials/settings/recordView.html',
-        controller: () => {},
         defaultSettings: {
             recordView: {
                 autoExpand: false,
