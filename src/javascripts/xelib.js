@@ -1,6 +1,6 @@
 //= concat ./xelib/lib.js
 
-var xelib = {};
+window.xelib = {};
 
 //= concat ./xelib/helpers.js
 //= concat ./xelib/meta.js
@@ -17,5 +17,3 @@ var xelib = {};
 //= concat ./xelib/fileValues.js
 //= concat ./xelib/recordValues.js
 //= concat ./xelib/utils.js
-
-export default xelib;

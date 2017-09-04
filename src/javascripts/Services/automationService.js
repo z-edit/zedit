@@ -1,7 +1,7 @@
 ngapp.service('automationService', function() {
     let buildScriptFunction = function(scriptCode) {
         try {
-            return new Function('xelib', 'zedit', scriptCode);
+            return new Function('zedit', scriptCode);
         } catch(e) {
             alert('Exception parsing script: ' + e.message);
             console.log(e);
@@ -30,7 +30,7 @@ ngapp.service('automationService', function() {
             zedit = buildZEditContext(scope);
         xelib.CreateHandleGroup();
         try {
-            scriptFunction(xelib, zedit);
+            scriptFunction(zedit);
         } catch(e) {
             scope.$emit('hideProgressModal');
             alert('Exception running script: ' + e.message);

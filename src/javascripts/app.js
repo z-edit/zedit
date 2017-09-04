@@ -1,10 +1,10 @@
 import { remote } from 'electron';
 import jetpack from 'fs-jetpack';
-import './polyfills.js';
-import './color.js';
-import fh from './helpers/fileHelpers.js';
+import './polyfills';
+import './color';
+import './xelib';
+import fh from './helpers/fileHelpers';
 import env from './env';
-import xelib from './xelib.js';
 
 // initialize xelib when application starts
 xelib.Initialize();
