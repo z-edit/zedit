@@ -1,29 +1,43 @@
-ngapp.service('settingsService', function() {
+ngapp.service('settingsService', function($controller) {
     let service = this,
         tabs = [{
             label: 'Core',
             templateUrl: 'partials/settings/core.html',
             controller: () => {},
-            defaultSettings: { theme: 'Vanilla' }
+            defaultGlobalSettings: { theme: 'day' }
         }];
 
-    this.buildSettings = function(settings) {
-        let defaults = {};
-        tabs.forEach((tab) => Object.deepAssign(defaults, tab.defaultSettings));
-        service.settings = Object.deepAssign(defaults, settings);
+    this.buildSettings = function(settings, global = false) {
+        let defaults = {},
+            defaultsPath = global ? 'defaultGlobalSettings' : 'defaultSettings';
+        tabs.forEach(function(tab) {
+            if (!tab[defaultsPath]) return;
+            Object.deepAssign(defaults, tab[defaultsPath])
+        });
+        return Object.deepAssign(defaults, settings);
     };
 
-    this.loadSettings = function(profileName) {
+    this.loadProfileSettings = function(profileName) {
         service.currentProfile = profileName;
-        service.profilePath = `profiles/${profileName}`;
-        service.settingsPath = `${service.profilePath}/settings.json`;
+        service.settingsPath = `profiles/${profileName}/settings.json`;
         let settings = fh.loadJsonFile(service.settingsPath, {});
-        service.buildSettings(settings);
-        service.saveSettings();
+        service.settings = service.buildSettings(settings);
+        service.saveProfileSettings();
     };
 
-    this.saveSettings = function() {
+    this.loadGlobalSettings = function() {
+        service.globalSettingsPath = `${fh.userPath}\\settings.json`;
+        let settings = fh.loadJsonFile(service.globalSettingsPath, {});
+        service.globalSettings = service.buildSettings(settings, true);
+        service.saveGlobalSettings();
+    };
+
+    this.saveProfileSettings = function() {
         fh.saveJsonFile(service.settingsPath, service.settings);
+    };
+
+    this.saveGlobalSettings = function() {
+        fh.saveJsonFile(service.globalSettingsPath, service.globalSettings);
     };
 
     this.registerSettings = function(settingsTab) {
