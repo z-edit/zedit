@@ -33,8 +33,8 @@ xelib.RenameFile = function(_id, newFileName) {
     if (!lib.RenameFile(_id, wcb(newFileName)))
         Fail(`Failed to rename file to ${newFileName}`);
 };
-xelib.SaveFile = function(_id) {
-    if (!lib.SaveFile(_id))
+xelib.SaveFile = function(_id, filePath = '') {
+    if (!lib.SaveFile(_id, wcb(filePath)))
         Fail(`Failed to save file: ${_id}`);
 };
 xelib.MD5Hash = function(_id) {

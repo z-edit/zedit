@@ -59,7 +59,7 @@ try {
         'FileByName': [WordBool, [PWChar, PCardinal]],
         'FileByAuthor': [WordBool, [PWChar, PCardinal]],
         'RenameFile': [WordBool, [Cardinal, PWChar]],
-        'SaveFile': [WordBool, [Cardinal]],
+        'SaveFile': [WordBool, [Cardinal, PWChar]],
         'OverrideRecordCount': [WordBool, [Cardinal, PInteger]],
         'MD5Hash': [WordBool, [Cardinal, PInteger]],
         'CRCHash': [WordBool, [Cardinal, PInteger]],
