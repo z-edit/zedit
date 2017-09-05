@@ -7,13 +7,13 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, htmlHelpers, formUtils) {
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, htmlHelpers, formUtils) {
     // initialization
     let currentWindow = remote.getCurrentWindow(),
         themeStylesheet = document.getElementById('theme');
     settingsService.loadGlobalSettings();
     $scope.title = 'zEdit - New Session';
-    $scope.theme = settingsService.globalSettings.theme;
+    $scope.theme = themeService.getCurrentTheme();
 
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
@@ -45,7 +45,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$watch('title', () => document.title = $scope.title);
-    $scope.$watch('theme', () => themeStylesheet.href = `themes/${$scope.theme}.css`);
+    $scope.$watch('theme', () => themeStylesheet.href = `themes/${$scope.theme}`);
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
