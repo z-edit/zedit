@@ -1,14 +1,44 @@
 <h2>Core Settings</h2>
 
 <section>
-    <div class="current-profile">Current Profile: {{::profileName}}</div>
+    <div class="current-profile">Current Profile:
+        <span class="profile-name">{{::profileName}}</span>
+    </div>
 </section>
 
 <h3>Display</h3>
 <section>
     <div>
         <span class="input-label">Theme</span>
-        <input type="text" disabled value="Coming soon"/>
-        <!--<select ng-model="settings.theme" ng-options="theme as theme.name for theme in themes"></select>-->
+        <select ng-model="$parent.theme" ng-options="theme.name for theme in themes" ng-change="themeChanged()"></select>
+    </div>
+    <div class="subsection">
+        <h4>Theme Metadata</h4>
+        <div class="theme-metadata">
+            <div>
+                <span class="input-label">Name</span>
+                <span>{{$parent.theme.name}}</span>
+            </div>
+            <div>
+                <span class="input-label">Author</span>
+                <span>{{$parent.theme.author}}</span>
+            </div>
+            <div>
+                <span class="input-label">Version</span>
+                <span>{{$parent.theme.version}}</span>
+            </div>
+            <div>
+                <span class="input-label">Released</span>
+                <span>{{$parent.theme.released}}</span>
+            </div>
+            <div>
+                <span class="input-label">Updated</span>
+                <span>{{$parent.theme.updated}}</span>
+            </div>
+            <div class="theme-description">
+                <div>Description</div>
+                <div>{{$parent.theme.description}}</div>
+            </div>
+        </div>
     </div>
 </section>

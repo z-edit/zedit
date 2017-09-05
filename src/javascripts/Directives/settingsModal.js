@@ -20,6 +20,7 @@ ngapp.controller('settingsModalController', function($scope, formUtils, settings
 
     // initialize scope variables
     $scope.settings = settingsService.settings;
+    $scope.globalSettings = settingsService.globalSettings;
     $scope.profileName = settingsService.currentProfile;
     $scope.tabs = settingsService.getTabs();
     selectTab($scope.tabs[0]);
