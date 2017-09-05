@@ -43,4 +43,14 @@ settings-modal {
     padding: 24px;
     flex: 1;
   }
+
+  .theme-metadata {
+    padding-left: 20px;
+    font-size: 15px;
+
+    .theme-description {
+      margin-top: 4px;
+      max-width: 400px;
+    }
+  }
 }
