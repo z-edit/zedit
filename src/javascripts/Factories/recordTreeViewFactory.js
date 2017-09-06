@@ -1,4 +1,4 @@
-ngapp.service('recordTreeViewFactory', function(controllerRegistry) {
+ngapp.service('recordTreeViewFactory', function() {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -17,7 +17,7 @@ ngapp.service('recordTreeViewFactory', function(controllerRegistry) {
     this.new = function() {
         return {
             templateUrl: 'partials/recordTreeView.html',
-            controller: controllerRegistry.get('recordTreeViewController'),
+            controller: 'recordTreeViewController',
             class: 'record-tree-view',
             data: { tabLabel: 'Record View' },
             destroy: factory.destroy

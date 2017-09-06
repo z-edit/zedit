@@ -1,4 +1,4 @@
-let coreSettingsController = function($scope, themeService) {
+ngapp.controller('coreSettingsController', function($scope, themeService) {
     // initialization
     $scope.themes = themeService.getThemes();
     $scope.theme = $scope.themes.find(function(theme) {
@@ -10,8 +10,4 @@ let coreSettingsController = function($scope, themeService) {
         $scope.globalSettings.theme = $scope.theme.filename;
         $scope.$emit('setTheme', $scope.theme.filename);
     };
-};
-
-ngapp.run(function(controllerRegistry) {
-    controllerRegistry.register('coreSettingsController', coreSettingsController);
 });

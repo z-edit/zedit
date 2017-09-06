@@ -1,4 +1,4 @@
-ngapp.service('settingsService', function(controllerRegistry) {
+ngapp.service('settingsService', function() {
     let service = this,
         tabs = [{
             label: 'Core',
@@ -49,7 +49,7 @@ ngapp.service('settingsService', function(controllerRegistry) {
             return {
                 label: tab.label,
                 templateUrl: tab.templateUrl,
-                controller: controllerRegistry.resolve(tab.controller)
+                controller: tab.controller
             };
         });
     }

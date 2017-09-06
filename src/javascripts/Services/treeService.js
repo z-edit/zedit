@@ -163,7 +163,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.resolveElements = function() {
-            scope.tabView = element[0].nextElementSibling;
+            scope.tabView = element[0];
             scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.tree-nodes');
             scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
         };
