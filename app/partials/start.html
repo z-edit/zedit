@@ -2,7 +2,7 @@
     <div>
         <h1>zEdit</h1>
         <div class="game-logo-container">
-            <img ng-src="images/games/{{selectedProfile.gameMode || 0}}.png"/>
+            <img ng-src="images/games/{{selectedProfile.gameMode || 'undefined'}}.png"/>
         </div>
         <div class="profile-controls">
             <select ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles | profileValid">
