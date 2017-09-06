@@ -45,10 +45,12 @@ ngapp.service('settingsService', function(controllerRegistry) {
     };
 
     this.getTabs = function() {
-        return angular.copy(tabs).map(function(tab) {
-            let ctrlName = tab.controller;
-            tab.controller = ctrlName ? controllerRegistry.get(ctrlName) : () => {};
-            return tab;
+        return tabs.map(function(tab) {
+            return {
+                label: tab.label,
+                templateUrl: tab.templateUrl,
+                controller: controllerRegistry.resolve(tab.controller)
+            };
         });
     }
 });
