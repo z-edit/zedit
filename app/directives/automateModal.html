@@ -16,11 +16,10 @@
                     <dropdown-item>{{::$parent.item.label}}</dropdown-item>
                 </dropdown>
                 <button class="action-btn" ng-click="newScript()" title="Create a new script file.">New</button>
-                <button class="action-btn" ng-click="saveScript()" title="Save edits made tot he current script.">Save</button>
+                <button class="action-btn" ng-click="saveScript()" title="Save edits made to the current script.">Save</button>
             </div>
 
-            <!-- TODO: CodeMirror -->
-            <textarea data="scriptContents" code-mirror></textarea>
+            <textarea ng-model="scriptContents" code-mirror></textarea>
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="runScript()">OK</button>
