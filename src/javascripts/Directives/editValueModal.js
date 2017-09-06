@@ -13,6 +13,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         handle = node.handles[$scope.targetIndex],
         value = node.cells[$scope.targetIndex + 1].value,
         vtLabel = xelib.valueTypes[node.value_type];
+
     xelib.valueTypes.forEach((key, index) => $scope[key] = index);
     $scope.path = xelib.Path(handle);
     $scope.vtClass = vtLabel;
@@ -100,6 +101,17 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         $scope.textChanged();
     };
 
+    $scope.setupText = function(value) {
+      const htmlElements = ['DESC - Book Text'];
+
+      if (htmlElements.contains(node.label)) {
+        $scope.useHtmlEditor = true;
+      }
+
+      $scope.value = value;
+    };
+
+
     $scope.setupReference = function(value) {
         $scope.referenceSearch = function(str) {
             return xelib.FindValidReferences(handle, str, 10);
@@ -174,7 +186,8 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         vtReference: $scope.setupReference,
         vtFlags: $scope.setupFlags,
         vtEnum: $scope.setupEnum,
-        vtColor: $scope.setupColor
+        vtColor: $scope.setupColor,
+        vtText: $scope.setupText
     };
 
     if (setupFunctions.hasOwnProperty(vtLabel)) {

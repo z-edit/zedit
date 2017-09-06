@@ -40,7 +40,8 @@
                 <h2>Edit Text
                     <div class="path">{{::path}}</div>
                 </h2>
-                <textarea ng-model="$parent.value" maxlength="65535"></textarea>
+                <textarea ng-model="$parent.value" maxlength="65535" ng-if="::!useHtmlEditor"></textarea>
+                <textarea code-mirror="html" data="$parent.value" ng-if="::useHtmlEditor"></textarea>
             </div>
 
             <div ng-if="::targetNode.value_type == vtNumber">

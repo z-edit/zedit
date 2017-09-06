@@ -4,6 +4,11 @@ ngapp.service('codeMirrorFactory', function() {
             js: {
                 lineNumbers: true,
                 mode: 'javascript'
+            },
+
+            html: {
+              lineNumbers: true,
+              mode: 'htmlmixed'
             }
         };
 
