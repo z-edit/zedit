@@ -1,32 +1,22 @@
 ngapp.directive('codeMirror', function($timeout, codeMirrorFactory) {
     return {
         restrict: 'A',
-        scope: {
-            data: '=',
-            refresh: '=ngRefresh'
-        },
-        link: function(scope, element, attrs) {
-            let options = codeMirrorFactory.getOptions(attrs.codeMirror || 'js'),
-                cm = CodeMirror.fromTextArea(element[0], options);
+        require: '?ngModel',
+        compile: function() {
+            return function (scope, element, attrs, ngModel) {
+                let options = codeMirrorFactory.getOptions(attrs.codeMirror || 'js'),
+                    cm = CodeMirror.fromTextArea(element[0], options);
 
-            // two-way data binding to and from editor
-            scope.$watch('data', function(newVal){
-                if (scope.skip) {
-                    scope.skip = false;
-                    return;
-                }
-                if (typeof newVal === "string") cm.setValue(newVal);
-            });
+                // ng model data binding
+                ngModel.$render = () => cm.setValue(ngModel.$viewValue || '');
+                cm.on('change', function() {
+                    let newValue = cm.getValue();
+                    scope.$evalAsync(() => ngModel.$setViewValue(newValue));
+                });
 
-            cm.on('change', function() {
-                scope.skip = true;
-                scope.data = cm.getValue();
-            });
-
-            scope.$watch('refresh', function(newVal) {
-                if (!newVal) return; // Skip undefined or false variables
-                $timeout(() => cm.refresh());
-            });
+                // refresh on event
+                scope.$on('refresh', () => $timeout(cm.refresh));
+            };
         }
     }
 });
