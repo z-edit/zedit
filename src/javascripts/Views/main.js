@@ -6,7 +6,8 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, layoutService, formUtils) {
+ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, initService,  layoutService, formUtils) {
+    // initialization
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
@@ -34,6 +35,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
 
         if (loaderStatus === xelib.lsDone) {
             console.log($scope.log);
+            initService.init('afterLoad');
             $scope.$emit('setTitle', `zEdit - ${$rootScope.selectedProfile.name}`);
             $scope.loaded = true;
         } else if (loaderStatus === xelib.lsError) {

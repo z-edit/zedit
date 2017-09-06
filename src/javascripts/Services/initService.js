@@ -1,5 +1,13 @@
 ngapp.service('initService', function() {
-    let initFunctions = [];
-    this.add = (fn) => initFunctions.push(fn);
-    this.init = () => initFunctions.forEach((fn) => fn());
+    let initializers = {
+        start: [],
+        afterLoad: []
+    };
+
+    this.add = (label, fn) => initializers[label].push(fn);
+
+    this.init = (label) => {
+        let functions = initializers[label];
+        while (functions.length > 0) functions.pop()();
+    };
 });
