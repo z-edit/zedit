@@ -54,9 +54,10 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
 
         scope.editElement = function(node, index) {
             if (uneditableValueTypes.contains(node.value_type)) return;
-            scope.targetNode = node;
-            scope.targetIndex = index - 1;
-            scope.toggleEditModal(true);
+            scope.$emit('openModal', 'editValue', {
+                targetNode: node,
+                targetIndex: index - 1
+            });
         };
 
         scope.deleteElement = function(node) {

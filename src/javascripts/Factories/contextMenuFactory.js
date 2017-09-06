@@ -136,17 +136,23 @@ ngapp.service('contextMenuFactory', function() {
                     label: 'Rename',
                     hotkey: 'F2, Alt+Shift+R',
                     disabled: true,
-                    callback: () => scope.toggleRefactorModal(true, 'Name')
+                    callback: () => scope.$emit('openModal', 'refactor', {
+                        refactorMode: 'Name'
+                    })
                 }, {
                     label: 'Change EditorIDs',
                     hotkey: 'Alt+Shift+E',
                     disabled: true,
-                    callback: () => scope.toggleRefactorModal(true, 'EditorID')
+                    callback: () => scope.$emit('openModal', 'refactor', {
+                        refactorMode: 'EditorID'
+                    })
                 }, {
                     label: 'Change FormIDs',
                     hotkey: 'Alt+Shift+F',
                     disabled: true,
-                    callback: () => scope.toggleRefactorModal(true, 'FormID')
+                    callback: () => scope.$emit('openModal', 'refactor', {
+                        refactorMode: 'FormID'
+                    })
                 });
             }
             items.push({
@@ -177,7 +183,7 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Automate',
                 hotkey: 'Ctrl+M',
-                callback: () => scope.$emit('showAutomateModal')
+                callback: () => scope.$emit('openModal', 'automate')
             })
         }
     }, {
@@ -188,7 +194,7 @@ ngapp.service('contextMenuFactory', function() {
                 label: 'Advanced Search',
                 hotkey: 'Ctrl+Shift+F',
                 disabled: true,
-                callback: () => scope.toggleSearchModal(true)
+                callback: () => scope.$emit('openModal', 'advancedSearch')
             })
         }
     }, {

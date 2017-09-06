@@ -6,19 +6,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, initService,  layoutService, formUtils) {
+ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, initService,  layoutService) {
     // initialization
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
     $scope.whiteOpts = spinnerFactory.whiteOptions;
     xelibService.printGlobals();
-
-    // inherited functions
-    formUtils.buildToggleModalFunction($scope, 'LoadingModal');
-    formUtils.buildToggleModalFunction($scope, 'SettingsModal');
-    formUtils.buildToggleModalFunction($scope, 'SaveModal');
-    formUtils.buildToggleModalFunction($scope, 'AutomateModal');
 
     // load default layout
     $scope.mainPane = layoutService.buildDefaultLayout();
@@ -49,9 +43,12 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     };
 
     // event handlers
-    $scope.$on('showAutomateModal', () => $scope.toggleAutomateModal(true));
-    $scope.$on('settingsClick', () => $scope.toggleSettingsModal(true));
-    $scope.$on('doneLoading', () => $scope.toggleLoadingModal());
+    $scope.$on('settingsClick', function(e) {
+        e.stopPropagation();
+        if ($scope.showLoader) return;
+        $scope.$emit('openModal', 'settings');
+    });
+    $scope.$on('doneLoading', () => $scope.showLoader = false);
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
         let hasFilesToSave = false;
@@ -59,12 +56,12 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
             hasFilesToSave = !!files.find((file) => { return xelib.GetIsModified(file); });
         });
         if (!hasFilesToSave) return;
-        $scope.toggleSaveModal(true);
+        $scope.$emit('openModal', 'save');
     });
 
     $scope.$on('loading', function(e, message, canCancel) {
-        if ($scope.showLoadingModal && $scope.loadingMessage === "Cancelling...") return;
-        if (!$scope.showLoadingModal) $scope.toggleLoadingModal(true);
+        if ($scope.showLoader && $scope.loadingMessage === "Cancelling...") return;
+        if (!$scope.showLoader) $scope.showLoader =true;
         $scope.loadingMessage = message || "Loading...";
         $scope.canCancel = canCancel;
     });
@@ -75,7 +72,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         e.returnValue = false;
         if (!$scope.$root.modalActive) {
             $scope.shouldFinalize = true;
-            $scope.toggleSaveModal(true);
+            $scope.$emit('openModal', 'save');
         }
     };
 

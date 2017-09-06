@@ -1,26 +1,22 @@
-ngapp.directive('editValueModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/editValueModal.html',
-        controller: 'editValueModalController',
-        scope: false
-    }
-});
-
-ngapp.controller('editValueModalController', function($scope, $timeout, errorService, formUtils) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService, modalService) {
     // variables
-    let node = $scope.targetNode,
-        handle = node.handles[$scope.targetIndex],
-        value = node.cells[$scope.targetIndex + 1].value,
+    let opts = $scope.modalOptions,
+        node = opts.targetNode,
+        handle = node.handles[opts.targetIndex],
+        value = node.cells[opts.targetIndex + 1].value,
         vtLabel = xelib.valueTypes[node.value_type];
 
     xelib.valueTypes.forEach((key, index) => $scope[key] = index);
     $scope.path = xelib.Path(handle);
     $scope.vtClass = vtLabel;
+    $scope.valueType = node.value_type;
 
     let tryParseColor = function(color) {
         try { return new Color(color) } catch (e) {}
     };
+
+    // inherited functions
+    modalService.buildUnfocusModalFunction($scope);
 
     // scope functions
     $scope.applyValue = function() {
@@ -35,8 +31,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         let index = $scope.targetIndex,
             record = index == 0 ? $scope.record : $scope.overrides[index - 1];
         $scope.$root.$broadcast('recordUpdated', record);
-        $scope.updateNodes();
-        $scope.toggleEditModal();
+        $scope.$emit('closeModal');
     };
 
     $scope.setupBytes = function(value) {
@@ -191,7 +186,4 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     } else {
         $scope.value = value;
     }
-
-    // inherited functions
-    $scope.unfocusEditModal = formUtils.unfocusModal($scope.toggleEditModal);
 });

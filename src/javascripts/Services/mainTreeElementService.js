@@ -51,7 +51,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
 
         scope.addFile = function() {
             let modalOptions = editModalFactory.addFile(scope);
-            errorService.try(() => scope.$emit('openEditModal', modalOptions));
+            errorService.try(() => scope.$emit('openModal', 'edit', modalOptions));
         };
 
         scope.deleteElement = function(node) {
@@ -107,17 +107,17 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
 
         scope.changeFileName = function(node) {
             let modalOptions = editModalFactory.renameFile(node, scope);
-            errorService.try(() => scope.$emit('openEditModal', modalOptions));
+            errorService.try(() => scope.$emit('openModal', 'edit', modalOptions));
         };
 
         scope.changeFileAuthor = function(node) {
             let modalOptions = editModalFactory.changeFileAuthor(node, scope);
-            errorService.try(() => scope.$emit('openEditModal', modalOptions));
+            errorService.try(() => scope.$emit('openModal', 'edit', modalOptions));
         };
 
         scope.changeFileDescription = function(node) {
             let modalOptions = editModalFactory.changeFileDescription(node, scope);
-            errorService.try(() => scope.$emit('openEditModal', modalOptions));
+            errorService.try(() => scope.$emit('openModal', 'edit', modalOptions));
         };
 
         scope.canPaste = function(asOverride) {

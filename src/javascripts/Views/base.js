@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, initService, htmlHelpers, formUtils) {
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, initService, modalService, htmlHelpers) {
     // initialization
     let currentWindow = remote.getCurrentWindow(),
         themeStylesheet = document.getElementById('theme');
@@ -19,10 +19,6 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
 
-    // inherited functions
-    formUtils.buildToggleModalFunction($scope, 'EditModal');
-    formUtils.buildToggleModalFunction($scope, 'PromptModal');
-
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
     $scope.helpClick = () => $scope.$broadcast('helpClick');
@@ -31,10 +27,9 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.closeClick = () => currentWindow.close();
 
     // prompt modal functions
-    $scope.$root.prompt = function(promptOptions) {
+    $scope.$root.prompt = function(options) {
         $scope.promptPromise = $q.defer();
-        $scope.promptOptions = promptOptions;
-        $scope.togglePromptModal(true);
+        $scope.$emit('openModal', 'prompt', options);
         return $scope.promptPromise.promise;
     };
 
@@ -67,9 +62,15 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
         e.stopPropagation();
     });
 
-    $scope.$on('openEditModal', function(e, options) {
-        $scope.editOptions = options;
-        $scope.toggleEditModal(true);
+    $scope.$on('openModal', function(e, label, options = {}) {
+        $scope.modalOptions = Object.assign(modalService.modalOptions(label), options);
+        $scope.showModal = true;
+        e.stopPropagation();
+    });
+
+    $scope.$on('closeModal', function(e) {
+        $scope.modalOptions = undefined;
+        $scope.showModal = false;
         e.stopPropagation();
     });
 

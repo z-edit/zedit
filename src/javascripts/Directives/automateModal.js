@@ -1,13 +1,4 @@
-ngapp.directive('automateModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/automateModal.html',
-        controller: 'automateModalController',
-        scope: false
-    }
-});
-
-ngapp.controller('automateModalController', function($scope, formUtils, automationService) {
+ngapp.controller('automateModalController', function($scope, modalService, automationService) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;
@@ -36,14 +27,14 @@ ngapp.controller('automateModalController', function($scope, formUtils, automati
     }];
 
     // inherited functions
-    $scope.unfocusAutomateModal = formUtils.unfocusModal($scope.toggleAutomateModal);
+    modalService.buildUnfocusModalFunction($scope);
 
     // scope functions
     $scope.setSortMode = (sortMode) => $scope.sortMode = sortMode;
     $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
     $scope.runScript = function() {
         automationService.runScript($scope, $scope.scriptContents);
-        $scope.toggleAutomateModal();
+        $scope.$emit('closeModal');
     };
 
     $scope.saveScript = function() {

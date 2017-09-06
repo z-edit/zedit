@@ -1,28 +1,19 @@
-ngapp.directive('editModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/editModal.html',
-        controller: 'editModalController',
-        scope: false
-    }
-});
+ngapp.controller('editModalController', function($scope, modalService) {
+    // inherited functions
+    modalService.buildUnfocusModalFunction($scope);
 
-ngapp.controller('editModalController', function($scope, formUtils) {
     // scope functions
     $scope.applyValue = function() {
         if ($scope.invalid) return;
-        $scope.editOptions.callback($scope.value);
-        $scope.toggleEditModal();
+        $scope.modalOptions.callback($scope.value);
+        $scope.$emit('closeModal');
     };
 
     $scope.validate = function() {
-        $scope.valid = $scope.editOptions.isValid($scope.value);
+        $scope.valid = $scope.modalOptions.isValid($scope.value);
     };
 
     // initialization
-    $scope.value = $scope.editOptions.initialValue;
+    $scope.value = $scope.modalOptions.initialValue;
     $scope.validate();
-
-    // inherited functions
-    $scope.unfocusEditModal = formUtils.unfocusModal($scope.toggleEditModal);
 });

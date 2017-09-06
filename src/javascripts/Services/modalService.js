@@ -1,0 +1,16 @@
+ngapp.service('modalService', function() {
+    this.modalOptions = function(label) {
+        return {
+            templateUrl: `directives/${label}Modal.html`,
+            controller: `${label}ModalController`,
+            class: `${label.underscore('-')}-modal`
+        }
+    };
+
+    this.buildUnfocusModalFunction = function(scope, callbackName) {
+        scope.unfocusModal = function(e) {
+            if (!e.target.classList.contains('modal-container')) return;
+            callbackName ? scope[callbackName]() : scope.$emit('closeModal');
+        };
+    }
+});

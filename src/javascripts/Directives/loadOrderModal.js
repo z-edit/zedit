@@ -1,27 +1,19 @@
-ngapp.directive('loadOrderModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/loadOrderModal.html',
-        controller: 'loadOrderModalController',
-        scope: false
-    }
-});
-
 ngapp.controller('loadOrderModalController', function ($scope, $state) {
     // helper variables
     let disabledTitle = 'This plugin cannot be loaded because it requires plugins \r\n' +
         'which are unavailable or cannot be loaded:',
-        requiredTitle = 'This plugin is required by the following active plugins:';
+        requiredTitle = 'This plugin is required by the following active plugins:',
+        opts = $scope.modalOptions;
 
     // scope functions
     $scope.findItem = function(filename) {
-        return $scope.loadOrder.find(function(item) {
+        return opts.loadOrder.find(function(item) {
             return item.filename === filename && !item.disabled;
         });
     };
 
     $scope.getRequiredBy = function(filename) {
-        return $scope.loadOrder.filter(function(item) {
+        return opts.loadOrder.filter(function(item) {
             return item.masterNames.contains(filename);
         });
     };
@@ -80,18 +72,19 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
 
     $scope.updateIndexes = function() {
         let n = 0;
-        $scope.loadOrder.forEach(function(item) {
+        opts.loadOrder.forEach(function(item) {
             if (item.active) item.index = n++;
         });
     };
 
     $scope.loadPlugins = function() {
-        let loadOrder = $scope.loadOrder.
+        let loadOrder = opts.loadOrder.
             filter((item) => { return item.active; }).
             map((item) => { return item.filename;  });
         console.log("Loading: \n" + loadOrder);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
+        $scope.$emit('closeModal');
         $state.go('base.main');
     };
 
@@ -106,7 +99,7 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
     };
 
     $scope.buildMasterData = function() {
-        $scope.loadOrder.forEach(function(item) {
+        opts.loadOrder.forEach(function(item) {
             item.masters = item.masterNames.map(function(masterName) {
                 return $scope.findItem(masterName);
             });
@@ -120,7 +113,7 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
     };
 
     $scope.updateItems = function() {
-        $scope.loadOrder.forEach(function(item) {
+        opts.loadOrder.forEach(function(item) {
             if (item.active) $scope.updateRequired(item);
         });
         $scope.updateIndexes();

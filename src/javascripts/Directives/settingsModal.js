@@ -1,15 +1,6 @@
-ngapp.directive('settingsModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/settingsModal.html',
-        controller: 'settingsModalController',
-        scope: false
-    }
-});
-
-ngapp.controller('settingsModalController', function($scope, formUtils, settingsService) {
+ngapp.controller('settingsModalController', function($scope, modalService, settingsService) {
     // inherited functions
-    $scope.unfocusSettingsModal = formUtils.unfocusModal($scope.saveSettings);
+    modalService.buildUnfocusModalFunction($scope, 'saveSettings');
 
     // helper function
     let selectTab = function(tab) {
@@ -34,6 +25,6 @@ ngapp.controller('settingsModalController', function($scope, formUtils, settings
 
     $scope.saveSettings = function() {
         settingsService.saveSettings();
-        $scope.toggleSettingsModal();
+        $scope.$emit('closeModal');
     };
 });

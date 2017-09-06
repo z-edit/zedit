@@ -19,12 +19,6 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
-    $scope.toggleRefactorModal = function(visible, mode) {
-        $scope.showRefactorModal = visible;
-        $scope.refactorMode = mode;
-        $scope.$root.modalActive = visible;
-    };
-
     $scope.open = function(node) {
         if (!openableTypes.contains(node.element_type)) return;
         if (data.linkedScope) {

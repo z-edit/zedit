@@ -1,13 +1,8 @@
-ngapp.directive('editColumnsModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/editColumnsModal.html',
-        controller: 'editColumnsModalController',
-        scope: false
-    }
-});
+ngapp.controller('editColumnsModalController', function($scope, xelibService, columnsService, modalService) {
+    // inherited functions
+    modalService.buildUnfocusModalFunction($scope, 'close');
 
-ngapp.controller('editColumnsModalController', function($scope, xelibService, columnsService, formUtils) {
+    // helper functions
     let getNewColumnLabel = function() {
         let baseLabel = "New Column",
             label = baseLabel,
@@ -19,6 +14,7 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
         return label;
     };
 
+    // scope functions
     $scope.addColumn = function() {
         $scope.allColumns.push({
             label: getNewColumnLabel(),
@@ -51,11 +47,8 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
         $scope.buildColumns();
         $scope.reload();
         columnsService.saveColumns();
-        $scope.toggleColumnsModal();
+        $scope.$emit('closeModal');
     };
-
-    // inherited functions
-    $scope.unfocusColumnsModal = formUtils.unfocusModal($scope.close);
 
     // initialization
     let firstCustomColumn = $scope.allColumns.find((column) => { return column.custom; });

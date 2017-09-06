@@ -1,8 +1,8 @@
-<div class="modal-container" ng-click="unfocusAutomateModal($event)">
+<div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal">
         <form>
             <div class="close-modal">
-                <span class="fa fa-times" ng-click="toggleAutomateModal()"></span>
+                <span class="fa fa-times" ng-click="$emit('closeModal')"></span>
             </div>
 
             <h2>Automate</h2>
@@ -23,7 +23,7 @@
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="runScript()">OK</button>
-                <button class="action-btn" ng-click="toggleAutomateModal()">Cancel</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
             </div>
         </form>
     </div>

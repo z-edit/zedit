@@ -1,5 +1,9 @@
-ngapp.service('treeColumnService', function(stylesheetService, formUtils) {
+ngapp.service('treeColumnService', function(stylesheetService) {
     this.buildFunctions = function(scope, treeSelector, columnsEditable, allowOverflow) {
+        if (columnsEditable) {
+            scope.showColumnsModal = () => scope.$emit('openModal', 'columns');
+        }
+
         scope.toggleSort = function(column) {
             if (!column.canSort) return;
             if (scope.sort.column !== column.label) {
@@ -46,9 +50,5 @@ ngapp.service('treeColumnService', function(stylesheetService, formUtils) {
             });
             if (allowOverflow) scope.updateWidths();
         };
-
-        if (columnsEditable) {
-            formUtils.buildToggleModalFunction(scope, 'ColumnsModal');
-        }
     }
 });

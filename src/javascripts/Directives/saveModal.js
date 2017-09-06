@@ -1,12 +1,3 @@
-ngapp.directive('saveModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/saveModal.html',
-        controller: 'saveModalController',
-        scope: false
-    }
-});
-
 ngapp.controller('saveModalController', function($scope, $timeout, errorService) {
     // initialize scope variables
     $scope.saving = false;
@@ -45,7 +36,7 @@ ngapp.controller('saveModalController', function($scope, $timeout, errorService)
 
     let saveData = function() {
         if ($scope.pluginsToSave.length > 0) savePlugins();
-        $scope.shouldFinalize ? finalize() : $scope.toggleSaveModal();
+        $scope.shouldFinalize ? finalize() : $scope.$emit('closeModal');
     };
 
     // scope functions

@@ -1,17 +1,11 @@
-ngapp.directive('profilesModal', function () {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/profilesModal.html',
-        controller: 'profilesModalController',
-        scope: false
-    }
-});
-
-ngapp.controller('profilesModalController', function ($scope, profileService, formUtils) {
+ngapp.controller('profilesModalController', function ($scope, profileService, modalService) {
     // initialize scope variables
     $scope.games = profileService.games;
     $scope.languages = profileService.languages;
     $scope.defaultProfile = profileService.getDefaultProfile();
+
+    // inherited functions
+    modalService.buildUnfocusModalFunction($scope, 'close');
 
     // scope functions
     $scope.addProfile = function() {
@@ -42,7 +36,8 @@ ngapp.controller('profilesModalController', function ($scope, profileService, fo
     $scope.close = function() {
         profileService.setDefaultProfile($scope.defaultProfile);
         profileService.saveProfiles();
-        $scope.toggleProfilesModal();
+        $scope.selectedProfile = profileService.getDefaultProfile();
+        $scope.$emit('closeModal');
     };
 
     $scope.browse = function(profile) {
@@ -50,7 +45,4 @@ ngapp.controller('profilesModalController', function ($scope, profileService, fo
         profile.gamePath = fh.selectDirectory(`Select your ${game.name} directory`, profile.gamePath) + '\\';
         $scope.validateProfile(profile);
     };
-
-    // inherited functions
-    $scope.unfocusProfilesModal = formUtils.unfocusModal($scope.close);
 });

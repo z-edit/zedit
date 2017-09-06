@@ -1,11 +1,11 @@
-<div class="modal-container" ng-click="unfocusEditModal($event)">
+<div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal {{vtClass}}" ng-click="$broadcast('onParentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
         <form>
             <div class="close-modal">
-                <span class="fa fa-times" ng-click="toggleEditModal()"></span>
+                <span class="fa fa-times" ng-click="$emit('closeModal')"></span>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtBytes">
+            <div ng-if="::valueType == vtBytes">
                 <h2>Edit Bytes
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -29,14 +29,14 @@
                 </table>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtString">
+            <div ng-if="::valueType == vtString">
                 <h2>Edit String
                     <div class="path">{{::path}}</div>
                 </h2>
                 <input type="text" ng-model="$parent.value" maxlength="255"/>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtText">
+            <div ng-if="::valueType == vtText">
                 <h2>Edit Text
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -45,14 +45,14 @@
                 <textarea code-mirror="html" ng-model="$parent.$parent.value" ng-if="::useHtmlEditor"></textarea>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtNumber">
+            <div ng-if="::valueType == vtNumber">
                 <h2>Edit Number
                     <div class="path">{{::path}}</div>
                 </h2>
                 <input type="text" class="numeric" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtReference">
+            <div ng-if="::valueType == vtReference">
                 <h2>Edit Reference
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -61,7 +61,7 @@
                 </autocomplete-input>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtColor">
+            <div ng-if="::valueType == vtColor">
                 <h2>Edit Color
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -72,14 +72,14 @@
                 </div>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtEnum">
+            <div ng-if="::valueType == vtEnum">
                 <h2>Edit Enumeration
                     <div class="path">{{::path}}</div>
                 </h2>
                 <select ng-model="$parent.value" ng-options="option for option in $parent.options"></select>
             </div>
 
-            <div ng-if="::targetNode.value_type == vtFlags">
+            <div ng-if="::valueType == vtFlags">
                 <h2>Edit Flags
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -91,7 +91,7 @@
 
             <div class="action-button-container">
                 <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
-                <button class="action-btn" ng-click="toggleEditModal()">Cancel</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
             </div>
         </form>
     </div>

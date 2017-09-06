@@ -15,5 +15,4 @@
 <ui-view></ui-view>
 
 <context-menu ng-if="showContextMenu" items="contextMenuItems" offset="contextMenuOffset"></context-menu>
-<edit-modal ng-if="showEditModal"></edit-modal>
-<prompt-modal ng-if="showPromptModal"></prompt-modal>
+<ng-include ng-if="showModal" src="modalOptions.templateUrl" dyn-controller="modalOptions.controller" class="{{modalOptions.class}}"></ng-include>

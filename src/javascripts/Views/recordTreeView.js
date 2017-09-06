@@ -15,7 +15,6 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
-    formUtils.buildToggleModalFunction($scope, 'EditModal');
     formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
@@ -126,7 +125,11 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         $scope.record = record;
         e.stopPropagation();
     });
-
+    $scope.$on('recordUpdated', function(e, record) {
+        if ($scope.record === record || $scope.overrides.contains(record)) {
+            $scope.updateNodes();
+        }
+    });
     $scope.$on('nodeUpdated', $scope.reload);
     $scope.$on('nodeAdded', function() {
         if (!xelib.GetFormID($scope.record)) $scope.reload();
