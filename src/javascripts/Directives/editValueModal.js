@@ -103,11 +103,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
     $scope.setupText = function(value) {
       const htmlElements = ['DESC - Book Text'];
-
-      if (htmlElements.contains(node.label)) {
-        $scope.useHtmlEditor = true;
-      }
-
+      $scope.useHtmlEditor = htmlElements.contains(node.label);
       $scope.value = value;
     };
 
