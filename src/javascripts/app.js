@@ -5,6 +5,7 @@ import './color';
 import './xelib';
 import fh from './helpers/fileHelpers';
 import env from './env';
+import buildModuleService from './helpers/moduleService';
 
 // initialize xelib when application starts
 xelib.Initialize();
@@ -34,3 +35,7 @@ ngapp.run(['$rootScope', '$state', function ($rootScope, $state) {
 //= concat_tree ./Filters
 //= concat_tree ./Services
 //= concat_tree ./Views
+
+// load modules
+const moduleService = buildModuleService(ngapp, fh);
+moduleService.loadModules();
