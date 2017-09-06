@@ -51,6 +51,49 @@
     margin: 75px auto;
   }
 
+  .tabs-modal {
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+    max-width: 900px;
+    min-height: 400px;
+
+    h3 {
+      margin-top: 0;
+    }
+
+    h4 {
+      margin: 8px 0;
+    }
+
+    .tabs-container {
+      border-right: 1px solid $medium_border;
+      margin-right: 4px;
+      height: initial;
+      padding: 6px 0;
+      width: 250px;
+
+      .tab {
+        padding: 2px 16px;
+        user-select: none;
+
+        &.selected {
+          background-color: $selected;
+        }
+      }
+    }
+
+    .tab-contents {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      padding: 24px;
+      flex: 1;
+    }
+  }
+
   .messages {
     background-color: transparent;
 
