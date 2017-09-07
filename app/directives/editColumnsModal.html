@@ -15,7 +15,7 @@
 
             <h3 ng-if="selectedColumn.custom">
                 Edit Custom Column
-                <button class="action-btn red small" ng-click="deleteColumn()" title="Delete this custom column.">Delete</button>
+                <button class="action-btn negative small" ng-click="deleteColumn()" title="Delete this custom column.">Delete</button>
             </h3>
             <section ng-if="selectedColumn.custom" class="edit-custom-column">
                 <label>
@@ -35,7 +35,7 @@
             </section>
 
             <div class="action-button-container">
-                <button class="action-btn green" ng-click="addColumn()">New Column</button>
+                <button class="action-btn positive" ng-click="addColumn()">New Column</button>
                 <button class="action-btn" ng-click="close()">OK</button>
             </div>
         </form>
