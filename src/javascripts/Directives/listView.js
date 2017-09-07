@@ -97,8 +97,8 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     $scope.onItemMouseDown = function(e, index) {
         let item = $scope.items[index];
-        if (e.button != 2 || !item.selected) $scope.selectItem(e, index);
-        if (e.button == 2) $scope.showContextMenu(e);
+        if (e.button !== 2 || !item.selected) $scope.selectItem(e, index);
+        if (e.button === 2) $scope.showContextMenu(e);
     };
 
     $scope.onParentClick = function(e) {
@@ -112,7 +112,8 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!$scope.dragType) return;
         $scope.$root.dragData = {
             source: $scope.dragType,
-            index: index
+            index: index,
+            getItem: () => $scope.items.splice(index, 1)[0]
         };
         return true;
     };
@@ -128,6 +129,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
+    $scope.onPlaceholderDragOver = function() {
+        let dragData = $scope.$root.dragData;
+        return dragData && dragData.source === $scope.dragType;
+    };
+
     $scope.onItemDragLeave = function(e) {
         removeClasses(e.target);
     };
@@ -138,11 +144,20 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!dragData || dragData.source !== $scope.dragType) return;
         if (dragData.index === index) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
-            adjust = index > dragData.index,
-            movedItem = $scope.items.splice(dragData.index, 1)[0];
+            lengthBefore = $scope.items.length,
+            movedItem = dragData.getItem(),
+            adjust = lengthBefore > $scope.items.length && index > dragData.index;
         removeClasses(e.target);
         $scope.items.splice(index + after - adjust, 0, movedItem);
         prevIndex = index + after - adjust;
+        $scope.$emit('itemsReordered');
+        return true;
+    };
+
+    $scope.onPlaceholderDrop = function() {
+        let dragData = $scope.$root.dragData;
+        if (!dragData || dragData.source !== $scope.dragType) return;
+        $scope.items.push(dragData.getItem());
         $scope.$emit('itemsReordered');
         return true;
     };
