@@ -63,14 +63,18 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     });
 
     $scope.$on('openModal', function(e, label, options = {}) {
-        $scope.modalOptions = Object.assign(modalService.modalOptions(label), options);
-        $scope.showModal = true;
+        $scope.$applyAsync(function() {
+            $scope.modalOptions = Object.assign(modalService.modalOptions(label), options);
+            $scope.showModal = true;
+        });
         e.stopPropagation();
     });
 
     $scope.$on('closeModal', function(e) {
-        $scope.modalOptions = undefined;
-        $scope.showModal = false;
+        $scope.$applyAsync(function() {
+            $scope.modalOptions = undefined;
+            $scope.showModal = false;
+        });
         e.stopPropagation();
     });
 

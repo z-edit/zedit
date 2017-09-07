@@ -36,7 +36,7 @@ ngapp.controller('saveModalController', function($scope, $timeout, errorService)
 
     let saveData = function() {
         if ($scope.pluginsToSave.length > 0) savePlugins();
-        $scope.shouldFinalize ? finalize() : $scope.$emit('closeModal');
+        $scope.modalOptions.shouldFinalize ? finalize() : $scope.$emit('closeModal');
     };
 
     // scope functions
@@ -49,6 +49,6 @@ ngapp.controller('saveModalController', function($scope, $timeout, errorService)
         $timeout(saveData, 50);
     };
 
-    // skip saving if there are no plugins to save
-    if ($scope.pluginsToProcess.length == 0) $scope.save();
+    // skip user interaction if there are no plugins to save
+    if ($scope.pluginsToProcess.length === 0) $scope.save();
 });

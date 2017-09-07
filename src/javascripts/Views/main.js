@@ -43,8 +43,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     };
 
     // event handlers
-    $scope.$on('settingsClick', function(e) {
-        e.stopPropagation();
+    $scope.$on('settingsClick', function() {
         if ($scope.showLoader) return;
         $scope.$emit('openModal', 'settings');
     });
@@ -56,7 +55,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
             hasFilesToSave = !!files.find((file) => { return xelib.GetIsModified(file); });
         });
         if (!hasFilesToSave) return;
-        $scope.$emit('openModal', 'save');
+        $scope.$emit('openModal', 'save', { shouldFinalize: false });
     });
 
     $scope.$on('loading', function(e, message, canCancel) {
@@ -71,8 +70,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         if (remote.app.forceClose) return;
         e.returnValue = false;
         if (!$scope.$root.modalActive) {
-            $scope.shouldFinalize = true;
-            $scope.$emit('openModal', 'save');
+            $scope.$emit('openModal', 'save', { shouldFinalize: true });
         }
     };
 
