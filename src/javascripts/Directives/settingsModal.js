@@ -24,7 +24,8 @@ ngapp.controller('settingsModalController', function($scope, modalService, setti
     };
 
     $scope.saveSettings = function() {
-        settingsService.saveSettings();
+        settingsService.saveProfileSettings();
+        settingsService.saveGlobalSettings();
         $scope.$emit('closeModal');
     };
 });
