@@ -64,6 +64,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     $scope.$on('openModal', function(e, label, options = {}) {
         $scope.$applyAsync(function() {
+            $scope.$root.modalActive = true;
             $scope.modalOptions = Object.assign(modalService.modalOptions(label), options);
             $scope.showModal = true;
         });
@@ -72,6 +73,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     $scope.$on('closeModal', function(e) {
         $scope.$applyAsync(function() {
+            $scope.$root.modalActive = false;
             $scope.modalOptions = undefined;
             $scope.showModal = false;
         });
