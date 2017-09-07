@@ -35,6 +35,36 @@
   align-items: center;
 }
 
+.center {
+  text-align : center;
+}
+
+.soft-border {
+  border: 1px solid $soft-border;
+}
+
+.medium-border {
+  border: 1px solid $medium_border;
+}
+
 .hard-border {
   border: 1px solid $hard_border;
+}
+
+.positive-bg {
+  background-color: $positive;
+  color: $inverse_font_color;
+}
+
+.negative-bg {
+  background-color: $negative;
+  color: $inverse_font_color;
+}
+
+.positive-fg {
+  color: $positive;
+}
+
+.negative-fg {
+  color: $negative;
 }
