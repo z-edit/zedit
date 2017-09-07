@@ -10,34 +10,34 @@
 <section>
     <div>
         <span class="input-label">Theme</span>
-        <select ng-model="$parent.theme" ng-options="theme.name for theme in themes" ng-change="themeChanged()"></select>
+        <select ng-model="theme" ng-options="theme.name for theme in themes" ng-change="themeChanged()"></select>
     </div>
     <div class="subsection">
         <h4>Theme Metadata</h4>
         <div class="theme-metadata">
             <div>
                 <span class="input-label">Name</span>
-                <span>{{$parent.theme.name}}</span>
+                <span>{{theme.name}}</span>
             </div>
             <div>
                 <span class="input-label">Author</span>
-                <span>{{$parent.theme.author}}</span>
+                <span>{{theme.author}}</span>
             </div>
             <div>
                 <span class="input-label">Version</span>
-                <span>{{$parent.theme.version}}</span>
+                <span>{{theme.version}}</span>
             </div>
             <div>
                 <span class="input-label">Released</span>
-                <span>{{$parent.theme.released}}</span>
+                <span>{{theme.released}}</span>
             </div>
             <div>
                 <span class="input-label">Updated</span>
-                <span>{{$parent.theme.updated}}</span>
+                <span>{{theme.updated}}</span>
             </div>
             <div class="theme-description">
                 <div>Description</div>
-                <div>{{$parent.theme.description}}</div>
+                <div>{{theme.description}}</div>
             </div>
         </div>
     </div>
