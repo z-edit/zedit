@@ -98,6 +98,11 @@ let GetArray = function(callback) {
     return a;
 };
 
+let GetStringArray = function(callback, method = 'GetResultString') {
+    let str = GetString(callback, method);
+    return str !== '' ? str.split('\r\n') : [];
+};
+
 let GetDictionary = function(_len) {
     let str = GetString(_len),
         pairs = str.split('\n').slice(0, -1),
@@ -132,7 +137,7 @@ let GetEnumValue = function(_id, method, enums) {
 };
 
 let GetNativeValue = function(_id, path, method, refType) {
-    let buff = createTypedBuffer(refType == PDouble ? 8 : 4, refType);
+    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
     if (!lib[method](_id, wcb(path), buff))
         Fail(`Failed to ${method} at: ${elementContext(_id, path)}`);
     return buff;

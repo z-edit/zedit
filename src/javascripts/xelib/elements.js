@@ -49,16 +49,16 @@ xelib.GetElements = function(_id = 0, path = '', sort = false) {
     });
 };
 xelib.GetDefNames = function(_id) {
-    return GetString(function(_len) {
+    return GetStringArray(function(_len) {
         if (!lib.GetDefNames(_id, _len))
             Fail(`Failed to get def names for: ${_id}`);
-    }).split('\r\n');
+    });
 };
 xelib.GetAddList = function(_id) {
-    return GetString(function(_len) {
+    return GetStringArray(function(_len) {
         if (!lib.GetAddList(_id, _len))
             Fail(`Failed to get add list for: ${_id}`);
-    }).split('\r\n');
+    });
 };
 xelib.GetLinksTo = function(_id, path) {
     return GetHandle(function(_res) {
