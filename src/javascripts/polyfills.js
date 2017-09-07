@@ -25,7 +25,7 @@ String.prototype.toCamelCase = function() {
 };
 
 String.prototype.startsWith = function(needle) {
-    return (this.indexOf(needle) == 0);
+    return (this.indexOf(needle) === 0);
 };
 
 String.prototype.toPascalCase = function() {
@@ -61,9 +61,7 @@ String.prototype.reduceText = function(numWords) {
     return result.trim();
 };
 
-String.prototype.wordwrap = function(width, brk, cut) {
-    brk = brk || '\n';
-    width = width || 60;
+String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
     let regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
 
     return this.match(new RegExp(regex, 'g')).map(function(str) {
@@ -85,7 +83,7 @@ Number.prototype.parseBytes = function(bytesString) {
     if (!sp || sp.length < 2) return 0;
     let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
     let power = units.indexOf(sp[1]);
-    if (power == -1) {
+    if (power === -1) {
         return 0;
     } else {
         return Math.floor(Number.parseFloat(sp[0]) * Math.pow(1024, power));
@@ -147,7 +145,7 @@ Array.prototype.groupBy = function(propertyName) {
 };
 
 Array.prototype.equals = function(otherArray) {
-    if (!otherArray || this.length != otherArray.length) return false;
+    if (!otherArray || this.length !== otherArray.length) return false;
     for (let index = 0; index < this.length; index++) {
         let item = this[index],
             otherItem = otherArray[index],
@@ -214,14 +212,14 @@ Object.defineProperty(Object.prototype, 'equals', {
 });
 
 Object.deepAssign = function (target, varArgs) {
-    if (target == null) { // TypeError if undefined or null
+    if (target === null) { // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
     }
 
     let to = Object(target);
     for (let index = 1; index < arguments.length; index++) {
         let nextSource = arguments[index];
-        if (nextSource == null) continue; // Skip over if undefined or null
+        if (nextSource === null) continue; // Skip over if undefined or null
         Object.keys(nextSource).forEach(function (nextKey) {
             if (typeof nextSource[nextKey] === 'object') {
                 if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
