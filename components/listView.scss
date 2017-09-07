@@ -19,4 +19,8 @@ list-view {
       background-color: $selected;
     }
   }
+
+  .placeholder {
+    min-height: 20px;
+  }
 }
