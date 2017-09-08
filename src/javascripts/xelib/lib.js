@@ -2,7 +2,6 @@ const remote = require('electron').remote;
 const ref = require('ref');
 const wchar_t = require('ref-wchar');
 const ffi = require('ffi');
-const jetpack = require('fs-jetpack');
 
 const Void = 'void';
 const WString = wchar_t.string;
@@ -18,9 +17,11 @@ const PWordBool = ref.refType(WordBool);
 const PDouble = ref.refType(Double);
 const PByte = ref.refType(Byte);
 
+let lib = undefined;
+
 // function binding
 try {
-    var lib = ffi.Library('XEditLib', {
+    lib = ffi.Library('XEditLib', {
         // META METHODS
         'InitXEdit': [Void, []],
         'CloseXEdit': [Void, []],
