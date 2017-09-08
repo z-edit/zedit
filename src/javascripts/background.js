@@ -6,20 +6,18 @@
 import path from 'path';
 import url from 'url';
 import { app, Menu } from 'electron';
-import { devMenuTemplate } from './menu/dev_menu_template';
-import { editMenuTemplate } from './menu/edit_menu_template';
 import createWindow from './helpers/window';
-import xelib from './xelib';
+//import _xelib from './xelib';
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env';
 
-global.xelib = xelib;
+//global.xelib = _xelib;
 
-var mainWindow;
+let mainWindow;
 
-var setApplicationMenu = function () {
+let setApplicationMenu = function () {
     Menu.setApplicationMenu(Menu.buildFromTemplate([]));
 };
 
@@ -34,7 +32,7 @@ if (env.name !== 'production') {
 app.on('ready', function () {
     setApplicationMenu();
 
-    var appUrl = url.format({
+    let appUrl = url.format({
         pathname: path.join(__dirname, 'app.html'),
         protocol: 'file:',
         slashes: true

@@ -4,18 +4,18 @@ import './polyfills';
 import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
+import _xelib from './xelib';
 import buildModuleService from './helpers/moduleService';
 
 // initialize xelib when application starts
-const xelib = remote.getGlobal('xelib');
-xelib.Initialize();
-window.xelib = xelib;
+//const xelib = remote.getGlobal('xelib');
+_xelib.Initialize();
+window.xelib = _xelib;
 
 // set up angular application
 const ngapp = angular.module('zedit', [
     'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat', 'mp.colorPicker'
-])
-.value('xelib', xelib);
+]);
 
 //this allows urls with and without trailing slashes to go to the same state
 ngapp.config(function ($urlMatcherFactoryProvider) {
