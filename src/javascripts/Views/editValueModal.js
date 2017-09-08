@@ -28,8 +28,8 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     $scope.afterApplyValue = function() {
-        let index = $scope.targetIndex,
-            record = index == 0 ? $scope.record : $scope.overrides[index - 1];
+        let index = opts.targetIndex,
+            record = index === 0 ? opts.record : opts.overrides[index - 1];
         $scope.$root.$broadcast('recordUpdated', record);
         $scope.$emit('closeModal');
     };
