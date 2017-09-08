@@ -115,6 +115,11 @@ Array.prototype.remove = function(needle) {
     return n;
 };
 
+Array.prototype.subtract = function(otherArray) {
+    if (!otherArray) return this;
+    return this.filter((item) => { return otherArray.indexOf(item) === -1 });
+};
+
 Array.prototype.sortOnKey = function(key, sortFn) {
     sortFn = sortFn || function(a, b, key) {
         if (a[key] < b[key]) return -1;
