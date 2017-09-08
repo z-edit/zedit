@@ -47,7 +47,7 @@ export let Fail = function(message) {
     } catch (e) {
         console.log('Unknown critical exception!');
     }
-    throw message;
+    throw new Error(message);
 };
 
 export let GetString = function(callback, method = 'GetResultString') {

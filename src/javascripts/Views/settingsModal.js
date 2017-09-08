@@ -23,9 +23,9 @@ ngapp.controller('settingsModalController', function($scope, modalService, setti
         selectTab(tab);
     };
 
-    $scope.saveSettings = function() {
+    $scope.saveSettings = function(closeModal = true) {
         settingsService.saveProfileSettings();
         settingsService.saveGlobalSettings();
-        $scope.$emit('closeModal');
+        if (closeModal) $scope.$emit('closeModal');
     };
 });
