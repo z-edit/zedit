@@ -57,4 +57,8 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         if ($rootScope.selectedProfile) return;
         $scope.$emit('openModal', 'profiles');
     });
+
+    $scope.$on('profilesUpdated', function() {
+        $scope.selectedProfile = profileService.getDefaultProfile();
+    });
 });

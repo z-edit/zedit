@@ -2,6 +2,7 @@ ngapp.controller('profilesModalController', function ($scope, profileService, mo
     // initialize scope variables
     $scope.games = profileService.games;
     $scope.languages = profileService.languages;
+    $scope.profiles = profileService.profiles;
     $scope.defaultProfile = profileService.getDefaultProfile();
 
     // inherited functions
@@ -36,7 +37,7 @@ ngapp.controller('profilesModalController', function ($scope, profileService, mo
     $scope.close = function() {
         profileService.setDefaultProfile($scope.defaultProfile);
         profileService.saveProfiles();
-        $scope.selectedProfile = profileService.getDefaultProfile();
+        $scope.$root.$broadcast('profilesUpdated');
         $scope.$emit('closeModal');
     };
 
