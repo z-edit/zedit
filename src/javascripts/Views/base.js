@@ -7,14 +7,14 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, initService, modalService, htmlHelpers) {
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, modalService, htmlHelpers) {
     // initialization
     let currentWindow = remote.getCurrentWindow(),
         themeStylesheet = document.getElementById('theme');
     settingsService.loadGlobalSettings();
-    initService.init('start');
     $scope.title = 'zEdit - New Session';
     $scope.theme = themeService.getCurrentTheme();
+    $scope.$emit('appStart');
 
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
