@@ -1,4 +1,4 @@
-<button class="glyph-button back-record" ng-click="back()" ng-class="{'disabled' : historyIndex < 1}">
+<button class="glyph-button back-record" ng-click="back()" ng-disabled="historyIndex < 1">
     <i class="fa fa-arrow-left"></i>
 </button>
 <button class="glyph-button forward-record" ng-click="forward()" ng-class="{'disabled' : historyIndex == history.length - 1}">
