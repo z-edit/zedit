@@ -32,9 +32,9 @@ ngapp.service('automationService', function() {
         try {
             scriptFunction(zedit);
         } catch(e) {
-            scope.$emit('hideProgressModal');
-            alert('Exception running script: ' + e.message);
+            alert('Exception running script: ' + e);
         } finally {
+            scope.$emit('hideProgressModal');
             xelib.FreeHandleGroup();
         }
     };
