@@ -1,9 +1,7 @@
 <div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal">
         <form>
-            <div class="close-modal">
-                <span class="fa fa-times" ng-click="$emit('closeModal')"></span>
-            </div>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
 
             <h2>{{::modalOptions.title}}</h2>
             <input ng-if="::(modalOptions.editType === 'string')" type="text" ng-model="$parent.value" maxlength="{{::modalOptions.maxLength}}" ng-change="validate()"/>

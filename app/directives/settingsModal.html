@@ -1,8 +1,6 @@
 <div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal tabs-modal">
-        <div class="close-modal">
-            <span class="fa fa-times" ng-click="saveSettings()"></span>
-        </div>
+        <div class="close-modal" ng-click="saveSettings()"></div>
 
         <div class="tabs-container">
             <div ng-repeat="tab in tabs" class="tab" ng-class="{'selected': tab.selected}" ng-click="onTabClick($event, tab)">

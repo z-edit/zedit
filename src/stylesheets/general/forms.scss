@@ -54,6 +54,17 @@ form {
   }
 }
 
+.remove-item {
+  cursor: pointer;
+  color: $negative;
+  font: 14px FontAwesome;
+  font-size: inherit;
+
+  &::before {
+    content: "\f00d";
+  }
+}
+
 input.invalid {
   outline: 5px auto rgba(255,0,0,0.75);
   outline-offset: -2px;

@@ -1,9 +1,7 @@
 <div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal {{vtClass}}" ng-click="$broadcast('onParentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
         <form>
-            <div class="close-modal">
-                <span class="fa fa-times" ng-click="$emit('closeModal')"></span>
-            </div>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
 
             <div ng-if="::valueType == vtBytes">
                 <h2>Edit Bytes
