@@ -93,9 +93,9 @@ xelib.ElementEquals = function(_id, _id2) {
             Fail(`Failed to check element equality for ${_id} and ${_id2}`);
     });
 };
-xelib.CopyElement = function(_id, _id2, asNew = false, deepCopy = true) {
+xelib.CopyElement = function(_id, _id2, asNew = false) {
     return GetHandle(function(_res) {
-        if (!lib.CopyElement(_id, _id2, asNew, deepCopy, _res))
+        if (!lib.CopyElement(_id, _id2, asNew, _res))
             Fail(`Failed to copy element from ${_id} to ${_id2}`);
     });
 };
