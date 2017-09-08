@@ -110,15 +110,15 @@
   }
 }
 
-.remove-item, .close-modal {
+.close-modal {
   position: absolute;
   right: 0;
   top: 0;
   padding-right: 3px;
-  font-size: 20px;
   cursor: pointer;
-}
+  font: 20px FontAwesome;
 
-.remove-item {
-  color: $negative;
+  &::before {
+    content: "\f00d";
+  }
 }
