@@ -45,7 +45,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             let node = undefined;
             path.split('\\').forEach(function(part) {
                 let handle = node ? node.handle : 0;
-                xelib.WithHandle(xelib.GetElement(handle, `${part}`), function(handle) {
+                xelib.WithHandle(xelib.GetElementEx(handle, `${part}`), function(handle) {
                     if (part !== 'Child Group') {
                         node = scope.getNodeForElement(handle);
                         if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;

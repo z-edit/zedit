@@ -135,7 +135,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         $scope.value = value;
     };
 
-    $scope.setupColor = function(value) {
+    $scope.setupColor = function() {
         $scope.textChanged = function() {
             let c = tryParseColor($scope.value);
             $scope.invalid = !c;
@@ -163,9 +163,9 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         });
 
         // initialize color
-        let red = xelib.GetValue(handle, 'Red'),
-            green = xelib.GetValue(handle, 'Green'),
-            blue = xelib.GetValue(handle, 'Blue');
+        let red = xelib.GetValueEx(handle, 'Red'),
+            green = xelib.GetValueEx(handle, 'Green'),
+            blue = xelib.GetValueEx(handle, 'Blue');
         $scope.value = `rgb(${red}, ${green}, ${blue})`;
         $scope.textChanged();
     };

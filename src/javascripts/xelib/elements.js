@@ -21,10 +21,13 @@ Object.assign(xelib, {
                 Fail(`Failed to check if element exists at: ${elementContext(_id, path)}`);
         });
     },
-    GetElement: function(_id, path = '', noException = false) {
+    GetElement: function(_id, path = '') {
+        return GetHandle((_res) => lib.GetElement(_id, wcb(path), _res));
+    },
+    GetElementEx: function(_id, path = '') {
         return GetHandle(function(_res) {
             if (!lib.GetElement(_id, wcb(path), _res))
-                if (!noException) Fail(`Failed to get element at: ${elementContext(_id, path)}`);
+                Fail(`Failed to get element at: ${elementContext(_id, path)}`);
         });
     },
     AddElement: function(_id, path = '') {
@@ -34,6 +37,9 @@ Object.assign(xelib, {
         });
     },
     RemoveElement: function(_id, path = '') {
+        lib.RemoveElement(_id, wcb(path));
+    },
+    RemoveElementEx: function(_id, path = '') {
         if (!lib.RemoveElement(_id, wcb(path)))
             Fail(`Failed to remove element at: ${elementContext(_id, path)}`);
     },
@@ -66,15 +72,21 @@ Object.assign(xelib, {
         });
     },
     GetLinksTo: function(_id, path) {
+        return GetHandle((_res) => lib.GetLinksTo(_id, wcb(path), _res));
+    },
+    GetLinksToEx: function(_id, path) {
         return GetHandle(function(_res) {
             if (!lib.GetLinksTo(_id, wcb(path), _res))
                 Fail(`Failed to get link at: ${elementContext(_id, path)}`);
         });
     },
-    GetContainer: function(_id, noException = false) {
+    GetContainer: function(_id) {
+        return GetHandle((_res) => lib.GetContainer(_id, _res));
+    },
+    GetContainerEx: function(_id) {
         return GetHandle(function(_res) {
             if (!lib.GetContainer(_id, _res))
-                if (!noException) Fail(`Failed to get container for: ${_id}`);
+                Fail(`Failed to get container for: ${_id}`);
         });
     },
     GetElementFile: function(_id) {

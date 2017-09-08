@@ -2,11 +2,13 @@ import { xelib } from './lib';
 
 // RECORD VALUE METHODS
 Object.assign(xelib, {
-    EditorID: function(_id, noException = false) {
-        return xelib.GetValue(_id, 'EDID', noException);
+    EditorID: function(_id) {
+        if (!xelib.HasElement(_id, 'EDID')) return;
+        return xelib.GetValue(_id, 'EDID');
     },
-    FullName: function(_id, noException = false) {
-        return xelib.GetValue(_id, 'FULL', noException);
+    FullName: function(_id) {
+        if (!xelib.HasElement(_id, 'FULL')) return;
+        return xelib.GetValue(_id, 'FULL');
     },
     Translate: function(_id, vector) {
         let position = xelib.GetElement(_id, 'DATA\\Position');

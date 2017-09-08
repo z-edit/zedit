@@ -38,10 +38,13 @@ Object.assign(xelib, {
     SortKey: function(_id) {
         return GetStringValue(_id, 'SortKey');
     },
-    GetValue: function(_id, path = '', noException = false) {
+    GetValue: function(_id, path = '') {
+        return GetString((_len) => lib.GetValue(_id, wcb(path), _len));
+    },
+    GetValueEx: function(_id, path = '') {
         return GetString(function(_len) {
             if (!lib.GetValue(_id, wcb(path), _len))
-                if (!noException) Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
+                Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
         });
     },
     SetValue: function(_id, path, value) {

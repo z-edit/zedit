@@ -63,7 +63,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         if (!dragData || dragData.source !== 'mainTreeView') return;
         let node = dragData.node,
             path = node.element_type === xelib.etFile ? 'File Header' : '';
-        $scope.record = xelib.GetElement(node.handle, path);
+        $scope.record = xelib.GetElementEx(node.handle, path);
     };
 
     $scope.onCellDrag = function(node, index) {

@@ -24,7 +24,7 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
         if (data.linkedScope) {
             // get a new handle for the record to be used with the record view
             let path = node.element_type === xelib.etFile ? 'File Header' : '';
-            data.linkedScope.record = xelib.GetElement(node.handle, path);
+            data.linkedScope.record = xelib.GetElementEx(node.handle, path);
         }
     };
 

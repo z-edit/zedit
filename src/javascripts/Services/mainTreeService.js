@@ -56,11 +56,11 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, setting
         };
 
         scope.setParentsModified = function(handle) {
-            let node, element = xelib.GetElement(handle);
+            let node, element = xelib.GetElementEx(handle);
             while (!node) {
                 node = scope.getNodeForElement(element);
                 if (!node) {
-                    let container = xelib.GetContainer(element, true);
+                    let container = xelib.GetContainer(element);
                     xelib.Release(element);
                     if (!container) return;
                     element = container;
@@ -84,7 +84,7 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, setting
 
         scope.getCanExpand = function(node) {
             if (node.element_type === xelib.etMainRecord) {
-                let childGroup = xelib.GetElement(node.handle, 'Child Group', true);
+                let childGroup = xelib.GetElement(node.handle, 'Child Group');
                 node.can_expand = childGroup && xelib.ElementCount(childGroup) > 0;
             } else {
                 let isFile = node.element_type === xelib.etFile,

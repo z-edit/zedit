@@ -39,11 +39,11 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
                 currentNode = $scope.lastSelectedNode(),
                 currentFile = currentNode && xelib.GetElementFile(currentNode.handle),
                 currentNodeIsFile = currentNode && currentNode.element_type === xelib.etFile;
-            xelib.WithHandles(xelib.GetElements(0, '', true), function(files) {
+            xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
                 let startIndex = getStartIndex(files, currentFile, reverse, currentNodeIsFile);
                 for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
                     if ($scope.cancelled) return;
-                    result = xelib.GetElement(files[i], search, true);
+                    result = xelib.GetElement(files[i], search);
                     if (result) return;
                 }
             });
@@ -59,14 +59,14 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
             let functionName = `Find${(reverse ? 'Previous' : 'Next')}Record`,
                 node = $scope.lastSelectedNode(),
                 handle = node ? node.handle : 0,
-                result = xelib[functionName](handle, search, !byName, byName, true);
+                result = xelib[functionName](handle, search, !byName, byName);
             action.resolve(result);
         }, 100);
         return action.promise;
     };
 
     let findElement = function(reverse) {
-        let byName = $scope.searchOptions.searchBy == 2,
+        let byName = $scope.searchOptions.searchBy === 2,
             search = $scope.search;
         // search by FormID is always exact
         if ($scope.searchOptions.exact) {

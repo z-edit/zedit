@@ -24,14 +24,14 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         };
 
         let getConflictData = function(handle) {
-            return xelib.GetConflictData(scope.virtualNodes, handle, false, true);
+            return xelib.GetConflictData(scope.virtualNodes, handle);
         };
 
         let getValue = function(node, handle) {
             if (node.value_type === xelib.vtFlags) {
                 return xelib.GetEnabledFlags(handle).join(', ');
             } else {
-                return xelib.GetValue(handle, '', true);
+                return xelib.GetValue(handle, '');
             }
         };
 

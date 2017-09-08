@@ -10,28 +10,16 @@ Object.assign(xelib, {
         });
     },
     FileByIndex: function(index) {
-        return GetHandle(function(_res) {
-            if (!lib.FileByIndex(index, _res))
-                Fail(`Failed to find file at index: ${index}`);
-        });
+        return GetHandle((_res) => lib.FileByIndex(index, _res));
     },
     FileByLoadOrder: function(loadOrder) {
-        return GetHandle(function(_res) {
-            if (!lib.FileByLoadOrder(loadOrder, _res))
-                Fail(`Failed to find file at load order: ${loadOrder}`);
-        });
+        return GetHandle((_res) => lib.FileByLoadOrder(loadOrder, _res));
     },
     FileByName: function(filename) {
-        return GetHandle(function(_res) {
-            if (!lib.FileByName(wcb(filename), _res))
-                Fail(`Failed to find file: ${filename}`);
-        });
+        return GetHandle((_res) => lib.FileByName(wcb(filename), _res));
     },
     FileByAuthor: function(author) {
-        return GetHandle(function(_res) {
-            if (!lib.FileByAuthor(wcb(author), _res))
-                Fail(`Failed to find file with author: ${author}`);
-        });
+        return GetHandle((_res) => lib.FileByAuthor(wcb(author), _res));
     },
     NukeFile: function(_id) {
         if (!lib.NukeFile(_id))

@@ -39,7 +39,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
 
     $scope.go = function() {
         try {
-            let record = xelib.GetElement(0, $scope.address);
+            let record = xelib.GetElementEx(0, $scope.address);
             $scope.$emit('setRecord', record);
             addressInput.blur();
         } catch (x) {
