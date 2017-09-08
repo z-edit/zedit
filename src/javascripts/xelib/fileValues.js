@@ -31,3 +31,14 @@ xelib.GetIsESM = function(_id) {
 xelib.SetIsESM = function(_id, enabled) {
     return xelib.SetFlag(_id, 'File Header\\Record Header\\Record Flags', 'ESM', enabled);
 };
+xelib.GetLoadedFileNames = function() {
+    let fileNames = undefined;
+    xelib.WithHandles(xelib.GetElements(), function(files) {
+        fileNames = files.map((file) => { return xelib.Name(file) });
+    });
+    return fileNames;
+};
+// TODO: we probably should make a native function for this
+xelib.GetFileLoadOrder = function(file) {
+    return parseInt(xelib.DisplayName(file).substr(1, 2));
+};
