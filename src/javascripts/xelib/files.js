@@ -29,6 +29,10 @@ xelib.FileByAuthor = function(author) {
             Fail(`Failed to find file with author: ${author}`);
     });
 };
+xelib.NukeFile = function(_id) {
+    if (!lib.NukeFile(_id))
+        Fail(`Failed to nuke file: ${_id}`);
+};
 xelib.RenameFile = function(_id, newFileName) {
     if (!lib.RenameFile(_id, wcb(newFileName)))
         Fail(`Failed to rename file to ${newFileName}`);

@@ -58,6 +58,7 @@ try {
         'FileByLoadOrder': [WordBool, [Integer, PCardinal]],
         'FileByName': [WordBool, [PWChar, PCardinal]],
         'FileByAuthor': [WordBool, [PWChar, PCardinal]],
+        'NukeFile': [WordBool, [Cardinal]],
         'RenameFile': [WordBool, [Cardinal, PWChar]],
         'SaveFile': [WordBool, [Cardinal, PWChar]],
         'OverrideRecordCount': [WordBool, [Cardinal, PInteger]],
