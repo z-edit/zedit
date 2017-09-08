@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {GetString} from './helpers';
+
 // MESSAGE METHODS
 xelib.GetMessages = function() {
     return GetString(function(_len) {

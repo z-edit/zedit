@@ -1,3 +1,5 @@
+import {xelib} from './lib';
+
 // RECORD VALUE METHODS
 xelib.EditorID = function(_id, noException = false) {
     return xelib.GetValue(_id, 'EDID', noException);

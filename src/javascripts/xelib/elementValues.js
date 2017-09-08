@@ -1,3 +1,8 @@
+import {lib, xelib} from './lib';
+import {elementContext, Fail, flagContext, GetNativeValue, GetString, GetStringValue, SetNativeValue, wcb} from './helpers';
+import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
+               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+
 // ELEMENT VALUE METHODS
 xelib.Name = function(_id) {
     return GetStringValue(_id, 'Name');

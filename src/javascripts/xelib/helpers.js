@@ -1,37 +1,43 @@
+const wchar_t = require('ref-wchar');
+
+import {lib, xelib} from './lib';
+import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
+               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+
 // helper functions
-let createTypedBuffer = function(size, type) {
+export let createTypedBuffer = function(size, type) {
     let buf = new Buffer(size);
     buf.type = type;
     return buf;
 };
 
-let readPWCharString = function(buf) {
+export let readPWCharString = function(buf) {
     return wchar_t.toString(buf);
 };
 
-let readCardinalArray = function(buf, len) {
+export let readCardinalArray = function(buf, len) {
     let a = [];
     for (let i = 0; i < 4 * len; i+=4)
         a.push(buf.readUInt32LE(i));
     return a;
 };
 
-let wcb = function(value) {
+export let wcb = function(value) {
     let buf = new Buffer((value.length + 1) * 2);
     buf.write(value, 0, 'ucs2');
     buf.type = PWChar;
     return buf;
 };
 
-let elementContext = function(_id, path) {
+export let elementContext = function(_id, path) {
     return `${_id}, "${path}"`;
 };
 
-let flagContext = function(_id, path, name) {
+export let flagContext = function(_id, path, name) {
     return `${_id}, "${path}\\${name}"`;
 };
 
-let Fail = function(message) {
+export let Fail = function(message) {
     try {
         let libMessage = xelib.GetExceptionMessage();
         if (libMessage) {
@@ -44,7 +50,7 @@ let Fail = function(message) {
     throw new Error(message);
 };
 
-let GetString = function(callback, method = 'GetResultString') {
+export let GetString = function(callback, method = 'GetResultString') {
     let _len = createTypedBuffer(4, PInteger);
     callback(_len);
     let len = _len.readInt32LE(0);
@@ -55,7 +61,7 @@ let GetString = function(callback, method = 'GetResultString') {
     return readPWCharString(str);
 };
 
-let GetHandle = function(callback) {
+export let GetHandle = function(callback) {
     let _res = createTypedBuffer(4, PCardinal);
     callback(_res);
     let handle = _res.readUInt32LE(0);
@@ -63,29 +69,29 @@ let GetHandle = function(callback) {
     return handle;
 };
 
-let GetInteger = function(callback) {
+export let GetInteger = function(callback) {
     let _res = createTypedBuffer(4, PInteger);
     callback(_res);
     return _res.readInt32LE(0);
 };
 
-let GetBool = function(callback) {
+export let GetBool = function(callback) {
     let _bool = createTypedBuffer(2, PWordBool);
     callback(_bool);
     return _bool.readUInt16LE(0) > 0;
 };
 
-let GetByte = function(callback) {
+export let GetByte = function(callback) {
     let _res = createTypedBuffer(1, PByte);
     callback(_res);
     return _res.readUInt8(0);
 };
 
-let GetEnum = function(callback, enums) {
+export let GetEnum = function(callback, enums) {
     return enums[GetByte(callback)];
 };
 
-let GetArray = function(callback) {
+export let GetArray = function(callback) {
     let _len = createTypedBuffer(4, PInteger);
     callback(_len);
     let len = _len.readInt32LE(0);
@@ -98,12 +104,12 @@ let GetArray = function(callback) {
     return a;
 };
 
-let GetStringArray = function(callback, method = 'GetResultString') {
+export let GetStringArray = function(callback, method = 'GetResultString') {
     let str = GetString(callback, method);
     return str !== '' ? str.split('\r\n') : [];
 };
 
-let GetDictionary = function(_len) {
+export let GetDictionary = function(_len) {
     let str = GetString(_len),
         pairs = str.split('\n').slice(0, -1),
         dictionary = {};
@@ -114,21 +120,21 @@ let GetDictionary = function(_len) {
     return dictionary;
 };
 
-let GetBoolValue = function(_id, method) {
+export let GetBoolValue = function(_id, method) {
     return GetBool(function(_bool) {
         if (!lib[method](_id, _bool))
             Fail(`Failed to call ${method} on ${_id}`);
     });
 };
 
-let GetStringValue = function(_id, method) {
+export let GetStringValue = function(_id, method) {
     return GetString(function(_len) {
         if (!lib[method](_id, _len))
             Fail(`${method} failed on ${_id}`);
     });
 };
 
-let GetEnumValue = function(_id, method, enums) {
+export let GetEnumValue = function(_id, method, enums) {
     let n = GetByte(function(_byte) {
         if (!lib[method](_id, _byte))
             Fail(`${method} failed on ${_id}`);
@@ -136,14 +142,14 @@ let GetEnumValue = function(_id, method, enums) {
     return enums && enums[n] || n;
 };
 
-let GetNativeValue = function(_id, path, method, refType) {
-    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
+export let GetNativeValue = function(_id, path, method, refType) {
+    let buff = createTypedBuffer(refType == PDouble ? 8 : 4, refType);
     if (!lib[method](_id, wcb(path), buff))
         Fail(`Failed to ${method} at: ${elementContext(_id, path)}`);
     return buff;
 };
 
-let SetNativeValue = function(_id, path, method, value) {
+export let SetNativeValue = function(_id, path, method, value) {
     if (value === undefined) {
         value = path;
         path = '';
@@ -152,7 +158,7 @@ let SetNativeValue = function(_id, path, method, value) {
         Fail(`Failed to ${method} to ${value} at: ${elementContext(_id, path)}`);
 };
 
-let applyEnums = function(context, enums, label) {
+export let applyEnums = function(context, enums, label) {
     enums.forEach((value, ord) => context[value] = ord);
     context[label] = enums;
 };

@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {applyEnums, Fail, GetByte, GetHandle, GetString, wcb} from './helpers';
+
 // ENUMERATIONS
 const loaderStates = ['lsInactive', 'lsActive', 'lsDone', 'lsError'];
 const gameModes = ['gmFNV', 'gmFO3', 'gmTES4', 'gmTES5', 'gmSSE', 'gmFO4'];

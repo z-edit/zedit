@@ -2,18 +2,20 @@ import { remote } from 'electron';
 import jetpack from 'fs-jetpack';
 import './polyfills';
 import './color';
-import './xelib';
 import fh from './helpers/fileHelpers';
 import env from './env';
 import buildModuleService from './helpers/moduleService';
 
 // initialize xelib when application starts
+const xelib = remote.getGlobal('xelib');
 xelib.Initialize();
+window.xelib = xelib;
 
 // set up angular application
 const ngapp = angular.module('zedit', [
     'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat', 'mp.colorPicker'
-]);
+])
+.value('xelib', xelib);
 
 //this allows urls with and without trailing slashes to go to the same state
 ngapp.config(function ($urlMatcherFactoryProvider) {

@@ -1,3 +1,7 @@
+import {lib, xelib} from './lib';
+import {Fail, GetArray, GetString, wcb} from './helpers';
+
+
 // ENUMERATIONS
 let sortBy = {
     'None': 0,

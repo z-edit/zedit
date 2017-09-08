@@ -1,3 +1,8 @@
+import {lib, xelib} from './lib';
+import {applyEnums, createTypedBuffer, elementContext, Fail, GetArray, GetBoolValue, GetStringArray, GetHandle, wcb} from './helpers';
+import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
+               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+
 // ENUMERATIONS
 const conflictThis = [ 'ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMaster', 'ctOnlyOne', 'ctHiddenByModGroup', 'ctMaster', 'ctConflictBenign', 'ctOverride', 'ctIdenticalToMasterWinsConflict','ctConflictWins', 'ctConflictLoses'];
 const conflictAll = [ 'caUnknown', 'caOnlyOne', 'caNoConflict', 'caConflictBenign', 'caOverride', 'caConflict', 'caConflictCritical'];
