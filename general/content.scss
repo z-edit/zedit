@@ -9,6 +9,10 @@ html, body {
   overflow: hidden;
 }
 
+body {
+  user-select: none;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -22,7 +26,6 @@ a {
 }
 
 .title-bar {
-  -webkit-user-select: none;
   border-bottom: 1px solid $shadow;
   display: table;
   width: 100%;
