@@ -48,7 +48,7 @@ button {
     padding: 4px 6px;
   }
 
-  &.disabled {
+  &:disabled {
     background-color: $action_disabled !important;
     cursor: default;
   }
@@ -69,11 +69,11 @@ h2, h3 {
     outline: none;
   }
 
-  &.disabled {
+  &:disabled {
     color: $soft_font_color;
   }
 
-  &:hover:not(.disabled) {
+  &:hover:not(:disabled) {
     background: $background_tint;
     border: 1px solid $medium_border;
     border-radius: 4px;
