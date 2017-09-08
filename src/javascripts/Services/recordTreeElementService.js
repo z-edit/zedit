@@ -58,7 +58,9 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
             if (uneditableValueTypes.includes(node.value_type)) return;
             scope.$emit('openModal', 'editValue', {
                 targetNode: node,
-                targetIndex: index - 1
+                targetIndex: index - 1,
+                record: scope.record,
+                overrides: scope.overrides
             });
         };
 

@@ -69,7 +69,7 @@ ngapp.service('profileService', function() {
 
     this.getGame = function(gameMode) {
         return service.games.find(function (game) {
-            return game.mode == gameMode;
+            return game.mode === gameMode;
         });
     };
 
