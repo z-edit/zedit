@@ -1,6 +1,9 @@
 // ENUMERATIONS
 const loaderStates = ['lsInactive', 'lsActive', 'lsDone', 'lsError'];
+const gameModes = ['gmFNV', 'gmFO3', 'gmTES4', 'gmTES5', 'gmSSE', 'gmFO4'];
+
 applyEnums(xelib, loaderStates, 'loaderStates');
+applyEnums(xelib, gameModes, 'gameModes');
 
 // LOADING AND SET UP METHODS
 xelib.SetGamePath = function(gamePath) {
