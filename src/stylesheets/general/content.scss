@@ -146,3 +146,17 @@ ui-view {
     height: calc(100vh - 87px);
   }
 }
+
+.expander {
+  min-width: 16px;
+  text-align: center;
+  font: 14px FontAwesome;
+
+  &.expanded::before {
+    content: "\f078";
+  }
+
+  &.collapsed::before {
+    content: "\f054";
+  }
+}
