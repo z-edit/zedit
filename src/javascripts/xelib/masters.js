@@ -1,3 +1,7 @@
+import {lib, xelib} from './lib';
+import {Fail, GetArray, GetStringArray, wcb} from './helpers';
+
+
 // MASTER HANDLING METHODS
 xelib.CleanMasters = function(_id) {
     if (!lib.CleanMasters(_id))

@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {GetString, Fail} from './helpers';
+
 // SERIALIZATION METHODS
 xelib.ElementToJSON = function(_id) {
     return GetString(function(_len) {

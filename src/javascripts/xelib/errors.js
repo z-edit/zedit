@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {GetString, Fail} from './helpers';
+
 // ERROR CHECKING METHODS
 xelib.CheckForErrors = function(_id) {
     if (!lib.CheckForErrors(_id))

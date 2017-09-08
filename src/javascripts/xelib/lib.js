@@ -1,26 +1,16 @@
 const remote = require('electron').remote;
-const ref = require('ref');
-const wchar_t = require('ref-wchar');
 const ffi = require('ffi');
-const jetpack = require('fs-jetpack');
 
-const Void = 'void';
-const WString = wchar_t.string;
-const Cardinal = ref.types.uint32;
-const Integer = ref.types.int32;
-const WordBool = ref.types.uint16;
-const Double = ref.types.double;
-const Byte = ref.types.byte;
-const PWChar = ref.refType(WString);
-const PCardinal = ref.refType(Cardinal);
-const PInteger = ref.refType(Integer);
-const PWordBool = ref.refType(WordBool);
-const PDouble = ref.refType(Double);
-const PByte = ref.refType(Byte);
+import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
+               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+
+export let xelib = {};
+export let lib;
+
 
 // function binding
 try {
-    var lib = ffi.Library('XEditLib', {
+    lib = ffi.Library('XEditLib', {
         // META METHODS
         'InitXEdit': [Void, []],
         'CloseXEdit': [Void, []],

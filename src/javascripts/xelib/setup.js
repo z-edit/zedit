@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {applyEnums, Fail, GetByte, GetHandle, GetString, wcb} from './helpers';
+
 // ENUMERATIONS
 const loaderStates = ['lsInactive', 'lsActive', 'lsDone', 'lsError'];
 applyEnums(xelib, loaderStates, 'loaderStates');

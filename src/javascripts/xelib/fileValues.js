@@ -1,3 +1,5 @@
+import {xelib} from './lib';
+
 // FILE VALUE METHODS
 xelib.GetFileHeader = function(_id) {
     return xelib.GetElement(_id, 'File Header');

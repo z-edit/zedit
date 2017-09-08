@@ -1,19 +1,19 @@
-//= concat ./xelib/lib.js
+import {xelib as lib} from './xelib/lib';
 
-window.xelib = {};
+import './xelib/meta';
+import './xelib/messages';
+import './xelib/setup';
+import './xelib/files';
+import './xelib/masters';
+import './xelib/elements';
+import './xelib/errors';
+import './xelib/elementValues';
+import './xelib/serialization';
+import './xelib/records';
+import './xelib/groups';
+import './xelib/fileValues';
+import './xelib/recordValues';
+import './xelib/utils';
 
-//= concat ./xelib/helpers.js
-//= concat ./xelib/meta.js
-//= concat ./xelib/messages.js
-//= concat ./xelib/setup.js
-//= concat ./xelib/files.js
-//= concat ./xelib/masters.js
-//= concat ./xelib/elements.js
-//= concat ./xelib/errors.js
-//= concat ./xelib/elementValues.js
-//= concat ./xelib/serialization.js
-//= concat ./xelib/records.js
-//= concat ./xelib/groups.js
-//= concat ./xelib/fileValues.js
-//= concat ./xelib/recordValues.js
-//= concat ./xelib/utils.js
+
+export let xelib = lib;

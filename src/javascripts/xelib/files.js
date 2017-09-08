@@ -1,3 +1,6 @@
+import {lib, xelib} from './lib';
+import {Fail, GetHandle, GetString, wcb} from './helpers';
+
 // FILE HANDLING METHODS
 xelib.AddFile = function(filename) {
     return GetHandle(function(_res) {
