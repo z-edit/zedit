@@ -2,7 +2,7 @@ import { remote } from 'electron';
 import jetpack from 'fs-jetpack';
 import './polyfills';
 import './color';
-import {xelib} from './xelib';
+import xelib from './xelib';
 import fh from './helpers/fileHelpers';
 import env from './env';
 import buildModuleService from './helpers/moduleService';

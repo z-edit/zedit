@@ -22,7 +22,7 @@
     ]
   },
   "scripts": {
-    "postinstall": "node_modules/.bin/electron-rebuild.cmd",
+    "postinstall": "install-app-deps",
     "build": "gulp build",
     "prerelease": "gulp build --env=production",
     "release": "build --ia32",
@@ -54,7 +54,6 @@
     "electron": "^1.4.7",
     "electron-builder": "^8.6.0",
     "electron-mocha": "^3.0.0",
-    "electron-rebuild": "^1.6.0",
     "gulp": "^3.9.0",
     "gulp-batch": "^1.0.5",
     "gulp-plumber": "^1.1.0",

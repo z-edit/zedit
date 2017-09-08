@@ -1,4 +1,4 @@
-import {xelib as lib} from './xelib/lib';
+import {xelib} from './xelib/lib';
 
 import './xelib/meta';
 import './xelib/messages';
@@ -16,4 +16,4 @@ import './xelib/recordValues';
 import './xelib/utils';
 
 
-export let xelib = lib;
+export default xelib;
