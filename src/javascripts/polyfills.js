@@ -115,16 +115,15 @@ Array.prototype.remove = function(needle) {
     return n;
 };
 
-Array.prototype.sortAlphabetically = function(key) {
-    return this.sort(function(a, b) {
-        if (a[key] < b[key]) {
-            return -1;
-        }
-        if (a[key] > b[key]) {
-            return 1;
-        }
+Array.prototype.sortOnKey = function(key, sortFn) {
+    sortFn = sortFn || function(a, b, key) {
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
         return 0;
-    })
+    };
+    return this.sort(function(a, b) {
+        return sortFn(a, b, key);
+    });
 };
 
 Array.prototype.groupBy = function(propertyName) {
