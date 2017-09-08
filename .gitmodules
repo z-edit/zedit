@@ -1,0 +1,4 @@
+[submodule "modules/unifiedPatchingFramework"]
+	path = modules/unifiedPatchingFramework
+	url = https://github.com/matortheeternal/zedit-unified-patching-framework.git
+	branch = dist
