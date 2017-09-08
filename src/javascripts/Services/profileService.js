@@ -1,7 +1,6 @@
 ngapp.service('profileService', function() {
     let service = this;
 
-    this.games = fh.loadResource('app/games.json');
     this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json');
     this.languages = ['English'];
 
@@ -43,7 +42,7 @@ ngapp.service('profileService', function() {
     };
 
     this.detectMissingProfiles = function() {
-        service.games.forEach(function(game) {
+        xelib.games.forEach(function(game) {
             let gameProfile = service.profiles.find(function(profile) {
                 return profile.gameMode === game.mode;
             });
@@ -56,7 +55,9 @@ ngapp.service('profileService', function() {
     };
 
     this.getDefaultProfile = function() {
-        return service.profiles.find(function(profile) { return profile.valid });
+        return service.profiles.find(function(profile) {
+            return profile.valid
+        });
     };
 
     this.setDefaultProfile = function(defaultProfile) {
@@ -68,7 +69,7 @@ ngapp.service('profileService', function() {
     };
 
     this.getGame = function(gameMode) {
-        return service.games.find(function (game) {
+        return xelib.games.find(function(game) {
             return game.mode === gameMode;
         });
     };

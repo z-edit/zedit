@@ -16,3 +16,7 @@ xelib.GetErrors = function() {
     });
     return JSON.parse(str).errors;
 };
+xelib.RemoveIdenticalRecords = function(_id) {
+    if (!lib.RemoveIdenticalRecords(_id))
+        Fail(`Failed to remove identical errors from ${_id}`);
+};

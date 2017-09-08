@@ -8,6 +8,39 @@ const gameModes = ['gmFNV', 'gmFO3', 'gmTES4', 'gmTES5', 'gmSSE', 'gmFO4'];
 applyEnums(xelib, loaderStates, 'loaderStates');
 applyEnums(xelib, gameModes, 'gameModes');
 
+// CONSTANTS
+xelib.games = [{
+    name: 'Fallout NV',
+    shortName: 'FalloutNV',
+    mode: 0,
+    exeName: 'FalloutNV.exe'
+}, {
+    name: 'Fallout 3',
+    shortName: 'Fallout3',
+    mode: 1,
+    exeName: 'Fallout3.exe'
+}, {
+    name: 'Oblivion',
+    shortName: 'Oblivion',
+    mode: 2,
+    exeName: 'Oblivion.exe'
+}, {
+    name: 'Skyrim',
+    shortName: 'Skyrim',
+    mode: 3,
+    exeName: 'TESV.exe'
+}, {
+    name: 'Skyrim SE',
+    shortName: 'Skyrim',
+    mode: 4,
+    exeName: 'SkyrimSE.exe'
+}, {
+    name: 'Fallout 4',
+    shortName: 'Fallout4',
+    mode: 5,
+    exeName: 'Fallout4.exe'
+}];
+
 // LOADING AND SET UP METHODS
 xelib.SetGamePath = function(gamePath) {
     if (!lib.SetGamePath(wcb(gamePath)))

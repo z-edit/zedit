@@ -47,6 +47,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         console.log("Setting game mode to: " + p.gameMode);
         xelibService.startSession(p);
         $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
+        $scope.$emit('sessionStarted', p);
         $scope.$emit('openModal', 'loadOrder', {
             loadOrder: $scope.getLoadOrder()
         });

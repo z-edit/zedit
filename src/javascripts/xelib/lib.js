@@ -102,6 +102,7 @@ try {
         'CheckForErrors': [WordBool, [Cardinal]],
         'GetErrorThreadDone': [WordBool, []],
         'GetErrors': [WordBool, [PInteger]],
+        'RemoveIdenticalRecords': [WordBool, [Cardinal]],
         // ELEMENT VALUE METHODS
         'Name': [WordBool, [Cardinal, PInteger]],
         'LongName': [WordBool, [Cardinal, PInteger]],
