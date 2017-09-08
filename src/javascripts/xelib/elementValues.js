@@ -1,103 +1,105 @@
-import {lib, xelib} from './lib';
-import {elementContext, Fail, flagContext, GetNativeValue, GetString, GetStringValue, SetNativeValue, wcb} from './helpers';
-import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
-               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+import { lib, xelib } from './lib';
+import { elementContext, Fail, flagContext, GetNativeValue, GetString,
+         GetStringValue, SetNativeValue, wcb } from './helpers';
+import { PCardinal, PInteger, PDouble } from './types';
 
 // ELEMENT VALUE METHODS
-xelib.Name = function(_id) {
-    return GetStringValue(_id, 'Name');
-};
-xelib.LongName = function(_id) {
-    return GetStringValue(_id, 'LongName');
-};
-xelib.DisplayName = function(_id) {
-    return GetStringValue(_id, 'DisplayName');
-};
-xelib.Path = function(_id) {
-    return GetString(function(_len) {
-        if (!lib.Path(_id, false, false, _len))
-            Fail(`Path failed on ${_id}`);
-    });
-};
-xelib.LongPath = function(_id) {
-    return GetString(function(_len) {
-        if (!lib.Path(_id, true, false, _len))
-            Fail(`Path failed on ${_id}`);
-    });
-};
-xelib.LocalPath = function(_id) {
-    return GetString(function(_len) {
-        if (!lib.Path(_id, false, true, _len))
-            Fail(`Path failed on ${_id}`);
-    });
-};
-xelib.Signature = function(_id) {
-    return GetStringValue(_id, 'Signature');
-};
-xelib.SortKey = function(_id) {
-    return GetStringValue(_id, 'SortKey');
-};
-xelib.GetValue = function(_id, path = '', noException = false) {
-    return GetString(function(_len) {
-        if (!lib.GetValue(_id, wcb(path), _len))
-            if (!noException) Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
-    });
-};
-xelib.SetValue = function(_id, path, value) {
-    if (value === undefined) {
-        value = path;
-        path = '';
-    }
-    if (!lib.SetValue(_id, wcb(path), wcb(value)))
-        Fail(`Failed to set element value at: ${elementContext(_id, path)}`);
-};
-xelib.GetIntValue = function(_id, path) {
-    return GetNativeValue(_id, path, 'GetIntValue', PInteger).readInt32LE();
-};
-xelib.SetIntValue = function(_id, path, value) {
-    SetNativeValue(_id, path, 'SetIntValue', value);
-};
-xelib.GetUIntValue = function(_id, path) {
-    return GetNativeValue(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
-};
-xelib.SetUIntValue = function(_id, path, value) {
-    SetNativeValue(_id, path, 'SetUIntValue', value);
-};
-xelib.GetFloatValue = function(_id, path) {
-    return GetNativeValue(_id, path, 'GetFloatValue', PDouble).readDoubleLE();
-};
-xelib.SetFloatValue = function(_id, path, value) {
-    SetNativeValue(_id, path, 'SetFloatValue', value);
-};
-xelib.SetFlag = function(_id, path, name, enabled) {
-    if (!lib.SetFlag(_id, wcb(path), wcb(name), enabled))
-        Fail(`Failed to set flag value at: ${flagContext(_id, path, name)} to ${enabled}`);
-};
-xelib.GetFlag = function(_id, path, name) {
-    return GetBool(function(_bool) {
-        if (!lib.GetFlag(_id, wcb(path), wcb(name), _bool))
-            Fail(`Failed to get flag value at: ${flagContext(_id, path, name)}`);
-    });
-};
-xelib.GetEnabledFlags = function(_id, path = '') {
-    return GetString(function(_len) {
-        if (!lib.GetEnabledFlags(_id, wcb(path), _len))
-            Fail(`Failed to get enabled flags at: ${elementContext(_id, path)}`);
-    }).split(',');
-};
-xelib.SetEnabledFlags = function(_id, path, flags) {
-    if (!lib.SetEnabledFlags(_id, wcb(path), wcb(flags.join(','))))
-        Fail(`Failed to set enabled flags at: ${elementContext(_id, path)}`);
-};
-xelib.GetAllFlags = function(_id, path = '') {
-    return GetString(function(_len) {
-        if (!lib.GetAllFlags(_id, wcb(path), _len))
-            Fail(`Failed to get all flags at: ${elementContext(_id, path)}`);
-    }).split(',');
-};
-xelib.GetEnumOptions = function(_id, path = '') {
-    return GetString(function(_len) {
-        if (!lib.GetEnumOptions(_id, wcb(path), _len))
-            Fail(`Failed to get all enum options at: ${elementContext(_id, path)}`);
-    }).split(',');
-};
+Object.assign(xelib, {
+    Name: function(_id) {
+        return GetStringValue(_id, 'Name');
+    },
+    LongName: function(_id) {
+        return GetStringValue(_id, 'LongName');
+    },
+    DisplayName: function(_id) {
+        return GetStringValue(_id, 'DisplayName');
+    },
+    Path: function(_id) {
+        return GetString(function(_len) {
+            if (!lib.Path(_id, false, false, _len))
+                Fail(`Path failed on ${_id}`);
+        });
+    },
+    LongPath: function(_id) {
+        return GetString(function(_len) {
+            if (!lib.Path(_id, true, false, _len))
+                Fail(`Path failed on ${_id}`);
+        });
+    },
+    LocalPath: function(_id) {
+        return GetString(function(_len) {
+            if (!lib.Path(_id, false, true, _len))
+                Fail(`Path failed on ${_id}`);
+        });
+    },
+    Signature: function(_id) {
+        return GetStringValue(_id, 'Signature');
+    },
+    SortKey: function(_id) {
+        return GetStringValue(_id, 'SortKey');
+    },
+    GetValue: function(_id, path = '', noException = false) {
+        return GetString(function(_len) {
+            if (!lib.GetValue(_id, wcb(path), _len))
+                if (!noException) Fail(`Failed to get element value at: ${elementContext(_id, path)}`);
+        });
+    },
+    SetValue: function(_id, path, value) {
+        if (value === undefined) {
+            value = path;
+            path = '';
+        }
+        if (!lib.SetValue(_id, wcb(path), wcb(value)))
+            Fail(`Failed to set element value at: ${elementContext(_id, path)}`);
+    },
+    GetIntValue: function(_id, path) {
+        return GetNativeValue(_id, path, 'GetIntValue', PInteger).readInt32LE();
+    },
+    SetIntValue: function(_id, path, value) {
+        SetNativeValue(_id, path, 'SetIntValue', value);
+    },
+    GetUIntValue: function(_id, path) {
+        return GetNativeValue(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
+    },
+    SetUIntValue: function(_id, path, value) {
+        SetNativeValue(_id, path, 'SetUIntValue', value);
+    },
+    GetFloatValue: function(_id, path) {
+        return GetNativeValue(_id, path, 'GetFloatValue', PDouble).readDoubleLE();
+    },
+    SetFloatValue: function(_id, path, value) {
+        SetNativeValue(_id, path, 'SetFloatValue', value);
+    },
+    SetFlag: function(_id, path, name, enabled) {
+        if (!lib.SetFlag(_id, wcb(path), wcb(name), enabled))
+            Fail(`Failed to set flag value at: ${flagContext(_id, path, name)} to ${enabled}`);
+    },
+    GetFlag: function(_id, path, name) {
+        return GetBool(function(_bool) {
+            if (!lib.GetFlag(_id, wcb(path), wcb(name), _bool))
+                Fail(`Failed to get flag value at: ${flagContext(_id, path, name)}`);
+        });
+    },
+    GetEnabledFlags: function(_id, path = '') {
+        return GetString(function(_len) {
+            if (!lib.GetEnabledFlags(_id, wcb(path), _len))
+                Fail(`Failed to get enabled flags at: ${elementContext(_id, path)}`);
+        }).split(',');
+    },
+    SetEnabledFlags: function(_id, path, flags) {
+        if (!lib.SetEnabledFlags(_id, wcb(path), wcb(flags.join(','))))
+            Fail(`Failed to set enabled flags at: ${elementContext(_id, path)}`);
+    },
+    GetAllFlags: function(_id, path = '') {
+        return GetString(function(_len) {
+            if (!lib.GetAllFlags(_id, wcb(path), _len))
+                Fail(`Failed to get all flags at: ${elementContext(_id, path)}`);
+        }).split(',');
+    },
+    GetEnumOptions: function(_id, path = '') {
+        return GetString(function(_len) {
+            if (!lib.GetEnumOptions(_id, wcb(path), _len))
+                Fail(`Failed to get all enum options at: ${elementContext(_id, path)}`);
+        }).split(',');
+    },
+});

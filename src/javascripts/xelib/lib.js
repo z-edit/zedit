@@ -1,14 +1,13 @@
 const remote = require('electron').remote;
 const ffi = require('ffi');
 
-import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
-               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+import { Void, Cardinal,  Integer,  WordBool,  Double,  Byte, PWChar,
+        PCardinal, PInteger, PWordBool, PDouble, PByte } from './types';
 
 export let xelib = {};
 export let lib;
 
-
-// function binding
+// DLL FUNCTION BINDING
 try {
     lib = ffi.Library('XEditLib', {
         // META METHODS

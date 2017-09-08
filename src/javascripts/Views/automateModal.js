@@ -80,6 +80,6 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
     // initialization
     $scope.loadScripts();
     $scope.setSortMode($scope.sortModes[0]);
-    if ($scope.scripts.length == 0) $scope.newScript();
+    if ($scope.scripts.length === 0) $scope.newScript();
     $scope.selectedScript = $scope.scripts[0];
 });

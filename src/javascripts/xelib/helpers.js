@@ -1,10 +1,9 @@
 const wchar_t = require('ref-wchar');
 
-import {lib, xelib} from './lib';
-import {Void, WString,  Cardinal,  Integer,  WordBool,  Double,  Byte,
-               PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
+import { lib, xelib } from './lib';
+import { PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
 
-// helper functions
+// HELPER FUNCTIONS
 export let createTypedBuffer = function(size, type) {
     let buf = new Buffer(size);
     buf.type = type;
@@ -17,7 +16,7 @@ export let readPWCharString = function(buf) {
 
 export let readCardinalArray = function(buf, len) {
     let a = [];
-    for (let i = 0; i < 4 * len; i+=4)
+    for (let i = 0; i < 4 * len; i += 4)
         a.push(buf.readUInt32LE(i));
     return a;
 };
@@ -143,7 +142,7 @@ export let GetEnumValue = function(_id, method, enums) {
 };
 
 export let GetNativeValue = function(_id, path, method, refType) {
-    let buff = createTypedBuffer(refType == PDouble ? 8 : 4, refType);
+    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
     if (!lib[method](_id, wcb(path), buff))
         Fail(`Failed to ${method} at: ${elementContext(_id, path)}`);
     return buff;
