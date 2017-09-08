@@ -32,7 +32,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
     };
 
     $scope.forward = function() {
-        if ($scope.historyIndex == $scope.history.length - 1) return;
+        if ($scope.historyIndex === $scope.history.length - 1) return;
         $scope.historyIndex++;
         $scope.historyGo();
     };
@@ -50,7 +50,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
 
     // TODO: More hotkeys?
     $scope.onAddressKeyDown = function(e) {
-        if (e.keyCode == enterKey) $scope.go();
+        if (e.keyCode === enterKey) $scope.go();
     };
 
     $scope.setAddress = function(showPath) {
