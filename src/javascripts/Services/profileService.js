@@ -45,7 +45,7 @@ ngapp.service('profileService', function() {
     this.detectMissingProfiles = function() {
         service.games.forEach(function(game) {
             let gameProfile = service.profiles.find(function(profile) {
-                return profile.gameMode == game.mode;
+                return profile.gameMode === game.mode;
             });
             if (gameProfile) return;
             let gamePath = xelib.GetGamePath(game.mode);
@@ -62,7 +62,7 @@ ngapp.service('profileService', function() {
     this.setDefaultProfile = function(defaultProfile) {
         if (!defaultProfile) return;
         let n = service.profiles.indexOf(defaultProfile);
-        if (n == 0) return;
+        if (n === 0) return;
         service.profiles.splice(n, 1);
         service.profiles.unshift(defaultProfile);
     };

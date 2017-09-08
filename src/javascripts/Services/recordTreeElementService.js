@@ -29,9 +29,11 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
 
         scope.getNewElementPath = function(node, index) {
             if (node.parent && node.parent.value_type === xelib.vtArray) {
-                return node.is_sorted ? '^' + scope.getElementArrayIndex(node, index) : '.';
+                if (!node.is_sorted) return '.';
+                return '^' + scope.getElementArrayIndex(node, index);
             } else {
-                return node.label.indexOf(' - ') == 4 ? node.label.substr(0, 4) : node.label;
+                let n = node.label.indexOf(' - ');
+                return n === 4 ? node.label.substr(0, 4) : node.label;
             }
         };
 
@@ -53,7 +55,7 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
         };
 
         scope.editElement = function(node, index) {
-            if (uneditableValueTypes.contains(node.value_type)) return;
+            if (uneditableValueTypes.includes(node.value_type)) return;
             scope.$emit('openModal', 'editValue', {
                 targetNode: node,
                 targetIndex: index - 1
@@ -72,19 +74,18 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
             let recordIndex = scope.focusedIndex - 1,
                 recordName = xelib.Name(scope.getRecord(recordIndex)),
                 fileName = scope.getFileName(recordIndex);
-            if (scope.selectedNodes.length == 1) {
+            if (scope.selectedNodes.length === 1) {
                 let node = scope.selectedNodes[0],
                     path = xelib.LocalPath(node.handles[recordIndex]);
                 return `Delete ${path} from ${recordName} in ${fileName}?`;
             } else {
                 let message = `Delete ${scope.selectedNodes.length} elements from ${recordName} in ${fileName}?`;
-                scope.selectedNodes.forEach(function(node, index) {
-                    if (index > 7) {
-                        if (index == 8) message += '\r\n  - ... etc.';
-                        return;
-                    }
+                scope.selectedNodes.slice(0, 8).forEach(function(node) {
                     message += `\r\n  - ${xelib.LocalPath(node.handles[recordIndex])}`;
                 });
+                if (scope.selectedNiodes.length > 8) {
+                    message += '\r\n  - ... etc.';
+                }
                 return message;
             }
         };

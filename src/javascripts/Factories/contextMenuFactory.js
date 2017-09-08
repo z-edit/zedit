@@ -290,7 +290,7 @@ ngapp.service('contextMenuFactory', function() {
                 handle = node.handles[index],
                 record = index === 0 ? scope.record : scope.overrides[index - 1];
             if (!xelib.GetIsEditable(record)) return false;
-            return handle !== 0 && !uneditableValueTypes.contains(node.value_type);
+            return handle !== 0 && !uneditableValueTypes.includes(node.value_type);
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),

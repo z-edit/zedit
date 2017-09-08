@@ -126,7 +126,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         e.stopPropagation();
     });
     $scope.$on('recordUpdated', function(e, record) {
-        if ($scope.record === record || $scope.overrides.contains(record)) {
+        if ($scope.record === record || $scope.overrides.includes(record)) {
             $scope.updateNodes();
         }
     });
@@ -137,7 +137,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
 
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
-        if (oldValue == newValue) return;
+        if (oldValue === newValue) return;
         if (oldValue) $scope.releaseHandles(oldValue);
         if (!newValue) return;
         if (!xelib.IsMaster(newValue)) {

@@ -20,7 +20,7 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
 
     // scope functions
     $scope.open = function(node) {
-        if (!openableTypes.contains(node.element_type)) return;
+        if (!openableTypes.includes(node.element_type)) return;
         if (data.linkedScope) {
             // get a new handle for the record to be used with the record view
             let path = node.element_type === xelib.etFile ? 'File Header' : '';

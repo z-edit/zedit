@@ -98,7 +98,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
     $scope.setupText = function(value) {
       const htmlElements = ['DESC - Book Text'];
-      $scope.useHtmlEditor = htmlElements.contains(node.label);
+      $scope.useHtmlEditor = htmlElements.includes(node.label);
       $scope.value = value;
     };
 
@@ -125,7 +125,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         $scope.flags = xelib.GetAllFlags(handle).map(function(flag) {
             return {
                 name: flag,
-                active: flag !== '' && enabledFlags.contains(flag)
+                active: flag !== '' && enabledFlags.includes(flag)
             }
         });
     };

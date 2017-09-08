@@ -109,10 +109,6 @@ Array.prototype.random = function() {
     return this[Math.floor((Math.random() * this.length))];
 };
 
-Array.prototype.contains = function(needle) {
-    return (this.indexOf(needle) > -1);
-};
-
 Array.prototype.remove = function(needle) {
     let n = this.indexOf(needle);
     if (n > -1) this.splice(n, 1);

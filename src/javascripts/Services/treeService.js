@@ -71,7 +71,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         scope.addModifiedClass = function(item) {
             let classes = item.class.split(' ');
-            if (!classes.contains('modified')) {
+            if (!classes.includes('modified')) {
                 classes.push('modified');
                 item.class = classes.join(' ');
             }

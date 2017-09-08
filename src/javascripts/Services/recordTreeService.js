@@ -83,7 +83,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         };
 
         scope.nodeHasHandle = function(node, handle) {
-            return node.handles.contains(handle);
+            return node.handles.includes(handle);
         };
 
         scope.getNewNode = function(node) {

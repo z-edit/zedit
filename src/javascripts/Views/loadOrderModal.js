@@ -14,12 +14,12 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
 
     $scope.getRequiredBy = function(filename) {
         return opts.loadOrder.filter(function(item) {
-            return item.masterNames.contains(filename);
+            return item.masterNames.includes(filename);
         });
     };
 
     $scope.buildTitle = function(title, filenames) {
-        if (filenames.length == 0) return '';
+        if (filenames.length === 0) return '';
         filenames.slice(0, 10).forEach((filename) => title += `\r\n  - ${filename}`);
         if (filenames.length > 10) title += '\r\n  - etc.';
         return title;
@@ -104,7 +104,7 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
                 return $scope.findItem(masterName);
             });
             item.requiredBy = $scope.getRequiredBy(item.filename);
-            if (item.masters.contains(undefined)) {
+            if (item.masters.includes(undefined)) {
                 $scope.disablePlugin(item);
             } else {
                 $scope.enableMasters(item);

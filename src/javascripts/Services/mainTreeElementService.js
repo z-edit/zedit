@@ -70,14 +70,14 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
         };
 
         scope.deletionPromptMessage = function() {
-            if (scope.selectedNodes.length == 1) {
+            if (scope.selectedNodes.length === 1) {
                 let node = scope.selectedNodes[0];
                 return `Delete ${xelib.Name(node.handle)}?`;
             } else {
                 let message = `Delete ${scope.selectedNodes.length} elements?`;
                 scope.selectedNodes.forEach(function(node, index) {
                     if (index > 7) {
-                        if (index == 8) message += '\r\n  - ... etc.';
+                        if (index === 8) message += '\r\n  - ... etc.';
                         return;
                     }
                     message += `\r\n  - ${xelib.Name(node.handle)}`;

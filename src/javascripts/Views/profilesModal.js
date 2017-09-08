@@ -24,7 +24,7 @@ ngapp.controller('profilesModalController', function ($scope, profileService, mo
     $scope.removeProfile = function(profile) {
         let index = $scope.profiles.indexOf(profile);
         $scope.profiles.splice(index, 1);
-        if ($scope.profiles.length == 0) {
+        if ($scope.profiles.length === 0) {
             $scope.defaultProfile = undefined;
         }
     };

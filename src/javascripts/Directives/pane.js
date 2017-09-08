@@ -22,7 +22,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
     // helper functions
     let isCloseTab = function(element) {
         let closeTabClasses = ['add-tab', 'fa fa-times'];
-        return element && closeTabClasses.contains(element.className);
+        return element && closeTabClasses.includes(element.className);
     };
 
     // scope functions
@@ -49,7 +49,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
 
     $scope.selectTab = function(e, index) {
         if (isCloseTab(e.srcElement)) return;
-        $scope.tabs.forEach((tab, i) => tab.active = i == index);
+        $scope.tabs.forEach((tab, i) => tab.active = i === index);
     };
 
     $scope.$on('changeView', function(e, viewName) {
