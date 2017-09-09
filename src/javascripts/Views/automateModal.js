@@ -33,6 +33,7 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
     $scope.setSortMode = (sortMode) => $scope.sortMode = sortMode;
     $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
     $scope.runScript = function() {
+        $scope.saveScript();
         automationService.runScript($scope, $scope.scriptContents);
         $scope.$emit('closeModal');
     };
