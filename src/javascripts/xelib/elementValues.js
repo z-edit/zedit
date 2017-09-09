@@ -16,13 +16,13 @@ Object.assign(xelib, {
     },
     Path: function(_id) {
         return GetString(function(_len) {
-            if (!lib.Path(_id, false, false, _len))
+            if (!lib.Path(_id, true, false, _len))
                 Fail(`Path failed on ${_id}`);
         });
     },
     LongPath: function(_id) {
         return GetString(function(_len) {
-            if (!lib.Path(_id, true, false, _len))
+            if (!lib.Path(_id, false, false, _len))
                 Fail(`Path failed on ${_id}`);
         });
     },
