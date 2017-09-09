@@ -68,7 +68,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
             $scope.modalOptions = modalService.buildOptions(label, options);
             $scope.showModal = true;
         });
-        e.stopPropagation();
+        e.stopPropagation && e.stopPropagation();
     });
 
     $scope.$on('closeModal', function(e) {
@@ -77,7 +77,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
             $scope.modalOptions = undefined;
             $scope.showModal = false;
         });
-        e.stopPropagation();
+        e.stopPropagation && e.stopPropagation();
     });
 
     // hide context menu when user clicks in document
