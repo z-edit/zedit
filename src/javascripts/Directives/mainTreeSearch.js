@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory) {
+ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory, errorService) {
     // helper variables
     let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
         searchOptionKeys = [fKey, eKey, nKey, aKey],
@@ -81,7 +81,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
     $scope.foundResult = function(handle) {
         if ($scope.handle) xelib.Release($scope.handle);
         $scope.handle = handle;
-        $scope.navigateToElement(handle);
+        errorService.try(() => $scope.navigateToElement(handle));
     };
 
     $scope.previousResult = function() {
