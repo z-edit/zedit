@@ -26,5 +26,13 @@ Object.assign(xelib, {
             if (!lib.GetMasterNames(_id, _len))
                 Fail(`Failed to get master names for ${_id}`);
         });
+    },
+    AddAllMasters: function(_id) {
+        let filename = xelib.Name(_id),
+            loadedFiles = xelib.GetLoadedFileNames(_id),
+            fileIndex = loadedFiles.indexOf(filename);
+        for (let i = 0; i < fileIndex; i++) {
+            xelib.AddMaster(_id, loadedFiles[i]);
+        }
     }
 });
