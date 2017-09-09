@@ -106,7 +106,7 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
             item.requiredBy = $scope.getRequiredBy(item.filename);
             if (item.masters.includes(undefined)) {
                 $scope.disablePlugin(item);
-            } else {
+            } else if (item.active) {
                 $scope.enableMasters(item);
             }
         });
