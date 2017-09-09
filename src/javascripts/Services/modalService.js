@@ -1,10 +1,11 @@
 ngapp.service('modalService', function() {
-    this.modalOptions = function(label) {
-        return {
-            templateUrl: `directives/${label}Modal.html`,
+    this.buildOptions = function(label, options) {
+        let basePath = options.basePatch || 'partials';
+        return Object.assign({
+            templateUrl: `${basePath}/${label}Modal.html`,
             controller: `${label}ModalController`,
             class: `${label.underscore('-')}-modal`
-        }
+        }, options);
     };
 
     this.buildUnfocusModalFunction = function(scope, callbackName) {

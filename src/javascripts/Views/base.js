@@ -65,7 +65,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.$on('openModal', function(e, label, options = {}) {
         $scope.$applyAsync(function() {
             $scope.$root.modalActive = true;
-            $scope.modalOptions = Object.assign(modalService.modalOptions(label), options);
+            $scope.modalOptions = modalService.buildOptions(label, options);
             $scope.showModal = true;
         });
         e.stopPropagation();
