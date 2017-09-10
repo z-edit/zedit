@@ -4,8 +4,6 @@ import jetpack from 'fs-jetpack';
 
 window.xelib = remote.getGlobal('xelib');
 
-let alphabet = 'abcdefghijklmnopqrstuvwxyz';
-
 let deserialize = function(str) {
     return JSON.parse(str, function(key, value) {
         if (key === '' || (typeof value !== 'string')) return value;
