@@ -1,6 +1,7 @@
 import { ipcRenderer, remote } from 'electron';
-import fh from './helpers/fileHelpers';
 import jetpack from 'fs-jetpack';
+import fh from './helpers/fileHelpers';
+import './polyfills';
 
 window.xelib = remote.getGlobal('xelib');
 
