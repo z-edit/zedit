@@ -1,5 +1,5 @@
 import { lib, xelib } from './lib';
-import { Fail, GetHandle, GetString, wcb } from './helpers';
+import { Fail, GetHandle, GetString, GetInteger, wcb } from './helpers';
 
 // FILE HANDLING METHODS
 Object.assign(xelib, {
@@ -43,6 +43,12 @@ Object.assign(xelib, {
         return GetString(function(_len) {
             if (!lib.CRCHash(_id, _len))
                 Fail(`Failed to get CRC Hash for: ${_id}`);
+        });
+    },
+    GetFileLoadOrder: function(_id) {
+        return GetInteger(function(_res) {
+            if (!lib.GetFileLoadOrder(_id, _res))
+                Fail(`Failed to file load order for: ${_id}`);
         });
     }
 });

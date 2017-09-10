@@ -55,6 +55,7 @@ try {
         'CRCHash': [WordBool, [Cardinal, PInteger]],
         'SortEditorIDs': [WordBool, [Cardinal, PWChar]],
         'SortNames': [WordBool, [Cardinal, PWChar]],
+        'GetFileLoadOrder': [WordBool, [Cardinal, PInteger]],
         // MASTER HANDLING METHODS
         'CleanMasters': [WordBool, [Cardinal]],
         'SortMasters': [WordBool, [Cardinal]],
