@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import jetpack from 'fs-jetpack';
 import './polyfills';
 import './color';
