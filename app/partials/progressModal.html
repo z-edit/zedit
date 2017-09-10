@@ -1,0 +1,19 @@
+<div class="modal-container" ng-click="unfocusModal($event)">
+    <div class="modal">
+        <div class="progress-title">{{progress.title}}</div>
+
+        <div class="progress-message">{{progress.message}}</div>
+        <progress-bar current="progress.current" max="progress.max"></progress-bar>
+
+        <div ng-click="toggleExpanded()">
+            <span class="expander {{expanded ? 'expanded' : 'collapsed'}}"></span>
+            {{expanded ? 'Hide' : 'Show'}} Log
+        </div>
+        <!-- TODO: we should break this out into a log directive -->
+        <div ng-if="expanded" class="log" ng-scroll="onLogScroll($event)" vs-repeat>
+            <div ng-repeat="item in progress.log" class="message-{{::item.level}}">
+                {{::item.message}}
+            </div>
+        </div>
+    </div>
+</div>
