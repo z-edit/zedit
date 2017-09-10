@@ -8,6 +8,7 @@ ngapp.service('backgroundService', function($q) {
         callback && callback(...data.args);
     });
 
+    ipcRenderer.on('worker-message', (event, message) => console.log(message));
     ipcRenderer.on('worker-done', (event, result) => action.resolve(result));
     ipcRenderer.on('worker-error', (event, e) => action.reject(e));
 

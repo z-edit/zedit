@@ -61,7 +61,9 @@ app.on('window-all-closed', function () {
     app.quit();
 });
 
-ipcMain.on('worker-message', (e, message) => console.log(message));
+ipcMain.on('worker-message', function(e, message) {
+    mainWindow.webContents.send('worker-message', message);
+});
 
 ipcMain.on('worker-callback', function(e, payload) {
     mainWindow.webContents.send('worker-callback', payload);
