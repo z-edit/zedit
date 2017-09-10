@@ -1,9 +1,21 @@
-.loading-message {
-  display: block;
-  margin-top: 30px;
-  font-size: 22px;
-}
+loader {
+  color: #fff;
 
-.big-spinner {
-  height: 250px;
+  .modal-container {
+    background-color: rgba($shadow, 0.6);
+
+    .modal {
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  .loading-content {
+    margin-top: 16px;
+    font-size: 24px;
+  }
+
+  .action-btn {
+    margin-left: 10px;
+  }
 }
