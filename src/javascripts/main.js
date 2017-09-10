@@ -31,7 +31,11 @@ if (env.name !== 'production') {
 
 let createBackgroundWindow = function() {
     const window = new BrowserWindow({ show: false });
-    window.loadURL(`file://${__dirname}/background.html`);
+    window.loadURL(url.format({
+        pathname: path.join(__dirname, 'background.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
     return window;
 };
 

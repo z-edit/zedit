@@ -59,8 +59,8 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     });
 
     $scope.$on('loading', function(e, message, canCancel) {
-        if ($scope.showLoader && $scope.loadingMessage === "Cancelling...") return;
-        if (!$scope.showLoader) $scope.showLoader =true;
+        if (!$scope.showLoader) $scope.showLoader = true;
+        if ($scope.loadingMessage === "Cancelling...") return;
         $scope.loadingMessage = message || "Loading...";
         $scope.canCancel = canCancel;
     });
