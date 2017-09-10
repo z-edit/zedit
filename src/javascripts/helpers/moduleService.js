@@ -20,6 +20,7 @@ export default function(ngapp, fh) {
     };
 
     let getModuleFolders = function() {
+        if (!fh.jetpack.exists('modules')) return [];
         return fh.jetpack.find('modules', {
             matching: '*',
             files: false,
