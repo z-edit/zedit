@@ -1,0 +1,25 @@
+.progress-modal {
+  .modal {
+    max-width: 800px;
+  }
+
+  .progress-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .progress-message {
+    margin-bottom: 4px;
+  }
+
+  .log {
+    user-select: initial;
+    max-height: 300px;
+    border: 1px solid $hard_border;
+    background-color: $soft_border;
+    padding: 4px 6px;
+    margin-top: 4px;
+    font-size: 14px;
+    overflow-y: auto;
+  }
+}
