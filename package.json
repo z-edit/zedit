@@ -7,7 +7,7 @@
   "copyright": "© 2017, Mator",
   "repository": "https://github.com/matortheeternal/zedit",
   "license": "MIT",
-  "main": "app/background.js",
+  "main": "app/main.js",
   "build": {
     "appId": "com.mator.zedit",
     "files": [
