@@ -6,9 +6,8 @@ ngapp.directive('progressBar', function() {
             max: '='
         },
         template:
-            '<div class="progress" ng-style="progressStyle">\n' +
-            '    {{percentProgress}}\n' +
-            '</div>',
+            '<div class="progress" ng-style="progressStyle"></div>' +
+            '<div class="progress-label">{{percentProgress}}</div>',
         controller: 'progressBarController'
     }
 });
