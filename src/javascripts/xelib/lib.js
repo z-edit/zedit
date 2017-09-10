@@ -132,7 +132,7 @@ try {
         // RECORD HANDLING METHODS
         'GetFormID': [WordBool, [Cardinal, PCardinal, WordBool]],
         'SetFormID': [WordBool, [Cardinal, Cardinal, WordBool, WordBool]],
-        'GetRecord': [WordBool, [Cardinal, Cardinal, WordBool, PCardinal]],
+        'GetRecord': [WordBool, [Cardinal, Cardinal, PCardinal]],
         'GetRecords': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
         'GetOverrides': [WordBool, [Cardinal, PInteger]],
         'GetMaster': [WordBool, [Cardinal, PCardinal]],
