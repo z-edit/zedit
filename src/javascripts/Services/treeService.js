@@ -45,14 +45,17 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             let node = undefined;
             path.split('\\').forEach(function(part) {
                 let handle = node ? node.handle : 0;
-                xelib.WithHandle(xelib.GetElementEx(handle, `${part}`), function(handle) {
+                handle = xelib.GetElementEx(handle, `${part}`);
+                try {
                     if (part !== 'Child Group') {
                         node = scope.getNodeForElement(handle);
                         if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
                         if (!node.has_data) scope.getNodeData(node);
                         if (!node.expanded) scope.expandNode(node);
                     }
-                });
+                } finally {
+                    xelib.Release(handle);
+                }
             });
             return node;
         };

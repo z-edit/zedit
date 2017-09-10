@@ -6,7 +6,7 @@ ngapp.directive('recordAddressBar', function () {
     }
 });
 
-ngapp.controller('recordAddressBarController', function($scope, $element, htmlHelpers) {
+ngapp.controller('recordAddressBarController', function($scope, $element, xelibService, htmlHelpers) {
     let enterKey = 13;
     let addressInput = htmlHelpers.resolveElement($element[0], 'input');
 
@@ -73,7 +73,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, htmlHe
 
     $scope.buildHistoryEntry = function(record) {
         let entry = undefined;
-        xelib.WithHandle(xelib.GetElementFile(record), function(file) {
+        xelibService.withHandle(xelib.GetElementFile(record), function(file) {
             entry = {
                 name: `${xelib.Name(file)} - ${xelib.Name(record)}`,
                 path: `${xelib.Path(record)}`

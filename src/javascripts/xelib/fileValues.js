@@ -1,4 +1,5 @@
 import { xelib } from './lib';
+import { withHandles } from './helpers';
 
 // HELPER VARIABLES
 let fileHeaderFlagsPath = 'File Header\\Record Header\\Record Flags',
@@ -40,7 +41,7 @@ Object.assign(xelib, {
     },
     GetLoadedFileNames: function() {
         let fileNames = undefined;
-        xelib.WithHandles(xelib.GetElements(), function(files) {
+        withHandles(xelib.GetElements(), function(files) {
             fileNames = files.map((file) => { return xelib.Name(file) });
         });
         return fileNames;

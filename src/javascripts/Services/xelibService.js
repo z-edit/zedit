@@ -10,6 +10,22 @@ ngapp.service('xelibService', function() {
         }
     };
 
+    this.withHandle = function(handle, callback) {
+        try {
+            callback(handle);
+        } finally {
+            xelib.Release(handle);
+        }
+    };
+
+    this.withHandles = function(handles, callback) {
+        try {
+            callback(handles);
+        } finally {
+            handles.forEach(xelib.Release);
+        }
+    };
+
     this.printGlobals = function() {
         try {
             console.log(xelib.GetGlobals());

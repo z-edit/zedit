@@ -1,4 +1,4 @@
-ngapp.service('recordTreeService', function($timeout, layoutService, settingsService, recordTreeViewFactory, objectUtils) {
+ngapp.service('recordTreeService', function($timeout, layoutService, settingsService, xelibService, recordTreeViewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -8,7 +8,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         // helper functions
         let getRecordFileName = function(record) {
             let fileName = '';
-            xelib.WithHandle(xelib.GetElementFile(record), function(file) {
+            xelibService.withHandle(xelib.GetElementFile(record), function(file) {
                 fileName = xelib.DisplayName(file);
             });
             return fileName;

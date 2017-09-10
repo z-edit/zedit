@@ -5,10 +5,15 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
 
         // helper functions
         let getSortIndex = function(container, element) {
-            let index = -1;
-            xelib.WithHandles(xelib.GetElements(container, '', true), function(handles) {
-                index = handles.findIndex((h) => { return xelib.ElementEquals(h, element) });
-            });
+            let index = -1,
+                elements = xelib.GetElements(container, '', true);
+            try {
+                index = handles.findIndex(function(h) {
+                    return xelib.ElementEquals(h, element)
+                });
+            } finally {
+                elements.forEach(xelib.Release);
+            }
             return index;
         };
 
