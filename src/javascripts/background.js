@@ -19,23 +19,6 @@ let deserialize = function(str) {
     });
 };
 
-let buildCallbacksCode = function(callbacks) {
-    return callbacks.map(function(key) {
-        return `let ${key} = (...args) => invokeCallback('${key}', args);`;
-    }).join('\r\n');
-};
-
-let codeSection = function(label, code) {
-    return [`// ${label.toUpperCase()}`, code, ''].join('\r\n');
-};
-
-let buildWorkerCode = function(options) {
-    return [
-        codeSection('callbacks', buildCallbacksCode(options.callbacks)),
-        codeSection('worker', jetpack.read(options.filename))
-    ].join('\r\n');
-};
-
 let invokeCallback = function(callbackName, args) {
     ipcRenderer.send('worker-callback', {
         callbackName: callbackName,
@@ -47,16 +30,29 @@ let log = function(message) {
     ipcRenderer.send('worker-message', message);
 };
 
-let runWorker = function(payload) {
-    let options = deserialize(payload);
-    if (!jetpack.exists(options.filename))
-        throw new Error(`File ${options.filename} not found in ${jetpack.cwd()}`);
+let getWorkerArgs = function(options) {
+    let args = {
+        data: options.data,
+        fh: fh,
+        log: log
+    };
+    options.callbacks.forEach(function(callbackName) {
+        args[callbackName] = () => invokeCallback(callbackName, arguments);
+    });
+    return args;
+};
 
-    log(`Starting worker: ${options.filename}`);
-    let workerCode = buildWorkerCode(options),
-        workerFn = new Function('data', 'fh', 'invokeCallback', 'log', workerCode);
-    log(workerCode);
-    workerFn(options.data, fh, invokeCallback, log);
+let runWorker = function(payload) {
+    let options = deserialize(payload),
+        filename = options.filename;
+    if (!jetpack.exists(filename))
+        throw new Error(`File ${filename} not found in ${jetpack.cwd()}`);
+
+    log(`Starting worker: ${filename}`);
+    let workerCode = jetpack.read(filename),
+        args = getWorkerArgs(options),
+        workerFn = new Function(...Object.keys(args), workerCode);
+    workerFn(...Object.values(args));
     log('Worker done!');
 };
 
