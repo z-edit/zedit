@@ -61,10 +61,21 @@ app.on('window-all-closed', function () {
     app.quit();
 });
 
-ipcMain.on('worker-response', function(event, payload) {
-    mainWindow.webContents.send('worker-response', payload);
+ipcMain.on('worker-message', (e, message) => console.log(message));
+
+ipcMain.on('worker-callback', function(e, payload) {
+    mainWindow.webContents.send('worker-callback', payload);
 });
 
-ipcMain.on('run-worker', function(event, payload) {
+ipcMain.on('worker-done', function(e, payload) {
+    mainWindow.webContents.send('worker-done', payload);
+});
+
+ipcMain.on('worker-error', function(e, payload) {
+    mainWindow.webContents.send('worker-error', payload);
+});
+
+ipcMain.on('run-worker', function(e, payload) {
+    console.log(`run-worker: ${payload}`);
     backgroundWindow.webContents.send('run-worker', payload);
 });
