@@ -32,7 +32,9 @@ Object.assign(xelib, {
             loadedFiles = xelib.GetLoadedFileNames(_id),
             fileIndex = loadedFiles.indexOf(filename);
         for (let i = 0; i < fileIndex; i++) {
-            xelib.AddMaster(_id, loadedFiles[i]);
+            let filename = loadedFiles[i];
+            if (filename.endsWith('.Hardcoded.dat')) continue;
+            xelib.AddMaster(_id, filename);
         }
     }
 });
