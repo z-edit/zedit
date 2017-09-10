@@ -236,28 +236,30 @@ Object.deepAssign = function(target, varArgs) {
 };
 
 // angular polyfills
-angular.inherit = function(scope, attribute) {
-    if (angular.isUndefined(scope[attribute])) {
-        scope[attribute] = scope.$parent[attribute];
-    }
-};
-
-angular.default = function(scope, attribute, value) {
-    if (angular.isUndefined(scope[attribute])) {
-        scope[attribute] = value;
-    }
-};
-
-angular.copyProperties = function(source, destination) {
-    for (let prop in source) {
-        if (source.hasOwnProperty(prop)) {
-            destination[prop] = source[prop];
+if (window.hasOwnProperty('angular')) {
+    angular.inherit = function(scope, attribute) {
+        if (angular.isUndefined(scope[attribute])) {
+            scope[attribute] = scope.$parent[attribute];
         }
-    }
-};
+    };
 
-angular.inheritScope = function(scope, attribute) {
-    let obj = scope[attribute] || scope.$parent[attribute];
-    if (angular.isUndefined(obj)) return;
-    angular.copyProperties(obj, scope);
-};
+    angular.default = function(scope, attribute, value) {
+        if (angular.isUndefined(scope[attribute])) {
+            scope[attribute] = value;
+        }
+    };
+
+    angular.copyProperties = function(source, destination) {
+        for (let prop in source) {
+            if (source.hasOwnProperty(prop)) {
+                destination[prop] = source[prop];
+            }
+        }
+    };
+
+    angular.inheritScope = function(scope, attribute) {
+        let obj = scope[attribute] || scope.$parent[attribute];
+        if (angular.isUndefined(obj)) return;
+        angular.copyProperties(obj, scope);
+    };
+}
