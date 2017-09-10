@@ -10,7 +10,7 @@ ngapp.service('themeService', function(settingsService) {
     this.getThemes = function() {
         let themes = fh.appDir.find('app\\themes', { matching: '*.css' });
         return themes.map(function(theme) {
-            let fileContents = fh.jetpack.read(theme),
+            let fileContents = fh.appDir.read(theme),
                 filename = theme.split('\\').last(),
                 defaultMetaData = Object.assign(unknownMetaData, {
                     name: filename.match(/(.*)\.css/)[1]
