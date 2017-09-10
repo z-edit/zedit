@@ -4,13 +4,12 @@ import './polyfills';
 import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
-import _xelib from './xelib';
 import buildModuleService from './helpers/moduleService';
 
 // initialize xelib when application starts
-//const xelib = remote.getGlobal('xelib');
-_xelib.Initialize();
-window.xelib = _xelib;
+const xelib = remote.getGlobal('xelib');
+xelib.Initialize();
+window.xelib = xelib;
 
 // set up angular application
 const ngapp = angular.module('zedit', [

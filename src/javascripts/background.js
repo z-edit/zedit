@@ -1,10 +1,10 @@
 import { ipcRenderer, remote } from 'electron';
 import fh from './helpers/fileHelpers';
+import jetpack from 'fs-jetpack';
 
-// TODO: uncomment
-// window.xelib = remote.getGlobal('xelib');
+window.xelib = remote.getGlobal('xelib');
 
-let debug = true;
+let alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
 let deserialize = function(str) {
     return JSON.parse(str, function(key, value) {
@@ -21,33 +21,55 @@ let deserialize = function(str) {
     });
 };
 
+let buildCallbacksCode = function(callbacks) {
+    return callbacks.map(function(key) {
+        return `let ${key} = (...args) => invokeCallback('${key}', args);`;
+    }).join('\r\n');
+};
+
+let codeSection = function(label, code) {
+    return [`// ${label.toUpperCase()}`, code, ''].join('\r\n');
+};
+
+let buildWorkerCode = function(options) {
+    return [
+        codeSection('callbacks', buildCallbacksCode(options.callbacks)),
+        codeSection('worker', jetpack.read(options.filename))
+    ].join('\r\n');
+};
+
 let invokeCallback = function(callbackName, args) {
-    return ipcRenderer.sendSync('worker-callback', {
+    ipcRenderer.send('worker-callback', {
         callbackName: callbackName,
         args: args
     });
 };
 
-let runWorker = function(data) {
-    console.log(`Received worker data: ${data}`);
-    let options = deserialize(data);
+let log = function(message) {
+    ipcRenderer.send('worker-message', message);
+};
+
+let runWorker = function(payload) {
+    let options = deserialize(payload);
     if (!jetpack.exists(options.filename))
         throw new Error(`File ${options.filename} not found in ${jetpack.cwd()}`);
 
-    console.log(`Starting worker: ${options.filename}`);
+    log(`Starting worker: ${options.filename}`);
     let workerCode = buildWorkerCode(options),
-        workerFn = new Function('fh', 'invokeCallback', workerCode);
-    workerFn(fh, invokeCallback);
-    console.log('Worker done!')
+        workerFn = new Function('data', 'fh', 'invokeCallback', 'log', workerCode);
+    log(workerCode);
+    workerFn(options.data, fh, invokeCallback, log);
+    log('Worker done!');
 };
 
 window.onload = function () {
-    ipcRenderer.on('background-start', (data) => {
+    ipcRenderer.on('run-worker', (e, payload) => {
         try {
-            runWorker(data);
-            ipcRenderer.send('worker-response');
+            runWorker(payload);
+            ipcRenderer.send('worker-done');
         } catch(e) {
-            ipcRenderer.send('worker-response', e);
+            log(e.stack);
+            ipcRenderer.send('worker-error', e.stack);
         }
     });
 };
