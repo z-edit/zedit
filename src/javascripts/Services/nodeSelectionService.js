@@ -36,7 +36,8 @@ ngapp.service('nodeSelectionService', function() {
 
         scope.selectSingle = function(node, newValue, setPrev = true, scroll = true) {
             if (!node || newValue && node.selected) return;
-            if (scope.selectedNodes.length > 0 && node.depth != scope.prevNode.depth) return;
+            if (scope.selectedNodes.length > 0 &&
+                node.depth !== scope.prevNode.depth) return;
             node.selected = angular.isDefined(newValue) ? newValue : !node.selected;
             scope.selectedNodes[node.selected ? 'push' : 'remove'](node);
             if (node.selected) {
@@ -125,7 +126,7 @@ ngapp.service('nodeSelectionService', function() {
                 let targetDepth = node.depth;
                 for (let i = index + 1; i < scope.tree.length; i++) {
                     let n = scope.tree[i];
-                    if (n.depth == targetDepth) return n;
+                    if (n.depth === targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }
             }
@@ -154,7 +155,7 @@ ngapp.service('nodeSelectionService', function() {
                 let targetDepth = node.depth;
                 for (let i = index - 1; i >= 0; i++) {
                     let n = scope.tree[i];
-                    if (n.depth == targetDepth) return n;
+                    if (n.depth === targetDepth) return n;
                     if (n.depth < targetDepth) return;
                 }
             }
