@@ -16,7 +16,7 @@ ngapp.service('columnsService', function(settingsService) {
                     }
                     return name;
                 case xelib.etMainRecord:
-                    return node.fid === 0 ? 'File Header' : xelib.IntToHex(node.fid);
+                    return node.fid === 0 ? 'File Header' : xelib.Hex(node.fid);
             }
         }
     };

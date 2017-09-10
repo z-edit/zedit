@@ -2,7 +2,7 @@ import { xelib } from './lib';
 
 // UTILITY METHODS
 Object.assign(xelib, {
-    IntToHex: function(n, padding = 8) {
+    Hex: function(n, padding = 8) {
         let str = Number(n).toString(16).toUpperCase();
         while (str.length < padding) str = '0' + str;
         return str;
@@ -20,5 +20,5 @@ Object.assign(xelib, {
         } finally {
             handles.forEach(xelib.Release);
         }
-    }
+    },
 });

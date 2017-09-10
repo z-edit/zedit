@@ -33,10 +33,5 @@ Object.assign(xelib, {
     },
     SetRecordFlag: function(_id, name, enabled) {
         xelib.SetFlag(_id, 'Record Header\\Record Flags', name, enabled);
-    },
-    HexFormID: function(_id, local = false) {
-        let result = xelib.GetFormID(_id, local).toString(16).toUpperCase();
-        while (result.length < 8) result = '0' + result;
-        return result;
     }
 });
