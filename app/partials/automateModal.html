@@ -6,7 +6,7 @@
             <h2>Automate</h2>
             <div class="select-script-container">
                 <span>Script</span>
-                <select ng-model="selectedScript" ng-options="script as script.fileName for script in scripts"></select>
+                <select ng-model="selectedScript" ng-options="script as script.filename for script in scripts"></select>
                 <dropdown items="sortModes" on-item-click="setSortMode">
                     <dropdown-display>
                         <i class="fa fa-sort-amount-desc" title="Sort by"></i>

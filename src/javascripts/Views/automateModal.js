@@ -1,4 +1,4 @@
-ngapp.controller('automateModalController', function($scope, modalService, automationService) {
+ngapp.controller('automateModalController', function($scope, $rootScope, modalService, automationService) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;
@@ -22,7 +22,7 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
     }, {
         label: 'Sort by Filename',
         compare: (a, b) => {
-            return compare(a.fileName.toUpperCase(), b.fileName.toUpperCase());
+            return compare(a.filename.toUpperCase(), b.filename.toUpperCase());
         }
     }];
 
@@ -34,9 +34,11 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
     $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
 
     $scope.runScript = function() {
+        let script = $scope.selectedScript;
         $scope.saveScript();
-        automationService.runScript($scope, $scope.selectedScript.filePath);
         $scope.$emit('closeModal');
+        automationService.runScript($scope, script.filePath);
+        $rootScope.$broadcast('loading', `Executing ${script.filename}...`);
     };
 
     $scope.saveScript = function() {
@@ -56,11 +58,11 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
         let scripts = fh.jetpack.find('scripts', { matching: '*.js'}),
             scriptHistory = fh.loadJsonFile('scripts/history.json', {});
         $scope.scripts = scripts.map(function(filePath) {
-            let fileName = filePath.split('\\').last();
+            let filename = filePath.split('\\').last();
             return {
                 filePath: filePath,
-                fileName: fileName,
-                lastRun: scriptHistory[fileName] || new Date(0)
+                filename: filename,
+                lastRun: scriptHistory[filename] || new Date(0)
             }
         });
     };
@@ -69,7 +71,7 @@ ngapp.controller('automateModalController', function($scope, modalService, autom
         let filePath = getNewScriptPath();
         $scope.scripts.unshift({
             filePath: filePath,
-            fileName: filePath.split('\\').last(),
+            filename: filePath.split('\\').last(),
             lastRun: new Date()
         });
         $scope.selectedScript = $scope.scripts[0];

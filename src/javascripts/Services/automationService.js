@@ -11,6 +11,7 @@ ngapp.service('automationService', function($rootScope, backgroundService , erro
                 if (progress) return;
                 if (!options.log) options.log = [];
                 progress = options;
+                $rootScope.$broadcast('doneLoading');
                 $rootScope.$broadcast('openModal', 'progress', {
                     progress: progress
                 });
@@ -50,8 +51,10 @@ ngapp.service('automationService', function($rootScope, backgroundService , erro
     };
 
     let cleanup = function() {
-        if (progress && !progress.keepOpen) {
-            $rootScope.$broadcast('closeModal');
+        if (progress) {
+            if (!progress.keepOpen) $rootScope.$broadcast('closeModal');
+        } else {
+            $rootScope.$broadcast('doneLoading');
         }
         progress = undefined;
         xelib.FreeHandleGroup();
