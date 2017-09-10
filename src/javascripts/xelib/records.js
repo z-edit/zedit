@@ -25,6 +25,12 @@ Object.assign(xelib, {
         if (!lib.SetFormID(_id, newFormID, local, fixReferences))
             Fail(`Failed to set FormID on ${_id} to ${newFormID}`);
     },
+    GetRecord: function(_id, formID, local = false) {
+        return GetHandle(function(_res) {
+            if (!lib.GetRecord(_id, formID, local, _res))
+                Fail(`Failed to get record at: ${_id}, ${formID}`);
+        });
+    },
     GetRecords: function(_id, search, includeOverrides = false) {
         return GetArray(function(_len) {
             if (!lib.GetRecords(_id, wcb(search), includeOverrides, _len))

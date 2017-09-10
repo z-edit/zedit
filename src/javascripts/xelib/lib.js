@@ -77,6 +77,7 @@ try {
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         'GetElementRecord': [WordBool, [Cardinal, PCardinal]],
         'GetLinksTo': [WordBool, [Cardinal, PWChar, PCardinal]],
+        'SetLinksTo': [WordBool, [Cardinal, Cardinal, PWChar]],
         'ElementCount': [WordBool, [Cardinal, PInteger]],
         'ElementEquals': [WordBool, [Cardinal, Cardinal, PWordBool]],
         'ElementMatches': [WordBool, [Cardinal, PWChar, PWChar, PWordBool]],
@@ -131,6 +132,7 @@ try {
         // RECORD HANDLING METHODS
         'GetFormID': [WordBool, [Cardinal, PCardinal, WordBool]],
         'SetFormID': [WordBool, [Cardinal, Cardinal, WordBool, WordBool]],
+        'GetRecord': [WordBool, [Cardinal, Cardinal, WordBool, PCardinal]],
         'GetRecords': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
         'GetOverrides': [WordBool, [Cardinal, PInteger]],
         'GetMaster': [WordBool, [Cardinal, PCardinal]],
