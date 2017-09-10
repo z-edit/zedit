@@ -21,8 +21,9 @@ var rollupOptions = {
 
 gulp.task('bundle', function () {
     return Promise.all([
-        bundle(jsDir.path('background.js'), destDir.path('background.js'), rollupOptions),
-        bundle(jsDir.path('app.js'), destDir.path('app.js'), rollupOptions)
+        bundle(jsDir.path('main.js'), destDir.path('main.js'), rollupOptions),
+        bundle(jsDir.path('app.js'), destDir.path('app.js'), rollupOptions),
+        bundle(jsDir.path('background.js'), destDir.path('background.js'), rollupOptions)
     ]);
 });
 

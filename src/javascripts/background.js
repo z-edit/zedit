@@ -1,55 +1,53 @@
-// This is main process of Electron, started as first thing when your
-// app starts. This script is running through entire life of your application.
-// It doesn't have any windows which you can see on screen, but we can open
-// window from here.
+import { ipcRenderer, remote } from 'electron';
+import fh from './helpers/fileHelpers';
 
-import path from 'path';
-import url from 'url';
-import { app, Menu } from 'electron';
-import createWindow from './helpers/window';
-//import _xelib from './xelib';
+// TODO: uncomment
+// window.xelib = remote.getGlobal('xelib');
 
-// Special module holding environment variables which you declared
-// in config/env_xxx.json file.
-import env from './env';
+let debug = true;
 
-//global.xelib = _xelib;
+let deserialize = function(str) {
+    return JSON.parse(str, function(key, value) {
+        if (key === '' || (typeof value !== 'string')) return value;
 
-let mainWindow;
+        let expr = /function[^\(]*\(([^\)]*)\)[^\{]*{([^\}]*)\}/,
+            match = value.match(expr);
+        if (!match) return value;
 
-let setApplicationMenu = function () {
-    Menu.setApplicationMenu(Menu.buildFromTemplate([]));
+        let args = match[1].split(',').map(function(arg) {
+            return arg.replace(/\s+/, '');
+        });
+        return new Function(args, match[2]);
+    });
 };
 
-// Save userData in separate folders for each environment.
-// Thanks to this you can use production and development versions of the app
-// on same machine like those are two separate apps.
-if (env.name !== 'production') {
-    let userDataPath = app.getPath('userData');
-    app.setPath('userData', userDataPath + ' (' + env.name + ')');
-}
-
-app.on('ready', function () {
-    setApplicationMenu();
-
-    let appUrl = url.format({
-        pathname: path.join(__dirname, 'app.html'),
-        protocol: 'file:',
-        slashes: true
+let invokeCallback = function(callbackName, args) {
+    return ipcRenderer.sendSync('worker-callback', {
+        callbackName: callbackName,
+        args: args
     });
+};
 
-    mainWindow = createWindow('main', { frame: false });
+let runWorker = function(data) {
+    console.log(`Received worker data: ${data}`);
+    let options = deserialize(data);
+    if (!jetpack.exists(options.filename))
+        throw new Error(`File ${options.filename} not found in ${jetpack.cwd()}`);
 
-    if (env.name === 'development') {
-        mainWindow.openDevTools();
-        mainWindow.webContents.on('devtools-opened', function() {
-            mainWindow.loadURL(appUrl);
-        });
-    } else {
-        mainWindow.loadURL(appUrl);
-    }
-});
+    console.log(`Starting worker: ${options.filename}`);
+    let workerCode = buildWorkerCode(options),
+        workerFn = new Function('fh', 'invokeCallback', workerCode);
+    workerFn(fh, invokeCallback);
+    console.log('Worker done!')
+};
 
-app.on('window-all-closed', function () {
-    app.quit();
-});
+window.onload = function () {
+    ipcRenderer.on('background-start', (data) => {
+        try {
+            runWorker(data);
+            ipcRenderer.send('worker-response');
+        } catch(e) {
+            ipcRenderer.send('worker-response', e);
+        }
+    });
+};
