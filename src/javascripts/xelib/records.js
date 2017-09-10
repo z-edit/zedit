@@ -19,7 +19,7 @@ Object.assign(xelib, {
         return _res.readUInt32LE();
     },
     GetHexFormID: function(_id, local = false) {
-        return Hex(xelib.GetFormID(_id, local));
+        return xelib.Hex(xelib.GetFormID(_id, local));
     },
     SetFormID: function(_id, newFormID, local = false, fixReferences = true) {
         if (!lib.SetFormID(_id, newFormID, local, fixReferences))

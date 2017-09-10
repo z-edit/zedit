@@ -24,7 +24,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
                 return {
                     filename: filename,
                     masterNames: xelib.GetMasterNames(handle),
-                    active: activePlugins.indexOf(filename) > -1
+                    active: activePlugins.includes(filename)
                 }
             } finally {
                 xelib.UnloadPlugin(handle);
