@@ -12,6 +12,9 @@ ngapp.service('backgroundService', function($q) {
     ipcRenderer.on('worker-done', (event, result) => action.resolve(result));
     ipcRenderer.on('worker-error', (event, e) => action.reject(e));
 
+    // serializing like this means it won't be deserialized in the main process,
+    // which is slightly faster. it also allows us to support passing background
+    // workers isolated functions
     let serialize = function(obj) {
         return JSON.stringify(obj, function(key, value) {
             if (typeof(value) === 'function') return value.toString();
