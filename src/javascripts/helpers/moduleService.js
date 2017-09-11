@@ -1,12 +1,21 @@
 export default function(ngapp, fh) {
-    let modules = {},
-        failures = [];
+    let service,
+        modules = {},
+        failures = [],
+        loaders = {
+            default: function(module, fh, ngapp, moduleService) {
+                let fn = new Function('ngapp', 'fh', 'info', 'moduleService', module.code);
+                fn(ngapp, fh, module.info, moduleService);
+                modules[module.info.id] = module.info;
+            }
+        },
+        deferredModules = [];
 
-    let createModuleLoader = function(modulePath, info) {
-        let code = fh.loadTextFile(`${modulePath}\\index.js`);
+    // PRIVATE FUNCTIONS
+    let prepareModule = function(modulePath, info) {
         return {
             info: info,
-            fn: new Function('ngapp', 'fh', 'info', code)
+            code: fh.loadTextFile(`${modulePath}\\index.js`)
         }
     };
 
@@ -42,6 +51,16 @@ export default function(ngapp, fh) {
         failures.push(`Missing module.json file at ${modulePath}, failed to load module.`);
     };
 
+    let loaderNotFoundError = function(module) {
+        failures.push(`Failed to load ${module.info.id}, module loader ` +
+            `${module.info.moduleLoader} not found.`);
+    };
+
+    let deferredError = function(module) {
+        failures.push(`Failed to load ${module.info.id}, loader ` +
+            `${module.info.moduleLoader} was declared but not instantiated.`);
+    };
+
     let allRequirementsLoaded = function(requirements) {
         if (!requirements) return true;
         return requirements.reduce(function(b, requirement) {
@@ -49,58 +68,73 @@ export default function(ngapp, fh) {
         }, true);
     };
 
-    let load = function(loader) {
-        loader.fn(ngapp, fh, loader.info);
-        modules[loader.info.id] = loader.info;
+    let build = function(module, allowDefer = true) {
+        let loaderId = module.info.moduleLoader || 'default',
+            loader = loaders[loaderId];
+        if (!loader) {
+            loaderNotFoundError(module);
+        } else if (loader === true) {
+            allowDefer ? deferredModules.push(module) : deferredError(module);
+        } else {
+            loader(module, fh, ngapp, service);
+        }
     };
 
-    let failedToLoadModules = function(loaders) {
-        loaders.forEach((loader) => missingRequirementError(loader.info));
+    let failedToLoadModules = function(modules) {
+        modules.forEach((module) => missingRequirementError(module.info));
     };
 
-    let executeLoaders = function(loaders) {
-        let unloadedCount = loaders.length,
+    let buildModules = function(modules) {
+        debugger;
+        let unloadedCount = modules.length,
             lastUnloadedCount = 0,
-            unloadedLoaders = loaders;
+            unloadedModules = modules;
         while (unloadedCount > 0 && unloadedCount !== lastUnloadedCount) {
-            unloadedLoaders = unloadedLoaders.filter(function(loader) {
-                if (!allRequirementsLoaded(loader.info.requires)) return true;
-                load(loader);
+            unloadedModules = unloadedModules.filter(function(module) {
+                if (!allRequirementsLoaded(module.info.requires)) return true;
+                build(module);
             });
             lastUnloadedCount = unloadedCount;
-            unloadedCount = unloadedLoaders.length;
+            unloadedCount = unloadedModules.length;
         }
-        if (unloadedCount > 0) failedToLoadModules(unloadedLoaders);
+        if (unloadedCount > 0) failedToLoadModules(unloadedModules);
     };
 
-    return {
+    // PUBLIC API
+    service = {
         loadModules: function() {
             let moduleFolders = getModuleFolders(),
-                moduleLoaders = [];
+                modules = [];
             moduleFolders.forEach(function(modulePath) {
                 let info = getModuleInfo(modulePath);
                 if (!info) {
                     missingInfoError(modulePath);
                 } else {
-                    moduleLoaders.push(createModuleLoader(modulePath, info));
+                    modules.push(prepareModule(modulePath, info));
                 }
             });
-            executeLoaders(moduleLoaders);
+            buildModules(modules);
+        },
+        loadDeferredModules: function() {
+            debugger;
+            deferredModules.forEach((module) => build(module, false));
         },
         loadModule: function(modulePath) {
             let info = getModuleInfo(modulePath);
             if (!info) {
                 missingInfoError(modulePath);
             } else {
-                let loader = createModuleLoader(modulePath, info);
+                let module = prepareModule(modulePath, info);
                 if (allRequirementsLoaded(info.requires)) {
-                    load(loader);
+                    build(module);
                     return true;
                 } else {
                     missingRequirementError(info);
                 }
             }
         },
+        registerLoader: (id, loaderFunction) => loaders[id] = loaderFunction,
+        deferLoader: (id) => loaders[id] = true,
         /*
          * 1. Extract module to temporary folder
          * 2. Load module info, if invalid fail and inform user, else continue.
@@ -113,5 +147,7 @@ export default function(ngapp, fh) {
         installModule: function(filePath) {
             // TODO
         }
-    }
+    };
+
+    return service;
 };

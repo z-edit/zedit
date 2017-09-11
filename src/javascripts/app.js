@@ -17,12 +17,12 @@ const ngapp = angular.module('zedit', [
 ]);
 
 //this allows urls with and without trailing slashes to go to the same state
-ngapp.config(function ($urlMatcherFactoryProvider) {
+ngapp.config(function($urlMatcherFactoryProvider) {
     $urlMatcherFactoryProvider.strictMode(false);
 });
 
 // state redirects
-ngapp.run(['$rootScope', '$state', function ($rootScope, $state) {
+ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart', function (evt, toState, params, fromState) {
         if (toState.redirectTo) {
             evt.preventDefault();
@@ -40,3 +40,4 @@ ngapp.run(['$rootScope', '$state', function ($rootScope, $state) {
 // load modules
 const moduleService = buildModuleService(ngapp, fh);
 moduleService.loadModules();
+ngapp.run(() => moduleService.loadDeferredModules());

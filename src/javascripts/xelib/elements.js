@@ -168,4 +168,4 @@ Object.assign(xelib, {
     IsFlags: function(_id) {
         return xelib.ValueType(_id) === xelib.vtFlags;
     }
-})
+});
