@@ -1,16 +1,11 @@
-html, body {
-  width: 100%;
-  height: 100%;
+body {
+  height: 100vh;
   margin: 0;
-  padding: 0;
+  user-select: none;
   font-family: 'Roboto', sans-serif;
   color: $font_color;
   background: $background;
   overflow: hidden;
-}
-
-body {
-  user-select: none;
 }
 
 * {
@@ -29,6 +24,7 @@ a {
   border-bottom: 1px solid $shadow;
   display: table;
   width: 100%;
+  background-color: $background;
 
   .title {
     cursor: default;

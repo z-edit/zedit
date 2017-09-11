@@ -1,5 +1,5 @@
 loader {
-  color: #fff;
+  color: $inverse_font_color;
 
   .modal-container {
     background-color: rgba($shadow, 0.6);
@@ -14,6 +14,7 @@ loader {
   .loading-content {
     margin-top: 16px;
     font-size: 24px;
+    text-align: center;
   }
 
   .action-btn {
