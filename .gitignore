@@ -19,3 +19,4 @@ profiles/
 modules/
 /columns.json
 app/background.js
+app/progress.js
