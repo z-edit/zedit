@@ -3,13 +3,17 @@ ngapp.directive('loader', function () {
         restrict: 'E',
         templateUrl: 'directives/loader.html',
         controller: 'loaderController',
-        scope: false
+        scope: {
+            message: '=',
+            spinnerOpts: '=',
+            canCancel: '=?'
+        }
     }
 });
 
 ngapp.controller('loaderController', function ($scope, $rootScope) {
     $scope.cancel = function() {
-        $scope.loadingMessage = "Cancelling...";
+        $scope.message = "Cancelling...";
         $rootScope.$broadcast('cancel');
     };
 });
