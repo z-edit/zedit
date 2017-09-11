@@ -7,9 +7,6 @@ let fileHeaderFlagsPath = 'File Header\\Record Header\\Record Flags',
 
 // FILE VALUE METHODS
 Object.assign(xelib, {
-    GetFileHeader: function(_id) {
-        return xelib.GetElement(_id, 'File Header');
-    },
     GetNextObjectID: function(_id) {
         return xelib.GetUIntValue(_id, nextObjectIdPath);
     },

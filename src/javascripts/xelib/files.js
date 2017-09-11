@@ -50,5 +50,8 @@ Object.assign(xelib, {
             if (!lib.GetFileLoadOrder(_id, _res))
                 Fail(`Failed to file load order for: ${_id}`);
         });
+    },
+    GetFileHeader: function(_id) {
+        return xelib.GetElement(_id, 'File Header');
     }
 });
