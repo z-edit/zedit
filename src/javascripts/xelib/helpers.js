@@ -121,9 +121,8 @@ export let GetStringArray = function(callback, method = 'GetResultString') {
     return str !== '' ? str.split('\r\n') : [];
 };
 
-export let GetDictionary = function(_len) {
-    let str = GetString(_len),
-        pairs = str.split('\n').slice(0, -1),
+export let GetDictionary = function(callback, method = 'GetResultString') {
+    let pairs = GetStringArray(callback, method),
         dictionary = {};
     pairs.forEach(function(pair) {
         let n = pair.indexOf('=');
