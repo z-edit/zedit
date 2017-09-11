@@ -45,9 +45,5 @@ Object.assign(xelib, {
             fileNames = files.map((file) => { return xelib.Name(file) });
         });
         return fileNames;
-    },
-    // TODO: we probably should make a native function for this
-    GetFileLoadOrder: function(file) {
-        return parseInt(xelib.DisplayName(file).substr(1, 2));
     }
 });
