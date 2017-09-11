@@ -10,7 +10,7 @@
             {{expanded ? 'Hide' : 'Show'}} Log
         </div>
         <!-- TODO: we should break this out into a log directive -->
-        <div ng-if="expanded" class="log" ng-scroll="onLogScroll($event)" vs-repeat>
+        <div ng-if="expanded" class="log" scroll-glue vs-repeat>
             <div ng-repeat="item in progress.log" class="message-{{::item.level}}">
                 {{::item.message}}
             </div>
