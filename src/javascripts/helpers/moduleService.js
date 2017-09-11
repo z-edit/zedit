@@ -85,7 +85,6 @@ export default function(ngapp, fh) {
     };
 
     let buildModules = function(modules) {
-        debugger;
         let unloadedCount = modules.length,
             lastUnloadedCount = 0,
             unloadedModules = modules;
@@ -116,7 +115,6 @@ export default function(ngapp, fh) {
             buildModules(modules);
         },
         loadDeferredModules: function() {
-            debugger;
             deferredModules.forEach((module) => build(module, false));
         },
         loadModule: function(modulePath) {
