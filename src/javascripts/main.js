@@ -29,36 +29,35 @@ if (env.name !== 'production') {
     app.setPath('userData', userDataPath + ' (' + env.name + ')');
 }
 
-let createBackgroundWindow = function() {
-    const window = new BrowserWindow({ show: false });
-    window.loadURL(url.format({
-        pathname: path.join(__dirname, 'background.html'),
+let getPageUrl = function(page) {
+    return url.format({
+        pathname: path.join(__dirname, page),
         protocol: 'file:',
         slashes: true
-    }));
-    return window;
+    });
+};
+
+let loadPage = function(window, page) {
+    if (env.name === 'development') {
+        window.openDevTools();
+        window.webContents.on('devtools-opened', function() {
+            window.loadURL(getPageUrl(page));
+        });
+    } else {
+        window.loadURL(getPageUrl(page));
+    }
 };
 
 app.on('ready', function () {
     setApplicationMenu();
 
-    let appUrl = url.format({
-        pathname: path.join(__dirname, 'app.html'),
-        protocol: 'file:',
-        slashes: true
+    mainWindow = createWindow('main', { frame: false });
+    backgroundWindow = new BrowserWindow({
+        show: env.name !== 'development'
     });
 
-    mainWindow = createWindow('main', { frame: false });
-    backgroundWindow = createBackgroundWindow();
-
-    if (env.name === 'development') {
-        mainWindow.openDevTools();
-        mainWindow.webContents.on('devtools-opened', function() {
-            mainWindow.loadURL(appUrl);
-        });
-    } else {
-        mainWindow.loadURL(appUrl);
-    }
+    loadPage(mainWindow, 'app.html');
+    loadPage(backgroundWindow, 'background.html');
 });
 
 app.on('window-all-closed', function () {
