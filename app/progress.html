@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>zEdit - Progress</title>
+
+    <!-- TODO: Dynamic theme here -->
+    <link id="theme" href="themes/day.css" rel="stylesheet" type="text/css">
+    <style>
+        body {
+            background: none !important;
+        }
+    </style>
+
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/angular-spinner/dist/angular-spinner.min.js"></script>
+    <script src="../node_modules/angular-vs-repeat/src/angular-vs-repeat.js"></script>
+    <script src="../node_modules/angularjs-scroll-glue/src/scrollglue.js"></script>
+    <script src="progress.js"></script>
+</head>
+<body ng-app="progress">
+    <progress-modal ng-if="progress.determinate"></progress-modal>
+    <loader message="progress.message" spinner-opts="whiteOpts" ng-if="!progress.determinate"></loader>
+</body>
+</html>
