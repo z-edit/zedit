@@ -1,7 +1,8 @@
 let targetDuration = 5, // duration in seconds
     numOperations = targetDuration * 10;
 
-ShowProgress({
+zedit.ShowProgress({
+    determinate: true,
     title: '?_?',
     message: '...',
     current: 0,
@@ -18,14 +19,14 @@ let doLongOperation = function() {
     }
 };
 
-LogMessage('Let\'s do some stuff!');
-ProgressTitle('Doing Stuff');
+zedit.LogMessage('Let\'s do some stuff!');
+zedit.ProgressTitle('Doing Stuff');
 
 // ~10s
 for (let i = 0; i < numOperations; i++) {
-    LogMessage(`Stuff #${i}`);
+    zedit.LogMessage(`Stuff #${i}`);
     doLongOperation();
-    AddProgress(1);
-    if (i === 5) ProgressMessage('Herp');
-    if (i === 10) ProgressMessage('Derp');
+    zedit.AddProgress(1);
+    if (i === 5) zedit.ProgressMessage('Herp');
+    if (i === 10) zedit.ProgressMessage('Derp');
 }
