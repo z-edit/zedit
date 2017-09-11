@@ -36,6 +36,12 @@ Object.assign(xelib, {
                 Fail(`Failed to create new element at: ${elementContext(_id, path)}`);
         });
     },
+    AddElementValue: function(_id, path, value) {
+        return GetHandle(function(_res) {
+            if (!lib.AddElementValue(_id, wcb(path), wcb(value), _res))
+                Fail(`Failed to create new element at: ${elementContext(_id, path)}, with value: ${value}`);
+        });
+    },
     RemoveElement: function(_id, path = '') {
         lib.RemoveElement(_id, wcb(path));
     },

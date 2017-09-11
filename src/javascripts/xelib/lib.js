@@ -68,6 +68,7 @@ try {
         'HasElement': [WordBool, [Cardinal, PWChar, PWordBool]],
         'GetElement': [WordBool, [Cardinal, PWChar, PCardinal]],
         'AddElement': [WordBool, [Cardinal, PWChar, PCardinal]],
+        'AddElementValue': [WordBool, [Cardinal, PWChar, PWChar, PCardinal]],
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
         'SetElement': [WordBool, [Cardinal, Cardinal, PCardinal]],
