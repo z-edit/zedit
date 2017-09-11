@@ -7,7 +7,7 @@ import path from 'path';
 import url from 'url';
 import { app, Menu, ipcMain, BrowserWindow } from 'electron';
 import createWindow from './helpers/window';
-import _xelib from './xelib';
+//import _xelib from './xelib';
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
@@ -15,7 +15,8 @@ import env from './env';
 
 let mainWindow, backgroundWindow;
 
-global.xelib = _xelib;
+// THIS IS BAD
+//global.xelib = _xelib;
 
 let setApplicationMenu = function () {
     Menu.setApplicationMenu(Menu.buildFromTemplate([]));

@@ -4,10 +4,11 @@ import './polyfills';
 import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
+import xelib from './xelib';
 import buildModuleService from './helpers/moduleService';
 
 // initialize xelib when application starts
-const xelib = remote.getGlobal('xelib');
+//const xelib = remote.getGlobal('xelib');
 xelib.Initialize();
 window.xelib = xelib;
 
