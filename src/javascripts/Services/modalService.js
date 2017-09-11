@@ -1,6 +1,6 @@
 ngapp.service('modalService', function() {
     this.buildOptions = function(label, options) {
-        let basePath = options.basePatch || 'partials';
+        let basePath = options.basePath || 'partials';
         return Object.assign({
             templateUrl: `${basePath}/${label}Modal.html`,
             controller: `${label}ModalController`,
