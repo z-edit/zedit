@@ -1,11 +1,11 @@
 ngapp.service('automationService', function($rootScope, backgroundService , errorService) {
     let progress;
 
+    // TODO: synchronous callbacks, including Prompt and ShowModal
+
     let buildCallbacks = function(scope) {
+        // callback functions are pascal case for clarity
         return {
-            /*Prompt: function(options) {
-                return scope.$root.prompt(options)
-            },*/
             NavigateToElement: scope.navigateToElement,
             ShowProgress: function(options) {
                 if (progress) return;

@@ -10,6 +10,7 @@
   "main": "app/main.js",
   "build": {
     "appId": "com.mator.zedit",
+    "productName": "zEdit",
     "files": [
       "app/**/*",
       "node_modules/**/*",
