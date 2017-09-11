@@ -5,22 +5,14 @@
 
 import path from 'path';
 import url from 'url';
-import { app, Menu, ipcMain, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow } from 'electron';
 import createWindow from './helpers/window';
-//import _xelib from './xelib';
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
 import env from './env';
 
-let mainWindow, backgroundWindow;
-
-// THIS IS BAD
-//global.xelib = _xelib;
-
-let setApplicationMenu = function () {
-    Menu.setApplicationMenu(Menu.buildFromTemplate([]));
-};
+let mainWindow, progressWindow;
 
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
@@ -38,8 +30,8 @@ let getPageUrl = function(page) {
     });
 };
 
-let loadPage = function(window, page) {
-    if (env.name === 'development') {
+let loadPage = function(window, page, openDevTools) {
+    if (openDevTools) {
         window.openDevTools();
         window.webContents.on('devtools-opened', function() {
             window.loadURL(getPageUrl(page));
@@ -49,39 +41,56 @@ let loadPage = function(window, page) {
     }
 };
 
-app.on('ready', function () {
-    setApplicationMenu();
+let mainSend = function(channel, ...args) {
+    if (!mainWindow) return;
+    mainWindow.webContents.send(channel, ...args);
+};
 
+let progSend = function(channel, ...args) {
+    if (!progressWindow) return;
+    progressWindow.webContents.send(channel, ...args);
+};
+
+let openMainWindow = function() {
     mainWindow = createWindow('main', { frame: false });
-    backgroundWindow = new BrowserWindow({
-        show: env.name !== 'development'
+    loadPage(mainWindow, 'app.html', env.name === 'development');
+};
+
+let openProgressWindow = function() {
+    progressWindow = new BrowserWindow({
+        title: "zEdit Progress",
+        show: false,
+        frame: false,
+        closable: false,
+        transparent: true,
+        focusable: false,
+        maximizable: false,
+        minimizable: false,
+        resizable: false,
+        movabale: false
     });
+    loadPage(progressWindow, 'progress.html', true);
+};
 
-    loadPage(mainWindow, 'app.html');
-    loadPage(backgroundWindow, 'background.html');
+app.on('ready', function () {
+    openMainWindow();
+    openProgressWindow();
 });
 
-app.on('window-all-closed', function () {
-    app.quit();
+app.on('window-all-closed', () => app.quit());
+
+ipcMain.on('show-progress', (e, p) => {
+    progressWindow.setBounds(mainWindow.getBounds());
+    progSend('set-progress', p);
+    setTimeout(() => progressWindow.show(), 50);
 });
 
-ipcMain.on('worker-message', function(e, message) {
-    mainWindow.webContents.send('worker-message', message);
+ipcMain.on('hide-progress', () => {
+    mainSend('progress-hidden');
+    progressWindow.hide();
 });
 
-ipcMain.on('worker-callback', function(e, payload) {
-    mainWindow.webContents.send('worker-callback', payload);
-});
-
-ipcMain.on('worker-done', function(e, payload) {
-    mainWindow.webContents.send('worker-done', payload);
-});
-
-ipcMain.on('worker-error', function(e, payload) {
-    mainWindow.webContents.send('worker-error', payload);
-});
-
-ipcMain.on('run-worker', function(e, payload) {
-    console.log(`run-worker: ${payload}`);
-    backgroundWindow.webContents.send('run-worker', payload);
-});
+ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
+ipcMain.on('progress-message', (e, p) => progSend('progress-message', p));
+ipcMain.on('add-progress', (e, p) => progSend('add-progress', p));
+ipcMain.on('log-message', (e, p) => progSend('log-message', p));
