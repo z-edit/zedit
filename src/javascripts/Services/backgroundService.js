@@ -5,14 +5,17 @@ ngapp.service('backgroundService', function($q) {
     ipcRenderer.on('worker-callback', function(event, data) {
         if (!service.callbacks) return;
         let callback = service.callbacks[data.callbackName];
-        callback && callback(...data.args);
+        // Object.values is necessary here due to a quirk in how arrays are
+        // serialized to "arrays" with the Object constructor by IPC.
+        // The spread operator will raise an exception unless we do this.
+        callback && callback(...Object.values(data.args));
     });
 
     ipcRenderer.on('worker-message', (event, message) => console.log(message));
     ipcRenderer.on('worker-done', (event, result) => action.resolve(result));
     ipcRenderer.on('worker-error', (event, e) => action.reject(e));
 
-    // serializing like this means it won't be deserialized in the main process,
+    // Serializing like this means it won't be deserialized in the main process,
     // which is slightly faster. it also allows us to support passing background
     // workers isolated functions
     let serialize = function(obj) {
