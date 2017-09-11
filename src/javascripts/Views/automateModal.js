@@ -1,4 +1,4 @@
-ngapp.controller('automateModalController', function($scope, $rootScope, modalService, automationService) {
+ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;
@@ -34,11 +34,11 @@ ngapp.controller('automateModalController', function($scope, $rootScope, modalSe
     $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
 
     $scope.runScript = function() {
-        let script = $scope.selectedScript;
+        let scriptFilename = $scope.selectedScript.filename,
+            scriptCode = $scope.scriptContents;
         $scope.saveScript();
         $scope.$emit('closeModal');
-        automationService.runScript($scope, script.filePath);
-        $rootScope.$broadcast('loading', `Executing ${script.filename}...`);
+        automationService.runScript($scope, scriptCode, scriptFilename);
     };
 
     $scope.saveScript = function() {

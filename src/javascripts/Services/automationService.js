@@ -1,36 +1,10 @@
-ngapp.service('automationService', function($rootScope, backgroundService , errorService) {
-    let progress;
-
-    // TODO: synchronous callbacks, including Prompt and ShowModal
-
-    let buildCallbacks = function(scope) {
-        // callback functions are pascal case for clarity
-        return {
-            NavigateToElement: scope.navigateToElement,
-            ShowProgress: function(options) {
-                if (progress) return;
-                if (!options.log) options.log = [];
-                progress = options;
-                $rootScope.$broadcast('doneLoading');
-                $rootScope.$broadcast('openModal', 'progress', {
-                    progress: progress
-                });
-            },
-            LogMessage: function(message, level) {
-                if (!progress) return;
-                $rootScope.$applyAsync(function() {
-                    progress.log.push({ message: message, level: level });
-                });
-            },
-            ProgressMessage: function(msg) {
-                $rootScope.$applyAsync(() =>  progress.message = msg);
-            },
-            AddProgress: function(num) {
-                $rootScope.$applyAsync(() =>  progress.current += num);
-            },
-            ProgressTitle: function(title) {
-                $rootScope.$applyAsync(() =>  progress.title = title);
-            }
+ngapp.service('automationService', function($rootScope, $timeout, progressService) {
+    let buildScriptFunction = function(scriptCode) {
+        try {
+            return new Function('zedit', 'fh', scriptCode);
+        } catch (e) {
+            alert('Exception parsing script: ' + e.message);
+            console.log(e);
         }
     };
 
@@ -43,32 +17,40 @@ ngapp.service('automationService', function($rootScope, backgroundService , erro
                 element_type: node.element_type,
                 column_values: node.column_values.slice()
             }
-        })
-    };
-
-    let getScriptData = function(scope) {
-        return { selectedNodes: getSelectedNodes(scope) };
-    };
-
-    let cleanup = function() {
-        if (progress) {
-            if (!progress.keepOpen) $rootScope.$broadcast('closeModal');
-        } else {
-            $rootScope.$broadcast('doneLoading');
-        }
-        progress = undefined;
-        xelib.FreeHandleGroup();
-    };
-
-    this.runScript = function(scope, scriptFileName) {
-        xelib.CreateHandleGroup();
-        backgroundService.run({
-            filename: scriptFileName,
-            callbacks: buildCallbacks(scope),
-            data: getScriptData(scope)
-        }).then(cleanup, function(x) {
-            cleanup();
-            errorService.handleException(x);
         });
+    };
+
+    // TODO: Prompt and ShowModal
+    let buildZEditContext = function(scope) {
+        // callback functions are pascal case for clarity
+        return {
+            NavigateToElement: scope.navigateToElement,
+            ShowProgress: progressService.showProgress,
+            LogMessage: progressService.logMessage,
+            ProgressMessage: progressService.progressMessage,
+            AddProgress: progressService.addProgress,
+            ProgressTitle: progressService.progressTitle,
+            SelectedNodes: getSelectedNodes(scope)
+        }
+    };
+
+    this.runScript = function(scope, scriptCode, scriptFilename) {
+        let scriptFunction = buildScriptFunction(scriptCode),
+            zedit = buildZEditContext(scope);
+        xelib.CreateHandleGroup();
+        progressService.showProgress({
+            determinate: false,
+            message: `Executing ${scriptFilename}...`
+        });
+        $timeout(function() {
+            try {
+                scriptFunction(zedit, fh);
+            } catch(e) {
+                alert('Exception running script: ' + e.stack);
+            } finally {
+                progressService.hideProgress();
+                xelib.FreeHandleGroup();
+            }
+        }, 50);
     };
 });
