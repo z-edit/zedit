@@ -38,7 +38,9 @@ let getWorkerArgs = function(options) {
         log: log
     };
     options.callbacks.forEach(function(callbackName) {
-        args[callbackName] = () => invokeCallback(callbackName, arguments);
+        args[callbackName] = function() {
+            invokeCallback(callbackName, arguments);
+        };
     });
     return args;
 };
