@@ -1,5 +1,5 @@
 import { lib, xelib } from './lib';
-import { elementContext, Fail, flagContext, GetNativeValue, GetString,
+import { elementContext, Fail, flagContext, GetNativeValue, GetBool, GetString,
          GetDictionary, GetStringValue, SetNativeValue, wcb } from './helpers';
 import { PCardinal, PInteger, PDouble } from './types';
 
