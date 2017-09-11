@@ -1,6 +1,6 @@
 import { lib, xelib } from './lib';
 import { elementContext, Fail, flagContext, GetNativeValue, GetString,
-         GetStringValue, SetNativeValue, wcb } from './helpers';
+         GetDictionary, GetStringValue, SetNativeValue, wcb } from './helpers';
 import { PCardinal, PInteger, PDouble } from './types';
 
 // ELEMENT VALUE METHODS
@@ -105,4 +105,22 @@ Object.assign(xelib, {
                 Fail(`Failed to get all enum options at: ${elementContext(_id, path)}`);
         }).split(',');
     },
+    SignatureFromName: function(name) {
+        return GetString(function(_len) {
+            if (!lib.SignatureFromName(wcb(name), _len))
+                Fail(`Failed to get signature from name: ${name}`);
+        });
+    },
+    NameFromSignature: function(sig) {
+        return GetString(function(_len) {
+            if (!lib.NameFromSignature(wcb(sig), _len))
+                Fail(`Failed to get name from signature: ${sig}`);
+        });
+    },
+    GetSignatureNameMap: function() {
+        return GetDictionary(function(_len) {
+            if (!lib.GetSignatureNameMap(_len))
+                Fail(`Failed to get signature name map`);
+        });
+    }
 });
