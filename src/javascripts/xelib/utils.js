@@ -38,6 +38,5 @@ Object.assign(xelib, {
         } finally {
             xelib.HandleGroup = handleGroup;
         }
-
     }
 });

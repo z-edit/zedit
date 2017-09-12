@@ -8,16 +8,18 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
-    let getSelectedNodes = function(scope) {
-        $rootScope.$broadcast('getSelectedNodes');
-        if (!scope.selectedNodes) return [];
-        return scope.selectedNodes.map(function(node) {
-            return {
-                handle: node.handle,
-                element_type: node.element_type,
-                column_values: node.column_values.slice()
-            }
-        });
+    let getSelectedNodes = function(targetScope) {
+        return function() {
+            if (!targetScope.selectedNodes) return [];
+            return targetScope.selectedNodes.map(function(node) {
+                return {
+                    handle: node.handle,
+                    element_type: node.element_type,
+                    column_values: node.column_values.slice(),
+                    class: node.class
+                }
+            });
+        };
     };
 
     // TODO: Prompt and ShowModal
@@ -25,18 +27,18 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         // callback functions are pascal case for clarity
         return {
             NavigateToElement: scope.navigateToElement,
+            GetSelectedNodes: getSelectedNodes(targetScope),
             ShowProgress: progressService.showProgress,
             LogMessage: progressService.logMessage,
             ProgressMessage: progressService.progressMessage,
             AddProgress: progressService.addProgress,
-            ProgressTitle: progressService.progressTitle,
-            SelectedNodes: getSelectedNodes(scope)
+            ProgressTitle: progressService.progressTitle
         }
     };
 
-    this.runScript = function(scope, scriptCode, scriptFilename) {
+    this.runScript = function(targetScope, scriptCode, scriptFilename) {
         let scriptFunction = buildScriptFunction(scriptCode),
-            zedit = buildZEditContext(scope);
+            zedit = buildZEditContext(targetScope);
         xelib.CreateHandleGroup();
         progressService.showProgress({
             determinate: false,
