@@ -130,6 +130,9 @@ ngapp.service('contextMenuFactory', function() {
                     label: 'Change Description',
                     hotkey: 'Alt+Shift+D',
                     callback: () => scope.changeFileDescription(node)
+                }, {
+                    label: 'Add Masters',
+                    callback: () => scope.addMasters(node)
                 });
             } else if (node.element_type === xelib.etMainRecord) {
                 children.push({
