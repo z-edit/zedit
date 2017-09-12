@@ -29,5 +29,15 @@ Object.assign(xelib, {
         if (!xelib.HandleGroup) return;
         xelib.HandleGroup.forEach((h) => xelib.Release(h, true));
         xelib.HandleGroup = undefined;
+    },
+    OutsideHandleGroup: function(callback) {
+        let handleGroup = xelib.HandleGroup;
+        try {
+            xelib.HandleGroup = undefined;
+            callback();
+        } finally {
+            xelib.HandleGroup = handleGroup;
+        }
+
     }
 });
