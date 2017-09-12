@@ -73,7 +73,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
 
     $scope.buildHistoryEntry = function(record) {
         let entry = undefined;
-        xelibService.withHandle(xelib.GetElementFile(record), function(file) {
+        xelib.WithHandle(xelib.GetElementFile(record), function(file) {
             entry = {
                 name: `${xelib.Name(file)} - ${xelib.Name(record)}`,
                 path: `${xelib.Path(record)}`

@@ -8,7 +8,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         // helper functions
         let getRecordFileName = function(record) {
             let fileName = '';
-            xelibService.withHandle(xelib.GetElementFile(record), function(file) {
+            xelib.WithHandle(xelib.GetElementFile(record), function(file) {
                 fileName = xelib.DisplayName(file);
             });
             return fileName;
