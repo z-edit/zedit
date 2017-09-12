@@ -141,7 +141,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         if (oldValue) $scope.releaseHandles(oldValue);
         if (!newValue) return;
         if (!xelib.IsMaster(newValue)) {
-            $scope.record = xelib.GetMaster(newValue);
+            $scope.record = xelib.GetMasterRecord(newValue);
         } else {
             $scope.focusedIndex = -1;
             $scope.buildColumns();
