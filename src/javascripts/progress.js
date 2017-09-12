@@ -18,7 +18,7 @@ ngapp.run(function($rootScope, spinnerFactory) {
 
     $rootScope.whiteOpts = spinnerFactory.whiteOptions;
 
-    $rootScope.$on('unfocus-modal', () => {
+    $rootScope.$on('closeModal', () => {
         if ($rootScope.progress.canClose) ipcRenderer.send('hide-progress');
     });
 

@@ -1,5 +1,7 @@
 <div class="modal-container" ng-click="unfocusModal($event)">
     <div class="modal">
+        <div class="close-modal" ng-if="progress.canClose" ng-click="$emit('closeModal')"></div>
+
         <div class="progress-title">{{progress.title}}</div>
 
         <div class="progress-message">{{progress.message}}</div>
