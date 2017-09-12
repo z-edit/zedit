@@ -68,6 +68,7 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
         $scope.setNodeModified(node);
     });
     $scope.$on('fileAdded', $scope.reload);
+    $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('getSelectedNodes', function(e) {
         e.targetScope.selectedNodes = $scope.selectedNodes;
     });

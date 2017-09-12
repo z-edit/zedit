@@ -48,6 +48,7 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             } catch(e) {
                 alert('Exception running script: ' + e.stack);
             } finally {
+                $rootScope.$broadcast('reloadGUI');
                 progressService.hideProgress();
                 xelib.FreeHandleGroup();
             }
