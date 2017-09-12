@@ -94,3 +94,4 @@ ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
 ipcMain.on('progress-message', (e, p) => progSend('progress-message', p));
 ipcMain.on('add-progress', (e, p) => progSend('add-progress', p));
 ipcMain.on('log-message', (e, p) => progSend('log-message', p));
+ipcMain.on('allow-close', () => progSend('allow-close'));

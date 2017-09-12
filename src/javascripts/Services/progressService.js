@@ -28,5 +28,9 @@ ngapp.service('progressService', function($q) {
         ipcRenderer.send('progress-title', title);
     };
 
+    this.allowClose = function() {
+        ipcRenderer.send('allow-close');
+    };
+
     this.onProgressClosed = (callback) => closed.then(callback);
 });

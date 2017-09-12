@@ -27,6 +27,10 @@ ngapp.run(function($rootScope, spinnerFactory) {
         $rootScope.$applyAsync(() => $rootScope.progress = payload);
     });
 
+    ipcRenderer.on('allow-close', () => {
+        $rootScope.$applyAsync(() => $rootScope.progress.canClose = true);
+    });
+
     ipcRenderer.on('progress-title', (e, payload) => {
         $rootScope.$applyAsync(() => $rootScope.progress.title = payload);
     });
