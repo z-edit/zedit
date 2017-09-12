@@ -22,11 +22,23 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         };
     };
 
+    let navigateToElement = function(targetScope) {
+        return function(element, open) {
+            xelib.OutsideHandleGroup(function() {
+                try {
+                    targetScope.navigateToElement(element, open);
+                } catch (x) {
+                    console.log(`Failed to navigate to element, ${x.message}`);
+                }
+            });
+        }
+    };
+
     // TODO: Prompt and ShowModal
-    let buildZEditContext = function(scope) {
+    let buildZEditContext = function(targetScope) {
         // callback functions are pascal case for clarity
         return {
-            NavigateToElement: scope.navigateToElement,
+            NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
             ShowProgress: progressService.showProgress,
             LogMessage: progressService.logMessage,
@@ -50,9 +62,9 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             } catch(e) {
                 alert('Exception running script: ' + e.stack);
             } finally {
+                xelib.FreeHandleGroup();
                 $rootScope.$broadcast('reloadGUI');
                 progressService.hideProgress();
-                xelib.FreeHandleGroup();
             }
         }, 50);
     };
