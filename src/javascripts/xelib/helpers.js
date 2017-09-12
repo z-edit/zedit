@@ -32,6 +32,10 @@ export let elementContext = function(_id, path) {
     return `${_id}, "${path}"`;
 };
 
+export let arrayItemContext = function(_id, path, subpath, value) {
+    return `${_id}: ${path}, ${subpath}, ${value}`;
+};
+
 export let flagContext = function(_id, path, name) {
     return `${_id}, "${path}\\${name}"`;
 };

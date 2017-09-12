@@ -1,6 +1,6 @@
 import { lib, xelib } from './lib';
-import { applyEnums, elementContext, Fail, GetArray, GetBool, GetEnumValue,
-         GetHandle, GetInteger, GetStringArray, wcb } from './helpers';
+import { applyEnums, elementContext, arrayItemContext, Fail, GetArray, GetBool,
+         GetEnumValue, GetHandle, GetInteger, GetStringArray, wcb } from './helpers';
 
 // ENUMERATIONS
 const elementTypes = ['etFile', 'etMainRecord', 'etGroupRecord', 'etSubRecord', 'etSubRecordStruct', 'etSubRecordArray', 'etSubRecordUnion', 'etArray', 'etStruct', 'etValue', 'etFlag', 'etStringListTerminator', 'etUnion', 'etStructChapter'];
@@ -116,6 +116,40 @@ Object.assign(xelib, {
             if (!lib.ElementEquals(_id, _id2, _bool))
                 Fail(`Failed to check element equality for ${_id} and ${_id2}`);
         });
+    },
+    ElementMatches: function(_id, path, value) {
+        return GetBool(function(_bool) {
+            if (!lib.ElementMatches(_id, wcb(path), wcb(value), _bool))
+                Fail(`Failed to check element matches for ${_id}: ${path}, ${value}`);
+        });
+    },
+    HasArrayItem: function(_id, path, subpath, value) {
+        return GetBool(function(_bool) {
+            if (!lib.HasArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _bool))
+                Fail(`Failed to check has array item for ${arrayItemContext(path, subpath, value)}`);
+        });
+    },
+    GetArrayItem: function(_id, path, subpath, value) {
+        return GetHandle(function(_res) {
+            if (!lib.GetArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
+                Fail(`Failed to get array item for ${arrayItemContext(path, subpath, value)}`);
+        });
+    },
+    AddArrayItem: function(_id, path, subpath, value) {
+        return GetHandle(function(_res) {
+            if (!lib.AddArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
+                Fail(`Failed to add array item to ${arrayItemContext(path, subpath, value)}`);
+        });
+    },
+    RemoveArrayItem: function(_id, path, subpath, value) {
+        return GetHandle(function(_res) {
+            if (!lib.RemoveArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
+                Fail(`Failed to remove array item from ${arrayItemContext(path, subpath, value)}`);
+        });
+    },
+    MoveArrayItem: function(_id, index) {
+        if (!lib.MoveArrayItem(_id, index))
+            Fail(`Failed to move array item ${_id} to ${index}`);
     },
     CopyElement: function(_id, _id2, asNew = false) {
         return GetHandle(function(_res) {
