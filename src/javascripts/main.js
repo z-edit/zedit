@@ -69,7 +69,7 @@ let openProgressWindow = function() {
         resizable: false,
         movabale: false
     });
-    loadPage(progressWindow, 'progress.html', true);
+    loadPage(progressWindow, 'progress.html');
 };
 
 app.on('ready', function () {
