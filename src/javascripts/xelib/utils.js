@@ -20,5 +20,14 @@ Object.assign(xelib, {
         } finally {
             handles.forEach(xelib.Release);
         }
+    },
+    CreateHandleGroup: function() {
+        if (xelib.HandleGroup) throw 'Another handle group is already active!';
+        xelib.HandleGroup = [];
+    },
+    FreeHandleGroup: function() {
+        if (!xelib.HandleGroup) return;
+        xelib.HandleGroup.forEach((h) => xelib.Release(h, true));
+        xelib.HandleGroup = undefined;
     }
 });

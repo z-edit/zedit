@@ -54,14 +54,5 @@ Object.assign(xelib, {
     ResetStore: function() {
         if (!lib.ResetStore())
             Fail('Failed to reset interface store');
-    },
-    CreateHandleGroup: function() {
-        if (xelib.HandleGroup) throw 'Another handle group is already active!';
-        xelib.HandleGroup = [];
-    },
-    FreeHandleGroup: function() {
-        if (!xelib.HandleGroup) return;
-        xelib.HandleGroup.forEach((h) => xelib.Release(h, true));
-        xelib.HandleGroup = undefined;
     }
 });
