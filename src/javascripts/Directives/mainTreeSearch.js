@@ -39,7 +39,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
                 currentNode = $scope.lastSelectedNode(),
                 currentFile = currentNode && xelib.GetElementFile(currentNode.handle),
                 currentNodeIsFile = currentNode && currentNode.element_type === xelib.etFile;
-            xelibService.withHandles(xelib.GetElements(0, ''), function(files) {
+            xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
                 let startIndex = getStartIndex(files, currentFile, reverse, currentNodeIsFile);
                 for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
                     if ($scope.cancelled) return;

@@ -26,7 +26,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             scope.clearSelection(true);
             scope.buildTree();
             oldExpandedNodes.forEach((n) => reExpandNode(n));
-            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i == a.length - 1));
+            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i === a.length - 1));
             scope.releaseTree(oldTree);
         };
 
@@ -61,14 +61,13 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.navigateToElement = function(handle, open) {
+            if (handle === 0) return;
             let node = scope.resolveNode(scope.getElementPath(handle));
             if (node) {
                 scope.clearSelection(true);
                 scope.selectSingle(node, true, true, false);
-                $timeout(function() {
-                    scope.scrollToNode(node, true);
-                    if (open) scope.open(node);
-                });
+                if (open) scope.open(node);
+                $timeout(() => scope.scrollToNode(node, true));
             }
         };
 

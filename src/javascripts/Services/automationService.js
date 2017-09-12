@@ -8,35 +8,49 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
-    let getSelectedNodes = function(scope) {
-        $rootScope.$broadcast('getSelectedNodes');
-        if (!scope.selectedNodes) return [];
-        return scope.selectedNodes.map(function(node) {
-            return {
-                handle: node.handle,
-                element_type: node.element_type,
-                column_values: node.column_values.slice()
-            }
-        });
+    let getSelectedNodes = function(targetScope) {
+        return function() {
+            if (!targetScope.selectedNodes) return [];
+            return targetScope.selectedNodes.map(function(node) {
+                return {
+                    handle: node.handle,
+                    element_type: node.element_type,
+                    column_values: node.column_values.slice(),
+                    class: node.class
+                }
+            });
+        };
+    };
+
+    let navigateToElement = function(targetScope) {
+        return function(element, open) {
+            xelib.OutsideHandleGroup(function() {
+                try {
+                    targetScope.navigateToElement(element, open);
+                } catch (x) {
+                    console.log(`Failed to navigate to element, ${x.message}`);
+                }
+            });
+        }
     };
 
     // TODO: Prompt and ShowModal
-    let buildZEditContext = function(scope) {
+    let buildZEditContext = function(targetScope) {
         // callback functions are pascal case for clarity
         return {
-            NavigateToElement: scope.navigateToElement,
+            NavigateToElement: navigateToElement(targetScope),
+            GetSelectedNodes: getSelectedNodes(targetScope),
             ShowProgress: progressService.showProgress,
             LogMessage: progressService.logMessage,
             ProgressMessage: progressService.progressMessage,
             AddProgress: progressService.addProgress,
-            ProgressTitle: progressService.progressTitle,
-            SelectedNodes: getSelectedNodes(scope)
+            ProgressTitle: progressService.progressTitle
         }
     };
 
-    this.runScript = function(scope, scriptCode, scriptFilename) {
+    this.runScript = function(targetScope, scriptCode, scriptFilename) {
         let scriptFunction = buildScriptFunction(scriptCode),
-            zedit = buildZEditContext(scope);
+            zedit = buildZEditContext(targetScope);
         xelib.CreateHandleGroup();
         progressService.showProgress({
             determinate: false,
@@ -48,8 +62,9 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             } catch(e) {
                 alert('Exception running script: ' + e.stack);
             } finally {
-                progressService.hideProgress();
                 xelib.FreeHandleGroup();
+                $rootScope.$broadcast('reloadGUI');
+                progressService.hideProgress();
             }
         }, 50);
     };

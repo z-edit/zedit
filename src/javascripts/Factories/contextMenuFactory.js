@@ -186,7 +186,9 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Automate',
                 hotkey: 'Ctrl+M',
-                callback: () => scope.$emit('openModal', 'automate')
+                callback: () => scope.$emit('openModal', 'automate', {
+                    targetScope: scope
+                })
             })
         }
     }, {

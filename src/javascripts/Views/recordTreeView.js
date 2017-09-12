@@ -38,6 +38,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellDoubleClick = function(e, node, index) {
+        if (index === 0) return;
         if (!node.handles[index - 1]) {
             $scope.addElement(node, index);
             $timeout(() => $scope.editElement(node, index), 50);
@@ -131,6 +132,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         }
     });
     $scope.$on('nodeUpdated', $scope.reload);
+    $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('nodeAdded', function() {
         if (!xelib.GetFormID($scope.record)) $scope.reload();
     });
@@ -141,7 +143,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         if (oldValue) $scope.releaseHandles(oldValue);
         if (!newValue) return;
         if (!xelib.IsMaster(newValue)) {
-            $scope.record = xelib.GetMaster(newValue);
+            $scope.record = xelib.GetMasterRecord(newValue);
         } else {
             $scope.focusedIndex = -1;
             $scope.buildColumns();

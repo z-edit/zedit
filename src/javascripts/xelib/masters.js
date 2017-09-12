@@ -17,7 +17,7 @@ Object.assign(xelib, {
     },
     AddRequiredMasters: function(_id, _id2, asNew = false) {
         if (!lib.AddRequiredMasters(_id, _id2, asNew))
-            Fail(`Failed to add required masters for ${_id2} to file: ${_id}`);
+            Fail(`Failed to add required masters for ${_id} to file: ${_id2}`);
     },
     GetMasters: function(_id) {
         return GetArray(function(_len) {

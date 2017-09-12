@@ -35,10 +35,11 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
 
     $scope.runScript = function() {
         let scriptFilename = $scope.selectedScript.filename,
-            scriptCode = $scope.scriptContents;
+            scriptCode = $scope.scriptContents,
+            targetScope = $scope.modalOptions.targetScope;
         $scope.saveScript();
         $scope.$emit('closeModal');
-        automationService.runScript($scope, scriptCode, scriptFilename);
+        automationService.runScript(targetScope, scriptCode, scriptFilename);
     };
 
     $scope.saveScript = function() {

@@ -51,7 +51,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
         let hasFilesToSave = false;
-        xelibService.withHandles(xelib.GetElements(), function(files) {
+        xelib.WithHandles(xelib.GetElements(), function(files) {
             hasFilesToSave = !!files.find((file) => { return xelib.GetIsModified(file); });
         });
         if (!hasFilesToSave) return;
