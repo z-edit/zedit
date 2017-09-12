@@ -43,10 +43,16 @@ Object.assign(xelib, {
                 Fail(`Failed to get overrides for: ${_id}`);
         });
     },
-    GetMaster: function(_id) {
+    GetMasterRecord: function(_id) {
         return GetHandle(function(_res) {
-            if (!lib.GetMaster(_id, _res))
-                Fail(`Failed to get master for: ${_id}`);
+            if (!lib.GetMasterRecord(_id, _res))
+                Fail(`Failed to get master record for: ${_id}`);
+        });
+    },
+    GetWinningRecord: function(_id) {
+        return GetHandle(function(_res) {
+            if (!lib.GetWinningRecord(_id, _res))
+                Fail(`Failed to get winning override record for: ${_id}`);
         });
     },
     FindNextRecord: function(_id, search, byEdid, byName) {

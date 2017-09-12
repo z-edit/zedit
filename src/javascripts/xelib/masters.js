@@ -15,6 +15,10 @@ Object.assign(xelib, {
         if (!lib.AddMaster(_id, wcb(filename)))
             Fail(`Failed to add master "${filename}" to file: ${_id}`);
     },
+    AddRequiredMasters: function(_id, _id2, asNew = false) {
+        if (!lib.AddRequiredMasters(_id, _id2, asNew))
+            Fail(`Failed to add required masters for ${_id2} to file: ${_id}`);
+    },
     GetMasters: function(_id) {
         return GetArray(function(_len) {
             if (!lib.GetMasters(_id, _len))

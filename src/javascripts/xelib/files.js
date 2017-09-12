@@ -33,6 +33,18 @@ Object.assign(xelib, {
         if (!lib.SaveFile(_id, wcb(filePath)))
             Fail(`Failed to save file: ${_id}`);
     },
+    GetOverrideRecordCount: function(_id) {
+        return GetInteger(function(_res) {
+            if (!lib.GetOverrideRecordCount(_id, _res))
+                Fail(`Failed to get override record count for: ${_id}`);
+        });
+    },
+    GetRecordCount: function(_id) {
+        return GetInteger(function(_res) {
+            if (!lib.GetRecordCount(_id, _res))
+                Fail(`Failed to get record count for: ${_id}`);
+        });
+    },
     MD5Hash: function(_id) {
         return GetString(function(_len) {
             if (!lib.MD5Hash(_id, _len))
