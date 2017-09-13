@@ -29,7 +29,7 @@ ngapp.service('themeService', function(settingsService) {
 
     this.getCurrentTheme = function() {
         let settingsTheme = settingsService.globalSettings.theme;
-        if (!settingsTheme || !fh.appDir.exists(`themes/${settingsTheme}`)) {
+        if (!settingsTheme || !fh.appDir.exists(`app\\themes\\${settingsTheme}`)) {
             let availableThemes = service.getThemes();
             return availableThemes[0].filename;
         }
