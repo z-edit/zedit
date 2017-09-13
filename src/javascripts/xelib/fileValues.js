@@ -34,12 +34,5 @@ Object.assign(xelib, {
     },
     SetIsESM: function(_id, enabled) {
         return xelib.SetFlag(_id, fileHeaderFlagsPath, 'ESM', enabled);
-    },
-    GetLoadedFileNames: function() {
-        let fileNames = undefined;
-        xelib.WithHandles(xelib.GetElements(), function(files) {
-            fileNames = files.map((file) => { return xelib.Name(file) });
-        });
-        return fileNames;
     }
 });
