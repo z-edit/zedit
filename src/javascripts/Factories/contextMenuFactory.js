@@ -161,6 +161,31 @@ ngapp.service('contextMenuFactory', function() {
             });
         }
     }, {
+        id: 'Masters',
+        visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
+            let nodes = scope.selectedNodes, node = nodes.last();
+            return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: "Masters",
+                children: [{
+                    label: 'Add Masters',
+                    callback: () => scope.addMasters(node)
+                }, {
+                    label: 'Sort Masters',
+                    disabled:true,
+                    callback: () => scope.sortMasters(node)
+                }, {
+                    label: 'Clean Masters',
+                    disabled:true,
+                    callback: () => scope.cleanMasters(node)
+                }]
+            });
+        }
+    },{
         id: 'Enable Editing',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
