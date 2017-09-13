@@ -12,7 +12,8 @@ xelib.Initialize();
 
 // set up angular application
 const ngapp = angular.module('zedit', [
-    'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat', 'mp.colorPicker'
+    'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat',
+    'mp.colorPicker', 'puElasticInput'
 ]);
 
 //this allows urls with and without trailing slashes to go to the same state
