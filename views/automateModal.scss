@@ -15,18 +15,14 @@
       margin-right: 10px;
     }
 
-    > select {
-      flex: 1;
-      min-height: 26px;
-    }
-
     > button {
       font-size: 16px;
       padding: 4px 6px;
     }
 
-    > dropdown {
+    .sort-dropdown {
       margin: 0 6px;
+      min-height: 26px;
 
       dropdown-contents {
         left: -2px;
@@ -34,6 +30,14 @@
 
       .dropdown-item {
         width: 130px;
+      }
+    }
+
+    .scripts-dropdown {
+      flex: 1;
+
+      dropdown-contents {
+        left: -2px;
       }
     }
 
