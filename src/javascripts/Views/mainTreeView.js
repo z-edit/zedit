@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
+ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -16,9 +16,12 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     nodeSelectionService.buildFunctions($scope, true);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
-    formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
+    $scope.showContextMenu = function(e) {
+        contextMenuService.showContextMenu($scope, e);
+    };
+
     $scope.open = function(node) {
         if (!openableTypes.includes(node.element_type)) return;
         if (data.linkedScope) {

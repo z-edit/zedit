@@ -1,4 +1,6 @@
-ngapp.service('contextMenuService', function() {
+ngapp.service('contextMenuService', function($timeout) {
+    let service = this;
+
     this.buildMenuItems = function(scope, items) {
         let menuItems = [];
         items.forEach(function(item) {
@@ -10,5 +12,12 @@ ngapp.service('contextMenuService', function() {
             }
         });
         return menuItems;
+    };
+
+    this.showContextMenu = function(scope, e) {
+        let offset = { top: e.clientY, left: e.clientX},
+            items = scope.contextMenuItems,
+            menuItems = service.buildMenuItems(scope, items);
+        $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
     };
 });

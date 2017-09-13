@@ -1,4 +1,4 @@
-ngapp.controller('recordTreeViewController', function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, contextMenuService, hotkeyService, hotkeyFactory, contextMenuFactory, formUtils) {
+ngapp.controller('recordTreeViewController', function($scope, $element, $timeout, htmlHelpers, stylesheetService, treeService, recordTreeService, recordTreeElementService, nodeSelectionService, treeColumnService, errorService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -15,9 +15,13 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     nodeSelectionService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
-    formUtils.buildShowContextMenuFunction($scope);
 
     // scope functions
+    $scope.openContextMenu = function(e) {
+        if ($scope.focusedIndex === 0 || !$scope.selectedNodes.length) return;
+        contextMenuService.openContextMenu($scope, e);
+    };
+
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
         visible ? $timeout($scope.focusAddressInput, 50) : $scope.treeElement.focus();

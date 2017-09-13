@@ -12,7 +12,7 @@ ngapp.directive('listView', function() {
     }
 });
 
-ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, formUtils, htmlHelpers, contextMenuFactory, hotkeyFactory) {
+ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, contextMenuFactory, hotkeyFactory, htmlHelpers) {
     // helper variables
     let prevIndex = -1;
 
@@ -25,10 +25,13 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     // inherited variables and functions
     let hotkeys = hotkeyFactory.listViewHotkeys();
     $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
-    formUtils.buildShowContextMenuFunction($scope);
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', hotkeys);
 
     // scope functions
+    $scope.showContextMenu = function(e) {
+        contextMenuService.showContextMenu($scope, e);
+    };
+
     $scope.clearSelection = function(resetPrevIndex ) {
         $scope.items.forEach((item) => item.selected = false);
         if (resetPrevIndex) prevIndex = -1;
