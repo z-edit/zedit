@@ -22,8 +22,8 @@ ngapp.controller('dropdownController', function($scope, hotkeyService, hotkeyFac
     hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', hotkeys);
 
     // scope functions
-    $scope.toggleDropdown = function(visible) {
-        $scope.showDropdown = visible;
+    $scope.toggleDropdown = function() {
+        $scope.showDropdown = !$scope.showDropdown;
         $scope.currentIndex = -1;
     };
     $scope.onDropdownBlur = () => $scope.showDropdown = false;
