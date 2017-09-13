@@ -6,8 +6,13 @@
             <h2>Automate</h2>
             <div class="select-script-container">
                 <span>Script</span>
-                <select ng-model="selectedScript" ng-options="script as script.filename for script in scripts"></select>
-                <dropdown items="sortModes" on-item-click="setSortMode">
+                <dropdown class="combobox scripts-dropdown" items="scripts" on-item-click="selectScript">
+                    <dropdown-display>
+                        <input type="text" ng-model="selectedScript.filename" ng-click="$event.stopPropagation()" pu-elastic-input style="min-width: 25px">
+                    </dropdown-display>
+                    <dropdown-item>{{::$parent.item.filename}}</dropdown-item>
+                </dropdown>
+                <dropdown class="sort-dropdown" items="sortModes" on-item-click="setSortMode">
                     <dropdown-display>
                         <i class="fa fa-sort-amount-desc" title="Sort by"></i>
                     </dropdown-display>
