@@ -1,4 +1,4 @@
-ngapp.service('recordTreeDragDropService', function() {
+ngapp.service('recordTreeDragDropService', function(errorService) {
     this.buildFunctions = function(scope) {
         scope.onDragOver = function() {
             let dragData = scope.$root.dragData;
@@ -48,12 +48,12 @@ ngapp.service('recordTreeDragDropService', function() {
             }
         };
 
-        scope.setReference = function(element, ref) {
+        let setReference = function(element, ref) {
             xelib.WithHandle(xelib.GetElementFile(element), function(file) {
                 xelib.WithHandle(xelib.GetElementFile(ref), function(masterFile) {
                     xelib.AddMaster(file, xelib.Name(masterFile));
                 });
-                xelib.SetLinksTo(cellHandle, ref);
+                xelib.SetLinksTo(element, ref);
             });
         };
 
@@ -79,7 +79,7 @@ ngapp.service('recordTreeDragDropService', function() {
                 draggedElement = getDraggedElement(dragData);
             errorService.try(function() {
                 if (dragData.source === 'mainTreeView') {
-                    scope.setReference(cellHandle, draggedElement);
+                    setReference(cellHandle, draggedElement);
                 } else {
                     xelib.SetElement(cellHandle, draggedElement);
                 }
