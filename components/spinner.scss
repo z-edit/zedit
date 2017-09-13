@@ -1,0 +1,15 @@
+.big-spinner {
+  height: 250px;
+}
+
+.spinner.default {
+  > div > div {
+    background: $font_color !important;
+  }
+}
+
+.spinner.inverse {
+  > div > div {
+    background: $inverse_font_color !important;
+  }
+}
