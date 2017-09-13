@@ -44,7 +44,10 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
     $scope.$watch('title', () => document.title = $scope.title);
-    $scope.$watch('theme', () => themeStylesheet.href = `themes/${$scope.theme}`);
+    $scope.$watch('theme', function() {
+        themeStylesheet.href = `themes/${$scope.theme}`;
+        $scope.$broadcast('themeChanged', $scope.theme);
+    });
     $scope.$watch('syntaxTheme', function() {
         if ($scope.syntaxTheme === '') {
             syntaxThemeStylesheet.href = '';
