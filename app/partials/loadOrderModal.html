@@ -1,7 +1,8 @@
 <div class="modal-container">
     <div class="modal skinny-modal" ng-click="$broadcast('parentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
         <form>
-            <h3>Load Order</h3>
+            <h2>Load Order</h2>
+
             <section>
                 <list-view items="modalOptions.loadOrder" drag-type="loadOrderList" default-action="loadPlugins">
                     <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled" />
@@ -11,6 +12,7 @@
                     </span>
                 </list-view>
             </section>
+
             <div class="action-button-container">
                 <button class="action-btn" ng-click="loadPlugins()">OK</button>
             </div>
