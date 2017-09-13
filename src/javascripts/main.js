@@ -75,6 +75,7 @@ let openProgressWindow = function() {
 app.on('ready', function () {
     openMainWindow();
     openProgressWindow();
+    mainWindow.on('closed', () => progressWindow.destroy());
 });
 
 app.on('window-all-closed', () => app.quit());
