@@ -16,7 +16,7 @@ ngapp.run(function($rootScope, spinnerFactory) {
         message: '...'
     };
 
-    $rootScope.whiteOpts = spinnerFactory.whiteOptions;
+    $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
 
     $rootScope.$on('closeModal', () => {
         if ($rootScope.progress.canClose) ipcRenderer.send('hide-progress');

@@ -11,7 +11,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
-    $scope.whiteOpts = spinnerFactory.whiteOptions;
+    $scope.inverseOpts = spinnerFactory.inverseOpts;
     xelibService.printGlobals();
 
     // load default layout
