@@ -34,13 +34,6 @@
     }
   }
 
-  .tree-columns, .node {
-    .column:last-of-type {
-      border-right: 0;
-      flex: 0;
-    }
-  }
-
   .column-wrapper {
     border-bottom: 1px solid $medium_border;
     overflow-x: scroll;

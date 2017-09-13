@@ -18,6 +18,11 @@
 
     .column {
       min-width: 100px;
+
+      &:last-of-type {
+        flex: 1;
+        border-right: none;
+      }
     }
 
     .modified {
