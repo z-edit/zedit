@@ -8,7 +8,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
             let index = -1,
                 elements = xelib.GetElements(container, '', true);
             try {
-                index = handles.findIndex(function(h) {
+                index = elements.findIndex(function(h) {
                     return xelib.ElementEquals(h, element)
                 });
             } finally {
@@ -66,7 +66,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
                 xelib.Release(node.handle);
                 if (node.expanded) scope.collapseNode(node);
                 scope.tree.remove(node);
-                if (hasNoChildren(node.parent)) {
+                if (scope.hasNoChildren(node.parent)) {
                     scope.collapseNode(node.parent);
                     node.parent.can_expand = false;
                 }

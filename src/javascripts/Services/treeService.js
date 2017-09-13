@@ -81,6 +81,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         scope.hasNoChildren = function(node) {
             let checkIndex = scope.tree.indexOf(node) + 1;
+            if (checkIndex >= scope.tree.length) return true;
             return scope.tree[checkIndex].depth <= node.depth;
         };
 
