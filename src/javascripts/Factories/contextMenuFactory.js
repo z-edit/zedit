@@ -130,9 +130,6 @@ ngapp.service('contextMenuFactory', function() {
                     label: 'Change Description',
                     hotkey: 'Alt+Shift+D',
                     callback: () => scope.changeFileDescription(node)
-                }, {
-                    label: 'Add Masters',
-                    callback: () => scope.addMasters(node)
                 });
             } else if (node.element_type === xelib.etMainRecord) {
                 children.push({
@@ -164,6 +161,33 @@ ngapp.service('contextMenuFactory', function() {
             });
         }
     }, {
+        id: 'Masters',
+        visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
+            let nodes = scope.selectedNodes, node = nodes.last();
+            return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last(),
+                children = [];
+            children.push({
+                label: 'Add Masters',
+                callback: () => scope.addMasters(node)
+            }, {
+                label: 'Sort Masters',
+                disabled:true,
+                callback: () => scope.sortMasters(node)
+            }, {
+                label: 'Clean Masters',
+                disabled:true,
+                callback: () => scope.cleanMasters(node)
+            });
+            items.push({
+                label: "Masters",
+                children: children
+            });
+        }
+    },{
         id: 'Enable Editing',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
