@@ -95,5 +95,12 @@ Object.assign(xelib, {
         return GetString(function(len) {
             lib.GetGamePath(gameMode, len);
         }) || '';
+    },
+    GetLoadedFileNames: function() {
+        let fileNames = undefined;
+        xelib.WithHandles(xelib.GetElements(), function(files) {
+            fileNames = files.map((file) => { return xelib.Name(file) });
+        });
+        return fileNames;
     }
 });

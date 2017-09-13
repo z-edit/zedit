@@ -1,5 +1,4 @@
 import { xelib } from './lib';
-import { withHandles } from './helpers';
 
 // HELPER VARIABLES
 let fileHeaderFlagsPath = 'File Header\\Record Header\\Record Flags',
@@ -35,12 +34,5 @@ Object.assign(xelib, {
     },
     SetIsESM: function(_id, enabled) {
         return xelib.SetFlag(_id, fileHeaderFlagsPath, 'ESM', enabled);
-    },
-    GetLoadedFileNames: function() {
-        let fileNames = undefined;
-        withHandles(xelib.GetElements(), function(files) {
-            fileNames = files.map((file) => { return xelib.Name(file) });
-        });
-        return fileNames;
     }
 });

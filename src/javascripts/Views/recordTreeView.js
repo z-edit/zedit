@@ -78,9 +78,11 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellDragOver = function(node, index) {
+        if (index === 0) return;
         let dragData = $scope.$root.dragData,
-            isReference = node.value_type === xelib.vtReference;
-        if (node.parent && !node.parent.handles[index - 1] > 0) return;
+            isReference = node.value_type === xelib.vtReference,
+            recordIndex = index - 1;
+        if (node.parent && !node.parent.handles[recordIndex] > 0) return;
         if (dragData && dragData.source === 'mainTreeView') {
             return isReference && dragData.node.element_type === xelib.etMainRecord;
         } else if (dragData && dragData.source === 'recordTreeView' ) {
@@ -94,17 +96,22 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellDrop = function(node, index) {
-        let dragData = $scope.$root.dragData;
-        if (!dragData || dragData.node === node && dragData.index === index - 1) return;
-        let handle = node.handles[index - 1],
+        if (index === 0) return;
+        let dragData = $scope.$root.dragData,
+            recordIndex = index - 1;
+        if (!dragData || dragData.node === node && dragData.index === recordIndex) return;
+        let cellHandle = node.handles[recordIndex],
             draggedElement = dragData.node.handle || dragData.node.handles[dragData.index];
-        if (!handle) {
-            let parentElement = $scope.getParentHandle(node, index - 1),
-                path = $scope.getNewElementPath(node, index - 1);
-            handle = xelib.AddElement(parentElement, path);
+        if (!cellHandle) {
+            let parentElement = $scope.getParentHandle(node, recordIndex),
+                path = $scope.getNewElementPath(node, recordIndex);
+            cellHandle = xelib.AddElement(parentElement, path);
         }
         errorService.try(function() {
-            xelib.SetElement(handle, draggedElement);
+            xelib.WithHandle(xelib.GetElementFile(cellHandle), function(file) {
+                xelib.AddRequiredMasters(draggedElement, file, true);
+                xelib.SetElement(cellHandle, draggedElement);
+            });
             $scope.reload();
         });
     };
@@ -134,6 +141,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     $scope.$on('nodeUpdated', $scope.reload);
     $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('nodeAdded', function() {
+        if (!$scope.record) return;
         if (!xelib.GetFormID($scope.record)) $scope.reload();
     });
 

@@ -40,22 +40,6 @@ export let flagContext = function(_id, path, name) {
     return `${_id}, "${path}\\${name}"`;
 };
 
-export let withHandle = function(handle, callback) {
-    try {
-        callback(handle);
-    } finally {
-        xelib.Release(handle);
-    }
-};
-
-export let withHandles = function(handles, callback) {
-    try {
-        callback(handles);
-    } finally {
-        handles.forEach(xelib.Release);
-    }
-};
-
 export let Fail = function(message) {
     try {
         let libMessage = xelib.GetExceptionMessage();
