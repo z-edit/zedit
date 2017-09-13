@@ -7,13 +7,18 @@ ngapp.service('themeService', function(settingsService) {
             description: 'This theme does not have embedded metadata.'
         };
 
+    this.extractThemeName = function(filename, defaultName = '') {
+        let match = filename.match(/(.*)\.css/);
+        return match ? match[1] : defaultName;
+    };
+
     this.getThemes = function() {
         let themes = fh.appDir.find('app\\themes', { matching: '*.css' });
         return themes.map(function(theme) {
             let fileContents = fh.appDir.read(theme),
                 filename = theme.split('\\').last(),
                 defaultMetaData = Object.assign(unknownMetaData, {
-                    name: filename.match(/(.*)\.css/)[1]
+                    name: service.extractThemeName(filename)
                 }),
                 match = fileContents.match(new RegExp(/^\/\*\{([\w\W]+)\}\*\//)),
                 metaData = defaultMetaData;
@@ -27,11 +32,32 @@ ngapp.service('themeService', function(settingsService) {
         });
     };
 
+    this.getSyntaxThemes = function() {
+        let themes = fh.appDir.find('app\\syntaxThemes', { matching: '*.css' });
+        return themes.map(function(theme) {
+            let filename = theme.split('\\').last();
+            return {
+                filename: filename,
+                name: service.extractThemeName(filename)
+            };
+        });
+    };
+
     this.getCurrentTheme = function() {
-        let settingsTheme = settingsService.globalSettings.theme;
-        if (!settingsTheme || !fh.appDir.exists(`app\\themes\\${settingsTheme}`)) {
+        let settingsTheme = settingsService.globalSettings.theme,
+            themePath = `app\\themes\\${settingsTheme}`;
+        if (!settingsTheme || !fh.appDir.exists(themePath)) {
             let availableThemes = service.getThemes();
             return availableThemes[0].filename;
+        }
+        return settingsTheme;
+    };
+
+    this.getCurrentSyntaxTheme = function() {
+        let settingsTheme = settingsService.globalSettings.syntaxTheme,
+            themePath = `app\\syntaxThemes\\${settingsTheme}`;
+        if (!settingsTheme || !fh.appDir.exists(themePath)) {
+            return '';
         }
         return settingsTheme;
     };
