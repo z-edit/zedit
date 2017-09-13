@@ -40,5 +40,14 @@ Object.assign(xelib, {
             if (filename.endsWith('.Hardcoded.dat')) continue;
             xelib.AddMaster(_id, filename);
         }
+    },
+    GetAvailableMasters: function(_id) {
+        let fileName = xelib.Name(_id),
+            allMasters = xelib.GetLoadedFileNames().filter(function(filename) {
+                return !filename.endsWith('.Hardcoded.dat');
+            }),
+            currentMasters = xelib.GetMasterNames(_id),
+            fileIndex = allMasters.indexOf(fileName);
+        return allMasters.slice(0, fileIndex).subtract(currentMasters);
     }
 });
