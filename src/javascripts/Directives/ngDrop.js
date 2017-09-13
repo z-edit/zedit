@@ -1,47 +1,46 @@
 ngapp.directive('ngDrop', function($parse) {
     return function(scope, element, attrs) {
         let el = element[0],
-            dropCallback = $parse(attrs.ngDrop),
-            dragOverCallback = $parse(attrs.dragOver),
-            dragEnterCallback = $parse(attrs.dragEnter),
-            dragLeaveCallback = $parse(attrs.dragLeave),
+            onDrop = $parse(attrs.ngDrop),
+            onDragOver = $parse(attrs.dragOver),
+            onDragLeave = $parse(attrs.dragLeave),
             executeCallback = (e, callback) => {
                 if (!callback) return;
                 let result = false;
                 scope.$apply(() => result = callback(scope, {$event: e}));
                 return result;
             },
-            canDrop = false;
+            canDrop = false,
+            canTestDragOver = true;
+
+        // helper functions
+        let testDragOver = function(e) {
+            if (!canTestDragOver) return;
+            canTestDragOver = false;
+            if (onDragOver) canDrop = executeCallback(e, onDragOver);
+            if (canDrop) el.classList.add('dragover');
+            setTimeout(() => canTestDragOver = true, 50);
+        };
 
         // event listeners
-        el.addEventListener('dragenter', function(e) {
-            canDrop = executeCallback(e, dragEnterCallback);
-            if (canDrop) console.log('We can drop here.');
-        });
-
         el.addEventListener('dragleave', function(e) {
-            executeCallback(e, dragLeaveCallback);
+            executeCallback(e, onDragLeave);
             el.classList.remove('dragover');
         });
 
         el.addEventListener('dragover', function(e) {
-            if (dragOverCallback) {
-                canDrop = executeCallback(e, dragOverCallback);
-                if (canDrop) console.log('We can drop here.');
-            }
+            e.dataTransfer.dropEffect = canDrop ? 'move' : 'none';
             if (canDrop) {
-                el.classList.add('dragover');
-                e.dataTransfer.dropEffect = 'move';
+                e.stopPropagation();
                 e.preventDefault();
-            } else {
-                e.dataTransfer.dropEffect = 'none';
             }
+            testDragOver(e);
         });
 
         el.addEventListener('drop', function(e) {
             if (!canDrop) return;
             e.stopPropagation();
-            executeCallback(e, dropCallback);
+            executeCallback(e, onDrop);
             el.classList.remove('dragover');
         });
     }

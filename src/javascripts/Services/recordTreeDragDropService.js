@@ -29,9 +29,10 @@ ngapp.service('recordTreeDragDropService', function(errorService) {
             return isReference && draggedElementType === xelib.etMainRecord;
         };
 
-        let canDropFromRecordView = function(dragData, node) {
+        let canDropFromRecordView = function(dragData, node, index) {
             let vt = node.value_type;
             if (dragData.node.value_type !== vt) return;
+            if (dragData.node === node && dragData.index === index) return;
             if (vt === xelib.vtEnum || vt === xelib.vtFlags)
                 return node.label === dragData.node.label;
             return true;
@@ -40,11 +41,11 @@ ngapp.service('recordTreeDragDropService', function(errorService) {
         scope.onCellDragOver = function(node, index) {
             let dragData = scope.$root.dragData;
             if (index === 0 || !dragData) return;
-            if (node.parent && !node.parent.handles[index - 1] > 0) return;
-            if (dragData && dragData.source === 'mainTreeView') {
+            if (node.parent && node.parent.handles[index - 1] === 0) return;
+            if (dragData.source === 'mainTreeView') {
                 return canDropFromTreeView(dragData, node);
-            } else if (dragData && dragData.source === 'recordTreeView' ) {
-                return canDropFromRecordView(dragData, node);
+            } else if (dragData.source === 'recordTreeView' ) {
+                return canDropFromRecordView(dragData, node, index - 1);
             }
         };
 
@@ -81,6 +82,9 @@ ngapp.service('recordTreeDragDropService', function(errorService) {
                 if (dragData.source === 'mainTreeView') {
                     setReference(cellHandle, draggedElement);
                 } else {
+                    xelib.WithHandle(xelib.GetElementFile(cellHandle), function(file) {
+                        xelib.AddRequiredMasters(draggedElement, file);
+                    });
                     xelib.SetElement(cellHandle, draggedElement);
                 }
                 scope.reload();
