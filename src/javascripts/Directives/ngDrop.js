@@ -3,6 +3,7 @@ ngapp.directive('ngDrop', function($parse) {
         let el = element[0],
             dropCallback = $parse(attrs.ngDrop),
             dragOverCallback = $parse(attrs.dragOver),
+            dragEnterCallback = $parse(attrs.dragEnter),
             dragLeaveCallback = $parse(attrs.dragLeave),
             executeCallback = (e, callback) => {
                 if (!callback) return;
@@ -13,19 +14,27 @@ ngapp.directive('ngDrop', function($parse) {
             canDrop = false;
 
         // event listeners
+        el.addEventListener('dragenter', function(e) {
+            canDrop = executeCallback(e, dragEnterCallback);
+            if (canDrop) console.log('We can drop here.');
+        });
+
         el.addEventListener('dragleave', function(e) {
             executeCallback(e, dragLeaveCallback);
             el.classList.remove('dragover');
         });
 
         el.addEventListener('dragover', function(e) {
-            canDrop = executeCallback(e, dragOverCallback);
-            if (!canDrop) {
-                e.dataTransfer.dropEffect = 'none';
-            } else {
+            if (dragOverCallback) {
+                canDrop = executeCallback(e, dragOverCallback);
+                if (canDrop) console.log('We can drop here.');
+            }
+            if (canDrop) {
                 el.classList.add('dragover');
                 e.dataTransfer.dropEffect = 'move';
                 e.preventDefault();
+            } else {
+                e.dataTransfer.dropEffect = 'none';
             }
         });
 
