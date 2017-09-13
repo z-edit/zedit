@@ -38,7 +38,7 @@ dropdown.combobox {
     border-radius: 3px;
     cursor: default;
 
-    @include dropdown-triangle();
+    @include dropdown-triangle(8px);
 
     input {
       border: none;
