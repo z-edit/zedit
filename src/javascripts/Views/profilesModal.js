@@ -1,6 +1,6 @@
 ngapp.controller('profilesModalController', function ($scope, profileService, modalService) {
     // initialize scope variables
-    $scope.games = profileService.games;
+    $scope.games = xelib.games;
     $scope.languages = profileService.languages;
     $scope.profiles = profileService.profiles;
     $scope.defaultProfile = profileService.getDefaultProfile();
