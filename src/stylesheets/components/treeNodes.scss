@@ -57,11 +57,6 @@
       padding: 2px 6px;
       border-right: 1px solid $soft_border;
       border-top: 1px solid $soft_border;
-
-      &:last-of-type {
-        border-right: none;
-        flex: 1;
-      }
     }
   }
 
