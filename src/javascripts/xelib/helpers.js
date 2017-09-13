@@ -1,6 +1,6 @@
 const wchar_t = require('ref-wchar');
 
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
 
 // HELPER FUNCTIONS

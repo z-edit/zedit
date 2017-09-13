@@ -4,7 +4,8 @@ const ffi = require('ffi');
 import { Void, Cardinal,  Integer,  WordBool,  Double,  Byte, PWChar,
         PCardinal, PInteger, PWordBool, PDouble, PByte } from './types';
 
-export let xelib = {};
+window.xelib = {};
+
 export let lib;
 
 // DLL FUNCTION BINDING

@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { applyEnums, elementContext, arrayItemContext, Fail, GetArray, GetBool,
          GetEnumValue, GetHandle, GetInteger, GetStringArray, wcb } from './helpers';
 

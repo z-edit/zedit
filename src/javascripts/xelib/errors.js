@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { GetString, Fail } from './helpers';
 
 // ERROR CHECKING METHODS

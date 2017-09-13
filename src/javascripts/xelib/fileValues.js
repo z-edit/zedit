@@ -1,5 +1,3 @@
-import { xelib } from './lib';
-
 // HELPER VARIABLES
 let fileHeaderFlagsPath = 'File Header\\Record Header\\Record Flags',
     nextObjectIdPath = 'File Header\\HEDR\\Next Object ID';

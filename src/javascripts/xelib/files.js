@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { Fail, GetHandle, GetString, GetInteger, wcb } from './helpers';
 
 // FILE HANDLING METHODS

@@ -1,5 +1,3 @@
-import { xelib } from './lib';
-
 // GROUP HANDLING METHODS
 Object.assign(xelib, {
     HasGroup: function(_id, signature) {

@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { GetString } from './helpers';
 
 // MESSAGE METHODS

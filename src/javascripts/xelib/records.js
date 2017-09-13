@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { applyEnums, createTypedBuffer, elementContext, Fail, GetArray,
          GetBoolValue, GetStringArray, GetHandle, wcb } from './helpers';
 import { PCardinal, PByte } from './types';

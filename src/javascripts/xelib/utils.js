@@ -1,5 +1,3 @@
-import { xelib } from './lib';
-
 // UTILITY METHODS
 Object.assign(xelib, {
     Hex: function(n, padding = 8) {

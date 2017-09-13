@@ -1,5 +1,3 @@
-import { xelib } from './lib';
-
 // RECORD VALUE METHODS
 Object.assign(xelib, {
     EditorID: function(_id) {

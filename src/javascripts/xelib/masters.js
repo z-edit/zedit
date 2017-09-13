@@ -1,4 +1,4 @@
-import { lib, xelib } from './lib';
+import { lib } from './lib';
 import { Fail, GetArray, GetStringArray, wcb } from './helpers';
 
 // MASTER HANDLING METHODS
