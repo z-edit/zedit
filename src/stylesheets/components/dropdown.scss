@@ -13,6 +13,7 @@ dropdown {
     text-align: left;
     padding: 2px 0;
     font-size: 14px;
+    min-width: 100%;
 
     &:focus {
       outline: none;
@@ -20,10 +21,32 @@ dropdown {
 
     .dropdown-item {
       padding: 2px 12px;
+      width: 100%;
 
       &.selected {
         background-color: $selected;
       }
     }
+  }
+}
+
+dropdown.combobox {
+  dropdown-display {
+    padding: 2px 4px;
+    display: block;
+    border: 1px solid $hard_border;
+    border-radius: 3px;
+    cursor: default;
+
+    @include dropdown-triangle();
+
+    input {
+      border: none;
+    }
+  }
+
+  .dropdown-items {
+    max-height: 300px;
+    overflow-y: auto;
   }
 }
