@@ -103,6 +103,12 @@
     }
   }
 
+  .column.dragover {
+    box-shadow: 0 0 4px 2px $secondary_action;
+    position: relative;
+    z-index: 2;
+  }
+
   .action-buttons {
     opacity: 0;
     -webkit-transition: opacity 0.1s ease-in-out;
