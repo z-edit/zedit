@@ -10,16 +10,24 @@ ngapp.directive('dropdown', function() {
             callback: '=onItemClick'
         },
         templateUrl: 'directives/dropdown.html',
-        controller: 'dropdownController'
+        controller: 'dropdownController',
+        link: function(scope, element) {
+            element[0].setAttribute('tabindex', '0');
+            element[0].addEventListener('keydown', function(e) {
+                scope.$applyAsync(() => scope.onDropdownKeyDown(e));
+            });
+        }
     }
 });
 
 ngapp.controller('dropdownController', function($scope, hotkeyService, hotkeyFactory) {
     // helper variables
-    let hotkeys = hotkeyFactory.dropdownHotkeys();
+    let itemHotkeys = hotkeyFactory.dropdownItemsHotkeys(),
+        dropdownHotkeys = hotkeyFactory.dropdownHotkeys();
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', hotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', itemHotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', dropdownHotkeys);
 
     // scope functions
     $scope.toggleDropdown = function() {

@@ -77,6 +77,13 @@ ngapp.service('hotkeyFactory', function() {
 
     this.dropdownHotkeys = function() {
         return {
+            downArrow: 'toggleDropdown',
+            enter: 'toggleDropdown'
+        }
+    };
+
+    this.dropdownItemsHotkeys = function() {
+        return {
             upArrow: 'handleUpArrow',
             downArrow: 'handleDownArrow',
             escape: 'handleEscape',
