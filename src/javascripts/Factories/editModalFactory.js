@@ -18,10 +18,10 @@ ngapp.service('editModalFactory', function() {
             title: 'Change File Author',
             editType: 'string',
             maxLength: 255,
-            initialValue: xelib.GetAuthor(node.handle),
+            initialValue: xelib.GetFileAuthor(node.handle),
             isValid: () => { return true },
             callback: (newValue) => {
-                xelib.SetAuthor(node.handle, newValue);
+                xelib.SetFileAuthor(node.handle, newValue);
                 scope.$root.$broadcast('nodeUpdated', node);
             }
         };
@@ -32,10 +32,10 @@ ngapp.service('editModalFactory', function() {
             title: 'Change File Description',
             editType: 'text',
             maxLength: 255,
-            initialValue: xelib.GetDescription(node.handle),
+            initialValue: xelib.GetFileDescription(node.handle),
             isValid: () => { return true },
             callback: (newValue) => {
-                xelib.SetDescription(node.handle, newValue);
+                xelib.SetFileDescription(node.handle, newValue);
                 scope.$root.$broadcast('nodeUpdated', node);
             }
         };

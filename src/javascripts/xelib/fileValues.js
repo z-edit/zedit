@@ -13,16 +13,16 @@ Object.assign(xelib, {
     GetFileName: function(_id) {
         return xelib.Name(_id);
     },
-    GetAuthor: function(_id) {
+    GetFileAuthor: function(_id) {
         return xelib.GetValue(_id, 'File Header\\CNAM');
     },
-    SetAuthor: function(_id, author) {
+    SetFileAuthor: function(_id, author) {
         return xelib.SetValue(_id, 'File Header\\CNAM', author);
     },
-    GetDescription: function(_id) {
+    GetFileDescription: function(_id) {
         return xelib.GetValue(_id, 'File Header\\SNAM');
     },
-    SetDescription: function(_id, description) {
+    SetFileDescription: function(_id, description) {
         if (!xelib.HasElement(_id, 'File Header\\SNAM'))
             xelib.AddElement(_id, 'File Header\\SNAM');
         return xelib.SetValue(_id, 'File Header\\SNAM', description);
