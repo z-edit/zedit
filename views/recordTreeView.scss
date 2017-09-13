@@ -43,6 +43,10 @@
     .tree-columns {
       margin-top: 0;
       border: none;
+
+      .column:last-of-type {
+        flex: 0;
+      }
     }
 
     .column-0 {
