@@ -126,10 +126,9 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
         };
 
         scope.addMasters = function(node) {
-            let modalOptions = {
-                'handle' : node.handle
-            };
-            scope.$emit('openModal', 'addMasters', node);
+            scope.$emit('openModal', 'addMasters', {
+                handle : node.handle
+            });
         };
 
         scope.canPaste = function(asOverride) {
