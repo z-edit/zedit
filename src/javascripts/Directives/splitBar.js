@@ -22,6 +22,7 @@ ngapp.directive('splitBar', function () {
                 scrollLabel = vertical ? 'scrollTop' : 'scrollLeft',
                 offsetLabel = vertical ? 'offsetTop' : 'offsetLeft',
                 sizeLabel = vertical ? 'offsetHeight' : 'offsetWidth',
+                cursorClass = vertical ? 'row-resize' : 'col-resize',
                 moving = false;
 
             // event handlers
@@ -38,6 +39,7 @@ ngapp.directive('splitBar', function () {
                 // only trigger when left mouse button is pressed
                 if (e.button !== 0 && e.type !== 'touchstart') return;
                 moving = true;
+                htmlElement.className = cursorClass;
                 htmlElement.addEventListener('mousemove', handleMouseMove);
                 htmlElement.addEventListener('touchmove', handleMouseMove);
                 e.preventDefault();
@@ -46,6 +48,7 @@ ngapp.directive('splitBar', function () {
             let handleMouseUp = function(e) {
                 if (!moving) return;
                 moving = false;
+                htmlElement.className = '';
                 htmlElement.removeEventListener('mousemove', handleMouseMove);
                 htmlElement.removeEventListener('touchmove', handleMouseMove);
                 e.preventDefault();
