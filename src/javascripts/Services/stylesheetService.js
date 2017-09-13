@@ -1,17 +1,18 @@
 ngapp.service('stylesheetService', function() {
     let service = this,
-        mainStylesheet = document.styleSheets[1];
+        lastIndex = document.styleSheets.length - 1,
+        customStylesheet = document.styleSheets[lastIndex];
 
     this.getRule = function(selector) {
-        let rules = mainStylesheet.cssRules;
+        let rules = customStylesheet.cssRules;
         for (let j = 0; j < rules.length; j++) {
             let rule = rules[j];
-            if (rule.selectorText == selector) return rule;
+            if (rule.selectorText === selector) return rule;
         }
     };
 
     this.makeRule = function(selector, style) {
-        mainStylesheet.addRule(selector, style, 1);
+        customStylesheet.addRule(selector, style, 1);
     };
 
     this.setProperty = function(selector, property, value) {
