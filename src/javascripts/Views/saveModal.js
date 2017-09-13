@@ -1,5 +1,6 @@
 ngapp.controller('saveModalController', function($scope, $timeout, errorService) {
-    // initialize scope variables
+    // initialization
+    let shouldFinalize = $scope.modalOptions.shouldFinalize;
     $scope.saving = false;
     $scope.message = 'Closing';
     $scope.pluginsToProcess = xelib.GetElements().filter(function(handle) {
@@ -35,20 +36,30 @@ ngapp.controller('saveModalController', function($scope, $timeout, errorService)
     };
 
     let saveData = function() {
-        if ($scope.pluginsToSave.length > 0) savePlugins();
-        $scope.modalOptions.shouldFinalize ? finalize() : $scope.$emit('closeModal');
+        $scope.total = $scope.pluginsToSave.length;
+        if ($scope.total > 0) savePlugins();
+        shouldFinalize ? finalize() : $scope.$emit('closeModal');
+    };
+
+    let getActivePlugins=  function() {
+        return $scope.pluginsToProcess.filter(function(plugin) {
+            return plugin.active;
+        });
     };
 
     // scope functions
     $scope.save = function() {
         $scope.saving = true;
-        $scope.pluginsToSave = $scope.pluginsToProcess.filter(function(plugin) {
-            return plugin.active;
-        });
-        $scope.total = $scope.pluginsToSave.length;
+        $scope.pluginsToSave = getActivePlugins();
+        $timeout(saveData, 50);
+    };
+
+    $scope.discard = function() {
+        $scope.saving = true;
+        $scope.pluginsToSave = [];
         $timeout(saveData, 50);
     };
 
     // skip user interaction if there are no plugins to save
-    if ($scope.pluginsToProcess.length === 0) $scope.save();
+    if ($scope.pluginsToProcess.length === 0) $scope.discard();
 });
