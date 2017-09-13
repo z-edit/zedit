@@ -8,6 +8,14 @@ body {
   overflow: hidden;
 }
 
+html.row-resize * {
+  cursor: row-resize !important;
+}
+
+html.col-resize * {
+  cursor: col-resize !important;
+}
+
 * {
   box-sizing: border-box;
 }
