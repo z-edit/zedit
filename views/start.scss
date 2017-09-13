@@ -20,17 +20,6 @@
     min-width: 140px;
     -webkit-appearance: none;
 
-    // background
-    background-image: linear-gradient(45deg, transparent 50%, $soft_font_color 50%),
-      linear-gradient(135deg, $soft_font_color 50%, transparent 50%),
-      linear-gradient(to right, $medium_border, $medium_border);
-    background-position:
-      calc(100% - 15px) calc(50% + 2px),
-      calc(100% - 10px) calc(50% + 2px),
-      calc(100% - 1.5em) 50%;
-    background-size: 5px 5px,
-      5px 5px,
-      1px 80%;
-    background-repeat: no-repeat;
+    @include dropdown-triangle();
   }
 }
