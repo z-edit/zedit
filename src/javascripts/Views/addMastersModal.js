@@ -1,4 +1,5 @@
 ngapp.controller('addMastersModalController', function($scope, $timeout, errorService, modalService) {
+    console.log($scope.modalOptions);
     let selectedFile = $scope.modalOptions;
     let selectedFileLoadOrder = xelib.GetFileLoadOrder(selectedFile);
     let allMasters = xelib.GetLoadedFileNames();
