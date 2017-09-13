@@ -43,21 +43,25 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     };
 
     $scope.saveScript = function() {
-        fh.saveTextFile($scope.selectedScript.filePath, $scope.scriptContents);
+        let script = $scope.selectedScript,
+            originalFilename = script.filePath.split('\\').last();
+        if (originalFilename !== script.filename) {
+            let newFilePath = `scripts\\${script.filename}`;
+            fh.jetpack.move(script.filePath, newFilePath);
+            script.filePath = newFilePath;
+        }
+        fh.saveTextFile(script.filePath, $scope.scriptContents);
     };
 
-    $scope.scriptChanged = function() {
-        if ($scope.selectedScript) {
-            $scope.scriptContents = fh.loadTextFile($scope.selectedScript.filePath);
-        } else {
-            $scope.scriptContents = '';
-        }
+    $scope.selectScript = function(item) {
+        $scope.selectedScript = item;
+        $scope.scriptContents = fh.loadTextFile($scope.selectedScript.filePath);
     };
 
     $scope.loadScripts = function() {
         fh.jetpack.dir('scripts');
         let scripts = fh.jetpack.find('scripts', { matching: '*.js'}),
-            scriptHistory = fh.loadJsonFile('scripts/history.json', {});
+            scriptHistory = fh.loadJsonFile('scripts\\history.json', {});
         $scope.scripts = scripts.map(function(filePath) {
             let filename = filePath.split('\\').last();
             return {
@@ -80,11 +84,10 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
 
     // event handlers
     $scope.$watch('sortMode', $scope.sortScripts);
-    $scope.$watch('selectedScript', $scope.scriptChanged);
 
     // initialization
     $scope.loadScripts();
     $scope.setSortMode($scope.sortModes[0]);
     if ($scope.scripts.length === 0) $scope.newScript();
-    $scope.selectedScript = $scope.scripts[0];
+    $scope.selectScript($scope.scripts[0]);
 });
