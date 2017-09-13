@@ -1,4 +1,4 @@
-ngapp.directive('codeMirror', function($timeout, codeMirrorFactory) {
+ngapp.directive('codeMirror', function($timeout, themeService, codeMirrorFactory) {
     return {
         restrict: 'A',
         require: '?ngModel',
@@ -14,8 +14,13 @@ ngapp.directive('codeMirror', function($timeout, codeMirrorFactory) {
                     scope.$evalAsync(() => ngModel.$setViewValue(newValue));
                 });
 
-                // refresh on event
+                // event handling
                 scope.$on('refresh', () => $timeout(cm.refresh));
+                scope.$on('syntaxThemeChanged', function(e, theme) {
+                    let themeName = themeService.extractThemeName(theme, 'default');
+                    cm.setOption('theme', themeName);
+                    cm.refresh();
+                });
             };
         }
     }

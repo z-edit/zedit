@@ -10,10 +10,12 @@ ngapp.config(['$stateProvider', function($stateProvider) {
 ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, modalService, htmlHelpers) {
     // initialization
     let currentWindow = remote.getCurrentWindow(),
-        themeStylesheet = document.getElementById('theme');
+        themeStylesheet = document.getElementById('theme'),
+        syntaxThemeStylesheet = document.getElementById('syntaxTheme');
     settingsService.loadGlobalSettings();
     $scope.title = 'zEdit - New Session';
     $scope.theme = themeService.getCurrentTheme();
+    $scope.syntaxTheme = themeService.getCurrentSyntaxTheme();
     $scope.$emit('appStart');
 
     // helper functions
@@ -40,8 +42,17 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     });
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
+    $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
     $scope.$watch('title', () => document.title = $scope.title);
     $scope.$watch('theme', () => themeStylesheet.href = `themes/${$scope.theme}`);
+    $scope.$watch('syntaxTheme', function() {
+        if ($scope.syntaxTheme === '') {
+            syntaxThemeStylesheet.href = '';
+        } else {
+            syntaxThemeStylesheet.href = `syntaxThemes/${$scope.syntaxTheme}`;
+        }
+        $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
+    });
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
