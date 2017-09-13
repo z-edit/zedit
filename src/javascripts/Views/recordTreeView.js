@@ -141,6 +141,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     $scope.$on('nodeUpdated', $scope.reload);
     $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('nodeAdded', function() {
+        if (!$scope.record) return;
         if (!xelib.GetFormID($scope.record)) $scope.reload();
     });
 
