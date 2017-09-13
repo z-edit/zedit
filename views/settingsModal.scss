@@ -1,4 +1,8 @@
 .settings-modal {
+  .modal-container .modal {
+    margin: 100px auto;
+  }
+
   .theme-metadata {
     padding-left: 20px;
     font-size: 15px;
@@ -6,6 +10,12 @@
     .theme-description {
       margin-top: 4px;
       max-width: 400px;
+    }
+  }
+
+  .syntax-theme-preview {
+    .CodeMirror {
+      height: 200px;
     }
   }
 }
