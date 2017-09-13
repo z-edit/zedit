@@ -20,3 +20,4 @@ modules/
 /columns.json
 app/background.js
 app/progress.js
+app/syntaxThemes/

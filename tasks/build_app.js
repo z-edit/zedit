@@ -19,7 +19,7 @@ var rollupOptions = {
     rollupPlugins: [concat()]
 };
 
-gulp.task('bundle', function () {
+gulp.task('bundle', function() {
     return Promise.all([
         bundle(jsDir.path('main.js'), destDir.path('main.js'), rollupOptions),
         bundle(jsDir.path('app.js'), destDir.path('app.js'), rollupOptions),
@@ -27,7 +27,7 @@ gulp.task('bundle', function () {
     ]);
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', function() {
     return gulp.src(srcDir.path('stylesheets/themes/*'))
         .pipe(plumber())
         .pipe(wait(250))
@@ -35,12 +35,17 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(destDir.path('themes')));
 });
 
-gulp.task('environment', function () {
+gulp.task('copySyntaxThemes', function() {
+    return gulp.src('node_modules/codemirror/theme/*.css')
+        .pipe(gulp.dest(destDir.path('syntaxThemes')));
+});
+
+gulp.task('environment', function() {
     var configFile = 'config/env_' + utils.getEnvName() + '.json';
     projectDir.copy(configFile, destDir.path('env.json'), { overwrite: true });
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
     var beepOnError = function (done) {
         return function (err) {
             if (err) {
@@ -58,4 +63,4 @@ gulp.task('watch', function () {
     }));
 });
 
-gulp.task('build', ['bundle', 'sass', 'environment']);
+gulp.task('build', ['bundle', 'sass', 'copySyntaxThemes', 'environment']);
