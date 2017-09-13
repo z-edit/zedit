@@ -4,7 +4,7 @@ ngapp.service('settingsService', function() {
             label: 'Core',
             templateUrl: 'partials/settings/core.html',
             controller: 'coreSettingsController',
-            defaultGlobalSettings: { theme: 'day.css' }
+            defaultGlobalSettings: { theme: 'day.css', syntaxTheme: '' }
         }];
 
     this.buildSettings = function(settings, global = false) {

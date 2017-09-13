@@ -9,7 +9,7 @@
 <h3>Display</h3>
 <section>
     <div>
-        <span class="input-label">Theme</span>
+        <span class="input-label">Application Theme</span>
         <select ng-model="theme" ng-options="theme.name for theme in themes" ng-change="themeChanged()"></select>
     </div>
     <div class="subsection">
@@ -40,5 +40,15 @@
                 <div>{{theme.description}}</div>
             </div>
         </div>
+    </div>
+    <div>
+        <span class="input-label">Syntax Theme</span>
+        <select ng-model="syntaxTheme" ng-options="theme.name for theme in syntaxThemes" ng-change="syntaxThemeChanged()">
+            <option value="">Default</option>
+        </select>
+    </div>
+    <div class="subsection syntax-theme-preview">
+        <h4>Syntax Theme Preview</h4>
+        <textarea code-mirror ng-model="sampleCode"></textarea>
     </div>
 </section>
