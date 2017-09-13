@@ -115,7 +115,6 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
             scope.$emit('openModal', 'edit', modalOptions);
         };
 
-
         scope.changeFileAuthor = function(node) {
             let modalOptions = editModalFactory.changeFileAuthor(node, scope);
             scope.$emit('openModal', 'edit', modalOptions);

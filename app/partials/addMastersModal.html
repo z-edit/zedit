@@ -1,12 +1,12 @@
 <div class="modal-container" ng-click="unfocusModal($event)">
-    <div class="modal {{vtClass}}" ng-click="$broadcast('onParentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
+    <div class="modal" ng-click="$broadcast('onParentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
         <div class="close-modal" ng-click="$emit('closeModal')"></div>
         <h2>Add Masters</h2>
         <form>
-        	<list-view items="availableMasters" list-class="checkbox-list">
+            <list-view items="availableMasters" list-class="checkbox-list">
                 <input type="checkbox" ng-model="$parent.item.active" />
                 {{::$parent.item.name}}
-        	</list-view>
+            </list-view>
             <div class="action-button-container">
                 <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
                 <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>

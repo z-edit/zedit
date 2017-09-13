@@ -168,23 +168,21 @@ ngapp.service('contextMenuFactory', function() {
             return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle);
         },
         build: (scope, items) => {
-            let node = scope.selectedNodes.last(),
-                children = [];
-            children.push({
-                label: 'Add Masters',
-                callback: () => scope.addMasters(node)
-            }, {
-                label: 'Sort Masters',
-                disabled:true,
-                callback: () => scope.sortMasters(node)
-            }, {
-                label: 'Clean Masters',
-                disabled:true,
-                callback: () => scope.cleanMasters(node)
-            });
+            let node = scope.selectedNodes.last();
             items.push({
                 label: "Masters",
-                children: children
+                children: [{
+                    label: 'Add Masters',
+                    callback: () => scope.addMasters(node)
+                }, {
+                    label: 'Sort Masters',
+                    disabled:true,
+                    callback: () => scope.sortMasters(node)
+                }, {
+                    label: 'Clean Masters',
+                    disabled:true,
+                    callback: () => scope.cleanMasters(node)
+                }]
             });
         }
     },{

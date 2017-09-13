@@ -1,9 +1,9 @@
 ngapp.controller('addMastersModalController', function($scope, $timeout, errorService, modalService) {
-    console.log($scope.modalOptions);
-    let selectedFile = $scope.modalOptions;
+    let selectedFile = $scope.modalOptions.handle;
     let selectedFileLoadOrder = xelib.GetFileLoadOrder(selectedFile);
-    let allMasters = xelib.GetLoadedFileNames();
-    allMasters.splice(1,1); //allMasters also includes hardcoded.dat
+    let allMasters = xelib.GetLoadedFileNames().filter(function(filename) {
+        return !filename.endsWith('.Hardcoded.dat');
+    }); 
     let currentMasters = xelib.GetMasterNames(selectedFile);
     let availableMasters = allMasters.slice(0,selectedFileLoadOrder).subtract(currentMasters);
     
@@ -19,7 +19,6 @@ ngapp.controller('addMastersModalController', function($scope, $timeout, errorSe
     $scope.applyValue = function() {
         if ($scope.invalid) return;
         errorService.try(function() {
-            console.log($scope.availableMasters);
             for(let master of $scope.availableMasters){
                 if(master.active){
                     xelib.AddMaster(selectedFile,master.name);
@@ -33,6 +32,4 @@ ngapp.controller('addMastersModalController', function($scope, $timeout, errorSe
         $scope.$root.$broadcast('recordUpdated', selectedFile);
         $scope.$emit('closeModal');
     };
-
-
 });
