@@ -104,6 +104,11 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
                 return $scope.findItem(masterName);
             });
             item.requiredBy = $scope.getRequiredBy(item.filename);
+        });
+    };
+
+    $scope.fixMasters = function() {
+        opts.loadOrder.forEach(function(item) {
             if (item.masters.includes(undefined)) {
                 $scope.disablePlugin(item);
             } else if (item.active) {
@@ -132,5 +137,6 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
 
     // initialize view model properties
     $scope.buildMasterData();
+    $scope.fixMasters();
     $scope.updateItems();
 });
