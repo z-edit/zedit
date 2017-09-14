@@ -3,9 +3,11 @@ export default function(ngapp, fh) {
         modules = {},
         failures = [],
         loaders = {
-            default: function(module, fh, ngapp, moduleService) {
-                let fn = new Function('ngapp', 'fh', 'info', 'moduleService', module.code);
-                fn(ngapp, fh, module.info, moduleService);
+            default: function(module, fh, ngapp, modulePath, moduleService) {
+                let args = { ngapp: ngapp, fh: fh, info: module.info,
+                    modulePath: module.path, moduleService: moduleService };
+                let fn = new Function(...Object.keys(args), module.code);
+                fn(...Object.values(args));
                 modules[module.info.id] = module.info;
             }
         },
@@ -15,6 +17,7 @@ export default function(ngapp, fh) {
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
+            path: modulePath,
             code: fh.loadTextFile(`${modulePath}\\index.js`)
         }
     };
