@@ -1,5 +1,6 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import url from 'url';
 
 let fh = {};
 
@@ -49,6 +50,14 @@ fh.open = function(filename) {
     if (fh.jetpack.exists(filename)) {
         shell.openItem(fh.jetpack.cwd() + '\\' + filename);
     }
+};
+
+fh.getFileUrl = function(path) {
+    return url.format({
+        pathname: jetpack.path(path).replace(/\\/g, '/'),
+        protocol: 'file:',
+        slashes: true
+    })
 };
 
 fh.getDateModified = function(filename) {
