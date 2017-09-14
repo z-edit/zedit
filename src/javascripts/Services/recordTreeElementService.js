@@ -9,6 +9,7 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
         };
 
         scope.getRecord = function(index) {
+            if (angular.isUndefined(index)) index = scope.focusedIndex - 1;
             return (index ? scope.overrides[index - 1] : scope.record)
         };
 
@@ -56,6 +57,7 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
 
         scope.editElement = function(node, index) {
             if (uneditableValueTypes.includes(node.value_type)) return;
+            if (!xelib.GetIsEditable(scope.getRecord(index - 1))) return;
             scope.$emit('openModal', 'editValue', {
                 targetNode: node,
                 targetIndex: index - 1,
@@ -101,6 +103,7 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
         };
 
         scope.deleteElements = function() {
+            if (!xelib.GetIsEditable(scope.getRecord())) return;
             let doDelete = function() {
                 scope.selectedNodes.forEach(scope.deleteElement);
                 scope.clearSelection(true);
