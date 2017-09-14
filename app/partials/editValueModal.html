@@ -39,7 +39,7 @@
                     <div class="path">{{::path}}</div>
                 </h2>
                 <!-- The need to access $parent is a smell; we should be using controllerAs syntax -->
-                <textarea ng-model="$parent.value" maxlength="65535" ng-if="::!useHtmlEditor"></textarea>
+                <textarea ng-model="$parent.$parent.value" maxlength="65535" ng-if="::!useHtmlEditor"></textarea>
                 <textarea code-mirror="html" ng-model="$parent.$parent.value" ng-if="::useHtmlEditor"></textarea>
             </div>
 
