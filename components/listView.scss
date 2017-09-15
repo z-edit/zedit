@@ -2,6 +2,10 @@ list-view {
   text-align: left;
 
   .list-item {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
     &.dragging {
       opacity: 0.5;
     }
