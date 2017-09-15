@@ -3,7 +3,7 @@
         <form>
             <div class="close-modal" ng-click="$emit('closeModal')"></div>
 
-            <div ng-if="::valueType == vtBytes">
+            <div ng-if="::valueType === vtBytes">
                 <h2>Edit Bytes
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -27,14 +27,14 @@
                 </table>
             </div>
 
-            <div ng-if="::valueType == vtString">
+            <div ng-if="::valueType === vtString">
                 <h2>Edit String
                     <div class="path">{{::path}}</div>
                 </h2>
                 <input type="text" ng-model="$parent.value" maxlength="255"/>
             </div>
 
-            <div ng-if="::valueType == vtText">
+            <div ng-if="::valueType === vtText">
                 <h2>Edit Text
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -43,23 +43,26 @@
                 <textarea code-mirror="html" ng-model="$parent.$parent.value" ng-if="::useHtmlEditor"></textarea>
             </div>
 
-            <div ng-if="::valueType == vtNumber">
+            <div ng-if="::valueType === vtNumber">
                 <h2>Edit Number
                     <div class="path">{{::path}}</div>
                 </h2>
                 <input type="text" class="numeric" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
             </div>
 
-            <div ng-if="::valueType == vtReference">
+            <div ng-if="::valueType === vtReference">
                 <h2>Edit Reference
                     <div class="path">{{::path}}</div>
                 </h2>
-                <autocomplete-input selected-item="$parent.value" search="referenceSearch" set-custom="setCustomResult">
-                    {{::$parent.result}}
-                </autocomplete-input>
+                <div class="reference-selector">
+                    <select ng-model="$parent.signature" ng-options="signature for signature in $parent.signatures"></select>
+                    <autocomplete-input selected-item="$parent.value" search="referenceSearch" set-custom="setCustomResult">
+                        {{::$parent.result}}
+                    </autocomplete-input>
+                </div>
             </div>
 
-            <div ng-if="::valueType == vtColor">
+            <div ng-if="::valueType === vtColor">
                 <h2>Edit Color
                     <div class="path">{{::path}}</div>
                 </h2>
@@ -70,14 +73,14 @@
                 </div>
             </div>
 
-            <div ng-if="::valueType == vtEnum">
+            <div ng-if="::valueType === vtEnum">
                 <h2>Edit Enumeration
                     <div class="path">{{::path}}</div>
                 </h2>
                 <select ng-model="$parent.value" ng-options="option for option in $parent.options"></select>
             </div>
 
-            <div ng-if="::valueType == vtFlags">
+            <div ng-if="::valueType === vtFlags">
                 <h2>Edit Flags
                     <div class="path">{{::path}}</div>
                 </h2>

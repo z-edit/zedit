@@ -104,8 +104,10 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
 
     $scope.setupReference = function(value) {
+        $scope.signatures = xelib.GetAllowedSignatures(handle);
+        $scope.signature = $scope.signatures[0];
         $scope.referenceSearch = function(str) {
-            return xelib.FindValidReferences(handle, str, 10);
+            return xelib.FindValidReferences(handle, $scope.signature, str, 10);
         };
         $scope.setCustomResult = (str) => $scope.value = str;
         $scope.value = value;
