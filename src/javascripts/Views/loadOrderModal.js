@@ -5,78 +5,118 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
         requiredTitle = 'This plugin is required by the following active plugins:',
         opts = $scope.modalOptions;
 
-    // scope functions
-    $scope.findItem = function(filename) {
+    // helper functions
+    let findIgnoreCase = function(ary, searchStr) {
+        searchStr = searchStr.toLowerCase();
+        return ary.find((str) => { return str.toLowerCase() === searchStr });
+    };
+
+    let findItem = function(filename) {
+        filename = filename.toLowerCase();
         return opts.loadOrder.find(function(item) {
-            return item.filename === filename && !item.disabled;
+            return !item.disabled && item.filename.toLowerCase() === filename;
         });
     };
 
-    $scope.getRequiredBy = function(filename) {
+    let getRequiredBy = function(filename) {
         return opts.loadOrder.filter(function(item) {
-            return item.masterNames.includes(filename);
+            return !!findIgnoreCase(item.masterNames, filename);
         });
     };
 
-    $scope.buildTitle = function(title, filenames) {
+    let getMasters = function(item) {
+        return item.masterNames.map(function(masterName) {
+            return findItem(masterName);
+        });
+    };
+
+    let buildTitle = function(title, filenames) {
         if (filenames.length === 0) return '';
-        filenames.slice(0, 10).forEach((filename) => title += `\r\n  - ${filename}`);
+        filenames.slice(0, 10).forEach(function(filename) {
+            title += `\r\n  - ${filename}`;
+        });
         if (filenames.length > 10) title += '\r\n  - etc.';
         return title;
     };
 
-    $scope.disablePlugin = function(item) {
-        let missingMasters = item.masterNames.filter(function(masterName, index) {
-            return !item.masters[index];
+    let disablePlugin = function(item) {
+        let missingMasters = item.masterNames.filter(function(n, i) {
+            return !item.masters[i]
         });
+        console.log(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
         item.active = false;
         item.disabled = true;
-        item.title = $scope.buildTitle(disabledTitle, missingMasters);
-        $scope.disableRequiredBy(item);
+        item.title = buildTitle(disabledTitle, missingMasters);
+        disableRequiredBy(item);
     };
 
-    $scope.updateRequired = function(item) {
+    let updateRequired = function(item) {
         if (!item.active) return;
-        let activeRequiredBy = item.requiredBy.
-            filter((item) => { return item.active; }).
-            map((item) => { return item.filename; });
+        let activeRequiredBy = item.requiredBy
+            .filter((item) => { return item.active; })
+            .map((item) => { return item.filename; });
         item.required = activeRequiredBy.length > 0;
-        item.title = $scope.buildTitle(requiredTitle, activeRequiredBy);
+        item.title = buildTitle(requiredTitle, activeRequiredBy);
     };
 
-    $scope.activatePlugin = function(item) {
+    let activatePlugin = function(item) {
         item.active = true;
-        $scope.enableMasters(item);
-        item.masters.forEach($scope.updateRequired);
+        enableMasters(item);
+        item.masters.forEach(updateRequired);
     };
 
-    $scope.deactivatePlugin = function(item) {
+    let deactivatePlugin = function(item) {
         item.active = false;
         item.required = false;
         item.title = '';
-        $scope.disableRequiredBy(item);
-        item.masters.forEach($scope.updateRequired);
+        disableRequiredBy(item);
+        item.masters.forEach(updateRequired);
     };
 
-    $scope.enableMasters = function(item) {
+    let enableMasters = function(item) {
         item.masters.forEach(function(masterItem) {
-            if (!masterItem.active) $scope.activatePlugin(masterItem);
+            if (!masterItem.active) activatePlugin(masterItem);
         });
     };
 
-    $scope.disableRequiredBy = function(item) {
+    let disableRequiredBy = function(item) {
         item.requiredBy.forEach(function(requiredItem) {
-            if (requiredItem.active) $scope.deactivatePlugin(requiredItem);
+            if (requiredItem.active) deactivatePlugin(requiredItem);
         });
     };
 
-    $scope.updateIndexes = function() {
+    let updateIndexes = function() {
         let n = 0;
         opts.loadOrder.forEach(function(item) {
             if (item.active) item.index = n++;
         });
     };
 
+    let buildMasterData = function() {
+        opts.loadOrder.forEach(function(item) {
+            item.masters = getMasters(item);
+            item.requiredBy = getRequiredBy(item.filename);
+        });
+    };
+
+    let fixMasters = function() {
+        opts.loadOrder.forEach(function(item) {
+            if (item.masters.includes(undefined)) {
+                disablePlugin(item);
+            } else if (item.active) {
+                enableMasters(item);
+            }
+        });
+    };
+
+    let updateItems = function() {
+        opts.loadOrder.forEach(function(item) {
+            if (item.active) updateRequired(item);
+        });
+        updateIndexes();
+    };
+
+    // scope functions
     $scope.loadPlugins = function() {
         let loadOrder = opts.loadOrder.
             filter((item) => { return item.active; }).
@@ -89,39 +129,13 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
     };
 
     $scope.itemToggled = function(item) {
-        item.active ? $scope.enableMasters(item) : $scope.disableRequiredBy(item);
+        item.active ? enableMasters(item) : disableRequiredBy(item);
         if (!item.active) {
             item.required = false;
             item.title = '';
         }
-        item.masters.forEach($scope.updateRequired);
-        $scope.updateIndexes();
-    };
-
-    $scope.buildMasterData = function() {
-        opts.loadOrder.forEach(function(item) {
-            item.masters = item.masterNames.map(function(masterName) {
-                return $scope.findItem(masterName);
-            });
-            item.requiredBy = $scope.getRequiredBy(item.filename);
-        });
-    };
-
-    $scope.fixMasters = function() {
-        opts.loadOrder.forEach(function(item) {
-            if (item.masters.includes(undefined)) {
-                $scope.disablePlugin(item);
-            } else if (item.active) {
-                $scope.enableMasters(item);
-            }
-        });
-    };
-
-    $scope.updateItems = function() {
-        opts.loadOrder.forEach(function(item) {
-            if (item.active) $scope.updateRequired(item);
-        });
-        $scope.updateIndexes();
+        item.masters.forEach(updateRequired);
+        updateIndexes();
     };
 
     // event handlers
@@ -131,12 +145,12 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
     });
 
     $scope.$on('itemsReordered', function(e) {
-        $scope.updateIndexes();
+        updateIndexes();
         e.stopPropagation();
     });
 
     // initialize view model properties
-    $scope.buildMasterData();
-    $scope.fixMasters();
-    $scope.updateItems();
+    buildMasterData();
+    fixMasters();
+    updateItems();
 });
