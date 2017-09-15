@@ -89,8 +89,19 @@
   }
 
   autocomplete-input {
+    flex: 1;
+
     .dropdown {
       width: 370px;
+    }
+  }
+
+  .reference-selector{
+    display: flex;
+    align-content: stretch;
+
+    select {
+      margin-right: 6px;
     }
   }
 
