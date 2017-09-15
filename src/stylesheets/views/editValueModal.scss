@@ -9,6 +9,10 @@
     &.vtText {
       max-width: 600px;
     }
+
+    &.vtReference {
+      max-width: 600px;
+    }
   }
 
   h2 .path {
@@ -92,7 +96,8 @@
     flex: 1;
 
     .dropdown {
-      width: 370px;
+      width: 440px;
+      font-size: 13px;
     }
   }
 
