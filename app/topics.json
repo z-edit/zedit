@@ -1,0 +1,102 @@
+[{
+  "label": "Overview",
+  "templateUrl": "docs/overview.html",
+  "children": [{
+    "label": "What is zEdit?",
+    "templateUrl": "docs/overview/what.html"
+  }, {
+    "label": "How can I use zEdit?",
+    "templateUrl": "docs/overview/how.html"
+  }, {
+    "label": "Why should I use zEdit?",
+    "templateUrl": "docs/overview/why.html"
+  }, {
+    "label": "Where can I get help with zEdit?",
+    "templateUrl": "docs/overview/where.html"
+  }]
+}, {
+  "label": "Profiles",
+  "templateUrl": "docs/profiles.html"
+}, {
+  "label": "Settings",
+  "templateUrl": "docs/settings.html"
+}, {
+  "label": "Game Modes",
+  "templateUrl": "docs/gameModes.html"
+}, {
+  "label": "Modules",
+  "templateUrl": "docs/modules.html",
+  "children": [{
+    "label": "Core Modules",
+    "templateUrl": "docs/modules/core.html"
+  }, {
+    "label": "Default Modules",
+    "templateUrl": "docs/modules/default.html"
+  }]
+}, {
+  "label": "Application Modes",
+  "templateUrl": "docs/appModes.html",
+  "children": [{
+    "label": "Edit",
+    "templateUrl": "docs/appModes/edit.html"
+  }, {
+    "label": "[Planned] Clean",
+    "templateUrl": "docs/appModes/clean.html"
+  }, {
+    "label": "[Planned] Merge",
+    "templateUrl": "docs/appModes/merge.html"
+  }, {
+    "label": "[Planned] Smash",
+    "templateUrl": "docs/appModes/smash.html"
+  }]
+}, {
+  "label": "Views",
+  "templateUrl": "docs/views.html",
+  "children": [{
+    "label": "Start",
+    "templateUrl": "docs/views/start.html",
+    "modalViews": ["Profiles Modal", "Load Order Modal"]
+  }, {
+    "label": "[Edit] Main",
+    "appModes": ["edit"],
+    "templateUrl": "docs/views/edit.html",
+    "modalViews": ["Settings Modal"],
+    "children": [{
+      "label": "Tree View",
+      "templateUrl": "docs/views/edit/tree.html",
+      "modalViews": ["Automate Modal"]
+    }, {
+      "label": "Record View",
+      "templateUrl": "docs/views/edit/record.html",
+      "modalViews": ["Edit Value Modal"]
+    }]
+  }]
+}, {
+  "label": "Modal Views",
+  "templateUrl": "docs/modalViews.html",
+  "children": [{
+    "label": "Help Modal",
+    "templateUrl": "docs/modalViews/help.html"
+  }, {
+    "label": "Profiles Modal",
+    "templateUrl": "docs/modalViews/profiles.html"
+  }, {
+    "label": "Load Order Modal",
+    "templateUrl": "docs/modalViews/loadOrder.html"
+  }, {
+    "label": "Settings Modal",
+    "templateUrl": "docs/modalViews/settings.html"
+  }, {
+    "label": "Edit Value Modal",
+    "templateUrl": "docs/modalViews/editValue.html",
+    "appModes": ["edit"]
+  }, {
+    "label": "Automate Modal",
+    "templateUrl": "docs/modalViews/automate.html",
+    "appModes": ["edit"]
+  }, {
+    "label": "Save Modal",
+    "templateUrl": "docs/modalViews/save.html",
+    "appModes": ["edit"]
+  }]
+}]
