@@ -120,6 +120,10 @@ Array.prototype.subtract = function(otherArray) {
     return this.filter((item) => { return otherArray.indexOf(item) === -1 });
 };
 
+Array.prototype.findByKey = function(key, value) {
+    return this.find((item) => { return item[key] === value });
+};
+
 Array.prototype.sortOnKey = function(key, sortFn) {
     sortFn = sortFn || function(a, b, key) {
         if (a[key] < b[key]) return -1;
