@@ -96,11 +96,16 @@ Object.assign(xelib, {
             lib.GetGamePath(gameMode, len);
         }) || '';
     },
-    GetLoadedFileNames: function() {
+    GetLoadedFileNames: function(excludeHardcoded = true) {
         let fileNames = undefined;
         xelib.WithHandles(xelib.GetElements(), function(files) {
             fileNames = files.map((file) => { return xelib.Name(file) });
         });
+        if (excludeHardcoded) {
+            fileNames = fileNames.filter(function(filename) {
+                return !filename.endsWith('.Hardcoded.dat');
+            });
+        }
         return fileNames;
     }
 });

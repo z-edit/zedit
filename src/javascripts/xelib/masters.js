@@ -33,7 +33,7 @@ Object.assign(xelib, {
     },
     AddAllMasters: function(_id) {
         let filename = xelib.Name(_id),
-            loadedFiles = xelib.GetLoadedFileNames(_id),
+            loadedFiles = xelib.GetLoadedFileNames(),
             fileIndex = loadedFiles.indexOf(filename);
         for (let i = 0; i < fileIndex; i++) {
             let filename = loadedFiles[i];
@@ -43,9 +43,7 @@ Object.assign(xelib, {
     },
     GetAvailableMasters: function(_id) {
         let fileName = xelib.Name(_id),
-            allMasters = xelib.GetLoadedFileNames().filter(function(filename) {
-                return !filename.endsWith('.Hardcoded.dat');
-            }),
+            allMasters = xelib.GetLoadedFileNames(),
             currentMasters = xelib.GetMasterNames(_id),
             fileIndex = allMasters.indexOf(fileName);
         return allMasters.slice(0, fileIndex).subtract(currentMasters);
