@@ -137,8 +137,8 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         };
 
         scope.onNodeMouseDown = function(e, node) {
-            if (e.button != 2 || !node.selected) scope.selectNode(e, node);
-            if (e.button == 2) scope.showContextMenu(e);
+            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
+            if (e.button === 2) scope.showContextMenu(e);
         };
 
         let scrollbarWidth = 17;
@@ -148,7 +148,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
                 scope.clearSelection(true);
             }
-            if (e.button == 2) scope.showContextMenu(e);
+            if (e.button === 2) scope.showContextMenu(e);
         };
 
         scope.focusSearchInput = function() {
