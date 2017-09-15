@@ -163,6 +163,12 @@ Object.assign(xelib, {
                 Fail(`Failed to check if signature ${signature} is allowed on ${_id}`);
         });
     },
+    GetAllowedSignatures: function(_id) {
+        return GetStringArray(function(_len) {
+            if (!lib.GetAllowedSignatures(_id, _len))
+                Fail(`Failed to get allowed signatures for ${_id}`);
+        });
+    },
     GetIsModified: function(_id) {
         return GetBool(function(_bool) {
             if (!lib.GetIsModified(_id, _bool))

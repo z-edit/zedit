@@ -65,10 +65,10 @@ Object.assign(xelib, {
             lib.FindPreviousRecord(_id, wcb(search), byEdid, byName, _res);
         });
     },
-    FindValidReferences: function(_id, search, limitTo) {
+    FindValidReferences: function(_id, signature, search, limitTo) {
         return GetStringArray(function(_len) {
-            if (!lib.FindValidReferences(_id, wcb(search), limitTo, _len))
-                Fail(`Failed to find valid references on ${_id} searching for: ${search}`);
+            if (!lib.FindValidReferences(_id, wcb(signature), wcb(search), limitTo, _len))
+                Fail(`Failed to find valid ${signature} references on ${_id} searching for: ${search}`);
         });
     },
     GetReferencedBy: function(_id) {
