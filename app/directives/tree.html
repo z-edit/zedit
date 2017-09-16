@@ -1,0 +1,5 @@
+<div ng-repeat="item in items" ng-click="onTreeItemClick($event, item)">
+    <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}" ng-if="item.children.length"></span>
+    <span>{{::item[labelKey]}}</span>
+    <tree items="item.children" selected-item="$parent.selectedItem" label-key="labelKey" ng-if="item.expanded"></tree>
+</div>
