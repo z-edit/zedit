@@ -4,8 +4,7 @@ ngapp.directive('tree', function() {
         templateUrl: 'directives/tree.html',
         scope: {
             items: '=',
-            selectedItem: '=',
-            labelKey: '='
+            selectedItem: '='
         },
         controller: 'treeController'
     }
