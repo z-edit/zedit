@@ -1,0 +1,14 @@
+<div class="modal-container" ng-click="unfocusModal($event)">
+    <div class="modal huge-modal">
+        <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+        <div class="help-navigation">
+            <tree items="topics" selected-item="currentTopic" label-key="'label'">
+            </tree>
+        </div>
+
+        <form class="tab-contents">
+            <ng-include src="topic.templateUrl" dyn-controller="topic.controller"></ng-include>
+        </form>
+    </div>
+</div>
