@@ -38,7 +38,9 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
             originalFilename = script.filePath.split('\\').last();
         if (originalFilename !== script.filename) {
             let newFilePath = `scripts\\${script.filename}`;
-            fh.jetpack.move(script.filePath, newFilePath);
+            if (fh.jetpack.exists(script.filePath)) {
+                fh.jetpack.move(script.filePath, newFilePath);
+            }
             script.filePath = newFilePath;
         }
         fh.saveTextFile(script.filePath, $scope.scriptContents);
