@@ -8,7 +8,7 @@
                 <span>Script</span>
                 <dropdown class="combobox scripts-dropdown" items="scripts" on-item-click="selectScript">
                     <dropdown-display>
-                        <input type="text" ng-model="selectedScript.filename" ng-click="$event.stopPropagation()" pu-elastic-input style="min-width: 25px">
+                        <input type="text" ng-model="selectedScript.filename" ng-mousedown="$event.stopPropagation()" pu-elastic-input style="min-width: 25px">
                     </dropdown-display>
                     <dropdown-item>{{::$parent.item.filename}}</dropdown-item>
                 </dropdown>
