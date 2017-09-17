@@ -49,9 +49,15 @@ Object.assign(xelib, {
                 Fail(`Failed to get master record for: ${_id}`);
         });
     },
-    GetWinningRecord: function(_id) {
+    GetPreviousOverride: function(_id, _id2) {
         return GetHandle(function(_res) {
-            if (!lib.GetWinningRecord(_id, _res))
+            if (!lib.GetPreviousOverride(_id, _id2, _res))
+                Fail(`Failed to get previous override record for: ${_id}, targetting file ${_id2}`);
+        });
+    },
+    GetWinningOverride: function(_id) {
+        return GetHandle(function(_res) {
+            if (!lib.GetWinningOverride(_id, _res))
                 Fail(`Failed to get winning override record for: ${_id}`);
         });
     },
