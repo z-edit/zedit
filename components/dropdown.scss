@@ -7,7 +7,7 @@ dropdown {
 
   .dropdown-items {
     position: absolute;
-    z-index: 5;
+    z-index: 10;
     background-color: $background;
     border: 1px solid $medium_border;
     text-align: left;
