@@ -2,6 +2,7 @@ ngapp.service('helpService', function() {
     let service = this,
         topics = [];
 
+    // PRIVATE FUNCTIONS
     let topicExistsError = function(label) {
         return new Error(`Topic ${label} already exists.`);
     };
@@ -14,6 +15,26 @@ ngapp.service('helpService', function() {
         return service.getTopic(path).children;
     };
 
+    let getTopicId = function(topic) {
+        return topic.id || topic.label.split(' ').filter(function(part) {
+            return !part.match(/\[.+\]/);
+        }).join('').uncapitalize();
+    };
+
+    let processTopics = function(topics, path) {
+        return topics.map(function(topic) {
+            let id = getTopicId(topic);
+            topic.templateUrl = `${path}${id}.html`;
+            topic.children = processTopics(topic.children, `${id}/`);
+            return topic;
+        });
+    };
+
+    let loadCoreTopics = function() {
+        topics = processTopics(fh.loadJsonFile('topics.json'), '');
+    };
+
+    // API FUNCTIONS
     this.getTopics = () => { return topics };
 
     this.addTopic = function(topic, path) {
@@ -33,4 +54,7 @@ ngapp.service('helpService', function() {
         if (!result) throw failedToResolveTopicError(path);
         return result;
     };
+
+    // initialization
+    loadCoreTopics()
 });
