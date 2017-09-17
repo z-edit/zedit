@@ -29,17 +29,15 @@ Object.assign(xelib, {
                 Fail('GetGlobals failed.');
         });
     },
-    SetSortMode: function(sort, reverse) {
-        if (!lib.SetSortMode(sortBy[sort], reverse))
-            Fail(`Failed to set sort mode to ${sort} ${reverse ? 'ASC' : 'DESC'}`)
+    SetSortMode: function(mode, reverse) {
+        if (!lib.SetSortMode(sortBy[mode], reverse))
+            Fail(`Failed to set sort mode to ${mode} ${reverse ? 'ASC' : 'DESC'}`)
     },
-    Release: function(_id, noException = false) {
-        if (!lib.Release(_id))
-            if (!noException) Fail(`Failed to release interface #${_id}`);
+    Release: function(_id) {
+        lib.Release(_id);
     },
     ReleaseNodes: function(_id) {
-        if (!lib.ReleaseNodes(_id))
-            Fail(`Failed to release nodes #${_id}`);
+        lib.ReleaseNodes(_id);
     },
     Switch: function(_id, _id2) {
         if (!lib.Switch(_id, _id2))

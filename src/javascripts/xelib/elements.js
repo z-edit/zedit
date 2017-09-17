@@ -125,14 +125,12 @@ Object.assign(xelib, {
     },
     HasArrayItem: function(_id, path, subpath, value) {
         return GetBool(function(_bool) {
-            if (!lib.HasArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _bool))
-                Fail(`Failed to check has array item for ${arrayItemContext(path, subpath, value)}`);
+            lib.HasArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _bool);
         });
     },
     GetArrayItem: function(_id, path, subpath, value) {
         return GetHandle(function(_res) {
-            if (!lib.GetArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
-                Fail(`Failed to get array item for ${arrayItemContext(path, subpath, value)}`);
+            lib.GetArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res);
         });
     },
     AddArrayItem: function(_id, path, subpath, value) {
@@ -143,8 +141,7 @@ Object.assign(xelib, {
     },
     RemoveArrayItem: function(_id, path, subpath, value) {
         return GetHandle(function(_res) {
-            if (!lib.RemoveArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
-                Fail(`Failed to remove array item from ${arrayItemContext(path, subpath, value)}`);
+            lib.RemoveArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res);
         });
     },
     MoveArrayItem: function(_id, index) {
