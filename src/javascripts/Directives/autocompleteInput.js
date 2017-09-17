@@ -15,14 +15,11 @@ ngapp.directive('autocompleteInput', function() {
     }
 });
 
-ngapp.controller('autocompleteInputController', function($scope, $timeout, hotkeyService, hotkeyFactory) {
+ngapp.controller('autocompleteInputController', function($scope, $timeout, hotkeyService) {
     // initialize scope variables
     angular.default($scope, 'minLength', 2);
     angular.default($scope, 'pause', 250);
     angular.default($scope, 'getText', (item) => { return item; });
-
-    // helper variables
-    let hotkeys = hotkeyFactory.dropdownItemsHotkeys();
 
     // helper functions
     let hideDropdown = function() {
@@ -49,7 +46,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', hotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'dropdownItems');
 
     // scope functions
     $scope.handleEscape = () => hideDropdown();

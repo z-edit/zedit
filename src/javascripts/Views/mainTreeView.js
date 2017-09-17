@@ -1,11 +1,10 @@
-ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, hotkeyFactory, contextMenuFactory) {
+ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
 
     // helper variables
-    let hotkeys = hotkeyFactory.mainTreeHotkeys(),
-        openableTypes = [xelib.etMainRecord, xelib.etFile];
+    let openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
     $scope.contextMenuItems = contextMenuFactory.mainTreeItems;
 
@@ -15,7 +14,7 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     mainTreeElementService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope, true);
     treeColumnService.buildFunctions($scope, '.main-tree-view', true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', hotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'mainTree');
 
     // scope functions
     $scope.showContextMenu = function(e) {

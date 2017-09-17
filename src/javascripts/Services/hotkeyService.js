@@ -1,4 +1,4 @@
-ngapp.service('hotkeyService', function() {
+ngapp.service('hotkeyService', function(hotkeyFactory) {
     let service = this;
 
     this.keycodes = {
@@ -37,7 +37,8 @@ ngapp.service('hotkeyService', function() {
         e.preventDefault();
     };
 
-    this.buildOnKeyDown = function(scope, label, hotkeys) {
+    this.buildOnKeyDown = function(scope, label, view) {
+        let hotkeys = hotkeyFactory[`${view}Hotkeys`];
         scope[label] = function(e) {
             let hotkey = Object.keys(hotkeys).find(function(key) {
                 return e.keyCode === service.keycodes[key];

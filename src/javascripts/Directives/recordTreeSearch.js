@@ -1,8 +1,7 @@
 ngapp.controller('recordTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory) {
     // helper variables
     let pKey = 80, vKey = 86,
-        searchOptionKeys = [pKey, vKey],
-        hotkeys = hotkeyFactory.treeSearchHotkeys();
+        searchOptionKeys = [pKey, vKey];
 
     // scope variables
     $scope.search = '';
@@ -13,7 +12,7 @@ ngapp.controller('recordTreeSearchController', function($scope, $q, $timeout, ho
     };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', hotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'treeSearch');
 
     // scope functions
     $scope.foundResult = function(handle) {
