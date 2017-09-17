@@ -20,14 +20,10 @@ ngapp.directive('dropdown', function() {
     }
 });
 
-ngapp.controller('dropdownController', function($scope, hotkeyService, hotkeyFactory) {
-    // helper variables
-    let itemHotkeys = hotkeyFactory.dropdownItemsHotkeys(),
-        dropdownHotkeys = hotkeyFactory.dropdownHotkeys();
-
+ngapp.controller('dropdownController', function($scope, hotkeyService) {
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', itemHotkeys);
-    hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', dropdownHotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', 'dropdown');
+    hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', 'dropdownItems');
 
     // scope functions
     $scope.toggleDropdown = function() {

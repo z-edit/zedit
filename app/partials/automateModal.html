@@ -1,5 +1,5 @@
-<div class="modal-container" ng-click="unfocusModal($event)">
-    <div class="modal">
+<div class="modal-container" ng-mousedown="unfocusModal($event)">
+    <div class="modal" ng-keydown="onModalKeyDown($event)" tabindex="0" autofocus>
         <form>
             <div class="close-modal" ng-click="$emit('closeModal')"></div>
 
@@ -8,7 +8,7 @@
                 <span>Script</span>
                 <dropdown class="combobox scripts-dropdown" items="scripts" on-item-click="selectScript">
                     <dropdown-display>
-                        <input type="text" ng-model="selectedScript.filename" ng-click="$event.stopPropagation()" pu-elastic-input style="min-width: 25px">
+                        <input type="text" ng-model="selectedScript.filename" ng-mousedown="$event.stopPropagation()" focus-on="focusScriptFileName" pu-elastic-input style="min-width: 25px">
                     </dropdown-display>
                     <dropdown-item>{{::$parent.item.filename}}</dropdown-item>
                 </dropdown>
@@ -20,6 +20,7 @@
                 </dropdown>
                 <button class="action-btn" ng-click="newScript()" title="Create a new script file.">New</button>
                 <button class="action-btn" ng-click="saveScript()" title="Save edits made to the current script.">Save</button>
+                <button class="action-btn negative" ng-click="deleteScript()" title="Delete the current script.">Delete</button>
             </div>
 
             <textarea ng-model="scriptContents" code-mirror></textarea>

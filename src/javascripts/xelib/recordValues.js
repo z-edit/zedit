@@ -1,3 +1,5 @@
+import './common.js';
+
 // RECORD VALUE METHODS
 Object.assign(xelib, {
     EditorID: function(_id) {

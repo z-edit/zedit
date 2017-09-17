@@ -1,4 +1,4 @@
-<div class="modal-container" ng-click="unfocusModal($event)">
+<div class="modal-container" ng-mousedown="unfocusModal($event)">
     <div class="modal big-modal" ng-click="$broadcast('onParentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
         <form>
             <div class="close-modal" ng-click="$emit('closeModal')"></div>

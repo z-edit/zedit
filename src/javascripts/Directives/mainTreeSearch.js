@@ -1,8 +1,7 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory, errorService, xelibService) {
+ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory, errorService) {
     // helper variables
     let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
-        searchOptionKeys = [fKey, eKey, nKey, aKey],
-        hotkeys = hotkeyFactory.treeSearchHotkeys();
+        searchOptionKeys = [fKey, eKey, nKey, aKey];
 
     // scope variables
     $scope.search = '';
@@ -14,7 +13,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
     };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', hotkeys);
+    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'treeSearch');
 
     // helper functions
     let getElementIndex = function(elements, element) {

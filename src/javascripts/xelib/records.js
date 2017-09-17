@@ -12,16 +12,17 @@ applyEnums(xelib, conflictAll, 'conflictAll');
 
 // RECORD HANDLING METHODS
 Object.assign(xelib, {
-    GetFormID: function(_id, local = false) {
+    GetFormID: function(_id, native = false, local = false) {
         let _res = createTypedBuffer(4, PCardinal);
-        if (!lib.GetFormID(_id, _res, local))
+        if (!lib.GetFormID(_id, _res, native))
             Fail(`Failed to get FormID for ${_id}`);
-        return _res.readUInt32LE();
+        let formID = _res.readUInt32LE();
+        return local ? formID & 0xFFFFFF : formID;
     },
-    GetHexFormID: function(_id, local = false) {
-        return xelib.Hex(xelib.GetFormID(_id, local));
+    GetHexFormID: function(_id, native = false, local = false) {
+        return xelib.Hex(xelib.GetFormID(_id, native, local), local ? 6 : 8);
     },
-    SetFormID: function(_id, newFormID, local = false, fixReferences = true) {
+    SetFormID: function(_id, newFormID, native = false, fixReferences = true) {
         if (!lib.SetFormID(_id, newFormID, local, fixReferences))
             Fail(`Failed to set FormID on ${_id} to ${newFormID}`);
     },
@@ -49,9 +50,15 @@ Object.assign(xelib, {
                 Fail(`Failed to get master record for: ${_id}`);
         });
     },
-    GetWinningRecord: function(_id) {
+    GetPreviousOverride: function(_id, _id2) {
         return GetHandle(function(_res) {
-            if (!lib.GetWinningRecord(_id, _res))
+            if (!lib.GetPreviousOverride(_id, _id2, _res))
+                Fail(`Failed to get previous override record for: ${_id}, targetting file ${_id2}`);
+        });
+    },
+    GetWinningOverride: function(_id) {
+        return GetHandle(function(_res) {
+            if (!lib.GetWinningOverride(_id, _res))
                 Fail(`Failed to get winning override record for: ${_id}`);
         });
     },
