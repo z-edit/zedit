@@ -90,4 +90,24 @@ ngapp.service('hotkeyFactory', function() {
             callback: 'selectAll'
         }]
     };
+
+    this.automateModalHotkeys = {
+        enter: [{
+            modifiers: ['ctrlKey'],
+            callback: 'runScript'
+        }],
+        delete: [{
+            modifiers: ['ctrlKey'],
+            callback: 'deleteScript'
+        }],
+        f2: 'handleF2',
+        n: [{
+            modifiers: ['ctrlKey'],
+            callback: 'newScript'
+        }],
+        s: [{
+            modifiers: ['ctrlKey'],
+            callback: 'saveScript'
+        }]
+    }
 });
