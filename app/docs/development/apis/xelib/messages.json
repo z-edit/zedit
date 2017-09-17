@@ -1,0 +1,24 @@
+[
+  {
+    "name": "GetMessages",
+    "returns": {
+      "type": "string",
+      "description": "The messages separated by `\\r\\n`."
+    },
+    "description": "Gets any messages that have been added to XEditLib's internal log since the last time this function was called."
+  },
+  {
+    "name": "ClearMessages",
+    "icons": ["warn"],
+    "description": "Clears all messages from the XEditLib's internal log."
+  },
+  {
+    "name": "GetExceptionMessage",
+    "icons": ["warn"],
+    "returns": {
+      "type": "string",
+      "description": "The exception message."
+    },
+    "description": "Returns a message corresponding to the last exception that occurred.  Returns an empty string if no exception has occurred since the last time this function was called."
+  }
+]
