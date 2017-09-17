@@ -46,6 +46,13 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         fh.saveTextFile(script.filePath, $scope.scriptContents);
     };
 
+    $scope.deleteScript = function() {
+        fh.jetpack.remove($scope.selectedScript.filePath);
+        $scope.scripts.remove($scope.selectedScript);
+        createScriptIfNone();
+        $scope.selectScript($scope.scripts[0]);
+    };
+
     $scope.closeModal = function() {
         $scope.saveScript();
         $scope.$emit('closeModal');

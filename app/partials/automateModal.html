@@ -20,6 +20,7 @@
                 </dropdown>
                 <button class="action-btn" ng-click="newScript()" title="Create a new script file.">New</button>
                 <button class="action-btn" ng-click="saveScript()" title="Save edits made to the current script.">Save</button>
+                <button class="action-btn negative" ng-click="deleteScript()" title="Delete the current script.">Delete</button>
             </div>
 
             <textarea ng-model="scriptContents" code-mirror></textarea>
