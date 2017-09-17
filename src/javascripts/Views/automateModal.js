@@ -27,20 +27,11 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     }];
 
     // inherited functions
-    modalService.buildUnfocusModalFunction($scope);
+    modalService.buildUnfocusModalFunction($scope, 'closeModal');
 
     // scope functions
     $scope.setSortMode = (sortMode) => $scope.sortMode = sortMode;
     $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
-
-    $scope.runScript = function() {
-        let scriptFilename = $scope.selectedScript.filename,
-            scriptCode = $scope.scriptContents,
-            targetScope = $scope.modalOptions.targetScope;
-        $scope.saveScript();
-        $scope.$emit('closeModal');
-        automationService.runScript(targetScope, scriptCode, scriptFilename);
-    };
 
     $scope.saveScript = function() {
         let script = $scope.selectedScript,
@@ -51,6 +42,19 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
             script.filePath = newFilePath;
         }
         fh.saveTextFile(script.filePath, $scope.scriptContents);
+    };
+
+    $scope.closeModal = function() {
+        $scope.saveScript();
+        $scope.$emit('closeModal');
+    };
+
+    $scope.runScript = function() {
+        let scriptFilename = $scope.selectedScript.filename,
+            scriptCode = $scope.scriptContents,
+            targetScope = $scope.modalOptions.targetScope;
+        $scope.closeModal();
+        automationService.runScript(targetScope, scriptCode, scriptFilename);
     };
 
     $scope.selectScript = function(item) {
