@@ -1,4 +1,4 @@
-ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService) {
+ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService, hotkeyService) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;
@@ -15,6 +15,12 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         return filePath;
     };
 
+    let sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
+
+    let createScriptIfNone = function() {
+        if ($scope.scripts.length === 0) $scope.newScript();
+    };
+
     // scope variables
     $scope.sortModes = [{
         label: 'Sort by Recent',
@@ -28,10 +34,10 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
 
     // inherited functions
     modalService.buildUnfocusModalFunction($scope, 'closeModal');
+    hotkeyService.buildOnKeyDown($scope, 'onModalKeyDown', 'automateModal');
 
     // scope functions
     $scope.setSortMode = (sortMode) => $scope.sortMode = sortMode;
-    $scope.sortScripts = () => $scope.scripts.sort($scope.sortMode.compare);
 
     $scope.saveScript = function() {
         let script = $scope.selectedScript,
@@ -57,6 +63,8 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         $scope.saveScript();
         $scope.$emit('closeModal');
     };
+
+    $scope.handleF2 = () => $scope.$broadcast('focusScriptFileName');
 
     $scope.runScript = function() {
         let scriptFilename = $scope.selectedScript.filename,
@@ -92,15 +100,15 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
             filename: filePath.split('\\').last(),
             lastRun: new Date()
         });
-        $scope.selectedScript = $scope.scripts[0];
+        $scope.selectScript($scope.scripts[0]);
     };
 
     // event handlers
-    $scope.$watch('sortMode', $scope.sortScripts);
+    $scope.$watch('sortMode', sortScripts);
 
     // initialization
     $scope.loadScripts();
+    createScriptIfNone();
     $scope.setSortMode($scope.sortModes[0]);
-    if ($scope.scripts.length === 0) $scope.newScript();
     $scope.selectScript($scope.scripts[0]);
 });
