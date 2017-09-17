@@ -1,0 +1,123 @@
+[
+  {
+    "name": "loaderStates",
+    "type": "enumeration",
+    "description": "States returned by `GetLoaderStatus`.",
+    "members": [{
+      "key": "lsInactive",
+      "description": "Indicates the loader hasn't been run and isn't running."
+    }, {
+      "key": "lsActive",
+      "description": "Indicates the loader is currently active."
+    }, {
+      "key": "lsDone",
+      "description": "Indicates the loader is done."
+    }, {
+      "key": "lsError",
+      "description": "Indicates the loader encountered an error."
+    }]
+  },
+  {
+    "name": "gameModes",
+    "type": "enumeration",
+    "description": "Game modes for use with `SetGameMode`.",
+    "members": [
+      {
+        "key": "gmFNV",
+        "description": "Fallout: New Vegas"
+      },
+      {
+        "key": "gmFO3",
+        "description": "Fallout 3"
+      },
+      {
+        "key": "gmTES4",
+        "description": "The Elder Scrolls IV: Oblivion"
+      },
+      {
+        "key": "gmTES5",
+        "description": "The Elder Scrolls V: Skyrim"
+      },
+      {
+        "key": "gmSSE",
+        "description": "Skyrim: Special Edition"
+      },
+      {
+        "key": "gmFO4",
+        "description": "Fallout 4"
+      }
+    ]
+  },
+  {
+    "name": "games",
+    "type": "array",
+    "contains": {
+      "type": "object",
+      "properties": [
+        {
+          "key": "name",
+          "type": "string",
+          "description": "The name of the game used for display purposes."
+        },
+        {
+          "key": "shortName",
+          "type": "string",
+          "description": "The name of the game used to find the correct `*.Hardcoded.dat` file."
+        },
+        {
+          "key": "mode",
+          "type": "integer",
+          "description": "The game mode for the game."
+        },
+        {
+          "key": "exeName",
+          "type": "string",
+          "description": "The filename of the game executable."
+        }
+      ]
+    },
+    "description": "Information about the game modes "
+  },
+  {
+    "name": "SetGamePath",
+    "icons": ["warn"]
+  },
+  {
+    "name": "SetLanguage",
+    "icons": ["warn"]
+  },
+  {
+    "name": "SetGameMode",
+    "icons": ["warn"]
+  },
+  {
+    "name": "GetLoadOrder",
+    "icons": ["warn"]
+  },
+  {
+    "name": "GetActivePlugins",
+    "icons": ["warn"]
+  },
+  {
+    "name": "LoadPlugins",
+    "icons": ["warn"]
+  },
+  {
+    "name": "LoadPlugin"
+  },
+  {
+    "name": "LoadPluginHeader"
+  },
+  {
+    "name": "UnloadPlugin"
+  },
+  {
+    "name": "GetLoaderStatus"
+  },
+  {
+    "name": "GetGamePath"
+  },
+  {
+    "name": "GetLoadedFileNames"
+  }
+]
