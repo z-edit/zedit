@@ -58,17 +58,26 @@ Object.assign(xelib, {
     GetIntValue: function(_id, path) {
         return GetNativeValue(_id, path, 'GetIntValue', PInteger).readInt32LE();
     },
+    GetIntValueEx: function(_id, path) {
+        return GetNativeValueEx(_id, path, 'GetIntValue', PInteger).readInt32LE();
+    },
     SetIntValue: function(_id, path, value) {
         SetNativeValue(_id, path, 'SetIntValue', value);
     },
     GetUIntValue: function(_id, path) {
         return GetNativeValue(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
     },
+    GetUIntValueEx: function(_id, path) {
+        return GetNativeValueEx(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
+    },
     SetUIntValue: function(_id, path, value) {
         SetNativeValue(_id, path, 'SetUIntValue', value);
     },
     GetFloatValue: function(_id, path) {
         return GetNativeValue(_id, path, 'GetFloatValue', PDouble).readDoubleLE();
+    },
+    GetFloatValueEx: function(_id, path) {
+        return GetNativeValueEx(_id, path, 'GetFloatValue', PDouble).readDoubleLE();
     },
     SetFloatValue: function(_id, path, value) {
         SetNativeValue(_id, path, 'SetFloatValue', value);

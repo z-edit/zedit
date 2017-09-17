@@ -143,8 +143,14 @@ export let GetEnumValue = function(_id, method, enums) {
 
 export let GetNativeValue = function(_id, path, method, refType) {
     let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
+    lib[method](_id, wcb(path), buff);
+    return buff;
+};
+
+export let GetNativeValueEx = function(_id, path, method, refType) {
+    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
     if (!lib[method](_id, wcb(path), buff))
-        Fail(`Failed to ${method} at: ${elementContext(_id, path)}`);
+        Fail(`Failed to ${method} for ${elementContext(_id, path)}`);
     return buff;
 };
 
