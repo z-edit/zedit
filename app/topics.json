@@ -1,102 +1,150 @@
-[{
-  "label": "Overview",
-  "templateUrl": "docs/overview.html",
-  "children": [{
-    "label": "What is zEdit?",
-    "templateUrl": "docs/overview/what.html"
+[
+  {
+    "label": "Overview",
+    "children": [
+      {
+        "label": "What is zEdit?",
+        "id": "what"
+      }, {
+        "label": "How can I use zEdit?",
+        "id": "how"
+      }, {
+        "label": "Why should I use zEdit?",
+        "id": "why"
+      }, {
+        "label": "Where can I get help with zEdit?",
+        "id": "where"
+      }
+    ]
+  },
+  { "label": "Profiles" },
+  { "label": "Settings" },
+  { "label": "Game Modes" },
+  {
+    "label": "Modules",
+    "children": [
+      { "label": "Core Modules" },
+      { "label": "Default Modules" }
+    ]
   }, {
-    "label": "How can I use zEdit?",
-    "templateUrl": "docs/overview/how.html"
+    "label": "Application Modes",
+    "id": "appModes",
+    "children": [
+      { "label": "Edit" },
+      { "label": "[Planned] Clean" },
+      { "label": "[Planned] Merge" },
+      { "label": "[Planned] Smash" }
+    ]
   }, {
-    "label": "Why should I use zEdit?",
-    "templateUrl": "docs/overview/why.html"
-  }, {
-    "label": "Where can I get help with zEdit?",
-    "templateUrl": "docs/overview/where.html"
-  }]
-}, {
-  "label": "Profiles",
-  "templateUrl": "docs/profiles.html"
-}, {
-  "label": "Settings",
-  "templateUrl": "docs/settings.html"
-}, {
-  "label": "Game Modes",
-  "templateUrl": "docs/gameModes.html"
-}, {
-  "label": "Modules",
-  "templateUrl": "docs/modules.html",
-  "children": [{
-    "label": "Core Modules",
-    "templateUrl": "docs/modules/core.html"
-  }, {
-    "label": "Default Modules",
-    "templateUrl": "docs/modules/default.html"
-  }]
-}, {
-  "label": "Application Modes",
-  "templateUrl": "docs/appModes.html",
-  "children": [{
-    "label": "Edit",
-    "templateUrl": "docs/appModes/edit.html"
-  }, {
-    "label": "[Planned] Clean",
-    "templateUrl": "docs/appModes/clean.html"
-  }, {
-    "label": "[Planned] Merge",
-    "templateUrl": "docs/appModes/merge.html"
-  }, {
-    "label": "[Planned] Smash",
-    "templateUrl": "docs/appModes/smash.html"
-  }]
-}, {
-  "label": "Views",
-  "templateUrl": "docs/views.html",
-  "children": [{
-    "label": "Start",
-    "templateUrl": "docs/views/start.html",
-    "modalViews": ["Profiles Modal", "Load Order Modal"]
-  }, {
-    "label": "[Edit] Main",
-    "appModes": ["edit"],
-    "templateUrl": "docs/views/edit.html",
-    "modalViews": ["Settings Modal"],
+    "label": "Views",
     "children": [{
-      "label": "Tree View",
-      "templateUrl": "docs/views/edit/tree.html",
-      "modalViews": ["Automate Modal"]
+      "label": "Start",
+      "modalViews": ["Profiles Modal", "Load Order Modal"]
     }, {
-      "label": "Record View",
-      "templateUrl": "docs/views/edit/record.html",
-      "modalViews": ["Edit Value Modal"]
+      "label": "[Edit] Main",
+      "appModes": ["edit"],
+      "id": "edit",
+      "modalViews": ["Settings Modal"],
+      "children": [{
+        "label": "Tree View",
+        "modalViews": ["Automate Modal"]
+      }, {
+        "label": "Record View",
+        "modalViews": ["Edit Value Modal"]
+      }]
     }]
-  }]
-}, {
-  "label": "Modal Views",
-  "templateUrl": "docs/modalViews.html",
-  "children": [{
-    "label": "Help Modal",
-    "templateUrl": "docs/modalViews/help.html"
   }, {
-    "label": "Profiles Modal",
-    "templateUrl": "docs/modalViews/profiles.html"
-  }, {
-    "label": "Load Order Modal",
-    "templateUrl": "docs/modalViews/loadOrder.html"
-  }, {
-    "label": "Settings Modal",
-    "templateUrl": "docs/modalViews/settings.html"
-  }, {
-    "label": "Edit Value Modal",
-    "templateUrl": "docs/modalViews/editValue.html",
-    "appModes": ["edit"]
-  }, {
-    "label": "Automate Modal",
-    "templateUrl": "docs/modalViews/automate.html",
-    "appModes": ["edit"]
-  }, {
-    "label": "Save Modal",
-    "templateUrl": "docs/modalViews/save.html",
-    "appModes": ["edit"]
-  }]
-}]
+    "label": "Modal Views",
+    "children": [
+      { "label": "Help Modal" },
+      { "label": "Profiles Modal" },
+      { "label": "Load Order Modal" },
+      { "label": "Settings Modal" },
+      {
+        "label": "Edit Value Modal",
+        "appModes": ["edit"]
+      }, {
+        "label": "Automate Modal",
+        "appModes": ["edit"]
+      }, {
+        "label": "Save Modal",
+        "appModes": ["edit"]
+      }, {
+        "label": "Development",
+        "templateUrl": "docs/development.html",
+        "children": [
+          {
+            "label": "APIs",
+            "templateUrl": "docs/development/apis.html",
+            "children": [
+              {
+                "label": "xelib",
+                "templateUrl": "docs/development/apis/xelib.html",
+                "children": [
+                  {
+                    "label": "Meta",
+                    "description": "Library-specific functions for tasks such as getting globals and managing handles."
+                  },
+                  {
+                    "label": "Messages",
+                    "description": "Log and exception messages in the library."
+                  },
+                  {
+                    "label": "Setup",
+                    "description": "Game modes and loading files."
+                  },
+                  {
+                    "label": "Elements",
+                    "description": "Functions for handling elements."
+                  },
+                  {
+                    "label": "Files",
+                    "description": "Functions for handling files."
+                  },
+                  {
+                    "label": "Masters",
+                    "description": "Functions for handling masters in files."
+                  },
+                  {
+                    "label": "Plugin Errors",
+                    "description": "Functions for getting and resolving errors/dirty edits in plugin files."
+                  },
+                  {
+                    "label": "Element Values",
+                    "description": "Functions for getting or settings values on elements."
+                  },
+                  {
+                    "label": "Serialization",
+                    "description": "Functions for serializing elements to JSON and deserializing them from JSON."
+                  },
+                  {
+                    "label": "Records",
+                    "description": "Functions for handling records in files."
+                  },
+                  {
+                    "label": "Groups",
+                    "description": "Functions for handling groups in files."
+                  },
+                  {
+                    "label": "File Values",
+                    "description": "Functions for handling groups in files."
+                  },
+                  {
+                    "label": "Record Values",
+                    "description": "Functions for getting values from records."
+                  },
+                  {
+                    "label": "Utils",
+                    "description": "Utility functions."
+                  }
+                ]
+              }
+            ]
+          },
+          { "label": "Writing Scripts" },
+          { "label": "Creating Modules" }
+        ]
+      }
+    ]
+  }
+]
