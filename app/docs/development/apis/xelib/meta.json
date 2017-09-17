@@ -1,0 +1,95 @@
+[
+  {
+    "name": "sortBy",
+    "type": "enumeration",
+    "description": "Sort modes that can be used with `SetSortMode`.",
+    "members": [{
+      "key": "None",
+      "description": "No sorting.  Elements will be in native order corresponding to the order in which they were found in the plugin file they were loaded from."
+    }, {
+      "key": "FormID",
+      "description": "Files are sorted by load order, groups are sorted by signature, and records are sorted by FormID."
+    }, {
+      "key": "EditorID",
+      "description": "Files are sorted by filename, groups are sorted by display name, and record are sorted by their EditorID."
+    }, {
+      "key": "Name",
+      "description": "Files are sorted by filename, groups are sorted by display name, and records are sorted by their FULL name."
+    }]
+  },
+  {
+    "name": "Initialize",
+    "icons": ["warn"],
+    "description": "Initializes XEditLib.  This should be called after the DLL loaded to prepare the library for future function calls."
+  },
+  {
+    "name": "Finalize",
+    "icons": ["warn"],
+    "description": "Finalizes XEditLib.  This should be called just before the DLL is unloaded to rename saved files, save logs, and free all memory used by the library."
+  },
+  {
+    "name": "GetGlobal",
+    "args": [{
+      "name": "key",
+      "type": "string",
+      "description": "The name of the global you want to get."
+    }],
+    "returns": {
+      "type": "string",
+      "description": "The value of the global."
+    },
+    "description": "Gets the value of a global from the library.  Supported globals include:\r\n\r\n\r\n- ProgramPath: The path to the folder containing XEditLib.dll.\r\n- Version: The version of XEditLib.dll.\r\n- GameName: The short game name associated with the current game mode.\r\n- AppName: The abbreviated game name associated with the current game mode.\r\n- LongGameName: The full game name associated with the current game mode.\r\n- DataPath: The game data path associated with the current game mode.\r\n- AppDataPath: The game application data path associated with the current game mode.\r\n- MyGamesPath: The my games folder path associated with the current game mode.\r\n- GameIniPath: The path to the INI file associated with the current game mode."
+  },
+  {
+    "name": "GetGlobals",
+    "returns": {
+      "type": "string",
+      "description": "A list of name value pairs for all globals.  Entries are separated by `\\r\\n`, and name value pairs are separated by `=`."
+    }
+  },
+  {
+    "name": "SetSortMode",
+    "icons": ["warn"],
+    "args": [{
+      "name": "mode",
+      "type": "string",
+      "description": "The key of the sort mode to use.  See the sortModes enumeration above for more information."
+    }, {
+      "name": "reverse",
+      "type": "boolean",
+      "description": "Whether or not to reverse elements after sorting.  False corresponds to sorting in ascending order, and true corresponds to sorting in descending order."
+    }],
+    "description": "Sets the sort mode to be used by `GetElements` when the `sort` argument is set to true."
+  },
+  {
+    "name": "Release",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "The handle to release."
+    }],
+    "description": "Releases the input handle if it is allocated."
+  },
+  {
+    "name": "ReleaseNodes",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "The handle to release."
+    }],
+    "description": "Releases the input handle if it is allocated.  For use with handles returned by `GetNodes`."
+  },
+  {
+    "name": "GetDuplicateHandles",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to an element to find duplicate handles of."
+    }],
+    "returns": {
+      "type": "array of handles",
+      "description": "An array of the duplicate handles found."
+    },
+    "description": "Finds other handles to a particular interface."
+  }
+]
