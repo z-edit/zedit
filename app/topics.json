@@ -98,40 +98,40 @@
                     "description": "Functions for handling elements."
                   },
                   {
-                    "label": "Files",
-                    "description": "Functions for handling files."
-                  },
-                  {
-                    "label": "Masters",
-                    "description": "Functions for handling masters in files."
-                  },
-                  {
-                    "label": "Plugin Errors",
-                    "description": "Functions for getting and resolving errors/dirty edits in plugin files."
-                  },
-                  {
                     "label": "Element Values",
                     "description": "Functions for getting or settings values on elements."
-                  },
-                  {
-                    "label": "Serialization",
-                    "description": "Functions for serializing elements to JSON and deserializing them from JSON."
                   },
                   {
                     "label": "Records",
                     "description": "Functions for handling records in files."
                   },
                   {
+                    "label": "Record Values",
+                    "description": "Functions for getting values from records."
+                  },
+                  {
                     "label": "Groups",
                     "description": "Functions for handling groups in files."
+                  },
+                  {
+                    "label": "Masters",
+                    "description": "Functions for handling masters in files."
+                  },
+                  {
+                    "label": "Files",
+                    "description": "Functions for handling files."
                   },
                   {
                     "label": "File Values",
                     "description": "Functions for handling groups in files."
                   },
                   {
-                    "label": "Record Values",
-                    "description": "Functions for getting values from records."
+                    "label": "Serialization",
+                    "description": "Functions for serializing elements to JSON and deserializing them from JSON."
+                  },
+                  {
+                    "label": "Plugin Errors",
+                    "description": "Functions for getting and resolving errors/dirty edits in plugin files."
                   },
                   {
                     "label": "Utils",
