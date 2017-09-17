@@ -1,0 +1,289 @@
+[
+  {
+    "name": "elementTypes",
+    "type": "enumeration",
+    "description": "Returned by `ElementType`.",
+    "members": [
+      {
+        "key": "etFile"
+      }, {
+        "key": "etMainRecord"
+      }, {
+        "key": "etGroupRecord"
+      }, {
+        "key": "etSubRecord"
+      }, {
+        "key": "etSubRecordStruct"
+      }, {
+        "key": "etSubRecordArray"
+      }, {
+        "key": "etSubRecordUnion"
+      }, {
+        "key": "etArray"
+      }, {
+        "key": "etStruct"
+      }, {
+        "key": "etValue"
+      }, {
+        "key": "etFlag"
+      }, {
+        "key": "etStringListTerminator"
+      }, {
+        "key": "etUnion"
+      }, {
+        "key": "etStructChapter"
+      }
+    ]
+  },
+  {
+    "name": "defTypes",
+    "type": "enumeration",
+    "description": "Returned by `DefType`.",
+    "members": [
+      {
+        "key": "dtRecord"
+      }, {
+        "key": "dtSubRecord"
+      }, {
+        "key": "dtSubRecordArray"
+      }, {
+        "key": "dtSubRecordStruct"
+      }, {
+        "key": "dtSubRecordUnion"
+      }, {
+        "key": "dtString"
+      }, {
+        "key": "dtLString"
+      }, {
+        "key": "dtLenString"
+      }, {
+        "key": "dtByteArray"
+      }, {
+        "key": "dtInteger"
+      }, {
+        "key": "dtIntegerFormater"
+      }, {
+        "key": "dtIntegerFormaterUnion"
+      }, {
+        "key": "dtFlag"
+      }, {
+        "key": "dtFloat"
+      }, {
+        "key": "dtArray"
+      }, {
+        "key": "dtStruct"
+      }, {
+        "key": "dtUnion"
+      }, {
+        "key": "dtEmpty"
+      }, {
+        "key": "dtStructChapter"
+      }
+    ]
+  },
+  {
+    "name": "smashTypes",
+    "type": "enumeration",
+    "description": "Simplified element types, with array sorting specified.  Used by Smash.",
+    "members": [
+      {
+        "key": "stUnknown"
+      }, {
+        "key": "stRecord"
+      }, {
+        "key": "stString"
+      }, {
+        "key": "stInteger"
+      }, {
+        "key": "stFlag"
+      }, {
+        "key": "stFloat"
+      }, {
+        "key": "stStruct"
+      }, {
+        "key": "stUnsortedArray"
+      }, {
+        "key": "stUnsortedStructArray"
+      }, {
+        "key": "stSortedArray"
+      }, {
+        "key": "stSortedStructArray"
+      }, {
+        "key": "stByteArray"
+      }, {
+        "key": "stUnion"
+      }
+    ]
+  },
+  {
+    "name": "valueTypes",
+    "type": "enumeration",
+    "description": "Element value types.  Used for determining the form to use for the edit value modal.",
+    "members": [
+      {
+        "key": "vtUnknown"
+      },
+      {
+        "key": "vtBytes"
+      },
+      {
+        "key": "vtNumber"
+      },
+      {
+        "key": "vtString"
+      },
+      {
+        "key": "vtText"
+      },
+      {
+        "key": "vtReference"
+      },
+      {
+        "key": "vtFlags"
+      },
+      {
+        "key": "vtEnum"
+      },
+      {
+        "key": "vtColor"
+      },
+      {
+        "key": "vtArray"
+      },
+      {
+        "key": "vtStruct"
+      }
+    ]
+  },
+  {
+    "name": "HasElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from.  Pass 0 to resolve path from root."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if an element exists at the given path."
+  },
+  {
+    "name": "GetElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from.  Pass 0 to resolve path from root."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Resolves the element at a path and returns a handle to it.  Returns 0 if the element is not found."
+  },
+  {
+    "name": "AddElement"
+  },
+  {
+    "name": "AddElementValue"
+  },
+  {
+    "name": "RemoveElement"
+  },
+  {
+    "name": "RemoveElementOrParent"
+  },
+  {
+    "name": "SetElement"
+  },
+  {
+    "name": "GetElements"
+  },
+  {
+    "name": "GetDefNames"
+  },
+  {
+    "name": "GetAddList"
+  },
+  {
+    "name": "GetLinksTo"
+  },
+  {
+    "name": "SetLinksTo"
+  },
+  {
+    "name": "GetContainer"
+  },
+  {
+    "name": "GetElementFile"
+  },
+  {
+    "name": "ElementCount"
+  },
+  {
+    "name": "ElementEquals"
+  },
+  {
+    "name": "ElementMatches"
+  },
+  {
+    "name": "HasArrayItem"
+  },
+  {
+    "name": "GetArrayItem"
+  },
+  {
+    "name": "AddArrayItem"
+  },
+  {
+    "name": "RemoveArrayItem"
+  },
+  {
+    "name": "MoveArrayItem"
+  },
+  {
+    "name": "CopyElement"
+  },
+  {
+    "name": "GetSignatureAllowed"
+  },
+  {
+    "name": "GetAllowedSignatures"
+  },
+  {
+    "name": "GetIsModified"
+  },
+  {
+    "name": "GetIsEditable"
+  },
+  {
+    "name": "GetIsRemoveable"
+  },
+  {
+    "name": "GetCanAdd"
+  },
+  {
+    "name": "ElementType"
+  },
+  {
+    "name": "DefType"
+  },
+  {
+    "name": "SmashType"
+  },
+  {
+    "name": "ValueType"
+  },
+  {
+    "name": "IsSorted"
+  },
+  {
+    "name": "IsFlags"
+  }
+]
