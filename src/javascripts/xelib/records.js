@@ -12,16 +12,17 @@ applyEnums(xelib, conflictAll, 'conflictAll');
 
 // RECORD HANDLING METHODS
 Object.assign(xelib, {
-    GetFormID: function(_id, local = false) {
+    GetFormID: function(_id, native = false, local = false) {
         let _res = createTypedBuffer(4, PCardinal);
-        if (!lib.GetFormID(_id, _res, local))
+        if (!lib.GetFormID(_id, _res, native))
             Fail(`Failed to get FormID for ${_id}`);
-        return _res.readUInt32LE();
+        let formID = _res.readUInt32LE();
+        return local ? formID & 0xFFFFFF : formID;
     },
-    GetHexFormID: function(_id, local = false) {
-        return xelib.Hex(xelib.GetFormID(_id, local));
+    GetHexFormID: function(_id, native = false, local = false) {
+        return xelib.Hex(xelib.GetFormID(_id, native, local), local ? 6 : 8);
     },
-    SetFormID: function(_id, newFormID, local = false, fixReferences = true) {
+    SetFormID: function(_id, newFormID, native = false, fixReferences = true) {
         if (!lib.SetFormID(_id, newFormID, local, fixReferences))
             Fail(`Failed to set FormID on ${_id} to ${newFormID}`);
     },
