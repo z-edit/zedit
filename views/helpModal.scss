@@ -42,4 +42,19 @@
       font-style: italic;
     }
   }
+
+  code {
+    background-color: $background_tint;
+    padding: 2px 3px;
+    font-family: 'Courier New', 'Consolas', monospace;
+  }
+
+  .icon {
+    font: 16px/1 FontAwesome;
+  }
+
+  .icon-warn::before {
+    color: $negative;
+    content: '\f071';
+  }
 }

@@ -19,11 +19,6 @@ api-items {
       font: 18px/1 FontAwesome;
       margin-left: 4px;
     }
-
-    .icon-warn::before {
-      color: $negative;
-      content: '\f071';
-    }
   }
 
   .property-code {
@@ -118,11 +113,5 @@ api-items {
     p {
       margin: 0;
     }
-  }
-
-  code {
-    background-color: $background_tint;
-    padding: 2px 3px;
-    font-family: 'Courier New', 'Consolas', monospace;
   }
 }
