@@ -39,6 +39,7 @@
     "angular": "1.5.1",
     "angular-color-picker": "^1.0.11",
     "angular-elastic-input": "^2.4.0",
+    "angular-marked": "^1.2.2",
     "angular-spinner": "^1.0.1",
     "angular-ui-router": "^0.4.2",
     "angular-vs-repeat": "^1.1.7",
