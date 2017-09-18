@@ -91,15 +91,11 @@ api-items {
     }
   }
 
-  .type-handle {
+  .type-handle, .type-array-of-handle {
     color: $negative;
   }
 
-  .type-array-of-handle {
-    color: $negative;
-  }
-
-  .type-boolean, .type-integer, .type-float {
+  .type-boolean, .type-integer, .type-unsigned-integer, .type-float {
     color: $positive;
   }
 
