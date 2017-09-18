@@ -8,8 +8,6 @@ ngapp.controller('helpModalController', function($scope, helpService, modalServi
     };
 
     // scope functions
-    $scope.topicClicked = (topic) => $scope.topic = topic;
-
     $scope.navigateTo = (path) => $scope.topic = helpService.getTopic(path);
 
     $scope.navigateToChild = function(label) {
@@ -17,12 +15,6 @@ ngapp.controller('helpModalController', function($scope, helpService, modalServi
         if (!child) throw failedToResolveChildTopicError(label);
         $scope.topic = child;
     };
-
-    // event handlers
-    $scope.$on('treeItemClicked', function(e, item) {
-        $scope.topicClicked(item);
-        e.stopPropagation();
-    });
 
     // initialization
     $scope.topics = helpService.getTopics();
