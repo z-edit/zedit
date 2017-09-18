@@ -10,6 +10,11 @@ api-items {
     font-weight: bold;
     margin-bottom: 10px;
 
+    .expander {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
     .icon {
       font: 18px/1 FontAwesome;
       margin-left: 4px;
