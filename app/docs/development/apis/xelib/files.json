@@ -1,0 +1,143 @@
+[
+  {
+    "name": "AddFile",
+    "args": [{
+      "name": "filename",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Creates a new file `filename` and returns a handle to it."
+  },
+  {
+    "name": "FileByLoadOrder",
+    "args": [{
+      "name": "loadOrder",
+      "type": "integer"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Resolves the file with load order `loadOrder` and returns a handle to it.  Returns 0 if a matching file is not found."
+  },
+  {
+    "name": "FileByName",
+    "args": [{
+      "name": "filename",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Resolves the file with name equal to `filename` and returns a handle to it.  Returns 0 if a matching file is not found."
+  },
+  {
+    "name": "FileByAuthor",
+    "args": [{
+      "name": "author",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Resolves the file with author equal to `author` and returns a handle to it.  Returns 0 if a matching file is not found."
+  },
+  {
+    "name": "NukeFile",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Removes all records and groups in file `id`."
+  },
+  {
+    "name": "RenameFile",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "newFileName",
+      "type": "string"
+    }],
+    "description": "Renames file `id` to `newFileName`."
+  },
+  {
+    "name": "SaveFile",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "filePath",
+      "type": "string",
+      "description": "File path to save the file to.  Default empty string."
+    }],
+    "description": "Saves file to `filePath`.  Passing an empty string for `filePath` indicates the file should be saved in the game data folder to `{filename}.esp`."
+  },
+  {
+    "name": "GetRecordCount",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the number of records in file `id`."
+  },
+  {
+    "name": "GetOverrideRecordCount",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the number of override records in file `id`."
+  },
+  {
+    "name": "MD5Hash",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the MD5 Hash of file `id`."
+  },
+  {
+    "name": "CRCHash",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the CRC Hash of file `id`."
+  },
+  {
+    "name": "GetFileLoadOrder",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the load order of file `id`."
+  },
+  {
+    "name": "GetFileHeader",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle to the file header of file `id`."
+  }
+]
