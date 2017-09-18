@@ -11,8 +11,14 @@ ngapp.directive('tree', function() {
 });
 
 ngapp.controller('treeController', function($scope) {
+    let selectItem = function(item) {
+        if ($scope.selectedItem) $scope.selectedItem.selected = false;
+        $scope.selectedItem = item;
+        item.selected = true;
+    };
+
     $scope.onTreeItemClick = function(e, item) {
-        $scope.$emit('treeItemClick', item);
+        selectItem(item);
         e.stopPropagation();
     };
 
