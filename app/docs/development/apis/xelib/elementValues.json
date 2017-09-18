@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Name",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the name of `id`.  Note: This is not the same as XEdit's `Name` function - `LongName` is."
+  },
+  {
+    "name": "LongName",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Identical to the `Name` function from XEdit scripting."
+  },
+  {
+    "name": "DisplayName",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the name of `id` used for display purposes in ZEdit's user interface."
+  },
+  {
+    "name": "Path",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the path to `id`.  All paths returned from this function can be used with `GetElement`."
+  },
+  {
+    "name": "LongPath",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns a fully qualified path to `id`.  All paths returned from this function can be used with `GetElement`."
+  },
+  {
+    "name": "LocalPath",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the path of `id` within a its parent record.  All paths returned from this function can be used with `GetElement`."
+  },
+  {
+    "name": "Signature",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the signature of `id`."
+  },
+  {
+    "name": "SortKey",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the sort key of `id`."
+  },
+  {
+    "name": "GetValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the editor value at `path`.  This is the same value displayed in the record view.  Returns an empty string if `path` does not exist."
+  },
+  {
+    "name": "SetValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Value to apply."
+    }],
+    "description": "Sets the editor value at `path` to `value`.  This is the same value displayed in the record view."
+  },
+  {
+    "name": "GetIntValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the native integer value at `path`.  Returns 0 if `path` does not exist."
+  },
+  {
+    "name": "SetIntValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "integer",
+      "description": "Value to apply."
+    }],
+    "description": "Sets the native integer value at `path` to `value`."
+  },
+  {
+    "name": "GetUIntValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "unsigned integer"
+    },
+    "description": "Returns the native unsigned integer value at `path`.  Returns 0 if `path` does not exist."
+  },
+  {
+    "name": "SetUIntValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "unsigned integer",
+      "description": "Value to apply."
+    }],
+    "description": "Sets the native unsigned integer value at `path` to `value`."
+  },
+  {
+    "name": "GetFloatValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "float"
+    },
+    "description": "Returns the native float value at `path`.  Returns 0.0 if `path` does not exist."
+  },
+  {
+    "name": "SetFloatValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "float",
+      "description": "Value to apply."
+    }],
+    "description": "Sets the native float value at `path` to `value`."
+  }
+]
