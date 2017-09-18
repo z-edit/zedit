@@ -77,12 +77,13 @@ api-items {
   }
 
   .returns {
-    margin-top: -3px;
     margin-left: 4px;
 
     .return-arrow {
       margin: 0 4px;
       font-size: 20px;
+      line-height: 16px;
+      display: inline-block;
 
       &::before {
         content: '\2192';
