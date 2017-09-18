@@ -82,7 +82,7 @@ api-items {
   }
 
   .returns {
-    margin-top: -2px;
+    margin-top: -3px;
     margin-left: 4px;
 
     .return-arrow {
@@ -113,5 +113,16 @@ api-items {
 
   .property-description {
     font-size: 15px;
+    line-height: 20px;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  code {
+    background-color: $background_tint;
+    padding: 2px 3px;
+    font-family: 'Courier New', 'Consolas', monospace;
   }
 }
