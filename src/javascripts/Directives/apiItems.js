@@ -11,6 +11,11 @@ ngapp.directive('apiItems', function() {
 });
 
 ngapp.controller('apiItemsController', function($scope) {
-    let path = `docs/development/apis/${$scope.api}/${$scope.namespace}.json`;
-    $scope.items = fh.loadJsonFile(path);
+    let basePath = 'app/docs/development/apis',
+        path = `${basePath}/${$scope.api}/${$scope.namespace}.json`,
+        items = fh.loadJsonFile(path);
+    items.forEach(function(item) {
+        if (!item.type) item.type = 'function';
+    });
+    $scope.items = items;
 });
