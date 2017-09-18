@@ -8,7 +8,7 @@ ngapp.controller('helpModalController', function($scope, helpService, modalServi
     };
 
     let selectTopic = function(topic) {
-        $scope.topic.selected = false;
+        if ($scope.topic) $scope.topic.selected = false;
         $scope.topic = topic;
         topic.selected = true;
     };
