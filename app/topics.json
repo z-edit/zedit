@@ -69,82 +69,82 @@
       }, {
         "label": "Save Modal",
         "appModes": ["edit"]
-      }, {
-        "label": "Development",
-        "templateUrl": "docs/development.html",
+      }
+    ]
+  }, {
+    "label": "Development",
+    "templateUrl": "docs/development.html",
+    "children": [
+      {
+        "label": "APIs",
+        "templateUrl": "docs/development/apis.html",
         "children": [
           {
-            "label": "APIs",
-            "templateUrl": "docs/development/apis.html",
+            "label": "xelib",
+            "templateUrl": "docs/development/apis/xelib.html",
             "children": [
               {
-                "label": "xelib",
-                "templateUrl": "docs/development/apis/xelib.html",
-                "children": [
-                  {
-                    "label": "Meta",
-                    "description": "Library-specific functions for tasks such as getting globals and managing handles."
-                  },
-                  {
-                    "label": "Messages",
-                    "description": "Log and exception messages in the library."
-                  },
-                  {
-                    "label": "Setup",
-                    "description": "Game modes and loading files."
-                  },
-                  {
-                    "label": "Elements",
-                    "description": "Functions for handling elements."
-                  },
-                  {
-                    "label": "Element Values",
-                    "description": "Functions for getting or settings values on elements."
-                  },
-                  {
-                    "label": "Records",
-                    "description": "Functions for handling records in files."
-                  },
-                  {
-                    "label": "Record Values",
-                    "description": "Functions for getting values from records."
-                  },
-                  {
-                    "label": "Groups",
-                    "description": "Functions for handling groups in files."
-                  },
-                  {
-                    "label": "Masters",
-                    "description": "Functions for handling masters in files."
-                  },
-                  {
-                    "label": "Files",
-                    "description": "Functions for handling files."
-                  },
-                  {
-                    "label": "File Values",
-                    "description": "Functions for handling groups in files."
-                  },
-                  {
-                    "label": "Serialization",
-                    "description": "Functions for serializing elements to JSON and deserializing them from JSON."
-                  },
-                  {
-                    "label": "Plugin Errors",
-                    "description": "Functions for getting and resolving errors/dirty edits in plugin files."
-                  },
-                  {
-                    "label": "Utils",
-                    "description": "Utility functions."
-                  }
-                ]
+                "label": "Meta",
+                "description": "Library-specific functions for tasks such as getting globals and managing handles."
+              },
+              {
+                "label": "Messages",
+                "description": "Log and exception messages in the library."
+              },
+              {
+                "label": "Setup",
+                "description": "Game modes and loading files."
+              },
+              {
+                "label": "Elements",
+                "description": "Functions for handling elements."
+              },
+              {
+                "label": "Element Values",
+                "description": "Functions for getting or settings values on elements."
+              },
+              {
+                "label": "Records",
+                "description": "Functions for handling records in files."
+              },
+              {
+                "label": "Record Values",
+                "description": "Functions for getting values from records."
+              },
+              {
+                "label": "Groups",
+                "description": "Functions for handling groups in files."
+              },
+              {
+                "label": "Masters",
+                "description": "Functions for handling masters in files."
+              },
+              {
+                "label": "Files",
+                "description": "Functions for handling files."
+              },
+              {
+                "label": "File Values",
+                "description": "Functions for handling groups in files."
+              },
+              {
+                "label": "Serialization",
+                "description": "Functions for serializing elements to JSON and deserializing them from JSON."
+              },
+              {
+                "label": "Plugin Errors",
+                "description": "Functions for getting and resolving errors/dirty edits in plugin files."
+              },
+              {
+                "label": "Utils",
+                "description": "Utility functions."
               }
             ]
-          },
-          { "label": "Writing Scripts" },
-          { "label": "Creating Modules" }
+          }
         ]
-      }
+      },
+      { "label": "Writing Scripts" },
+      { "label": "Creating Modules" }
     ]
   }
 ]
