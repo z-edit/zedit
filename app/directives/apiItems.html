@@ -1,0 +1,46 @@
+<div ng-repeat="item in items">
+    <span class="title">{{::item.name}}
+        <span ng-repeat="icon in item.icons" class="icon icon-{{::icon}}"></span>
+        <span class="property-code">
+            <span class="library">{{::$parent.api}}</span>.
+            <span class="property-{{::item.type}}">{{::item.name}}</span>
+            <span class="args" ng-if="::item.args">
+                (
+                <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description}}">
+                    {{::arg.name}}: <span class="type-{{::arg.type}}">{{::arg.type}}</span>
+                </span>
+                )
+            </span>
+            <span class="returns" ng-if="::item.returns">
+                <span class="return-arrow"></span>
+                <span class="type-{{::item.returns.type}}" title="{{::item.returns.description}}">
+                    {{::item.returns.type}}
+                </span>
+            </span>
+        </span>
+    </span>
+    <div ng-if="::item.members">
+        <span class="api-section-title">Members</span>
+        <table class="members-table">
+            <thead>
+            <tr>
+                <th>Ordinal</th>
+                <th>Key</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="member in item.members">
+                <td>{{::$index}}</td>
+                <td>{{::member.key}}</td>
+                <td>{{::member.description || '-'}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div ng-if="::item.description">
+        <span class="api-section-title">Description</span>
+        <!-- TODO: markdown -->
+        <div class="property-description">{{::item.description}}</div>
+    </div>
+</div>
