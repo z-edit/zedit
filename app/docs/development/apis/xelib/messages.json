@@ -1,6 +1,7 @@
 [
   {
     "name": "GetMessages",
+    "args": [],
     "returns": {
       "type": "string",
       "description": "The messages separated by `\\r\\n`."
@@ -10,11 +11,13 @@
   {
     "name": "ClearMessages",
     "icons": ["warn"],
+    "args": [],
     "description": "Clears all messages from the XEditLib's internal log."
   },
   {
     "name": "GetExceptionMessage",
     "icons": ["warn"],
+    "args": [],
     "returns": {
       "type": "string",
       "description": "The exception message."

@@ -20,11 +20,13 @@
   {
     "name": "Initialize",
     "icons": ["warn"],
+    "args": [],
     "description": "Initializes XEditLib.  This should be called after the DLL loaded to prepare the library for future function calls."
   },
   {
     "name": "Finalize",
     "icons": ["warn"],
+    "args": [],
     "description": "Finalizes XEditLib.  This should be called just before the DLL is unloaded to rename saved files, save logs, and free all memory used by the library."
   },
   {
@@ -42,10 +44,11 @@
   },
   {
     "name": "GetGlobals",
+    "args": [],
     "returns": {
-      "type": "string",
-      "description": "A list of name value pairs for all globals.  Entries are separated by `\\r\\n`, and name value pairs are separated by `=`."
-    }
+      "type": "string"
+    },
+    "description": "Returns a list of name value pairs for all globals.  Entries are separated by `\\r\\n`, and name value pairs are separated by `=`."
   },
   {
     "name": "SetSortMode",
@@ -87,7 +90,7 @@
       "description": "Handle to an element to find duplicate handles of."
     }],
     "returns": {
-      "type": "array of handles",
+      "type": "array of handle",
       "description": "An array of the duplicate handles found."
     },
     "description": "Finds other handles to a particular interface."
