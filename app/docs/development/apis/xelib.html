@@ -5,7 +5,7 @@
 <h3>Namespaces</h3>
 <p>All members are top-level in xelib.  This choice was made to simplify and shorten code which calls xelib functions.</p>
 
-<p>Below is an overview of the namespaces in <code>xelib</code>.  You can click on a namespace to view the functions in it.</p>
+<p>Below is an overview of the namespaces in xelib.  You can click on a namespace to view the functions in it.</p>
 
 <table>
     <thead>
@@ -16,7 +16,7 @@
     </thead>
     <tbody>
     <tr ng-repeat="child in topic.children">
-        <td><a ng-click="navigateToChild(child)">{{::child.label}}</a></td>
+        <td><a ng-click="navigateToChild(child.label)">{{::child.label}}</a></td>
         <td>{{::child.description}}</td>
     </tr>
     </tbody>
