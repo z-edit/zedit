@@ -190,17 +190,17 @@ Object.assign(xelib, {
                 Fail(`Failed to get can add for ${_id}`);
         });
     },
-    ElementType: function(_id, asString = false) {
-        return GetEnumValue(_id, 'ElementType', asString && elementTypes);
+    ElementType: function(_id) {
+        return GetEnumValue(_id, 'ElementType');
     },
-    DefType: function(_id, asString = false) {
-        return GetEnumValue(_id, 'DefType', asString && defTypes);
+    DefType: function(_id) {
+        return GetEnumValue(_id, 'DefType');
     },
-    SmashType: function(_id, asString = false) {
-        return GetEnumValue(_id, 'SmashType', asString && smashTypes);
+    SmashType: function(_id) {
+        return GetEnumValue(_id, 'SmashType');
     },
-    ValueType: function(_id, asString = false) {
-        return GetEnumValue(_id, 'ValueType', asString && valueTypes);
+    ValueType: function(_id) {
+        return GetEnumValue(_id, 'ValueType');
     },
     IsSorted: function(_id) {
         return GetBool(function(_bool) {

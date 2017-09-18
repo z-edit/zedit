@@ -133,12 +133,11 @@ export let GetStringValue = function(_id, method) {
     });
 };
 
-export let GetEnumValue = function(_id, method, enums) {
-    let n = GetByte(function(_byte) {
+export let GetEnumValue = function(_id, method) {
+    return GetByte(function(_byte) {
         if (!lib[method](_id, _byte))
             Fail(`${method} failed on ${_id}`);
     });
-    return enums && enums[n] || n;
 };
 
 export let GetNativeValue = function(_id, path, method, refType) {
