@@ -82,9 +82,9 @@ Object.assign(xelib, {
     SetFloatValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetFloatValue', value);
     },
-    SetFlag: function(id, path, name, enabled) {
-        if (!lib.SetFlag(id, wcb(path), wcb(name), enabled))
-            Fail(`Failed to set flag value at: ${flagContext(id, path, name)} to ${enabled}`);
+    SetFlag: function(id, path, name, state) {
+        if (!lib.SetFlag(id, wcb(path), wcb(name), state))
+            Fail(`Failed to set flag value at: ${flagContext(id, path, name)} to ${state}`);
     },
     GetFlag: function(id, path, name) {
         return GetBool(function(_bool) {
