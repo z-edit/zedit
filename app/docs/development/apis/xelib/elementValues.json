@@ -218,5 +218,133 @@
       "description": "Value to apply."
     }],
     "description": "Sets the native float value at `path` to `value`."
+  },
+  {
+    "name": "SetFlag",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Flag to set."
+      },
+      {
+        "name": "state",
+        "type": "boolean",
+        "description": "True to enable the flag, false to disable it."
+      }
+    ],
+    "description": "Resolves the flags element at `path`, and sets flag `name` to `state`."
+  },
+  {
+    "name": "GetFlag",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Flag to get."
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Resolves the flags element at `path`, and gets the state of flag `name`."
+  },
+  {
+    "name": "GetEnabledFlags",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      }
+    ],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Resolves the flags element at `path` and returns an array of the names of the enabled flags on it."
+  },
+  {
+    "name": "SetEnabledFlags",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      },
+      {
+        "name": "flags",
+        "type": "array of string",
+        "description": "Flags to enable."
+      }
+    ],
+    "description": "Resolves the flags element at `path` and sets the enabled flags to `flags`.  Note: This disables any active flags that are not in `flags`."
+  },
+  {
+    "name": "GetAllFlags",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      }
+    ],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Resolves the flags element at `path` and returns an array of the names of all of the flags it supports.  Flag positions in the array indicate the binary bits they corresponds to."
+  },
+  {
+    "name": "GetEnumOptions",
+    "args": [
+      {
+        "name": "id",
+        "type": "handle",
+        "description": "Handle to start path resolution from."
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Path to resolve."
+      }
+    ],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Resolves the enumeration element at `path` and returns an array of the options it supports.  Enumeration positions in the array indicate the binary bits they corresponds to."
   }
 ]
