@@ -38,7 +38,7 @@
       "type": "string",
       "description": "The value of the global."
     },
-    "description": "Gets the value of a global from the library.  Supported globals include:\r\n\r\n- ProgramPath: The path to the folder containing XEditLib.dll.\r\n- Version: The version of XEditLib.dll.\r\n- GameName: The short game name associated with the current game mode.\r\n- AppName: The abbreviated game name associated with the current game mode.\r\n- LongGameName: The full game name associated with the current game mode.\r\n- DataPath: The game data path associated with the current game mode.\r\n- AppDataPath: The game application data path associated with the current game mode.\r\n- MyGamesPath: The my games folder path associated with the current game mode.\r\n- GameIniPath: The path to the INI file associated with the current game mode."
+    "description": "Gets the value of a global from the library.  Supported globals include:\r\n\r\n\r\n- ProgramPath: The path to the folder containing XEditLib.dll.\r\n- Version: The version of XEditLib.dll.\r\n- GameName: The short game name associated with the current game mode.\r\n- AppName: The abbreviated game name associated with the current game mode.\r\n- LongGameName: The full game name associated with the current game mode.\r\n- DataPath: The game data path associated with the current game mode.\r\n- AppDataPath: The game application data path associated with the current game mode.\r\n- MyGamesPath: The my games folder path associated with the current game mode.\r\n- GameIniPath: The path to the INI file associated with the current game mode."
   },
   {
     "name": "GetGlobals",

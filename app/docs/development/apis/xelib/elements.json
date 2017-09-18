@@ -84,7 +84,7 @@
   {
     "name": "smashTypes",
     "type": "enumeration",
-    "description": "Simplified element types, with array sorting specified.  Used by Smash.",
+    "description": "Returned by `SmashType`.  Used by Smash.",
     "members": [
       {
         "key": "stUnknown"
@@ -118,7 +118,7 @@
   {
     "name": "valueTypes",
     "type": "enumeration",
-    "description": "Element value types.  Used for determining the form to use for the edit value modal.",
+    "description": "Returned by `ValueType`.  Used to determine what form to use when the user is editing values.",
     "members": [
       {
         "key": "vtUnknown"
@@ -160,7 +160,7 @@
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle to start path resolution from.  Pass 0 to resolve path from root."
+      "description": "Handle to start path resolution from."
     }, {
       "name": "path",
       "type": "string",
@@ -169,14 +169,14 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if an element exists at the given path."
+    "description": "Returns true if an element exists at the given `path`."
   },
   {
     "name": "GetElement",
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle to start path resolution from.  Pass 0 to resolve path from root."
+      "description": "Handle to start path resolution from."
     }, {
       "name": "path",
       "type": "string",
@@ -185,105 +185,489 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Resolves the element at a path and returns a handle to it.  Returns 0 if the element is not found."
+    "description": "Resolves the element at `path` and returns a handle to it.  Returns 0 if the element is not found."
   },
   {
-    "name": "AddElement"
+    "name": "AddElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Traverses `path`, creating any elements that are not found.  Returns a handle to the element at the end of the path."
   },
   {
-    "name": "AddElementValue"
+    "name": "AddElementValue",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Value to set on added element."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Traverses `path`, creating any elements that are not found.  Sets the value of the element at the end of the path to `value`, and returns a handle to it."
   },
   {
-    "name": "RemoveElement"
+    "name": "RemoveElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "description": "Removes the element at `path` if it exists."
   },
   {
-    "name": "RemoveElementOrParent"
+    "name": "RemoveElementOrParent",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the element to remove.  Cannot \r\nbe a file, group, or main record."
+    }],
+    "description": "Removes the element at `path` if it exists.  If the element cannot be removed it gets the element's parent container and attempts to remove it.  This repeats until the container can be removed or is a main record."
   },
   {
-    "name": "SetElement"
+    "name": "SetElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the element to assign to.  Cannot \r\nbe a file, group, or main record."
+    }, {
+      "name": "id2",
+      "type": "handle",
+      "description": "Handle of the element to assign.  Cannot \r\nbe a file, group, or main record."
+    }],
+    "description": "Assigns `id2` to `id`.  This is equivalent to drag and drop."
   },
   {
-    "name": "GetElements"
+    "name": "GetElements",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "sort",
+      "type": "boolean",
+      "description": "Pass true if you want elements to be sorted \r\naccording to the current SortMode."
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of handles for all of the elements found in the container at `path`."
   },
   {
-    "name": "GetDefNames"
+    "name": "GetDefNames",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the names of all elements that can exist at `path`."
   },
   {
-    "name": "GetAddList"
+    "name": "GetAddList",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to the element to get add list for."
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the signatures that can be added to `id`."
   },
   {
-    "name": "GetLinksTo"
+    "name": "GetLinksTo",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns the record referenced by the element at `path`.  Note: this returns the master of the record, ***not*** the winning override."
   },
   {
-    "name": "SetLinksTo"
+    "name": "SetLinksTo",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "id2",
+      "type": "handle",
+      "description": "Record to set the reference to."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }],
+    "description": "Sets the record referenced by the element at `path` to `id2`."
   },
   {
-    "name": "GetContainer"
+    "name": "GetContainer",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle to the container of `id`.  Returns 0 on failure."
   },
   {
-    "name": "GetElementFile"
+    "name": "GetElementFile",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle to the file `id` belongs to."
   },
   {
-    "name": "ElementCount"
+    "name": "ElementCount",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the number of element children `id` has."
   },
   {
-    "name": "ElementEquals"
+    "name": "ElementEquals",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "id2",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` and `id2` refer to the same element."
   },
   {
-    "name": "ElementMatches"
+    "name": "ElementMatches",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Value to match."
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the value at `path` matches `value`.  When the element at `path` contains a reference, `value` can be a Form ID, Editor ID, or FULL Name.  FULL Names passed to this function must be surrounded by double quotes."
   },
   {
-    "name": "HasArrayItem"
+    "name": "HasArrayItem",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "subpath",
+      "type": "string",
+      "description": "Subpath to resolve in each array item."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Array item value to match."
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the array at `path` contains an item which matches `value` at `subpath`."
   },
   {
-    "name": "GetArrayItem"
+    "name": "GetArrayItem",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "subpath",
+      "type": "string",
+      "description": "Subpath to resolve in each array item."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Array item value to match."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns the first item in the array at `path` which matches `value` at `subpath`.  Returns 0 if no matching element is found."
   },
   {
-    "name": "AddArrayItem"
+    "name": "AddArrayItem",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "subpath",
+      "type": "string",
+      "description": "Subpath to set the value at."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Array item value to set."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the array at `path` and sets `value` at `subpath`.  Returns a handle to the added array item."
   },
   {
-    "name": "RemoveArrayItem"
+    "name": "RemoveArrayItem",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle to start path resolution from."
+    }, {
+      "name": "path",
+      "type": "string",
+      "description": "Path to resolve."
+    }, {
+      "name": "subpath",
+      "type": "string",
+      "description": "Subpath to resolve in each array item."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Array item value to match."
+    }],
+    "description": "Removes the first item in the array at `path` which matches `value` at `subpath`."
   },
   {
-    "name": "MoveArrayItem"
+    "name": "MoveArrayItem",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the element to move.  The \r\nelement must be in an unsorted array."
+    }, {
+      "name": "index",
+      "type": "integer",
+      "description": "Index to move the element to."
+    }],
+    "description": "Moves the array item `id` to position `index`."
   },
   {
-    "name": "CopyElement"
+    "name": "CopyElement",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the element to copy."
+    }, {
+      "name": "id2",
+      "type": "handle",
+      "description": "Handle of the container to copy the element into."
+    }, {
+      "name": "asNew",
+      "type": "boolean",
+      "description": "False to copy records as overrides.  Default false."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Copies element `id` into `id2`.  Records are copied as overrides if `asNew` is false.  Returns a handle to the copied element."
   },
   {
-    "name": "GetSignatureAllowed"
+    "name": "GetSignatureAllowed",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the element to test.  The element \r\nmust be able to contain a reference."
+    }, {
+      "name": "signature",
+      "type": "string",
+      "description": "Signature to test."
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` is allowed to reference `signature`."
   },
   {
-    "name": "GetAllowedSignatures"
+    "name": "GetAllowedSignatures",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of an element which can contain a reference."
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of all `id` is allowed to reference."
   },
   {
-    "name": "GetIsModified"
+    "name": "GetIsModified",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` has been modified during the current session."
   },
   {
-    "name": "GetIsEditable"
+    "name": "GetIsEditable",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` has can be edited."
   },
   {
-    "name": "GetIsRemoveable"
+    "name": "GetIsRemoveable",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` can be removed."
   },
   {
-    "name": "GetCanAdd"
+    "name": "GetCanAdd",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if elements can be added to `id`."
   },
   {
-    "name": "ElementType"
+    "name": "ElementType",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the `elementType` of `id`."
   },
   {
-    "name": "DefType"
+    "name": "DefType",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns `id`'s element type."
   },
   {
-    "name": "SmashType"
+    "name": "SmashType",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns `id`'s definition type."
   },
   {
-    "name": "ValueType"
+    "name": "ValueType",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns `id`'s value type."
   },
   {
-    "name": "IsSorted"
+    "name": "IsSorted",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` is a sorted array."
   },
   {
-    "name": "IsFlags"
+    "name": "IsFlags",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if `id` contains flags."
   }
 ]
