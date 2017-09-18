@@ -24,14 +24,15 @@ ngapp.service('helpService', function() {
     let processTopics = function(topics, path) {
         return topics.map(function(topic) {
             let id = getTopicId(topic);
-            topic.templateUrl = `${path}${id}.html`;
-            topic.children = processTopics(topic.children, `${id}/`);
+            topic.templateUrl = `${path}/${id}.html`;
+            if (!topic.children) return topic;
+            topic.children = processTopics(topic.children, `${path}/${id}`);
             return topic;
         });
     };
 
     let loadCoreTopics = function() {
-        topics = processTopics(fh.loadJsonFile('topics.json'), '');
+        topics = processTopics(fh.loadJsonFile('app/topics.json'), 'docs');
     };
 
     // API FUNCTIONS
