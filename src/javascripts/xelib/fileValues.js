@@ -4,33 +4,33 @@ let fileHeaderFlagsPath = 'File Header\\Record Header\\Record Flags',
 
 // FILE VALUE METHODS
 Object.assign(xelib, {
-    GetNextObjectID: function(_id) {
-        return xelib.GetUIntValue(_id, nextObjectIdPath);
+    GetNextObjectID: function(id) {
+        return xelib.GetUIntValue(id, nextObjectIdPath);
     },
-    SetNextObjectID: function(_id, nextObjectID) {
-        this.SetUIntValue(_id, nextObjectIdPath, nextObjectID);
+    SetNextObjectID: function(id, nextObjectID) {
+        this.SetUIntValue(id, nextObjectIdPath, nextObjectID);
     },
-    GetFileName: function(_id) {
-        return xelib.Name(_id);
+    GetFileName: function(id) {
+        return xelib.Name(id);
     },
-    GetFileAuthor: function(_id) {
-        return xelib.GetValue(_id, 'File Header\\CNAM');
+    GetFileAuthor: function(id) {
+        return xelib.GetValue(id, 'File Header\\CNAM');
     },
-    SetFileAuthor: function(_id, author) {
-        return xelib.SetValue(_id, 'File Header\\CNAM', author);
+    SetFileAuthor: function(id, author) {
+        return xelib.SetValue(id, 'File Header\\CNAM', author);
     },
-    GetFileDescription: function(_id) {
-        return xelib.GetValue(_id, 'File Header\\SNAM');
+    GetFileDescription: function(id) {
+        return xelib.GetValue(id, 'File Header\\SNAM');
     },
-    SetFileDescription: function(_id, description) {
-        if (!xelib.HasElement(_id, 'File Header\\SNAM'))
-            xelib.AddElement(_id, 'File Header\\SNAM');
-        return xelib.SetValue(_id, 'File Header\\SNAM', description);
+    SetFileDescription: function(id, description) {
+        if (!xelib.HasElement(id, 'File Header\\SNAM'))
+            xelib.AddElement(id, 'File Header\\SNAM');
+        return xelib.SetValue(id, 'File Header\\SNAM', description);
     },
-    GetIsESM: function(_id) {
-        return xelib.GetFlag(_id, fileHeaderFlagsPath, 'ESM');
+    GetIsESM: function(id) {
+        return xelib.GetFlag(id, fileHeaderFlagsPath, 'ESM');
     },
-    SetIsESM: function(_id, enabled) {
-        return xelib.SetFlag(_id, fileHeaderFlagsPath, 'ESM', enabled);
+    SetIsESM: function(id, enabled) {
+        return xelib.SetFlag(id, fileHeaderFlagsPath, 'ESM', enabled);
     }
 });

@@ -1,12 +1,12 @@
 // GROUP HANDLING METHODS
 Object.assign(xelib, {
-    HasGroup: function(_id, signature) {
-        return xelib.HasElement(_id, signature);
+    HasGroup: function(id, signature) {
+        return xelib.HasElement(id, signature);
     },
-    AddGroup: function(_id, signature) {
-        return xelib.AddElement(_id, signature);
+    AddGroup: function(id, signature) {
+        return xelib.AddElement(id, signature);
     },
-    GetChildGroup: function(_id) {
-        return xelib.GetElement(_id, 'Child Group');
+    GetChildGroup: function(id) {
+        return xelib.GetElement(id, 'Child Group');
     }
 });

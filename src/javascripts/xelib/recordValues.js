@@ -2,16 +2,16 @@ import './common.js';
 
 // RECORD VALUE METHODS
 Object.assign(xelib, {
-    EditorID: function(_id) {
-        if (!xelib.HasElement(_id, 'EDID')) return;
-        return xelib.GetValue(_id, 'EDID');
+    EditorID: function(id) {
+        if (!xelib.HasElement(id, 'EDID')) return;
+        return xelib.GetValue(id, 'EDID');
     },
-    FullName: function(_id) {
-        if (!xelib.HasElement(_id, 'FULL')) return;
-        return xelib.GetValue(_id, 'FULL');
+    FullName: function(id) {
+        if (!xelib.HasElement(id, 'FULL')) return;
+        return xelib.GetValue(id, 'FULL');
     },
-    Translate: function(_id, vector) {
-        let position = xelib.GetElement(_id, 'DATA\\Position');
+    Translate: function(id, vector) {
+        let position = xelib.GetElement(id, 'DATA\\Position');
         ['X', 'Y', 'Z'].forEach(function(coord) {
             if (vector.hasOwnProperty(coord)) {
                 let newValue = xelib.GetFloatValue(position, coord) + vector[coord];
@@ -19,8 +19,8 @@ Object.assign(xelib, {
             }
         });
     },
-    Rotate: function(_id, vector) {
-        let rotation = xelib.GetElement(_id, 'DATA\\Rotation');
+    Rotate: function(id, vector) {
+        let rotation = xelib.GetElement(id, 'DATA\\Rotation');
         ['X', 'Y', 'Z'].forEach(function(coord) {
             if (vector.hasOwnProperty(coord)) {
                 let newValue = xelib.GetFloatValue(rotation, coord) + vector[coord];
@@ -28,10 +28,10 @@ Object.assign(xelib, {
             }
         });
     },
-    GetRecordFlag: function(_id, name) {
-        return xelib.GetFlag(_id, 'Record Header\\Record Flags', name);
+    GetRecordFlag: function(id, name) {
+        return xelib.GetFlag(id, 'Record Header\\Record Flags', name);
     },
-    SetRecordFlag: function(_id, name, enabled) {
-        xelib.SetFlag(_id, 'Record Header\\Record Flags', name, enabled);
+    SetRecordFlag: function(id, name, enabled) {
+        xelib.SetFlag(id, 'Record Header\\Record Flags', name, enabled);
     }
 });

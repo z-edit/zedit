@@ -33,20 +33,20 @@ Object.assign(xelib, {
         if (!lib.SetSortMode(sortBy[mode], reverse))
             Fail(`Failed to set sort mode to ${mode} ${reverse ? 'ASC' : 'DESC'}`)
     },
-    Release: function(_id) {
-        lib.Release(_id);
+    Release: function(id) {
+        lib.Release(id);
     },
-    ReleaseNodes: function(_id) {
-        lib.ReleaseNodes(_id);
+    ReleaseNodes: function(id) {
+        lib.ReleaseNodes(id);
     },
-    Switch: function(_id, _id2) {
-        if (!lib.Switch(_id, _id2))
-            Fail(`Failed to switch interface #${_id} and #${_id2}`);
+    Switch: function(id, id2) {
+        if (!lib.Switch(id, id2))
+            Fail(`Failed to switch interface #${id} and #${id2}`);
     },
-    GetDuplicateHandles: function(_id) {
+    GetDuplicateHandles: function(id) {
         return GetArray(function(_len) {
-            if (!lib.GetDuplicateHandles(_id, _len))
-                Fail(`Failed to get duplicate handles for: ${_id}`);
+            if (!lib.GetDuplicateHandles(id, _len))
+                Fail(`Failed to get duplicate handles for: ${id}`);
         });
     },
     ResetStore: function() {

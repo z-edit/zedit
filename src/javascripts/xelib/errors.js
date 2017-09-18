@@ -3,9 +3,9 @@ import { GetString, Fail } from './helpers';
 
 // ERROR CHECKING METHODS
 Object.assign(xelib, {
-    CheckForErrors: function(_id) {
-        if (!lib.CheckForErrors(_id))
-            Fail(`Failed to check ${_id} for errors.`);
+    CheckForErrors: function(id) {
+        if (!lib.CheckForErrors(id))
+            Fail(`Failed to check ${id} for errors.`);
     },
     GetErrorThreadDone: function() {
         return lib.GetErrorThreadDone();
@@ -17,8 +17,8 @@ Object.assign(xelib, {
         });
         return JSON.parse(str).errors;
     },
-    RemoveIdenticalRecords: function(_id) {
-        if (!lib.RemoveIdenticalRecords(_id))
-            Fail(`Failed to remove identical errors from ${_id}`);
+    RemoveIdenticalRecords: function(id) {
+        if (!lib.RemoveIdenticalRecords(id))
+            Fail(`Failed to remove identical errors from ${id}`);
     }
 });

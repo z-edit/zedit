@@ -81,9 +81,9 @@ Object.assign(xelib, {
                 Fail(`Failed to load plugin header for ${filename}`);
         });
     },
-    UnloadPlugin: function(_id) {
-        if (!lib.UnloadPlugin(_id))
-            Fail(`Failed to unload plugin ${_id}`);
+    UnloadPlugin: function(id) {
+        if (!lib.UnloadPlugin(id))
+            Fail(`Failed to unload plugin ${id}`);
     },
     GetLoaderStatus: function() {
         return GetByte(function(_byte) {

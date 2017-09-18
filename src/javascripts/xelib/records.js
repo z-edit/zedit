@@ -12,130 +12,130 @@ applyEnums(xelib, conflictAll, 'conflictAll');
 
 // RECORD HANDLING METHODS
 Object.assign(xelib, {
-    GetFormID: function(_id, native = false, local = false) {
+    GetFormID: function(id, native = false, local = false) {
         let _res = createTypedBuffer(4, PCardinal);
-        if (!lib.GetFormID(_id, _res, native))
-            Fail(`Failed to get FormID for ${_id}`);
+        if (!lib.GetFormID(id, _res, native))
+            Fail(`Failed to get FormID for ${id}`);
         let formID = _res.readUInt32LE();
         return local ? formID & 0xFFFFFF : formID;
     },
-    GetHexFormID: function(_id, native = false, local = false) {
-        return xelib.Hex(xelib.GetFormID(_id, native, local), local ? 6 : 8);
+    GetHexFormID: function(id, native = false, local = false) {
+        return xelib.Hex(xelib.GetFormID(id, native, local), local ? 6 : 8);
     },
-    SetFormID: function(_id, newFormID, native = false, fixReferences = true) {
-        if (!lib.SetFormID(_id, newFormID, local, fixReferences))
-            Fail(`Failed to set FormID on ${_id} to ${newFormID}`);
+    SetFormID: function(id, newFormID, native = false, fixReferences = true) {
+        if (!lib.SetFormID(id, newFormID, local, fixReferences))
+            Fail(`Failed to set FormID on ${id} to ${newFormID}`);
     },
-    GetRecord: function(_id, formID) {
+    GetRecord: function(id, formID) {
         return GetHandle(function(_res) {
-            if (!lib.GetRecord(_id, formID, _res))
-                Fail(`Failed to get record at: ${_id}, ${formID}`);
+            if (!lib.GetRecord(id, formID, _res))
+                Fail(`Failed to get record at: ${id}, ${formID}`);
         });
     },
-    GetRecords: function(_id, search, includeOverrides = false) {
+    GetRecords: function(id, search, includeOverrides = false) {
         return GetArray(function(_len) {
-            if (!lib.GetRecords(_id, wcb(search), includeOverrides, _len))
-                Fail(`Failed to get records from: ${elementContext(_id, search)}`);
+            if (!lib.GetRecords(id, wcb(search), includeOverrides, _len))
+                Fail(`Failed to get records from: ${elementContext(id, search)}`);
         });
     },
-    GetOverrides: function(_id) {
+    GetOverrides: function(id) {
         return GetArray(function(_len) {
-            if (!lib.GetOverrides(_id, _len))
-                Fail(`Failed to get overrides for: ${_id}`);
+            if (!lib.GetOverrides(id, _len))
+                Fail(`Failed to get overrides for: ${id}`);
         });
     },
-    GetMasterRecord: function(_id) {
+    GetMasterRecord: function(id) {
         return GetHandle(function(_res) {
-            if (!lib.GetMasterRecord(_id, _res))
-                Fail(`Failed to get master record for: ${_id}`);
+            if (!lib.GetMasterRecord(id, _res))
+                Fail(`Failed to get master record for: ${id}`);
         });
     },
-    GetPreviousOverride: function(_id, _id2) {
+    GetPreviousOverride: function(id, id2) {
         return GetHandle(function(_res) {
-            if (!lib.GetPreviousOverride(_id, _id2, _res))
-                Fail(`Failed to get previous override record for: ${_id}, targetting file ${_id2}`);
+            if (!lib.GetPreviousOverride(id, id2, _res))
+                Fail(`Failed to get previous override record for: ${id}, targetting file ${id2}`);
         });
     },
-    GetWinningOverride: function(_id) {
+    GetWinningOverride: function(id) {
         return GetHandle(function(_res) {
-            if (!lib.GetWinningOverride(_id, _res))
-                Fail(`Failed to get winning override record for: ${_id}`);
+            if (!lib.GetWinningOverride(id, _res))
+                Fail(`Failed to get winning override record for: ${id}`);
         });
     },
-    FindNextRecord: function(_id, search, byEdid, byName) {
+    FindNextRecord: function(id, search, byEdid, byName) {
         return GetHandle(function(_res) {
-            lib.FindNextRecord(_id, wcb(search), byEdid, byName, _res);
+            lib.FindNextRecord(id, wcb(search), byEdid, byName, _res);
         });
     },
-    FindPreviousRecord: function(_id, search, byEdid, byName) {
+    FindPreviousRecord: function(id, search, byEdid, byName) {
         return GetHandle(function(_res) {
-            lib.FindPreviousRecord(_id, wcb(search), byEdid, byName, _res);
+            lib.FindPreviousRecord(id, wcb(search), byEdid, byName, _res);
         });
     },
-    FindValidReferences: function(_id, signature, search, limitTo) {
+    FindValidReferences: function(id, signature, search, limitTo) {
         return GetStringArray(function(_len) {
-            if (!lib.FindValidReferences(_id, wcb(signature), wcb(search), limitTo, _len))
-                Fail(`Failed to find valid ${signature} references on ${_id} searching for: ${search}`);
+            if (!lib.FindValidReferences(id, wcb(signature), wcb(search), limitTo, _len))
+                Fail(`Failed to find valid ${signature} references on ${id} searching for: ${search}`);
         });
     },
-    GetReferencedBy: function(_id) {
+    GetReferencedBy: function(id) {
         return GetArray(function(_len) {
-            if (!lib.GetReferencedBy(_id, _len))
-                Fail(`Failed to get referenced by for: ${_id}`);
+            if (!lib.GetReferencedBy(id, _len))
+                Fail(`Failed to get referenced by for: ${id}`);
         });
     },
-    ExchangeReferences: function(_id, oldFormID, newFormID) {
-        if (!lib.ExchangeReferences(_id, oldFormID, newFormID))
-            Fail(`Failed to exchange references on ${_id} from ${oldFormID} to ${newFormID}`)
+    ExchangeReferences: function(id, oldFormID, newFormID) {
+        if (!lib.ExchangeReferences(id, oldFormID, newFormID))
+            Fail(`Failed to exchange references on ${id} from ${oldFormID} to ${newFormID}`)
     },
-    IsMaster: function(_id) {
-        return GetBoolValue(_id, "IsMaster");
+    IsMaster: function(id) {
+        return GetBoolValue(id, "IsMaster");
     },
-    IsInjected: function(_id) {
-        return GetBoolValue(_id, "IsInjected");
+    IsInjected: function(id) {
+        return GetBoolValue(id, "IsInjected");
     },
-    IsOverride: function(_id) {
-        return GetBoolValue(_id, "IsOverride");
+    IsOverride: function(id) {
+        return GetBoolValue(id, "IsOverride");
     },
-    IsWinningOverride: function(_id) {
-        return GetBoolValue(_id, "IsWinningOverride");
+    IsWinningOverride: function(id) {
+        return GetBoolValue(id, "IsWinningOverride");
     },
-    GetNodes: function(_id) {
+    GetNodes: function(id) {
         return GetHandle(function(_res) {
-            if (!lib.GetNodes(_id, _res))
-                Fail(`Failed to get nodes for ${_id}`);
+            if (!lib.GetNodes(id, _res))
+                Fail(`Failed to get nodes for ${id}`);
         });
     },
-    GetConflictData: function(_id1, _id2, asString = false) {
+    GetConflictData: function(id1, id2, asString = false) {
         let _res1 = createTypedBuffer(1, PByte),
             _res2 = createTypedBuffer(1, PByte);
-        if (!lib.GetConflictData(_id1, _id2, _res1, _res2))
+        if (!lib.GetConflictData(id1, id2, _res1, _res2))
             return [0, 0];
         let n1 = _res1.readUInt8(0),
             n2 = _res2.readUInt8(0);
         return asString ? [conflictAll[n1], conflictThis[n2]] : [n1, n2];
     },
-    GetConflictDataEx: function(_id1, _id2, asString = false) {
+    GetConflictDataEx: function(id1, id2, asString = false) {
         let _res1 = createTypedBuffer(1, PByte),
             _res2 = createTypedBuffer(1, PByte);
-        if (!lib.GetConflictData(_id1, _id2, _res1, _res2))
-            Fail(`GetConflictData failed on ${_id1}, ${_id2}`);
+        if (!lib.GetConflictData(id1, id2, _res1, _res2))
+            Fail(`GetConflictData failed on ${id1}, ${id2}`);
         let n1 = _res1.readUInt8(0),
             n2 = _res2.readUInt8(0);
         return asString ? [conflictAll[n1], conflictThis[n2]] : [n1, n2];
     },
-    GetRecordConflictData: function(_id) {
-        let nodes = xelib.GetNodes(_id);
+    GetRecordConflictData: function(id) {
+        let nodes = xelib.GetNodes(id);
         try {
-            return xelib.GetConflictDataEx(nodes, _id);
+            return xelib.GetConflictDataEx(nodes, id);
         } finally {
             xelib.ReleaseNodes(nodes);
         }
     },
-    GetNodeElements: function(_id1, _id2) {
+    GetNodeElements: function(id1, id2) {
         return GetArray(function(_len) {
-            if (!lib.GetNodeElements(_id1, _id2, _len))
-                Fail(`GetNodeElements failed on ${_id1}, ${_id2}`);
+            if (!lib.GetNodeElements(id1, id2, _len))
+                Fail(`GetNodeElements failed on ${id1}, ${id2}`);
         });
     }
 });

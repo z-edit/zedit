@@ -15,200 +15,200 @@ applyEnums(xelib, valueTypes, 'valueTypes');
 
 // ELEMENT HANDLING METHODS
 Object.assign(xelib, {
-    HasElement: function(_id, path = '') {
+    HasElement: function(id, path = '') {
         return GetBool(function(_bool) {
-            if (!lib.HasElement(_id, wcb(path), _bool))
-                Fail(`Failed to check if element exists at: ${elementContext(_id, path)}`);
+            if (!lib.HasElement(id, wcb(path), _bool))
+                Fail(`Failed to check if element exists at: ${elementContext(id, path)}`);
         });
     },
-    GetElement: function(_id, path = '') {
-        return GetHandle((_res) => lib.GetElement(_id, wcb(path), _res));
+    GetElement: function(id, path = '') {
+        return GetHandle((_res) => lib.GetElement(id, wcb(path), _res));
     },
-    GetElementEx: function(_id, path = '') {
+    GetElementEx: function(id, path = '') {
         return GetHandle(function(_res) {
-            if (!lib.GetElement(_id, wcb(path), _res))
-                Fail(`Failed to get element at: ${elementContext(_id, path)}`);
+            if (!lib.GetElement(id, wcb(path), _res))
+                Fail(`Failed to get element at: ${elementContext(id, path)}`);
         });
     },
-    AddElement: function(_id, path = '') {
+    AddElement: function(id, path = '') {
         return GetHandle(function(_res) {
-            if (!lib.AddElement(_id, wcb(path), _res))
-                Fail(`Failed to create new element at: ${elementContext(_id, path)}`);
+            if (!lib.AddElement(id, wcb(path), _res))
+                Fail(`Failed to create new element at: ${elementContext(id, path)}`);
         });
     },
-    AddElementValue: function(_id, path, value) {
+    AddElementValue: function(id, path, value) {
         return GetHandle(function(_res) {
-            if (!lib.AddElementValue(_id, wcb(path), wcb(value), _res))
-                Fail(`Failed to create new element at: ${elementContext(_id, path)}, with value: ${value}`);
+            if (!lib.AddElementValue(id, wcb(path), wcb(value), _res))
+                Fail(`Failed to create new element at: ${elementContext(id, path)}, with value: ${value}`);
         });
     },
-    RemoveElement: function(_id, path = '') {
-        lib.RemoveElement(_id, wcb(path));
+    RemoveElement: function(id, path = '') {
+        lib.RemoveElement(id, wcb(path));
     },
-    RemoveElementEx: function(_id, path = '') {
-        if (!lib.RemoveElement(_id, wcb(path)))
-            Fail(`Failed to remove element at: ${elementContext(_id, path)}`);
+    RemoveElementEx: function(id, path = '') {
+        if (!lib.RemoveElement(id, wcb(path)))
+            Fail(`Failed to remove element at: ${elementContext(id, path)}`);
     },
-    RemoveElementOrParent: function(_id) {
-        if (!lib.RemoveElementOrParent(_id))
-            Fail(`Failed to remove element ${_id}`);
+    RemoveElementOrParent: function(id) {
+        if (!lib.RemoveElementOrParent(id))
+            Fail(`Failed to remove element ${id}`);
     },
-    SetElement: function(_id1, _id2) {
+    SetElement: function(id1, id2) {
         return GetHandle(function(_res) {
-            if (!lib.SetElement(_id1, _id2, _res))
-                Fail(`Failed to set element at ${_id2} to ${_id1}`);
+            if (!lib.SetElement(id1, id2, _res))
+                Fail(`Failed to set element at ${id2} to ${id1}`);
         });
     },
-    GetElements: function(_id = 0, path = '', sort = false) {
+    GetElements: function(id = 0, path = '', sort = false) {
         return GetArray(function(_len) {
-            if (!lib.GetElements(_id, wcb(path), sort, _len))
-                Fail(`Failed to get child elements at: ${elementContext(_id, path)}`);
+            if (!lib.GetElements(id, wcb(path), sort, _len))
+                Fail(`Failed to get child elements at: ${elementContext(id, path)}`);
         });
     },
-    GetDefNames: function(_id) {
+    GetDefNames: function(id) {
         return GetStringArray(function(_len) {
-            if (!lib.GetDefNames(_id, _len))
-                Fail(`Failed to get def names for: ${_id}`);
+            if (!lib.GetDefNames(id, _len))
+                Fail(`Failed to get def names for: ${id}`);
         });
     },
-    GetAddList: function(_id) {
+    GetAddList: function(id) {
         return GetStringArray(function(_len) {
-            if (!lib.GetAddList(_id, _len))
-                Fail(`Failed to get add list for: ${_id}`);
+            if (!lib.GetAddList(id, _len))
+                Fail(`Failed to get add list for: ${id}`);
         });
     },
-    GetLinksTo: function(_id, path) {
-        return GetHandle((_res) => lib.GetLinksTo(_id, wcb(path), _res));
+    GetLinksTo: function(id, path) {
+        return GetHandle((_res) => lib.GetLinksTo(id, wcb(path), _res));
     },
-    SetLinksTo: function(_id, _id2, path = '') {
-        if (!lib.SetLinksTo(_id, _id2, wcb(path)))
-            Fail(`Failed to set reference at: ${elementContext(_id, path)}`);
+    SetLinksTo: function(id, id2, path = '') {
+        if (!lib.SetLinksTo(id, id2, wcb(path)))
+            Fail(`Failed to set reference at: ${elementContext(id, path)}`);
     },
-    GetLinksToEx: function(_id, path) {
+    GetLinksToEx: function(id, path) {
         return GetHandle(function(_res) {
-            if (!lib.GetLinksTo(_id, wcb(path), _res))
-                Fail(`Failed to get reference at: ${elementContext(_id, path)}`);
+            if (!lib.GetLinksTo(id, wcb(path), _res))
+                Fail(`Failed to get reference at: ${elementContext(id, path)}`);
         });
     },
-    GetContainer: function(_id) {
-        return GetHandle((_res) => lib.GetContainer(_id, _res));
+    GetContainer: function(id) {
+        return GetHandle((_res) => lib.GetContainer(id, _res));
     },
-    GetContainerEx: function(_id) {
+    GetContainerEx: function(id) {
         return GetHandle(function(_res) {
-            if (!lib.GetContainer(_id, _res))
-                Fail(`Failed to get container for: ${_id}`);
+            if (!lib.GetContainer(id, _res))
+                Fail(`Failed to get container for: ${id}`);
         });
     },
-    GetElementFile: function(_id) {
+    GetElementFile: function(id) {
         return GetHandle(function(_res) {
-            if (!lib.GetElementFile(_id, _res))
-                Fail(`Failed to get element file for: ${_id}`);
+            if (!lib.GetElementFile(id, _res))
+                Fail(`Failed to get element file for: ${id}`);
         });
     },
-    ElementCount: function(_id) {
+    ElementCount: function(id) {
         return GetInteger(function(_res) {
-            if (!lib.ElementCount(_id, _res))
-                Fail(`Failed to get element count for ${_id}`);
+            if (!lib.ElementCount(id, _res))
+                Fail(`Failed to get element count for ${id}`);
         });
     },
-    ElementEquals: function(_id, _id2) {
+    ElementEquals: function(id, id2) {
         return GetBool(function(_bool) {
-            if (!lib.ElementEquals(_id, _id2, _bool))
-                Fail(`Failed to check element equality for ${_id} and ${_id2}`);
+            if (!lib.ElementEquals(id, id2, _bool))
+                Fail(`Failed to check element equality for ${id} and ${id2}`);
         });
     },
-    ElementMatches: function(_id, path, value) {
+    ElementMatches: function(id, path, value) {
         return GetBool(function(_bool) {
-            if (!lib.ElementMatches(_id, wcb(path), wcb(value), _bool))
-                Fail(`Failed to check element matches for ${_id}: ${path}, ${value}`);
+            if (!lib.ElementMatches(id, wcb(path), wcb(value), _bool))
+                Fail(`Failed to check element matches for ${id}: ${path}, ${value}`);
         });
     },
-    HasArrayItem: function(_id, path, subpath, value) {
+    HasArrayItem: function(id, path, subpath, value) {
         return GetBool(function(_bool) {
-            lib.HasArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _bool);
+            lib.HasArrayItem(id, wcb(path), wcb(subpath), wcb(value), _bool);
         });
     },
-    GetArrayItem: function(_id, path, subpath, value) {
+    GetArrayItem: function(id, path, subpath, value) {
         return GetHandle(function(_res) {
-            lib.GetArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res);
+            lib.GetArrayItem(id, wcb(path), wcb(subpath), wcb(value), _res);
         });
     },
-    AddArrayItem: function(_id, path, subpath, value) {
+    AddArrayItem: function(id, path, subpath, value) {
         return GetHandle(function(_res) {
-            if (!lib.AddArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res))
+            if (!lib.AddArrayItem(id, wcb(path), wcb(subpath), wcb(value), _res))
                 Fail(`Failed to add array item to ${arrayItemContext(path, subpath, value)}`);
         });
     },
-    RemoveArrayItem: function(_id, path, subpath, value) {
+    RemoveArrayItem: function(id, path, subpath, value) {
         return GetHandle(function(_res) {
-            lib.RemoveArrayItem(_id, wcb(path), wcb(subpath), wcb(value), _res);
+            lib.RemoveArrayItem(id, wcb(path), wcb(subpath), wcb(value), _res);
         });
     },
-    MoveArrayItem: function(_id, index) {
-        if (!lib.MoveArrayItem(_id, index))
-            Fail(`Failed to move array item ${_id} to ${index}`);
+    MoveArrayItem: function(id, index) {
+        if (!lib.MoveArrayItem(id, index))
+            Fail(`Failed to move array item ${id} to ${index}`);
     },
-    CopyElement: function(_id, _id2, asNew = false) {
+    CopyElement: function(id, id2, asNew = false) {
         return GetHandle(function(_res) {
-            if (!lib.CopyElement(_id, _id2, asNew, _res))
-                Fail(`Failed to copy element from ${_id} to ${_id2}`);
+            if (!lib.CopyElement(id, id2, asNew, _res))
+                Fail(`Failed to copy element ${id} to ${id2}`);
         });
     },
-    GetSignatureAllowed: function(_id, signature) {
+    GetSignatureAllowed: function(id, signature) {
         return GetBool(function(_bool) {
-            if (!lib.GetSignatureAllowed(_id, wcb(signature), _bool))
-                Fail(`Failed to check if signature ${signature} is allowed on ${_id}`);
+            if (!lib.GetSignatureAllowed(id, wcb(signature), _bool))
+                Fail(`Failed to check if signature ${signature} is allowed on ${id}`);
         });
     },
-    GetAllowedSignatures: function(_id) {
+    GetAllowedSignatures: function(id) {
         return GetStringArray(function(_len) {
-            if (!lib.GetAllowedSignatures(_id, _len))
-                Fail(`Failed to get allowed signatures for ${_id}`);
+            if (!lib.GetAllowedSignatures(id, _len))
+                Fail(`Failed to get allowed signatures for ${id}`);
         });
     },
-    GetIsModified: function(_id) {
+    GetIsModified: function(id) {
         return GetBool(function(_bool) {
-            if (!lib.GetIsModified(_id, _bool))
-                Fail(`Failed to get is modified for ${_id}`);
+            if (!lib.GetIsModified(id, _bool))
+                Fail(`Failed to get is modified for ${id}`);
         });
     },
-    GetIsEditable: function(_id) {
+    GetIsEditable: function(id) {
         return GetBool(function(_bool) {
-            if (!lib.GetIsEditable(_id, _bool))
-                Fail(`Failed to get is editable for ${_id}`);
+            if (!lib.GetIsEditable(id, _bool))
+                Fail(`Failed to get is editable for ${id}`);
         });
     },
-    GetIsRemoveable: function(_id) {
+    GetIsRemoveable: function(id) {
         return GetBool(function(_bool) {
-            if (!lib.GetIsRemoveable(_id, _bool))
-                Fail(`Failed to get is removeable for ${_id}`);
+            if (!lib.GetIsRemoveable(id, _bool))
+                Fail(`Failed to get is removeable for ${id}`);
         });
     },
-    GetCanAdd: function(_id) {
+    GetCanAdd: function(id) {
         return GetBool(function(_bool) {
-            if (!lib.GetCanAdd(_id, _bool))
-                Fail(`Failed to get can add for ${_id}`);
+            if (!lib.GetCanAdd(id, _bool))
+                Fail(`Failed to get can add for ${id}`);
         });
     },
-    ElementType: function(_id) {
-        return GetEnumValue(_id, 'ElementType');
+    ElementType: function(id) {
+        return GetEnumValue(id, 'ElementType');
     },
-    DefType: function(_id) {
-        return GetEnumValue(_id, 'DefType');
+    DefType: function(id) {
+        return GetEnumValue(id, 'DefType');
     },
-    SmashType: function(_id) {
-        return GetEnumValue(_id, 'SmashType');
+    SmashType: function(id) {
+        return GetEnumValue(id, 'SmashType');
     },
-    ValueType: function(_id) {
-        return GetEnumValue(_id, 'ValueType');
+    ValueType: function(id) {
+        return GetEnumValue(id, 'ValueType');
     },
-    IsSorted: function(_id) {
+    IsSorted: function(id) {
         return GetBool(function(_bool) {
-            if (!lib.IsSorted(_id, _bool))
-                Fail(`Failed to get is sorted for ${_id}`);
+            if (!lib.IsSorted(id, _bool))
+                Fail(`Failed to get is sorted for ${id}`);
         });
     },
-    IsFlags: function(_id) {
-        return xelib.ValueType(_id) === xelib.vtFlags;
+    IsFlags: function(id) {
+        return xelib.ValueType(id) === xelib.vtFlags;
     }
 });

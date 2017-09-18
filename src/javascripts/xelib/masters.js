@@ -3,48 +3,48 @@ import { Fail, GetArray, GetStringArray, wcb } from './helpers';
 
 // MASTER HANDLING METHODS
 Object.assign(xelib, {
-    CleanMasters: function(_id) {
-        if (!lib.CleanMasters(_id))
-            Fail(`Failed to clean masters in: ${_id}`);
+    CleanMasters: function(id) {
+        if (!lib.CleanMasters(id))
+            Fail(`Failed to clean masters in: ${id}`);
     },
-    SortMasters: function(_id) {
-        if (!lib.SortMasters(_id))
-            Fail(`Failed to sort masters in: ${_id}`);
+    SortMasters: function(id) {
+        if (!lib.SortMasters(id))
+            Fail(`Failed to sort masters in: ${id}`);
     },
-    AddMaster: function(_id, filename) {
-        if (!lib.AddMaster(_id, wcb(filename)))
-            Fail(`Failed to add master "${filename}" to file: ${_id}`);
+    AddMaster: function(id, filename) {
+        if (!lib.AddMaster(id, wcb(filename)))
+            Fail(`Failed to add master "${filename}" to file: ${id}`);
     },
-    AddRequiredMasters: function(_id, _id2, asNew = false) {
-        if (!lib.AddRequiredMasters(_id, _id2, asNew))
-            Fail(`Failed to add required masters for ${_id} to file: ${_id2}`);
+    AddRequiredMasters: function(id, id2, asNew = false) {
+        if (!lib.AddRequiredMasters(id, id2, asNew))
+            Fail(`Failed to add required masters for ${id} to file: ${id2}`);
     },
-    GetMasters: function(_id) {
+    GetMasters: function(id) {
         return GetArray(function(_len) {
-            if (!lib.GetMasters(_id, _len))
-                Fail(`Failed to get masters for ${_id}`);
+            if (!lib.GetMasters(id, _len))
+                Fail(`Failed to get masters for ${id}`);
         });
     },
-    GetMasterNames: function(_id) {
+    GetMasterNames: function(id) {
         return GetStringArray(function(_len) {
-            if (!lib.GetMasterNames(_id, _len))
-                Fail(`Failed to get master names for ${_id}`);
+            if (!lib.GetMasterNames(id, _len))
+                Fail(`Failed to get master names for ${id}`);
         });
     },
-    AddAllMasters: function(_id) {
-        let filename = xelib.Name(_id),
+    AddAllMasters: function(id) {
+        let filename = xelib.Name(id),
             loadedFiles = xelib.GetLoadedFileNames(),
             fileIndex = loadedFiles.indexOf(filename);
         for (let i = 0; i < fileIndex; i++) {
             let filename = loadedFiles[i];
             if (filename.endsWith('.Hardcoded.dat')) continue;
-            xelib.AddMaster(_id, filename);
+            xelib.AddMaster(id, filename);
         }
     },
-    GetAvailableMasters: function(_id) {
-        let fileName = xelib.Name(_id),
+    GetAvailableMasters: function(id) {
+        let fileName = xelib.Name(id),
             allMasters = xelib.GetLoadedFileNames(),
-            currentMasters = xelib.GetMasterNames(_id),
+            currentMasters = xelib.GetMasterNames(id),
             fileIndex = allMasters.indexOf(fileName);
         return allMasters.slice(0, fileIndex).subtract(currentMasters);
     }

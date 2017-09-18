@@ -21,49 +21,49 @@ Object.assign(xelib, {
     FileByAuthor: function(author) {
         return GetHandle((_res) => lib.FileByAuthor(wcb(author), _res));
     },
-    NukeFile: function(_id) {
-        if (!lib.NukeFile(_id))
-            Fail(`Failed to nuke file: ${_id}`);
+    NukeFile: function(id) {
+        if (!lib.NukeFile(id))
+            Fail(`Failed to nuke file: ${id}`);
     },
-    RenameFile: function(_id, newFileName) {
-        if (!lib.RenameFile(_id, wcb(newFileName)))
+    RenameFile: function(id, newFileName) {
+        if (!lib.RenameFile(id, wcb(newFileName)))
             Fail(`Failed to rename file to ${newFileName}`);
     },
-    SaveFile: function(_id, filePath = '') {
-        if (!lib.SaveFile(_id, wcb(filePath)))
-            Fail(`Failed to save file: ${_id}`);
+    SaveFile: function(id, filePath = '') {
+        if (!lib.SaveFile(id, wcb(filePath)))
+            Fail(`Failed to save file: ${id}`);
     },
-    GetOverrideRecordCount: function(_id) {
+    GetOverrideRecordCount: function(id) {
         return GetInteger(function(_res) {
-            if (!lib.GetOverrideRecordCount(_id, _res))
-                Fail(`Failed to get override record count for: ${_id}`);
+            if (!lib.GetOverrideRecordCount(id, _res))
+                Fail(`Failed to get override record count for: ${id}`);
         });
     },
-    GetRecordCount: function(_id) {
+    GetRecordCount: function(id) {
         return GetInteger(function(_res) {
-            if (!lib.GetRecordCount(_id, _res))
-                Fail(`Failed to get record count for: ${_id}`);
+            if (!lib.GetRecordCount(id, _res))
+                Fail(`Failed to get record count for: ${id}`);
         });
     },
-    MD5Hash: function(_id) {
+    MD5Hash: function(id) {
         return GetString(function(_len) {
-            if (!lib.MD5Hash(_id, _len))
-                Fail(`Failed to get MD5 Hash for: ${_id}`);
+            if (!lib.MD5Hash(id, _len))
+                Fail(`Failed to get MD5 Hash for: ${id}`);
         });
     },
-    CRCHash: function(_id) {
+    CRCHash: function(id) {
         return GetString(function(_len) {
-            if (!lib.CRCHash(_id, _len))
-                Fail(`Failed to get CRC Hash for: ${_id}`);
+            if (!lib.CRCHash(id, _len))
+                Fail(`Failed to get CRC Hash for: ${id}`);
         });
     },
-    GetFileLoadOrder: function(_id) {
+    GetFileLoadOrder: function(id) {
         return GetInteger(function(_res) {
-            if (!lib.GetFileLoadOrder(_id, _res))
-                Fail(`Failed to file load order for: ${_id}`);
+            if (!lib.GetFileLoadOrder(id, _res))
+                Fail(`Failed to file load order for: ${id}`);
         });
     },
-    GetFileHeader: function(_id) {
-        return xelib.GetElement(_id, 'File Header');
+    GetFileHeader: function(id) {
+        return xelib.GetElement(id, 'File Header');
     }
 });
