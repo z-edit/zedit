@@ -104,6 +104,14 @@
                 "description": "Functions for getting or settings values on elements."
               },
               {
+                "label": "Files",
+                "description": "Functions for handling files."
+              },
+              {
+                "label": "File Values",
+                "description": "Functions for handling groups in files."
+              },
+              {
                 "label": "Records",
                 "description": "Functions for handling records in files."
               },
@@ -112,19 +120,11 @@
                 "description": "Functions for getting values from records."
               },
               {
-                "label": "Groups",
-                "description": "Functions for handling groups in files."
-              },
-              {
                 "label": "Masters",
                 "description": "Functions for handling masters in files."
               },
               {
-                "label": "Files",
-                "description": "Functions for handling files."
-              },
-              {
-                "label": "File Values",
+                "label": "Groups",
                 "description": "Functions for handling groups in files."
               },
               {
