@@ -23,7 +23,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     // scope functions
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
-    $scope.helpClick = () => $scope.$broadcast('helpClick');
+    $scope.helpClick = () => $scope.$emit('openModal', 'help');
     $scope.minimizeClick = () => currentWindow.minimize();
     $scope.restoreClick = () => toggleMaximized(currentWindow);
     $scope.closeClick = () => currentWindow.close();
