@@ -56,6 +56,9 @@
       "name": "name",
       "type": "string"
     }],
+    "returns": {
+      "type": "boolean"
+    },
     "description": "Gets the state of record flag `name` on record `id`."
   },
   {

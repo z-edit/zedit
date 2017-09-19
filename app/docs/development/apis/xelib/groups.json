@@ -1,0 +1,41 @@
+[
+  {
+    "name": "HasGroup",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "signature",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if group `signature` is present in file `id`."
+  },
+  {
+    "name": "AddGroup",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "signature",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds the group `signature` to file `id` if missing and returns a handle to it."
+  },
+  {
+    "name": "GetChildGroup",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle to the child group of `id`.  Returns `0` if `id` does not have a child group."
+  }
+]
