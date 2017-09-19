@@ -1,0 +1,24 @@
+[
+  {
+    "name": "EditorID",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the editor ID of record `id`.  Returns an empty string if the record does not have an editor ID."
+  },
+  {
+    "name": "FullName",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the FULL name of record `id`.  Returns an empty string if the record does not have an FULL name."
+  }
+]
