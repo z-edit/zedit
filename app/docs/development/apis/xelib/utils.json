@@ -1,0 +1,59 @@
+[
+  {
+    "name": "Hex",
+    "args": [{
+      "name": "n",
+      "type": "unsigned integer"
+    }, {
+      "name": "padding",
+      "type": "integer",
+      "description": "Target length to pad the output string to."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts `n` to a hexadecimal string and pads it with zeros until it has a length equal to `padding`."
+  },
+  {
+    "name": "WithHandle",
+    "args": [{
+      "name": "handle",
+      "type": "handle"
+    }, {
+      "name": "callback",
+      "type": "function",
+      "description": "Callback function to execute before freeing the handle."
+    }],
+    "description": "Passes `handle` to `callback`, executing it, and then releases `handle`.  Uses a try-finally to ensure the handle gets released regardless of any exceptions that occur in `callback`."
+  },
+  {
+    "name": "WithHandles",
+    "args": [{
+      "name": "handles",
+      "type": "array of handle"
+    }, {
+      "name": "callback",
+      "type": "function",
+      "description": "Callback function to execute before freeing the handles."
+    }],
+    "description": "Passes `handles` to `callback`, executing it, and then releases `handles`.  Uses a try-finally to ensure the handles get released regardless of any exceptions that occur in `callback`."
+  },
+  {
+    "name": "CreateHandleGroup",
+    "args": [],
+    "description": "Creates an array in xelib at `xelib.HandleGroup`.  All handles retrieved from `xelib` functions will be appended to this array."
+  },
+  {
+    "name": "FreeHandleGroup",
+    "args": [],
+    "description": "Releases all handles in `xelib.HandleGroup`.  After calling this, handles retrieved from `xelib` will no longer be appended to the `xelib.HandleGroup` array."
+  },
+  {
+    "name": "OutsideHandleGroup",
+    "args": [{
+      "name": "callback",
+      "type": "function"
+    }],
+    "description": "Executes `callback`. Any handles retrieved from `xelib` in `callback` will not be added to the active handle group."
+  }
+]
