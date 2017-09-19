@@ -1,0 +1,26 @@
+[
+  {
+    "name": "CheckForErrors",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Starts a background thread which checks for errors in `id`."
+  },
+  {
+    "name": "GetErrorThreadDone",
+    "args": [],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the error thread started by `CheckForErrors` is done."
+  },
+  {
+    "name": "GetErrors",
+    "args": [],
+    "returns": {
+      "type": "array of object"
+    },
+    "description": "Returns the errors found by `CheckForErrors` as an array of error objects."
+  }
+]
