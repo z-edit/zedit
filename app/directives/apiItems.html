@@ -8,7 +8,7 @@
             <span class="property-{{::item.type}}" title="{{::item.type}}">{{::item.name}}</span>
             <span class="args" ng-if="::item.args">
                 (
-                <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description}}">
+                <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description | wordwrap}}">
                     {{::arg.name}}: <span class="type-{{::arg.type | classify}}">{{::arg.type}}</span>
                 </span>
                 )

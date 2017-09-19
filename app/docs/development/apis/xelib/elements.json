@@ -241,20 +241,20 @@
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle of the element to remove.  Cannot \r\nbe a file, group, or main record."
+      "description": "Handle of the element to remove.  Cannot be a file, group, or main record."
     }],
-    "description": "Removes the element at `path` if it exists.  If the element cannot be removed it gets the element's parent container and attempts to remove it.  This repeats until the container can be removed or is a main record."
+    "description": "Removes the element `id`.  If the element cannot be removed it gets its parent container and attempts to remove it.  This repeats until the container can be removed or the code reaches a main record."
   },
   {
     "name": "SetElement",
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle of the element to assign to.  Cannot \r\nbe a file, group, or main record."
+      "description": "Handle of the element to assign to.  Cannot be a file, group, or main record."
     }, {
       "name": "id2",
       "type": "handle",
-      "description": "Handle of the element to assign.  Cannot \r\nbe a file, group, or main record."
+      "description": "Handle of the element to assign.  Cannot be a file, group, or main record."
     }],
     "description": "Assigns `id2` to `id`.  This is equivalent to drag and drop."
   },
@@ -271,7 +271,7 @@
     }, {
       "name": "sort",
       "type": "boolean",
-      "description": "Pass true if you want elements to be sorted \r\naccording to the current SortMode."
+      "description": "Pass true if you want elements to be sorted according to the current SortMode."
     }],
     "returns": {
       "type": "array of handle"
@@ -504,7 +504,7 @@
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle of the element to move.  The \r\nelement must be in an unsorted array."
+      "description": "Handle of the element to move.  The element must be in an unsorted array."
     }, {
       "name": "index",
       "type": "integer",
@@ -537,7 +537,7 @@
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle of the element to test.  The element \r\nmust be able to contain a reference."
+      "description": "Handle of the element to test.  The element must be able to contain a reference."
     }, {
       "name": "signature",
       "type": "string",
