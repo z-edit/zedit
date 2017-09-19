@@ -17,8 +17,8 @@ Object.assign(xelib, {
         });
         return JSON.parse(str).errors;
     },
-    RemoveIdenticalRecords: function(_id) {
-        if (!lib.RemoveIdenticalRecords(_id))
+    RemoveIdenticalRecords: function(_id, removeITMs = true, removeITPOs = true) {
+        if (!lib.RemoveIdenticalRecords(_id, removeITMs, removeITPOs))
             Fail(`Failed to remove identical errors from ${_id}`);
     }
 });
