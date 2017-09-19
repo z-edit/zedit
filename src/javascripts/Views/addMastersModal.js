@@ -1,4 +1,4 @@
-ngapp.controller('addMastersModalController', function($scope, $timeout, errorService, modalService) {
+ngapp.controller('addMastersModalController', function($scope, $timeout, errorService) {
     // initialization
     let selectedFile = $scope.modalOptions.handle,
         availableMasters = xelib.GetAvailableMasters(selectedFile);
@@ -6,9 +6,6 @@ ngapp.controller('addMastersModalController', function($scope, $timeout, errorSe
     $scope.availableMasters = availableMasters.map(function(master){
         return { name: master, active: false };
     });
-
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope);
 
     // scope functions
     $scope.applyValue = function() {

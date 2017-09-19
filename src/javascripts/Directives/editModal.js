@@ -1,7 +1,4 @@
-ngapp.controller('editModalController', function($scope, modalService) {
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope);
-
+ngapp.controller('editModalController', function($scope) {
     // scope functions
     $scope.applyValue = function() {
         if ($scope.invalid) return;

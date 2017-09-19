@@ -5,9 +5,6 @@ ngapp.controller('profilesModalController', function ($scope, profileService, mo
     $scope.profiles = profileService.profiles;
     $scope.defaultProfile = profileService.getDefaultProfile();
 
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope, 'close');
-
     // scope functions
     $scope.addProfile = function() {
         $scope.profiles.push({
