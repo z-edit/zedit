@@ -1,0 +1,87 @@
+[
+  {
+    "name": "CleanMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Removes unnecessary masters from file `id`."
+  },
+  {
+    "name": "SortMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Orders the masters in file `id` based on the order in which they are loaded."
+  },
+  {
+    "name": "AddMaster",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "filename",
+      "type": "string"
+    }],
+    "description": "Adds master `filename` to file `id` if missing."
+  },
+  {
+    "name": "AddRequiredMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of the file to add required masters to."
+    }, {
+      "name": "id2",
+      "type": "handle",
+      "description": "Handle of the element to determine required masters for."
+    }, {
+      "name": "asNew",
+      "type": "boolean",
+      "description": "Default false."
+    }],
+    "description": "Adds masters to file `id` which are required when copying element `id2` to it.  Set `asNew` to true when copying `id2` as a new record."
+  },
+  {
+    "name": "GetMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of handles for the master files of file `id`."
+  },
+  {
+    "name": "GetMasterNames",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the master filenames of the file `id`."
+  },
+  {
+    "name": "AddAllMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Adds all files loaded before file `id` as masters to it."
+  },
+  {
+    "name": "GetAvailableMasters",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the filenames of files loaded before file `id` that aren't already masters for it."
+  }
+]
