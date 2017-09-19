@@ -50,74 +50,143 @@
   },
   {
     "name": "games",
-    "type": "array",
-    "contains": {
-      "type": "object",
-      "properties": [
-        {
-          "key": "name",
-          "type": "string",
-          "description": "The name of the game used for display purposes."
-        },
-        {
-          "key": "shortName",
-          "type": "string",
-          "description": "The name of the game used to find the correct `*.Hardcoded.dat` file."
-        },
-        {
-          "key": "mode",
-          "type": "integer",
-          "description": "The game mode for the game."
-        },
-        {
-          "key": "exeName",
-          "type": "string",
-          "description": "The filename of the game executable."
-        }
-      ]
-    },
+    "type": "array of object",
+    "properties": [
+      {
+        "key": "name",
+        "type": "string",
+        "description": "The name of the game used for display purposes."
+      },
+      {
+        "key": "shortName",
+        "type": "string",
+        "description": "The name of the game used to find the correct Hardcoded.dat file."
+      },
+      {
+        "key": "mode",
+        "type": "integer",
+        "description": "The game mode for the game."
+      },
+      {
+        "key": "exeName",
+        "type": "string",
+        "description": "The filename of the game executable."
+      }
+    ],
     "description": "Information about the game modes "
   },
   {
     "name": "SetGamePath",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [{
+      "name": "gamePath",
+      "type": "string"
+    }],
+    "description": "Sets the game path to be used when loading plugin and resource files to `gamePath`."
   },
   {
     "name": "SetLanguage",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [{
+      "name": "language",
+      "type": "string"
+    }],
+    "description": "Sets the language to be used when loading string files to `language`."
   },
   {
     "name": "SetGameMode",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [{
+      "name": "gameMode",
+      "type": "integer"
+    }],
+    "description": "Sets the game mode to `gameMode`.  See the `gameModes` enumeration for a list of allowed valid game modes."
   },
   {
     "name": "GetLoadOrder",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the user's load order determined from loadorder.txt, plugins.txt, or plugin dates depending on the game and available files.  The load order is returned as a list of filenames separated by `\\r\\n`."
   },
   {
     "name": "GetActivePlugins",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the user's active plugins determined from plugins.txt. Active plugins are returned as a list of filenames separated by `\\r\\n`."
   },
   {
     "name": "LoadPlugins",
-    "icons": ["warn"]
+    "icons": ["warn"],
+    "args": [{
+      "name": "loadOrder",
+      "type": "string",
+      "description": "List of filenames separated by \\r\\n to load."
+    }, {
+      "name": "smartLoad",
+      "type": "boolean",
+      "description": "Default true."
+    }],
+    "description": "Loads plugin files in `loadOrder`.  If `smartLoad` is set to true, master files required by files in `loadOrder` will be automatically loaded as necessary.  Plugin loading is performed in a background thread, use `GetLoaderStatus` to track the loader and determine when it is done."
   },
   {
-    "name": "LoadPlugin"
+    "name": "LoadPlugin",
+    "args": [{
+      "name": "filename",
+      "type": "string"
+    }],
+    "description": "Loads the plugin file `filename` at the next available load order position after currently loaded plugins files.  Plugin loading is performed in a background thread, use `GetLoaderStatus` to track the loader and determine when it is done."
   },
   {
-    "name": "LoadPluginHeader"
+    "name": "LoadPluginHeader",
+    "args": [{
+      "name": "filename",
+      "type": "string"
+    }],
+    "description": "Loads the header of plugin file `filename` and returns a handle to it.  This plugin should be unloaded with `UnloadPlugin` once you're done with it.  Note: Unlike `LoadPlugin`, this function does not use a background thread."
   },
   {
-    "name": "UnloadPlugin"
+    "name": "UnloadPlugin",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "description": "Unloads the plugin file `id`.  Only plugins at the end of the active load order which have not have references built can be unloaded.  Plugin headers loaded with `LoadPluginHeader` can also be unloaded."
   },
   {
-    "name": "GetLoaderStatus"
+    "name": "GetLoaderStatus",
+    "args": [],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the status of the loader.  See `loaderStates` for more information."
   },
   {
-    "name": "GetGamePath"
+    "name": "GetGamePath",
+    "args": [{
+      "name": "gameMode",
+      "type": "integer"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Retrieves the path to the game corresponding to `gameMode` from the registry.  Returns an empty string if the game path cannot be found."
   },
   {
-    "name": "GetLoadedFileNames"
+    "name": "GetLoadedFileNames",
+    "args": [{
+      "name": "excludeHardcoded",
+      "type": "boolean",
+      "description": "Default true."
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of all loaded filenames.  Excludes hardcoded files if `excludeHardcoded` is true."
   }
 ]
