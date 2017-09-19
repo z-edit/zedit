@@ -1,6 +1,6 @@
 ngapp.filter('classify', function() {
     return function(str) {
-        if (!angular.isDefined(str)) return '';
-        return str.replace(/ /g, '-');
+        if (typeof str !== 'string') return '';
+        return str.underscore('-');
     }
 });
