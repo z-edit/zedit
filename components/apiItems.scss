@@ -42,6 +42,8 @@ api-items {
 
   .args {
     display: inline-flex;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
 
     > span:not(:last-of-type)::after {
       content: ',';
@@ -78,6 +80,7 @@ api-items {
 
   .returns {
     margin-left: 4px;
+    white-space: nowrap;
 
     .return-arrow {
       margin: 0 4px;
@@ -95,7 +98,7 @@ api-items {
     color: $negative;
   }
 
-  .type-boolean, .type-integer, .type-unsigned-integer, .type-float {
+  .type-boolean, .type-integer, .type-unsigned-integer, .type-float, .type-array-of-integer {
     color: $positive;
   }
 
