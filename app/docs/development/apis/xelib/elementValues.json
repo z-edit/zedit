@@ -261,7 +261,7 @@
       {
         "name": "name",
         "type": "string",
-        "description": "Flag to get."
+        "description": "Name of the flag to get."
       }
     ],
     "returns": {

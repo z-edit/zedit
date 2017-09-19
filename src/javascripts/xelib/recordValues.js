@@ -27,7 +27,7 @@ Object.assign(xelib, {
     GetRecordFlag: function(id, name) {
         return xelib.GetFlag(id, 'Record Header\\Record Flags', name);
     },
-    SetRecordFlag: function(id, name, enabled) {
-        xelib.SetFlag(id, 'Record Header\\Record Flags', name, enabled);
+    SetRecordFlag: function(id, name, state) {
+        xelib.SetFlag(id, 'Record Header\\Record Flags', name, state);
     }
 });

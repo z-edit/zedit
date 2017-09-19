@@ -20,5 +20,56 @@
       "type": "string"
     },
     "description": "Returns the FULL name of record `id`.  Returns an empty string if the record does not have an FULL name."
+  },
+  {
+    "name": "Translate",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of a record which is a placed object."
+    }, {
+      "name": "vector",
+      "type": "object",
+      "description": "Object with X, Y, and Z float properties."
+    }],
+    "description": "Translates record `id` by `vector`."
+  },
+  {
+    "name": "Rotate",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Handle of a record which is a placed object."
+    }, {
+      "name": "vector",
+      "type": "object",
+      "description": "Object with X, Y, and Z float properties."
+    }],
+    "description": "Rotates record `id` by `vector` degrees."
+  },
+  {
+    "name": "GetRecordFlag",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "name",
+      "type": "string"
+    }],
+    "description": "Gets the state of record flag `name` on record `id`."
+  },
+  {
+    "name": "SetRecordFlag",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "name",
+      "type": "string"
+    }, {
+      "name": "state",
+      "type": "boolean"
+    }],
+    "description": "Sets record flag `name` on record `id` to `state`."
   }
 ]
