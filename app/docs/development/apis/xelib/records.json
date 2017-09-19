@@ -146,7 +146,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns the a handle to the record matching `formID` in `id`.  Pass `0` for `id` and a load order `formID` to perform a lookup by load order form ID.  Pass a file handle for `id` and a file `formID` to perform a lookup by native (file) form ID."
+    "description": "Returns a handle to the record matching `formID` in `id`.  Pass `0` as `id` and a load order `formID` to perform a lookup by load order form ID.  Pass a file handle as `id` and a file `formID` to perform a lookup by native (file) form ID."
   },
   {
     "name": "GetRecords",
