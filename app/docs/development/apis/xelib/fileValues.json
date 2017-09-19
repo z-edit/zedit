@@ -1,0 +1,101 @@
+[
+  {
+    "name": "GetNextObjectID",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the Next Object ID of file `id`."
+  },
+  {
+    "name": "SetNextObjectID",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "nextObjectID",
+      "type": "integer"
+    }],
+    "description": "Sets the Next Object ID of file `id` to `nextObjectID`."
+  },
+  {
+    "name": "GetFileName",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the file name of file `id`.  This is equivalent to calling `Name(id)`."
+  },
+  {
+    "name": "GetFileAuthor",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the author of file `id`."
+  },
+  {
+    "name": "SetFileAuthor",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "author",
+      "type": "string"
+    }],
+    "description": "Sets the author of file `id` to `author`."
+  },
+  {
+    "name": "GetFileDescription",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the description of file `id`."
+  },
+  {
+    "name": "SetFileDescription",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "description",
+      "type": "string"
+    }],
+    "description": "Sets the description of file `id` to `description`."
+  },
+  {
+    "name": "GetIsESM",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns the state of the ESM flag on file `id`."
+  },
+  {
+    "name": "SetIsESM",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "state",
+      "type": "boolean"
+    }],
+    "description": "Sets the the state of the ESM flag on file `id` to `state`."
+  }
+]
