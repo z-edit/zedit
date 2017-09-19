@@ -51,28 +51,31 @@
   {
     "name": "games",
     "type": "array of object",
-    "properties": [
-      {
-        "key": "name",
-        "type": "string",
-        "description": "The name of the game used for display purposes."
-      },
-      {
-        "key": "shortName",
-        "type": "string",
-        "description": "The name of the game used to find the correct Hardcoded.dat file."
-      },
-      {
-        "key": "mode",
-        "type": "integer",
-        "description": "The game mode for the game."
-      },
-      {
-        "key": "exeName",
-        "type": "string",
-        "description": "The filename of the game executable."
-      }
-    ],
+    "objectSchema": {
+      "name": "Game Object",
+      "properties": [
+        {
+          "key": "name",
+          "type": "string",
+          "description": "The name of the game used for display purposes."
+        },
+        {
+          "key": "shortName",
+          "type": "string",
+          "description": "The name of the game used to find the correct Hardcoded.dat file."
+        },
+        {
+          "key": "mode",
+          "type": "integer",
+          "description": "The game mode for the game."
+        },
+        {
+          "key": "exeName",
+          "type": "string",
+          "description": "The filename of the game executable."
+        }
+      ]
+    },
     "description": "Information about the game modes "
   },
   {

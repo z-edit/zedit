@@ -21,6 +21,35 @@
     "returns": {
       "type": "array of object"
     },
+    "objectSchema": {
+      "name": "Error Object",
+      "properties": [
+        {
+          "key": "group",
+          "type": "integer"
+        },
+        {
+          "key": "handle",
+          "type": "handle"
+        },
+        {
+          "key": "signature",
+          "type": "string"
+        },
+        {
+          "key": "form_id",
+          "type": "unsigned integer"
+        },
+        {
+          "key": "path",
+          "type": "string"
+        },
+        {
+          "key": "data",
+          "type": "string"
+        }
+      ]
+    },
     "description": "Returns the errors found by `CheckForErrors` as an array of error objects."
   }
 ]

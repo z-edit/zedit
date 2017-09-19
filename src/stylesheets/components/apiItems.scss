@@ -48,22 +48,22 @@ api-items {
     margin: 14px 0 8px;
   }
 
-  .members-table {
+  table {
     margin-left: 12px;
-    border: 1px solid #444;
+    border: 1px solid $medium_border;
     font-size: 14.5px;
     border-collapse: collapse;
     max-width: 600px;
 
     th {
-      border-bottom: 1px solid #444;
+      border-bottom: 1px solid $medium_border;
       padding: 4px 8px;
       text-align: left;
     }
 
     td {
       padding: 4px 8px;
-      border-bottom: 1px solid #444;
+      border-bottom: 1px solid $medium_border;
     }
   }
 
