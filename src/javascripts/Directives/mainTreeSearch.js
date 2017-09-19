@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotkeyService, hotkeyFactory, errorService) {
+ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService) {
     // helper variables
     let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
         searchOptionKeys = [fKey, eKey, nKey, aKey];
@@ -84,20 +84,20 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, hotk
     };
 
     $scope.previousResult = function() {
-        $scope.$emit('loading', 'Searching...');
+        progressService.showProgress({ message: 'Searching...' });
         findElement(true).then(function(handle) {
             $scope.notFound = !handle;
             if (handle) $scope.foundResult(handle);
-            $scope.$emit('doneLoading');
+            progressService.hideProgress();
         });
     };
 
     $scope.nextResult = function() {
-        $scope.$emit('loading', 'Searching...');
+        progressService.showProgress({ message: 'Searching...' });
         findElement().then(function(handle) {
             $scope.notFound = !handle;
             if (handle) $scope.foundResult(handle);
-            $scope.$emit('doneLoading');
+            progressService.hideProgress();
         });
     };
 
