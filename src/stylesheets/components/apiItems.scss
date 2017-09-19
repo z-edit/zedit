@@ -1,6 +1,6 @@
 api-items {
   > div {
-    border: 1px solid #555;
+    border: 1px solid $hard_border;
     margin: 16px 0;
     padding: 12px;
   }
@@ -9,6 +9,7 @@ api-items {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 10px;
+    user-select: none;
 
     .expander {
       display: inline-block;
@@ -26,18 +27,6 @@ api-items {
     font-size: 16px;
     font-weight: normal;
     margin-left: 14px;
-
-    .property-enumeration {
-      color: $positive;
-    }
-
-    .property-array {
-      color: $negative;
-    }
-
-    .property-function {
-      color: $secondary_action;
-    }
   }
 
   .args {
@@ -94,15 +83,21 @@ api-items {
     }
   }
 
+  .type-function {
+    color: $secondary_action;
+  }
+
   .type-handle, .type-array-of-handle {
     color: $negative;
   }
 
-  .type-boolean, .type-integer, .type-unsigned-integer, .type-float, .type-array-of-integer {
+  .type-enumeration, .type-boolean, .type-integer,
+  .type-unsigned-integer, .type-float, .type-array-of-integer {
     color: $positive;
   }
 
-  .type-string, .type-array-of-string {
+  .type-string, .type-array-of-string,
+  .type-object, .type-array-of-object {
     color: $neutral;
   }
 
