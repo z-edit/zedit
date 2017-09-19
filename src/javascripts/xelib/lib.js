@@ -82,7 +82,7 @@ try {
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         'GetElementRecord': [WordBool, [Cardinal, PCardinal]],
         'GetLinksTo': [WordBool, [Cardinal, PWChar, PCardinal]],
-        'SetLinksTo': [WordBool, [Cardinal, Cardinal, PWChar]],
+        'SetLinksTo': [WordBool, [Cardinal, PWChar, Cardinal]],
         'ElementCount': [WordBool, [Cardinal, PInteger]],
         'ElementEquals': [WordBool, [Cardinal, Cardinal, PWordBool]],
         'ElementMatches': [WordBool, [Cardinal, PWChar, PWChar, PWordBool]],

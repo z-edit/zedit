@@ -80,9 +80,9 @@ Object.assign(xelib, {
     GetLinksTo: function(_id, path) {
         return GetHandle((_res) => lib.GetLinksTo(_id, wcb(path), _res));
     },
-    SetLinksTo: function(_id, _id2, path = '') {
-        if (!lib.SetLinksTo(_id, _id2, wcb(path)))
-            Fail(`Failed to set reference at: ${elementContext(_id, path)}`);
+    SetLinksTo: function(id, path, id2) {
+        if (!lib.SetLinksTo(id, id2, wcb(path)))
+            Fail(`Failed to set reference at: ${elementContext(id, path)}`);
     },
     GetLinksToEx: function(_id, path) {
         return GetHandle(function(_res) {
