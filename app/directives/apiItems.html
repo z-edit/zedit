@@ -5,7 +5,7 @@
         <span ng-repeat="icon in item.icons" class="icon icon-{{::icon}}"></span>
         <span class="property-code">
             <span class="library">{{::$parent.api}}</span>.
-            <span class="property-{{::item.type}}" title="{{::item.type}}">{{::item.name}}</span>
+            <span class="type-{{::item.type | classify}}" title="{{::item.type}}">{{::item.name}}</span>
             <span class="args" ng-if="::item.args">
                 (
                 <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description | wordwrap}}">
