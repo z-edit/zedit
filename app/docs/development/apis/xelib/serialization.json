@@ -1,0 +1,24 @@
+[
+  {
+    "name": "ElementToJSON",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns element `id` as a JSON string."
+  },
+  {
+    "name": "ElementToObject",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Returns element `id` as a JavaScript object."
+  }
+]
