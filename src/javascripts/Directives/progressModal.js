@@ -7,10 +7,6 @@ ngapp.directive('progressModal', function() {
     }
 });
 
-ngapp.controller('progressModalController', function($scope, modalService) {
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope);
-
-    // scope functions
+ngapp.controller('progressModalController', function($scope) {
     $scope.toggleExpanded = () => $scope.expanded = !$scope.expanded;
 });

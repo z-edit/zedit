@@ -47,7 +47,6 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         if ($scope.showLoader) return;
         $scope.$emit('openModal', 'settings');
     });
-    $scope.$on('doneLoading', () => $scope.showLoader = false);
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
         let hasFilesToSave = false;
@@ -56,13 +55,6 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         });
         if (!hasFilesToSave) return;
         $scope.$emit('openModal', 'save', { shouldFinalize: false });
-    });
-
-    $scope.$on('loading', function(e, message, canCancel) {
-        if (!$scope.showLoader) $scope.showLoader = true;
-        if ($scope.loadingMessage === "Cancelling...") return;
-        $scope.loadingMessage = message || "Loading...";
-        $scope.canCancel = canCancel;
     });
 
     // save data and terminate xelib when application is being closed

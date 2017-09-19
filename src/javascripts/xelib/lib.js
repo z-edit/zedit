@@ -82,7 +82,7 @@ try {
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
         'GetElementRecord': [WordBool, [Cardinal, PCardinal]],
         'GetLinksTo': [WordBool, [Cardinal, PWChar, PCardinal]],
-        'SetLinksTo': [WordBool, [Cardinal, Cardinal, PWChar]],
+        'SetLinksTo': [WordBool, [Cardinal, PWChar, Cardinal]],
         'ElementCount': [WordBool, [Cardinal, PInteger]],
         'ElementEquals': [WordBool, [Cardinal, Cardinal, PWordBool]],
         'ElementMatches': [WordBool, [Cardinal, PWChar, PWChar, PWordBool]],
@@ -108,7 +108,7 @@ try {
         'CheckForErrors': [WordBool, [Cardinal]],
         'GetErrorThreadDone': [WordBool, []],
         'GetErrors': [WordBool, [PInteger]],
-        'RemoveIdenticalRecords': [WordBool, [Cardinal]],
+        'RemoveIdenticalRecords': [WordBool, [Cardinal, WordBool, WordBool]],
         // ELEMENT VALUE METHODS
         'Name': [WordBool, [Cardinal, PInteger]],
         'LongName': [WordBool, [Cardinal, PInteger]],

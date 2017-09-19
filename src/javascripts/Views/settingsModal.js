@@ -1,7 +1,4 @@
-ngapp.controller('settingsModalController', function($scope, modalService, settingsService) {
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope, 'saveSettings');
-
+ngapp.controller('settingsModalController', function($scope, settingsService) {
     // helper function
     let selectTab = function(tab) {
         $scope.tabs.forEach((tab) => tab.selected = false);

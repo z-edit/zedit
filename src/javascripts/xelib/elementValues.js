@@ -55,28 +55,28 @@ Object.assign(xelib, {
         if (!lib.SetValue(id, wcb(path), wcb(value)))
             Fail(`Failed to set element value at: ${elementContext(id, path)}`);
     },
-    GetIntValue: function(id, path) {
+    GetIntValue: function(id, path = '') {
         return GetNativeValue(id, path, 'GetIntValue', PInteger).readInt32LE();
     },
-    GetIntValueEx: function(id, path) {
+    GetIntValueEx: function(id, path = '') {
         return GetNativeValueEx(id, path, 'GetIntValue', PInteger).readInt32LE();
     },
     SetIntValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetIntValue', value);
     },
-    GetUIntValue: function(id, path) {
+    GetUIntValue: function(id, path = '') {
         return GetNativeValue(id, path, 'GetUIntValue', PCardinal).readUInt32LE();
     },
-    GetUIntValueEx: function(id, path) {
-        return GetNativeValueEx(id, path, 'GetUIntValue', PCardinal).readUInt32LE();
+    GetUIntValueEx: function(_id, path = '') {
+        return GetNativeValueEx(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
     },
     SetUIntValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetUIntValue', value);
     },
-    GetFloatValue: function(id, path) {
+    GetFloatValue: function(id, path = '') {
         return GetNativeValue(id, path, 'GetFloatValue', PDouble).readDoubleLE();
     },
-    GetFloatValueEx: function(id, path) {
+    GetFloatValueEx: function(id, path = '') {
         return GetNativeValueEx(id, path, 'GetFloatValue', PDouble).readDoubleLE();
     },
     SetFloatValue: function(id, path, value) {

@@ -1,7 +1,4 @@
-ngapp.controller('editColumnsModalController', function($scope, xelibService, columnsService, modalService) {
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope, 'close');
-
+ngapp.controller('editColumnsModalController', function($scope, xelibService, columnsService) {
     // helper functions
     let getNewColumnLabel = function() {
         let baseLabel = "New Column",

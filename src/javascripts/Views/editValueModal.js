@@ -1,4 +1,4 @@
-ngapp.controller('editValueModalController', function($scope, $timeout, errorService, modalService) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService) {
     // variables
     let opts = $scope.modalOptions,
         node = opts.targetNode,
@@ -14,9 +14,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     let tryParseColor = function(color) {
         try { return new Color(color) } catch (e) {}
     };
-
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope);
 
     // scope functions
     $scope.applyValue = function() {

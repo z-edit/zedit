@@ -33,7 +33,6 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     }];
 
     // inherited functions
-    modalService.buildUnfocusModalFunction($scope, 'closeModal');
     hotkeyService.buildOnKeyDown($scope, 'onModalKeyDown', 'automateModal');
 
     // scope functions
