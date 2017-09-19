@@ -30,7 +30,7 @@ Object.assign(xelib, {
     GetIsESM: function(id) {
         return xelib.GetFlag(id, fileHeaderFlagsPath, 'ESM');
     },
-    SetIsESM: function(id, enabled) {
-        return xelib.SetFlag(id, fileHeaderFlagsPath, 'ESM', enabled);
+    SetIsESM: function(id, state) {
+        return xelib.SetFlag(id, fileHeaderFlagsPath, 'ESM', state);
     }
 });
