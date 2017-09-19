@@ -558,7 +558,7 @@
     "returns": {
       "type": "array of string"
     },
-    "description": "Returns an array of all `id` is allowed to reference."
+    "description": "Returns an array of all signatures `id` is allowed to reference."
   },
   {
     "name": "GetIsModified",
