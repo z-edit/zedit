@@ -1,0 +1,349 @@
+[
+  {
+    "name": "conflictThis",
+    "type": "enumeration",
+    "members": [
+      {
+        "key": "ctUnknown"
+      },
+      {
+        "key": "ctIgnored"
+      },
+      {
+        "key": "ctNotDefined"
+      },
+      {
+        "key": "ctIdenticalToMaster"
+      },
+      {
+        "key": "ctOnlyOne"
+      },
+      {
+        "key": "ctHiddenByModGroup"
+      },
+      {
+        "key": "ctMaster"
+      },
+      {
+        "key": "ctConflictBenign"
+      },
+      {
+        "key": "ctOverride"
+      },
+      {
+        "key": "ctIdenticalToMasterWinsConflict"
+      },
+      {
+        "key": "ctConflictWins"
+      },
+      {
+        "key": "ctConflictLoses"
+      }
+    ],
+    "description": "Conflict this state returned by `ConflictThis`.  Corresponds to the conflict status of an individual element."
+  },
+  {
+    "name": "conflictAll",
+    "type": "enumeration",
+    "members": [
+      {
+        "key": "caUnknown"
+      },
+      {
+        "key": "caOnlyOne"
+      },
+      {
+        "key": "caNoConflict"
+      },
+      {
+        "key": "caConflictBenign"
+      },
+      {
+        "key": "caOverride"
+      },
+      {
+        "key": "caConflict"
+      },
+      {
+        "key": "caConflictCritical"
+      }
+    ],
+    "description": "Conflict all state returned by `ConflictAll`.  Corresponds to the overall conflict status of an element."
+  },
+  {
+    "name": "GetFormID",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Record to get the form ID of."
+    }, {
+      "name": "native",
+      "type": "boolean",
+      "description": "Pass true to get the native file form ID of the record.  Default false."
+    }, {
+      "name": "local",
+      "type": "boolean",
+      "description": "Pass true to get the 6-digit local form ID of the record.  This formID is only meaningful when used with master records.  Default false."
+    }],
+    "returns": {
+      "type": "unsigned integer"
+    },
+    "description": "Returns the form ID of the record `id`."
+  },
+  {
+    "name": "GetHexFormID",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Record to get the form ID of."
+    }, {
+      "name": "native",
+      "type": "boolean",
+      "description": "Pass true to get the native file form ID of the record.  Default false."
+    }, {
+      "name": "local",
+      "type": "boolean",
+      "description": "Pass true to get the 6-digit local form ID of the record.  This formID is only meaningful when used with master records.  Default false."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the form ID of the record `id` as a hexadecimal string."
+  },
+  {
+    "name": "SetFormID",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "newFormID",
+      "type": "unsigned integer"
+    }, {
+      "name": "native",
+      "type": "boolean",
+      "description": "Pass true to set the native file formID of the record.  Default false."
+    }, {
+      "name": "fixReferences",
+      "type": "boolean",
+      "description": "Pass true to change references to the record to point to the new form ID.  Note: This only works on references to the record that have been built. Default true."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the form ID of the record `id` as a hexadecimal string."
+  },
+  {
+    "name": "GetRecord",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "File to get the record from."
+    }, {
+      "name": "formID",
+      "type": "unsigned integer",
+      "description": "Form ID of the record to lookup."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns the a handle to the record matching `formID` in `id`.  Pass `0` for `id` and a load order `formID` to perform a lookup by load order form ID.  Pass a file handle for `id` and a file `formID` to perform a lookup by native (file) form ID."
+  },
+  {
+    "name": "GetRecords",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to get records from."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "Comma separated list of record signatures to search for."
+    }, {
+      "name": "includeOverrides",
+      "type": "boolean",
+      "description": "Pass true to include override records.  Default false."
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of all records matching `search` found in `id`.  Pass `0` for `id` to search all loaded files."
+  },
+  {
+    "name": "GetOverrides",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Record to get overrides for."
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of handles corresponding to the overrides of record `id`."
+  },
+  {
+    "name": "GetMasterRecord",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Record to get master for."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the master record of `id`.  Returns a new handle to record `id` if it is a master record."
+  },
+  {
+    "name": "GetPreviousOverride",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Record to get previous override for."
+    }, {
+      "name": "id2",
+      "type": "handle",
+      "description": "File to get previous override for."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the winning override of record `id` in the masters of file `id2`."
+  },
+  {
+    "name": "GetWinningOverride",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the winning override of record `id`."
+  },
+  {
+    "name": "FindNextRecord",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to start the search from."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "String to search for."
+    }, {
+      "name": "byEdid",
+      "type": "boolean",
+      "description": "Pass true to search record Editor IDs."
+    }, {
+      "name": "byName",
+      "type": "boolean",
+      "description": "Pass true to search record FULL Names."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns the next record after `id` which matches `search`.  Returns `0` if no match is found."
+  },
+  {
+    "name": "FindPreviousRecord",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to start the search from."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "String to search for."
+    }, {
+      "name": "byEdid",
+      "type": "boolean",
+      "description": "Pass true to search record Editor IDs."
+    }, {
+      "name": "byName",
+      "type": "boolean",
+      "description": "Pass true to search record FULL Names."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns the previous record before `id` which matches `search`.  Returns `0` if no match is found."
+  },
+  {
+    "name": "FindValidReferences",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to target when searching for valid references."
+    }, {
+      "name": "signature",
+      "type": "string",
+      "description": "Record signature to search for."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "String to search for."
+    }, {
+      "name": "limitTo",
+      "type": "integer",
+      "description": "Maximum results to find."
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns up to `limitTo` records matching `signature` which can be referenced by the file containing `id`.  Excludes results which do not contain `search` in their `LongName`."
+  },
+  {
+    "name": "IsMaster",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if record `id` is a master record."
+  },
+  {
+    "name": "IsInjected",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if record `id` is an injected record."
+  },
+  {
+    "name": "IsOverride",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if record `id` is an override record."
+  },
+  {
+    "name": "IsWinningOverride",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if record `id` is a winning override record."
+  },
+  {
+    "name": "GetRecordConflictData",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "array of integer"
+    },
+    "description": "Returns an array where the first item is the `conflictAll` of `id` and the second item is the `conflictThis` of `id`."
+  }
+]
