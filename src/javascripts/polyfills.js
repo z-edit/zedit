@@ -32,8 +32,7 @@ String.prototype.toPascalCase = function() {
     return this.toCamelCase().capitalize();
 };
 
-String.prototype.underscore = function(separator) {
-    if (!separator) separator = "_";
+String.prototype.underscore = function(separator = '_') {
     return this.toCamelCase().replace(/[A-Z]/g, function(match) {
         return separator + match.toLowerCase();
     })
