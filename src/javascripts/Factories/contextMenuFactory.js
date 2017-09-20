@@ -240,6 +240,17 @@ ngapp.service('contextMenuFactory', function() {
             })
         }
     }, divider, {
+        id: 'Copy to',
+        visible: () => { return true; },
+        build: (scope, items) => {
+            items.push({
+                label: 'Copy To',
+                hotkey: 'Ctrl+Alt+C',
+                disabled: true,
+                callback: () => scope.copyNodesTo()
+            })
+        }
+    },{
         id: 'Copy',
         visible: () => { return true; },
         build: (scope, items) => {
