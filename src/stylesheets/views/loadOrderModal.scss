@@ -1,10 +1,4 @@
 .load-order-modal {
-  .list-item {
-    > span {
-      pointer-events: none;
-    }
-  }
-
   .disabled {
     color: $negative;
   }

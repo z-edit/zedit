@@ -40,6 +40,8 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
         remote.app.forceClose = true;
         currentWindow.close();
     });
+    $scope.$on('startDrag', (e, dragData) => $scope.$root.dragData = dragData);
+    $scope.$on('stopDrag', () => $scope.$root.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
@@ -56,6 +58,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
         }
         $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
     });
+
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;

@@ -21,7 +21,7 @@ ngapp.directive('ngDrag', function($parse, $rootScope) {
         });
 
         el.addEventListener('dragend', () => {
-            $rootScope.dragData = undefined;
+            $rootScope.$broadcast('stopDrag');
             el.classList.remove('dragging');
         });
     }

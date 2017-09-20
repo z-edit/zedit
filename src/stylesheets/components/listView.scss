@@ -23,6 +23,10 @@ list-view {
     }
   }
 
+  .list-items.dragging .list-item * {
+    pointer-events: none;
+  }
+
   .placeholder {
     min-height: 20px;
     color: $soft_font_color;
