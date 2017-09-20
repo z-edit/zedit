@@ -81,7 +81,18 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         }
     });
     $scope.$on('nodeUpdated', $scope.reload);
-    $scope.$on('reloadGUI', $scope.reload);
+    $scope.$on('reloadGUI', function() {
+        if (!$scope.record) return;
+        if (!xelib.HasElement($scope.record)) {
+            $scope.releaseHandles($scope.record);
+            $scope.record = undefined;
+        } else {
+            $scope.overrides.forEach(xelib.Release);
+            $scope.overrides = xelib.GetOverrides($scope.record);
+            $scope.buildColumns();
+            $scope.reload();
+        }
+    });
     $scope.$on('nodeAdded', function() {
         if (!$scope.record) return;
         if (!xelib.GetFormID($scope.record)) $scope.reload();
