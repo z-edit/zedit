@@ -55,8 +55,7 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
         };
 
         scope.addFile = function() {
-            let modalOptions = editModalFactory.addFile(scope);
-            scope.$emit('openModal', 'edit', modalOptions);
+            editModalFactory.addFile(scope);
         };
 
         scope.deleteElement = function(node) {
@@ -111,18 +110,15 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
         };
 
         scope.changeFileName = function(node) {
-            let modalOptions = editModalFactory.renameFile(node, scope);
-            scope.$emit('openModal', 'edit', modalOptions);
+            editModalFactory.renameFile(node, scope);
         };
 
         scope.changeFileAuthor = function(node) {
-            let modalOptions = editModalFactory.changeFileAuthor(node, scope);
-            scope.$emit('openModal', 'edit', modalOptions);
+            editModalFactory.changeFileAuthor(node, scope);
         };
 
         scope.changeFileDescription = function(node) {
-            let modalOptions = editModalFactory.changeFileDescription(node, scope);
-            scope.$emit('openModal', 'edit', modalOptions);
+            editModalFactory.changeFileDescription(node, scope);
         };
 
         scope.addMasters = function(node) {
