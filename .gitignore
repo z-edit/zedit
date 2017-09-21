@@ -21,3 +21,5 @@ modules/
 app/background.js
 app/progress.js
 app/syntaxThemes/
+themes/
+syntaxThemes/
