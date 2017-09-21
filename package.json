@@ -20,6 +20,8 @@
       "XEditLib.dll",
       "borlndmm.dll",
       "modules/unifiedPatchingFramework/**/*",
+      "themes/*.css",
+      "syntaxThemes/*.css",
       "*.Hardcoded.dat"
     ]
   },
