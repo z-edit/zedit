@@ -1,10 +1,6 @@
-ngapp.service('extensionService', function() {
-    let tabs = [
-        'Installed Modules',
-        'Installed Themes',
-        'Browse Modules',
-        'Browse Themes'
-    ];
+ngapp.service('extensionService', function(themeService) {
+    const tabs = ['Installed Modules', 'Installed Themes'];
+    let installedThemes, installedModules;
 
     this.getTabs = function() {
         return tabs.map(function(tab) {
@@ -19,14 +15,14 @@ ngapp.service('extensionService', function() {
 
     this.getInstalledThemes = function() {
         if (!installedThemes) {
-            installedThemes = []; // TODO
+            installedThemes = themeService.getInstalledThemes();
         }
         return installedThemes;
     };
 
     this.getInstalledModules = function() {
         if (!installedModules) {
-            installedModules = []; // TODO
+            installedModules = moduleService.getInstalledModules();
         }
         return installedModules;
     };
