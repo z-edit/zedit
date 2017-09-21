@@ -1,0 +1,27 @@
+<h2>Installed Modules</h2>
+
+<div ng-repeat="module in modules" class="module-item">
+    <div class="module-header">
+        <span class="module-title" title="{{::module.id}}">{{::module.name}}</span>
+        <span class="module-version" title="{{::module.releaseInfo}}">{{::module.version}}</span>
+        <span class="module-author">{{::module.author}}</span>
+    </div>
+    <div class="module-description">
+        {{::module.description}}
+    </div>
+    <div class="module-footer">
+        <button class="action-btn" ng-click="updateModule(module)" ng-if="module.hasUpdate">
+            Update to {{::module.latestVersion}}
+        </button>
+        <button class="action-btn" ng-click="toggleModule(module)">
+            {{::(module.enabled ? 'Disable' : 'Enable')}}
+        </button>
+        <button class="action-btn negative" ng-click="uninstallModule(module)">
+            Uninstall
+        </button>
+    </div>
+</div>
+
+<div class="action-button-container">
+    <button class="action-btn" ng-click="updateAllModules()">Update All Modules</button>
+</div>

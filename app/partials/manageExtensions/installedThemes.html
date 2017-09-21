@@ -1,0 +1,27 @@
+<h2>Installed Themes ({{themes.length}})</h2>
+
+<div ng-repeat="theme in themes" class="theme-item">
+    <div class="theme-header">
+        <span class="theme-title">{{::theme.name}}</span>
+        <span class="theme-version" title="{{::theme.releaseInfo}}">{{::theme.version}}</span>
+        <span class="theme-author">{{::theme.author}}</span>
+    </div>
+    <div class="theme-description">
+        {{::theme.description}}
+    </div>
+    <div class="theme-footer">
+        <button class="action-btn" ng-click="updateTheme(theme)" ng-if="theme.hasUpdate">
+            Update to {{::theme.latestVersion}}
+        </button>
+        <button class="action-btn" ng-click="applyTheme(theme)" ng-if="!theme.active">
+            Apply
+        </button>
+        <button class="action-btn negative" ng-click="uninstallTheme(theme)">
+            Uninstall
+        </button>
+    </div>
+</div>
+
+<div class="action-button-container">
+    <button class="action-btn" ng-click="updateAllThemes()">Update All Themes</button>
+</div>
