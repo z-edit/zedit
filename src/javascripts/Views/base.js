@@ -47,14 +47,15 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
     $scope.$watch('title', () => document.title = $scope.title);
     $scope.$watch('theme', function() {
-        themeStylesheet.href = `themes/${$scope.theme}`;
+        themeStylesheet.href = fh.jetpack.path(`themes/${$scope.theme}`);
         $scope.$broadcast('themeChanged', $scope.theme);
     });
     $scope.$watch('syntaxTheme', function() {
         if ($scope.syntaxTheme === '') {
             syntaxThemeStylesheet.href = '';
         } else {
-            syntaxThemeStylesheet.href = `syntaxThemes/${$scope.syntaxTheme}`;
+            let syntaxThemePath = `syntaxThemes/${$scope.syntaxTheme}`;
+            syntaxThemeStylesheet.href = fh.jetpack.path(syntaxThemePath);
         }
         $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
     });
