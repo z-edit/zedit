@@ -7,33 +7,35 @@ ngapp.service('themeService', function(settingsService) {
             description: 'This theme does not have embedded metadata.'
         };
 
+    let loadTheme = function(filePath) {
+        let fileContents = fh.appDir.read(filePath),
+            filename = theme.split('\\').last(),
+            defaultMetaData = Object.assign(unknownMetaData, {
+                name: service.extractThemeName(filename),
+            }),
+            match = fileContents.match(new RegExp(/^\/\*\{([\w\W]+)\}\*\//)),
+            metaData = defaultMetaData;
+        try {
+            if (match) metaData = JSON.parse(`{${match[1]}}`);
+        } catch (x) {
+            console.log(`Error parsing metadata for theme ${filename}: ${x.message}`);
+        }
+        metaData.filename = filename;
+        return metaData;
+    };
+
     this.extractThemeName = function(filename, defaultName = '') {
         let match = filename.match(/(.*)\.css/);
         return match ? match[1] : defaultName;
     };
 
     this.getThemes = function() {
-        let themes = fh.appDir.find('app\\themes', { matching: '*.css' });
-        return themes.map(function(theme) {
-            let fileContents = fh.appDir.read(theme),
-                filename = theme.split('\\').last(),
-                defaultMetaData = Object.assign(unknownMetaData, {
-                    name: service.extractThemeName(filename)
-                }),
-                match = fileContents.match(new RegExp(/^\/\*\{([\w\W]+)\}\*\//)),
-                metaData = defaultMetaData;
-            try {
-                if (match) metaData = JSON.parse(`{${match[1]}}`);
-            } catch (x) {
-                console.log(`Error parsing metadata for theme ${filename}: ${x.message}`);
-            }
-            metaData.filename = filename;
-            return metaData;
-        });
+        let themes = fh.appDir.find('themes', { matching: '*.css' });
+        return themes.map(loadTheme);
     };
 
     this.getSyntaxThemes = function() {
-        let themes = fh.appDir.find('app\\syntaxThemes', { matching: '*.css' });
+        let themes = fh.appDir.find('syntaxThemes', { matching: '*.css' });
         return themes.map(function(theme) {
             let filename = theme.split('\\').last();
             return {
@@ -45,7 +47,7 @@ ngapp.service('themeService', function(settingsService) {
 
     this.getCurrentTheme = function() {
         let settingsTheme = settingsService.globalSettings.theme,
-            themePath = `app\\themes\\${settingsTheme}`;
+            themePath = `themes\\${settingsTheme}`;
         if (!settingsTheme || !fh.appDir.exists(themePath)) {
             let availableThemes = service.getThemes();
             return availableThemes[0].filename;
@@ -55,7 +57,7 @@ ngapp.service('themeService', function(settingsService) {
 
     this.getCurrentSyntaxTheme = function() {
         let settingsTheme = settingsService.globalSettings.syntaxTheme,
-            themePath = `app\\syntaxThemes\\${settingsTheme}`;
+            themePath = `syntaxThemes\\${settingsTheme}`;
         if (!settingsTheme || !fh.appDir.exists(themePath)) {
             return '';
         }
