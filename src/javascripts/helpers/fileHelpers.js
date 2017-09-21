@@ -6,7 +6,8 @@ let fh = {};
 
 fh.jetpack = jetpack;
 fh.appPath = remote.app.getAppPath();
-fh.userPath = remote.app.getPath('userData') + '\\';
+fh.userPath = remote.app.getPath('userData');
+fh.userDir = jetpack.cwd(fh.userPath);
 fh.appDir = jetpack.cwd(fh.appPath);
 
 // log app directory for reference
