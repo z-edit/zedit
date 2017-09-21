@@ -154,6 +154,16 @@ Object.assign(xelib, {
                 Fail(`Failed to copy element ${id} to ${id2}`);
         });
     },
+    FindNextElement: function(id, search, byPath, byValue) {
+        return GetHandle(function(_res) {
+            lib.FindNextElement(id, wcb(search), byPath, byValue, _res);
+        });
+    },
+    FindPreviousElement: function(id, search, byPath, byValue) {
+        return GetHandle(function(_res) {
+            lib.FindPreviousElement(id, wcb(search), byPath, byValue, _res);
+        });
+    },
     GetSignatureAllowed: function(id, signature) {
         return GetBool(function(_bool) {
             if (!lib.GetSignatureAllowed(id, wcb(signature), _bool))

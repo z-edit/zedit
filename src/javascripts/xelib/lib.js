@@ -92,6 +92,8 @@ try {
         'RemoveArrayItem': [WordBool, [Cardinal, PWChar, PWChar, PWChar]],
         'MoveArrayItem': [WordBool, [Cardinal, Integer]],
         'CopyElement': [WordBool, [Cardinal, Cardinal, WordBool, PCardinal]],
+        'FindNextElement': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
+        'FindPreviousElement': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PCardinal]],
         'GetSignatureAllowed': [WordBool, [Cardinal, PWChar, PWordBool]],
         'GetAllowedSignatures': [WordBool, [Cardinal, PInteger]],
         'GetIsModified': [WordBool, [Cardinal, PWordBool]],

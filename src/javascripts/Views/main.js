@@ -44,14 +44,16 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
 
     // event handlers
     $scope.$on('settingsClick', function() {
-        if ($scope.showLoader) return;
+        if (!$scope.loaded) return;
         $scope.$emit('openModal', 'settings');
     });
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
         let hasFilesToSave = false;
         xelib.WithHandles(xelib.GetElements(), function(files) {
-            hasFilesToSave = !!files.find((file) => { return xelib.GetIsModified(file); });
+            hasFilesToSave = !!files.find(function(file) {
+                return xelib.GetIsModified(file);
+            });
         });
         if (!hasFilesToSave) return;
         $scope.$emit('openModal', 'save', { shouldFinalize: false });

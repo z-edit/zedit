@@ -1,6 +1,6 @@
 ngapp.service('editModalFactory', function() {
     this.renameFile = function(node, scope) {
-        return {
+        scope.$emit('openModal', 'edit', {
             title: 'Rename File',
             editType: 'string',
             maxLength: 64,
@@ -10,11 +10,11 @@ ngapp.service('editModalFactory', function() {
                 xelib.RenameFile(node.handle, newValue);
                 scope.$root.$broadcast('nodeUpdated', node);
             }
-        };
+        });
     };
 
     this.changeFileAuthor = function(node, scope) {
-        return {
+        scope.$emit('openModal', 'edit', {
             title: 'Change File Author',
             editType: 'string',
             maxLength: 255,
@@ -24,11 +24,11 @@ ngapp.service('editModalFactory', function() {
                 xelib.SetFileAuthor(node.handle, newValue);
                 scope.$root.$broadcast('nodeUpdated', node);
             }
-        };
+        });
     };
 
     this.changeFileDescription = function(node, scope) {
-        return {
+        scope.$emit('openModal', 'edit', {
             title: 'Change File Description',
             editType: 'text',
             maxLength: 255,
@@ -38,11 +38,11 @@ ngapp.service('editModalFactory', function() {
                 xelib.SetFileDescription(node.handle, newValue);
                 scope.$root.$broadcast('nodeUpdated', node);
             }
-        };
+        });
     };
 
     this.addFile = function(scope) {
-        return {
+        scope.$emit('openModal', 'edit', {
             title: 'Add File',
             editType: 'string',
             maxLength: 64,
@@ -52,6 +52,6 @@ ngapp.service('editModalFactory', function() {
                 xelib.AddFile(fileName);
                 scope.$root.$broadcast('fileAdded');
             }
-        };
+        });
     };
 });

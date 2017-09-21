@@ -112,11 +112,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     $scope.onItemDrag = function(index) {
         if (!$scope.dragType) return;
-        $scope.$root.dragData = {
+        $scope.$root.$broadcast('startDrag', {
             source: $scope.dragType,
             index: index,
             getItem: () => $scope.items.splice(index, 1)[0]
-        };
+        });
         return true;
     };
 
@@ -136,9 +136,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return dragData && dragData.source === $scope.dragType;
     };
 
-    $scope.onItemDragLeave = function(e) {
-        removeClasses(e.target);
-    };
+    $scope.onItemDragLeave = (e) => removeClasses(e.target);
 
     $scope.onItemDrop = function(e, index) {
         if (!$scope.dragType) return;
@@ -167,4 +165,10 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     // angular event handlers
     $scope.$on('parentClick', (e, event) => $scope.onParentClick(event));
     $scope.$on('keyDown', (e, event) => $scope.onKeyDown(event));
+    $scope.$on('startDrag', function() {
+        $scope.$applyAsync(() => $scope.dragging = true);
+    });
+    $scope.$on('stopDrag', function() {
+        $scope.$applyAsync(() => $scope.dragging = false);
+    });
 });
