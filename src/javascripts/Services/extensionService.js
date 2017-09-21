@@ -17,5 +17,17 @@ ngapp.service('extensionService', function() {
         });
     };
 
+    this.getInstalledThemes = function() {
+        if (!installedThemes) {
+            installedThemes = []; // TODO
+        }
+        return installedThemes;
+    };
 
+    this.getInstalledModules = function() {
+        if (!installedModules) {
+            installedModules = []; // TODO
+        }
+        return installedModules;
+    };
 });
