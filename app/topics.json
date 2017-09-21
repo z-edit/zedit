@@ -16,16 +16,6 @@
         "id": "where"
       }
     ]
-  },
-  { "label": "Profiles" },
-  { "label": "Settings" },
-  { "label": "Game Modes" },
-  {
-    "label": "Modules",
-    "children": [
-      { "label": "Core Modules" },
-      { "label": "Default Modules" }
-    ]
   }, {
     "label": "Application Modes",
     "id": "appModes",
@@ -34,6 +24,16 @@
       { "label": "[Planned] Clean" },
       { "label": "[Planned] Merge" },
       { "label": "[Planned] Smash" }
+    ]
+  },
+  { "label": "Game Modes" },
+  { "label": "Profiles" },
+  { "label": "Settings" },
+  {
+    "label": "Modules",
+    "children": [
+      { "label": "Core Modules" },
+      { "label": "Default Modules" }
     ]
   }, {
     "label": "Views",
