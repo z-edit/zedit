@@ -107,7 +107,7 @@ fh.selectFile = function(title, defaultPath, filters = []) {
     let selection = remote.dialog.showOpenDialog({
         title: title,
         defaultPath: defaultPath,
-        filter: filters,
+        filters: filters,
         properties: ['openFile']
     });
     return selection && selection[0];
