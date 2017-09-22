@@ -1,12 +1,14 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import extract from 'extract-zip';
 import url from 'url';
 
 let fh = {};
 
 fh.jetpack = jetpack;
 fh.appPath = remote.app.getAppPath();
-fh.userPath = remote.app.getPath('userData') + '\\';
+fh.userPath = remote.app.getPath('userData');
+fh.userDir = jetpack.cwd(fh.userPath);
 fh.appDir = jetpack.cwd(fh.appPath);
 
 // log app directory for reference
@@ -46,10 +48,14 @@ fh.saveTextFile = function(filename, value) {
     fh.jetpack.write(filename, value);
 };
 
-fh.open = function(filename) {
+fh.openFile = function(filename) {
     if (fh.jetpack.exists(filename)) {
-        shell.openItem(fh.jetpack.cwd() + '\\' + filename);
+        shell.openItem(fh.jetpack.path(filename));
     }
+};
+
+fh.openUrl = function(url) {
+    shell.openItem(url);
 };
 
 fh.getFileUrl = function(path) {
@@ -60,8 +66,33 @@ fh.getFileUrl = function(path) {
     })
 };
 
+fh.extractArchive = function(filePath, destDir, empty = false) {
+    fh.jetpack.dir(destDir, { empty: empty });
+    extract(filePath, { dir: destDir }, (err) => { throw err });
+};
+
+fh.getFileExt = function(filePath) {
+    return filePath.match(/.*\.(.*)/)[1];
+};
+
+fh.getFileName = function(filePath) {
+    return filePath.match(/.*\\(.*)/)[1];
+};
+
+fh.getDirectory = function(filePath) {
+    return filePath.match(/(.*)\\.*/)[1];
+};
+
 fh.getDateModified = function(filename) {
     return fh.jetpack.inspect(filename, {times: true}).modifyTime;
+};
+
+fh.getDirectories = function(path) {
+    return fh.jetpack.find(path, {
+        matching: '*',
+        files: false,
+        directories: true
+    });
 };
 
 // helper function for selecting a directory
@@ -73,6 +104,17 @@ fh.selectDirectory = function(title, defaultPath) {
     });
     if (!selection) return defaultPath;
     return selection[0];
+};
+
+// helper function for selecting a theme
+fh.selectFile = function(title, defaultPath, filters = []) {
+    let selection = remote.dialog.showOpenDialog({
+        title: title,
+        defaultPath: defaultPath,
+        filters: filters,
+        properties: ['openFile']
+    });
+    return selection && selection[0];
 };
 
 export default fh;

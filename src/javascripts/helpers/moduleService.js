@@ -109,6 +109,14 @@ export default function(ngapp, fh) {
 
     // PUBLIC API
     service = {
+        getInstalledModules: function() {
+            let moduleFolders = getModuleFolders();
+            return moduleFolders.map(function(modulePath) {
+                let info = getModuleInfo(modulePath);
+                if (info) info.modulePath = modulePath;
+                return info;
+            }).filter((info) => { return !!info });
+        },
         loadModules: function() {
             let moduleFolders = getModuleFolders(),
                 modules = [];

@@ -1,16 +1,16 @@
-var jetpack = require('fs-jetpack');
-var path = require('path');
-var os = require('os');
-var MagicString = require('magic-string');
+const jetpack = require('fs-jetpack');
+const path = require('path');
+const os = require('os');
+const MagicString = require('magic-string');
 
-var options = {};
+let options = {};
 
-var ensureTrailingNewLine = function(code) {
+let ensureTrailingNewLine = function(code) {
   if (!code.endsWith(os.EOL)) code += os.EOL;
   return code;
 };
 
-var load = function(path) {
+let load = function(path) {
     if (!jetpack.exists(path)) console.log(`ERROR: File not found at "${path}"`);
     let code = ensureTrailingNewLine(jetpack.read(path));
     const magicStr = new MagicString(code);
@@ -18,21 +18,21 @@ var load = function(path) {
     return magicStr.toString();
 };
 
-var loadTree = function(path) {
+let loadTree = function(path) {
     return jetpack.find(path, { matching: '*.js' }).reduce(function(code, filePath) {
         return code + load(filePath);
     }, '');
 };
 
-var concatFiles = function(magicStr, code, id) {
-    var dir = path.dirname(id),
+let concatFiles = function(magicStr, code, id) {
+    let dir = path.dirname(id),
         regex = /\/\/= concat(_tree)? ([^\n\r]+)/gi,
         changes = false;
     code.replace(regex, function(match, tree, target, index) {
         if (options.debug) console.log(`rollup-plugin-concat: processing "${match}" in "${id}"`);
         changes = true;
-        var targetPath = path.join(dir, target);
-        var insertedCode = (tree ? loadTree(targetPath) : load(targetPath));
+        let targetPath = path.join(dir, target);
+        let insertedCode = (tree ? loadTree(targetPath) : load(targetPath));
         magicStr.overwrite(index, index + match.length, insertedCode);
         return insertedCode;
     });
@@ -44,15 +44,15 @@ module.exports = function(opts) {
     return {
         name: 'concat',
         transform: function(code, id) {
-            var magicStr = new MagicString(code);
-            var changes = concatFiles(magicStr, code, id);
+            let magicStr = new MagicString(code);
+            let changes = concatFiles(magicStr, code, id);
             if (changes) {
               return {
                   code: magicStr.toString(),
                   map: magicStr.generateMap({ hires: true })
               };
             }
-            
+
             return null; // tell rollup to discard this result
         }
     };

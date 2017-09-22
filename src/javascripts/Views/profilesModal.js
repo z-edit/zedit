@@ -39,8 +39,9 @@ ngapp.controller('profilesModalController', function ($scope, profileService, mo
     };
 
     $scope.browse = function(profile) {
-        let game = profileService.getGame(profile.gameMode);
-        profile.gamePath = fh.selectDirectory(`Select your ${game.name} directory`, profile.gamePath) + '\\';
+        let game = profileService.getGame(profile.gameMode),
+            prompt = `Select your ${game.name} directory`;
+        profile.gamePath = fh.selectDirectory(prompt, profile.gamePath) + '\\';
         $scope.validateProfile(profile);
     };
 });

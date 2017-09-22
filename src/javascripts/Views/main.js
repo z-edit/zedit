@@ -35,7 +35,7 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         } else if (loaderStatus === xelib.lsError) {
             alert('There was a critical error during plugin/resource loading.  Please see the error log for more details.');
             fh.saveTextFile('erorr_log.txt', $scope.log);
-            fh.open('error_log.txt');
+            fh.openFile('error_log.txt');
             $scope.$emit('terminate');
         } else {
             $timeout($scope.checkIfLoaded, 250);

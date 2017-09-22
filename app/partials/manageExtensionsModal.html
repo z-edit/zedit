@@ -1,0 +1,15 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal tabs-modal">
+        <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+        <div class="tabs-container">
+            <div ng-repeat="tab in tabs" class="tab" ng-class="{'selected': tab.selected}" ng-click="onTabClick($event, tab)">
+                {{::tab.label}}
+            </div>
+        </div>
+
+        <form class="tab-contents">
+            <ng-include src="currentTab.templateUrl" dyn-controller="currentTab.controller"></ng-include>
+        </form>
+    </div>
+</div>

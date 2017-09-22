@@ -1,0 +1,19 @@
+<h2>Browse Themes</h2>
+
+<span class="help-message">Themes are published via the <a href="https://github.com/matortheeternal/zedit-registry">zedit-registry</a> repo and are installed to {{::themesFolderPath}}.</span>
+
+<div ng-repeat="theme in themes" class="theme-item">
+    <div class="theme-header">
+        <span class="theme-title" ng-click="openRepo(theme)">{{::theme.name}}</span>
+        <span class="theme-version" title="{{::theme.releaseInfo}}">{{::theme.version}}</span>
+        <span class="theme-author">{{::theme.author}}</span>
+    </div>
+    <div class="theme-description">
+        {{::theme.description}}
+    </div>
+    <div class="theme-footer">
+        <button class="action-btn positive" ng-click="installTheme(theme)">
+            Install
+        </button>
+    </div>
+</div>
