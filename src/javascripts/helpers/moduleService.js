@@ -112,7 +112,9 @@ export default function(ngapp, fh) {
         getInstalledModules: function() {
             let moduleFolders = getModuleFolders();
             return moduleFolders.map(function(modulePath) {
-                return getModuleInfo(modulePath);
+                let info = getModuleInfo(modulePath);
+                if (info) info.modulePath = modulePath;
+                return info;
             }).filter((info) => { return !!info });
         },
         loadModules: function() {
