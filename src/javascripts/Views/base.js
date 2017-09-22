@@ -76,6 +76,12 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
         e.stopPropagation && e.stopPropagation();
     });
 
+    $scope.$on('restart', function() {
+        remote.app.relaunch();
+        remote.app.forceClose = true;
+        currentWindow.close();
+    });
+
     $scope.$on('terminate', function() {
         remote.app.forceClose = true;
         currentWindow.close();

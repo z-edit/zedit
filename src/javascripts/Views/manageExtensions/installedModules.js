@@ -15,6 +15,10 @@ ngapp.controller('installedModulesController', function($scope, extensionService
         fh.openUrl(module.repo);
     };
 
+    $scope.restart = function() {
+        $scope.$emit('restart');
+    };
+
     $scope.installModule = function() {
         let moduleFile = fh.selectFile('Select a module to install.', '', [
             { name: 'Archive', extensions: ['zip'] },
