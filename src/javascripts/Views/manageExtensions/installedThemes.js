@@ -1,4 +1,4 @@
-ngapp.controller('installedThemesController', function($scope, extensionService) {
+ngapp.controller('installedThemesController', function($scope, extensionService, settingsService) {
     $scope.themes = extensionService.getInstalledThemes();
 
     // scope functions
@@ -6,6 +6,8 @@ ngapp.controller('installedThemesController', function($scope, extensionService)
         $scope.themes.forEach((theme) => theme.applied = false);
         theme.applied = true;
         $scope.$emit('setTheme', theme.filename);
+        settingsService.globalSettings.theme = theme.filename;
+        settingsService.saveGlobalSettings();
     };
 
     $scope.uninstallTheme = function(theme) {
