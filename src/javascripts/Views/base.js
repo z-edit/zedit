@@ -17,6 +17,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
 
     // scope functions
+    $scope.buttonClick = (button, e) => button.onClick($scope, e);
     $scope.extensionsClick = () => $scope.$emit('openModal', 'manageExtensions');
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
     $scope.helpClick = () => $scope.$broadcast('helpClick');
