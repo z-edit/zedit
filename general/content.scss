@@ -30,13 +30,15 @@ a {
 
 .title-bar {
   border-bottom: 1px solid $shadow;
-  display: table;
-  width: 100%;
   background-color: $background;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 
   .title {
+    flex: 1;
     cursor: default;
-    display: table-cell;
     padding: 4px 0 0 4px;
 
     .draggable {
@@ -46,26 +48,24 @@ a {
   }
 
   .actions {
-    display: table-cell;
-    width: 137px;
     font-size: 22px;
     cursor: default;
+    padding-right: 4px;
 
     span {
       cursor: pointer;
       display: inline-block;
+      text-align: center;
       vertical-align: middle;
       min-width: 18px;
     }
 
     .settings {
-      font: normal normal normal 22px FontAwesome;
-      text-rendering: auto;
-      -webkit-font-smoothing: antialiased;
+      font: 22px FontAwesome;
       margin-right: 4px;
 
       &::before {
-        content: "\f013";
+        content: '\f013';
       }
     }
 
@@ -78,7 +78,7 @@ a {
     .divider {
       cursor: default;
       opacity: 0.4;
-      border-right: 1px solid $medium_border;
+      border-right: 1px solid $hard_border;
       min-width: initial;
       min-height: 26px;
       margin-right: 8px;
