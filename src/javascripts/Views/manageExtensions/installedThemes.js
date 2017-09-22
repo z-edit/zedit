@@ -17,6 +17,10 @@ ngapp.controller('installedThemesController', function($scope, extensionService)
         $scope.themes.remove(theme);
     };
 
+    $scope.openRepo = function(module) {
+        fh.openUrl(module.repo);
+    };
+
     $scope.installTheme = function() {
         let themeFile = fh.selectFile('Select a theme to install.', '', [
             { name: 'Archive', extensions: ['zip'] },
