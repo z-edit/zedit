@@ -17,12 +17,12 @@ ngapp.service('extensionService', function(themeService) {
         fh.jetpack.copy(themeFile, destPath, { overwrite: true });
     };
 
-    let getModuleInfo = function(tempPath) {
-        let testPath = `${tempPath}\\module.json`;
-        if (tempDir.exists(testPath)) {
+    let getModuleInfo = function(modulePath) {
+        let testPath = `${modulePath}\\module.json`;
+        if (fh.jetpack.exists(testPath)) {
             return [fh.loadJsonFile(testPath)];
         } else {
-            let dir = fh.getDirectories(tempPath).find(function(dir) {
+            let dir = fh.getDirectories(modulePath).find(function(dir) {
                 return fh.jetpack.exists(`${dir}\\module.json`);
             });
             if (!dir) throw new Error('No module.json found.');
@@ -30,12 +30,14 @@ ngapp.service('extensionService', function(themeService) {
         }
     };
 
-    let installModule = function(tempPath) {
-        let [info, dir] = getModuleInfo(tempPath),
+    let installModule = function(sourcePath) {
+        let [info, dir] = getModuleInfo(sourcePath),
             modulePath = `modules\\${info.id}`;
-        // TODO: prompt if module path exists
-        fh.jetpack.dir(modulePath, { empty: true });
-        fh.jetpack.copy(dir || tempPath, modulePath);
+        if (fh.jetpack.exists(modulePath)) {
+            // TODO: prompt here
+            fh.jetpack.remove(modulePath);
+        }
+        fh.jetpack.copy(dir || sourcePath, modulePath);
     };
 
     let copyModule = function(moduleFilePath) {
