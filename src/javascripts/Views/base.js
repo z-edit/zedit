@@ -7,21 +7,17 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, modalService, htmlHelpers) {
-    // initialization
+ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, buttonFactory, modalService, htmlHelpers) {
+    // helper variables
     let currentWindow = remote.getCurrentWindow(),
         themeStylesheet = document.getElementById('theme'),
         syntaxThemeStylesheet = document.getElementById('syntaxTheme');
-    settingsService.loadGlobalSettings();
-    $scope.title = 'zEdit - New Session';
-    $scope.theme = themeService.getCurrentTheme();
-    $scope.syntaxTheme = themeService.getCurrentSyntaxTheme();
-    $scope.$emit('appStart');
 
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
 
     // scope functions
+    $scope.extensionsClick = () => $scope.$emit('openModal', 'manageExtensions');
     $scope.settingsClick = () => $scope.$broadcast('settingsClick');
     $scope.helpClick = () => $scope.$broadcast('helpClick');
     $scope.minimizeClick = () => currentWindow.minimize();
@@ -36,30 +32,11 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     };
 
     // event handlers
-    $scope.$on('terminate', () => {
-        remote.app.forceClose = true;
-        currentWindow.close();
-    });
     $scope.$on('startDrag', (e, dragData) => $scope.$root.dragData = dragData);
     $scope.$on('stopDrag', () => $scope.$root.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
-    $scope.$watch('title', () => document.title = $scope.title);
-    $scope.$watch('theme', function() {
-        themeStylesheet.href = fh.jetpack.path(`themes/${$scope.theme}`);
-        $scope.$broadcast('themeChanged', $scope.theme);
-    });
-    $scope.$watch('syntaxTheme', function() {
-        if ($scope.syntaxTheme === '') {
-            syntaxThemeStylesheet.href = '';
-        } else {
-            let syntaxThemePath = `syntaxThemes/${$scope.syntaxTheme}`;
-            syntaxThemeStylesheet.href = fh.jetpack.path(syntaxThemePath);
-        }
-        $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
-    });
-
 
     $scope.$on('openContextMenu', function(e, offset, items) {
         if (!items.length) return;
@@ -98,6 +75,28 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
         e.stopPropagation && e.stopPropagation();
     });
 
+    $scope.$on('terminate', function() {
+        remote.app.forceClose = true;
+        currentWindow.close();
+    });
+
+    $scope.$watch('title', () => document.title = $scope.title);
+
+    $scope.$watch('theme', function() {
+        themeStylesheet.href = fh.jetpack.path(`themes/${$scope.theme}`);
+        $scope.$broadcast('themeChanged', $scope.theme);
+    });
+
+    $scope.$watch('syntaxTheme', function() {
+        if ($scope.syntaxTheme === '') {
+            syntaxThemeStylesheet.href = '';
+        } else {
+            let syntaxThemePath = `syntaxThemes/${$scope.syntaxTheme}`;
+            syntaxThemeStylesheet.href = fh.jetpack.path(syntaxThemePath);
+        }
+        $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
+    });
+
     // hide context menu when user clicks in document
     $document.bind('mousedown', function(e) {
         if ($scope.showContextMenu) {
@@ -116,10 +115,16 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $document.bind('keydown', function(e) {
         if (e.keyCode === 73 && e.shiftKey && e.ctrlKey) { // ctrl + shift + i
             currentWindow.toggleDevTools();
-        } else if (e.keyCode === 82 && e.ctrlKey) { // ctrl + r
-            location.reload();
         } else if (e.keyCode === 83 && e.ctrlKey) { // ctrl + s
             $scope.$broadcast('save');
         }
     });
+
+    // initialization
+    settingsService.loadGlobalSettings();
+    $scope.title = 'zEdit - New Session';
+    $scope.buttons = buttonFactory.buttons;
+    $scope.theme = themeService.getCurrentTheme();
+    $scope.syntaxTheme = themeService.getCurrentSyntaxTheme();
+    $scope.$emit('appStart');
 });
