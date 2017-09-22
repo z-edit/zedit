@@ -48,10 +48,14 @@ fh.saveTextFile = function(filename, value) {
     fh.jetpack.write(filename, value);
 };
 
-fh.open = function(filename) {
+fh.openFile = function(filename) {
     if (fh.jetpack.exists(filename)) {
-        shell.openItem(fh.jetpack.cwd() + '\\' + filename);
+        shell.openItem(fh.jetpack.path(filename));
     }
+};
+
+fh.openUrl = function(url) {
+    shell.openItem(url);
 };
 
 fh.getFileUrl = function(path) {
