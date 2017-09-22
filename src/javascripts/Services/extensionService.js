@@ -38,6 +38,19 @@ ngapp.service('extensionService', function(themeService) {
         fh.jetpack.copy(dir || tempPath, modulePath);
     };
 
+    let copyModule = function(moduleFilePath) {
+        let modulePath = fh.getDirectory(moduleFilePath);
+        installModule(modulePath);
+    };
+
+    let extractModuleArchive = function(archivePath) {
+        let filename = fh.getFileName(archivePath),
+            tempPath = fh.userDir.path(filename);
+        fh.extractArchive(archivePath, tempPath, true);
+        installModule(tempPath);
+        fh.remove(tempPath);
+    };
+
     this.getTabs = function() {
         return tabs.map(function(tab) {
             let tabVarName = tab.toCamelCase();
@@ -69,9 +82,7 @@ ngapp.service('extensionService', function(themeService) {
     };
 
     this.installModule = function(moduleFilePath) {
-        let filename = fh.getFileName(moduleFilePath),
-            tempPath = fh.userDir.path(filename);
-        fh.extractArchive(moduleFilePath, tempPath, true);
-        installModule(tempPath);
+        let isZip = fh.getFileExt(moduleFilePath) === 'zip';
+        (isZip ? extractModuleArchive : copyModule)(moduleFilePath);
     };
 });
