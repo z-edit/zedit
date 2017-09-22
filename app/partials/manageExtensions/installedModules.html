@@ -1,19 +1,21 @@
-<h2>Installed Modules</h2>
+<h2>Installed Modules ({{modules.length}})</h2>
+
+<div class="restart-message" ng-if="showRestart">
+    The application needs to be restarted for your changes to be applied.
+    <button class="action-btn" ng-click="restart()">Restart Now</button>
+</div>
 
 <div ng-repeat="module in modules" class="module-item">
-    <div class="module-header">
-        <span class="module-title" title="{{::module.id}}">{{::module.name}}</span>
-        <span class="module-version" title="{{::module.releaseInfo}}">{{::module.version}}</span>
-        <span class="module-author">{{::module.author}}</span>
+    <div class="header">
+        <span class="title" ng-click="openRepo(module)" ng-class="{'no-link' : !module.repo}">{{::module.name}}</span>
+        <span class="version" title="{{::module.releaseInfo}}">{{::module.version}}</span>
+        <span class="author">by {{::module.author}}</span>
     </div>
-    <div class="module-description">
+    <div class="description">
         {{::module.description}}
     </div>
-    <div class="module-footer">
-        <button class="action-btn" ng-click="updateModule(module)" ng-if="module.hasUpdate">
-            Update to {{::module.latestVersion}}
-        </button>
-        <button class="action-btn" ng-click="toggleModule(module)">
+    <div class="footer">
+        <button class="action-btn" ng-if="false" ng-click="toggleModule(module)">
             {{::(module.enabled ? 'Disable' : 'Enable')}}
         </button>
         <button class="action-btn negative" ng-click="uninstallModule(module)">
@@ -23,6 +25,5 @@
 </div>
 
 <div class="action-button-container">
-    <button class="action-btn" ng-click="updateAllModules()">Update All Modules</button>
-    <button class="action-btn" ng-click="installCustomModule()">Install Custom Module</button>
+    <button class="action-btn" ng-click="installModule()">Install Module</button>
 </div>

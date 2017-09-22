@@ -1,28 +1,24 @@
 <h2>Installed Themes ({{themes.length}})</h2>
 
 <div ng-repeat="theme in themes" class="theme-item">
-    <div class="theme-header">
-        <span class="theme-title">{{::theme.name}}</span>
-        <span class="theme-version" title="{{::theme.releaseInfo}}">{{::theme.version}}</span>
-        <span class="theme-author">{{::theme.author}}</span>
+    <div class="header">
+        <span class="title" ng-click="openRepo(theme)">{{::theme.name}}</span>
+        <span class="version" title="{{::theme.releaseInfo}}">{{::theme.version}}</span>
+        <span class="author">by {{::theme.author}}</span>
     </div>
-    <div class="theme-description">
+    <div class="description">
         {{::theme.description}}
     </div>
-    <div class="theme-footer">
-        <button class="action-btn" ng-click="updateTheme(theme)" ng-if="theme.hasUpdate">
-            Update to {{::theme.latestVersion}}
-        </button>
+    <div class="footer">
         <button class="action-btn" ng-click="applyTheme(theme)" ng-if="!theme.active">
             Apply
         </button>
-        <button class="action-btn negative" ng-click="uninstallTheme(theme)">
+        <button class="action-btn negative" ng-click="uninstallTheme(theme)" ng-disabled="$first && $last">
             Uninstall
         </button>
     </div>
 </div>
 
 <div class="action-button-container">
-    <button class="action-btn" ng-click="updateAllThemes()">Update All Themes</button>
-    <button class="action-btn" ng-click="installCustomTheme()">Install Custom Theme</button>
+    <button class="action-btn" ng-click="installTheme()">Install Theme</button>
 </div>
