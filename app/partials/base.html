@@ -3,8 +3,10 @@
         <div class="draggable">{{title}}</div>
     </div>
     <div class="actions">
-        <span class="settings" ng-click="settingsClick()"></span>
-        <span class="help" ng-click="helpClick()"></span>
+        <span ng-repeat="button in buttons" class="{{::button.class}}" ng-click="buttonClick($event)" title="{{::button.title}}"></span>
+        <span class="extensions" ng-click="extensionsClick()" title="Manage Extensions"></span>
+        <span class="settings" ng-click="settingsClick()" title="Edit Settings"></span>
+        <span class="help" ng-click="helpClick()" title="Get Help"></span>
         <span class="divider"></span>
         <span class="minimize" ng-click="minimizeClick()"></span>
         <span class="restore" ng-click="restoreClick()"></span>

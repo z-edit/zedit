@@ -60,6 +60,15 @@ a {
       min-width: 18px;
     }
 
+    .extensions {
+      font: 22px FontAwesome;
+      margin-right: 4px;
+
+      &::before {
+        content: '\f1b3';
+      }
+    }
+
     .settings {
       font: 22px FontAwesome;
       margin-right: 4px;
