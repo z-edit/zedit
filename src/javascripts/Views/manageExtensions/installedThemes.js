@@ -18,9 +18,9 @@ ngapp.controller('installedThemesController', function($scope, extensionService)
     };
 
     $scope.installTheme = function() {
-        let themeFile = fh.selectFile('Select a theme archive or css file.', '', [
-            { name: 'ZIP Archive', extensions: ['zip'] },
-            { name: 'CSS File', extensions: ['css'] }
+        let themeFile = fh.selectFile('Select a theme to install.', '', [
+            { name: 'Archive', extensions: ['zip'] },
+            { name: 'Theme CSS File', extensions: ['css'] }
         ]);
         if (!themeFile) return;
         try {

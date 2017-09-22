@@ -16,8 +16,9 @@ ngapp.controller('installedModulesController', function($scope, extensionService
     };
 
     $scope.installModule = function() {
-        let moduleFile = fh.selectFile('Select a module archive to install.', '', [
-            { name: 'ZIP Archive', extensions: ['zip'] }
+        let moduleFile = fh.selectFile('Select a module to install.', '', [
+            { name: 'Archive', extensions: ['zip'] },
+            { name: 'module.json', extensions: ['json'] }
         ]);
         if (!moduleFile) return;
         try {
