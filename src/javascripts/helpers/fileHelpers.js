@@ -68,13 +68,15 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
 };
 
 fh.getFileExt = function(filePath) {
-    let match = filePath.match(/.*\.(.*)/);
-    return match[1];
+    return filePath.match(/.*\.(.*)/)[1];
 };
 
 fh.getFileName = function(filePath) {
-    let match = filePath.match(/.*\\(.*)/);
-    return match[1];
+    return filePath.match(/.*\\(.*)/)[1];
+};
+
+fh.getDirectory = function(filePath) {
+    return filePath.match(/(.*)\\.*/)[1];
 };
 
 fh.getDateModified = function(filename) {
