@@ -1,5 +1,6 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import extract from 'extract-zip';
 import url from 'url';
 
 let fh = {};
@@ -61,8 +62,31 @@ fh.getFileUrl = function(path) {
     })
 };
 
+fh.extractArchive = function(filePath, destDir, empty = false) {
+    fh.jetpack.dir(destDir, { empty: empty });
+    extract(filePath, { dir: destDir }, (err) => { throw err });
+};
+
+fh.getFileExt = function(filePath) {
+    let match = filePath.match(/.*\.(.*)/);
+    return match[1];
+};
+
+fh.getFileName = function(filePath) {
+    let match = filePath.match(/.*\\(.*)/);
+    return match[1];
+};
+
 fh.getDateModified = function(filename) {
     return fh.jetpack.inspect(filename, {times: true}).modifyTime;
+};
+
+fh.getDirectories = function(path) {
+    return fh.jetpack.find(path, {
+        matching: '*',
+        files: false,
+        directories: true
+    });
 };
 
 // helper function for selecting a directory
@@ -74,6 +98,17 @@ fh.selectDirectory = function(title, defaultPath) {
     });
     if (!selection) return defaultPath;
     return selection[0];
+};
+
+// helper function for selecting a theme
+fh.selectFile = function(title, defaultPath, filters = []) {
+    let selection = remote.dialog.showOpenDialog({
+        title: title,
+        defaultPath: defaultPath,
+        filter: filters,
+        properties: ['openFile']
+    });
+    return selection && selection[0];
 };
 
 export default fh;
