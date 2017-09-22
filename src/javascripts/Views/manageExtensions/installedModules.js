@@ -1,26 +1,30 @@
-ngapp.controller('installedModules', function($scope, extensionService) {
+ngapp.controller('installedModulesController', function($scope, extensionService) {
     $scope.modules = extensionService.getInstalledModules();
 
     // scope functions
-    $scope.updateModule = function(module) {
-
-    };
-
-    $scope.applyModule = function(module) {
-
-    };
-
     $scope.uninstallModule = function(module) {
-
+        fs.jetpack.remove(module.modulePath);
+        $scope.showRestart = true;
     };
 
-    $scope.updateAllModules = function() {
-        $scope.modules.filter(function(module) {
-            return module.hasUpdate;
-        }).forEach($scope.updateModule);
+    $scope.toggleModule = function(module) {
+        // TODO
     };
 
-    $scope.installCustomModule = function() {
+    $scope.openRepo = function(module) {
+        fh.open(module.repo);
+    };
 
+    $scope.installModule = function() {
+        let moduleFile = fh.selectFile('Select a module archive to install.', '', [
+            { name: 'ZIP Archive', extensions: ['zip'] }
+        ]);
+        if (!moduleFile) return;
+        try {
+            extensionService.installModule(moduleFile);
+            $scope.showRestart = true;
+        } catch (x) {
+            alert(`Error extracting module archive:\r\n${x.stack}`);
+        }
     };
 });
