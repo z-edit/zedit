@@ -9,7 +9,7 @@ ngapp.service('themeService', function(settingsService) {
 
     let loadTheme = function(filePath) {
         let fileContents = fh.appDir.read(filePath),
-            filename = theme.split('\\').last(),
+            filename = filePath.split('\\').last(),
             defaultMetaData = Object.assign(unknownMetaData, {
                 name: service.extractThemeName(filename),
             }),
