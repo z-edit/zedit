@@ -1,0 +1,47 @@
+.module-item, .theme-item {
+  border: 1px solid $hard_border;
+  margin: 20px 0;
+  padding: 12px;
+  background-color: $background_tint;
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    .title {
+      font-size: 20px;
+
+      &:not(.no-link) {
+        cursor: pointer;
+      }
+
+      &:hover:not(.no-link) {
+        text-decoration: underline;
+      }
+    }
+
+    .version {
+      margin-left: 6px;
+      color: $medium_font_color;
+    }
+
+    .author {
+      flex: 1;
+      text-align: right;
+    }
+  }
+
+  .description {
+    margin: 4px 0;
+  }
+
+  .footer {
+    margin-top: 8px;
+    text-align: right;
+
+    .action-btn {
+      font-size: 14px;
+      padding: 4px 6px 3px;
+    }
+  }
+}
