@@ -25,7 +25,13 @@ div {
 }
 
 a {
+  color: $action;
   text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .title-bar {
