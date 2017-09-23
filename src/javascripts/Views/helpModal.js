@@ -1,7 +1,4 @@
-ngapp.controller('helpModalController', function($scope, helpService, modalService) {
-    // inherited functions
-    modalService.buildUnfocusModalFunction($scope, 'closeModal');
-
+ngapp.controller('helpModalController', function($scope, helpService) {
     // helper functions
     let failedToResolveChildTopicError = function(label) {
         return new Error(`Failed to resolve child topic ${label}.`)
