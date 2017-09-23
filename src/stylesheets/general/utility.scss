@@ -55,6 +55,10 @@
   border: 1px solid $hard_border;
 }
 
+.tint-bg {
+  background-color: $background_tint;
+}
+
 .positive-bg {
   background-color: $positive;
   color: $inverse_font_color;
