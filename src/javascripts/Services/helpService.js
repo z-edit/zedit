@@ -12,7 +12,9 @@ ngapp.service('helpService', function() {
     };
 
     let getTopicChildren = function(path) {
-        return service.getTopic(path).children;
+        let topic = service.getTopic(path);
+        if (!topic.children) topic.children = [];
+        return topic.children;
     };
 
     let getTopicId = function(topic) {
