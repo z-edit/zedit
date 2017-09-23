@@ -39,6 +39,10 @@
   text-align : center;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .soft-border {
   border: 1px solid $soft-border;
 }
