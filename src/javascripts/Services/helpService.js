@@ -45,11 +45,12 @@ ngapp.service('helpService', function() {
         target.push(topic);
     };
 
-    this.getTopic = function(path) {
+    this.getTopic = function(path, expand = false) {
         let pathParts = path.split('/'),
             result = topics.findByKey('label', pathParts[0]);
         for (let i = 1; i < pathParts.length; i++) {
             if (!result) return;
+            if (expand) result.expanded = true;
             result = result.children.findByKey('label', pathParts[i]);
         }
         if (!result) throw failedToResolveTopicError(path);

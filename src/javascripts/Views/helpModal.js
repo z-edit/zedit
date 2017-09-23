@@ -16,11 +16,15 @@ ngapp.controller('helpModalController', function($scope, helpService) {
         $scope.$emit('closeModal');
     };
 
-    $scope.navigateTo = (path) => selectTopic(helpService.getTopic(path));
+    $scope.navigateTo = function(path) {
+        selectTopic(helpService.getTopic(path, true));
+        // TODO: scroll to top
+    };
 
     $scope.navigateToChild = function(label) {
         let child = $scope.topic.children.findByKey('label', label);
         if (!child) throw failedToResolveChildTopicError(label);
+        $scope.topic.expanded = true;
         selectTopic(child);
     };
 
