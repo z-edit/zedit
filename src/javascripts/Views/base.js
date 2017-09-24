@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $document, $q, $timeout, settingsService, themeService, buttonFactory, modalService, htmlHelpers) {
+ngapp.controller('baseController', function($scope, $rootScope, $document, $q, $timeout, settingsService, themeService, buttonFactory, modalService, htmlHelpers) {
     // helper variables
     let currentWindow = remote.getCurrentWindow(),
         themeStylesheet = document.getElementById('theme'),
@@ -15,6 +15,10 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     // helper functions
     let toggleMaximized = (w) => w.isMaximized() ? w.unmaximize() : w.maximize();
+    let modalActive = function(modalName) {
+        let opts = $scope.modalOptions;
+        return $rootScope.modalActive && opts && opts.modal === modalName;
+    };
 
     // scope functions
     $scope.buttonClick = (button, e) => button.onClick($scope, e);
@@ -26,15 +30,15 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
     $scope.closeClick = () => currentWindow.close();
 
     // prompt modal functions
-    $scope.$root.prompt = function(options) {
+    $rootScope.prompt = function(options) {
         $scope.promptPromise = $q.defer();
         $scope.$emit('openModal', 'prompt', options);
         return $scope.promptPromise.promise;
     };
 
     // event handlers
-    $scope.$on('startDrag', (e, dragData) => $scope.$root.dragData = dragData);
-    $scope.$on('stopDrag', () => $scope.$root.dragData = undefined);
+    $scope.$on('startDrag', (e, dragData) => $rootScope.dragData = dragData);
+    $scope.$on('stopDrag', () => $rootScope.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
     $scope.$on('setTheme', (e, theme) => $scope.theme = theme);
     $scope.$on('setSyntaxTheme', (e, theme) => $scope.syntaxTheme = theme);
@@ -60,7 +64,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     $scope.$on('openModal', function(e, label, options = {}) {
         $scope.$evalAsync(function() {
-            $scope.$root.modalActive = true;
+            $rootScope.modalActive = true;
             $scope.modalOptions = modalService.buildOptions(label, options);
             $scope.showModal = true;
         });
@@ -69,7 +73,7 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
 
     $scope.$on('closeModal', function(e) {
         $scope.$applyAsync(function() {
-            $scope.$root.modalActive = false;
+            $rootScope.modalActive = false;
             $scope.modalOptions = undefined;
             $scope.showModal = false;
         });
@@ -102,6 +106,12 @@ ngapp.controller('baseController', function($scope, $document, $q, $timeout, set
             syntaxThemeStylesheet.href = fh.jetpack.path(syntaxThemePath);
         }
         $scope.$broadcast('syntaxThemeChanged', $scope.syntaxTheme);
+    });
+
+    // documentation navigation
+    ipcRenderer.on('docs-navigate', function(e, url) {
+        if (!modalActive('help')) $scope.$emit('openModal', 'help');
+        $scope.$broadcast('helpNavigateTo', url.substr(7));
     });
 
     // hide context menu when user clicks in document

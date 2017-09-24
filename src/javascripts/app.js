@@ -23,9 +23,9 @@ ngapp.config(function($urlMatcherFactoryProvider) {
 
 // state redirects
 ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
-    $rootScope.$on('$stateChangeStart', function (evt, toState, params, fromState) {
+    $rootScope.$on('$stateChangeStart', function (e, toState, params) {
         if (toState.redirectTo) {
-            evt.preventDefault();
+            e.preventDefault();
             $state.go(toState.redirectTo, params, {location: 'replace'});
         }
     });

@@ -5,7 +5,7 @@
 
 import path from 'path';
 import url from 'url';
-import { app, ipcMain, BrowserWindow } from 'electron';
+import { app, ipcMain, protocol, BrowserWindow } from 'electron';
 import createWindow from './helpers/window';
 
 // Special module holding environment variables which you declared
@@ -72,10 +72,15 @@ let openProgressWindow = function() {
     loadPage(progressWindow, 'progress.html');
 };
 
+let handleDocsProtocol = function(request) {
+    mainSend('docs-navigate', request.url);
+};
+
 app.on('ready', function () {
     openMainWindow();
     openProgressWindow();
     mainWindow.on('closed', () => progressWindow.destroy());
+    protocol.registerStringProtocol('docs', handleDocsProtocol);
 });
 
 app.on('window-all-closed', () => app.quit());

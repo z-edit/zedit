@@ -1,4 +1,4 @@
-ngapp.controller('helpModalController', function($scope, helpService) {
+ngapp.controller('helpModalController', function($scope, helpService, errorService) {
     // helper functions
     let failedToResolveChildTopicError = function(label) {
         return new Error(`Failed to resolve child topic ${label}.`)
@@ -29,6 +29,13 @@ ngapp.controller('helpModalController', function($scope, helpService) {
         $scope.$broadcast('treeExpand', $scope.topic);
         selectTopic(child);
     };
+
+    // redirect help links internally
+    $scope.$on("helpNavigateTo", function(e, path) {
+        errorService.try(function() {
+            $scope.$applyAsync(() => $scope.navigateTo(path));
+        });
+    });
 
     // initialization
     $scope.topics = helpService.getTopics();
