@@ -98,8 +98,8 @@ api-items {
       margin: 0;
     }
   }
+}
 
-  .tint-bg > div > .property-description code {
-    background-color: $background;
-  }
+.tint-bg > div > div > .property-description code {
+  background-color: $background;
 }
