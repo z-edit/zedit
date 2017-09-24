@@ -59,7 +59,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
     });
 
     // initialization
-    protocolService.init($scope);
     settingsService.loadGlobalSettings();
     protocolService.init($scope);
     themeService.init($scope);
