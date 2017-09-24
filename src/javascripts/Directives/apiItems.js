@@ -26,10 +26,11 @@ ngapp.controller('apiItemsController', function() {
     };
 
     if (ctrl.path) {
-        let items = loadItems();
-        items.forEach(function(item) {
-            if (!item.type) item.type = 'function';
-        });
-        ctrl.items = items;
+        ctrl.items = loadItems();
     }
+
+    ctrl.items.forEach(function(item) {
+        if (!item.type) item.type = 'function';
+        item.isEvent = item.type === 'event';
+    });
 });

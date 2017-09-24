@@ -7,9 +7,11 @@
             <span ng-if="vm.api">
                 <span class="library">{{::vm.api}}</span>.
             </span>
-            <span class="type-{{::item.type | classify}}" title="{{::item.type}}">{{::item.name}}</span>
+            <span class="type-{{::item.type | classify}}" title="{{::item.type}}" ng-if="::!item.isEvent">{{::item.name}}</span>
+            <span ng-if="::item.isEvent">$emit</span>
             <span class="args" ng-if="::item.args">
                 (
+                <span ng-if="::item.isEvent" class="arg type-event">'{{::item.name}}'</span>
                 <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description | wordwrap}}">
                     {{::arg.name}}: <span class="type-{{::arg.type | classify}}">{{::arg.type}}</span>
                 </span>
