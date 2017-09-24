@@ -90,6 +90,12 @@ api-items {
     color: $neutral;
   }
 
+  .properties-table, .members-table {
+    code {
+      background-color: $background_tint;
+    }
+  }
+
   .property-description {
     font-size: 15px;
     line-height: 20px;
@@ -106,4 +112,12 @@ api-items {
 
 .tint-bg > div > div > .property-description code {
   background-color: $background;
+}
+
+.tint-bg > div > div > table {
+  background-color: $background;
+
+  code {
+    background-color: $background_tint;
+  }
 }
