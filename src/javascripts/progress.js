@@ -11,6 +11,8 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //= concat ./Directives/loader.js
 
 ngapp.run(function($rootScope, spinnerFactory) {
+    let themeStylesheet = document.getElementById('theme');
+
     $rootScope.progress = {
         determinate: false,
         message: '...'
@@ -20,6 +22,10 @@ ngapp.run(function($rootScope, spinnerFactory) {
 
     $rootScope.$on('closeModal', () => {
         if ($rootScope.progress.canClose) ipcRenderer.send('hide-progress');
+    });
+
+    ipcRenderer.on('set-theme', function(e, payload) {
+        themeStylesheet.href = payload;
     });
 
     ipcRenderer.on('set-progress', (e, payload) => {
