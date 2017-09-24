@@ -76,7 +76,7 @@ api-items {
     color: $secondary_action;
   }
 
-  .type-handle, .type-array-of-handle {
+  .type-event, .type-handle, .type-array-of-handle {
     color: $negative;
   }
 
@@ -90,10 +90,10 @@ api-items {
     color: $neutral;
   }
 
-  .properties-table, .members-table {
-    code {
-      background-color: $background_tint;
-    }
+  table code {
+    padding: 0 3px !important;
+    line-height: 20px;
+    background-color: $background_tint;
   }
 
   .property-description {
