@@ -47,3 +47,8 @@ $transparency: 0.05;
 @import '../app.scss';
 
 @include style-scrollbars($background_tint, $medium_border, $hard_border);
+
+// fix loader text color
+loader {
+  color: $font_color !important;
+}
