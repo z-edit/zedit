@@ -1,4 +1,4 @@
-<div ng-repeat="item in vm.items" ng-init="short = !vm.api && item.type !== 'function'" ng-class="{'tint-bg' : vm.tintBg}">
+<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args" ng-class="{'tint-bg' : vm.tintBg}">
     <span class="title" ng-click="item.expanded = !item.expanded">
         <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}"></span>
         {{::item.name}}
@@ -42,7 +42,7 @@
                 <tr ng-repeat="member in item.members">
                     <td>{{::$index}}</td>
                     <td>{{::member.key}}</td>
-                    <td>{{::member.description || '-'}}</td>
+                    <td marked="::member.description || '\\-'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -62,7 +62,7 @@
                 <tr ng-repeat="property in item.objectSchema.properties">
                     <td>{{::property.key}}</td>
                     <td>{{::property.type}}</td>
-                    <td>{{::property.description || '-'}}</td>
+                    <td marked="::property.description || '\\-'"></td>
                 </tr>
                 </tbody>
             </table>
