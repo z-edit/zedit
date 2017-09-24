@@ -91,8 +91,6 @@ api-items {
   }
 
   table code {
-    padding: 0 3px !important;
-    line-height: 20px;
     background-color: $background_tint;
   }
 
@@ -102,10 +100,6 @@ api-items {
 
     p {
       margin: 0;
-    }
-
-    code {
-      padding-bottom: 2px;
     }
   }
 }
