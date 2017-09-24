@@ -1,5 +1,5 @@
 .monospace {
-  font-family: 'Courier New', monospace;
+  @include monospace;
 }
 
 .clickable {

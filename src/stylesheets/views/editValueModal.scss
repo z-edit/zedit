@@ -44,7 +44,7 @@
   }
 
   .hexeditor {
-    font-family: 'Courier New', 'Consolas', monospace;
+    @include monospace;
     border-collapse: collapse;
     border: 1px solid $medium_border;
     margin: 0 auto;
