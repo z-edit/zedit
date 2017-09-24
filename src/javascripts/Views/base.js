@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $document, $q, settingsService, themeService, protocolService, buttonFactory, modalService, contextMenuService) {
+ngapp.controller('baseController', function($scope, $rootScope, $document, $q, settingsService, themeService, buttonFactory, modalService, contextMenuService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -60,7 +60,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
 
     // initialization
     settingsService.loadGlobalSettings();
-    protocolService.init($scope);
     themeService.init($scope);
     contextMenuService.init($scope);
     modalService.init($scope);
