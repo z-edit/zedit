@@ -102,8 +102,7 @@ fh.selectDirectory = function(title, defaultPath) {
         defaultPath: defaultPath,
         properties: ['openDirectory']
     });
-    if (!selection) return defaultPath;
-    return selection[0];
+    return selection && selection[0];
 };
 
 // helper function for selecting a theme
