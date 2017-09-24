@@ -146,8 +146,13 @@
           }
         ]
       },
-      { "label": "Writing Scripts" },
-      { "label": "Creating Modules" }
+      {
+        "label": "Guides",
+        "children": [
+          { "label": "Writing Scripts" },
+          { "label": "Creating Modules" }
+        ]
+      }
     ]
   }
 ]
