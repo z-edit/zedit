@@ -3,7 +3,9 @@
         <div class="close-modal" ng-click="closeModal()"></div>
 
         <div class="help-navigation">
-            <tree items="topics" selected-item="topic"></tree>
+            <tree items="topics" selected-item="topic">
+                {{::$parent.item.label}}
+            </tree>
         </div>
 
         <form class="help-contents">

@@ -10,6 +10,10 @@ ngapp.controller('helpModalController', function($scope, helpService) {
         topic.selected = true;
     };
 
+    let expandTopic = function(topic) {
+        $scope.$broadcast('treeExpand', topic);
+    };
+
     // scope functions
     $scope.closeModal = function() {
         $scope.topic.selected = false;
@@ -17,14 +21,12 @@ ngapp.controller('helpModalController', function($scope, helpService) {
     };
 
     $scope.navigateTo = function(path) {
-        selectTopic(helpService.getTopic(path, true));
+        selectTopic(helpService.getTopic(path, expandTopic));
         // TODO: scroll to top
     };
 
-    $scope.navigateToChild = function(label) {
-        let child = $scope.topic.children.findByKey('label', label);
-        if (!child) throw failedToResolveChildTopicError(label);
-        $scope.topic.expanded = true;
+    $scope.navigateToChild = function(child) {
+        $scope.$broadcast('treeExpand', $scope.topic);
         selectTopic(child);
     };
 
