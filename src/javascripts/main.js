@@ -72,15 +72,10 @@ let openProgressWindow = function() {
     loadPage(progressWindow, 'progress.html');
 };
 
-let handleDocsProtocol = function(request) {
-    mainSend('docs-navigate', request.url);
-};
-
 app.on('ready', function () {
     openMainWindow();
     openProgressWindow();
     mainWindow.on('closed', () => progressWindow.destroy());
-    protocol.registerStringProtocol('docs', handleDocsProtocol);
 });
 
 app.on('window-all-closed', () => app.quit());
