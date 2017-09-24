@@ -45,7 +45,8 @@ api-items {
     > span:not(:last-of-type)::after {
       content: ',';
       margin-right: 8px;
-      margin-left: -2px;
+      margin-left: -1px;
+      color: $font_color;
     }
   }
 
