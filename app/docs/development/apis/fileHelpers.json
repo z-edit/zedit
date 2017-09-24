@@ -1,0 +1,241 @@
+[
+  {
+    "name": "jetpack",
+    "type": "object",
+    "description": "`fs-jetpack` instance with current working directroy set to the application root directory."
+  },
+  {
+    "name": "appPath",
+    "type": "string",
+    "description": "Path to the application resource directory.  In a development environment this is just `.\\app`, but in production it is `.\\resources\\app.asar\\app`."
+  },
+  {
+    "name": "userPath",
+    "type": "string",
+    "description": "Path to the application user data directory.  In a development environment this is located at `%appdata%\\zEdit (Development)`, and in production this is `%appdata%\\zEdit`."
+  },
+  {
+    "name": "appDir",
+    "type": "object",
+    "description": "`fs-jetpack` instance with current working directory set to `appPath`."
+  },
+  {
+    "name": "userDir",
+    "type": "object",
+    "description": "`fs-jetpack` instance with current working directory set to `userPath`."
+  },
+  {
+    "name": "loadJsonFile",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to the file to read."
+    }, {
+      "name": "defaultValue",
+      "type": "any",
+      "description": "Default value to return if the file doesn't exist.  Defaults to an empty array."
+    }],
+    "returns": {
+      "type": "any"
+    },
+    "description": "If a file exists at `filePath`, it's read into memory and deserialized into a JavaScript object or array, which is then returned.  If a file does not exist at the specified path the `defaultValue` is returned."
+  },
+  {
+    "name": "loadTextFile",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to the file to read."
+    }, {
+      "name": "defaultValue",
+      "type": "any",
+      "description": "Default value to return if the file doesn't exist.  Defaults to an empty string."
+    }],
+    "returns": {
+      "type": "any"
+    },
+    "description": "If a file exists at `filePath`, it's read into memory and deserialized into a JavaScript object or array, which is then returned.  If a file does not exist at the specified path the `defaultValue` is returned."
+  },
+  {
+    "name": "saveJsonFile",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to save the JSON file to."
+    }, {
+      "name": "value",
+      "type": "any",
+      "description": "Object, array, or value to serialize and save to the file."
+    }, {
+      "name": "minify",
+      "type": "boolean",
+      "description": "Pass true to minify the value.  Default false."
+    }],
+    "description": "Serializes the object passed through `value` to the file at `filePath`.  Creates the file if missing, else overwrites it."
+  },
+  {
+    "name": "saveTextFile",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to save the text to."
+    }, {
+      "name": "value",
+      "type": "string",
+      "description": "Text to save to the file."
+    }],
+    "description": "Writes the text `value` to the file at `filePath`.  Creates the file if missing, else overwrites it."
+  },
+  {
+    "name": "openFile",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to the file to open."
+    }],
+    "description": "Opens the file at `filePath` with the default program configured to open it."
+  },
+  {
+    "name": "openUrl",
+    "type": "function",
+    "args": [{
+      "name": "url",
+      "type": "string"
+    }],
+    "description": "Opens `url` in the user's web browser.  The URI protocol must be included in the URL.  (e.g. `https://...`)"
+  },
+  {
+    "name": "getFileUrl",
+    "type": "function",
+    "args": [{
+      "name": "path",
+      "type": "string",
+      "description": "Path to convert."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the `file://` URL for `path`."
+  },
+  {
+    "name": "extractArchive",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string",
+      "description": "Path to the archive to extract."
+    }, {
+      "name": "destDir",
+      "type": "string",
+      "description": "Path to the folder to extract the archive to."
+    }, {
+      "name": "empty",
+      "type": "boolean",
+      "description": "Pass true to delete all contents of destDir before extracting the archive.  Default false."
+    }],
+    "description": "Extracts the ZIP archive at `filePath` to `destDir`."
+  },
+  {
+    "name": "getFileExt",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Extracts and returns the file extension from `filePath`.  Returns undefined if the path does not end with a file extension."
+  },
+  {
+    "name": "getFileName",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Extracts and returns the filename from `filePath`."
+  },
+  {
+    "name": "getDirectory",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Extracts and returns the parent directory path from `filePath`."
+  },
+  {
+    "name": "getDateModified",
+    "type": "function",
+    "args": [{
+      "name": "filePath",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "date"
+    },
+    "description": "Returns the date modified for the file at `filePath`."
+  },
+  {
+    "name": "getDirectories",
+    "type": "function",
+    "args": [{
+      "name": "path",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of paths for all directories in the folder at `path`."
+  },
+  {
+    "name": "selectDirectory",
+    "type": "function",
+    "args": [{
+      "name": "title",
+      "type": "string",
+      "description": "Title to display on the select directory window."
+    }, {
+      "name": "defaultPath",
+      "type": "string",
+      "description": "Default path to start the select directory window in."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the path to the directory selected by the user.  Returns undefined if the user didn't select a directory."
+  },
+  {
+    "name": "selectFile",
+    "type": "function",
+    "args": [{
+      "name": "title",
+      "type": "string",
+      "description": "Title to display on the select file window."
+    }, {
+      "name": "defaultPath",
+      "type": "string",
+      "description": "Default path to start the select file window in."
+    }, {
+      "name": "filters",
+      "type": "array",
+      "description": "Array of file filters."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the path to the file selected by the user.  Returns undefined if the user didn't select a file.  See [dialog.showOpenDialog](https://github.com/electron/electron/blob/master/docs/api/dialog.md#dialogshowopendialogbrowserwindow-options-callback) for additional information about `filters`."
+  }
+]
