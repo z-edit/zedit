@@ -56,8 +56,15 @@ ngapp.controller('treeController', function($scope) {
     };
 
     // event handlers
-    $scope.$on('treeExpand', function(e, item) {
+    $scope.$on('expandTreeNode', function(e, item) {
         expandNode(item);
+    });
+
+    $scope.$on('collapseTree', function() {
+        for (let i = $scope.items.length - 1; i >= 0; i--) {
+            let item = $scope.items[i];
+            if (item.expanded) collapseNode(item);
+        }
     });
 
     // initialization

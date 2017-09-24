@@ -11,12 +11,13 @@ ngapp.controller('helpModalController', function($scope, helpService, errorServi
     };
 
     let expandTopic = function(topic) {
-        $scope.$broadcast('treeExpand', topic);
+        $scope.$broadcast('expandTreeNode', topic);
     };
 
     // scope functions
     $scope.closeModal = function() {
         $scope.topic.selected = false;
+        $scope.$broadcast('collapseTree');
         $scope.$emit('closeModal');
     };
 
@@ -26,7 +27,7 @@ ngapp.controller('helpModalController', function($scope, helpService, errorServi
     };
 
     $scope.navigateToChild = function(child) {
-        $scope.$broadcast('treeExpand', $scope.topic);
+        $scope.$broadcast('expandTreeNode', $scope.topic);
         selectTopic(child);
     };
 
