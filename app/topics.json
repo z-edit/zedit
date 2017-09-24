@@ -73,15 +73,12 @@
     ]
   }, {
     "label": "Development",
-    "templateUrl": "docs/development.html",
     "children": [
       {
         "label": "APIs",
-        "templateUrl": "docs/development/apis.html",
         "children": [
           {
             "label": "xelib",
-            "templateUrl": "docs/development/apis/xelib.html",
             "children": [
               {
                 "label": "Meta",
@@ -140,6 +137,9 @@
                 "description": "Utility functions."
               }
             ]
+          },
+          {
+            "label": "File Helpers"
           }
         ]
       },
