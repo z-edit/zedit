@@ -1,3 +1,7 @@
+@mixin monospace() {
+  font-family: 'Courier New', 'Consolas', monospace;
+}
+
 @mixin dropdown-triangle($offsetLeft) {
   background-image:
           linear-gradient(45deg, transparent 50%, $soft_font_color 50%),
