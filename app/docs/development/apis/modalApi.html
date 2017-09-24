@@ -2,4 +2,6 @@
 
 <p>The modal API allows you to open a modal with an arbitrary HTML template and controller at any point in the application's lifecycle via an angular event.</p>
 
+<p>It's always best to <code>$emit</code> events from a child scope.  If you don't have a child scope to emit your event from you can <code>$broadcast</code> it from the <code>$rootScope</code> instead.</p>
+
 <api-items path="modalApi.json"></api-items>
