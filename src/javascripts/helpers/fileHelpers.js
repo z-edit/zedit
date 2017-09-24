@@ -15,42 +15,34 @@ fh.appDir = jetpack.cwd(fh.appPath);
 console.log('App directory: ' + fh.appPath);
 
 // helper function for loading json file
-fh.loadJsonFile = function(filename, defaultValue = []) {
-    if (fh.jetpack.exists(filename) === 'file') {
-        return fh.jetpack.read(filename, 'json');
+fh.loadJsonFile = function(filePath, defaultValue = []) {
+    if (fh.jetpack.exists(filePath) === 'file') {
+        return fh.jetpack.read(filePath, 'json');
     } else {
         return defaultValue;
     }
 };
 
-fh.loadTextFile = function(filename, defaultValue = '') {
-    if (fh.jetpack.exists(filename) === 'file') {
-        return fh.jetpack.read(filename);
-    } else {
-        return defaultValue;
-    }
-};
-
-fh.loadResource = function(filename, defaultValue = []) {
-    if (fh.appDir.exists(filename) === 'file') {
-        return fh.appDir.read(filename, 'json');
+fh.loadTextFile = function(filePath, defaultValue = '') {
+    if (fh.jetpack.exists(filePath) === 'file') {
+        return fh.jetpack.read(filePath);
     } else {
         return defaultValue;
     }
 };
 
 // helper function for saving json files
-fh.saveJsonFile = function(filename, value, minify = false) {
-    fh.jetpack.write(filename, minify ? JSON.stringify(value) : value);
+fh.saveJsonFile = function(filePath, value, minify = false) {
+    fh.jetpack.write(filePath, minify ? JSON.stringify(value) : value);
 };
 
-fh.saveTextFile = function(filename, value) {
-    fh.jetpack.write(filename, value);
+fh.saveTextFile = function(filePath, value) {
+    fh.jetpack.write(filePath, value);
 };
 
-fh.openFile = function(filename) {
-    if (fh.jetpack.exists(filename)) {
-        shell.openItem(fh.jetpack.path(filename));
+fh.openFile = function(filePath) {
+    if (fh.jetpack.exists(filePath)) {
+        shell.openItem(fh.jetpack.path(filePath));
     }
 };
 
@@ -72,7 +64,7 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
 };
 
 fh.getFileExt = function(filePath) {
-    return filePath.match(/.*\.(.*)/)[1];
+    return filePath.match(/.*\.([^\\]+)/)[1];
 };
 
 fh.getFileName = function(filePath) {
@@ -83,15 +75,16 @@ fh.getDirectory = function(filePath) {
     return filePath.match(/(.*)\\.*/)[1];
 };
 
-fh.getDateModified = function(filename) {
-    return fh.jetpack.inspect(filename, {times: true}).modifyTime;
+fh.getDateModified = function(filePath) {
+    return fh.jetpack.inspect(filePath, {times: true}).modifyTime;
 };
 
 fh.getDirectories = function(path) {
     return fh.jetpack.find(path, {
         matching: '*',
         files: false,
-        directories: true
+        directories: true,
+        recursive: false
     });
 };
 
