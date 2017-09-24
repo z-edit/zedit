@@ -34,6 +34,13 @@ a {
   }
 }
 
+code {
+  background-color: $background_tint;
+  padding: 0 3px;
+  line-height: 1.4em;
+  @include monospace;
+}
+
 .title-bar {
   border-bottom: 1px solid $shadow;
   background-color: $background;
