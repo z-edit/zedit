@@ -7,7 +7,8 @@ ngapp.directive('apiItems', function() {
         controllerAs: 'vm',
         bindToController: {
             api: '@',
-            namespace: '@',
+            basePath: '@',
+            path: '@',
             items: '=?',
             depth: '=?'
         }
@@ -16,19 +17,19 @@ ngapp.directive('apiItems', function() {
 
 ngapp.controller('apiItemsController', function() {
     let ctrl = this;
-    this.tintBg = (this.depth || 0) % 2 === 0;
+    ctrl.tintBg = (ctrl.depth || 0) % 2 === 0;
 
     let loadItems = function() {
-        let basePath = 'app/docs/development/apis',
-            path = `${basePath}/${ctrl.api}/${ctrl.namespace}.json`;
+        let basePath = ctrl.basePath || 'app/docs/development/apis',
+            path = `${basePath}/${ctrl.path}`;
         return fh.loadJsonFile(path);
     };
 
-    if (!this.items) {
+    if (ctrl.path) {
         let items = loadItems();
         items.forEach(function(item) {
             if (!item.type) item.type = 'function';
         });
-        this.items = items;
+        ctrl.items = items;
     }
 });
