@@ -1,0 +1,42 @@
+[
+  {
+    "name": "openModal",
+    "type": "event",
+    "args": [{
+      "name": "label",
+      "type": "string",
+      "description": "Modal label.  Used to determine default templateUrl, controller, and class options."
+    }, {
+      "name": "options",
+      "type": "object",
+      "description": "Modal options.  Default {}."
+    }],
+    "objectSchema": {
+      "name": "Modal Options",
+      "properties": [{
+        "key": "basePath",
+        "type": "string",
+        "description": "Base path used in `templateUrl`.  Defaults to `partials`, which corresponds to `./app/partials` in development and `./resources/app.asar/app/partials` in production."
+      }, {
+        "key": "templateUrl",
+        "type": "string",
+        "description": "File URL for the HTML template to use.  Defaults to `${basePath}/${label}Modal.html`."
+      }, {
+        "key": "controller",
+        "type": "string",
+        "description": "Name of the controller to use for the modal.  Defaults to `${label}Controller`."
+      }, {
+        "key": "class",
+        "type": "string",
+        "description": "Class to apply to the element containing the modal.  Defaults to `${label.underscore('-')}-modal`.  E.g. if label is `tehAwesome`, class will be `teh-awesome-modal` by default."
+      }]
+    },
+    "description": "Opens the modal specified.  Passed `options` are made available on the modal's scope in `modalOptions`."
+  },
+  {
+    "name": "closeModal",
+    "type": "event",
+    "args": [],
+    "description": "Closes the active modal."
+  }
+]

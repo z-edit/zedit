@@ -140,6 +140,9 @@
           },
           {
             "label": "File Helpers"
+          },
+          {
+            "label": "Modal API"
           }
         ]
       },
