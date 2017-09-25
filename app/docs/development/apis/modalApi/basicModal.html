@@ -1,0 +1,23 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal">
+        <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+        <h2>Basic Modal</h2>
+
+        <section>
+            <label>
+                <input type="checkbox" ng-model="modalOptions.enabled"/>
+                <span class="input-label">Enabled</span>
+            </label>
+            <div>
+                <span class="input-label">Text</span>
+                <input type="text" ng-model="modalOptions.text"/>
+            </div>
+        </section>
+
+        <div class="action-button-container">
+            <button class="action-btn" ng-click="apply()">OK</button>
+            <button class="action-btn negative" ng-click="$emit('closeModal')">Cancel</button>
+        </div>
+    </div>
+</div>
