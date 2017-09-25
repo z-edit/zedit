@@ -23,6 +23,7 @@ ngapp.service('protocolService', function($document) {
         // handle link protocols properly
         $document.bind('click', function(event) {
             if (event.target.tagName !== 'A') return;
+            if (!event.target.href) return;
             if (handleLink(event.target.href)) event.preventDefault();
         });
     };
