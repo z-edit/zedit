@@ -16,12 +16,16 @@
     box-shadow: 1px 1px 10px 1px rgba($shadow, 0.8);
     background-color: $background;
 
-    h2:first-of-type {
+    h1, h2 {
       margin-top: 0;
     }
 
     h3 {
-      margin-top: 24px;
+      margin: 20px 0 16px;
+    }
+
+    h4 {
+      margin: 16px 0 8px;
     }
 
     &:focus {
@@ -59,12 +63,8 @@
     max-width: 900px;
     min-height: 400px;
 
-    h3 {
-      margin-top: 0;
-    }
-
-    h4 {
-      margin: 8px 0;
+    h2 {
+      margin-top: 0.83em;
     }
 
     .tabs-container {
