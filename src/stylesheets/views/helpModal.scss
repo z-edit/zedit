@@ -29,9 +29,20 @@
   }
 
   .help-contents {
-    padding: 16px;
     user-select: initial;
     flex: 1;
+
+    h1 {
+      border-bottom: 1px solid $hard_border;
+      font-weight: 300;
+      margin: 0;
+      padding: 10px 16px;
+    }
+
+    ng-include {
+      margin: 16px;
+      display: block;
+    }
 
     h2 {
       margin-top: 0.83em;
