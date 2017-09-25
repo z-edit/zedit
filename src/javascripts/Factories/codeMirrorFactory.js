@@ -1,20 +1,17 @@
 ngapp.service('codeMirrorFactory', function(themeService) {
     let options = {
-            js: {
-                lineNumbers: true,
-                mode: 'javascript'
-            },
+        js: { mode: 'javascript' },
+        html: { mode: 'htmlmixed' }
+    };
 
-            html: {
-              lineNumbers: true,
-              mode: 'htmlmixed'
-            }
-        };
-
-    this.getOptions = function(label) {
-        let opts = options[label],
-            filename = themeService.getCurrentSyntaxTheme();
-        opts.theme = themeService.extractThemeName(filename, 'default');
-        return opts;
+    this.getOptions = function(label, readOnly = false) {
+        let filename = themeService.getCurrentSyntaxTheme();
+        return Object.assign({}, options[label], {
+            theme: themeService.extractThemeName(filename, 'default'),
+            lineNumbers: !readOnly,
+            readOnly: readOnly,
+            scrollbarStyle: readOnly ? null : 'native',
+            lineWrapping: true
+        });
     };
 });
