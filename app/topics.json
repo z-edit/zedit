@@ -38,12 +38,11 @@
   }, {
     "label": "Views",
     "children": [{
-      "label": "Start",
+      "label": "Start View",
       "modalViews": ["Profiles Modal", "Load Order Modal"]
     }, {
-      "label": "[Edit] Main",
+      "label": "Edit View",
       "appModes": ["edit"],
-      "id": "edit",
       "modalViews": ["Settings Modal"],
       "children": [{
         "label": "Tree View",

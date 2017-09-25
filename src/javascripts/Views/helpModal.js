@@ -36,6 +36,7 @@ ngapp.controller('helpModalController', function($scope, helpService, errorServi
     });
 
     // initialization
+    $scope.xelib = xelib;
     $scope.topics = helpService.getTopics();
     selectTopic($scope.topics[0]);
 });

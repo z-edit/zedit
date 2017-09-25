@@ -1,1 +1,12 @@
-<p>This application mode offers functionality for viewing, editing, and saving plugin files.  The mode corresponds to xEdit's "Edit" mode.</p>
+<p>This application mode offers functionality for viewing, editing, and saving plugin files.</p>
+
+<h2>Views</h2>
+
+<ul>
+    <li>
+        <a href="docs://Views/Edit View">Edit View</a>
+    </li>
+    <li ng-repeat="child in editView.children">
+        <a ng-click="$emit('navigateToView', child)">{{::child.label}}</a>
+    </li>
+</ul>

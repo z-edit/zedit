@@ -45,7 +45,11 @@
     }
 
     h2 {
-      margin-top: 0.83em;
+      margin: 0.83em 0 0.5em;
+    }
+
+    ul, p {
+      margin: 0.7em 0;
     }
 
     .documentation-warning {
@@ -70,6 +74,16 @@
     td {
       padding: 4px 8px;
       border-bottom: 1px solid $medium_border;
+    }
+  }
+
+  .games-list {
+    > span:not(:last-of-type) {
+      margin-right: 6px;
+
+      &::after {
+        content: ',';
+      }
     }
   }
 
