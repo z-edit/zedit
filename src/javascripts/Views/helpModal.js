@@ -1,4 +1,4 @@
-ngapp.controller('helpModalController', function($scope, helpService, errorService) {
+ngapp.controller('helpModalController', function($timeout, $scope, helpService, errorService) {
     // helper functions
     let selectTopic = function(topic) {
         if ($scope.topic) $scope.topic.selected = false;
@@ -14,7 +14,7 @@ ngapp.controller('helpModalController', function($scope, helpService, errorServi
     $scope.closeModal = function() {
         $scope.topic.selected = false;
         $scope.$broadcast('collapseTree');
-        $scope.$emit('closeModal');
+        $timeout(() => $scope.$emit('closeModal'));
     };
 
     $scope.navigateTo = function(path) {
