@@ -1,6 +1,4 @@
 api-items {
-  background-color: $background;
-
   api-items {
     display: block;
     margin-left: 20px;
@@ -8,6 +6,7 @@ api-items {
 
   > div {
     border: 1px solid $hard_border;
+    background-color: $background;
     margin: 16px 0;
     padding: 12px;
     border-radius: 5px;
