@@ -129,5 +129,34 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'saveScript'
         }]
-    }
+    };
+
+    let sortHotkeys = function(hotkeys) {
+        hotkeys.sort(function(a, b) {
+            return a.modifiers.length - b.modifiers.length;
+        });
+    };
+
+    let addHotkey = function(target, hotkeys, key) {
+        if (typeof target[key] === 'string') {
+            target[key] = [hotkeys[key], {
+                modifiers: [],
+                callback: target[key]
+            }];
+        } else {
+            target[key].push(hotkeys[key]);
+            sortHotkeys(target[key]);
+        }
+    };
+
+    this.addHotkeys = function(label, hotkeys) {
+        let target = factory[`${label}Hotkeys`];
+        Object.keys(hotkeys).forEach(function(key) {
+            if (target.hasOwnProperty(key)) {
+                addHotkey(target, hotkeys, key);
+            } else {
+                target[key] = hotkeys[key];
+            }
+        });
+    };
 });
