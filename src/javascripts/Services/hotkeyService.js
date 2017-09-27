@@ -1,6 +1,4 @@
 ngapp.service('hotkeyService', function(hotkeyFactory) {
-    let service = this;
-
     let keycodes = {
         backspace: 8, tab: 9, enter: 13, escape: 27, space: 32,
         shift: 16, ctrl: 17, alt: 18,
@@ -11,7 +9,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
 
     let buildKeyCodes = function(min, max, getKeyString) {
         for (let i = min; i <= max; i++) {
-            service.keycodes[getKeyString(i)] = i;
+            keycodes[getKeyString(i)] = i;
         }
     };
 
