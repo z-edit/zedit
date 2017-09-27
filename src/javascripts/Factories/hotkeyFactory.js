@@ -1,4 +1,24 @@
 ngapp.service('hotkeyFactory', function() {
+    this.baseHotkeys = {
+        i: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'toggleDevTools'
+        }],
+        s: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'toggleSettings'
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: (scope) => scope.$broadcast('save')
+        }],
+        e: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'openExtensionsModal'
+        }]
+    };
+
+    this.editViewHotkeys = {};
+
     this.mainTreeHotkeys = {
         rightArrow: 'handleRightArrow',
         leftArrow: 'handleLeftArrow',
