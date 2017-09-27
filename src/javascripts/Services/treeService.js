@@ -41,34 +41,8 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
-        scope.resolveNode = function(path) {
-            let node = undefined;
-            path.split('\\').forEach(function(part) {
-                let handle = node ? node.handle : 0;
-                handle = xelib.GetElementEx(handle, `${part}`);
-                try {
-                    if (part !== 'Child Group') {
-                        node = scope.getNodeForElement(handle);
-                        if (!node) throw `Failed to resolve node "${part}" in path "${path}"`;
-                        if (!node.has_data) scope.getNodeData(node);
-                        if (!node.expanded) scope.expandNode(node);
-                    }
-                } finally {
-                    xelib.Release(handle);
-                }
-            });
-            return node;
-        };
-
-        scope.navigateToElement = function(handle, open) {
-            if (handle === 0) return;
-            let node = scope.resolveNode(scope.getElementPath(handle));
-            if (node) {
-                scope.clearSelection(true);
-                scope.selectSingle(node, true, true, false);
-                if (open) scope.open(node);
-                $timeout(() => scope.scrollToNode(node, true));
-            }
+        scope.resolveNodeError = (path, part) => {
+            return new Error(`Failed to resolve node "${part}" in path "${path}"`);
         };
 
         scope.addModifiedClass = function(item) {

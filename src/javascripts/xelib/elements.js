@@ -105,7 +105,13 @@ Object.assign(xelib, {
                 Fail(`Failed to get element file for: ${id}`);
         });
     },
-    ElementCount: function(id) {
+    GetElementRecord: function(id) {
+        return GetHandle(function(_res) {
+            if (!lib.GetElementRecord(id, _res))
+                Fail(`Failed to get element record for: ${id}`);
+        });
+    },
+ElementCount: function(id) {
         return GetInteger(function(_res) {
             if (!lib.ElementCount(id, _res))
                 Fail(`Failed to get element count for ${id}`);

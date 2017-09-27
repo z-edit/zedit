@@ -27,6 +27,16 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
             return xelib.GetConflictData(scope.virtualNodes, handle);
         };
 
+        let getRecordIndex = function(record) {
+            if (xelib.ElementEquals(record, scope.record)) {
+                return 0;
+            } else {
+                return scope.overrides.findIndex((ovr) => {
+                    return xelib.ElementEquals(ovr, record);
+                }) + 1;
+            }
+        };
+
         let getValue = function(node, handle) {
             if (node.value_type === xelib.vtFlags) {
                 return xelib.GetEnabledFlags(handle).join(', ');
@@ -70,6 +80,38 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         scope.getBaseParent = function(node) {
             while (node.parent) node = node.parent;
             return node;
+        };
+
+        scope.resolveNode = function(path, record) {
+            let node = undefined,
+                recordIndex = getRecordIndex(record);
+            path.split('\\').forEach(function(part) {
+                let handle = node ? node.handles[recordIndex] : record;
+                handle = xelib.GetElementEx(handle, `${part}`);
+                try {
+                    node = scope.getNodeForElement(handle);
+                    if (!node) throw scope.resolveNodeError(path, part);
+                    if (!node.has_data) scope.getNodeData(node);
+                    if (!node.expanded) scope.expandNode(node);
+                } finally {
+                    xelib.Release(handle);
+                }
+            });
+            return node;
+        };
+
+        scope.navigateToElement = function(handle, open) {
+            if (handle === 0) return;
+            let node;
+            xelib.WithHandle(xelib.GetElementRecord(handle), function(record) {
+                node = scope.resolveNode(xelib.LocalPath(handle), record);
+            });
+            if (node) {
+                scope.clearSelection(true);
+                scope.selectSingle(node, true, true, false);
+                if (open) scope.open(node);
+                $timeout(() => scope.scrollToNode(node, true));
+            }
         };
 
         scope.nodeMatches = function(oldNode, newNode) {

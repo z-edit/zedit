@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $document, $q, settingsService, themeService, protocolService, buttonFactory, modalService, contextMenuService) {
+ngapp.controller('baseController', function($scope, $rootScope, $document, $q, settingsService, themeService, buttonFactory, modalService, hotkeyService, contextMenuService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -22,6 +22,10 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
     $scope.minimizeClick = () => currentWindow.minimize();
     $scope.restoreClick = () => toggleMaximized(currentWindow);
     $scope.closeClick = () => currentWindow.close();
+    $scope.toggleDevTools = () => currentWindow.toggleDevTools();
+    $scope.openExtensionsModal = function() {
+        $scope.$emit('openModal', 'manageExtensions');
+    };
 
     // prompt modal functions
     $rootScope.prompt = function(options) {
@@ -34,7 +38,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
     $scope.$on('startDrag', (e, dragData) => $rootScope.dragData = dragData);
     $scope.$on('stopDrag', () => $rootScope.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
-
 
     $scope.$on('restart', function() {
         remote.app.relaunch();
@@ -49,18 +52,12 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
 
     $scope.$watch('title', () => document.title = $scope.title);
 
-    // global keyboard shortcuts
-    $document.bind('keydown', function(e) {
-        if (e.keyCode === 73 && e.shiftKey && e.ctrlKey) { // ctrl + shift + i
-            currentWindow.toggleDevTools();
-        } else if (e.keyCode === 83 && e.ctrlKey) { // ctrl + s
-            $scope.$broadcast('save');
-        }
-    });
+    // global hotkeys
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'base');
+    $document.bind('keydown', $scope.onKeyDown);
 
     // initialization
     settingsService.loadGlobalSettings();
-    protocolService.init($scope);
     themeService.init($scope);
     contextMenuService.init($scope);
     modalService.init($scope);
