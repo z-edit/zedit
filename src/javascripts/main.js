@@ -12,7 +12,7 @@ import createWindow from './helpers/window';
 // in config/env_xxx.json file.
 import env from './env';
 
-let mainWindow, progressWindow;
+let mainWindow, progressWindow, showProgressTimeout;
 
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
@@ -83,11 +83,12 @@ app.on('window-all-closed', () => app.quit());
 ipcMain.on('show-progress', (e, p) => {
     progressWindow.setBounds(mainWindow.getBounds());
     progSend('set-progress', p);
-    setTimeout(() => progressWindow.show(), 50);
+    showProgressTimeout = setTimeout(() => progressWindow.show(), 50);
 });
 
 ipcMain.on('hide-progress', () => {
     mainSend('progress-hidden');
+    clearTimeout(showProgressTimeout);
     progressWindow.hide();
 });
 
