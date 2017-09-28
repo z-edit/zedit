@@ -8,7 +8,7 @@ ngapp.service('themeService', function(settingsService) {
         };
 
     let loadTheme = function(filePath) {
-        let fileContents = fh.appDir.read(filePath),
+        let fileContents = fh.jetpack.read(filePath),
             filename = filePath.split('\\').last(),
             defaultMetaData = Object.assign(unknownMetaData, {
                 name: service.extractThemeName(filename),
@@ -30,12 +30,12 @@ ngapp.service('themeService', function(settingsService) {
     };
 
     this.getThemes = function() {
-        let themes = fh.appDir.find('themes', { matching: '*.css' });
+        let themes = fh.jetpack.find('themes', { matching: '*.css' });
         return themes.map(loadTheme);
     };
 
     this.getSyntaxThemes = function() {
-        let themes = fh.appDir.find('syntaxThemes', { matching: '*.css' });
+        let themes = fh.jetpack.find('syntaxThemes', { matching: '*.css' });
         return themes.map(function(theme) {
             let filename = theme.split('\\').last();
             return {
@@ -48,7 +48,7 @@ ngapp.service('themeService', function(settingsService) {
     this.getCurrentTheme = function() {
         let settingsTheme = settingsService.globalSettings.theme,
             themePath = `themes\\${settingsTheme}`;
-        if (!settingsTheme || !fh.appDir.exists(themePath)) {
+        if (!settingsTheme || !fh.jetpack.exists(themePath)) {
             let availableThemes = service.getThemes();
             return availableThemes[0].filename;
         }
@@ -58,7 +58,7 @@ ngapp.service('themeService', function(settingsService) {
     this.getCurrentSyntaxTheme = function() {
         let settingsTheme = settingsService.globalSettings.syntaxTheme,
             themePath = `syntaxThemes\\${settingsTheme}`;
-        if (!settingsTheme || !fh.appDir.exists(themePath)) {
+        if (!settingsTheme || !fh.jetpack.exists(themePath)) {
             return '';
         }
         return settingsTheme;

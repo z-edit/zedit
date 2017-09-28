@@ -31,6 +31,14 @@ fh.loadTextFile = function(filePath, defaultValue = '') {
     }
 };
 
+fh.loadResource = function(filePath, defaultValue = []) {
+    if (fh.appDir.exists(filePath) === 'file') {
+        return fh.appDir.read(filePath, 'json');
+    } else {
+        return defaultValue;
+    }
+};
+
 // helper function for saving json files
 fh.saveJsonFile = function(filePath, value, minify = false) {
     fh.jetpack.write(filePath, minify ? JSON.stringify(value) : value);
