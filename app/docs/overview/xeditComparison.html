@@ -1,0 +1,245 @@
+<p>zEdit attempts to offer equivalent or better functionality compared to xEdit.</p>
+
+<h2>Symbol Key</h2>
+<table class="xedit-zedit-comparison">
+    <thead>
+    <tr>
+        <th>Symbol</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><span class="better"></span></td>
+        <td>Better</td>
+    </tr>
+    <tr>
+        <td><span class="equivalent"></span></td>
+        <td>Equivalent</td>
+    </tr>
+    <tr>
+        <td><span class="planned"></span></td>
+        <td>Planned</td>
+    </tr>
+    <tr>
+        <td><span class="worse"></span></td>
+        <td>Worse</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Feature Comparison</h2>
+<table class="xedit-zedit-comparison">
+    <thead>
+    <tr>
+        <th>Feature</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Theming <span class="better"></span></td>
+        <td>
+            zEdit allows for custom application and syntax themes via CSS where xEdit only allowed for custom conflict colors.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Modules <span class="better"></span></td>
+        <td>
+            zEdit introduces a module system, which allows developers to extend or add functionality to zEdit.  xEdit has no such system, limitng larger contributions to the main codebase or standalone applications.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Language <span class="better"></span></td>
+        <td>
+            xEdit is a pure Delphi application where zEdit is an Electron application built with JavaScript, HTML, and CSS which taps into the xEdit codebase via a Delphi DLL file.  The developer community for JavaScript is larger and more active than the developer community for Delphi.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Performance <span class="equivalent"></span></td>
+        <td>
+            zEdit offers native Delphi performance within DLL functions, but has some flat overhead per each DLL function call due to data marshalling in JavaScript.  Techniques such as UI virtualization and data caching are used to keep the GUI as fast and efficient as possible.  You shouldn't notice any difference in performance unless you use the scrollbar to quickly scroll through 1000+ nodes in the tree view.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Documentation <span class="better"></span></td>
+        <td>
+            zEdit ships with official documentation where xEdit has various user-created guides scattered across the internet.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Game mode support <span class="equivalent"></span></td>
+        <td>
+            Both xEdit and zEdit support the same games.  zEdit uses xEdit's codebase internally, so it will always be able to support the same games as xEdit.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Game mode selection <span class="better"></span></td>
+        <td>
+            In xEdit game mode selection is done either via a command line parameter or renaming the executable.  zEdit allows you to select the game mode from the <a href="docs://Views/Start View">Start View</a>, and will support command line parameters in the near future.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Application mode support <span class="planned"></span></td>
+        <td>
+            zEdit currently only supports the most used <a href="docs://Application Modes/Edit">Edit</a> mode.  LOD Generation and Translation tools may be added to zEdit in the future.  Additionally, zEdit will provide dedicated <a href="docs://Application Modes/Merge">Merge</a>, <a href="docs://Application Modes/Smash">Smash</a> and <a href="docs://Application Modes/Clean">Clean</a> modes in the near future.  Application mode selection in zEdit will work the same as game mode selection - from the start view or via command line parameters.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Load order selection <span class="better"></span></td>
+        <td>
+            zEdit's <a href="docs://Modal Views/Load Order Modal">Load Order Modal</a> offers several UX improvements over xEdit's load order modal including multi-selection, extended hotkey support, disabling of unloadable plugins, what you see is what you get, and coloring combined with tooltips for disabled plugins and required masters.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Plugin loading <span class="better"></span></td>
+        <td>
+            zEdit doesn't build references by default.  This results in much faster loading times compared to xEdit assuming you didn't use the hidden feature where you can hold shift to disable building references.  In addition, zEdit has a loading spinner which displays while plugins are loading instead of showing a disabled interface.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Layout <span class="better"></span></td>
+        <td>
+            Unlike xEdit, zEdit offers a dynamic layout which allows you to create new views in tabs.  In the near future you will be able to split panels, move tabs between panels, save layouts, and more.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Tree view <span class="equivalent"></span></td>
+        <td>
+            zEdit's <a href="docs://Views/Edit View/Tree View">Tree View</a> operates almost identically to xEdit's navigation view.  Unlike xEdit's navigation view zEdit's tree view supports custom columns, can optionally display group signatures, and can optionally hide file header nodes.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Record searching <span class="better"></span></td>
+        <td>
+            zEdit offers the same record searching options as xEdit as well as the ability to search for records by FULL Name.  You can press Ctrl+F on the tree view to open the record search bar.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">User scripts <span class="better"></span></td>
+        <td>
+            zEdit allows for the execution of user scripts similar to xEdit via the <a href="docs://Modal Views/Automate Modal">Automate Modal</a>.  Unlike xEdit scripts, zEdit scripts are written in ES6 JavaScript and use the <a href="docs://Development/APIs/xelib">xelib API</a>.  Script execution is often several orders of magnitude faster than it is in xEdit.  This is largely due to <a href="https://en.wikipedia.org/wiki/Chrome_V8">the V8 JavaScript engine</a> being vastly superior to <a href="http://jvcl.delphi-jedi.org/JvInterpreter.htm">the jvInterpreter</a>.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Error checking <span class="planned"></span></td>
+        <td>
+            zEdit does not offer menu options for checking for errors, but will offer a dedicated application mode for cleaning plugin files in the near future.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Record copying <span class="planned"></span></td>
+        <td>
+            xEdit's record copying functionality is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">File creation <span class="better"></span></td>
+        <td>
+            In xEdit, the only way to create a new file is from a script or by copying a record.  zEdit offers a context menu option for creating new files.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">File renaming <span class="better"></span></td>
+        <td>
+            zEdit allows you to rename loaded files, which xEdit is unable to do.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Record view <span class="better"></span></td>
+        <td>
+            zEdit's <a href="docs://Views/Edit View/Record View">Record View</a> operates almost identically to xEdit's record tab.  Unlike xEdit's record tab, zEdit's record view allows you to collapse and expand nodes, making working with large records easier.  In addition, opening a record is done by double clicking it or dragging and dropping it in the view.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Modal value editing <span class="better"></span></td>
+        <td>
+            zEdit's <a href="docs://Modal Views/Edit Value Modal">Edit Value Modal</a> is similar to xEdit's edit value modal, but improves the UX for editing reference, color, enumeration, and byte array values.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Inline value editing <span class="planned"></span></td>
+        <td>
+            xEdit's inline value editing functionality is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Drag and drop <span class="better"></span></td>
+        <td>
+            zEdit supports drag and drop between master and override records on the record view the same as xEdit.  In addition, it allows drag and drop between record views and drag and drop from the tree view to set references.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Spreadsheet view <span class="planned"></span></td>
+        <td>
+            A view similar to xEdit's spreadsheet tab is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Messages view <span class="planned"></span></td>
+        <td>
+            A view similar to xEdit's messages tab is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Filtering <span class="planned"></span></td>
+        <td>
+            xEdit's filter functionality is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Performance Comparison</h2>
+<p>The data for the following tests was produced by loading Skyrim.esm, Update.esm, and the DLC ESMs in the Skyrim game mode.</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Test</th>
+        <th>xEdit</th>
+        <th>zEdit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">RAM usage at startup</td>
+        <td>40.1MB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="nowrap">RAM usage after loading plugins</td>
+        <td>381.4MB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="nowrap">RAM usage after expanding nodes<sup>1</sup></td>
+        <td>382.1MB</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="nowrap">Startup time</td>
+        <td>1 second</td>
+        <td>2 seconds</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Plugin load time</td>
+        <td>3 seconds</td>
+        <td>3 seconds</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Benchmark Math Script<sup>2</sup></td>
+        <td>65 seconds</td>
+        <td>0.018 seconds</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Benchmark FullName Script<sup>3</sup></td>
+        <td>28 seconds</td>
+        <td>41 seconds</td>
+    </tr>
+    </tbody>
+</table>
+
+<p class="footnote">
+    <sup>1</sup> After expanding all top-level nodes in Update.esm and viewing the first record.
+</p>

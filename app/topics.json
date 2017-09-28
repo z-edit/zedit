@@ -2,23 +2,13 @@
   {
     "label": "Overview",
     "children": [
-      {
-        "label": "What is zEdit?",
-        "id": "what"
-      }, {
-        "label": "How can I use zEdit?",
-        "id": "how"
-      }, {
-        "label": "Why should I use zEdit?",
-        "id": "why"
-      }, {
-        "label": "Where can I get help with zEdit?",
-        "id": "where"
-      }
+      { "label": "About" }, 
+      { "label": "Getting Started" }, 
+      { "label": "xEdit Comparison" }, 
+      { "label": "Community" }
     ]
   }, {
     "label": "Application Modes",
-    "id": "appModes",
     "children": [
       { "label": "Edit" },
       { "label": "[Planned] Clean" },
@@ -42,7 +32,6 @@
       "modalViews": ["Profiles Modal", "Load Order Modal"]
     }, {
       "label": "Edit View",
-      "appModes": ["edit"],
       "modalViews": ["Settings Modal"],
       "children": [{
         "label": "Tree View",
@@ -59,16 +48,9 @@
       { "label": "Profiles Modal" },
       { "label": "Load Order Modal" },
       { "label": "Settings Modal" },
-      {
-        "label": "Edit Value Modal",
-        "appModes": ["edit"]
-      }, {
-        "label": "Automate Modal",
-        "appModes": ["edit"]
-      }, {
-        "label": "Save Modal",
-        "appModes": ["edit"]
-      }
+      { "label": "Edit Value Modal" }, 
+      { "label": "Automate Modal" }, 
+      { "label": "Save Modal" }
     ]
   }, {
     "label": "Development",
