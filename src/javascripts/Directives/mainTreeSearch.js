@@ -5,6 +5,7 @@ ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, prog
 
     // scope variables
     $scope.search = '';
+    $scope.showExactMatch = true;
     $scope.searchOptions = { searchBy: "1", exact: true };
     $scope.searchBy = {
         0: "Form ID",
