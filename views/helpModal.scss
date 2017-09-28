@@ -88,11 +88,61 @@
   }
 
   .icon {
-    font: 16px/1 FontAwesome;
+    font: 16px FontAwesome;
   }
 
   .icon-warn::before {
     color: $negative;
     content: '\f071';
+  }
+}
+
+table.xedit-zedit-comparison {
+  max-width: initial;
+
+  td {
+    padding: 8px;
+  }
+
+  .better {
+    color: $positive;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f087';
+    }
+  }
+
+  .equivalent {
+    color: $neutral;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 16px;
+    margin-left: 4px;
+
+    &::before {
+      content: '=';
+    }
+  }
+
+  .planned {
+    color: $negative;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f250';
+    }
+  }
+
+  .worse {
+    color: $negative;
+    font: 16px FontAwesome;
+    margin-left: 4px;
+
+    &::before {
+      content: '\f088';
+    }
   }
 }
