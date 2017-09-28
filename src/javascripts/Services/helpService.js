@@ -34,7 +34,7 @@ ngapp.service('helpService', function() {
     };
 
     let loadCoreTopics = function() {
-        topics = processTopics(fh.loadJsonFile('app/topics.json'), 'docs');
+        topics = processTopics(fh.loadResource('app/topics.json'), 'docs');
     };
 
     // API FUNCTIONS
@@ -51,7 +51,7 @@ ngapp.service('helpService', function() {
         let pathParts = path.split('/'),
             result = topics.findByKey('label', pathParts[0]);
         for (let i = 1; i < pathParts.length; i++) {
-            if (!result) return;
+            if (!result) break;
             if (callback) callback(result);
             result = result.children.findByKey('label', pathParts[i]);
         }
