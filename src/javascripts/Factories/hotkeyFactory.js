@@ -14,7 +14,12 @@ ngapp.service('hotkeyFactory', function() {
         e: [{
             modifiers: ['ctrlKey', 'shiftKey'],
             callback: 'openExtensionsModal'
-        }]
+        }],
+        ctrl: (scope) => scope.$broadcast('controlKeyPressed')
+    };
+
+    this.baseHotkeysUp = {
+        ctrl: (scope) => scope.$broadcast('controlKeyReleased')
     };
 
     this.editViewHotkeys = {};
