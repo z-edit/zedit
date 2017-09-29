@@ -54,7 +54,9 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, s
 
     // global hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'base');
+    hotkeyService.buildOnKeyUp($scope, 'onKeyUp', 'base');
     $document.bind('keydown', $scope.onKeyDown);
+    $document.bind('keyup', $scope.onKeyUp);
 
     // initialization
     settingsService.loadGlobalSettings();
