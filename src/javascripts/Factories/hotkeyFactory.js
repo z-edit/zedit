@@ -83,6 +83,21 @@ ngapp.service('hotkeyFactory', function() {
         }]
     };
 
+    this.recordSearchHotkeys = {
+        escape: 'closeSearch',
+        enter: [{
+            modifiers: ['shiftKey'],
+            callback: 'previousResult'
+        }, {
+            modifiers: [],
+            callback: 'nextResult'
+        }],
+        else: [{
+            modifiers: ['altKey'],
+            callback: 'setSearchBy'
+        }]
+    };
+
     this.contextMenuHotkeys = {
         rightArrow: 'handleRightArrow',
         leftArrow: 'handleLeftArrow',
