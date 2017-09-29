@@ -52,21 +52,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         e.stopImmediatePropagation();
     };
 
-    $scope.onCellMouseDown = function(e, node, index) {
-
-        if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference)
-        {
-            index -= 1;
-            const id = $scope.getRecord(index);
-            const path = xelib.LocalPath(node.first_handle);
-            const ref = xelib.GetLinksTo(id,path);
-            
-            if (ref > 0) {
-                $scope.record = ref;
-                return;
-            }
-            
-        }
+    $scope.onCellMouseDown = function(index) {
         let oldIndex = $scope.focusedIndex;
         $scope.focusedIndex = index;
         if (oldIndex !== index) $timeout($scope.updateNodeLabels);
@@ -82,27 +68,6 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         xelib.ReleaseNodes($scope.virtualNodes);
         $scope.overrides.forEach(xelib.Release);
         $scope.overrides = [];
-    };
-
-    $scope.onCellMouseOver = function(e, node, index) {
-
-        if (e.srcElement && e.ctrlKey && index > 0 && 
-            node.value_type === xelib.vtReference)
-        {
-            e.srcElement.classList.add('highlight-reference');
-        }
-        //Helper variables for on controlkeypressed listener
-        $scope.highlightedCell = e.srcElement;
-        $scope.highlightedNode = node;
-    };
-
-    $scope.onCellMouseLeave = function(e, node, index) {
-
-        if (e.srcElement && e.srcElement.classList.contains('highlight-reference'))
-            e.srcElement.classList.remove('highlight-reference');
-        //Helper variables for on controlkeypressed listener
-        $scope.highlightedCell = null;
-        $scope.highlightedNode = null;
     };
 
     // event handling
@@ -131,22 +96,6 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     $scope.$on('nodeAdded', function() {
         if (!$scope.record) return;
         if (!xelib.GetFormID($scope.record)) $scope.reload();
-    });
-
-    //Event broadcasts from baseHotKey factory
-    $scope.$on('controlKeyPressed', function(){
-        if ($scope.highlightedCell && $scope.highlightedNode && 
-            $scope.highlightedNode.value_type === xelib.vtReference &&
-            !$scope.highlightedCell.classList.contains('highlight-reference'))
-        {
-            $scope.highlightedCell.classList.add('highlight-reference');
-        }
-    });
-    //Event broadcasts from baseHotKey factory
-    $scope.$on('controlKeyReleased',function() {
-        if ($scope.highlightedCell && 
-            $scope.highlightedCell.classList.contains('highlight-reference'))
-                $scope.highlightedCell.classList.remove('highlight-reference');
     });
 
     // initialization
