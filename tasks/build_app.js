@@ -9,21 +9,17 @@ const wait = require('gulp-wait');
 const jetpack = require('fs-jetpack');
 const bundle = require('./bundle');
 const utils = require('./utils');
-const concat = require('./concat');
 
 const projectDir = jetpack;
 const srcDir = jetpack.cwd('./src');
 const jsDir = srcDir.cwd('./javascripts');
 const destDir = jetpack.cwd('./app');
-const rollupOptions = {
-    rollupPlugins: [concat()]
-};
 
 gulp.task('bundle', function() {
     return Promise.all([
-        bundle(jsDir.path('main.js'), destDir.path('main.js'), rollupOptions),
-        bundle(jsDir.path('app.js'), destDir.path('app.js'), rollupOptions),
-        bundle(jsDir.path('progress.js'), destDir.path('progress.js'), rollupOptions)
+        bundle(jsDir.path('main.js'), destDir.path('main.js')),
+        bundle(jsDir.path('app.js'), destDir.path('app.js')),
+        bundle(jsDir.path('progress.js'), destDir.path('progress.js'))
     ]);
 });
 
