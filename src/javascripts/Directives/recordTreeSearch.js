@@ -10,7 +10,7 @@ ngapp.controller('recordTreeSearchController', function($scope, $q, $timeout, ho
     $scope.searchBy = { 0: "Path", 1: "Value" };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'recordSearch');
+    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'treeSearch');
 
     // scope functions
     $scope.foundResult = function(handle) {
