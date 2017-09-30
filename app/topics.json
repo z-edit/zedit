@@ -2,9 +2,9 @@
   {
     "label": "Overview",
     "children": [
-      { "label": "About" }, 
-      { "label": "Getting Started" }, 
-      { "label": "xEdit Comparison" }, 
+      { "label": "About" },
+      { "label": "Getting Started" },
+      { "label": "xEdit Comparison" },
       { "label": "Community" }
     ]
   }, {
@@ -48,8 +48,8 @@
       { "label": "Profiles Modal" },
       { "label": "Load Order Modal" },
       { "label": "Settings Modal" },
-      { "label": "Edit Value Modal" }, 
-      { "label": "Automate Modal" }, 
+      { "label": "Edit Value Modal" },
+      { "label": "Automate Modal" },
       { "label": "Save Modal" }
     ]
   }, {
