@@ -143,7 +143,8 @@
         getComponents (format = 10, alphaFormat) {
             let components = [this.getRed(format), this.getGreen(format), this.getBlue(format)];
             if (alphaFormat) {
-                components[format == 16 ? 'unshift' : 'push'](this.getAlpha(alphaFormat));
+                let method = format === 16 ? 'unshift' : 'push';
+                components[method](this.getAlpha(alphaFormat));
             }
             return components;
         }

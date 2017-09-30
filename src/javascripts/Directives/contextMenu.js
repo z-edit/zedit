@@ -120,7 +120,7 @@ ngapp.controller('contextMenuController', function($scope, $element, $timeout, h
 
     $scope.handleRightArrow = function(e) {
         e.stopPropagation();
-        if ($scope.currentIndex == -1) return;
+        if ($scope.currentIndex === -1) return;
         let currentItem = getCurrentItem();
         if (!currentItem.children) return;
         currentItem.expanded = true;

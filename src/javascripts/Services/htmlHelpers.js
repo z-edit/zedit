@@ -20,9 +20,9 @@ ngapp.service('htmlHelpers', function() {
     };
 
     this.getResolveFunction = function(part) {
-        if (part[0] == '.') {
+        if (part[0] === '.') {
             return service.resolveByClass(part.slice(1));
-        } else if (part[0] == '#') {
+        } else if (part[0] === '#') {
             return service.resolveByID(part.slice(1));
         } else {
             return service.resolveByTagName(part);

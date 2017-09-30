@@ -75,13 +75,13 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
 
     $scope.selectScript = function(item) {
         $scope.selectedScript = item;
-        $scope.scriptContents = fh.loadTextFile($scope.selectedScript.filePath);
+        $scope.scriptContents = fh.loadTextFile(item.filePath);
     };
 
     $scope.loadScripts = function() {
         fh.jetpack.dir('scripts');
         let scripts = fh.jetpack.find('scripts', { matching: '*.js'}),
-            scriptHistory = fh.loadJsonFile('scripts\\history.json', {});
+            scriptHistory = fh.loadJsonFile('scripts\\history.json') || {};
         $scope.scripts = scripts.map(function(filePath) {
             let filename = filePath.split('\\').last();
             return {

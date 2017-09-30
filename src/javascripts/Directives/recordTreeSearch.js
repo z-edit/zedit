@@ -41,7 +41,7 @@ ngapp.controller('recordTreeSearchController', function($scope, $q, $timeout, ho
 
     $scope.setSearchBy = function(e) {
         let n = searchOptionKeys.indexOf(e.keyCode);
-        if (n == -1) return;
+        if (n === -1) return;
         $scope.searchOptions.searchBy = n.toString();
     };
 
