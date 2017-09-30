@@ -20,14 +20,14 @@ ngapp.service('settingsService', function() {
     this.loadProfileSettings = function(profileName) {
         service.currentProfile = profileName;
         service.settingsPath = `profiles/${profileName}/settings.json`;
-        let settings = fh.loadJsonFile(service.settingsPath, {});
+        let settings = fh.loadJsonFile(service.settingsPath) || {};
         service.settings = service.buildSettings(settings);
         service.saveProfileSettings();
     };
 
     this.loadGlobalSettings = function() {
         service.globalSettingsPath = `${fh.userPath}\\settings.json`;
-        let settings = fh.loadJsonFile(service.globalSettingsPath, {});
+        let settings = fh.loadJsonFile(service.globalSettingsPath) || {};
         service.globalSettings = service.buildSettings(settings, true);
         service.saveGlobalSettings();
     };

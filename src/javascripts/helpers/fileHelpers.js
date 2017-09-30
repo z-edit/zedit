@@ -15,27 +15,22 @@ fh.appDir = jetpack.cwd(fh.appPath);
 console.log('App directory: ' + fh.appPath);
 
 // helper function for loading json file
-fh.loadJsonFile = function(filePath, defaultValue = []) {
+fh.loadJsonFile = function(filePath) {
     if (fh.jetpack.exists(filePath) === 'file') {
         return fh.jetpack.read(filePath, 'json');
-    } else {
-        return defaultValue;
     }
 };
 
-fh.loadTextFile = function(filePath, defaultValue = '') {
+fh.loadTextFile = function(filePath) {
     if (fh.jetpack.exists(filePath) === 'file') {
         return fh.jetpack.read(filePath);
-    } else {
-        return defaultValue;
     }
 };
 
-fh.loadResource = function(filePath, defaultValue = []) {
+fh.loadResource = function(filePath) {
+    let format = filePath.endsWith('.json') ? 'json' : 'utf8';
     if (fh.appDir.exists(filePath) === 'file') {
-        return fh.appDir.read(filePath, 'json');
-    } else {
-        return defaultValue;
+        return fh.appDir.read(filePath, format);
     }
 };
 

@@ -23,7 +23,7 @@ export default function(ngapp, fh) {
         return {
             info: info,
             path: fh.getFileUrl(modulePath),
-            code: fh.loadTextFile(`${modulePath}\\index.js`)
+            code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
         }
     };
 
@@ -32,7 +32,7 @@ export default function(ngapp, fh) {
     };
 
     let getModuleInfo = function(modulePath) {
-        let info = fh.loadJsonFile(`${modulePath}\\module.json`, null);
+        let info = fh.loadJsonFile(`${modulePath}\\module.json`);
         return validateModule(info) && info;
     };
 

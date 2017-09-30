@@ -22,7 +22,7 @@ ngapp.controller('apiItemsController', function() {
     let loadItems = function() {
         let basePath = ctrl.basePath || 'app/docs/development/apis',
             path = `${basePath}/${ctrl.path}`;
-        return fh.loadResource(path, undefined) || fh.loadJsonFile(path);
+        return fh.loadResource(path) || fh.loadJsonFile(path);
     };
 
     if (ctrl.path) {

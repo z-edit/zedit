@@ -1,7 +1,7 @@
 ngapp.service('profileService', function() {
     let service = this;
 
-    this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json');
+    this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json') || [];
     this.languages = ['English'];
 
     this.saveProfiles = function() {
