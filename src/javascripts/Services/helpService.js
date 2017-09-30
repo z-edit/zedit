@@ -20,6 +20,8 @@ ngapp.service('helpService', function() {
     let getTopicId = function(topic) {
         return topic.id || topic.label.split(' ').filter(function(part) {
             return !part.match(/\[.+\]/);
+        }).map(function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }).join('').uncapitalize();
     };
 
