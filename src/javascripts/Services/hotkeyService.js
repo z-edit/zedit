@@ -31,6 +31,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         if (typeStr === 'object') {
             action = getSatisfiedAction(action, e);
             if (!action) return;
+            action = action.callback;
             typeStr = typeof action;
         }
         typeStr === 'function' ? action(scope, e) : scope[action](e);
