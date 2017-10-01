@@ -1,0 +1,77 @@
+[
+  {
+    "name": "zedit",
+    "type": "object",
+    "description": "A collection of functions which allow you to interface with the zEdit UI.",
+    "items": [{
+      "name": "NavigateToElement",
+      "type": "function",
+      "args": [{
+        "name": "element",
+        "type": "handle"
+      }, {
+        "name": "open",
+        "type": "boolean"
+      }],
+      "description": "Navigates to the `element` in the [Tree View](docs://Views/Edit View/Tree View).  Opens the element in the [Record View](docs://Views/Edit View/Record View) if `open` is truthy."
+    }, {
+      "name": "GetSelectedNodes",
+      "type": "function",
+      "args": [],
+      "returns": {
+        "type": "array of object"
+      },
+      "description": "Returns an array of node objects corresponding to the nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
+    }, {
+      "name": "ShowProgress",
+      "type": "function",
+      "args": [{
+        "name": "progress",
+        "type": "object"
+      }],
+      "description": "See [progressService.showProgress](docs://Development/APIs/Angular Services/Progress Service)."
+    }, {
+      "name": "LogMessage",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "See [progressService.logMessage](docs://Development/APIs/Angular Services/Progress Service)."
+    }, {
+      "name": "ProgressMessage",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "See [progressService.progressMessage](docs://Development/APIs/Angular Services/Progress Service)."
+    }, {
+      "name": "AddProgress",
+      "type": "function",
+      "args": [{
+        "name": "num",
+        "type": "integer"
+      }],
+      "description": "See [progressService.addProgress](docs://Development/APIs/Angular Services/Progress Service)."
+    }, {
+      "name": "ProgressTitle",
+      "type": "function",
+      "args": [{
+        "name": "title",
+        "type": "string"
+      }],
+      "description": "See [progressService.progressTitle](docs://Development/APIs/Angular Services/Progress Service)."
+    }]
+  },
+  {
+    "name": "fh",
+    "type": "object",
+    "description": "The [File Helpers API](docs://Development/APIs/File Helpers)."
+  },
+  {
+    "name": "xelib",
+    "type": "object",
+    "description": "The [xelib API](docs://Development/APIs/xelib)."
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "key": "handle",
+    "type": "handle",
+    "description": "Handle of the element the node represents."
+  },
+  {
+    "key": "element_type",
+    "type": "integer",
+    "description": "[Element Type](docs://Development/APIs/xelib/Elements) of the element the node represents."
+  },
+  {
+    "key": "column_values",
+    "type": "array of string",
+    "description": "Array of the string values displayed in the [Tree View](docs://Views/Edit View/Tree View) columns."
+  },
+  {
+    "key": "class",
+    "type": "string",
+    "description": "The node's class, which includes the element's [conflict all and conflict this](docs://Development/APIs/xelib/Elements) values."
+  }
+]
