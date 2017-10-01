@@ -1,0 +1,41 @@
+[
+  {
+    "name": "getActiveModules",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "array of object"
+    },
+    "description": "Returns an array of `moduleInfo` objects for each active module."
+  },
+  {
+    "name": "getInstalledModules",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "array of object"
+    },
+    "description": "Returns an array of `moduleInfo` objects for each installed module."
+  },
+  {
+    "name": "registerLoader",
+    "type": "function",
+    "args": [{
+      "name": "id",
+      "type": "string"
+    }, {
+      "name": "loaderFunction",
+      "type": "function"
+    }],
+    "description": "Registers a module loader `id`.  The `loaderFunction` will be used to load any modules that specify `\"moduleLoader\": id` in their `module.json`."
+  },
+  {
+    "name": "deferLoader",
+    "type": "function",
+    "args": [{
+      "name": "id",
+      "type": "string"
+    }],
+    "description": "Defers the loading of modules that specify `\"moduleLoader\": id` in their `module.json` until after angular providers have been registered.  Module loaders which are deferred should not provide `ngapp` to their modules.  See [UPF index.js](https://github.com/matortheeternal/zedit-unified-patching-framework/blob/master/index.js#L59-L66) for an example of how to defer loaders."
+  }
+]

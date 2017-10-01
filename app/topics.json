@@ -123,6 +123,9 @@
           },
           {
             "label": "Modal API"
+          },
+          {
+            "label": "Module Service"
           }
         ]
       },
