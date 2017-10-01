@@ -1,0 +1,16 @@
+<table class="members-table">
+    <thead>
+    <tr>
+        <th>Ordinal</th>
+        <th>Key</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="member in members">
+        <td>{{::$index}}</td>
+        <td>{{::member.key}}</td>
+        <td marked="::member.description || '\\-'"></td>
+    </tr>
+    </tbody>
+</table>

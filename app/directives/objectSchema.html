@@ -1,0 +1,16 @@
+<table class="properties-table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="property in item.objectSchema.properties">
+        <td>{{::property.key}}</td>
+        <td>{{::property.type}}</td>
+        <td marked="::property.description || '\\-'"></td>
+    </tr>
+    </tbody>
+</table>
