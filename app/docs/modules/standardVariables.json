@@ -22,7 +22,7 @@
   {
     "name": "moduleService",
     "type": "object",
-    "description": "The [Module Service API](docs://Development/APIs/Module Service)."
+    "description": "The [Module Service](docs://Development/APIs/Module Service)."
   },
   {
     "name": "xelib",

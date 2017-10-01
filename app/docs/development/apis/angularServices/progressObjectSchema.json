@@ -2,7 +2,7 @@
   {
     "key": "determinate",
     "type": "boolean",
-    "description": "Corresponds to whether the determinate progress modal or the indeterminate progress loader should be displayed."
+    "description": "When true the determinate progress modal is displayed.  \nWhen false the indeterminate progress loader is displayed."
   },
   {
     "key": "title",
