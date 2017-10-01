@@ -31,11 +31,13 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
     });
 }]);
 
-//= concat_tree ./Directives
-//= concat_tree ./Factories
-//= concat_tree ./Filters
-//= concat_tree ./Services
-//= concat_tree ./Views
+//== begin angular files ==
+//=require Directives/*.js
+//=require Factories/*.js
+//=require Filters/*.js
+//=require Services/*.js
+//=require Views/**/*.js
+//== end angular files ==
 
 // load modules
 const moduleService = buildModuleService(ngapp, fh);

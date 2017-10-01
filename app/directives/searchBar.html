@@ -12,7 +12,7 @@
         <option ng-repeat="(key, value) in searchBy" value="{{::key}}">{{::value}}</option>
     </select>
 </label>
-<label>
+<label ng-if="showExactMatch">
     <input type="checkbox" ng-model="searchOptions.exact"/>
     Exact Match
 </label>
