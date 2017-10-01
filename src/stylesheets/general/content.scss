@@ -41,6 +41,18 @@ code {
   @include monospace;
 }
 
+kbd {
+  border: 1px solid $medium_border;
+  border-radius: 3px;
+  padding: 2px 4px;
+  display: inline-block;
+  margin: 3px 0;
+  box-shadow: inset 0 -1px 0 $hard_border;
+  font-size: 90%;
+  border-bottom-color: $hard_border;
+  @include monospace;
+}
+
 .title-bar {
   border-bottom: 1px solid $shadow;
   background-color: $background;
