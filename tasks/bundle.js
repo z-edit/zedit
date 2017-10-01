@@ -1,8 +1,10 @@
 'use strict';
 
-const path = require('path');
+const gulp = require('gulp');
+const include = require('gulp-include');
+const rollup = require('gulp-rollup');
 const jetpack = require('fs-jetpack');
-const rollup = require('rollup').rollup;
+const path = require('path');
 
 const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
     'console', 'constants', 'crypto', 'dgram', 'dns', 'domain', 'events',
@@ -11,8 +13,9 @@ const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
     'tls', 'tty', 'url', 'util', 'v8', 'vm', 'zlib'];
 
 const electronBuiltInModules = ['electron'];
+const rollupPlugins = [];
 
-let generateExternalModulesList = function () {
+let generateExternalModulesList = function() {
     let appManifest = jetpack.read('./package.json', 'json');
     return [].concat(
         nodeBuiltInModules,
@@ -24,28 +27,29 @@ let generateExternalModulesList = function () {
 
 let cached = {};
 
-module.exports = function (src, dest, opts) {
-    opts = opts || {};
-    opts.rollupPlugins = opts.rollupPlugins || [];
-    return rollup({
-        entry: src,
-        external: generateExternalModulesList(),
-        cache: cached[src],
-        plugins: opts.rollupPlugins
-    })
-    .then(function (bundle) {
-        cached[src] = bundle;
+module.exports = function(src, dest) {
+    return gulp.src('./src/javascripts/**/*.js')
+        .pipe(include())
+        .pipe(rollup({
+            input: src,
+            external: generateExternalModulesList(),
+            cache: cached[src],
+            plugins: rollupPlugins,
+            format: 'cjs'
+        }))
+        .on('bundle', function(bundle) {
+            cached[src] = bundle;
 
-        let jsFile = path.basename(dest);
-        let result = bundle.generate({
-            format: 'cjs',
-            sourceMap: true,
-            sourceMapFile: jsFile
+            let jsFile = path.basename(dest);
+            return bundle.generate({
+                format: 'cjs',
+                sourcemap: true,
+                sourcemapFile: jsFile
+            }).then(function(result) {
+                let isolatedCode = `(function () {${result.code}\n}());`;
+                let sourceMapInfo = `//# sourceMappingURL=${jsFile}.map`;
+                jetpack.write(dest, `${isolatedCode}\n${sourceMapInfo}`);
+                jetpack.write(`${dest}.map`, result.map.toString());
+            });
         });
-        let isolatedCode = '(function () {' + result.code + '\n}());';
-        return Promise.all([
-            jetpack.writeAsync(dest, isolatedCode + '\n//# sourceMappingURL=' + jsFile + '.map'),
-            jetpack.writeAsync(dest + '.map', result.map.toString())
-        ]);
-    });
 };

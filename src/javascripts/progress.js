@@ -4,11 +4,13 @@ import './polyfills';
 // angular app initialization
 const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angularSpinner']);
 
-//= concat ./Factories/spinnerFactory.js
-//= concat ./Services/modalService.js
-//= concat ./Directives/progressBar.js
-//= concat ./Directives/progressModal.js
-//= concat ./Directives/loader.js
+//== begin angular assets ==
+//=require Factories/spinnerFactory.js
+//=require Services/modalService.js
+//=require Directives/progressBar.js
+//=require Directives/progressModal.js
+//=require Directives/loader.js
+//== end angular assets ==
 
 ngapp.run(function($rootScope, spinnerFactory) {
     let themeStylesheet = document.getElementById('theme');
