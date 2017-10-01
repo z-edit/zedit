@@ -53,19 +53,14 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellMouseDown = function(e, node, index) {
-    
-        if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference)
-        {
-            index -= 1;
-            const id = $scope.getRecord(index);
+        if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
+            const id = $scope.getRecord(index -1);
             const path = xelib.LocalPath(node.first_handle);
-            const ref = xelib.GetLinksTo(id,path);
-            
+            const ref = xelib.GetLinksTo(id, path);
             if (ref > 0) {
                 $scope.record = ref;
                 return;
             }
-            
         }
         let oldIndex = $scope.focusedIndex;
         $scope.focusedIndex = index;
@@ -73,22 +68,17 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellMouseOver = function(e, node, index) {
-
-        if (e.srcElement && e.ctrlKey && index > 0 && 
-            node.value_type === xelib.vtReference)
-        {
+        if (e.srcElement && e.ctrlKey && index > 0 && node.value_type === xelib.vtReference)
             e.srcElement.classList.add('highlight-reference');
-        }
-        //Helper variables for on controlkeypressed listener
+        //Helper variables for on-controlkeypressed listener
         $scope.highlightedCell = e.srcElement;
         $scope.highlightedNode = node;
     };
     
     $scope.onCellMouseLeave = function(e, node, index) {
-
         if (e.srcElement && e.srcElement.classList.contains('highlight-reference'))
             e.srcElement.classList.remove('highlight-reference');
-        //Helper variables for on controlkeypressed listener
+        //Helper variables for on-controlkeypressed listener
         $scope.highlightedCell = null;
         $scope.highlightedNode = null;
     };
@@ -136,11 +126,9 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     //Event broadcasts from baseHotKey factory
     $scope.$on('controlKeyPressed', function(){
         if ($scope.highlightedCell && $scope.highlightedNode && 
-            $scope.highlightedNode.value_type === xelib.vtReference &&
+            $scope.highlightedNode.value_type === xelib.vtReference && 
             !$scope.highlightedCell.classList.contains('highlight-reference'))
-        {
-            $scope.highlightedCell.classList.add('highlight-reference');
-        }
+                $scope.highlightedCell.classList.add('highlight-reference');
     });
     //Event broadcasts from baseHotKey factory
     $scope.$on('controlKeyReleased',function() {

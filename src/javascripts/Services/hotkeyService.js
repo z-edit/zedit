@@ -38,25 +38,24 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         e.preventDefault();
     };
 
-    let keyEventHandler = function(scope,hotkeys,type) {
+    let keyEventHandler = function(scope, hotkeys, type) {
         return function (e) {
-            if (e.type !== type)
-                return;
-            
+            if (e.type !== type) return;
             let hotkey = Object.keys(hotkeys).find(function(key) {
                 return e.keyCode === keycodes[key];
             }) || 'else';
             if (!hotkeys[hotkey]) return;
             trigger(scope, hotkeys[hotkey], e);
-        }
+        };
     }
     
     this.buildOnKeyDown = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}Hotkeys`];
-        scope[label] = keyEventHandler(scope, hotkeys,'keydown');
+        scope[label] = keyEventHandler(scope, hotkeys, 'keydown');
     };
+
     this.buildOnKeyUp = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}HotkeysUp`];
-        scope[label] = keyEventHandler(scope, hotkeys,'keyup');
+        scope[label] = keyEventHandler(scope, hotkeys, 'keyup');
     };
 });
