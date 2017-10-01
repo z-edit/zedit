@@ -1,0 +1,32 @@
+[
+  {
+    "key": "determinate",
+    "type": "boolean",
+    "description": "Corresponds to whether the determinate progress modal or the indeterminate progress loader should be displayed."
+  },
+  {
+    "key": "title",
+    "type": "string",
+    "description": "The title displayed at the top of the determinate progress modal."
+  },
+  {
+    "key": "message",
+    "type": "string",
+    "description": "The message displayed above the determinate progress modal's progress bar or below the indeterminate progress loader."
+  },
+  {
+    "key": "canClose",
+    "type": "boolean",
+    "description": "Allows the user to close the determinate progress modal if true."
+  },
+  {
+    "key": "current",
+    "type": "integer",
+    "description": "An integer representing the current progress.  Used for displaying the progress bar on the determinate progress modal."
+  },
+  {
+    "key": "max",
+    "type": "integer",
+    "description": "An integer representing the maximum progress.  Used for displaying the progress bar on the determinate progress modal."
+  }
+]

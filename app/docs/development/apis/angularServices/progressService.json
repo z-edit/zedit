@@ -1,0 +1,70 @@
+[
+  {
+    "name": "showProgress",
+    "type": "function",
+    "args": [{
+      "name": "progress",
+      "type": "object"
+    }],
+    "description": "Opens the progress window with options `progress`.  See the Progress Object Schema for more information."
+  },
+  {
+    "name": "hideProgress",
+    "type": "function",
+    "args": [],
+    "description": "Hides/closes the progress window."
+  },
+  {
+    "name": "logMessage",
+    "type": "function",
+    "args": [{
+      "name": "message",
+      "type": "string"
+    }],
+    "description": "Prints `message` to a determine progress modal's log."
+  },
+  {
+    "name": "progressMessage",
+    "type": "function",
+    "args": [
+      {
+        "name": "message",
+        "type": "string"
+      }
+    ],
+    "description": "Sets the progress window's progress message to `message`."
+  },
+  {
+    "name": "addProgress",
+    "type": "function",
+    "args": [{
+      "name": "num",
+      "type": "integer"
+    }],
+    "description": "Adds `num` to a determinate progress modal's progress bar."
+  },
+  {
+    "name": "progressTitle",
+    "type": "function",
+    "args": [{
+      "name": "title",
+      "type": "string"
+    }],
+    "description": "Sets the title of a determinate progress modal to `title`."
+  },
+  {
+    "name": "allowClose",
+    "type": "function",
+    "args": [],
+    "description": "Allows a determinate progress modal to be closed by the user."
+  },
+  {
+    "name": "onProgressClosed",
+    "type": "function",
+    "args": [{
+      "name": "callback",
+      "type": "function"
+    }],
+    "description": "Executes `callback` when the progress window is closed."
+  }
+]

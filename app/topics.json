@@ -119,6 +119,14 @@
             ]
           },
           {
+            "label": "Angular Services",
+            "children": [
+              {
+                "label": "Progress Service"
+              }
+            ]
+          },
+          {
             "label": "File Helpers"
           },
           {
