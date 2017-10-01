@@ -33,19 +33,29 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
             if (!action) return;
             action = action.callback;
         }
-        action.Constructor === Function ? action(scope, e) : scope[action](e);
+        typeStr === 'function' ? action(scope, e) : scope[action](e);
         e.stopImmediatePropagation();
         e.preventDefault();
     };
 
-    this.buildOnKeyDown = function(scope, label, view) {
-        let hotkeys = hotkeyFactory[`${view}Hotkeys`];
-        scope[label] = function(e) {
+    let keyEventHandler = function(scope, hotkeys, type) {
+        return function (e) {
+            if (e.type !== type) return;
             let hotkey = Object.keys(hotkeys).find(function(key) {
                 return e.keyCode === keycodes[key];
             }) || 'else';
             if (!hotkeys[hotkey]) return;
             trigger(scope, hotkeys[hotkey], e);
         };
+    }
+    
+    this.buildOnKeyDown = function(scope, label, view) {
+        let hotkeys = hotkeyFactory[`${view}Hotkeys`];
+        scope[label] = keyEventHandler(scope, hotkeys, 'keydown');
+    };
+
+    this.buildOnKeyUp = function(scope, label, view) {
+        let hotkeys = hotkeyFactory[`${view}HotkeysUp`];
+        scope[label] = keyEventHandler(scope, hotkeys, 'keyup');
     };
 });
