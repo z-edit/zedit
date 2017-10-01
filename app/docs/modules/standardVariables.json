@@ -1,0 +1,32 @@
+[
+  {
+    "name": "ngapp",
+    "type": "object",
+    "description": "The zEdit angular application.  See [angular.Module](https://docs.angularjs.org/api/ng/type/angular.Module) and [Dependency Injection](https://docs.angularjs.org/guide/di)."
+  },
+  {
+    "name": "fh",
+    "type": "object",
+    "description": "The [fileHelpers API](docs://Development/APIs/File Helpers)."
+  },
+  {
+    "name": "info",
+    "type": "object",
+    "description": "Object containing information about your module.  Basically just your module.json."
+  },
+  {
+    "name": "modulePath",
+    "type": "string",
+    "description": "`file://` URL for the folder where your module is installed on the user's machine.  Should be prepended to any HTML template/resource URLs."
+  },
+  {
+    "name": "moduleService",
+    "type": "object",
+    "description": "The [Module Service API](docs://Development/APIs/Module Service)."
+  },
+  {
+    "name": "xelib",
+    "type": "object",
+    "description": "The [xelib API](docs://Development/APIs/xelib)."
+  }
+]
