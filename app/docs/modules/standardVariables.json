@@ -7,7 +7,7 @@
   {
     "name": "fh",
     "type": "object",
-    "description": "The [fileHelpers API](docs://Development/APIs/File Helpers)."
+    "description": "The [File Helpers API](docs://Development/APIs/File Helpers)."
   },
   {
     "name": "info",

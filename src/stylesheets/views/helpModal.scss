@@ -12,7 +12,7 @@
     min-width: 300px;
     position: relative;
     overflow-y: auto;
-    border-right: 1px solid $soft_border;
+    border-right: 1px solid $hard_border;
 
     > tree {
       position: absolute;
@@ -40,7 +40,7 @@
     }
 
     ng-include {
-      margin: 16px;
+      margin: 16px 16px 40px;
       display: block;
     }
 
@@ -61,6 +61,7 @@
   table {
     margin-left: 12px;
     border: 1px solid $medium_border;
+    background-color: $background_tint;
     font-size: 14.5px;
     border-collapse: collapse;
     max-width: 600px;
