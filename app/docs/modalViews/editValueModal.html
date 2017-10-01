@@ -1,0 +1,43 @@
+<p>The edit value modal allows you to change the value of a record field/element.</p>
+
+<p>The edit value modal can be opened by:</p>
+
+<ol>
+    <li>Double clicking a field/element in the <a href="docs://Views/Edit View/Record View">Record View</a>.</li>
+    <li>Right-clicking a field/element and clicking the <b>Edit</b> option.</li>
+    <li>Pressing <kbd>Enter</kbd> with a field/element selected.</li>
+</ol>
+
+<h2>Applying the value</h2>
+<p>You can click the <b>OK</b> button or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to apply the value to the field you edited and close the modal.</p>
+
+<p>Some value types have validation.  If a value is invalid, the input will have a red border, the <b>OK</b> button will be disabled, and pressing <kbd>Ctrl</kbd> + <kbd>Enter</kbd> will not apply the value.</p>
+
+<h2>Discarding the value</h2>
+<p>You can discard your changes to the value by clicking the <b>Cancel</b> button or by closing the modal.</p>
+
+<h2>Types of values</h2>
+
+<h3>String Values</h3>
+<p>String values and single line text values, such as Editor IDs and FULL Names.</p>
+
+<h3>Text Values</h3>
+<p>Text values are multi-line string values, such as book descriptions.  Some text values support HTML and CSS, and use a CodeMirror editor with syntax highlighting.</p>
+
+<h3>Number Values</h3>
+<p>Number values are integer or floating point values.  Number values have basic validation.</p>
+
+<h3>Reference Values</h3>
+<p>Reference values are form IDs corresponding to other records in the plugin or its master files.  When editing reference values you are first required to provide a record signature to reference which is be limited to valid references for the field.  You can then enter any substring contained in the editor ID, hexadecimal form ID, or FULL name of the record you want to reference to search for it.  Search results will appear in a dropdown.  You must select a search result from the dropdown or provide a full hexadecimal form ID to apply a reference value properly.</p>
+
+<h3>Color Values</h3>
+<p>Color values are element structures which have a red, green, and blue value.  The color editor allows you to specify a color value via an HSL gradient map or by entering an RGB/Hex color value into the text input.  E.g. <code>rgb(0, 128, 255)</code> or <code>#0080FF</code>.  Hex strings get converted to RGB strings once entered.</p>
+
+<h3>Enumeration Values</h3>
+<p>Enumeration values are integer fields with a small set of valid values which have unique meanings.  E.g. The <code>Armor Type</code> field on armor records supports the values 0, 1, and 2, which indicate Light Armor, Heavy Armor, and Clothing, respectively.  Enumeration values can be selected from a dropdown.</p>
+
+<h3>Flag Values</h3>
+<p>Flag values are fields where each bit indicates whether or not a particular flag is enabled.  Flags are displayed as a checkbox list.</p>
+
+<h3>Byte Array Values</h3>
+<p>Byte array values are binary fields.  They can be edited from a minature hex editor which allows you to overwrite individual bytes without changing the fixed length of the byte array.</p>
