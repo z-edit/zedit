@@ -32,42 +32,12 @@
     <div ng-show="item.expanded">
         <div ng-if="::item.members">
             <span class="api-section-title">Members</span>
-            <table class="members-table">
-                <thead>
-                <tr>
-                    <th>Ordinal</th>
-                    <th>Key</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="member in item.members">
-                    <td>{{::$index}}</td>
-                    <td>{{::member.key}}</td>
-                    <td marked="::member.description || '\\-'"></td>
-                </tr>
-                </tbody>
-            </table>
+            <enumeration-members members="item.members"></enumeration-members>
         </div>
 
         <div ng-if="::item.objectSchema">
             <span class="api-section-title">{{::item.objectSchema.name}}</span>
-            <table class="properties-table">
-                <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="property in item.objectSchema.properties">
-                    <td>{{::property.key}}</td>
-                    <td>{{::property.type}}</td>
-                    <td marked="::property.description || '\\-'"></td>
-                </tr>
-                </tbody>
-            </table>
+            <object-schema schema="item.objectSchema.properties"></object-schema>
         </div>
 
         <div ng-if="::item.description">

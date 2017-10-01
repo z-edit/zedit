@@ -7,7 +7,8 @@ ngapp.directive('objectSchema', function() {
             basePath: '@',
             path: '@',
             schema: '=?'
-        }
+        },
+        replace: true
     }
 });
 

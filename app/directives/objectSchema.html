@@ -7,7 +7,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="property in item.objectSchema.properties">
+    <tr ng-repeat="property in schema">
         <td>{{::property.key}}</td>
         <td>{{::property.type}}</td>
         <td marked="::property.description || '\\-'"></td>

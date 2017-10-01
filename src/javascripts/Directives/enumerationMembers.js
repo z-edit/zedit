@@ -4,6 +4,7 @@ ngapp.directive('enumerationMembers', function() {
         templateUrl: 'directives/enumerationMembers.html',
         scope: {
             members: '='
-        }
+        },
+        replace: true
     }
 });
