@@ -7,18 +7,10 @@
       { "label": "xEdit Comparison" },
       { "label": "Community" }
     ]
-  }, {
-    "label": "Application Modes",
-    "children": [
-      { "label": "Edit" },
-      { "label": "[Planned] Clean" },
-      { "label": "[Planned] Merge" },
-      { "label": "[Planned] Smash" }
-    ]
   },
+  { "label": "Application Modes" },
   { "label": "Game Modes" },
   { "label": "Profiles" },
-  { "label": "Settings" },
   {
     "label": "Modules",
     "children": [
