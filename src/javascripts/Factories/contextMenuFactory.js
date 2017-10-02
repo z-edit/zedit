@@ -197,7 +197,6 @@ ngapp.service('contextMenuFactory', function() {
             items.push({
                 label: 'Enable Editing',
                 hotkey: 'Ctrl+E',
-                disabled: true,
                 callback: () => scope.enableEditing()
             })
         }
