@@ -171,7 +171,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
     // initialization
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editValueModal');
-    $scope.$on('keyDown', $scope.onKeyDown);
 
     let setupFunctions = {
         vtBytes: $scope.setupBytes,

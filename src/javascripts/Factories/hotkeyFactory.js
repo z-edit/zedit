@@ -177,7 +177,8 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'applyValue'
         }],
-        escape: (scope) => scope.$emit('closeModal')
+        escape: (scope) => scope.$emit('closeModal'),
+        default: (scope, event) => scope.$broadcast('keyDown', event)
     };
 
     let sortHotkeys = function(hotkeys) {
