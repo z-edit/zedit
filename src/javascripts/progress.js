@@ -13,15 +13,15 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //== end angular assets ==
 
 ngapp.run(function($rootScope, spinnerFactory) {
+    // initialization
     let themeStylesheet = document.getElementById('theme');
-
+    $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
     $rootScope.progress = {
         determinate: false,
         message: '...'
     };
 
-    $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
-
+    // event handlers
     $rootScope.$on('closeModal', () => {
         if ($rootScope.progress.canClose) ipcRenderer.send('hide-progress');
     });
