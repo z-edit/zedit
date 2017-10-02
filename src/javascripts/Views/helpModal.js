@@ -1,5 +1,9 @@
 ngapp.controller('helpModalController', function($scope, $element, $timeout, helpService, errorService) {
+    // helper variables
     let modalContainerElement = $element[0].firstElementChild;
+
+    $scope.history = [];
+    $scope.historyIndex = -1;
 
     // helper functions
     let selectTopic = function(topic) {
@@ -21,7 +25,23 @@ ngapp.controller('helpModalController', function($scope, $element, $timeout, hel
 
     $scope.navigateTo = function(path) {
         selectTopic(helpService.getTopic(path, expandTopic));
-        // TODO: scroll to top
+    };
+
+    $scope.historyGo = function() {
+        $scope.skipHistory = true;
+        selectTopic($scope.history[$scope.historyIndex]);
+    };
+
+    $scope.back = function() {
+        if ($scope.historyIndex <= 0) return;
+        $scope.historyIndex--;
+        $scope.historyGo();
+    };
+
+    $scope.forward = function() {
+        if ($scope.historyIndex === $scope.history.length - 1) return;
+        $scope.historyIndex++;
+        $scope.historyGo();
     };
 
     // event listeners
@@ -37,7 +57,15 @@ ngapp.controller('helpModalController', function($scope, $element, $timeout, hel
         e.stopPropagation && e.stopPropagation();
     });
 
-    $scope.$watch('topic', () => modalContainerElement.scrollTop = 0);
+    $scope.$watch('topic', function() {
+        modalContainerElement.scrollTop = 0;
+        if ($scope.skipHistory) {
+            $scope.skipHistory = false;
+            return;
+        }
+        $scope.history.push($scope.topic);
+        $scope.historyIndex = $scope.history.length - 1;
+    });
 
     // initialization
     $scope.xelib = xelib;
