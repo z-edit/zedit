@@ -138,10 +138,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         $scope.textChanged = function() {
             let c = tryParseColor($scope.value);
             $scope.invalid = !c;
-            if (!$scope.invalid) {
-                $scope.color = c.toHex();
-                $scope.colorStyle = {'background-color': `${$scope.value}`};
-            }
+            if (!$scope.invalid) $scope.color = c.toHex();
         };
 
         $scope.applyValue = function() {
