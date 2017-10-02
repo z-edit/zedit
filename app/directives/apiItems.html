@@ -13,19 +13,19 @@
                 (
                 <span ng-if="::item.isEvent" class="arg type-event">'{{::item.name}}'</span>
                 <span ng-repeat="arg in item.args" class="arg" title="{{::arg.description | wordwrap}}">
-                    {{::arg.name}}: <span class="type-{{::arg.type | classify}}">{{::arg.type}}</span>
+                    {{::arg.name}}: <span class="type type-{{::arg.type | classify}}">{{::arg.type}}</span>
                 </span>
                 )
             </span>
             <span class="returns" ng-if="::item.returns">
                 <span class="return-arrow"></span>
-                <span class="type-{{::item.returns.type | classify}}" title="{{::item.returns.description}}">
+                <span class="type type-{{::item.returns.type | classify}}" title="{{::item.returns.description}}">
                     {{::item.returns.type}}
                 </span>
             </span>
         </span>
         <span class="property-code" ng-if="short">
-            <span class="type-{{::item.type | classify}}">{{::item.type}}</span>
+            <span class="type type-{{::item.type | classify}}">{{::item.type}}</span>
         </span>
     </span>
 
