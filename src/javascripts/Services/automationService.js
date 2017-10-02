@@ -1,4 +1,6 @@
 ngapp.service('automationService', function($rootScope, $timeout, progressService) {
+    let keepOpen;
+
     let buildScriptFunction = function(scriptCode) {
         try {
             return new Function('zedit', 'fh', scriptCode);
@@ -34,13 +36,18 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
+    let showProgress = function(progress) {
+        keepOpen = progress.determinate;
+        progressService.showProgress(progress);
+    };
+
     // TODO: Prompt and ShowModal
     let buildZEditContext = function(targetScope) {
-        // callback functions are pascal case for clarity
+        // these functions are pascal case for clarity
         return {
             NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
-            ShowProgress: progressService.showProgress,
+            ShowProgress: showProgress,
             LogMessage: progressService.logMessage,
             ProgressMessage: progressService.progressMessage,
             AddProgress: progressService.addProgress,
@@ -48,24 +55,27 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
+    let executeScriptFn = function(scriptFn, zedit) {
+        try {
+            scriptFn(zedit, fh);
+        } catch(e) {
+            alert('Exception running script: ' + e.stack);
+        } finally {
+            xelib.FreeHandleGroup();
+            $rootScope.$broadcast('reloadGUI');
+            let method = keepOpen ? 'allowClose' : 'hideProgress';
+            progressService[method]();
+        }
+    };
+
     this.runScript = function(targetScope, scriptCode, scriptFilename) {
-        let scriptFunction = buildScriptFunction(scriptCode),
+        let scriptFn = buildScriptFunction(scriptCode),
             zedit = buildZEditContext(targetScope);
         xelib.CreateHandleGroup();
-        progressService.showProgress({
+        showProgress({
             determinate: false,
             message: `Executing ${scriptFilename}...`
         });
-        $timeout(function() {
-            try {
-                scriptFunction(zedit, fh);
-            } catch(e) {
-                alert('Exception running script: ' + e.stack);
-            } finally {
-                xelib.FreeHandleGroup();
-                $rootScope.$broadcast('reloadGUI');
-                progressService.hideProgress();
-            }
-        }, 50);
+        $timeout(() => executeScriptFn(scriptFn, zedit), 50);
     };
 });

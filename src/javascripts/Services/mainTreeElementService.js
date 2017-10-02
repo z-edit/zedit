@@ -109,6 +109,13 @@ ngapp.service('mainTreeElementService', function(editModalFactory, errorService,
             }
         };
 
+        scope.enableEditing = function() {
+            scope.selectedNodes.forEach(function(node) {
+                if (node.element_type !== xelib.etFile) return;
+                xelib.SetIsEditable(node.handle, true);
+            });
+        };
+
         scope.changeFileName = function(node) {
             editModalFactory.renameFile(node, scope);
         };

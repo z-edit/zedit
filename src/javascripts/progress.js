@@ -5,23 +5,23 @@ import './polyfills';
 const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angularSpinner']);
 
 //== begin angular assets ==
-//=require Factories/spinnerFactory.js
-//=require Services/modalService.js
-//=require Directives/progressBar.js
-//=require Directives/progressModal.js
-//=require Directives/loader.js
+//=include Directives/progressBar.js
+//=include Directives/progressModal.js
+//=include Directives/loader.js
+//=include Factories/spinnerFactory.js
+//=include Services/modalService.js
 //== end angular assets ==
 
 ngapp.run(function($rootScope, spinnerFactory) {
+    // initialization
     let themeStylesheet = document.getElementById('theme');
-
+    $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
     $rootScope.progress = {
         determinate: false,
         message: '...'
     };
 
-    $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
-
+    // event handlers
     $rootScope.$on('closeModal', () => {
         if ($rootScope.progress.canClose) ipcRenderer.send('hide-progress');
     });

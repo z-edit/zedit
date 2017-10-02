@@ -1,4 +1,4 @@
-ngapp.controller('editValueModalController', function($scope, $timeout, errorService) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService, hotkeyService) {
     // variables
     let opts = $scope.modalOptions,
         node = opts.targetNode,
@@ -138,10 +138,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         $scope.textChanged = function() {
             let c = tryParseColor($scope.value);
             $scope.invalid = !c;
-            if (!$scope.invalid) {
-                $scope.color = c.toHex();
-                $scope.colorStyle = {'background-color': `${$scope.value}`};
-            }
+            if (!$scope.invalid) $scope.color = c.toHex();
         };
 
         $scope.applyValue = function() {
@@ -170,6 +167,8 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     // initialization
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editValueModal');
+
     let setupFunctions = {
         vtBytes: $scope.setupBytes,
         vtNumber: $scope.setupNumber,
@@ -180,9 +179,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         vtText: $scope.setupText
     };
 
-    if (setupFunctions.hasOwnProperty(vtLabel)) {
-        setupFunctions[vtLabel](value);
-    } else {
-        $scope.value = value;
-    }
+    let defaultSetup = (value) => $scope.value = value;
+    (setupFunctions[vtLabel] || defaultSetup)(value);
 });

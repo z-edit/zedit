@@ -1,6 +1,5 @@
 export default function(ngapp, fh) {
-    let service,
-        modules = {},
+    let modules = {},
         failures = [],
         loaders = {
             default: function(module, fh, ngapp, moduleService) {
@@ -13,7 +12,6 @@ export default function(ngapp, fh) {
                 };
                 let fn = new Function(...Object.keys(args), module.code);
                 fn(...Object.values(args));
-                modules[module.info.id] = module.info;
             }
         },
         deferredModules = [];
@@ -84,7 +82,8 @@ export default function(ngapp, fh) {
         } else if (loader === true) {
             allowDefer ? deferredModules.push(module) : deferredError(module);
         } else {
-            loader(module, fh, ngapp, service);
+            loader(modules, module, fh, ngapp, service);
+            modules[module.info.id] = module.info;
         }
     };
 
@@ -108,7 +107,8 @@ export default function(ngapp, fh) {
     };
 
     // PUBLIC API
-    service = {
+    let service = {
+        getActiveModules: () => { return modules; },
         getInstalledModules: function() {
             let moduleFolders = getModuleFolders();
             return moduleFolders.map(function(modulePath) {
@@ -130,9 +130,6 @@ export default function(ngapp, fh) {
             });
             buildModules(modules);
         },
-        loadDeferredModules: function() {
-            deferredModules.forEach((module) => build(module, false));
-        },
         loadModule: function(modulePath) {
             let info = getModuleInfo(modulePath);
             if (!info) {
@@ -147,20 +144,11 @@ export default function(ngapp, fh) {
                 }
             }
         },
+        loadDeferredModules: function() {
+            deferredModules.forEach((module) => build(module, false));
+        },
         registerLoader: (id, loaderFunction) => loaders[id] = loaderFunction,
-        deferLoader: (id) => loaders[id] = true,
-        /*
-         * 1. Extract module to temporary folder
-         * 2. Load module info, if invalid fail and inform user, else continue.
-         * 3. Check if a module is already installed with the same name
-         * 4. If it does, prompt the user to check if they want to update, else prompt the
-         *    user to verify they want to install the module
-         * 5. Move module folder from temporary location to modules folder
-         * 6. Load module if it can be hotloaded
-         */
-        installModule: function(filePath) {
-            // TODO
-        }
+        deferLoader: (id) => loaders[id] = true
     };
 
     return service;

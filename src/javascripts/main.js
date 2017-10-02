@@ -51,6 +51,13 @@ let progSend = function(channel, ...args) {
     progressWindow.webContents.send(channel, ...args);
 };
 
+let resetProgress = function() {
+    progSend('set-progress', {
+        determinate: false,
+        message: '...'
+    });
+};
+
 let openMainWindow = function() {
     mainWindow = createWindow('main', { frame: false });
     loadPage(mainWindow, 'app.html', env.name === 'development');
@@ -87,6 +94,7 @@ ipcMain.on('show-progress', (e, p) => {
 });
 
 ipcMain.on('hide-progress', () => {
+    resetProgress();
     mainSend('progress-hidden');
     clearTimeout(showProgressTimeout);
     progressWindow.hide();

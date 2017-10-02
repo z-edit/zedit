@@ -98,6 +98,7 @@ try {
         'GetAllowedSignatures': [WordBool, [Cardinal, PInteger]],
         'GetIsModified': [WordBool, [Cardinal, PWordBool]],
         'GetIsEditable': [WordBool, [Cardinal, PWordBool]],
+        'SetIsEditable': [WordBool, [Cardinal, WordBool]],
         'GetIsRemoveable': [WordBool, [Cardinal, PWordBool]],
         'GetCanAdd': [WordBool, [Cardinal, PWordBool]],
         'SortKey': [WordBool, [Cardinal, PInteger]],

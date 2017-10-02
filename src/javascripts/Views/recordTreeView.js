@@ -52,14 +52,40 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         e.stopImmediatePropagation();
     };
 
-    $scope.onCellMouseDown = function(index) {
+    $scope.onCellMouseDown = function(e, node, index) {
+        if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
+            const id = $scope.getRecord(index -1);
+            const path = xelib.LocalPath(node.first_handle);
+            const ref = xelib.GetLinksTo(id, path);
+            if (ref > 0) {
+                $scope.record = ref;
+                return;
+            }
+        }
         let oldIndex = $scope.focusedIndex;
         $scope.focusedIndex = index;
         if (oldIndex !== index) $timeout($scope.updateNodeLabels);
     };
 
+    $scope.onCellMouseOver = function(e, node, index) {
+        if (index === 0 || node.value_type !== xelib.vtReference) return;
+        $scope.highlightedCell = e.srcElement;
+        if (e.srcElement && e.ctrlKey) {
+            e.srcElement.classList.add('highlight-reference');
+        }
+    };
+
+    $scope.onCellMouseLeave = function() {
+        if ($scope.highlightedCell) {
+            $scope.highlightedCell.classList.remove('highlight-reference');
+            delete $scope.highlightedCell;
+        }
+    };
+
     $scope.handleEnter = function(e) {
-        $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
+        let node = $scope.lastSelectedNode();
+        $scope.onNodeDoubleClick(e, node);
+        $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
         e.stopImmediatePropagation();
     };
 
@@ -96,6 +122,17 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     $scope.$on('nodeAdded', function() {
         if (!$scope.record) return;
         if (!xelib.GetFormID($scope.record)) $scope.reload();
+    });
+
+
+    $scope.$on('controlKeyPressed', function(){
+        if (!$scope.highlightedCell) return;
+        $scope.highlightedCell.classList.add('highlight-reference');
+    });
+
+    $scope.$on('controlKeyReleased', function() {
+        if (!$scope.highlightedCell) return;
+        $scope.highlightedCell.classList.remove('highlight-reference');
     });
 
     // initialization

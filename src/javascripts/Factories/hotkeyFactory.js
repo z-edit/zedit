@@ -14,7 +14,12 @@ ngapp.service('hotkeyFactory', function() {
         e: [{
             modifiers: ['ctrlKey', 'shiftKey'],
             callback: 'openExtensionsModal'
-        }]
+        }],
+        ctrl: (scope) => scope.$broadcast('controlKeyPressed')
+    };
+
+    this.baseHotkeysUp = {
+        ctrl: (scope) => scope.$broadcast('controlKeyReleased')
     };
 
     this.editViewHotkeys = {};
@@ -28,12 +33,26 @@ ngapp.service('hotkeyFactory', function() {
         pageDown: 'handlePageDown',
         enter: 'handleEnter',
         delete: 'handleDelete',
+        insert: 'handleInsert',
         f: [{
             modifiers: ['ctrlKey', 'shiftKey'],
             callback: 'toggleAdvancedSearch'
         }, {
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'
+        }],
+        m: [{
+            modifiers: ['ctrlKey'],
+            callback: (scope) => scope.$emit('openModal', 'automate')
+        }],
+        e: [{
+            modifiers: ['ctrlKey'],
+            callback: 'enableEditing'
+        }],
+        f2: 'rename',
+        r: [{
+            modifiers: ['altKey', 'shiftKey'],
+            callback: 'rename'
         }]
     };
 
@@ -44,6 +63,9 @@ ngapp.service('hotkeyFactory', function() {
         downArrow: 'handleDownArrow',
         pageUp: 'handlePageUp',
         pageDown: 'handlePageDown',
+        enter: 'handleEnter',
+        delete: 'handleDelete',
+        insert: 'handleInsert',
         f: [{
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'
@@ -144,6 +166,19 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'saveScript'
         }]
+    };
+
+    this.editValueModalHotkeys = {
+        enter: [{
+            modifiers: ['ctrlKey'],
+            callback: 'applyValue'
+        }],
+        s: [{
+            modifiers: ['ctrlKey'],
+            callback: 'applyValue'
+        }],
+        escape: (scope) => scope.$emit('closeModal'),
+        default: (scope, event) => scope.$broadcast('keyDown', event)
     };
 
     let sortHotkeys = function(hotkeys) {

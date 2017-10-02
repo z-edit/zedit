@@ -194,6 +194,10 @@ Object.assign(xelib, {
                 Fail(`Failed to get is editable for ${id}`);
         });
     },
+    SetIsEditable: function(id, bool) {
+        if (!lib.SetIsEditable(id, bool))
+            Fail(`Failed to set is editable for ${id} to ${bool}`);
+    },
     GetIsRemoveable: function(id) {
         return GetBool(function(_bool) {
             if (!lib.GetIsRemoveable(id, _bool))
