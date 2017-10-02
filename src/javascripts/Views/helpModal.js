@@ -1,4 +1,6 @@
-ngapp.controller('helpModalController', function($timeout, $scope, helpService, errorService) {
+ngapp.controller('helpModalController', function($scope, $element, $timeout, helpService, errorService) {
+    let modalContainerElement = $element[0].firstElementChild;
+
     // helper functions
     let selectTopic = function(topic) {
         if ($scope.topic) $scope.topic.selected = false;
@@ -22,7 +24,7 @@ ngapp.controller('helpModalController', function($timeout, $scope, helpService, 
         // TODO: scroll to top
     };
 
-    // redirect help links internally
+    // event listeners
     $scope.$on("helpNavigateTo", function(e, path) {
         errorService.try(function() {
             $scope.$applyAsync(() => $scope.navigateTo(path));
@@ -34,6 +36,8 @@ ngapp.controller('helpModalController', function($timeout, $scope, helpService, 
         selectTopic(child);
         e.stopPropagation && e.stopPropagation();
     });
+
+    $scope.$watch('topic', () => modalContainerElement.scrollTop = 0);
 
     // initialization
     $scope.xelib = xelib;
