@@ -3,6 +3,7 @@
     "name": "zedit",
     "type": "object",
     "description": "A collection of functions which allow you to interface with the zEdit UI.",
+    "itemsApi": "zedit",
     "items": [{
       "name": "NavigateToElement",
       "type": "function",

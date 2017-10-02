@@ -48,7 +48,7 @@
 
         <div ng-if="::item.items">
             <span class="api-section-title">{{::item.itemsLabel || 'Items'}}</span>
-            <api-items items="item.items" depth="(vm.depth || 0) + 1"></api-items>
+            <api-items api="{{::item.itemsApi}}" items="item.items" depth="(vm.depth || 0) + 1"></api-items>
         </div>
     </div>
 </div>
