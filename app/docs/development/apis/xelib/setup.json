@@ -76,7 +76,7 @@
         }
       ]
     },
-    "description": "Information about the game modes "
+    "description": "Array of game objects corresponding to each supported game mode."
   },
   {
     "name": "SetGamePath",
