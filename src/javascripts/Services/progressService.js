@@ -12,12 +12,12 @@ ngapp.service('progressService', function($q) {
         ipcRenderer.send('hide-progress');
     };
 
-    this.logMessage = function(msg, level) {
-        ipcRenderer.send('log-message', [msg, level]);
+    this.logMessage = function(message, level = 0) {
+        ipcRenderer.send('log-message', [message, level]);
     };
 
-    this.progressMessage = function(msg) {
-        ipcRenderer.send('progress-message', msg);
+    this.progressMessage = function(message) {
+        ipcRenderer.send('progress-message', message);
     };
 
     this.addProgress = function(num) {

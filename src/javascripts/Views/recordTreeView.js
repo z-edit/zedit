@@ -130,7 +130,7 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         $scope.highlightedCell.classList.add('highlight-reference');
     });
 
-    $scope.$on('controlKeyReleased',function() {
+    $scope.$on('controlKeyReleased', function() {
         if (!$scope.highlightedCell) return;
         $scope.highlightedCell.classList.remove('highlight-reference');
     });
