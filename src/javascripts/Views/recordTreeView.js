@@ -68,19 +68,18 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.onCellMouseOver = function(e, node, index) {
-        if (e.srcElement && e.ctrlKey && index > 0 && node.value_type === xelib.vtReference)
-            e.srcElement.classList.add('highlight-reference');
-        //Helper variables for on-controlkeypressed listener
+        if (index === 0 || node.value_type !== xelib.vtReference) return;
         $scope.highlightedCell = e.srcElement;
-        $scope.highlightedNode = node;
+        if (e.srcElement && e.ctrlKey) {
+            e.srcElement.classList.add('highlight-reference');
+        }
     };
-    
-    $scope.onCellMouseLeave = function(e, node, index) {
-        if (e.srcElement && e.srcElement.classList.contains('highlight-reference'))
-            e.srcElement.classList.remove('highlight-reference');
-        //Helper variables for on-controlkeypressed listener
-        $scope.highlightedCell = null;
-        $scope.highlightedNode = null;
+
+    $scope.onCellMouseLeave = function() {
+        if ($scope.highlightedCell) {
+            $scope.highlightedCell.classList.remove('highlight-reference');
+            delete $scope.highlightedCell;
+        }
     };
 
     $scope.handleEnter = function(e) {
@@ -125,20 +124,17 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
         if (!xelib.GetFormID($scope.record)) $scope.reload();
     });
 
-    //Event broadcasts from baseHotKey factory
+
     $scope.$on('controlKeyPressed', function(){
-        if ($scope.highlightedCell && $scope.highlightedNode && 
-            $scope.highlightedNode.value_type === xelib.vtReference && 
-            !$scope.highlightedCell.classList.contains('highlight-reference'))
-                $scope.highlightedCell.classList.add('highlight-reference');
+        if (!$scope.highlightedCell) return;
+        $scope.highlightedCell.classList.add('highlight-reference');
     });
-    //Event broadcasts from baseHotKey factory
+
     $scope.$on('controlKeyReleased',function() {
-        if ($scope.highlightedCell && 
-            $scope.highlightedCell.classList.contains('highlight-reference'))
-                $scope.highlightedCell.classList.remove('highlight-reference');
+        if (!$scope.highlightedCell) return;
+        $scope.highlightedCell.classList.remove('highlight-reference');
     });
-    
+
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue === newValue) return;
