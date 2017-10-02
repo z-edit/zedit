@@ -198,7 +198,7 @@ ngapp.service('contextMenuFactory', function() {
                 label: 'Enable Editing',
                 hotkey: 'Ctrl+E',
                 disabled: true,
-                callback: () => scope.enableEditing(node)
+                callback: () => scope.enableEditing()
             })
         }
     }, divider, {
