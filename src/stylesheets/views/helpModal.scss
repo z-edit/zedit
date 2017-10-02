@@ -37,6 +37,8 @@
       font-weight: 300;
       margin: 0;
       padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
     }
 
     ng-include {
@@ -55,6 +57,24 @@
     .documentation-warning {
       color: $negative;
       font-style: italic;
+    }
+  }
+
+  .nav-items {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+
+    > button {
+      font-size: 26px;
+
+      &:not(:disabled) {
+        color: $secondary_action;
+      }
+    }
+
+    button.back {
+      margin-right: 2px;
     }
   }
 
