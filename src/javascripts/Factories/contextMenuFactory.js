@@ -69,10 +69,10 @@ ngapp.service('contextMenuFactory', function() {
                 label: `Add ${isFile ? 'Group' : 'Record'}`,
                 hotkey: 'Insert',
                 disabled: !addList.length,
-                children: addList.map(function(item) {
+                children: addList.map(function(label) {
                     return {
-                        label: item,
-                        callback: () => scope.addElement(node, item)
+                        label: label,
+                        callback: () => scope.addElement(node, label)
                     };
                 })
             });
@@ -176,11 +176,11 @@ ngapp.service('contextMenuFactory', function() {
                     callback: () => scope.addMasters(node)
                 }, {
                     label: 'Sort Masters',
-                    disabled:true,
+                    disabled: true,
                     callback: () => scope.sortMasters(node)
                 }, {
                     label: 'Clean Masters',
-                    disabled:true,
+                    disabled: true,
                     callback: () => scope.cleanMasters(node)
                 }]
             });
