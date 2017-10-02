@@ -84,7 +84,9 @@ ngapp.controller('recordTreeViewController', function($scope, $element, $timeout
     };
 
     $scope.handleEnter = function(e) {
-        $scope.onNodeDoubleClick(e, $scope.lastSelectedNode());
+        let node = $scope.lastSelectedNode();
+        $scope.onNodeDoubleClick(e, node);
+        $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
         e.stopImmediatePropagation();
     };
 
