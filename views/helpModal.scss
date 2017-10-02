@@ -96,6 +96,32 @@
       padding: 4px 8px;
       border-bottom: 1px solid $medium_border;
     }
+
+    .type {
+      border-radius: 3px;
+      color: $inverse_font_color !important;
+      padding: 2px 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .type-function {
+      background-color: $secondary_action;
+    }
+
+    .type-event, .type-handle, .type-array-of-handle {
+      background-color: $negative;
+    }
+
+    .type-enumeration, .type-boolean, .type-integer,
+    .type-unsigned-integer, .type-float, .type-array-of-integer {
+      background-color: $positive;
+    }
+
+    .type-string, .type-array-of-string,
+    .type-object, .type-array-of-object {
+      background-color: $neutral;
+    }
   }
 
   .games-list {
