@@ -32,11 +32,11 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 }]);
 
 //== begin angular files ==
-//=require Directives/*.js
-//=require Factories/*.js
-//=require Filters/*.js
-//=require Services/*.js
-//=require Views/**/*.js
+//=include Directives/*.js
+//=include Factories/*.js
+//=include Filters/*.js
+//=include Services/*.js
+//=include Views/**/*.js
 //== end angular files ==
 
 // load modules

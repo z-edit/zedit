@@ -5,11 +5,11 @@ import './polyfills';
 const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angularSpinner']);
 
 //== begin angular assets ==
-//=require Factories/spinnerFactory.js
-//=require Services/modalService.js
-//=require Directives/progressBar.js
-//=require Directives/progressModal.js
-//=require Directives/loader.js
+//=include Directives/progressBar.js
+//=include Directives/progressModal.js
+//=include Directives/loader.js
+//=include Factories/spinnerFactory.js
+//=include Services/modalService.js
 //== end angular assets ==
 
 ngapp.run(function($rootScope, spinnerFactory) {
