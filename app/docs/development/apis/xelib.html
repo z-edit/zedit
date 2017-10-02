@@ -15,7 +15,7 @@
     <tbody>
     <tr ng-repeat="child in topic.children">
         <td class="nowrap">
-            <a ng-click="navigateToChild(child)">{{::child.label}}</a>
+            <a ng-click="$emit('navigateToChild', child)">{{::child.label}}</a>
         </td>
         <td>{{::child.description}}</td>
     </tr>
