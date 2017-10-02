@@ -9,7 +9,16 @@
         </div>
 
         <form class="help-contents">
-            <h1>{{topic.label}}</h1>
+            <h1>{{topic.label}}
+                <span class="nav-items">
+                    <button class="glyph-button back" ng-click="back()" ng-disabled="historyIndex < 1">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <button class="glyph-button forward" ng-click="forward()" ng-disabled="historyIndex === history.length - 1">
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                </span>
+            </h1>
             <ng-include src="topic.templateUrl" dyn-controller="topic.controller"></ng-include>
         </form>
     </div>
