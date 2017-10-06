@@ -2,5 +2,49 @@
 
 <p>The load order modal cannot be closed.  This is because opening it requires setting the game mode and initializing definitions in XEditLib, which currently cannot be undone.</p>
 
-<h2></h2>
-<p></p>
+<h2>Plugin states</h2>
+<ul>
+    <li>
+        <span class="negative-fg">Disabled</span> - Plugins are colored red when one or more of their masters are unavailable to load.  Plugins are considered unavailable to load if they are not found in your data directory or if they are disabled.  You can move your mouse over a disabled plugin to get a tooltip specifying the masters which are unavailable to it.  Disabled plugins cannot be activated.
+    </li>
+    <li>
+        <span class="positive-fg">Required</span> - Plugins are colored green when an active plugin requires them as a master.  You can move your mouse over a required plugin to get a tooltip specifying the active plugins which require it.
+    </li>
+</ul>
+
+<h2>WYSIWYG</h2>
+<p>When a plugin is activated any masters it requires will automatically be activated as well.  Similarly, when a plugin is deactivated, any plugins which require it will be deactivated as well.  This means that the load order modal presents the exact load order that will be loaded into zEdit.</p>
+
+<h2>Hotkeys</h2>
+<ul>
+    <li>
+        <kbd>Ctrl</kbd> + <kbd>Click</kbd> - Multi-select individual plugins.  Toggles the selection of the plugin clicked.
+    </li>
+    <li>
+        <kbd>Shift</kbd> + <kbd>Click</kbd> - Multi-select a range of plugins.  Selects all plugins between the clicked plugin and the previously selected plugin.
+    </li>
+    <li>
+        <kbd>&uarr;</kbd> - Moves the selection up one plugin.  Can be used for multi-selection if <bkd>Shift</bkd> is held.
+    </li>
+    <li>
+        <kbd>&darr;</kbd> - Moves the selection down one plugin.  Can be used for multi-selection if <bkd>Shift</bkd> is held.
+    </li>
+    <li>
+        <kbd>Space</kbd> - Toggles the activation of the selected plugins.
+    </li>
+    <li>
+        <kbd>Ctrl</kbd> + <kbd>Space</kbd> - Activates the selected plugins.
+    </li>
+    <li>
+        <kbd>Shift</kbd> + <kbd>Space</kbd> - Deactivates the selected plugins.
+    </li>
+    <li>
+        <kbd>Ctrl</kbd> + <kbd>A</kbd> - Selects all plugins.
+    </li>
+    <li>
+        <kbd>Escape</kbd> - Clears your current plugin selection.
+    </li>
+    <li>
+        <kbd>Enter</kbd> - Loads the active plugins.  Equivalent to clicking the <b>OK</b> button.
+    </li>
+</ul>
