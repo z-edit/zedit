@@ -38,7 +38,14 @@
       { "label": "Help Modal" },
       { "label": "Profiles Modal" },
       { "label": "Load Order Modal" },
-      { "label": "Settings Modal" },
+      {
+        "label": "Settings Modal",
+        "children": [
+          { "label": "Core Settings" },
+          { "label": "Tree View Settings" },
+          { "label": "Record View Settings" }
+        ]
+      },
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
       { "label": "Save Modal" }
