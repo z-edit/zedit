@@ -84,7 +84,7 @@
     background-color: $background_tint;
     font-size: 14.5px;
     border-collapse: collapse;
-    max-width: 600px;
+    max-width: 700px;
 
     th {
       border-bottom: 1px solid $medium_border;
@@ -95,6 +95,10 @@
     td {
       padding: 4px 8px;
       border-bottom: 1px solid $medium_border;
+    }
+
+    code {
+      background-color: $background;
     }
 
     .type {
