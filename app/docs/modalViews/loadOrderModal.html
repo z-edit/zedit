@@ -1,6 +1,6 @@
 <p>The load order modal allows you to select an order of plugins to load.  It appears automatically when you press the <b>Start Session</b> button on the <a href="docs://Views/Start View">Start View</a>.</p>
 
-<p>The load order modal cannot be closed.  This is because opening it requires setting the game mode and initializing definitions in XEditLib, which currently cannot be undone.</p>
+<p>The load order modal cannot be closed because opening it requires setting the game mode and initializing definitions in XEditLib.</p>
 
 <h2>Plugin states</h2>
 <ul>
@@ -13,21 +13,24 @@
 </ul>
 
 <h2>WYSIWYG</h2>
-<p>When a plugin is activated any masters it requires will automatically be activated as well.  Similarly, when a plugin is deactivated, any plugins which require it will be deactivated as well.  This means that the load order modal presents the exact load order that will be loaded into zEdit.</p>
+<p>When a plugin is activated any masters it requires will automatically be activated as well.  Similarly, when a plugin is deactivated, any plugins which require it will be deactivated as well.  This means that the load order modal presents the exact load order that will be loaded into zEdit - what you see is what you get.</p>
 
 <h2>Hotkeys</h2>
 <ul>
     <li>
-        <kbd>Ctrl</kbd> + <kbd>Click</kbd> - Multi-select individual plugins.  Toggles the selection of the plugin clicked.
+        <kbd>Ctrl</kbd> + <kbd>Click</kbd> - Toggles the selection of the plugin clicked, preserving the current selection.
     </li>
     <li>
-        <kbd>Shift</kbd> + <kbd>Click</kbd> - Multi-select a range of plugins.  Selects all plugins between the clicked plugin and the previously selected plugin.
+        <kbd>Shift</kbd> + <kbd>Click</kbd> - Selects all plugins between the clicked plugin and the previously selected plugin.
     </li>
     <li>
-        <kbd>&uarr;</kbd> - Moves the selection up one plugin.  Can be used for multi-selection if <bkd>Shift</bkd> is held.
+        <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Click</kbd> - Same as <kbd>Shift</kbd> + <kbd>Click</kbd>, but also preserves the current selection.
     </li>
     <li>
-        <kbd>&darr;</kbd> - Moves the selection down one plugin.  Can be used for multi-selection if <bkd>Shift</bkd> is held.
+        <kbd class="arrow-key">&uarr;</kbd> - Moves the selection up one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
+    </li>
+    <li>
+        <kbd class="arrow-key">&darr;</kbd> - Moves the selection down one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
     </li>
     <li>
         <kbd>Space</kbd> - Toggles the activation of the selected plugins.
