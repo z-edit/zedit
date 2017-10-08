@@ -1,4 +1,6 @@
 ngapp.service('hotkeyFactory', function() {
+    let factory = this;
+
     this.baseHotkeys = {
         i: [{
             modifiers: ['ctrlKey', 'shiftKey'],
