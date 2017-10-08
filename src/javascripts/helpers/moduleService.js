@@ -82,7 +82,7 @@ export default function(ngapp, fh) {
         } else if (loader === true) {
             allowDefer ? deferredModules.push(module) : deferredError(module);
         } else {
-            loader(modules, module, fh, ngapp, service);
+            loader(module, fh, ngapp, service);
             modules[module.info.id] = module.info;
         }
     };
