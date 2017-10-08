@@ -3,3 +3,6 @@
         <a ng-click="$emit('navigateToChild', child)">{{::child.label}}</a>
     </li>
 </ul>
+<span class="content-message" ng-if="!topic.children.length">
+    No children topics found.
+</span>
