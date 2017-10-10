@@ -2,7 +2,13 @@
 
 <p>The load order modal cannot be closed because opening it requires setting the game mode and initializing definitions in XEditLib.</p>
 
-<h2>Plugin states</h2>
+<h2>Plugin items</h2>
+<p>The load order modal lists a number of plugin items.  Each item can be checked or unchecked to indicate whether or not it should be loaded, and displays both the target load order (in <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a>) and filename of the plugin to load.  A maximum of 255 plugins can be loaded due to limits of the hexadecimal FormID system.</p>
+
+<h3>Drag and drop</h3>
+<p>You can drag and drop plugins to change their order.  This is a backup mechanism for situations in which your load order was not parsed correctly, or when you want to make a small adjustment without restarting the program.</p>
+
+<h3>Plugin states</h3>
 <ul>
     <li>
         <span class="negative-fg">Disabled</span> - Plugins are colored red when one or more of their masters are unavailable to load.  Plugins are considered unavailable to load if they are not found in your data directory or if they are disabled.  You can move your mouse over a disabled plugin to get a tooltip specifying the masters which are unavailable to it.  Disabled plugins cannot be activated.
@@ -12,7 +18,7 @@
     </li>
 </ul>
 
-<h2>WYSIWYG</h2>
+<h3>What you see if what you get</h3>
 <p>When a plugin is activated any masters it requires will automatically be activated as well.  Similarly, when a plugin is deactivated, any plugins which require it will be deactivated as well.  This means that the load order modal presents the exact load order that will be loaded into zEdit - what you see is what you get.</p>
 
 <h2>Hotkeys</h2>
@@ -27,10 +33,10 @@
         <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Click</kbd> - Same as <kbd>Shift</kbd> + <kbd>Click</kbd>, but also preserves the current selection.
     </li>
     <li>
-        <kbd class="arrow-key">&uarr;</kbd> - Moves the selection up one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
+        <kbd>Up Arrow</kbd> - Moves the selection up one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
     </li>
     <li>
-        <kbd class="arrow-key">&darr;</kbd> - Moves the selection down one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
+        <kbd>Down Arrow</kbd> - Moves the selection down one plugin.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
     </li>
     <li>
         <kbd>Space</kbd> - Toggles the activation of the selected plugins.

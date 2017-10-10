@@ -51,11 +51,6 @@ kbd {
   font-size: 90%;
   border-bottom-color: $hard_border;
   @include monospace;
-
-  &.arrow-key {
-    font-family: sans-serif;
-    padding: 0 5px 3px;
-  }
 }
 
 .title-bar {
