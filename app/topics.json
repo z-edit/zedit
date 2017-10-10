@@ -43,7 +43,10 @@
       }],
       "children": [{
         "label": "Tree View",
-        "modalViews": ["Automate Modal"]
+        "modalViews": [{
+          "label": "Automate Modal",
+          "description": "Allows you to create, manage, and run scripts."
+        }]
       }, {
         "label": "Record View",
         "modalViews": ["Edit Value Modal"]

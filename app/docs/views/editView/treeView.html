@@ -1,0 +1,222 @@
+<p>The tree view displays a tree of files, groups, and records, and is primarily used for navigation.</p>
+
+<h2>Tree nodes</h2>
+<p>The tree view is made up of a hierarchy of nodes which represent files, groups, and records.  Nodes can be expanded or collapsed by clicking on the <b>+</b> / <b>-</b> button, and you can select a node by clicking on it.  See the hotkeys section below for additional interactions.</p>
+
+<h2>Hotkeys</h2>
+<ul>
+    <li>
+        <kbd>Double Click</kbd> - Toggles the expansion of the clicked node and opens it in the <a href="docs://Views/Edit View/Record View">record view</a> if it is a record or file node.
+    </li>
+    <li>
+        <kbd>Ctrl</kbd> + <kbd>Click</kbd> - Toggles the selection of the node clicked, preserving the current selection.
+    </li>
+    <li>
+        <kbd>Shift</kbd> + <kbd>Click</kbd> - Selects all nodes between the clicked node and the previously selected node.
+    </li>
+    <li>
+        <kbd>Enter</kbd> - Opens the selected node in the record view if it is a file or record node.
+    </li>
+    <li>
+        <kbd>Right Arrow</kbd> - Expands the last selected node if it is not expanded, else selects the first child node.
+    </li>
+    <li>
+        <kbd>Left Arrow</kbd> - Collapses the last selected node if it is expanded, else selects its parent node.
+    </li>
+    <li>
+        <kbd>Up Arrow</kbd> - Moves the selection up one node.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
+    </li>
+    <li>
+        <kbd>Down Arrow</kbd> - Moves the selection down one node.  Can be used for multi-selection if <kbd>Shift</kbd> is held.
+    </li>
+    <li>
+        <kbd>Page Down</kbd> - Scrolls down one page of nodes.
+    </li>
+    <li>
+        <kbd>Page Up</kbd> - Scrolls up one page of nodes.
+    </li>
+    <li>
+        <kbd>Delete</kbd> - Deletes the selected nodes if possible.
+    </li>
+</ul>
+
+<h2>Search bar</h2>
+<p>The search bar on the tree view can be used to search for a record by Form ID, Editor ID, or FULL Name.  You can open or focus the search bar by pressing <kbd>Ctrl</kbd> + <kbd>F</kbd>.</p>
+
+<h3>Exact match</h3>
+<p>By default, searching by Editor ID or Name will find any record which contains the input string.  You can check the exact match checkbox to find only exact matches for the input text.</p>
+
+<h3>Hotkeys</h3>
+<p><b>Note:</b> all hotkeys only work when the search input is focused.</p>
+
+<ul>
+    <li>
+        <kbd>Escape</kbd> - Hides/closes the search bar.
+    </li>
+    <li>
+        <kbd>Enter</kbd> - Starts a search to find the next record matching the search parameters.
+    </li>
+    <li>
+        <kbd>Shift</kbd> + <kbd>Enter</kbd> - Starts a search to find the previous record matching the search parameters.
+    </li>
+    <li>
+        <kbd>Alt</kbd> + <kbd>F</kbd> - Switches the search mode to Form ID.
+    </li>
+    <li>
+        <kbd>Alt</kbd> + <kbd>E</kbd> - Switches the search mode to Editor ID.
+    </li>
+    <li>
+        <kbd>Alt</kbd> + <kbd>N</kbd> - Switches the search mode to Name.
+    </li>
+    <li>
+        <kbd>Alt</kbd> + <kbd>X</kbd> - Toggles the exact match option.
+    </li>
+</ul>
+
+<h2>Context menu</h2>
+<p>You can right-click anywhere in the tree view to open a context menu with actions.  The context menu actions available are listen below:</p>
+
+<table class="full-width">
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Availability</th>
+        <th>Hotkey</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Add File</td>
+        <td>Only visible when right-clicking in an empty area on the tree view.</td>
+        <td class="nowrap"><kbd>Insert</kbd></td>
+        <td>Allows you to create a new file, which will occupy the load order position immediately after the currently loaded files.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Add Group</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap"><kbd>Insert</kbd></td>
+        <td>Contains children items for each group that is not currently in the file.  Click on a child item to add the corresponding group to the file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Add Record</td>
+        <td>Only visible when right-clicking a group in an editable file.</td>
+        <td class="nowrap"><kbd>Insert</kbd></td>
+        <td>Contains children items for each type of record which can exist in the group.  Click on a child item to add a blank record of the corresponding type to the group.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Delete</td>
+        <td>Only visible when right-clicking a group or record in an editable file.</td>
+        <td class="nowrap"><kbd>Delete</kbd></td>
+        <td>Removes the group/record from the file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Rename File</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap"><kbd>F2</kbd> or <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd></td>
+        <td>Opens a modal from which you can rename the last selected file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Change Author</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></td>
+        <td>Opens a modal from which you can change the author of the last selected file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Change Description</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd></td>
+        <td>Opens a modal from which you can change the description of the last selected file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Rename</td>
+        <td>Only visible when all selected nodes are editable records.</td>
+        <td class="nowrap"><kbd>F2</kbd> or <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd></td>
+        <td>Unimplemented</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Change Editor IDs</td>
+        <td>Only visible when all selected nodes are editable records.</td>
+        <td class="nowrap"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>E</kbd></td>
+        <td>Unimplemented</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Refactor -> Change Form IDs</td>
+        <td>Only visible when all selected nodes are editable records.</td>
+        <td class="nowrap"><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td>
+        <td>Opens a modal from which you can change the description of the last selected file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Masters -> Add Masters</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap">-</td>
+        <td>Opens a modal from which you can add masters to a file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Masters -> Sort Masters</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap">-</td>
+        <td>Sorts masters in the last selected file based on the current load order.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Masters -> Clean Masters</td>
+        <td>Only visible when right-clicking an editable file.</td>
+        <td class="nowrap">-</td>
+        <td>Removes unused masters from the last selected file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Enable Editing</td>
+        <td>Only visible when right-clicking an uneditable file.</td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>E</kbd></td>
+        <td>Enables editing of the file.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Automate</td>
+        <td>Always visible and enabled.</td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>M</kbd></td>
+        <td>Opens the <a href="docs://Modal Views/Automate Modal">Automate Modal</a>.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Advanced Search</td>
+        <td>Always visible and enabled.</td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Open</td>
+        <td>Visible when the last selected node is a record or file.</td>
+        <td class="nowrap"><kbd>Enter</kbd></td>
+        <td>Opens the selected node in the record view.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Copy to</td>
+        <td><!--Visible when all selected nodes are records or groups.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Copy</td>
+        <td><!--Visible when all selected nodes are records or groups.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Copy Path</td>
+        <td><!--Always visible and enabled.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Paste</td>
+        <td><!--Visible when all selected nodes are valid targets for pasting the elements currently in the clipboard.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>V</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Paste as Override</td>
+        <td><!--Visible when all selected nodes are valid targets for pasting the elements currently in the clipboard.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    </tbody>
+</table>
