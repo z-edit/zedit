@@ -37,7 +37,10 @@
       }]
     }, {
       "label": "Edit View",
-      "modalViews": ["Settings Modal"],
+      "modalViews": [{
+        "label": "Settings Modal",
+        "description": "Allows you to view and global settings and settings for the current profile."
+      }],
       "children": [{
         "label": "Tree View",
         "modalViews": ["Automate Modal"]
