@@ -127,7 +127,8 @@
     }
 
     .type-string, .type-array-of-string,
-    .type-object, .type-array-of-object {
+    .type-object, .type-array-of-object,
+    .type-array {
       background-color: $neutral;
     }
   }
