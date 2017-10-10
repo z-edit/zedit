@@ -16,10 +16,11 @@ ngapp.directive('autocompleteInput', function() {
 });
 
 ngapp.controller('autocompleteInputController', function($scope, $timeout, hotkeyService) {
-    // initialize scope variables
-    angular.default($scope, 'minLength', 2);
-    angular.default($scope, 'pause', 250);
-    angular.default($scope, 'getText', (item) => { return item; });
+    Object.defaults($scope, {
+        minLength: 2,
+        pause: 250,
+        getText: (item) => { return item }
+    });
 
     // helper functions
     let hideDropdown = function() {

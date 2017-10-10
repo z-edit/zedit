@@ -10,7 +10,7 @@ ngapp.directive('pane', function () {
 });
 
 ngapp.controller('paneController', function ($scope, $element, viewFactory) {
-    angular.inheritScope($scope, 'pane');
+    Object.defaults($scope, $scope.pane || $scope.$parent.pane);
 
     // initialize pane size
     let paneElement = $element[0],
