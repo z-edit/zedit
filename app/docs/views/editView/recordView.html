@@ -1,0 +1,126 @@
+<p>The record view allows you to view and edit values in records.</p>
+
+<h2>Element nodes</h2>
+<p>The record view is made up of a hierarchy of nodes which represent individual elements of a record.  Nodes can be expanded or collapsed by clicking on the <b>+</b> / <b>-</b> button, and you can select a node by clicking on it.  See the hotkeys section below for additional interactions.</p>
+
+<h2>Columns</h2>
+<p>The first column on the record view contains element names corresponding to each node.  The second column corresponmds to the original "master" version of the record.  Subsequent columns correspond to overrides of the record.</p>
+
+<h2>Hotkeys</h2>
+<ul>
+    <li>
+        <kbd>Double Click</kbd> - Toggles the expansion of the clicked node and opens the <a href="docs://Modal Views/Edit Value Modal">edit value modal</a> to edit it if it is an editable value.
+    </li>
+    <li>
+        <kbd>Enter</kbd> - Opens the selected node in the edit value modal if it is an editable value.
+    </li>
+    <li>
+        <kbd>Right Arrow</kbd> - Expands the last selected node if it is not expanded, else selects the first child node.
+    </li>
+    <li>
+        <kbd>Left Arrow</kbd> - Collapses the last selected node if it is expanded, else selects its parent node.
+    </li>
+    <li>
+        <kbd>Up Arrow</kbd> - Moves the selection up one node.
+    </li>
+    <li>
+        <kbd>Down Arrow</kbd> - Moves the selection down one node.
+    </li>
+    <li>
+        <kbd>Page Down</kbd> - Scrolls down one page of nodes.
+    </li>
+    <li>
+        <kbd>Page Up</kbd> - Scrolls up one page of nodes.
+    </li>
+    <li>
+        <kbd>Delete</kbd> - Deletes the selected nodes if possible.
+    </li>
+</ul>
+
+<h2>Address bar</h2>
+<p>The address bar on the record view can be used to navigate to a specific record via a path, or to navigate through records that were previously viewed.  You can open of focus the address bar by pressing <kbd>Ctrl</kbd> + <kbd>A</kbd> <b>OR</b> <kbd>F6</kbd>.</p>
+
+<h3>Path formats</h3>
+<p>Below are examples of some of the most commonly used valid path formats:</p>
+
+<ul>
+    <li>
+        <code>FileName.esp\01234567</code> - Hexadecimal Form ID path.
+    </li>
+    <li>
+        <code>FileName.esp\RecordEditorID</code> - Editor ID path.
+    </li>
+    <li>
+        <code>FileName.esp\"FULL Name"</code> - FULL Name path.
+    </li>
+</ul>
+
+<h3>Hotkeys</h3>
+<p><b>Note:</b> all hotkeys only work when the address input is focused unless otherwise noted.</p>
+
+<ul>
+    <li>
+        <kbd>Enter</kbd> - Navigates to the entered path.
+    </li>
+    <li>
+        <kbd>Backspace</kbd> <b>OR</b> <kbd>Alt</kbd> + <kbd>Left Arrow</kbd> - Navigates back to the previously viewed record.  Works when the address bar is not focused.
+    </li>
+    <li>
+        <kbd>Alt</kbd> + <kbd>Right Arrow</kbd> - Navigates forward to the next viewed record.  Works when the address bar is not focused.
+    </li>
+</ul>
+
+<h2>Context menu</h2>
+<p>You can right-click anywhere in the record view to open a context menu with actions.  The context menu actions available are listed below:</p>
+
+<table class="full-width">
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Availability</th>
+        <th>Hotkey</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Add</td>
+        <td>Only visible when right-clicking an unassigned element or array element in an editable record.</td>
+        <td class="nowrap"><kbd>Insert</kbd></td>
+        <td>Adds the element to the record.  Adding an element to an array will append a new element to it.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Delete</td>
+        <td>Only visible when right-clicking a removable element in an editable record.</td>
+        <td class="nowrap"><kbd>Delete</kbd></td>
+        <td>Removes the element from the record.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Edit</td>
+        <td>Visible when right-clicking a value element in an editable record.</td>
+        <td class="nowrap"><kbd>Enter</kbd></td>
+        <td>Opens the selected node in the record view.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Copy</td>
+        <td><!--Visible when all selected nodes are records or groups.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Copy Path</td>
+        <td><!--Always visible and enabled.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Paste</td>
+        <td><!--Visible when all selected nodes are valid targets for pasting the elements currently in the clipboard.--></td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>V</kbd></td>
+        <td>Unimplemented.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Modal views</h2>
+<modal-views-list></modal-views-list>
