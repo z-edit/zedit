@@ -1,0 +1,250 @@
+[
+  {
+    "api": "String.prototype",
+    "name": "capitalize",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Capitalizes the first character of the string."
+  },
+  {
+    "api": "String.prototype",
+    "name": "uncapitalize",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Uncapitalizes the first character of the string."
+  },
+  {
+    "api": "String.prototype",
+    "name": "titleCase",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Capitalizes the first character of each word in the string separated by whitespace."
+  },
+  {
+    "api": "String.prototype",
+    "name": "humanize",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converted an input variable name from camel case, pascal case, or underscore format to a humanized format.  E.g. `testVariableName` becomes `Test Variable Name`, `test-class-name` becomes `Test Class Name`, and `test_var` becomes `Test Var`."
+  },
+  {
+    "api": "String.prototype",
+    "name": "toCamelCase",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input string to camel case.  E.g. `Test Variable Name` becomes `testVariableName`, `test-class-name` becomes `testClassName, and `test_var` becomes `testVar`."
+  },
+  {
+    "api": "String.prototype",
+    "name": "toPascalCase",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input string to pascal case.   E.g. `Test Variable Name` becomes `TestVariableName`, `test-class-name` becomes `TestClassName`, and `test_var` becomes `TestVar`."
+  },
+  {
+    "api": "String.prototype",
+    "name": "underscore",
+    "type": "function",
+    "args": [{
+      "name": "separator",
+      "type": "string",
+      "description": "Value to separate parts of the variable with.  Defaults to _ (underscore)."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input string to underscore format.   E.g. `Test Variable Name` becomes `test_variable_name`, `test-class-name` becomes `test_class_name, and `TestVar` becomes `test_var`."
+  },
+  {
+    "api": "String.prototype",
+    "name": "wordCount",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Returns the number of words in the string as delimited by whitespace."
+  },
+  {
+    "api": "String.prototype",
+    "name": "wordwrap",
+    "type": "function",
+    "args": [{
+      "name": "width",
+      "type": "integer",
+      "description": "The target maximum line length.  Defaults to 60."
+    }, {
+      "name": "brk",
+      "type": "string",
+      "description": "The string to separate lines with.  Defaults to '\\n'."
+    }, {
+      "name": "cut",
+      "type": "boolean",
+      "description": "If true, words which exceed the line length will be cut into multiple lines.  Default false."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Wraps the input string so no line exceeds `width` characters."
+  },
+  {
+    "api": "Number.prototype",
+    "name": "toBytes",
+    "type": "function",
+    "args": [{
+      "name": "precision",
+      "type": "integer",
+      "description": "Number of decimal places to show.  Defaults to 1."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input number to a bytes string.  E.g. `(1024).toBytes()` returns `1.0 kB`."
+  },
+  {
+    "api": "window",
+    "name": "parseBytes",
+    "type": "function",
+    "args": [{
+      "name": "bytesString",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Converts a bytes string to an integer.  E.g. `parseBytes('1.243 MB')` returns `1303379`."
+  },
+  {
+    "api": "Number.prototype",
+    "name": "toPercentage",
+    "type": "function",
+    "args": [{
+      "name": "precision",
+      "type": "integer",
+      "description": "Number of decimal places to show.  Defaults to 1."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input number to percentage string.  E.g. `(0.512).toBytes()` returns `51.2%`."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "random",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "any"
+    },
+    "description": "Returns a random item from the input array."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "remove",
+    "type": "function",
+    "args": [{
+      "name": "needle",
+      "type": "any"
+    }],
+    "returns": {
+      "type": "integer"
+    },
+    "description": "Removes `needle` from the input array if present.  Returns the index the needle was located at in the array."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "subtract",
+    "type": "function",
+    "args": [{
+      "name": "otherArray",
+      "type": "array"
+    }],
+    "returns": {
+      "type": "array"
+    },
+    "description": "Returns a new array where all items in `otherArray` have been removed from the input array."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "findByKey",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string"
+    }, {
+      "name": "value",
+      "type": "any"
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Returns the first item in the input array which has a property `key` which is strictly equal to `value`."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "sortOnKey",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "array"
+    },
+    "description": "Sorts the items in the input array by the value of their `key` property in place and returns the sorted array."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "groupBy",
+    "type": "function",
+    "args": [{
+      "name": "propertyName",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Groups the items in the input array by the value of their `propertyName` property.  Returns an object where each key corresponds to a unique value found and contains an array of the items which matched that value."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "last",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "any"
+    },
+    "description": "Returns the last item in the input array."
+  },
+  {
+    "api": "Object",
+    "name": "defaults",
+    "type": "function",
+    "args": [{
+      "name": "target",
+      "type": "object"
+    }, {
+      "name": "defaults",
+      "type": "object"
+    }],
+    "description": "Assigns properties from `defaults` to `target`.  If a property is already set on `target` it is **not** overwritten."
+  }
+]

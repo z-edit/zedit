@@ -149,10 +149,13 @@
             ]
           },
           {
-            "label": "Scripting API"
+            "label": "Polyfills"
           },
           {
             "label": "File Helpers"
+          },
+          {
+            "label": "Scripting API"
           },
           {
             "label": "Modal API"
