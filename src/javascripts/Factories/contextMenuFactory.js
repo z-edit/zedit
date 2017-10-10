@@ -140,14 +140,14 @@ ngapp.service('contextMenuFactory', function() {
                         refactorMode: 'Name'
                     })
                 }, {
-                    label: 'Change EditorIDs',
+                    label: 'Change Editor IDs',
                     hotkey: 'Alt+Shift+E',
                     disabled: true,
                     callback: () => scope.$emit('openModal', 'refactor', {
                         refactorMode: 'EditorID'
                     })
                 }, {
-                    label: 'Change FormIDs',
+                    label: 'Change Form IDs',
                     hotkey: 'Alt+Shift+F',
                     disabled: true,
                     callback: () => scope.$emit('openModal', 'refactor', {
@@ -176,12 +176,10 @@ ngapp.service('contextMenuFactory', function() {
                     callback: () => scope.addMasters(node)
                 }, {
                     label: 'Sort Masters',
-                    disabled: true,
-                    callback: () => scope.sortMasters(node)
+                    callback: () => xelib.SortMasters(node.handle)
                 }, {
                     label: 'Clean Masters',
-                    disabled: true,
-                    callback: () => scope.cleanMasters(node)
+                    callback: () => xelib.CleanMasters(node.handle)
                 }]
             });
         }
