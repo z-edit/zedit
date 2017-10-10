@@ -19,6 +19,13 @@
     ]
   }, {
     "label": "Views",
+    "modalViews": [{
+      "label": "Manage Extensions Modal",
+      "description": "Allows you install and manage zEdit extensions such as themes and modules."
+    }, {
+      "label": "Help Modal",
+      "description": "Provides documentation and information about zEdit."
+    }],
     "children": [{
       "label": "Start View",
       "modalViews": ["Profiles Modal", "Load Order Modal"]
