@@ -28,7 +28,13 @@
     }],
     "children": [{
       "label": "Start View",
-      "modalViews": ["Profiles Modal", "Load Order Modal"]
+      "modalViews": [{
+        "label": "Profiles Modal",
+        "description": "Allows you to set the default profile, create new profiles, and edit or remove existing profiles."
+      }, {
+        "label": "Load Order Modal",
+        "description": "Allows you to select the load order to load.  Opens automatically when you start a new session."
+      }]
     }, {
       "label": "Edit View",
       "modalViews": ["Settings Modal"],
