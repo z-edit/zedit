@@ -31,7 +31,7 @@ context-menu {
   }
 
   .item {
-    height: 22px;
+    height: 23px;
     white-space: nowrap;
 
     .icon {
@@ -40,10 +40,12 @@ context-menu {
     }
 
     .label {
+      padding-top: 2px;
       padding-right: 10px;
     }
 
     .hotkey {
+      padding-top: 2px;
       color: $soft_font_color;
     }
 
