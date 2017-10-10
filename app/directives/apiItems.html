@@ -1,11 +1,11 @@
-<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args" ng-class="{'tint-bg' : vm.tintBg}">
+<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args && !item.api" ng-class="{'tint-bg' : vm.tintBg}">
     <span class="title" ng-click="item.expanded = !item.expanded">
         <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}"></span>
         {{::item.name}}
         <span ng-repeat="icon in item.icons" class="icon icon-{{::icon}}"></span>
         <span class="property-code" ng-if="!short">
-            <span ng-if="vm.api">
-                <span class="library">{{::vm.api}}</span>.
+            <span ng-if="vm.api || item.api">
+                <span class="library">{{::vm.api || item.api}}</span>.
             </span>
             <span class="type-{{::item.type | classify}}" title="{{::item.type}}" ng-if="::!item.isEvent">{{::item.name}}</span>
             <span ng-if="::item.isEvent">$emit</span>
