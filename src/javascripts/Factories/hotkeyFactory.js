@@ -57,8 +57,20 @@ ngapp.service('hotkeyFactory', function() {
     };
 
     this.recordTreeHotkeys = {
-        rightArrow: 'handleRightArrow',
-        leftArrow: 'handleLeftArrow',
+        leftArrow: [{
+            modifiers: ['altKey'],
+            callback: (scope) => scope.$broadcast('navBack')
+        }, {
+            modifiers: [],
+            callback: 'handleRightArrow'
+        }],
+        rightArrow: [{
+            modifiers: ['altKey'],
+            callback: (scope) => scope.$broadcast('navForward')
+        }, {
+            modifiers: [],
+            callback: 'handleLeftArrow'
+        }],
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
         pageUp: 'handlePageUp',
@@ -66,6 +78,7 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'handleEnter',
         delete: 'handleDelete',
         insert: 'handleInsert',
+        backspace: (scope) => scope.$broadcast('navBack'),
         f: [{
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'

@@ -13,6 +13,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
     $scope.history = [];
     $scope.historyIndex = -1;
 
+    // scope functions
     $scope.historyGo = function() {
         if ($scope.historyIndex < 0) {
             $scope.address = '';
@@ -48,7 +49,6 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
         }
     };
 
-    // TODO: More hotkeys?
     $scope.onAddressKeyDown = function(e) {
         if (e.keyCode === enterKey) $scope.go();
     };
@@ -107,4 +107,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
         $scope.historyIndex = Math.min(newIndex, $scope.history.length - 1);
         $scope.historyGo();
     });
+
+    $scope.$on('navBack', $scope.back);
+    $scope.$on('navForward', $scope.forward);
 });
