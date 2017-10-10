@@ -86,6 +86,10 @@
     border-collapse: collapse;
     max-width: 700px;
 
+    &.full-width {
+      max-width: 100%;
+    }
+
     th {
       border-bottom: 1px solid $medium_border;
       padding: 4px 8px;
