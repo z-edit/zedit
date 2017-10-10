@@ -7,10 +7,8 @@ String.prototype.uncapitalize = function() {
 };
 
 String.prototype.titleCase = function() {
-    return this.replace(/[^-'\s]+/g, function(word) {
-        return word.replace(/^./, function(first) {
-            return first.toUpperCase();
-        });
+    return this.replace(/[^\s]+/g, function(word) {
+        return word.capitalize();
     });
 };
 
@@ -22,10 +20,6 @@ String.prototype.toCamelCase = function() {
     return this.uncapitalize().replace(/(\s|\-|\_|\.)+(.)/g, function(match) {
         return match.slice(-1).toUpperCase();
     });
-};
-
-String.prototype.startsWith = function(needle) {
-    return (this.indexOf(needle) === 0);
 };
 
 String.prototype.toPascalCase = function() {
@@ -48,49 +42,32 @@ String.prototype.wordCount = function() {
     }
 };
 
-String.prototype.surround = function(str) {
-    return str + this + str;
-};
-
-String.prototype.reduceText = function(numWords) {
-    let lines = this.split('\n');
-    let result = '';
-    while (result.wordCount() < numWords && lines.length) {
-        result += lines.shift() + '\n';
-    }
-    return result.trim();
-};
-
 String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
-    let regex = '.{1,' +width+ '}(\\s|$)' + (cut ? '|.{' +width+ '}|.+$' : '|\\S+?(\\s|$)');
-
-    return this.match(new RegExp(regex, 'g')).map(function(str) {
+    let cutExpr = cut ? `|.{${width}}|.+$` : `|\\S+?(\\s|$)`,
+        expr = `.{1,${width}}(\\s|$)${cutExpr}`;
+    return this.match(new RegExp(expr, 'g')).map(function(str) {
         return str.trim()
     }).join(brk);
 };
 
 // convert integer to a bytes string
-Number.prototype.toBytes = function(precision) {
-    if (typeof precision === 'undefined') precision = 1;
-    let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-        number = Math.floor(Math.log(this) / Math.log(1024));
-    return (this / Math.pow(1024, Math.floor(number))).toFixed(precision) +  ' ' + units[number];
+const byteUnits = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+
+Number.prototype.toBytes = function(precision = 1) {
+    let number = Math.floor(Math.log(this) / Math.log(1024)),
+        value = this / Math.pow(1024, Math.floor(number));
+    return `${value.toFixed(precision)} ${byteUnits[number]}`;
 };
 
 // parse input bytes string into an integer
-Number.prototype.parseBytes = function(bytesString) {
-    let sp = bytesString.split(' ');
-    if (!sp || sp.length < 2) return 0;
-    let units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
-    let power = units.indexOf(sp[1]);
-    if (power === -1) {
-        return 0;
-    } else {
-        return Math.floor(Number.parseFloat(sp[0]) * Math.pow(1024, power));
-    }
+window.parseBytes = function(bytesString) {
+    let sp = bytesString.split(' '),
+        power = byteUnits.indexOf(sp[1]);
+    if (power === -1) return 0;
+    return Math.floor(Number.parseFloat(sp[0]) * Math.pow(1024, power));
 };
 
-Number.prototype.toPercentage = function(precision) {
+Number.prototype.toPercentage = function(precision = 1) {
     return (this * 100).toFixed(precision).toString() + "%";
 };
 
@@ -117,21 +94,18 @@ Array.prototype.remove = function(needle) {
 
 Array.prototype.subtract = function(otherArray) {
     if (!otherArray) return this;
-    return this.filter((item) => { return otherArray.indexOf(item) === -1 });
+    return this.filter((item) => { return !otherArray.includes(item) });
 };
 
 Array.prototype.findByKey = function(key, value) {
     return this.find((item) => { return item[key] === value });
 };
 
-Array.prototype.sortOnKey = function(key, sortFn) {
-    sortFn = sortFn || function(a, b, key) {
+Array.prototype.sortOnKey = function(key) {
+    return this.sort(function(a, b) {
         if (a[key] < b[key]) return -1;
         if (a[key] > b[key]) return 1;
         return 0;
-    };
-    return this.sort(function(a, b) {
-        return sortFn(a, b, key);
     });
 };
 
@@ -165,7 +139,7 @@ Array.prototype.equals = function(otherArray) {
     return true;
 };
 
-Array.prototype.forEachDesc = function(callback) {
+Array.prototype.forEachReverse = function(callback) {
     for (let i = this.length; i > -1; i--) {
         callback(this[i], i, this);
     }
@@ -174,10 +148,10 @@ Array.prototype.forEachDesc = function(callback) {
 Array.prototype.forEachNested = function(callback, nestingKey) {
     let nestedCallback = function(element, index, array) {
         if (callback(element, index, array) && element.hasOwnProperty(nestingKey)) {
-            element[nestingKey].forEachDesc(nestedCallback);
+            element[nestingKey].forEachReverse(nestedCallback);
         }
     };
-    this.forEachDesc(nestedCallback);
+    this.forEachReverse(nestedCallback);
 };
 
 Array.prototype.trimFalsy = function() {
@@ -239,31 +213,9 @@ Object.deepAssign = function(target, varArgs) {
     return to;
 };
 
-// angular polyfills
-if (window.hasOwnProperty('angular')) {
-    angular.inherit = function(scope, attribute) {
-        if (angular.isUndefined(scope[attribute])) {
-            scope[attribute] = scope.$parent[attribute];
-        }
-    };
-
-    angular.default = function(scope, attribute, value) {
-        if (angular.isUndefined(scope[attribute])) {
-            scope[attribute] = value;
-        }
-    };
-
-    angular.copyProperties = function(source, destination) {
-        for (let prop in source) {
-            if (source.hasOwnProperty(prop)) {
-                destination[prop] = source[prop];
-            }
-        }
-    };
-
-    angular.inheritScope = function(scope, attribute) {
-        let obj = scope[attribute] || scope.$parent[attribute];
-        if (angular.isUndefined(obj)) return;
-        angular.copyProperties(obj, scope);
-    };
-}
+Object.defaults = function(target, defaults) {
+    Object.keys(defaults).forEach(function(key) {
+        if (target.hasOwnProperty(key)) return;
+        target[key] = defaults[key];
+    })
+};

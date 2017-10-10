@@ -8,9 +8,11 @@ ngapp.directive('splitBar', function () {
             mode: '=?'
         },
         link: function(scope, element) {
-            angular.default(scope, 'offset', 0);
-            angular.default(scope, 'mode', 0);
-            angular.inherit(scope, '$index');
+            Object.defaults(scope, {
+                offset: 0,
+                mode: 0,
+                $index: scope.$parent.$index
+            });
 
             // helper variables
             let htmlElement = document.documentElement,
