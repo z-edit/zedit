@@ -1,0 +1,34 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal huge-modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Copy {{label}} into</h2>
+
+            <section>
+                <list-view items="plugins" default-action="copy">
+                    <input type="checkbox" ng-model="$parent.item.active"/>
+                    <span ng-show="$parent.item.loadOrder !== undefined">[{{$parent.item.loadOrder | hex:2 }}]</span>
+                    {{::$parent.item.filename}}
+                </list-view>
+            </section>
+
+            <h3>Options</h3>
+            <section>
+                <label>
+                    <input type="checkbox" ng-model="asOverride" />
+                    Copy as override
+                </label>
+                <label>
+                    <input type="checkbox" ng-model="smartCopy" ng-disabled="asOverride" />
+                    Smart copy (adjust interconnected references)
+                </label>
+            </section>
+
+            <div class="action-button-container">
+                <button class="action-btn positive" ng-click="copy()">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
