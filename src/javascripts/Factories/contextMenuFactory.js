@@ -2,7 +2,9 @@ ngapp.service('contextMenuFactory', function() {
     let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
     let divider = {
-        visible: (scope, items) => { return items.length > 0 && !items.last().divider; },
+        visible: (scope, items) => {
+            return items.length > 0 && !items.last().divider;
+        },
         build: (scope, items) => items.push({ divider: true })
     };
 
@@ -10,6 +12,22 @@ ngapp.service('contextMenuFactory', function() {
         return nodes.reduce(function (b, node) {
             return b && testFn(node);
         }, true);
+    };
+
+    let isFileNode = function(node) {
+        return node.element_type === xelib.etFile;
+    };
+
+    let isRecordNode = function(node) {
+        return node.element_type === xelib.etMainRecord;
+    };
+
+    let isGroupNode = function(node) {
+        return node.element_type === xelib.etGroupRecord;
+    };
+
+    let isEditableNode = function(node) {
+        return xelib.GetIsEditable(node.handle);
     };
 
     this.checkboxListItems = [{
@@ -58,15 +76,13 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Add',
         visible: (scope) => {
             let node = scope.selectedNodes.last();
-            if (!node) return;
-            return node.element_type !== xelib.etMainRecord && xelib.GetCanAdd(node.handle);
+            return node && !isRecordNode(node) && xelib.GetCanAdd(node.handle);
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),
-                addList = xelib.GetAddList(node.handle),
-                isFile = node.element_type === xelib.etFile;
+                addList = xelib.GetAddList(node.handle);
             items.push({
-                label: `Add ${isFile ? 'Group' : 'Record'}`,
+                label: `Add ${isFileNode(node) ? 'Group' : 'Record'}`,
                 hotkey: 'Insert',
                 disabled: !addList.length,
                 children: addList.map(function(label) {
@@ -108,16 +124,17 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Refactor',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
-            let nodes = scope.selectedNodes, node = nodes.last();
-            return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle) ||
+            let nodes = scope.selectedNodes,
+                node = nodes.last();
+            return isFileNode(node) && isEditableNode(node) ||
                 testNodes(nodes, function(node) {
-                    return node.element_type === xelib.etMainRecord && xelib.GetIsEditable(node.handle);
+                    return isRecordNode(node) && isEditableNode(node);
                 });
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),
                 children = [];
-            if (node.element_type === xelib.etFile) {
+            if (isFileNode(node)) {
                 children.push({
                     label: 'Rename File',
                     hotkey: 'F2, Alt+Shift+R',
@@ -131,7 +148,7 @@ ngapp.service('contextMenuFactory', function() {
                     hotkey: 'Alt+Shift+D',
                     callback: () => scope.changeFileDescription(node)
                 });
-            } else if (node.element_type === xelib.etMainRecord) {
+            } else if (isRecordNode(node)) {
                 children.push({
                     label: 'Rename',
                     hotkey: 'F2, Alt+Shift+R',
@@ -165,7 +182,7 @@ ngapp.service('contextMenuFactory', function() {
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
             let nodes = scope.selectedNodes, node = nodes.last();
-            return node.element_type === xelib.etFile && xelib.GetIsEditable(node.handle);
+            return isFileNode(node) && isEditableNode(node);
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last();
@@ -188,7 +205,7 @@ ngapp.service('contextMenuFactory', function() {
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
             return testNodes(scope.selectedNodes, function(node) {
-                return node.element_type === xelib.etFile && !xelib.GetIsEditable(node.handle);
+                return isFileNode(node) && !isEditableNode(node);
             });
         },
         build: (scope, items) => {
@@ -225,8 +242,7 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Open',
         visible: (scope) => {
             let node = scope.selectedNodes.last();
-            if (!node) return;
-            return node.element_type !== xelib.etGroupRecord;
+            return node && !isGroupNode(node);
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last();
@@ -241,56 +257,54 @@ ngapp.service('contextMenuFactory', function() {
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Copy To',
+                label: 'Copy into',
                 hotkey: 'Ctrl+Alt+C',
-                disabled: true,
-                callback: () => scope.copyNodesTo()
+                disabled: scope.selectedNodes.length === 0,
+                callback: () => scope.copyInto()
             })
         }
     },{
         id: 'Copy',
-        visible: () => { return true; },
+        visible: (scope) => { return scope.selectedNodes.length > 0 },
         build: (scope, items) => {
-            let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy',
                 hotkey: 'Ctrl+C',
-                disabled: true,//!node,
+                disabled: !scope.canCopy(),
                 callback: () => scope.copyNodes()
             })
         }
     }, {
         id: 'Copy Path',
-        visible: () => { return true; },
+        visible: (scope) => { return scope.selectedNodes.length > 0 },
         build: (scope, items) => {
-            let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
-                disabled: true,//!node,
-                callback: () => scope.copyNodePaths()
+                disabled: scope.selectedNodes.length === 0,
+                callback: () => scope.copyPaths()
             })
         }
     }, {
         id: 'Paste',
-        visible: () => { return true },
+        visible: (scope) => { return scope.selectedNodes.length > 0 },
         build: (scope, items) => {
             items.push({
                 label: 'Paste',
                 hotkey: 'Ctrl+V',
-                disabled: true,//!scope.canPaste(),
-                callback: () => scope.paste()
+                disabled: !scope.canPaste(),
+                callback: () => scope.pasteNodes(true)
             })
         }
     }, {
         id: 'Paste as Override',
-        visible: () => { return true; },
+        visible: (scope) => { return scope.selectedNodes.length > 0 },
         build: (scope, items) => {
             items.push({
                 label: 'Paste as Override',
                 hotkey: 'Ctrl+Shift+V',
-                disabled: true,//!scope.canPaste(true),
-                callback: () => scope.paste(true)
+                disabled: !scope.canPaste(),
+                callback: () => scope.pasteNodes()
             })
         }
     }];
@@ -357,7 +371,7 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Copy',
         visible: () => { return true; },
         build: (scope, items) => {
-            let node = scope.selectedNodes.last();
+            //let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy',
                 hotkey: 'Ctrl+C',
@@ -369,7 +383,7 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Copy Path',
         visible: () => { return true; },
         build: (scope, items) => {
-            let node = scope.selectedNodes.last();
+            //let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
