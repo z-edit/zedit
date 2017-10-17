@@ -55,7 +55,18 @@ ngapp.service('hotkeyFactory', function() {
         r: [{
             modifiers: ['altKey', 'shiftKey'],
             callback: 'rename'
-        }]
+        }],
+        c: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'copyPaths'
+        }, {
+            modifiers: ['ctrlKey', 'altKey'],
+            callback: 'copyInto'
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: 'copyNodes'
+        }],
+        v: 'handleV'
     };
 
     this.recordTreeHotkeys = {

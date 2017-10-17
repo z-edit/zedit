@@ -55,6 +55,8 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
         e.stopImmediatePropagation();
     };
 
+    $scope.handleV = (e) => $scope.pasteNodes(!e.shiftKey);
+
     // event handling
     $scope.$on('recordUpdated', (e, element) => {
         let node = $scope.getNodeForElement(element);
@@ -69,7 +71,6 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
         $scope.rebuildNode(node);
         $scope.setNodeModified(node);
     });
-    $scope.$on('fileAdded', $scope.reload);
     $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('getSelectedNodes', function(e) {
         e.targetScope.selectedNodes = $scope.selectedNodes;
