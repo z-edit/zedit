@@ -24,4 +24,19 @@ ngapp.service('xelibService', function() {
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
     };
+
+    let getFormIds = function(records) {
+        return records.map((record) => { return xelib.GetFormID(record) });
+    };
+
+    this.fixReferences = function(oldRecords, newRecords) {
+        let oldFormIds = getFormIds(oldRecords),
+            newFormIds = getFormIds(newRecords);
+        newRecords.forEach(function(newRecord) {
+            oldFormIds.forEach(function(oldFormId, index) {
+                let newFormId = newFormIds[index];
+                xelib.ExchangeReferences(newRecord, oldFormId, newFormId);
+            })
+        });
+    };
 });
