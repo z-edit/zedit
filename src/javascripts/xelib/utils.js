@@ -1,4 +1,12 @@
 // UTILITY METHODS
+let releaseHandles = function(item) {
+    if (item.constructor === Array) {
+        item.forEach(releaseHandles);
+    } else {
+        xelib.Release(item);
+    }
+};
+
 Object.assign(xelib, {
     Hex: function(n, padding = 8) {
         let str = Number(n).toString(16).toUpperCase();
@@ -16,7 +24,7 @@ Object.assign(xelib, {
         try {
             callback(handles);
         } finally {
-            handles.forEach(xelib.Release);
+            releaseHandles(handles);
         }
     },
     CreateHandleGroup: function() {
