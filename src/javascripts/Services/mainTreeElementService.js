@@ -91,7 +91,7 @@ ngapp.service('mainTreeElementService', function($q, editModalFactory, errorServ
             xelib.WithHandle(xelib.GetElementFile(parent), function(file) {
                 elements.forEach(function(element) {
                     xelib.AddRequiredMasters(element, file, asNew);
-                    xelib.CopyElement(element, parent, asNew);
+                    xelib.CopyElement(element, file, asNew);
                 });
             });
         };
