@@ -224,18 +224,18 @@
     </tr>
     <tr>
         <td class="nowrap">Plugin load time</td>
-        <td>3 seconds</td>
+        <td>3 seconds<sup>2</sup></td>
         <td>3 seconds</td>
     </tr>
     <tr>
-        <td class="nowrap">Benchmark Math Script<sup>2</sup></td>
+        <td class="nowrap">Benchmark Math Script<sup>3</sup></td>
         <td>65 seconds</td>
         <td>0.018 seconds</td>
     </tr>
     <tr>
-        <td class="nowrap">Benchmark FullName Script<sup>3</sup></td>
-        <td>28 seconds</td>
-        <td>41 seconds<sup>2</sup></td>
+        <td class="nowrap">Benchmark FullName Script<sup>4</sup></td>
+        <td>29 seconds</td>
+        <td>34 seconds<sup>5</sup></td>
     </tr>
     </tbody>
 </table>
@@ -245,5 +245,17 @@
 </p>
 
 <p class="footnote">
-    <sup>2</sup> Due to node-ffi overhead.  Will be improved in a future version.
+    <sup>2</sup> Reference building skipped by holding shift when clicking OK.
+</p>
+
+<p class="footnote">
+    <sup>3</sup> This script performs a number of mathematical operations in a loop to generate a volumetric fractal object in memory.  [<a href="https://gist.github.com/matortheeternal/a3754f75dc5e8c8d86366350f95b77d4">zEdit Script</a>] [<a href="https://gist.github.com/matortheeternal/b923211ab50c7562a03be607b5e05fb6">xEdit Script</a>] (Note: the xEdit script requires the jvInterpreter to have access to the TVector3D class.  You can use <a href="http://puu.sh/y1hes.zip">this xEdit build</a> to execute it.)
+</p>
+
+<p class="footnote">
+    <sup>4</sup> Gets the full name of every WEAP, ARMO, and MISC record loaded.  [<a href="https://gist.github.com/matortheeternal/5843de2a58efd92a5c9a78879f9a309a">zEdit Script</a>] [<a href="">xEdit Script</a>]
+</p>
+
+<p class="footnote">
+    <sup>5</sup> Slower due to node-ffi overhead.  Will be improved in a future version.
 </p>
