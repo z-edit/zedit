@@ -205,17 +205,17 @@
     <tr>
         <td class="nowrap">RAM usage at startup</td>
         <td>40.1MB</td>
-        <td></td>
+        <td>37.6MB</td>
     </tr>
     <tr>
         <td class="nowrap">RAM usage after loading plugins</td>
         <td>381.4MB</td>
-        <td></td>
+        <td>361.2MB</td>
     </tr>
     <tr>
         <td class="nowrap">RAM usage after expanding nodes<sup>1</sup></td>
         <td>382.1MB</td>
-        <td></td>
+        <td>402.8MB</td>
     </tr>
     <tr>
         <td class="nowrap">Startup time</td>
@@ -235,11 +235,15 @@
     <tr>
         <td class="nowrap">Benchmark FullName Script<sup>3</sup></td>
         <td>28 seconds</td>
-        <td>41 seconds</td>
+        <td>41 seconds<sup>2</sup></td>
     </tr>
     </tbody>
 </table>
 
 <p class="footnote">
     <sup>1</sup> After expanding all top-level nodes in Update.esm and viewing the first record.
+</p>
+
+<p class="footnote">
+    <sup>2</sup> Due to node-ffi overhead.  Will be improved in a future version.
 </p>
