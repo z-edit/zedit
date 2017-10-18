@@ -16,9 +16,11 @@ const ngapp = angular.module('zedit', [
     'mp.colorPicker', 'puElasticInput', 'hc.marked'
 ]);
 
-//this allows urls with and without trailing slashes to go to the same state
-ngapp.config(function($urlMatcherFactoryProvider) {
+ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
+    // allow urls with and without trailing slashes to go to the same state
     $urlMatcherFactoryProvider.strictMode(false);
+    // allow docs:// urls
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|docs):/);
 });
 
 // state redirects
