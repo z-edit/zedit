@@ -1,0 +1,14 @@
+[
+  {
+    "name": "addTopic",
+    "type": "function",
+    "args": [{
+      "name": "topic",
+      "type": "object"
+    }, {
+      "name": "path",
+      "type": "string"
+    }],
+    "description": "Registers the input `topic` at `path` in the help modal if it does not already exist."
+  }
+]

@@ -145,6 +145,9 @@
             "children": [
               {
                 "label": "Progress Service"
+              },
+              {
+                "label": "Help Service"
               }
             ]
           },

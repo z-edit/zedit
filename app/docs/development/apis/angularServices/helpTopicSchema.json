@@ -1,0 +1,22 @@
+[
+  {
+    "key": "label",
+    "type": "string",
+    "description": "Label for the help topic.  Is displayed in the Help Modal navigation and as the topic's title."
+  },
+  {
+    "key": "templateUrl",
+    "type": "string",
+    "description": "The URL of the HTML template to use with the topic."
+  },
+  {
+    "key": "controller",
+    "type": "string",
+    "description": "Optional name of the controller to use on the help topic page."
+  },
+  {
+    "key": "children",
+    "type": "array of object",
+    "description": "Optional array of children topics."
+  }
+]
