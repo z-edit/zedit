@@ -143,36 +143,22 @@
           {
             "label": "Angular Services",
             "children": [
-              {
-                "label": "Progress Service"
-              },
-              {
-                "label": "Help Service"
-              }
+              { "label": "Progress Service" },
+              { "label": "Help Service" }
             ]
           },
-          {
-            "label": "Polyfills"
-          },
-          {
-            "label": "File Helpers"
-          },
-          {
-            "label": "Scripting API"
-          },
-          {
-            "label": "Modal API"
-          },
-          {
-            "label": "Module Service"
-          }
+          { "label": "Polyfills" },
+          { "label": "File Helpers" },
+          { "label": "Scripting API" },
+          { "label": "Modal API" },
+          { "label": "Module Service" }
         ]
       },
       {
         "label": "Guides",
         "children": [
-          { "label": "Writing Scripts" },
-          { "label": "Creating Modules" }
+          { "label": "Creating Modules" },
+          { "label": "JavaScript" }
         ]
       }
     ]
