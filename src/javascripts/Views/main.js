@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, layoutService) {
+ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinnerFactory, xelibService, layoutService, hotkeyService) {
     // initialization
     $scope.loaded = false;
     $scope.log = xelib.GetMessages();
@@ -58,6 +58,9 @@ ngapp.controller('mainController', function ($scope, $rootScope, $timeout, spinn
         if (!hasFilesToSave) return;
         $scope.$emit('openModal', 'save', { shouldFinalize: false });
     });
+
+    // handle hotkeys
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
 
     // save data and terminate xelib when application is being closed
     window.onbeforeunload = function(e) {
