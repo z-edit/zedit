@@ -1,4 +1,4 @@
-ngapp.controller('loadOrderModalController', function ($scope, $state) {
+ngapp.controller('loadOrderModalController', function ($scope, appModeService) {
     // helper variables
     let disabledTitle = 'This plugin cannot be loaded because it requires plugins \r\n' +
         'which are unavailable or cannot be loaded:',
@@ -124,8 +124,8 @@ ngapp.controller('loadOrderModalController', function ($scope, $state) {
         console.log("Loading: \n" + loadOrder);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
+        appModeService.setAppMode();
         $scope.$emit('closeModal');
-        $state.go('base.main');
     };
 
     $scope.itemToggled = function(item) {
