@@ -33,8 +33,9 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.changeErrorResolution = function(errorGroup) {
         if (errorGroup.resolution === 'manual') {
-            $scope.errorsToResolve = errorGroup.errors;
-            $scope.toggleResolveModal(true);
+            $scope.$emit('openModal', 'resolve', {
+                errors: errorGroup.errors
+            });
         } else {
             pluginErrorService.setGroupResolutions(errorGroup);
         }
@@ -42,8 +43,9 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.resolveError = function(group, error) {
         group.resolution = 'manual';
-        $scope.errorsToResolve = [error];
-        $scope.toggleResolveModal(true);
+        $scope.$emit('openModal', 'resolve', {
+            errors: [error]
+        });
     };
 
     $scope.setPluginErrors = function(plugin, errors) {

@@ -42,6 +42,7 @@ ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, p
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'resolveModal');
 
     // INITIALIZATION
+    $scope.errorsToResolve = $scope.modalOptions.errors;
     $scope.errorGroups = errorTypeFactory.errorTypes();
     $scope.errorIndex = 0;
     setError();
