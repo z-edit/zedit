@@ -2,21 +2,25 @@ error-resolutions {
   max-width: 490px;
   text-align: left;
 
-  .action-box {
+  .action-btn {
     min-width: 240px;
     text-align: left;
     color: $font_color !important;
-    background: none;
+    background: none !important;
 
     &.selected, &:hover {
+      color: $inverse_font_color !important;
+
       &.positive {
-        background: lighten($positive, 50%) !important;
+        background: $positive !important;
       }
+
       &.neutral {
-        background: lighten($neutral, 50%) !important;
+        background: $neutral !important;
       }
+
       &.negative {
-        background: lighten($negative, 50%) !important;
+        background: $negative !important;
       }
     }
   }
