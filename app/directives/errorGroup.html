@@ -1,0 +1,22 @@
+<h2>
+    <span class="title" ng-click="group.showGroup = !group.showGroup" >
+        <span class="fa {{group.showGroup ? 'fa-chevron-down' : 'fa-chevron-right'}}"></span>
+        {{ group.errors.length }} {{ ::group.name }}
+    </span>
+    <select ng-model="group.resolution" ng-change="changeErrorResolution(group)" title="Group resolution">
+        <option value="auto">Automatic</option>
+        <option value="ignore">Ignore</option>
+        <option value="manual">Manual</option>
+    </select>
+</h2>
+
+<table ng-show="group.showGroup">
+    <tr ng-repeat="error in group.errors">
+        <td class="error-cell">{{ ::error.message.join('\n\r - ') }}</td>
+        <td class="resolution-cell">
+            <button class="action-btn small" ng-click="resolveError(group, error)">
+                {{ error.resolution.label }}
+            </button>
+        </td>
+    </tr>
+</table>
