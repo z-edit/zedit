@@ -38,6 +38,16 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         updatePluginsToCheckCount();
     };
 
+    $scope.changeErrorResolution = function(errorGroup) {
+        if (errorGroup.resolution === 'manual') {
+            $scope.$emit('openModal', 'resolve', {
+                errors: errorGroup.errors
+            });
+        } else {
+            pluginErrorService.setGroupResolutions(errorGroup);
+        }
+    };
+
     $scope.resolveError = function(group, error) {
         group.resolution = 'manual';
         $scope.$emit('openModal', 'resolve', {
