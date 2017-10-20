@@ -8,14 +8,14 @@
     "syntaxTheme": "seti"
   }*/
 $background: #222;
-$background_tint: #303036;
+$secondary_background: #303036;
+$background_tint: #22242A;
 $soft_border: #333;
 $medium_soft_border: #383838;
 $medium_border: #555;
 $hard_border: #777;
 $shadow: #AAA;
 $modal_shadow: #000;
-$soft_selected: #22242A;
 $selected: #22223A;
 $strong_selected: #456594;
 $font_color: #CCC;
@@ -48,7 +48,7 @@ $transparency: 0.05;
 
 @import '../app.scss';
 
-@include style-scrollbars($background_tint, $medium_border, $hard_border);
+@include style-scrollbars($secondary_background, $medium_border, $hard_border);
 
 // fix loader text color
 loader {

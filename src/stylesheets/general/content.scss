@@ -35,7 +35,7 @@ a {
 }
 
 code {
-  background-color: $background_tint;
+  background-color: $secondary_background;
   padding: 0 3px;
   line-height: 1.4em;
   @include monospace;

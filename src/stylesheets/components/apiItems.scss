@@ -95,7 +95,7 @@ api-items {
   }
 
   table code {
-    background-color: $background_tint;
+    background-color: $secondary_background;
   }
 
   .property-description {
@@ -116,6 +116,6 @@ api-items {
   background-color: $background;
 
   code {
-    background-color: $background_tint;
+    background-color: $secondary_background;
   }
 }

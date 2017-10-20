@@ -78,7 +78,7 @@ h2, h3 {
   }
 
   &:hover:not(:disabled) {
-    background: $background_tint;
+    background: $secondary_background;
     border: 1px solid $medium_border;
     border-radius: 4px;
     padding: 0 5px;

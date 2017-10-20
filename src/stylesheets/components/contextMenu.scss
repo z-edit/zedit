@@ -66,7 +66,7 @@ context-menu {
     }
 
     &.selected:not(.disabled) {
-      background-color: $background_tint;
+      background-color: $secondary_background;
 
       > .hotkey {
         color: $font_color;
