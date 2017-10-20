@@ -31,7 +31,7 @@ ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, p
         setError();
     };
 
-    $scope.selectResolution = function(e) {
+    $scope.handleResolutionKey = function(e) {
         let n = e.keyCode - 49; // 49 -> keycode for 1
         if (n >= 0 && n < $scope.resolutions.length) {
             $scope.selectResolution($scope.resolutions[n]);

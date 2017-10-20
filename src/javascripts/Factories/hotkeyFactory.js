@@ -216,7 +216,7 @@ ngapp.service('hotkeyFactory', function() {
         q: 'previousError',
         leftArrow: 'previousError',
         escape: (scope) => scope.$emit('closeModal'),
-        default: (scope, event) => scope.selectResolution(event)
+        default: (scope, event) => scope.handleResolutionKey(event)
     };
 
     // HELPER FUNCTIONS
