@@ -1,6 +1,7 @@
 ngapp.service('hotkeyFactory', function() {
     let factory = this;
 
+    // PUBLIC HOTKEYS
     this.baseHotkeys = {
         i: [{
             modifiers: ['ctrlKey', 'shiftKey'],
@@ -25,6 +26,8 @@ ngapp.service('hotkeyFactory', function() {
     };
 
     this.editViewHotkeys = {};
+
+    this.cleanViewHotkeys = {};
 
     this.mainTreeHotkeys = {
         rightArrow: 'handleRightArrow',
@@ -207,6 +210,16 @@ ngapp.service('hotkeyFactory', function() {
         default: (scope, event) => scope.$broadcast('keyDown', event)
     };
 
+    this.resolveModalHotkeys = {
+        w: 'nextError',
+        rightArrow: 'nextError',
+        q: 'previousError',
+        leftArrow: 'previousError',
+        escape: (scope) => scope.$emit('closeModal'),
+        default: (scope, event) => scope.selectResolution(event)
+    };
+
+    // HELPER FUNCTIONS
     let sortHotkeys = function(hotkeys) {
         hotkeys.sort(function(a, b) {
             return a.modifiers.length - b.modifiers.length;
@@ -225,6 +238,7 @@ ngapp.service('hotkeyFactory', function() {
         }
     };
 
+    // PUBLIC API
     this.addHotkeys = function(label, hotkeys) {
         let target = factory[`${label}Hotkeys`];
         Object.keys(hotkeys).forEach(function(key) {
