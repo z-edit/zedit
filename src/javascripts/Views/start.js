@@ -6,11 +6,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, profileService, settingsService, xelibService) {
+ngapp.controller('startController', function ($scope, $rootScope, profileService, settingsService, appModeService, xelibService) {
     // initialization
     profileService.validateProfiles();
     $scope.profiles = profileService.profiles;
+    $scope.appModes = appModeService.applicationModes;
     $scope.selectedProfile = profileService.getDefaultProfile();
+    $scope.selectedAppMode = $scope.appModes[0];
 
     // scope functions
     $scope.getLoadOrder = function () {
@@ -41,13 +43,12 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
 
     $scope.startSession = function () {
         if (!$scope.checkHardcodedDat()) return;
-        let p = $scope.selectedProfile;
-        $rootScope.selectedProfile = p;
-        settingsService.loadProfileSettings(p.name);
-        console.log("Setting game mode to: " + p.gameMode);
-        xelibService.startSession(p);
+        $rootScope.profile = $scope.selectedProfile;
+        $rootScope.appMode = $scope.selectedAppMode;
+        settingsService.loadProfileSettings($scope.selectedProfile.name);
+        xelibService.startSession($scope.selectedProfile);
         $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
-        $scope.$emit('sessionStarted', p);
+        $scope.$emit('sessionStarted', $scope.selectedProfile);
         $scope.$emit('openModal', 'loadOrder', {
             loadOrder: $scope.getLoadOrder()
         });
@@ -55,7 +56,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
 
     // event listeners
     $scope.$on('settingsClick', function() {
-        if ($rootScope.selectedProfile) return;
+        if ($rootScope.profile) return;
         $scope.$emit('openModal', 'profiles');
     });
 

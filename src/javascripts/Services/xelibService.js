@@ -20,6 +20,7 @@ ngapp.service('xelibService', function() {
     };
 
     this.startSession = function(profile) {
+        console.log(`Setting game mode to: ${profile.gameMode}`);
         xelib.SetGamePath(profile.gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);

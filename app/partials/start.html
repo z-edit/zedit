@@ -1,14 +1,18 @@
 <div class="flex-container">
     <div>
-        <h1>zEdit</h1>
+        <select ng-model="selectedAppMode" class="appmode-select" title="Select application mode.">
+            <option ng-repeat="appMode in appModes" value="{{::appMode}}">
+                z{{::appMode.capitalize()}}
+            </option>
+        </select>
         <div class="game-logo-container">
             <img ng-src="images/games/{{selectedProfile.gameMode || 'undefined'}}.png"/>
         </div>
         <div class="profile-controls">
-            <select ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles | profileValid">
+            <select ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles | profileValid" title="Select profile.">
                 <option value="">None</option>
             </select>
-            <span class="fa fa-gear" ng-click="$emit('openModal', 'profiles')"></span>
+            <span class="fa fa-gear" ng-click="$emit('openModal', 'profiles')" title="Manage profiles."></span>
         </div>
         <div class="primary-actions">
             <button class="action-btn" ng-click="startSession()" ng-disabled="!selectedProfile">Start Session</button>
