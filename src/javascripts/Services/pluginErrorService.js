@@ -60,7 +60,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let removeRecordResolution = {
         label: 'Delete',
-        color: 'red',
+        class: 'negative',
         description: 'This resolution will remove the record from the plugin.',
         execute: function(error) {
             xelib.RemoveElement(error.handle);
@@ -69,7 +69,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let tweakEdidResolution = {
         label: 'Tweak EDID',
-        color: 'green',
+        class: 'positive',
         description: 'This resolution will adjusted the EditorID of the record so it is no longer an ITM.',
         available: function(error) {
             return xelib.HasElement(error.handle, 'EDID');
@@ -89,7 +89,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let tweakPositionResolution = {
         label: 'Tweak Position',
-        color: 'green',
+        class: 'positive',
         description: 'This resolution will slightly adjust the position of the reference so it is no longer an ITM.',
         available: function(error) {
             return xelib.HasElement(error.handle, 'DATA\\Position');
@@ -101,7 +101,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let nullifyResolution = {
         label: 'Nullify',
-        color: 'green',
+        class: 'positive',
         description: 'This resolution will set the reference to a NULL [00000000] reference.',
         available: function(error) {
             if (error.group === 5) {
@@ -123,7 +123,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let removeResolution = {
         label: 'Remove',
-        color: 'red',
+        class: 'negative',
         description: 'This resolution will remove the error element from the record.',
         execute: function(error) {
             withErrorElement(error, function(element) {
@@ -134,7 +134,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let repairResolution = {
         label: 'Repair',
-        color: 'green',
+        class: 'positive',
         description: 'This resolution will fix the order of subrecords in the record and trim invalid ones.',
         execute: function(error) {
             xelib.WithHandle(xelib.GetElementFile(error.handle), function(file) {
@@ -149,7 +149,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
 
     let ignoreResolution = {
         label: 'Ignore',
-        color: 'yellow',
+        class: 'neutral',
         description: 'This resolution will leave the error in the plugin.'
     };
 
@@ -163,7 +163,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
     let deletedResolutions = [
         {
             label: 'Replace Navmesh',
-            color: 'green',
+            class: 'positive',
             description: 'This resolution will replace the deleted navmesh with the new navmesh introduced by the plugin.',
             available: function(error) {
                 return isNavmeshError(error) &&
@@ -188,7 +188,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
         },
         {
             label: 'Bury Navmesh',
-            color: 'green',
+            class: 'positive',
             description: 'This resolution will lower the navmesh\'s verticies below the ground and remove its edge links.',
             available: isNavmeshError,
             execute: function(error) {
@@ -199,7 +199,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
         },
         {
             label: 'Undelete and Disable',
-            color: 'green',
+            class: 'positive',
             description: 'This resolution will undelete the reference and mark it as disabled.',
             available: isUDR,
             execute: function(error) {
@@ -209,7 +209,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
         },
         {
             label: 'Clear Subrecords',
-            color: 'green',
+            color: 'positive',
             description: 'This resolution will clear the record\'s subrecords.',
             available: function(error) {
                 return !isUDR(error) && !isNavmeshError(error);
@@ -221,7 +221,7 @@ ngapp.service('pluginErrorService', function (xelibService, navmeshHelpers) {
         },
         {
             label: 'Restore',
-            color: 'red',
+            class: 'negative',
             description: 'This resolution will restore the record.  You should not use this resolution unless you know exactly what you\'re doing!',
             execute: function(error) {
                 xelib.SetRecordFlag(error.handle, 'Deleted', false);
