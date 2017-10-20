@@ -30,7 +30,7 @@ error-group {
     border-collapse: collapse;
 
     tr:nth-child(even) {
-      background-color: $soft_selected;
+      background-color: $background_tint;
     }
 
     td {
