@@ -6,7 +6,8 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorTypeFactory) {
+ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorTypeFactory, errorCacheService) {
+    // helper functions
     let updatePluginsToCheckCount = function() {
         $scope.pluginsToCheckCount = $scope.plugins.filter(function(plugin) {
             return !plugin.skip;
@@ -150,31 +151,11 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         });
     };
 
-    $scope.buildErrors = function(plugin, errors) {
-        return errors.map(function(error) {
-            let file = xelib.GetElement(plugin._id, xelib.IntToHex(error.f));
-            let x = {
-                handle: file,
-                group: error.g,
-                form_id: error.f,
-                name: xelib.LongName(file)
-            };
-            x.data = error.hasOwnProperty('d') ? error.d : '';
-            x.path = error.hasOwnProperty('p') ? error.p : '';
-            return x;
-        });
-    };
-
     $scope.loadCache = function() {
         $scope.plugins.forEach(function(plugin) {
-            let filePath = `cache\\${plugin.filename}-${plugin.hash}.json`;
-            if (fh.appDir.exists(filePath)) {
-                let cachedErrors = fh.loadJsonFile(filePath) || {},
-                    errors = $scope.buildErrors(plugin, cachedErrors);
-                $scope.setPluginErrors(plugin, errors);
-                plugin.skip = true;
-                plugin.status = `Found ${plugin.errors.length} cached errors`;
-            }
+            errorCacheService.loadErrorCache(plugin);
+            $scope.totalErrors += plugin.errors.length;
+            $scope.groupErrors(plugin);
         });
     };
 
