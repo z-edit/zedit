@@ -1,4 +1,4 @@
-<span class="action-box {{::resolution.color}}" ng-repeat="resolution in resolutions"
+<button class="action-btn {{::resolution.class}}" ng-repeat="resolution in resolutions"
       ng-click="selectResolution(resolution)" ng-class="{ 'selected' : $index === selectedIndex }" title="{{::resolution.description}}">
     {{ $index + 1 }}. {{:: resolution.label }}
-</span>
+</button>

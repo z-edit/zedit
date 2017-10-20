@@ -1,4 +1,4 @@
-ngapp.directive('elementView', function () {
+ngapp.directive('errorResolutions', function () {
     return {
         restrict: 'E',
         templateUrl: 'directives/errorResolutions.html',

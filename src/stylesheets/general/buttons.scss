@@ -39,6 +39,10 @@ button {
     background-color: $negative;
   }
 
+  &.neutral {
+    background-color: $neutral;
+  }
+
   &.positive {
     background-color: $positive;
   }
