@@ -1,46 +1,48 @@
 <div class="viewport clean-view" ng-if="loaded" ng-keydown="onKeyDown($event)">
-    <div class="overview" ng-show="!checking">
-        <span>Pending error check for {{pluginsToCheckCount}} plugins.</span>
-    </div>
+    <div class="center-container">
+        <div class="overview" ng-show="!checking">
+            <span>Pending error check for {{pluginsToCheckCount}} plugins.</span>
+        </div>
 
-    <div class="overview" ng-show="checking">
-        <span ng-show="checkingDone">Error check complete</span>
-        <span ng-hide="checkingDone">
+        <div class="overview" ng-show="checking">
+            <span ng-show="checkingDone">Error check complete</span>
+            <span ng-hide="checkingDone">
             Checking for errors...  ({{checkedPlugins + 1}}/{{pluginsToCheck}})
         </span>
-        <span>{{totalErrors}} errors found</span>
+            <span>{{totalErrors}} errors found</span>
 
-        <div class="error-breakdown" ng-show="checkingDone">
-            <div ng-repeat="errorType in groupedErrors" ng-if="errorType.errors.length" class="content-block">
-                <div class="content-title">
-                    <span>{{errorType.errors.length}}</span>
-                    {{::errorType.name}} ({{::errorType.acronym}})
+            <div class="error-breakdown" ng-show="checkingDone">
+                <div ng-repeat="errorType in groupedErrors" ng-if="errorType.errors.length" class="content-block">
+                    <div class="content-title">
+                        <span>{{errorType.errors.length}}</span>
+                        {{::errorType.name}} ({{::errorType.acronym}})
+                    </div>
+                    <div class="content-container">{{::errorType.caption}}</div>
                 </div>
-                <div class="content-container">{{::errorType.caption}}</div>
             </div>
         </div>
-    </div>
 
-    <div class="plugin-items">
-        <div ng-repeat="plugin in plugins" class="content-block" ng-hide="checking && plugin.skip && !plugin.errors">
-            <div class="content-title">{{::plugin.filename}}
-                <span ng-show="checking || plugin.errors">({{plugin.status}})</span>
-                <span class="right" ng-hide="checking">
+        <div class="plugin-items">
+            <div ng-repeat="plugin in plugins" class="content-block" ng-hide="checking && plugin.skip && !plugin.errors">
+                <div class="content-title">{{::plugin.filename}}
+                    <span ng-show="checking || plugin.errors">({{plugin.status}})</span>
+                    <span class="right" ng-hide="checking">
                 <button class="action-btn small no-hover {{plugin.skip ? 'negative' : 'positive'}}" ng-click="toggleSkip(plugin)">{{plugin.skip ? 'Skip' : 'Process'}}</button>
             </span>
-                <span class="right" ng-show="plugin.checking">
+                    <span class="right" ng-show="plugin.checking">
                 <span class="fa fa-circle-o-notch fa-spin" title="Error check in progress..."></span>
             </span>
-            </div>
+                </div>
 
-            <div class="content-container" ng-if="plugin.groupedErrors && plugin.errors.length > 0">
-                <error-group ng-repeat="group in plugin.groupedErrors" ng-if="group.errors.length"></error-group>
+                <div class="content-container" ng-if="plugin.groupedErrors && plugin.errors.length > 0">
+                    <error-group ng-repeat="group in plugin.groupedErrors" ng-if="group.errors.length"></error-group>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="primary-actions" ng-show="!checking">
-        <button class="action-btn" ng-click="startCheck()">Check For Errors</button>
+        <div class="primary-actions" ng-show="!checking">
+            <button class="action-btn" ng-click="startCheck()">Check For Errors</button>
+        </div>
     </div>
 </div>
 
