@@ -4,12 +4,13 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     // PRIVATE HELPER FUNCTIONS
     let buildErrors = function(plugin, errors) {
         return errors.map(function(error) {
-            let file = xelib.GetElement(plugin._id, xelib.Hex(error.f));
+            let rec = xelib.GetElement(plugin._id, xelib.Hex(error.f));
             let x = {
-                handle: file,
+                handle: rec,
                 group: error.g,
                 form_id: error.f,
-                name: xelib.LongName(file)
+                signature: xelib.Signature(rec),
+                name: xelib.LongName(rec)
             };
             x.data = error.hasOwnProperty('d') ? error.d : '';
             x.path = error.hasOwnProperty('p') ? error.p : '';
