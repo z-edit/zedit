@@ -28,3 +28,15 @@ ngapp.controller('errorCachingController', function($scope, errorCacheService) {
     // initialization
     $scope.errorCache = errorCacheService.getCache();
 });
+
+ngapp.run(function(settingsService) {
+    settingsService.registerSettings({
+        label: 'Error Caching',
+        appModes: ['clean'],
+        templateUrl: 'partials/settings/errorCaching.html',
+        controller: 'errorCachingController',
+        defaultSettings: {
+            cacheErrors: true
+        }
+    });
+});

@@ -27,9 +27,9 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     };
 
     let buildFileEntry = function(filename, results) {
-        let filePath = 'cache\\' + filename;
-        let cachedErrors = fh.loadJsonFile(filePath, {});
-        let modified = fh.getDateModified(filePath);
+        let filePath = 'cache\\' + filename,
+            cachedErrors = fh.loadJsonFile(filePath, {}),
+            modified = fh.getDateModified(filePath);
         return {
             hash: results[2],
             error_count: cachedErrors.length,
@@ -62,13 +62,23 @@ ngapp.service('errorCacheService', function(errorMessageService) {
             files: true,
             directories: false
         }).forEach(function(path) {
-            let parts = path.split('\\');
-            let filename = parts[parts.length - 1];
             try {
-                addCacheEntry(filename);
+                addCacheEntry(fh.getFileName(path));
             } catch(x) {
                 console.log('Error adding error cache entry: ', x);
             }
+        });
+    };
+
+    let sanitizeErrors = function(errors) {
+        return errors.map(function(error) {
+            let x = {
+                g: error.group,
+                f: error.form_id
+            };
+            if (error.hasOwnProperty('data')) x.d = error.data;
+            if (error.path !== '') x.p = error.path;
+            return x;
         });
     };
 
@@ -87,16 +97,19 @@ ngapp.service('errorCacheService', function(errorMessageService) {
         if (forceReload || !errorCache) loadErrorCache();
         return errorCache;
     };
-});
 
-ngapp.run(function(settingsService) {
-    settingsService.registerSettings({
-        label: 'Error Caching',
-        appModes: ['clean'],
-        templateUrl: 'partials/settings/errorCaching.html',
-        controller: 'errorCachingController',
-        defaultSettings: {
-            cacheErrors: true
+    this.createCache = function(plugin) {
+        return {
+            filename: plugin.filename,
+            hash: plugin.hash,
+            errors: plugin.errors
         }
-    });
+    };
+
+    this.saveCache = function(cache) {
+        cache.forEach(function(entry) {
+            let filename = `cache\\${entry.filename}-${entry.hash}.json`;
+            fh.saveJsonFile(filename, sanitizeErrors(entry.errors), true);
+        });
+    };
 });
