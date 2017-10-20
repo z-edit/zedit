@@ -1,4 +1,4 @@
-ngapp.service('errorMessageService', function(pluginErrorService) {
+ngapp.service('errorMessageService', function(pluginErrorHelpers) {
     let service = this;
 
     let messageFormats = {
@@ -9,9 +9,9 @@ ngapp.service('errorMessageService', function(pluginErrorService) {
             return [error.name];
         },
         DR: function(error) {
-            if (pluginErrorService.isNavmeshError(error))
+            if (pluginErrorHelpers.isNavmeshError(error))
                 return [error.name, `Navmesh marked as deleted.`];
-            if (pluginErrorService.isUDR(error))
+            if (pluginErrorHelpers.isUDR(error))
                 return [error.name, `Reference marked as deleted.`];
             return [error.name, `Record marked as deleted but contains: ${error.data}`];
         },
@@ -30,8 +30,11 @@ ngapp.service('errorMessageService', function(pluginErrorService) {
         }
     };
 
+    // PUBLIC API
+    this.errorAcronyms = ['ITM', 'ITPO', 'DR', 'UES', 'URR', 'UER', 'OE'];
+
     this.getErrorMessage = function(error) {
-        let acronym = pluginErrorService.errorAcronyms[error.group];
+        let acronym = service.errorAcronyms[error.group];
         return messageFormats[acronym](error);
     };
 

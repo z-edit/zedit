@@ -1,17 +1,6 @@
-ngapp.service('errorResolutionFactory', function(pluginErrorService, xelibService, navmeshHelpers) {
+ngapp.service('errorResolutionFactory', function(pluginErrorService, pluginErrorHelpers, xelibService, navmeshHelpers) {
     // PRIVATE
-    let withErrorElement = function(error, callback, onException = console.log) {
-        let element = xelib.GetElement(error.handle, error.path);
-        try {
-            try {
-                return callback(element);
-            } catch(exception) {
-                onException(error, exception);
-            }
-        } finally {
-            xelib.Release(element);
-        }
-    };
+    let withErrorElement = pluginErrorHelpers.withErrorElement;
 
     let removeRecordResolution = {
         label: 'Delete',
@@ -148,7 +137,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorService, xelibServic
         label: 'Undelete and Disable',
         class: 'positive',
         description: 'This resolution will undelete the reference and mark it as disabled.',
-        available: pluginErrorService.isUDR,
+        available: pluginErrorHelpers.isUDR,
         execute: function(error) {
             xelib.SetRecordFlag(error.handle, 'Deleted', false);
             xelib.SetRecordFlag(error.handle, 'Initially Disabled', true);
@@ -160,8 +149,8 @@ ngapp.service('errorResolutionFactory', function(pluginErrorService, xelibServic
         color: 'positive',
         description: 'This resolution will clear the record\'s subrecords.',
         available: function(error) {
-            return !pluginErrorService.isUDR(error) &&
-                !pluginErrorService.isNavmeshError(error);
+            return !pluginErrorHelpers.isUDR(error) &&
+                !pluginErrorHelpers.isNavmeshError(error);
         },
         execute: function(error) {
             xelib.SetRecordFlag(error.handle, 'Deleted', false);
