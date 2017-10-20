@@ -1,0 +1,23 @@
+error-resolutions {
+  max-width: 490px;
+  text-align: left;
+
+  .action-box {
+    min-width: 240px;
+    text-align: left;
+    color: $font_color !important;
+    background: none;
+
+    &.selected, &:hover {
+      &.positive {
+        background: lighten($positive, 50%) !important;
+      }
+      &.neutral {
+        background: lighten($neutral, 50%) !important;
+      }
+      &.negative {
+        background: lighten($negative, 50%) !important;
+      }
+    }
+  }
+}
