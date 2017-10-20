@@ -7,7 +7,7 @@ ngapp.service('pluginErrorService', function(errorService, errorResolutionFactor
     let getErrorResolution = function(resolutions, error) {
         return resolutions.find(function(resolution) {
             if (!resolution.hasOwnProperty('available')) return true;
-            try { return resolution.available(error) } catch {}
+            try { return resolution.available(error) } catch (x) {}
         });
     };
 
