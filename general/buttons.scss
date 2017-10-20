@@ -31,7 +31,7 @@ button {
     vertical-align: middle;
   }
 
-  &:hover {
+  &:hover:not(.no-hover) {
     background-color: $action_hover !important;
   }
 
