@@ -7,8 +7,24 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('editController', function ($scope, layoutService, hotkeyService) {
-    // load default layout
-    $scope.mainPane = layoutService.buildDefaultLayout();
+    let getPluginItem = function(file) {
+        return {
+            handle: file,
+            filename: xelib.Name(file),
+            active: true
+        }
+    };
+
+    let openSaveModal = function(shouldFinalize) {
+        let plugins = xelib.GetElements()
+            .filter(xelib.GetIsModified)
+            .map(getPluginItem);
+        if (!shouldFinalize && !plugins.length) return;
+        $scope.$emit('openModal', 'save', {
+            shouldFinalize: shouldFinalize,
+            plugins: plugins
+        });
+    };
 
     // event handlers
     $scope.$on('settingsClick', function() {
@@ -18,14 +34,7 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
 
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
-        let hasFilesToSave = false;
-        xelib.WithHandles(xelib.GetElements(), function(files) {
-            hasFilesToSave = !!files.find(function(file) {
-                return xelib.GetIsModified(file);
-            });
-        });
-        if (!hasFilesToSave) return;
-        $scope.$emit('openModal', 'save', { shouldFinalize: false });
+        openSaveModal(false);
     });
 
     // handle hotkeys
@@ -35,8 +44,9 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
     window.onbeforeunload = function(e) {
         if (remote.app.forceClose) return;
         e.returnValue = false;
-        if (!$scope.$root.modalActive) {
-            $scope.$emit('openModal', 'save', { shouldFinalize: true });
-        }
+        if (!$scope.$root.modalActive) openSaveModal(true);
     };
+
+    // initialization
+    $scope.mainPane = layoutService.buildDefaultLayout();
 });
