@@ -1,0 +1,39 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal huge-modal" tabindex="0" ng-keypress="onKeyPress($event)">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2 ng-show="errorsToResolve.length === 1">Resolve Error</h2>
+            <h2 ng-show="errorsToResolve.length > 1">Resolve Errors {{errorIndex + 1}}/{{::errorsToResolve.length}}</h2>
+
+            <h3 class="limit-text">
+                <span class="highlight" title="{{group.name}}">{{group.acronym}}</span>: {{error.message[0]}}
+            </h3>
+            <h3 ng-show="error.message.length > 1">{{error.message[1]}}</h3>
+
+            <div class="modal-body">
+                <element-view handle="error.handle" highlight="error.path"></element-view>
+            </div>
+
+            <div class="modal-footer">
+                <div>
+                    <span class="action-box" ng-click="previousError()" ng-show="errorIndex > 0">
+                        <span class="fa fa-chevron-left"></span>
+                        Previous
+                    </span>
+                </div>
+                <error-resolutions></error-resolutions>
+                <div>
+                    <span class="action-box" ng-click="nextError()" ng-show="errorIndex < errorsToResolve.length - 1">
+                        Next
+                        <span class="fa fa-chevron-right"></span>
+                    </span>
+                    <span class="action-box" ng-click="toggleResolveModal()" ng-show="errorIndex === errorsToResolve.length - 1">
+                        Done
+                        <span class="fa fa-check"></span>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
