@@ -1,0 +1,14 @@
+<div ng-repeat="field in view" ng-class="{ 'error' : field.highlight }">
+    <span class="clickable" ng-if="::field.children" ng-click="field.showChildren = !field.showChildren">
+        <span class="fa {{field.showChildren ? 'fa-minus-square' : 'fa-plus-square' }}"></span>
+        <span class="key">{{::field.key}}:</span>
+    </span>
+    <span ng-if="::!field.children">
+        <span class="no-button"></span>
+        <span class="key">{{::field.key}}:</span>
+    </span>
+    <span class="value" ng-if="::field.value">{{::field.value}}</span>
+    <div ng-if="field.showChildren">
+        <element-view view="::field.children"></element-view>
+    </div>
+</div>
