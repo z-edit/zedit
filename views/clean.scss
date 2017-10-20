@@ -1,0 +1,95 @@
+.clean-view {
+  overflow-y: auto;
+  background: $soft_selected;
+}
+
+.plugin-items {
+  margin: auto;
+  max-width: 1400px;
+  padding: 0 50px;
+  margin-bottom: 36px;
+}
+
+.content-block {
+  margin: 20px 0;
+  background-color: $background;
+  border: 1px solid $medium_border;
+
+  .content-title {
+    position: relative;
+    padding: 10px;
+    margin: -1px;
+    background-color: $action_hover;
+    font-size: 16px;
+    font-weight: 500;
+    color: $inverse_font_color;
+
+    span {
+      color: $strong_action;
+
+      &.fa {
+        color: $inverse_font_color;
+        float: left;
+        cursor: pointer;
+
+        &.fa-chevron-right {
+          margin-left: 4px;
+        }
+      }
+    }
+
+    .right {
+      float: right;
+      margin-top: -3px;
+
+      .fa-circle-o-notch {
+        cursor: default;
+        font-size: 18px;
+        margin-top: 4px;
+      }
+    }
+  }
+
+  .content-container {
+    margin: 20px;
+  }
+}
+
+.overview {
+  margin: 24px 0;
+
+  > span {
+    display: block;
+    font-size: 18px;
+    margin: 6px 0;
+  }
+
+}
+
+.error-breakdown {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  .content-block {
+    max-width: 48%;
+    margin: 15px 0;
+
+    .content-title span {
+      font-size: 20px;
+      margin: -5px 1px -2px 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    &:nth-child(even) {
+      margin-right: 0;
+    }
+
+    &:nth-child(odd) {
+      margin-left: 0;
+    }
+  }
+}
