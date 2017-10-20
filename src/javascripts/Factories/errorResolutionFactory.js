@@ -1,4 +1,4 @@
-ngapp.service('errorResolutionFactory', function(pluginErrorService, pluginErrorHelpers, xelibService, navmeshHelpers) {
+ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibService, navmeshHelpers) {
     // PRIVATE
     let withErrorElement = pluginErrorHelpers.withErrorElement;
 
@@ -100,7 +100,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorService, pluginError
         class: 'positive',
         description: 'This resolution will replace the deleted navmesh with the new navmesh introduced by the plugin.',
         available: function(error) {
-            return pluginErrorService.isNavmeshError(error) &&
+            return pluginErrorHelpers.isNavmeshError(error) &&
                 navmeshHelpers.hasReplacementNavmesh(error.handle);
         },
         execute: function(error) {
@@ -125,7 +125,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorService, pluginError
         label: 'Bury Navmesh',
         class: 'positive',
         description: 'This resolution will lower the navmesh\'s verticies below the ground and remove its edge links.',
-        available: isNavmeshError,
+        available: pluginErrorHelpers.isNavmeshError,
         execute: function(error) {
             console.log(`Burying [NAVM:${xelib.GetFormID(error.handle)}]`);
             xelib.SetRecordFlag(error.handle, 'Deleted', false);
