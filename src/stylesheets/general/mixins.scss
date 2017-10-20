@@ -3,6 +3,8 @@
 }
 
 @mixin dropdown-triangle($offsetLeft) {
+  -webkit-appearance: none;
+
   background-image:
           linear-gradient(45deg, transparent 50%, $soft_font_color 50%),
           linear-gradient(135deg, $soft_font_color 50%, transparent 50%),
@@ -10,7 +12,7 @@
   background-position:
           calc(100% - #{$offsetLeft} - 5px) calc(50% + 2px),
           calc(100% - #{$offsetLeft}) calc(50% + 2px),
-          calc(100% - 1.5em) 50%;
+          calc(100% - (#{($offsetLeft + 5) * 2})) 50%;
   background-size:
           5px 5px,
           5px 5px,
