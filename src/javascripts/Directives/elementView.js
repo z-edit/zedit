@@ -63,10 +63,12 @@ ngapp.directive('elementView', function () {
         },
         link: function(scope) {
             scope.$watch('handle', function() {
+                if (!scope.handle) return;
                 scope.view = getRecordView(scope.handle);
             });
 
             scope.$watch('highlight', function() {
+                if (!scope.highlight) return;
                 highlightField(scope.view, scope.highlight);
             })
         }
