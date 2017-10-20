@@ -4,7 +4,7 @@ ngapp.directive('unfocusModal', function($parse) {
         link: function(scope, element, attrs) {
             let el = element[0],
                 mouseDown = false,
-                callback = $parse(attrs.unfocusModal),
+                callback = attrs.unfocusModal && $parse(attrs.unfocusModal),
                 handleMouseUp = () => mouseDown = false;
 
             el.addEventListener('mousedown', function(e) {
