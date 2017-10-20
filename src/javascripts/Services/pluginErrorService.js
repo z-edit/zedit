@@ -1,4 +1,4 @@
-ngapp.service('pluginErrorService', function(errorResolutionFactory, errorMessageService, errorTypeFactory) {
+ngapp.service('pluginErrorService', function(errorService, errorResolutionFactory, errorMessageService, errorTypeFactory) {
     let service = this;
 
     let referenceSignatures = ['REFR', 'PGRE', 'PMIS', 'ACHR', 'PARW', 'PBAR', 'PBEA', 'PCON', 'PFLA', 'PHZD'];
@@ -73,5 +73,13 @@ ngapp.service('pluginErrorService', function(errorResolutionFactory, errorMessag
                 error.resolution = resolution;
             });
         }
+    };
+
+    this.applyResolutions = function(plugin) {
+        plugin.errorsResolved = true;
+        plugin.errors.forEach(function(error) {
+            if (!error.resolution || !error.resolution.execute) return;
+            errorService.try(() => error.resolution.execute(error));
+        });
     };
 });
