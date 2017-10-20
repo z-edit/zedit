@@ -4,7 +4,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     // PRIVATE HELPER FUNCTIONS
     let buildErrors = function(plugin, errors) {
         return errors.map(function(error) {
-            let file = xelib.GetElement(plugin._id, xelib.IntToHex(error.f));
+            let file = xelib.GetElement(plugin._id, xelib.Hex(error.f));
             let x = {
                 handle: file,
                 group: error.g,

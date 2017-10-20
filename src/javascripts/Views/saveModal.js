@@ -53,8 +53,8 @@ ngapp.controller('saveModalController', function($scope, $timeout, errorService,
         if ($scope.total > 0) {
             isCleanMode && applyErrorResolutions();
             savePlugins();
-            isCleanMode && saveErrorCache();
         }
+        isCleanMode && saveErrorCache();
         shouldFinalize ? finalize() : $scope.$emit('closeModal');
     };
 
