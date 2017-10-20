@@ -1,0 +1,37 @@
+.resolve-modal {
+  h2, h3 {
+    margin-top: 0;
+  }
+
+  h3 {
+    margin-bottom: 0;
+
+    &.limit-text {
+      padding: 0 50px;
+    }
+  }
+
+  .modal-body {
+    margin: 18px 40px 100px;
+    overflow: auto;
+  }
+
+  .modal-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 30px 45px;
+
+    > div {
+      min-width: 110px;
+    }
+
+    .action-box {
+      min-width: 105px;
+    }
+  }
+}
