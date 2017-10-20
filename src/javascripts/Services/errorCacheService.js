@@ -1,4 +1,4 @@
-ngapp.service('errorCacheService', function(pluginErrorService) {
+ngapp.service('errorCacheService', function(errorMessageService) {
     let buildErrors = function(plugin, errors) {
         return errors.map(function(error) {
             let file = xelib.GetElement(plugin._id, xelib.IntToHex(error.f));
@@ -15,7 +15,7 @@ ngapp.service('errorCacheService', function(pluginErrorService) {
     };
 
     let setCachedErrors = function(plugin, errors) {
-        pluginErrorService.getErrorMessages(errors);
+        errorMessageService.getErrorMessages(errors);
         plugin.errors = errors;
         plugin.status = `Found ${plugin.errors.length} cached errors`;
         plugin.checking = false;
