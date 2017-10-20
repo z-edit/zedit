@@ -1,4 +1,4 @@
-ngapp.service('settingsService', function() {
+ngapp.service('settingsService', function($rootScope) {
     let service = this,
         tabs = [{
             label: 'Core',
@@ -45,7 +45,9 @@ ngapp.service('settingsService', function() {
     };
 
     this.getTabs = function() {
-        return tabs.map(function(tab) {
+        return tabs.filter(function(tab) {
+            return !tab.appModes || tab.appModes.includes($rootScope.appMode);
+        }).map(function(tab) {
             return {
                 label: tab.label,
                 templateUrl: tab.templateUrl,

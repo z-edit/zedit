@@ -25,6 +25,7 @@ ngapp.run(function(viewFactory, mainTreeViewFactory, settingsService) {
     viewFactory.registerView('mainTreeView', mainTreeViewFactory.new, 'Tree View');
     settingsService.registerSettings({
         label: 'Tree View',
+        appModes: ['edit'],
         templateUrl: 'partials/settings/treeView.html',
         defaultSettings: {
             treeView: {

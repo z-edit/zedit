@@ -29,6 +29,7 @@ ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
     viewFactory.registerView('recordTreeView', recordTreeViewFactory.new, 'Record View');
     settingsService.registerSettings({
         label: 'Record View',
+        appModes: ['edit'],
         templateUrl: 'partials/settings/recordView.html',
         defaultSettings: {
             recordView: {
