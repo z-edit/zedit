@@ -149,7 +149,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
-        openSaveModal(false);
+        openSaveModal(true);
     });
 
     $scope.$watch('loaded', function() {
