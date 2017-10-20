@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorTypeFactory, errorCacheService) {
+ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService) {
     // helper functions
     let updatePluginsToCheckCount = function() {
         $scope.pluginsToCheckCount = $scope.plugins.filter(function(plugin) {
@@ -14,32 +14,28 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         }).length;
     };
 
+    let openSaveModal = function(shouldFinalize) {
+        let pluginsToSave = $scope.plugins.filter(function(plugin) {
+            return plugin.hasOwnProperty('errors');
+        });
+        if (!shouldFinalize && !pluginsToSave.length) return;
+        $scope.$emit('openModal', 'save', {
+            shouldFinalize: shouldFinalize,
+            plugins: pluginsToSave
+        });
+    };
+
+    let clearErrors = function(plugin) {
+        if (!plugin.hasOwnProperty('errors')) return;
+        $scope.totalErrors -= plugin.errors.length;
+        delete plugin.errors;
+        delete plugin.groupedErrors;
+    };
+
     // scope functions
     $scope.toggleSkip = function(plugin) {
         plugin.skip = !plugin.skip;
         updatePluginsToCheckCount();
-    };
-
-    $scope.groupErrors = function(plugin) {
-        plugin.groupedErrors = errorTypeFactory.errorTypes();
-        plugin.groupedErrors.forEach(function(errorGroup) {
-            errorGroup.resolution = 'auto';
-            errorGroup.showGroup = false;
-            errorGroup.errors = plugin.errors.filter(function(error) {
-                return error.group === errorGroup.group;
-            });
-            $scope.changeErrorResolution(errorGroup);
-        });
-    };
-
-    $scope.changeErrorResolution = function(errorGroup) {
-        if (errorGroup.resolution === 'manual') {
-            $scope.$emit('openModal', 'resolve', {
-                errors: errorGroup.errors
-            });
-        } else {
-            pluginErrorService.setGroupResolutions(errorGroup);
-        }
     };
 
     $scope.resolveError = function(group, error) {
@@ -49,22 +45,14 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         });
     };
 
-    $scope.setPluginErrors = function(plugin, errors) {
-        pluginErrorService.getErrorMessages(errors);
-        plugin.errors = errors;
-        plugin.status = 'Found ' + errors.length + ' errors';
-        plugin.checking = false;
-        plugin.checked = true;
-        $scope.totalErrors += errors.length;
-        $scope.groupErrors(plugin);
-    };
-
     $scope.getErrors = function() {
         try {
             $scope.checkedPlugins++;
             let errors = xelib.GetErrors();
             console.log(errors);
-            $scope.setPluginErrors($scope.currentPlugin, errors);
+            pluginErrorService.setPluginErrors($scope.currentPlugin, errors);
+            pluginErrorService.groupErrors($scope.currentPlugin);
+            $scope.totalErrors += errors.length;
         } catch (e) {
             console.log(e);
         }
@@ -80,17 +68,10 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         }
     };
 
-    $scope.clearErrors = function(plugin) {
-        if (!plugin.hasOwnProperty('errors')) return;
-        $scope.totalErrors -= plugin.errors.length;
-        delete plugin.errors;
-        delete plugin.groupedErrors;
-    };
-
     $scope.checkPluginForErrors = function(plugin) {
         plugin.status = 'Checking for errors...';
         plugin.checking = true;
-        $scope.clearErrors(plugin);
+        clearErrors(plugin);
         try {
             xelib.CheckForErrors(plugin._id);
             $scope.currentPlugin = plugin;
@@ -153,9 +134,10 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.loadCache = function() {
         $scope.plugins.forEach(function(plugin) {
-            errorCacheService.loadErrorCache(plugin);
-            $scope.totalErrors += plugin.errors.length;
-            $scope.groupErrors(plugin);
+            if (errorCacheService.loadPluginErrors(plugin)) {
+                $scope.totalErrors += plugin.errors.length;
+                pluginErrorService.groupErrors(plugin);
+            }
         });
     };
 
@@ -167,14 +149,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.$on('save', function() {
         if ($scope.$root.modalActive) return;
-        let hasFilesToSave = false;
-        xelib.WithHandles(xelib.GetElements(), function(files) {
-            hasFilesToSave = !!files.find(function(file) {
-                return xelib.GetIsModified(file);
-            });
-        });
-        if (!hasFilesToSave) return;
-        $scope.$emit('openModal', 'save', { shouldFinalize: false });
+        openSaveModal(false);
     });
 
     $scope.$watch('loaded', function() {
@@ -191,9 +166,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     window.onbeforeunload = function(e) {
         if (remote.app.forceClose) return;
         e.returnValue = false;
-        if (!$scope.$root.modalActive) {
-            $scope.$emit('openModal', 'save', { shouldFinalize: true });
-        }
+        if (!$scope.$root.modalActive) openSaveModal(true);
     };
 
     // initialization
