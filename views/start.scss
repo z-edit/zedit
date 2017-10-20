@@ -2,6 +2,16 @@
   padding: 8px;
 }
 
+.appmode-select {
+  margin: 0.67em 0;
+  padding: 2px 40px 2px 8px;
+  border-color: $soft_font_color;
+  font-size: 2em;
+  font-weight: bold;
+
+  @include dropdown-triangle(10px);
+}
+
 .profile-controls {
   select, span {
     display: inline-block;
@@ -15,11 +25,11 @@
   }
 
   select {
+    min-width: 140px;
     padding: 4px;
     padding-right: 35px;
+    border-color: $soft_font_color;
     font-size: 20px;
-    min-width: 140px;
-    -webkit-appearance: none;
 
     @include dropdown-triangle(10px);
   }
