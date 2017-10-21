@@ -7,6 +7,12 @@ ngapp.service('navmeshHelpers', function() {
         if (!callback(override)) xelib.RemoveElement(override);
     };
 
+    let withNavmeshSiblings = function(navmesh, callback) {
+        xelib.WithHandle(xelib.GetContainer(navmesh), function(container) {
+            xelib.WithHandles(xelib.GetRecords(container, 'NAVM'), callback);
+        });
+    };
+
     this.moveVerticesUnderground = function(handle) {
         let element = xelib.GetElement(handle, 'NVNM\\Vertices');
         xelib.WithHandle(element, function(vertices) {
@@ -87,21 +93,17 @@ ngapp.service('navmeshHelpers', function() {
 
     // PUBLIC API
     this.hasReplacementNavmesh = function(handle) {
-        let container = xelib.GetContainer(handle),
-            navmeshes = xelib.GetRecords(container, 'NAVM', false);
-        navmeshes.forEach(xelib.Release);
-        return navmeshes.length > 0;
+        let result = false;
+        withNavmeshSiblings(handle, function(navmeshes) {
+            result = navmeshes.length > 0;
+        });
+        return result;
     };
 
     this.withReplacementNavmesh = function(handle, callback) {
-        let container = xelib.GetContainer(handle),
-            navmeshes = xelib.GetRecords(container, 'NAVM', false);
-        try {
+        withNavmeshSiblings(handle, function(navmeshes) {
             callback(navmeshes[0]);
-        } finally {
-            xelib.Release(container);
-            navmeshes.forEach(xelib.Release);
-        }
+        });
     };
 
     this.bury = function(navmesh) {
