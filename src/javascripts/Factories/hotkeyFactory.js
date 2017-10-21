@@ -92,7 +92,7 @@ ngapp.service('hotkeyFactory', function() {
         pageUp: 'handlePageUp',
         pageDown: 'handlePageDown',
         enter: 'handleEnter',
-        delete: 'handleDelete',
+        delete: 'deleteElements',
         insert: 'handleInsert',
         backspace: (scope) => scope.$broadcast('navBack'),
         f: [{
