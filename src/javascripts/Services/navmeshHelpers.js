@@ -13,7 +13,7 @@ ngapp.service('navmeshHelpers', function() {
         });
     };
 
-    this.moveVerticesUnderground = function(handle) {
+    let moveVerticesUnderground = function(handle) {
         let element = xelib.GetElement(handle, 'NVNM\\Vertices');
         xelib.WithHandle(element, function(vertices) {
             for (let i = 0; i < xelib.ElementCount(vertices); i++) {
