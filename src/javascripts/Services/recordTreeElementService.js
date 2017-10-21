@@ -87,7 +87,7 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
                 scope.selectedNodes.slice(0, 8).forEach(function(node) {
                     message += `\r\n  - ${xelib.LocalPath(node.handles[recordIndex])}`;
                 });
-                if (scope.selectedNiodes.length > 8) {
+                if (scope.selectedNodes.length > 8) {
                     message += '\r\n  - ... etc.';
                 }
                 return message;
@@ -103,11 +103,13 @@ ngapp.service('recordTreeElementService', function(errorService, settingsService
         };
 
         scope.deleteElements = function() {
-            if (!xelib.GetIsEditable(scope.getRecord())) return;
+            let record = scope.getRecord();
+            if (!xelib.GetIsEditable(record)) return;
             let doDelete = function() {
                 scope.selectedNodes.forEach(scope.deleteElement);
                 scope.clearSelection(true);
                 scope.reload(); // TODO? This is kind of greedy, but it's simple
+                scope.$root.$broadcast('recordUpdated', record);
             };
             if (settings.recordView.promptOnDeletion) {
                 scope.deletionPrompt().then(function(result) {
