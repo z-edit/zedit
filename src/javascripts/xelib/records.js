@@ -23,7 +23,7 @@ Object.assign(xelib, {
         return xelib.Hex(xelib.GetFormID(id, native, local), local ? 6 : 8);
     },
     SetFormID: function(id, newFormID, native = false, fixReferences = true) {
-        if (!lib.SetFormID(id, newFormID, local, fixReferences))
+        if (!lib.SetFormID(id, newFormID, native, fixReferences))
             Fail(`Failed to set FormID on ${id} to ${newFormID}`);
     },
     GetRecord: function(id, formID) {

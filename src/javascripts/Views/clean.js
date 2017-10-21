@@ -83,7 +83,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         plugin.checking = true;
         clearErrors(plugin);
         try {
-            xelib.CheckForErrors(plugin._id);
+            xelib.CheckForErrors(plugin.handle);
             $scope.currentPlugin = plugin;
             $scope.pollErrorChecking();
         } catch (e) {
@@ -130,7 +130,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     $scope.getPlugins = function() {
         $scope.plugins = xelib.GetElements().map(function(file) {
             return {
-                _id: file,
+                handle: file,
                 filename: xelib.Name(file),
                 hash: xelib.MD5Hash(file),
                 status: 'Queued',
