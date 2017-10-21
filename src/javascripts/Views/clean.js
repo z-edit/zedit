@@ -81,7 +81,6 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     $scope.checkPluginForErrors = function(plugin) {
         plugin.status = 'Checking for errors...';
         plugin.checking = true;
-        clearErrors(plugin);
         try {
             xelib.CheckForErrors(plugin.handle);
             $scope.currentPlugin = plugin;
@@ -116,6 +115,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     $scope.startCheck = function() {
         $scope.pluginsToCheck = $scope.plugins.filter(function(plugin) {
             if (!plugin.skip) {
+                clearErrors(plugin);
                 plugin.status = 'Queued';
                 return true;
             }
