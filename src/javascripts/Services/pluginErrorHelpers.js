@@ -1,5 +1,8 @@
 ngapp.service('pluginErrorHelpers', function() {
-    let referenceSignatures = ['REFR', 'PGRE', 'PMIS', 'ACHR', 'PARW', 'PBAR', 'PBEA', 'PCON', 'PFLA', 'PHZD'];
+    let referenceSignatures = ['REFR', 'PGRE', 'PMIS', 'ACHR', 'PARW',
+                               'PBAR', 'PBEA', 'PCON', 'PFLA', 'PHZD'];
+
+    this.errorAcronyms = ['ITM', 'ITPO', 'DR', 'UES', 'URR', 'UER', 'OE'];
 
     this.isUDR = function(error) {
         return referenceSignatures.indexOf(error.signature) > -1;

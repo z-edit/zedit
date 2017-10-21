@@ -31,10 +31,8 @@ ngapp.service('errorMessageService', function(pluginErrorHelpers) {
     };
 
     // PUBLIC API
-    this.errorAcronyms = ['ITM', 'ITPO', 'DR', 'UES', 'URR', 'UER', 'OE'];
-
     this.getErrorMessage = function(error) {
-        let acronym = service.errorAcronyms[error.group];
+        let acronym = pluginErrorHelpers.errorAcronyms[error.group];
         return messageFormats[acronym](error);
     };
 

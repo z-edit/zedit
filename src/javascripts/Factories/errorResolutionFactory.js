@@ -2,6 +2,12 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     // PRIVATE
     let withErrorElement = pluginErrorHelpers.withErrorElement;
 
+    let ignoreResolution = {
+        label: 'Ignore',
+        class: 'neutral',
+        description: 'This resolution will leave the error in the plugin.'
+    };
+
     let removeRecordResolution = {
         label: 'Delete',
         class: 'negative',
@@ -87,12 +93,6 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
                 xelib.Switch(error.handle, copy);
             });
         }
-    };
-
-    let ignoreResolution = {
-        label: 'Ignore',
-        class: 'neutral',
-        description: 'This resolution will leave the error in the plugin.'
     };
 
     let replaceNavmeshResolution = {
