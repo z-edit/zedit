@@ -22,7 +22,8 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
         class: 'positive',
         description: 'This resolution will adjusted the EditorID of the record so it is no longer an ITM.',
         available: function(error) {
-            return xelib.HasElement(error.handle, 'EDID');
+            return xelib.HasElement(error.handle, 'EDID') &&
+                error.signature !== 'CELL';
         },
         execute: function(error, tweak) {
             if (!tweak) tweak = '-Intended';
