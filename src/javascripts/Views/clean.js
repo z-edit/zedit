@@ -114,10 +114,13 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.startCheck = function() {
-        $scope.checkNextPlugin();
         $scope.pluginsToCheck = $scope.plugins.filter(function(plugin) {
-            return !plugin.skip;
+            if (!plugin.skip) {
+                plugin.status = 'Queued';
+                return true;
+            }
         }).length;
+        $scope.checkNextPlugin();
         $scope.checking = true;
     };
 
