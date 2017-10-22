@@ -30,6 +30,12 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
         }
     };
 
+    $scope.openColumnsModal = function() {
+        $scope.$emit('openModal', 'editColumns', {
+            allColumns: $scope.allColumns
+        });
+    };
+
     $scope.onNodeDoubleClick = function(e, node) {
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
@@ -74,6 +80,10 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     $scope.$on('reloadGUI', $scope.reload);
     $scope.$on('getSelectedNodes', function(e) {
         e.targetScope.selectedNodes = $scope.selectedNodes;
+    });
+    $scope.$on('rebuildColumns', function() {
+        $scope.buildColumns();
+        $scope.reload();
     });
 
     // initialization

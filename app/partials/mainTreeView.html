@@ -7,7 +7,7 @@
         </span>
     </span>
     <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
-    <div class="column-action edit-columns" ng-click="toggleColumnsModal(true)" title="Edit columns"></div>
+    <div class="column-action edit-columns" ng-click="openColumnsModal()" title="Edit columns"></div>
 </div>
 <div class="tree-nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" theme-scrollbar-fix vs-repeat>
     <div ng-repeat="node in tree" ng-mousedown="onNodeMouseDown($event, node)" ng-dblclick="onNodeDoubleClick($event, node)" ng-drag="onNodeDrag(node)" ng-class="{'selected' : node.selected}" class="node {{node.class}}" ng-init="node.has_data || getNodeData(node)">

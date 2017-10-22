@@ -41,13 +41,15 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
         $scope.allColumns.forEach(function(column) {
             if (column.custom) columnsService.buildDataFunction(column);
         });
-        $scope.buildColumns();
-        $scope.reload();
+        $scope.$root.$broadcast('rebuildColumns');
         columnsService.saveColumns();
         $scope.$emit('closeModal');
     };
 
     // initialization
-    let firstCustomColumn = $scope.allColumns.find((column) => { return column.custom; });
+    $scope.allColumns = $scope.modalOptions.allColumns;
+    let firstCustomColumn = $scope.allColumns.find(function(column) {
+        return column.custom;
+    });
     if (firstCustomColumn) $scope.selectColumn(firstCustomColumn);
 });
