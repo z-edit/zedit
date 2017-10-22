@@ -1,0 +1,44 @@
+<p>The clean view is the main view of the Clean <a href="docs://Application Modes">application mode</a>.  This view offers a flexible interface to check plugins for errors, view the errors that are found, and then resolve them.</p>
+
+<h2>Error caching</h2>
+<p>zClean uses caching to avoid repeat work.  See <a href="docs://Modal Views/Settings View/Error Caching Settings">Error Caching Settings</a> for more information.</p>
+
+<h2>Checking plugins for errors</h2>
+<ol>
+    <li>
+        Make sure that the plugins you want to check for errors have the green <b>Process</b> badge displayed, and plugins that you don't want to process have the red <b>Skip</b> badge displayed.  You can toggle between the two by clicking the badge.
+    </li>
+    <li>
+        Click the big "Check for Errors" button at the bottom of the page.
+    </li>
+    <li>
+        You can view errors and select resolutions for plugins while the error check is in progress.
+    </li>
+    <li>
+        Once the error check is complete and you're ready to apply your resolutions, you can close the program.  The <a href="docs://Modal Views/Save Modal">Save Modal</a> will be displayed automatically, from which you can select which plugins you want to save cleaned versions of.
+    </li>
+</ol>
+
+<h2>Overview section</h2>
+<p>Before the error check is performed this section specifies how many plugins are queued to be checked for errors.</p>
+
+<p>While an error check is being performed this section will specify the error checking progress and how many errors have been found.</p>
+
+<p>Once the error check has completed this section will display a breakdown of the different types of errors that were found, with a short explanations for each type of error.</p>
+
+<h2>Plugin items</h2>
+<p>Before the error check is performed each plugin item will display the plugin's filename and a button that says "Process" or "Skip".  Errors are displayed for plugins which have had cached errors loaded from disk.</p>
+
+<p>While an error check is being performed, the plugin currently being checked will display a spinner.  Plugins that are queued to be checked will display "queued" in parenthesis after their filename.</p>
+
+<p>When an error check completes for a plugin, its errors will be displayed in groups.</p>
+
+<h2>Error groups</h2>
+<p>Errors are displayed in plugin items in groups, where each group corresponds to a type of error which is found in the plugin.  You can expand groups to view errors and resolutions by clicking on them.</p>
+
+<p>You can assign resolutions to all errors in a group from the dropdown by the group title.  Selecting the <b>Automatic</b> option will have the program select the default preferred resolution for each error in the group.  Selecting <b>Manual</b> will open the <a href="docs://Modal Views/Resolve Modal">Resolve Modal</a> for all the errors in the group.  Selecting <b>Ignore</b> will set the resolution of every error in the group to ignore.</p>
+
+<p>In addition to batch resolution, you can click on an individual error's resolution to set it from the resolve modal.</p>
+
+<h2>Modal views</h2>
+<modal-views-list></modal-views-list>

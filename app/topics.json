@@ -54,6 +54,12 @@
           "description": "Allows you to edit the record value."
         }]
       }]
+    }, {
+      "label": "Clean View",
+      "modalViews": [{
+        "label": "Resolve Modal",
+        "description": "Allows you to select resolutions for errors."
+      }]
     }]
   }, {
     "label": "Modal Views",
