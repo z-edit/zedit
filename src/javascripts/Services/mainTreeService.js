@@ -44,19 +44,17 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, setting
         };
 
         scope.resolveNode = function(path) {
-            let node = undefined;
+            let node = undefined,
+                handle = 0;
             path.split('\\').forEach(function(part) {
-                let handle = node ? node.handle : 0;
-                handle = xelib.GetElementEx(handle, `${part}`);
-                try {
-                    if (part !== 'Child Group') {
-                        node = scope.getNodeForElement(handle);
-                        if (!node) throw scope.resolveNodeError(path, part);
-                        if (!node.has_data) scope.getNodeData(node);
-                        if (!node.expanded) scope.expandNode(node);
-                    }
-                } finally {
-                    xelib.Release(handle);
+                let nextHandle = xelib.GetElementEx(handle, `${part}`);
+                if (handle > 0) xelib.Release(handle);
+                handle = nextHandle;
+                if (part !== 'Child Group') {
+                    node = scope.getNodeForElement(handle);
+                    if (!node) throw scope.resolveNodeError(path, part);
+                    if (!node.has_data) scope.getNodeData(node);
+                    if (!node.expanded) scope.expandNode(node);
                 }
             });
             return node;
