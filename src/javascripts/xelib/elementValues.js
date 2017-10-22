@@ -14,6 +14,14 @@ Object.assign(xelib, {
     DisplayName: function(id) {
         return GetStringValue(id, 'DisplayName');
     },
+    PlacementName: function(id) {
+        if (!xelib.HasElement(id, 'NAME')) return;
+        let result = '';
+        xelib.WithHandle(xelib.GetLinksTo(id, 'NAME'), function(rec) {
+            result = `Places ${xelib.Name(rec)}`;
+        });
+        return result;
+    },
     Path: function(id) {
         return GetString(function(_len) {
             if (!lib.Path(id, true, false, _len))

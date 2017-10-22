@@ -34,7 +34,7 @@ ngapp.service('columnsService', function(settingsService) {
         canSort: true,
         getData: function(node, xelib) {
             if (node.element_type === xelib.etMainRecord && node.fid > 0) {
-                return xelib.FullName(node.handle, true);
+                return xelib.FullName(node.handle) || xelib.PlacementName(node.handle);
             }
         }
     };
