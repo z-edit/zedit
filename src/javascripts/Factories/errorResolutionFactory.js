@@ -41,9 +41,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
         },
         execute: function(error, tweak) {
             xelib.Translate(error.handle, tweak || {
-                X: -0.0005,
-                Y:  0.0005,
-                Z: -0.0005
+                X: 0.0005
             });
         }
     };
