@@ -72,7 +72,8 @@
         "children": [
           { "label": "Core Settings" },
           { "label": "Tree View Settings" },
-          { "label": "Record View Settings" }
+          { "label": "Record View Settings" },
+          { "label": "Error Caching Settings" }
         ]
       },
       { "label": "Edit Value Modal" },
