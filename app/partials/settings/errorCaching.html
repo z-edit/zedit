@@ -1,3 +1,5 @@
+<h2>Error Caching Settings</h2>
+
 <section>
     <label>
         <input type="checkbox" ng-model="settings.cacheErrors"/>
@@ -5,7 +7,10 @@
     </label>
 </section>
 
-<h3>Error Cache</h3>
+<h3>
+    Error Cache
+    <button class="action-btn negative small" ng-click="clearErrorCache()">Clear</button>
+</h3>
 <div class="cache-container">
     <div class="cache-item" ng-repeat="item in errorCache" ng-hide="item.deleted">
         <div class="delete-item">
@@ -44,9 +49,4 @@
     <div ng-if="!errorCache.length" class="content-message">
         The Error Cache is empty.
     </div>
-</div>
-
-<div class="action-button-container">
-    <button class="action-btn negative" ng-click="clearErrorCache()">Clear</button>
-    <button class="action-btn" ng-click="toggleErrorCache()">Back</button>
 </div>
