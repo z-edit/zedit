@@ -20,6 +20,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let tweakEdidResolution = {
         label: 'Tweak EDID',
         class: 'positive',
+        availability: 'When the record has an Editor ID.',
         description: 'This resolution will adjusted the EditorID of the record so it is no longer an ITM.',
         available: function(error) {
             return xelib.HasElement(error.handle, 'EDID') &&
@@ -35,6 +36,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let tweakPositionResolution = {
         label: 'Tweak Position',
         class: 'positive',
+        availability: 'When the record is a placed object.',
         description: 'This resolution will slightly adjust the position of the reference so it is no longer an ITM.',
         available: function(error) {
             return xelib.HasElement(error.handle, 'DATA\\Position');
@@ -49,6 +51,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let nullifyResolution = {
         label: 'Nullify',
         class: 'positive',
+        availability: 'When the element allows NULL references.',
         description: 'This resolution will set the reference to a NULL [00000000] reference.',
         available: function(error) {
             if (error.group === 5) {
@@ -97,6 +100,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let replaceNavmeshResolution = {
         label: 'Replace Navmesh',
         class: 'positive',
+        availability: 'When the record is a navmesh and a replacement navmesh is present.',
         description: 'This resolution will replace the deleted navmesh with the new navmesh introduced by the plugin.',
         available: function(error) {
             return pluginErrorHelpers.isNavmeshError(error) &&
@@ -123,6 +127,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let buryNavmeshResolution = {
         label: 'Bury Navmesh',
         class: 'positive',
+        availability: 'When the record is a navmesh.',
         description: 'This resolution will lower the navmesh\'s verticies below the ground and remove its edge links.',
         available: pluginErrorHelpers.isNavmeshError,
         execute: function(error) {
@@ -135,6 +140,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let undeleteAndDisableResolution = {
         label: 'Undelete and Disable',
         class: 'positive',
+        availability: 'When the record is a placed object.',
         description: 'This resolution will undelete the reference and mark it as disabled.',
         available: pluginErrorHelpers.isUDR,
         execute: function(error) {
@@ -146,6 +152,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
     let clearSubrecordsResolution = {
         label: 'Clear Subrecords',
         color: 'positive',
+        availability: 'When the record is not a placed object or a navmesh.',
         description: 'This resolution will clear the record\'s subrecords.',
         available: function(error) {
             return !pluginErrorHelpers.isUDR(error) &&

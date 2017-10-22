@@ -71,6 +71,10 @@
       },
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
+      {
+        "label": "Resolve Modal",
+        "controller": "resolveModalDocumentationController"
+      },
       { "label": "Save Modal" }
     ]
   }, {

@@ -1,0 +1,50 @@
+<p>The resolve modal allows you view error records and to select resolutions.  You can open the resolve modal by:</p>
+
+<ul>
+    <li>
+        Selecting the Manual group resolution for an error group on the <a href="docs://Views/Clean View">Clean View</a>.
+    </li>
+    <li>
+        Clicking on an individual error item's resolution on the Clean View.
+    </li>
+</ul>
+
+<h2>Navigation</h2>
+<p>Selecting an error resolution will navigate to the next error.  You can also click the <b>Next</b> button to navigate to the next error.  You can click the <b>Previous</b> button to navigate to the previous error.  When you've reached the last error, the <b>Done</b> button will appear instead of the next button.</p>
+
+<h2>Error resolutions</h2>
+<p>The default error resolution applied to an error is the first resolution for the error type available for the record the error is in.</p>
+
+<h3 ng-repeat-start="errorType in errorTypes">{{::errorType.name}}</h3>
+<table ng-repeat-end>
+    <thead>
+    <tr>
+        <th>Resolution</th>
+        <th>Availability</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="resolution in resolutions[errorType.acronym]">
+        <td class="nowrap">{{::resolution.label}}</td>
+        <td>{{::resolution.availability}}</td>
+        <td>{{::resolution.description}}</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Hotkeys</h2>
+<ul>
+    <li>
+        <kbd>W</kbd>, <kbd>Right Arrow</kbd> - Navigates to the next error.
+    </li>
+    <li>
+        <kbd>Q</kbd>, <kbd>Left Arrow</kbd> - Navigates to the previous error.
+    </li>
+    <li>
+        <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>, <kbd>4</kbd>... - Selects the corresponding resolution.
+    </li>
+    <li>
+        <kbd>Escape</kbd> - Closes the modal.
+    </li>
+</ul>
