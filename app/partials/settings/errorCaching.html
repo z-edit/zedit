@@ -14,9 +14,9 @@
 <div class="cache-container">
     <div class="cache-item" ng-repeat="item in errorCache" ng-hide="item.deleted">
         <div class="delete-item">
-                        <span class="action-box red-box" ng-click="deleteCache(item)">
-                            Delete
-                        </span>
+            <button class="action-btn negative small" ng-click="deleteCache(item)">
+                Delete
+            </button>
         </div>
         <div class="filename">{{::item.filename}}</div>
         <div class="clickable" ng-click="item.showFiles = !item.showFiles">
