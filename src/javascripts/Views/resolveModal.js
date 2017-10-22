@@ -27,6 +27,7 @@ ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, p
     };
 
     $scope.previousError = function() {
+        if ($scope.errorIndex === 0) return;
         $scope.errorIndex--;
         setError();
     };
