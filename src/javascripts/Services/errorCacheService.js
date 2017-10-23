@@ -58,7 +58,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
 
     let loadErrorCache = function() {
         errorCache = [];
-        fh.appDir.find('cache', {
+        fh.jetpack.find('cache', {
             matching: '*.json',
             files: true,
             directories: false
@@ -86,7 +86,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     // PUBLIC API
     this.loadPluginErrors = function(plugin) {
         let filePath = `cache\\${plugin.filename}-${plugin.hash}.json`;
-        if (fh.appDir.exists(filePath)) {
+        if (fh.jetpack.exists(filePath)) {
             let cachedErrors = fh.loadJsonFile(filePath) || {},
                 errors = buildErrors(plugin, cachedErrors);
             setCachedErrors(plugin, errors);
