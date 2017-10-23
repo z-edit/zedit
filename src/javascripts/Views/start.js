@@ -14,6 +14,19 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
     $scope.selectedProfile = profileService.getDefaultProfile();
     $scope.selectedAppMode = $scope.appModes[0];
 
+    // helper functions
+    let getMasterNames = function(filename) {
+        let handle;
+        try {
+            handle = xelib.LoadPluginHeader(filename);
+            return xelib.GetMasterNames(handle);
+        } catch(x) {
+            console.log(x);
+        } finally {
+            xelib.UnloadPlugin(handle);
+        }
+    };
+
     // scope functions
     $scope.getLoadOrder = function () {
         let loadOrder = xelib.GetLoadOrder().split('\r\n');
@@ -21,15 +34,10 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         console.log('Load Order:\n' + loadOrder);
         console.log('Active Plugins:\n' + activePlugins);
         return loadOrder.map(function(filename) {
-            let handle = xelib.LoadPluginHeader(filename);
-            try {
-                return {
-                    filename: filename,
-                    masterNames: xelib.GetMasterNames(handle),
-                    active: activePlugins.includes(filename)
-                }
-            } finally {
-                xelib.UnloadPlugin(handle);
+            return {
+                filename: filename,
+                masterNames: getMasterNames(filename) || [],
+                active: activePlugins.includes(filename)
             }
         })
     };
