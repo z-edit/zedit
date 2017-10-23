@@ -13,6 +13,7 @@ ngapp.service('pluginErrorHelpers', function() {
     };
 
     this.withErrorElement = function(error, callback, onException = console.log) {
+        if (error.handle === 0) return;
         let element = xelib.GetElement(error.handle, error.path);
         try {
             try {
