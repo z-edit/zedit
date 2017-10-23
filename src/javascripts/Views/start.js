@@ -23,7 +23,7 @@ ngapp.controller('startController', function ($scope, $rootScope, profileService
         } catch(x) {
             console.log(x);
         } finally {
-            xelib.UnloadPlugin(handle);
+            if (handle) xelib.UnloadPlugin(handle);
         }
     };
 
