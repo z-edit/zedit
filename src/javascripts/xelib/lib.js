@@ -40,7 +40,7 @@ try {
         'LoadPlugins': [WordBool, [PWChar, WordBool]],
         'LoadPlugin': [WordBool, [PWChar]],
         'LoadPluginHeader': [WordBool, [PWChar, PCardinal]],
-        'BuildReferences': [WordBool, [Cardinal]],
+        'BuildReferences': [WordBool, [Cardinal, WordBool]],
         'UnloadPlugin': [WordBool, [Cardinal]],
         'GetLoaderStatus': [WordBool, [PByte]],
         // FILE HANDLING METHODS
