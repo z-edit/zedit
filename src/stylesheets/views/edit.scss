@@ -1,14 +1,9 @@
-ui-view {
-  display: block;
-  height: calc(100% - 42px);
-}
-
-.content,.viewport {
+.viewport {
   height: 100%;
-}
-
-.viewport > pane {
-  height: 100%;
+  
+  > pane {
+    height: 100%;
+  }
 }
 
 .pane-container {
