@@ -92,7 +92,7 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         // expand node or navigate to first child when right arrow is pressed
-        scope.handleRightArrow = function(e) {
+        scope.handleRightArrow = function() {
             let node = scope.selectedNodes.last();
             if (!node || !node.can_expand) return;
             scope.clearSelection();
@@ -106,8 +106,9 @@ ngapp.service('nodeSelectionService', function() {
         };
 
         // navigate to parent or collapse node when left arrow is pressed
-        scope.handleLeftArrow = function(e) {
+        scope.handleLeftArrow = function() {
             let node = scope.selectedNodes.last();
+            if (!node) return;
             if (node.expanded) {
                 scope.clearSelection();
                 scope.collapseNode(node);
