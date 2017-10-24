@@ -21,7 +21,7 @@ ngapp.service('referenceService', function($rootScope) {
             alert(`There was a critical error when building references for ${currentFile.filename}.`);
             buildNextFile();
         } else {
-            setTimeout(checkIfBuilt, 250);
+            setTimeout(checkIfBuilt, 100);
         }
     };
 
