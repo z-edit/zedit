@@ -200,7 +200,7 @@ ngapp.service('contextMenuFactory', function() {
                 }]
             });
         }
-    },{
+    }, {
         id: 'Enable Editing',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
@@ -213,6 +213,19 @@ ngapp.service('contextMenuFactory', function() {
                 label: 'Enable Editing',
                 hotkey: 'Ctrl+E',
                 callback: () => scope.enableEditing()
+            })
+        }
+    }, {
+        id: 'Build References',
+        visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
+            return testNodes(scope.selectedNodes, isFileNode);
+        },
+        build: (scope, items) => {
+            items.push({
+                label: 'Build References',
+                hotkey: 'Ctrl+B',
+                callback: () => scope.buildReferences()
             })
         }
     }, divider, {

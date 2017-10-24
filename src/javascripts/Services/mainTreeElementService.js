@@ -1,4 +1,4 @@
-ngapp.service('mainTreeElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService) {
+ngapp.service('mainTreeElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let settings = settingsService.settings;
@@ -207,6 +207,15 @@ ngapp.service('mainTreeElementService', function($q, editModalFactory, errorServ
                 if (node.element_type !== xelib.etFile) return;
                 xelib.SetIsEditable(node.handle, true);
             });
+        };
+
+        scope.buildReferences = function() {
+            let fileHandles = [];
+            scope.selectedNodes.forEach(function(node) {
+                if (node.element_type !== xelib.etFile) return;
+                fileHandles.push(node.handle);
+            });
+            referenceService.buildReferences(fileHandles);
         };
 
         scope.changeFileName = function(node) {
