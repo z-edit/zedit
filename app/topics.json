@@ -51,7 +51,7 @@
         "label": "Record View",
         "modalViews": [{
           "label": "Edit Value Modal",
-          "description": "Allows you to edit the record value."
+          "description": "Allows you to edit record values."
         }]
       }]
     }, {
