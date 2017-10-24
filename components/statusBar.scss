@@ -1,0 +1,10 @@
+status-bar {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  text-align: right;
+  height: 22px;
+  padding: 2px 8px;
+  border-top: 1px solid $hard_border;
+  background-color: $background;
+}
