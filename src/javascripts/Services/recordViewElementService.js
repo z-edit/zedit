@@ -1,4 +1,4 @@
-ngapp.service('recordTreeElementService', function(errorService, settingsService) {
+ngapp.service('recordViewElementService', function(errorService, settingsService) {
     this.buildFunctions = function(scope) {
         let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct],
             settings = settingsService.settings;

@@ -1,20 +1,20 @@
-ngapp.controller('recordTreeViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordTreeService, recordTreeElementService, recordTreeDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
 
     // helper/scope variables
     $scope.overrides = [];
-    $scope.contextMenuItems = contextMenuFactory.recordTreeItems;
+    $scope.contextMenuItems = contextMenuFactory.recordViewItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
-    recordTreeService.buildFunctions($scope);
-    recordTreeElementService.buildFunctions($scope);
-    recordTreeDragDropService.buildFunctions($scope);
+    recordViewService.buildFunctions($scope);
+    recordViewElementService.buildFunctions($scope);
+    recordViewDragDropService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
-    treeColumnService.buildFunctions($scope, '.record-tree-view', false, true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordTree');
+    treeColumnService.buildFunctions($scope, '.record-view', false, true);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
 
     // scope functions
     $scope.showContextMenu = function(e) {

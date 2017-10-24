@@ -1,4 +1,4 @@
-ngapp.service('recordTreeService', function($timeout, layoutService, settingsService, xelibService, recordTreeViewFactory, objectUtils) {
+ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, recordViewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -46,7 +46,7 @@ ngapp.service('recordTreeService', function($timeout, layoutService, settingsSer
         };
 
         // inherited functions
-        scope.releaseTree = recordTreeViewFactory.releaseTree;
+        scope.releaseTree = recordViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {

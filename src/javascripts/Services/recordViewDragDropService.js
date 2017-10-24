@@ -1,4 +1,4 @@
-ngapp.service('recordTreeDragDropService', function(errorService) {
+ngapp.service('recordViewDragDropService', function(errorService) {
     this.buildFunctions = function(scope) {
         scope.onDragOver = function() {
             let dragData = scope.$root.dragData;
@@ -16,7 +16,7 @@ ngapp.service('recordTreeDragDropService', function(errorService) {
         scope.onCellDrag = function(node, index) {
             if (!node.handles[index - 1]) return;
             scope.$root.dragData = {
-                source: 'recordTreeView',
+                source: 'recordView',
                 node: node,
                 index: index - 1
             };
@@ -44,7 +44,7 @@ ngapp.service('recordTreeDragDropService', function(errorService) {
             if (node.parent && node.parent.handles[index - 1] === 0) return;
             if (dragData.source === 'mainTreeView') {
                 return canDropFromTreeView(dragData, node);
-            } else if (dragData.source === 'recordTreeView' ) {
+            } else if (dragData.source === 'recordView' ) {
                 return canDropFromRecordView(dragData, node, index - 1);
             }
         };

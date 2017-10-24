@@ -72,7 +72,7 @@ ngapp.service('hotkeyFactory', function() {
         v: 'handleV'
     };
 
-    this.recordTreeHotkeys = {
+    this.recordViewHotkeys = {
         leftArrow: [{
             modifiers: ['altKey'],
             callback: (scope) => scope.$broadcast('navBack')

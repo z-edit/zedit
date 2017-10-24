@@ -1,4 +1,4 @@
-ngapp.service('recordTreeViewFactory', function() {
+ngapp.service('recordViewFactory', function() {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -16,17 +16,17 @@ ngapp.service('recordTreeViewFactory', function() {
 
     this.new = function() {
         return {
-            templateUrl: 'partials/recordTreeView.html',
-            controller: 'recordTreeViewController',
-            class: 'record-tree-view',
+            templateUrl: 'partials/recordView.html',
+            controller: 'recordViewController',
+            class: 'record-view',
             data: { tabLabel: 'Record View' },
             destroy: factory.destroy
         }
     };
 });
 
-ngapp.run(function(viewFactory, recordTreeViewFactory, settingsService) {
-    viewFactory.registerView('recordTreeView', recordTreeViewFactory.new, 'Record View');
+ngapp.run(function(viewFactory, recordViewFactory, settingsService) {
+    viewFactory.registerView('recordView', recordViewFactory.new, 'Record View');
     settingsService.registerSettings({
         label: 'Record View',
         appModes: ['edit'],

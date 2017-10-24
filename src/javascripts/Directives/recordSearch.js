@@ -1,4 +1,4 @@
-ngapp.controller('recordTreeSearchController', function($scope, $q, $timeout, hotkeyService) {
+ngapp.controller('recordSearchController', function($scope, $q, $timeout, hotkeyService) {
     // helper variables
     let pKey = 80, vKey = 86,
         searchOptionKeys = [pKey, vKey];

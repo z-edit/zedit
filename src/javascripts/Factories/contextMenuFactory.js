@@ -325,7 +325,7 @@ ngapp.service('contextMenuFactory', function(referenceService) {
         }
     }];
 
-    this.recordTreeItems = [{
+    this.recordViewItems = [{
         id: 'Add',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;

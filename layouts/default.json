@@ -6,7 +6,7 @@
       "tabs": ["mainTreeView"]
     },
     {
-      "tabs": ["recordTreeView"]
+      "tabs": ["recordView"]
     }
   ]
 }
