@@ -29,7 +29,7 @@ ngapp.service('hotkeyFactory', function() {
 
     this.cleanViewHotkeys = {};
 
-    this.mainTreeHotkeys = {
+    this.treeViewHotkeys = {
         rightArrow: 'handleRightArrow',
         leftArrow: 'handleLeftArrow',
         upArrow: 'handleUpArrow',

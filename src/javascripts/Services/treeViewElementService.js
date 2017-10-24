@@ -1,4 +1,4 @@
-ngapp.service('mainTreeElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService) {
+ngapp.service('treeViewElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let settings = settingsService.settings;
@@ -238,7 +238,7 @@ ngapp.service('mainTreeElementService', function($q, editModalFactory, errorServ
 
         scope.copyNodes = function() {
             if (!scope.canCopy) return;
-            clipboardService.copy('mainTreeView', scope.selectedNodes);
+            clipboardService.copy('treeView', scope.selectedNodes);
         };
 
         scope.copyInto = function() {
@@ -281,7 +281,7 @@ ngapp.service('mainTreeElementService', function($q, editModalFactory, errorServ
 
         scope.canPaste = function() {
             if (!clipboardService.hasClipboard()) return;
-            if (clipboardService.getCopySource() !== 'mainTreeView') return;
+            if (clipboardService.getCopySource() !== 'treeView') return;
             if (scope.selectedNodes.length === 0) return;
             let nodes = clipboardService.getNodes(),
                 nodeParentType = nodes[0].parent.element_type,

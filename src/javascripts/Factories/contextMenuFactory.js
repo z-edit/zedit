@@ -72,7 +72,7 @@ ngapp.service('contextMenuFactory', function(referenceService) {
         }
     }];
 
-    this.mainTreeItems = [{
+    this.treeViewItems = [{
         id: 'Add',
         visible: (scope) => {
             let node = scope.selectedNodes.last();

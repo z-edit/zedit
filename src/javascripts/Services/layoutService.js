@@ -4,7 +4,7 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
             "layout": "horizontal",
             "panes": [{
                 "width": "45%",
-                "tabs": ["mainTreeView"]
+                "tabs": ["treeView"]
             }, {
                 "tabs": ["recordView"]
             }]

@@ -3,7 +3,7 @@
   "panes": [
     {
       "width": "45%",
-      "tabs": ["mainTreeView"]
+      "tabs": ["treeView"]
     },
     {
       "tabs": ["recordView"]

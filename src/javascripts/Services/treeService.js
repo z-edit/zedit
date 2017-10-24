@@ -1,4 +1,4 @@
-// functions shared by mainTreeView and recordView
+// functions shared by the tree view and the record view
 ngapp.service('treeService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
         // helper fucntions

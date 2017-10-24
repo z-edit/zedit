@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService) {
+ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService) {
     // helper variables
     let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
         searchOptionKeys = [fKey, eKey, nKey, aKey];

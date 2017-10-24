@@ -1,4 +1,4 @@
-ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, settingsService) {
+ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -6,7 +6,7 @@ ngapp.service('mainTreeService', function($timeout, mainTreeViewFactory, setting
             settings = settingsService.settings;
 
         // inherited functions
-        scope.releaseTree = mainTreeViewFactory.releaseTree;
+        scope.releaseTree = treeViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {

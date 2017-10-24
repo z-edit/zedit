@@ -323,12 +323,12 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             }
         };
 
-        scope.linkToMainTreeView = function() {
-            let mainTreeView = layoutService.findView(function(view) {
-                return view.class === 'main-tree-view';
+        scope.linkToTreeView = function() {
+            let treeView = layoutService.findView(function(view) {
+                return view.class === 'tree-view';
             });
-            if (!mainTreeView.data.linkedScope) {
-                mainTreeView.data.linkedScope = scope;
+            if (!treeView.data.linkedScope) {
+                mtreeView.data.linkedScope = scope;
                 scope.linked = true;
             }
         };

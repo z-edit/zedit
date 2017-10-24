@@ -1,4 +1,4 @@
-ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, columnsService, treeService, mainTreeService, mainTreeElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
     let data = $scope.$parent.tab.data;
     data.scope = $scope;
@@ -6,15 +6,15 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     // helper variables
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
-    $scope.contextMenuItems = contextMenuFactory.mainTreeItems;
+    $scope.contextMenuItems = contextMenuFactory.treeViewItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
-    mainTreeService.buildFunctions($scope);
-    mainTreeElementService.buildFunctions($scope);
+    treeViewService.buildFunctions($scope);
+    treeViewElementService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope, true);
-    treeColumnService.buildFunctions($scope, '.main-tree-view', true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'mainTree');
+    treeColumnService.buildFunctions($scope, '.tree-view', true);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
 
     // scope functions
     $scope.showContextMenu = function(e) {
@@ -45,7 +45,7 @@ ngapp.controller('mainTreeViewController', function($scope, $element, $timeout, 
     $scope.onNodeDrag = function(node) {
         if (node.element_type === xelib.etGroupRecord) return;
         $scope.$root.dragData = {
-            source: 'mainTreeView',
+            source: 'treeView',
             node: node
         };
         return true;

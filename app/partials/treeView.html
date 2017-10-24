@@ -1,4 +1,4 @@
-<search-bar ng-if="showSearchBar" ng-controller="mainTreeSearchController"></search-bar>
+<search-bar ng-if="showSearchBar" ng-controller="treeSearchController"></search-bar>
 <div class="tree-columns">
     <span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
         {{::column.label}}

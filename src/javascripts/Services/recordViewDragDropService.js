@@ -2,12 +2,12 @@ ngapp.service('recordViewDragDropService', function(errorService) {
     this.buildFunctions = function(scope) {
         scope.onDragOver = function() {
             let dragData = scope.$root.dragData;
-            if (dragData && dragData.source === 'mainTreeView') return true;
+            if (dragData && dragData.source === 'treeView') return true;
         };
 
         scope.onDrop = function() {
             let dragData = scope.$root.dragData;
-            if (!dragData || dragData.source !== 'mainTreeView') return;
+            if (!dragData || dragData.source !== 'treeView') return;
             let node = dragData.node,
                 path = node.element_type === xelib.etFile ? 'File Header' : '';
             scope.record = xelib.GetElementEx(node.handle, path);
@@ -42,7 +42,7 @@ ngapp.service('recordViewDragDropService', function(errorService) {
             let dragData = scope.$root.dragData;
             if (index === 0 || !dragData) return;
             if (node.parent && node.parent.handles[index - 1] === 0) return;
-            if (dragData.source === 'mainTreeView') {
+            if (dragData.source === 'treeView') {
                 return canDropFromTreeView(dragData, node);
             } else if (dragData.source === 'recordView' ) {
                 return canDropFromRecordView(dragData, node, index - 1);
@@ -79,7 +79,7 @@ ngapp.service('recordViewDragDropService', function(errorService) {
                 cellHandle = getOrCreateCell(node, recordIndex),
                 draggedElement = getDraggedElement(dragData);
             errorService.try(function() {
-                if (dragData.source === 'mainTreeView') {
+                if (dragData.source === 'treeView') {
                     setReference(cellHandle, draggedElement);
                 } else {
                     xelib.WithHandle(xelib.GetElementFile(cellHandle), function(file) {
