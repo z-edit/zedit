@@ -81,6 +81,10 @@ Object.assign(xelib, {
                 Fail(`Failed to load plugin header for ${filename}`);
         });
     },
+    BuildReferences: function(id) {
+        if (!lib.BuildReferences(id))
+            Fail(`Failed to build references for ${id}`);
+    },
     UnloadPlugin: function(id) {
         if (!lib.UnloadPlugin(id))
             Fail(`Failed to unload plugin ${id}`);
