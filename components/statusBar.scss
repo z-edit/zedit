@@ -2,9 +2,24 @@ status-bar {
   display: flex;
   flex-shrink: 0;
   justify-content: space-between;
+  align-items: center;
   text-align: right;
-  height: 22px;
+  height: 24px;
   padding: 2px 8px;
   border-top: 1px solid $hard_border;
   background-color: $background;
+  font-size: 13px;
+
+  .tiny-spinner {
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+  }
+
+  .status-message {
+    > span {
+      vertical-align: middle;
+    }
+  }
 }
