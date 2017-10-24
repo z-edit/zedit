@@ -1,4 +1,4 @@
-ngapp.service('contextMenuFactory', function() {
+ngapp.service('contextMenuFactory', function(referenceService) {
     let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
     let divider = {
@@ -219,7 +219,10 @@ ngapp.service('contextMenuFactory', function() {
         id: 'Build References',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
-            return testNodes(scope.selectedNodes, isFileNode);
+            return testNodes(scope.selectedNodes, function(node) {
+                return isFileNode(node) &&
+                    referenceService.canBuildReferences(node.handle);
+            });
         },
         build: (scope, items) => {
             items.push({
