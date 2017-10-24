@@ -43,7 +43,7 @@ ngapp.service('referenceService', function($rootScope) {
         let message = `Building references for ${currentFile.filename}...`;
         $rootScope.$broadcast('statusMessage', message);
         start = new Date();
-        xelib.BuildReferences(currentFile.handle);
+        xelib.BuildReferences(currentFile.handle, false);
         checkIfBuilt();
     };
 

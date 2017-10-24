@@ -154,6 +154,18 @@
     "description": "Loads the header of plugin file `filename` and returns a handle to it.  This plugin should be unloaded with `UnloadPlugin` once you're done with it.  Note: Unlike `LoadPlugin`, this function does not use a background thread."
   },
   {
+    "name": "BuildReferences",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "sync",
+      "type": "boolean",
+      "description": "When false the references will be built asynchronously using the loader.  Use GetLoaderStatus to see when reference building is complete.  Defaults to true."
+    }],
+    "description": "Builds referenced by information for the plugin file `id`.  If `id` is 0 reference information will be built for all loaded plugins."
+  },
+  {
     "name": "UnloadPlugin",
     "args": [{
       "name": "id",
