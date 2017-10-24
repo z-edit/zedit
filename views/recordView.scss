@@ -1,4 +1,4 @@
-.record-tree-view {
+.record-view {
   text-align: left;
   font-size: 13px;
   overflow: hidden;
@@ -119,9 +119,6 @@
 }
 
 .record-view-icon {
-  font-size: 88px;
-  margin-bottom: -8px;
-
   &::before {
     content: "\f0ce";
   }
