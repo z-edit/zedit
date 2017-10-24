@@ -1,0 +1,93 @@
+title-bar {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $shadow;
+  background-color: $background;
+
+  .title {
+    flex: 1;
+    cursor: default;
+    padding: 4px 0 0 4px;
+
+    .draggable {
+      padding: 7px 11px 11px;
+      -webkit-app-region: drag;
+    }
+  }
+
+  .actions {
+    font-size: 22px;
+    cursor: default;
+    padding-right: 4px;
+
+    span {
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      vertical-align: middle;
+      min-width: 18px;
+    }
+
+    .extensions {
+      font: 22px FontAwesome;
+      margin-right: 4px;
+
+      &::before {
+        content: '\f1b3';
+      }
+    }
+
+    .settings {
+      font: 22px FontAwesome;
+      margin-right: 4px;
+
+      &::before {
+        content: '\f013';
+      }
+    }
+
+    .help {
+      &::before {
+        content: '?';
+      }
+    }
+
+    .divider {
+      cursor: default;
+      opacity: 0.4;
+      border-right: 1px solid $hard_border;
+      min-width: initial;
+      min-height: 26px;
+      margin-right: 8px;
+    }
+
+    .minimize {
+      margin-top: -6px;
+
+      &::before {
+        content: '_';
+      }
+    }
+
+    .restore {
+      font-size: 33px;
+      line-height: 16px;
+      margin-top: -6px;
+
+      &::before {
+        content: '\25A1';
+      }
+    }
+
+    .close {
+      margin-top: 1px;
+
+      &::before {
+        content: 'X';
+      }
+    }
+  }
+}
