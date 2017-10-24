@@ -3,4 +3,7 @@
 <ui-view></ui-view>
 
 <context-menu ng-if="showContextMenu" items="contextMenuItems" offset="contextMenuOffset"></context-menu>
+
 <ng-include ng-if="showModal" src="modalOptions.templateUrl" dyn-controller="modalOptions.controller" class="{{modalOptions.class}}"></ng-include>
+
+<status-bar ng-show="showStatusBar"></status-bar>
