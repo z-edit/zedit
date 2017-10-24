@@ -6,16 +6,19 @@ ngapp.directive('statusBar', function(spinnerFactory) {
         link: function(scope) {
             scope.spinnerOpts = spinnerFactory.tinyOptions;
 
-            scope.$on('buildReferences', function(e, filename) {
-                scope.showStatusBar = true;
-                scope.statusMessage = `Building references for ${filename}...`;
+            scope.$on('statusMessage', function(e, message) {
+                scope.statusMessage = message;
             });
 
-            scope.$on('referencesBuilt', function() {
-                scope.showStatusBar = false;
+            scope.$on('toggleStatusBar', function(e, show) {
+                scope.showStatusBar = show;
+                if (!show) {
+                    scope.statusMessage = '';
+                    scope.previewMessage = '';
+                }
             });
 
-            scope.$on('preview', function(e, message) {
+            scope.$on('previewMessage', function(e, message) {
                 scope.previewMessage = message;
             })
         }

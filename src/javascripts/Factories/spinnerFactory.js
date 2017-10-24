@@ -58,7 +58,7 @@ ngapp.service('spinnerFactory', function() {
         trail: 60,
         fps: 20,
         zIndex: 2,
-        className: 'spinner',
+        className: 'spinner default',
         top: '50%',
         left: '50%',
         shadow: false,
