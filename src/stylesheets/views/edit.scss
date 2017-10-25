@@ -90,8 +90,8 @@ split-bar {
       justify-content: space-between;
       min-width: 120px;
       max-width: 200px;
-      border-bottom: 1px solid $font_color;
-      border-right: 1px solid $font_color;
+      border-bottom: 1px solid $hard_border;
+      border-right: 1px solid $hard_border;
       background-color: $medium_soft_border;
 
       .label {
@@ -131,7 +131,7 @@ split-bar {
       padding: 2px 8px 2px 6px;
       flex: 1;
       text-align: left;
-      border-bottom: 1px solid $font_color;
+      border-bottom: 1px solid $hard_border;
 
       span {
         cursor: pointer;
