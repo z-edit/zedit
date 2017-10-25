@@ -1,0 +1,36 @@
+view-linker {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+
+  &.neutral {
+    background: rgba($neutral, 0.3);
+  }
+
+  &.positive {
+    background: rgba($positive, 0.3);
+  }
+
+  &.action {
+    background: rgba($action, 0.3);
+  }
+
+  &.negative {
+    background: rgba($negative, 0.3);
+  }
+
+  .link-message {
+    margin: auto;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 0 40px 40px;
+    text-shadow: 1px 1px 2px $inverse_font_color;
+    cursor: inherit;
+  }
+}
