@@ -44,11 +44,11 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
             if (e.type !== type) return;
             let hotkey = Object.keys(hotkeys).find(function(key) {
                 return e.keyCode === keycodes[key];
-            }) || 'else';
+            }) || 'default';
             if (!hotkeys[hotkey]) return;
             trigger(scope, hotkeys[hotkey], e);
         };
-    }
+    };
     
     this.buildOnKeyDown = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}Hotkeys`];

@@ -123,7 +123,7 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['altKey'],
             callback: 'toggleExact'
         }],
-        else: [{
+        default: [{
             modifiers: ['altKey'],
             callback: 'setSearchBy'
         }]
@@ -138,7 +138,7 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: [],
             callback: 'nextResult'
         }],
-        else: [{
+        default: [{
             modifiers: ['altKey'],
             callback: 'setSearchBy'
         }]
