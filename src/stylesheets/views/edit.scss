@@ -81,6 +81,7 @@ split-bar {
     margin-bottom: 5px;
 
     .tab {
+      display: flex;
       min-width: 120px;
       max-width: 200px;
       height: 25px;
@@ -90,6 +91,7 @@ split-bar {
       .label {
         display: inline-block;
         padding-top: 2px;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
