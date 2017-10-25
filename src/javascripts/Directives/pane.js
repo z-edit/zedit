@@ -52,6 +52,11 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
         $scope.tabs.forEach((tab, i) => tab.active = i === index);
     };
 
+    // event handling
+    $scope.onWheel = function(e) {
+        e.currentTarget.scrollLeft += e.deltaY > 0 ? 20 : -20;
+    };
+
     $scope.$on('changeView', function(e, viewName) {
         let tabIndex = e.targetScope.$index,
             viewTab = viewFactory.newView(viewName, true);

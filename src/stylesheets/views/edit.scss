@@ -75,18 +75,23 @@ split-bar {
 
   .tabs-bar {
     display: flex;
-    border-bottom: 1px solid $shadow;
     font-size: 14px;
     line-height: 22px;
     height: 25px;
     margin-bottom: 5px;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .tab {
       display: flex;
       justify-content: space-between;
       min-width: 120px;
       max-width: 200px;
-      border-right: 1px solid $shadow;
+      border-bottom: 1px solid $font_color;
+      border-right: 1px solid $font_color;
       background-color: $medium_soft_border;
 
       .label {
@@ -123,8 +128,14 @@ split-bar {
     }
 
     .add-tab {
-      margin: 2px 6px -2px;
-      cursor: pointer;
+      padding: 2px 8px 2px 6px;
+      flex: 1;
+      text-align: left;
+      border-bottom: 1px solid $font_color;
+
+      span {
+        cursor: pointer;
+      }
     }
   }
 

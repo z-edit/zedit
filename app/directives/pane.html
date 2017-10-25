@@ -1,5 +1,5 @@
 <div ng-if="tabs" class="tabs-container">
-    <div class="tabs-bar">
+    <div class="tabs-bar" ng-wheel="onWheel($event)">
         <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-mousedown="selectTab($event, $index)">
             <span class="label" title="{{tab.label}}">
                 <span class="icon {{::tab.class}}-icon" title="{{::tab.class.humanize()}}"></span>
@@ -9,8 +9,8 @@
                 <i class="fa fa-times"></i>
             </span>
         </div>
-        <div class="add-tab" title="Open a new tab (Ctrl + T)" ng-click="newTab()">
-            <i class="fa fa-plus"></i>
+        <div class="add-tab">
+            <span class="fa fa-plus" title="Open a new tab (Ctrl + T)" ng-click="newTab()"></span>
         </div>
     </div>
     <div class="tab-view {{tab.class}}" ng-repeat="tab in tabs" ng-show="tab.active" dyn-controller="tab.controller" ng-include="tab.templateUrl"></div>
