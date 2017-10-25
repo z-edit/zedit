@@ -28,6 +28,24 @@ ngapp.service('hotkeyFactory', function() {
 
     this.editViewHotkeys = {};
 
+    this.paneHotkeys = {
+        tab: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'previousTab'
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: 'nextTab'
+        }],
+        t: [{
+            modifiers: ['ctrlKey'],
+            callback: 'newTab'
+        }],
+        w: [{
+            modifiers: ['ctrlKey'],
+            callback: 'closeCurrentTab'
+        }]
+    };
+
     this.cleanViewHotkeys = {};
 
     this.treeViewHotkeys = {

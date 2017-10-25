@@ -1,4 +1,4 @@
-<div ng-if="tabs" class="tabs-container">
+<div ng-if="tabs" class="tabs-container" tabindex="0" ng-keydown="onKeyDown($event)">
     <div class="tabs-bar" ng-wheel="onWheel($event)">
         <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-mousedown="selectTab($event, $index)">
             <span class="label" title="{{tab.label}}">

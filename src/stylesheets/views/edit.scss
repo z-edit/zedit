@@ -73,6 +73,10 @@ split-bar {
 .tabs-container {
   height: 100%;
 
+  &:focus {
+    outline: none;
+  }
+
   .tabs-bar {
     display: flex;
     font-size: 14px;

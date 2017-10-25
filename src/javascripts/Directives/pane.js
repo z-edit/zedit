@@ -9,7 +9,7 @@ ngapp.directive('pane', function () {
     }
 });
 
-ngapp.controller('paneController', function ($scope, $element, viewFactory) {
+ngapp.controller('paneController', function ($scope, $element, viewFactory, hotkeyService) {
     Object.defaults($scope, $scope.pane || $scope.$parent.pane);
 
     // initialize pane size
@@ -23,6 +23,16 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
     let isCloseTab = function(element) {
         let closeTabClasses = ['add-tab', 'fa fa-times'];
         return element && closeTabClasses.includes(element.className);
+    };
+
+    let getCurrentTabIndex = function() {
+        return $scope.tabs.findIndex(function(tab) {
+            return tab.active;
+        });
+    };
+
+    let selectTab = function(index) {
+        $scope.tabs.forEach((tab, i) => tab.active = i === index);
     };
 
     // scope functions
@@ -39,6 +49,10 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
         }
     };
 
+    $scope.closeCurrentTab = function() {
+        $scope.closeTab(getCurrentTabIndex());
+    };
+
     $scope.newTab = function() {
         let newTab = viewFactory.newView('newTabView', true);
         $scope.$applyAsync(function() {
@@ -48,11 +62,25 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory) {
     };
 
     $scope.selectTab = function(e, index) {
-        if (isCloseTab(e.srcElement)) return;
-        $scope.tabs.forEach((tab, i) => tab.active = i === index);
+        if (isCloseTab(e.target)) return;
+        selectTab(index);
+    };
+
+    $scope.nextTab = function() {
+        let newIndex = getCurrentTabIndex() + 1;
+        if (newIndex >= $scope.tabs.length) newIndex = 0;
+        selectTab(newIndex);
+    };
+
+    $scope.previousTab = function() {
+        let newIndex = getCurrentTabIndex() - 1;
+        if (newIndex < 0) newIndex = $scope.tabs.length - 1;
+        selectTab(newIndex);
     };
 
     // event handling
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'pane');
+
     $scope.onWheel = function(e) {
         e.currentTarget.scrollLeft += e.deltaY > 0 ? 20 : -20;
     };
