@@ -157,5 +157,5 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.showAddressBar = true;
     $scope.autoExpand = true;
-    $timeout($scope.linkToMainTreeView, 100);
+    $timeout($scope.linkToTreeView, 100);
 });
