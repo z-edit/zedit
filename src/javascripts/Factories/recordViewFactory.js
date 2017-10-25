@@ -15,10 +15,6 @@ ngapp.service('recordViewFactory', function(viewFactory) {
         }
     };
 
-    this.isLinkedTo = () => {};
-
-    this.canLinkTo = () => {};
-
     this.linkTo = function(view) {
         if (view.class === 'tree-view') {
             view.linkedRecordView = this;

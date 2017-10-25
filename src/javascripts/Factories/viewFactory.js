@@ -2,6 +2,11 @@ ngapp.service('viewFactory', function(randomService) {
     let viewConstructors = {},
         accessibleViews = {};
 
+    let bind = function(fn, thisArg) {
+        if (!fn) return () => {};
+        return fn.bind(thisArg);
+    };
+
     this.registerView = function(viewName, constructor, accessibleName) {
         viewConstructors[viewName] = constructor;
         if (accessibleName) accessibleViews[accessibleName] = viewName;
@@ -26,9 +31,9 @@ ngapp.service('viewFactory', function(randomService) {
             class: viewName.underscore('-'),
             label: viewName.humanize(),
             destroy: factory.destroy,
-            isLinkedTo: factory.isLinkedTo && factory.isLinkedTo.bind(view),
-            canLinkTo: factory.canLinkTo && factory.canLinkTo.bind(view),
-            linkTo: factory.linkTo && factory.linkTo.bind(view)
+            isLinkedTo: bind(factory.isLinkedTo, view),
+            canLinkTo: bind(factory.canLinkTo, view),
+            linkTo: bind(factory.linkTo, view)
         }, options);
     }
 });
