@@ -37,7 +37,7 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
                         return true;
                     }
                 }
-                return pane.panes.find(findPane);
+                return pane.panes && pane.panes.find(findPane);
             };
         service.layout.panes.find(findPane);
         return view;

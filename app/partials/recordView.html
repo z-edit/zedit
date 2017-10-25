@@ -23,10 +23,10 @@
     </div>
 </div>
 <div ng-if="!record" class="message-container" ng-drop="onDrop()" drag-over="onDragOver()">
-    <div ng-if="linked" class="pane-message">
+    <div ng-if="view.linkedTreeView" class="pane-message">
         Double click <b>OR</b> drag and drop a record or file here to view it.
     </div>
-    <div ng-if="!linked" class="pane-message">
+    <div ng-if="!view.linkedTreeView" class="pane-message">
         Drag and drop a record or file here to view it.
     </div>
 </div>

@@ -17,4 +17,18 @@ ngapp.service('viewFactory', function(randomService) {
     this.getAccessibleViews = function() {
         return angular.copy(accessibleViews);
     };
+
+    this.new = function(viewName, factory, options = {}) {
+        let view = {};
+        return Object.assign(view, {
+            templateUrl: `partials/${viewName}.html`,
+            controller: `${viewName}Controller`,
+            class: viewName.underscore('-'),
+            label: viewName.humanize(),
+            destroy: factory.destroy,
+            isLinkedTo: factory.isLinkedTo && factory.isLinkedTo.bind(view),
+            canLinkTo: factory.canLinkTo && factory.canLinkTo.bind(view),
+            linkTo: factory.linkTo && factory.linkTo.bind(view)
+        }, options);
+    }
 });

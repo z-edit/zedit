@@ -1,7 +1,7 @@
 ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
-    let data = $scope.$parent.tab.data;
-    data.scope = $scope;
+    $scope.view = $scope.$parent.tab;
+    $scope.view.scope = $scope;
 
     // helper variables
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
@@ -23,10 +23,11 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     $scope.open = function(node) {
         if (!openableTypes.includes(node.element_type)) return;
-        if (data.linkedScope) {
+        let recordView = $scope.view.linkedRecordView;
+        if (recordView) {
             // get a new handle for the record to be used with the record view
             let path = node.element_type === xelib.etFile ? 'File Header' : '';
-            data.linkedScope.record = xelib.GetElementEx(node.handle, path);
+            recordView.scope.record = xelib.GetElementEx(node.handle, path);
         }
     };
 

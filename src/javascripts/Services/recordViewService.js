@@ -325,12 +325,11 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         scope.linkToTreeView = function() {
             let treeView = layoutService.findView(function(view) {
-                return view.class === 'tree-view';
+                return view.class === 'tree-view' && !view.linkedRecordView;
             });
-            if (!treeView.data.linkedScope) {
-                treeView.data.linkedScope = scope;
-                scope.linked = true;
-            }
+            if (!treeView) return;
+            scope.view.linkTo(treeView);
+            treeView.linkTo(scope.view);
         };
     };
 });

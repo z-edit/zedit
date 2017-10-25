@@ -1,4 +1,4 @@
-ngapp.service('recordViewFactory', function() {
+ngapp.service('recordViewFactory', function(viewFactory) {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -12,16 +12,24 @@ ngapp.service('recordViewFactory', function() {
             tree = view.data.tree;
         tree && factory.releaseTree(tree);
         virtualNodes && xelib.ReleaseNodes(virtualNodes);
+        if (view.linkedTreeView) {
+            delete view.linkedTreeView.linkedRecordView;
+        }
+    };
+
+    this.isLinkedTo = () => {};
+
+    this.canLinkTo = () => {};
+
+    this.linkTo = function(view) {
+        if (view.class === 'tree-view') {
+            view.linkedRecordView = this;
+            this.linkedTreeView = view;
+        }
     };
 
     this.new = function() {
-        return {
-            templateUrl: 'partials/recordView.html',
-            controller: 'recordViewController',
-            class: 'record-view',
-            data: { tabLabel: 'Record View' },
-            destroy: factory.destroy
-        }
+        return viewFactory.new('recordView', factory);
     };
 });
 

@@ -1,4 +1,4 @@
-ngapp.service('treeViewFactory', function() {
+ngapp.service('treeViewFactory', function(viewFactory) {
     let factory = this;
 
     this.releaseTree = function(tree) {
@@ -8,16 +8,28 @@ ngapp.service('treeViewFactory', function() {
     this.destroy = function(view) {
         let tree = view.data.tree;
         tree && factory.releaseTree(tree);
+        if (view.linkedRecordView) {
+            delete view.linkedRecordView.linkedTreeView;
+        }
+    };
+
+    this.isLinkedTo = function(view) {
+        return view.linkedTreeView === this;
+    };
+
+    this.canLinkTo = function(view) {
+        return view.class === 'record-view' && !this.linkedRecordView;
+    };
+
+    this.linkTo = function(view) {
+        if (view.class === 'record-view') {
+            view.linkedTreeView = this;
+            this.linkedRecordView = view;
+        }
     };
 
     this.new = function() {
-        return {
-            templateUrl: 'partials/treeView.html',
-            controller: 'treeViewController',
-            class: 'tree-view',
-            data: { tabLabel: 'Tree View' },
-            destroy: factory.destroy
-        }
+        return viewFactory.new('treeView', factory);
     };
 });
 

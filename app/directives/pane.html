@@ -1,9 +1,9 @@
 <div ng-if="tabs" class="tabs-container">
     <div class="tabs-bar">
         <div ng-repeat="tab in tabs track by tab.id" class="tab" ng-class="{'active' : tab.active}" ng-mousedown="selectTab($event, $index)">
-            <span class="label" title="{{tab.data.tabLabel}}">
+            <span class="label" title="{{tab.label}}">
                 <span class="icon {{::tab.class}}-icon" title="{{::tab.class.humanize()}}"></span>
-                {{tab.data.tabLabel}}
+                {{tab.label}}
             </span>
             <span class="close-tab" title="Close tab (Ctrl + W)" ng-click="closeTab($index)">
                 <i class="fa fa-times"></i>

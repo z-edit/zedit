@@ -1,7 +1,7 @@
 ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
-    let data = $scope.$parent.tab.data;
-    data.scope = $scope;
+    $scope.view = $scope.$parent.tab;
+    $scope.view.scope = $scope;
 
     // helper/scope variables
     $scope.overrides = [];
@@ -140,13 +140,13 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         if (oldValue === newValue) return;
         if (oldValue) $scope.releaseHandles(oldValue);
         if (!newValue) {
-            data.tabLabel = 'Record View';
+            $scope.view.label = 'Record View';
             return;
         }
         if (!xelib.IsMaster(newValue)) {
             $scope.record = xelib.GetMasterRecord(newValue);
         } else {
-            data.tabLabel = xelib.Name($scope.record);
+            $scope.view.label = xelib.Name($scope.record);
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();
