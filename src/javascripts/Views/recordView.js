@@ -139,10 +139,14 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue === newValue) return;
         if (oldValue) $scope.releaseHandles(oldValue);
-        if (!newValue) return;
+        if (!newValue) {
+            data.tabLabel = 'Record View';
+            return;
+        }
         if (!xelib.IsMaster(newValue)) {
             $scope.record = xelib.GetMasterRecord(newValue);
         } else {
+            data.tabLabel = xelib.Name($scope.record);
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();
