@@ -8,9 +8,7 @@ ngapp.service('recordViewFactory', function(viewFactory) {
     };
 
     this.destroy = function(view) {
-        let virtualNodes = view.data.scope.virtualNodes,
-            tree = view.data.tree;
-        tree && factory.releaseTree(tree);
+        view.scope.tree && factory.releaseTree(view.scope.tree);
         virtualNodes && xelib.ReleaseNodes(virtualNodes);
         if (view.linkedTreeView) {
             delete view.linkedTreeView.linkedRecordView;

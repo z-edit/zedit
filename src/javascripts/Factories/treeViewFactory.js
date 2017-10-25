@@ -6,8 +6,7 @@ ngapp.service('treeViewFactory', function(viewFactory) {
     };
 
     this.destroy = function(view) {
-        let tree = view.data.tree;
-        tree && factory.releaseTree(tree);
+        view.scope.tree && factory.releaseTree(view.scope.tree);
         if (view.linkedRecordView) {
             delete view.linkedRecordView.linkedTreeView;
         }
