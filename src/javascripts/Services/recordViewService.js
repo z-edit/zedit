@@ -328,7 +328,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 return view.class === 'tree-view';
             });
             if (!treeView.data.linkedScope) {
-                mtreeView.data.linkedScope = scope;
+                treeView.data.linkedScope = scope;
                 scope.linked = true;
             }
         };
