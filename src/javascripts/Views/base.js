@@ -23,8 +23,9 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, p
     $scope.restoreClick = () => toggleMaximized(currentWindow);
     $scope.closeClick = () => currentWindow.close();
     $scope.toggleDevTools = () => currentWindow.toggleDevTools();
-    $scope.openExtensionsModal = function() {
-        $scope.$emit('openModal', 'manageExtensions');
+
+    $scope.handleEscape = function() {
+        $scope.$broadcast('escapePressed');
     };
 
     // prompt modal functions

@@ -82,6 +82,16 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
         return entry;
     };
 
+    $scope.linkView = function() {
+        $scope.$emit('linkView', $scope.view);
+    };
+
+    $scope.unlinkView = function() {
+        let treeView = $scope.view.linkedTreeView;
+        delete treeView.linkedRecordView;
+        delete $scope.view.linkedTreeView;
+    };
+
     // event handling
     $scope.$on('recordChanged', function() {
         if ($scope.skipHistory) {

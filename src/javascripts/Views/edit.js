@@ -37,6 +37,11 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         openSaveModal(false);
     });
 
+    $scope.$on('linkView', function(e, view) {
+        $scope.$broadcast('toggleLinkMode', view);
+        e.stopPropagation && e.stopPropagation();
+    });
+
     // handle hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
 

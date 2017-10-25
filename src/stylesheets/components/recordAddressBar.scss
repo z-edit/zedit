@@ -34,13 +34,16 @@ record-address-bar {
     }
   }
 
-  .close-bar {
-    text-align: right;
-    padding-right: 4px;
+  .link-view, .unlink-view, .close-bar {
     padding-left: 12px;
 
     > span {
       cursor: pointer;
     }
+  }
+
+  .close-bar {
+    text-align: right;
+    padding-right: 4px;
   }
 }
