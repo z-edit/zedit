@@ -6,10 +6,9 @@ ngapp.service('treeViewFactory', function(viewFactory) {
     };
 
     this.destroy = function() {
-        let view = this,
-            scope = view.scope;
+        let scope = this.scope;
         scope.tree && factory.releaseTree(scope.tree);
-        viewFactory.unlink(view.linkedRecordView, 'linkedTreeView');
+        viewFactory.unlink(this.linkedRecordView, 'linkedTreeView');
     };
 
     this.isLinkedTo = function(view) {

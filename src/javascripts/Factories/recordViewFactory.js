@@ -8,11 +8,10 @@ ngapp.service('recordViewFactory', function(viewFactory) {
     };
 
     this.destroy = function() {
-        let view = this,
-            scope = view.scope;
+        let scope = this.scope;
         scope.tree && factory.releaseTree(scope.tree);
         scope.virtualNodes && xelib.ReleaseNodes(scope.virtualNodes);
-        viewFactory.unlink(view.linkedTreeView, 'linkedRecordView');
+        viewFactory.unlink(this.linkedTreeView, 'linkedRecordView');
     };
 
     this.linkTo = function(view) {
