@@ -63,3 +63,18 @@ buildValueFunctions('GoldValue', 'DATA\\Value');
 buildValueFunctions('Weight', 'DATA\\Weight');
 buildValueFunctions('Damage', 'DATA\\Damage');
 buildValueFunctions('ArmorRating', 'DNAM');
+
+// COMMON FLAG GETTERS AND SETTERS
+let buildFlagFunctions = function(label, path, flagName) {
+    xelib[`Get${label}`] = function(record) {
+        return xelib.GetFlag(record, path, flagName);
+    };
+
+    xelib[`Set${label}`] = function(record, state) {
+        return xelib.SetFlag(record, path, flagName, state);
+    };
+};
+
+buildFlagFunctions('IsFemale', 'ACBS\\Flags', 'Female');
+buildFlagFunctions('IsEssential', 'ACBS\\Flags', 'Essential');
+buildFlagFunctions('IsUnique', 'ACBS\\Flags', 'Unique');
