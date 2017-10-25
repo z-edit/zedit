@@ -132,6 +132,7 @@ split-bar {
     height: calc(100% - 29px);
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 }
 
