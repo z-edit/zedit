@@ -82,18 +82,30 @@ split-bar {
 
     .tab {
       min-width: 120px;
+      max-width: 200px;
+      height: 25px;
       border-right: 1px solid $shadow;
       background-color: $medium_soft_border;
 
       .label {
         display: inline-block;
         padding-top: 2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .icon {
+        font: 18px/1 FontAwesome;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 4px;
+        margin-right: 2px;
       }
 
       .close-tab {
         cursor: pointer;
         float: right;
-        margin: 2px 4px 2px 0;
+        margin: 2px 4px;
         padding: 1px;
         color: $negative;
         line-height: initial;
