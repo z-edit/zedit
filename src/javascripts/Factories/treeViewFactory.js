@@ -5,11 +5,11 @@ ngapp.service('treeViewFactory', function(viewFactory) {
         tree.forEach((node) => xelib.Release(node.handle));
     };
 
-    this.destroy = function(view) {
-        view.scope.tree && factory.releaseTree(view.scope.tree);
-        if (view.linkedRecordView) {
-            delete view.linkedRecordView.linkedTreeView;
-        }
+    this.destroy = function() {
+        let view = this,
+            scope = view.scope;
+        scope.tree && factory.releaseTree(scope.tree);
+        viewFactory.unlink(view.linkedRecordView, 'linkedTreeView');
     };
 
     this.isLinkedTo = function(view) {

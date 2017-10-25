@@ -7,12 +7,12 @@ ngapp.service('recordViewFactory', function(viewFactory) {
         });
     };
 
-    this.destroy = function(view) {
-        view.scope.tree && factory.releaseTree(view.scope.tree);
-        virtualNodes && xelib.ReleaseNodes(virtualNodes);
-        if (view.linkedTreeView) {
-            delete view.linkedTreeView.linkedRecordView;
-        }
+    this.destroy = function() {
+        let view = this,
+            scope = view.scope;
+        scope.tree && factory.releaseTree(scope.tree);
+        scope.virtualNodes && xelib.ReleaseNodes(scope.virtualNodes);
+        viewFactory.unlink(view.linkedTreeView, 'linkedRecordView');
     };
 
     this.linkTo = function(view) {

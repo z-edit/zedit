@@ -7,6 +7,11 @@ ngapp.service('viewFactory', function(randomService) {
         return fn.bind(thisArg);
     };
 
+    this.unlink = function(linkedView, linkKey) {
+        if (!linkedView) return;
+        delete linkedView[linkKey];
+    };
+
     this.registerView = function(viewName, constructor, accessibleName) {
         viewConstructors[viewName] = constructor;
         if (accessibleName) accessibleViews[accessibleName] = viewName;
@@ -30,7 +35,7 @@ ngapp.service('viewFactory', function(randomService) {
             controller: `${viewName}Controller`,
             class: viewName.underscore('-'),
             label: viewName.humanize(),
-            destroy: factory.destroy,
+            destroy: bind(factory.destroy, view),
             isLinkedTo: bind(factory.isLinkedTo, view),
             canLinkTo: bind(factory.canLinkTo, view),
             linkTo: bind(factory.linkTo, view)
