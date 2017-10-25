@@ -78,13 +78,14 @@ split-bar {
     border-bottom: 1px solid $shadow;
     font-size: 14px;
     line-height: 22px;
+    height: 25px;
     margin-bottom: 5px;
 
     .tab {
       display: flex;
+      justify-content: space-between;
       min-width: 120px;
       max-width: 200px;
-      height: 25px;
       border-right: 1px solid $shadow;
       background-color: $medium_soft_border;
 
@@ -94,13 +95,14 @@ split-bar {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: left;
       }
 
       .icon {
         font: 18px/1 FontAwesome;
         display: inline-block;
         vertical-align: middle;
-        margin-left: 4px;
+        margin-left: 6px;
         margin-right: 2px;
       }
 
