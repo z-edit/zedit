@@ -54,7 +54,7 @@ ngapp.service('recordViewDragDropService', function(errorService) {
                 xelib.WithHandle(xelib.GetElementFile(ref), function(masterFile) {
                     xelib.AddMaster(file, xelib.Name(masterFile));
                 });
-                xelib.SetLinksTo(element, ref);
+                xelib.SetLinksTo(element, '', ref);
             });
         };
 
