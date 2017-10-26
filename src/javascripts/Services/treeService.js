@@ -61,7 +61,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         scope.setNodeModified = function(node) {
             while (node) {
-                scope.addModifiedClass(node);
+                if (node.has_data) scope.addModifiedClass(node);
                 node = node.parent;
             }
         };
