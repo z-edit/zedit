@@ -52,6 +52,7 @@ ngapp.service('recordViewDragDropService', function(errorService) {
         let setReference = function(element, ref) {
             xelib.WithHandle(xelib.GetElementFile(element), function(file) {
                 xelib.WithHandle(xelib.GetElementFile(ref), function(masterFile) {
+                    if (xelib.ElementEquals(file, masterFile)) return;
                     xelib.AddMaster(file, xelib.Name(masterFile));
                 });
                 xelib.SetLinksTo(element, '', ref);
