@@ -1,0 +1,27 @@
+<div class="modal-container">
+    <div class="modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Refactor File</h2>
+            <section>
+                <label>
+                    <span class="input-label">File name</span>
+                    <input type="text" ng-model="filename" maxlength="64" />
+                </label>
+                <label>
+                    <span class="input-label">Author</span>
+                    <input type="text" ng-model="author" maxlength="255" />
+                </label>
+            </section>
+
+            <h3>Description</h3>
+            <textarea ng-model="description" maxlength="255"></textarea>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="doRefactor()">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">OK</button>
+            </div>
+        </form>
+    </div>
+</div>
