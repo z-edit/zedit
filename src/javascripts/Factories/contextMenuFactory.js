@@ -133,48 +133,13 @@ ngapp.service('contextMenuFactory', function(referenceService) {
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),
-                children = [];
-            if (isFileNode(node)) {
-                children.push({
-                    label: 'Rename File',
-                    hotkey: 'F2, Alt+Shift+R',
-                    callback: () => scope.changeFileName(node)
-                }, {
-                    label: 'Change Author',
-                    hotkey: 'Alt+Shift+A',
-                    callback: () => scope.changeFileAuthor(node)
-                }, {
-                    label: 'Change Description',
-                    hotkey: 'Alt+Shift+D',
-                    callback: () => scope.changeFileDescription(node)
-                });
-            } else if (isRecordNode(node)) {
-                children.push({
-                    label: 'Rename',
-                    hotkey: 'F2, Alt+Shift+R',
-                    disabled: true,
-                    callback: () => scope.$emit('openModal', 'refactor', {
-                        refactorMode: 'Name'
-                    })
-                }, {
-                    label: 'Change Editor IDs',
-                    hotkey: 'Alt+Shift+E',
-                    disabled: true,
-                    callback: () => scope.$emit('openModal', 'refactor', {
-                        refactorMode: 'EditorID'
-                    })
-                }, {
-                    label: 'Change Form IDs',
-                    hotkey: 'Alt+Shift+F',
-                    disabled: true,
-                    callback: () => scope.$emit('openModal', 'refactor', {
-                        refactorMode: 'FormID'
-                    })
-                });
-            }
+                modal = `refactor${isFileNode(node) ? 'File' : 'Records'}`;
             items.push({
                 label: 'Refactor',
-                children: children
+                hotkey: 'Alt+Shift+R',
+                callback: () => scope.$emit('openModal', modal, {
+                    nodes: scope.selectedNodes
+                })
             });
         }
     }, {
