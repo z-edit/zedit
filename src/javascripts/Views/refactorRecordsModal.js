@@ -1,4 +1,4 @@
-ngapp.controller('refactorRecordsModalController', function($scope) {
+ngapp.controller('refactorRecordsModalController', function($scope, referenceService) {
     // helper functions
     let strFunctions = {
         'Append': function(value) {
@@ -42,6 +42,11 @@ ngapp.controller('refactorRecordsModalController', function($scope) {
         'Names': refactorStrFunction('FULL'),
         'Editor IDs': refactorStrFunction('EDID'),
         'Form IDs': function() {
+            let rec = $scope.modalOptions.nodes[0].handle;
+            xelib.WithHandle(xelib.GetElementFile(rec), function(file) {
+                let fileHandles = [file, ...xelib.GetRequiredBy(file)];
+                referenceService.buildReferences(fileHandles, true);
+            });
             $scope.modalOptions.nodes.forEach(function(node, n) {
                 xelib.SetFormID(node.handle, $scope.baseFormID + n);
             });
