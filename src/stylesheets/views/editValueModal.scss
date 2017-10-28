@@ -76,7 +76,7 @@
       min-width: 100px;
     }
 
-    .hex > span {
+    hex-editor > span {
       padding: 1px 4px;
       white-space: pre;
 
@@ -85,7 +85,7 @@
       }
 
       &:focus {
-        background: $strong_selected;
+        background: $action;
         color: $inverse_font_color;
         outline: none;
       }

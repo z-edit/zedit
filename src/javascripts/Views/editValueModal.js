@@ -32,10 +32,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     $scope.setupBytes = function(value) {
-        let isHexKey = function(key) {
-            return (key > 47 && key < 58) || (key > 64 && key < 71);
-        };
-
         let isPrintable = function(key) {
             return key > 33 && key !== 127;
         };
@@ -43,7 +39,8 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         let bytesToStr = function(bytes) {
             let a = bytes.map((byte) => { return parseInt(byte, 16); });
             return a.reduce(function(str, byte) {
-                return str + (isPrintable(byte) ? String.fromCharCode(byte) : '.');
+                let char = isPrintable(byte) ? String.fromCharCode(byte) : '.';
+                return str + char;
             }, '');
         };
 
@@ -54,34 +51,11 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
             });
         };
 
-        $scope.onByteKeyDown = function(e, index) {
-            if (!isHexKey(e.keyCode)) return;
-            let newChar = String.fromCharCode(e.keyCode).toUpperCase(),
-                byte = $scope.bytes[index];
-            if (byte[1] === ' ') {
-                $scope.bytes[index] = byte[0] + newChar;
-                $scope.text = bytesToStr($scope.bytes);
-                let nextSpan = e.srcElement.nextElementSibling;
-                if (nextSpan) {
-                    nextSpan.focus();
-                } else {
-                    e.srcElement.blur();
-                }
-            } else {
-                $scope.bytes[index] = newChar + ' ';
-            }
-        };
-
-        $scope.onByteBlur = function(index) {
-            let byte = $scope.bytes[index];
-            if (byte[1] === ' ') {
-                $scope.bytes[index] = '0' + byte[0];
-                $scope.text = bytesToStr($scope.bytes);
-            }
-        };
+        $scope.$watch('bytes', function() {
+            $scope.text = bytesToStr($scope.bytes);
+        }, true);
 
         $scope.bytes = value.split(' ');
-        $scope.text = bytesToStr($scope.bytes);
     };
 
     $scope.setupNumber = function(value) {

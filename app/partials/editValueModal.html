@@ -17,7 +17,7 @@
                     <tbody>
                     <tr>
                         <td class="hex">
-                            <span ng-repeat="byte in bytes track by $index" tabindex="0" ng-keydown="onByteKeyDown($event, $index)" ng-blur="onByteBlur($index)">{{byte}}</span>
+                            <hex-editor bytes="bytes"></hex-editor>
                         </td>
                         <td class="text">
                             {{text}}
