@@ -1,0 +1,43 @@
+<div class="modal-container">
+    <div class="modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Refactor Records</h2>
+
+            <section>
+                <span class="input-label">Refactor</span>
+                <select ng-model="refactorMode" ng-options="mode for mode in modes"></select>
+            </section>
+
+            <section ng-hide="refactorMode === 'Form IDs'">
+                <select ng-model="refactorFunction" ng-options="fn for fn in functions"></select>
+
+                <div ng-show="refactorFunction === 'Replace'">
+                    <label>
+                        <span class="input-label">Find</span>
+                        <input type="text" ng-model="findStr" ng-trim="false" />
+                    </label>
+                    <label>
+                        <span class="input-label">Replace</span>
+                        <input type="text" ng-model="refactorStr" ng-trim="false" />
+                    </label>
+                </div>
+
+                <input type="text" ng-model="refactorStr" ng-trim="false" ng-hide="refactorFunction === 'Replace'" />
+            </section>
+
+            <section ng-show="refactorMode === 'Form IDs'">
+                <label>
+                    <span class="input-label">Base Form ID</span>
+                    <hex-input model="baseFormID"></hex-input>
+                </label>
+            </section>
+
+            <div class="action-button-container">
+                <button class="action-btn" ng-click="doRefactor()">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
