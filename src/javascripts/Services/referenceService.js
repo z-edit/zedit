@@ -1,4 +1,4 @@
-ngapp.service('referenceService', function($rootScope) {
+ngapp.service('referenceService', function($rootScope, progressService) {
     let builtFileNames = [],
         files = [],
         building = false,
@@ -18,7 +18,8 @@ ngapp.service('referenceService', function($rootScope) {
             fileReferencesBuilt(currentFile);
             buildNextFile();
         } else if (loaderStatus === xelib.lsError) {
-            alert(`There was a critical error when building references for ${currentFile.filename}.`);
+            alert('There was a critical error when building references for ' +
+                `${currentFile.filename}.`);
             buildNextFile();
         } else {
             setTimeout(checkIfBuilt, 100);
@@ -47,20 +48,40 @@ ngapp.service('referenceService', function($rootScope) {
         checkIfBuilt();
     };
 
-    // PUBLIC
-    this.buildReferences = function(fileHandles) {
-        $rootScope.$broadcast('toggleStatusBar', true);
-        fileHandles.forEach(function(handle) {
-            let fileName = xelib.Name(handle);
-            builtFileNames.push(fileName);
-            files.push({
-                handle: xelib.GetElement(handle),
-                filename: fileName,
-                built: false
-            });
+    let buildFileSync = function(fileHandle) {
+        let fileName = xelib.Name(fileHandle),
+            msg = `Building references for ${fileName}...`;
+        progressService.progressMessage(msg);
+        xelib.BuildReferences(fileHandle);
+        builtFileNames.push(fileName);
+    };
+
+    let buildSync = function(fileHandles) {
+        progressService.showProgress({ message: 'Building references...' });
+        fileHandles.forEach(buildFileSync);
+        progressService.hideProgress();
+    };
+
+    let queueBuildFile = function(fileHandle) {
+        let fileName = xelib.Name(fileHandle);
+        builtFileNames.push(fileName);
+        files.push({
+            handle: xelib.GetElement(fileHandle),
+            filename: fileName,
+            built: false
         });
+    };
+
+    let buildAsync = function(fileHandles) {
+        $rootScope.$broadcast('toggleStatusBar', true);
+        fileHandles.forEach(queueBuildFile);
         if (!building) buildNextFile();
         building = true;
+    };
+
+    // PUBLIC
+    this.buildReferences = function(fileHandles, sync = false) {
+        sync ? buildSync(fileHandles) : buildAsync(fileHandles);
     };
 
     this.canBuildReferences = function(handle) {
