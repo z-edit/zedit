@@ -28,7 +28,9 @@ ngapp.controller('hexInputController', function($scope) {
     // scope functions
     $scope.onKeyDown = function(e, index) {
         if (!isHexKey(e.keyCode)) return;
-        $scope.hexStr[index] = String.fromCharCode(e.keyCode).toUpperCase();
+        let char = String.fromCharCode(e.keyCode).toUpperCase();
+        $scope.hexStr = $scope.hexStr.setChar(index, char);
+        $scope.updateModel();
         focusNextSpan(e);
     };
 
