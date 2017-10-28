@@ -1,0 +1,16 @@
+hex-editor {
+  > span {
+    padding: 1px 4px;
+    white-space: pre;
+
+    &:hover {
+      background: $secondary_background;
+    }
+
+    &:focus {
+      background: $action;
+      color: $inverse_font_color;
+      outline: none;
+    }
+  }
+}

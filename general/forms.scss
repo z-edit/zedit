@@ -73,6 +73,7 @@ input.invalid {
 input, textarea, select {
   background-color: $background;
   color: $font_color;
+  border: 1px solid $hard_border;
 }
 
 number-input {

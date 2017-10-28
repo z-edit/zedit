@@ -1,0 +1,14 @@
+hex-input {
+  border: 1px solid $hard_border;
+  padding: 0 3px;
+
+  > span {
+    @include monospace();
+
+    &:focus {
+      outline: none;
+      background: $action;
+      color: $inverse_font_color;
+    }
+  }
+}
