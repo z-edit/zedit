@@ -25,6 +25,12 @@ Object.assign(xelib, {
                 Fail(`Failed to get masters for ${id}`);
         });
     },
+    GetRequiredBy: function(id) {
+        return GetArray(function(_len) {
+            if (!lib.GetRequiredBy(id, _len))
+                Fail(`Failed to get required by for ${id}`);
+        });
+    },
     GetMasterNames: function(id) {
         return GetStringArray(function(_len) {
             if (!lib.GetMasterNames(id, _len))
