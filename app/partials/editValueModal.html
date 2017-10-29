@@ -54,12 +54,7 @@
                 <h2>Edit Reference
                     <div class="path">{{::path}}</div>
                 </h2>
-                <div class="reference-selector">
-                    <select ng-model="$parent.signature" ng-options="signature for signature in $parent.signatures"></select>
-                    <autocomplete-input selected-item="$parent.value" search="referenceSearch" set-custom="setCustomResult">
-                        {{::$parent.result}}
-                    </autocomplete-input>
-                </div>
+                <reference-select model="$parent.value" signature="$parent.signature" signatures="$parent.signatures" handle="$parent.handle"></reference-select>
             </div>
 
             <div ng-if="::valueType === vtColor">

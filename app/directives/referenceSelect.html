@@ -1,0 +1,4 @@
+<select ng-model="signature" ng-options="signature for signature in signatures"></select>
+<autocomplete-input selected-item="model" search="referenceSearch" set-custom="setCustomResult">
+    {{::$parent.result}}
+</autocomplete-input>
