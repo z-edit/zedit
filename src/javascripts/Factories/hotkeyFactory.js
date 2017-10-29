@@ -225,7 +225,6 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'applyValue'
         }],
-        escape: (scope) => scope.$emit('closeModal'),
         default: (scope, event) => scope.$broadcast('keyDown', event)
     };
 
@@ -234,7 +233,6 @@ ngapp.service('hotkeyFactory', function() {
         rightArrow: 'nextError',
         q: 'previousError',
         leftArrow: 'previousError',
-        escape: (scope) => scope.$emit('closeModal'),
         default: (scope, event) => scope.handleResolutionKey(event)
     };
 

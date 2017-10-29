@@ -26,7 +26,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         });
     };
 
-    let trigger = function(scope, action, e) {
+    let trigger = function(scope, action, e, stop) {
         let typeStr = typeof action;
         if (typeStr === 'object') {
             action = getSatisfiedAction(action, e);
@@ -35,8 +35,8 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
             typeStr = typeof action;
         }
         typeStr === 'function' ? action(scope, e) : scope[action](e);
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        stop && e.stopImmediatePropagation();
+        stop && e.preventDefault();
     };
 
     let keyEventHandler = function(scope, hotkeys, type) {
@@ -46,10 +46,10 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
                 return e.keyCode === keycodes[key];
             }) || 'default';
             if (!hotkeys[hotkey]) return;
-            trigger(scope, hotkeys[hotkey], e);
+            trigger(scope, hotkeys[hotkey], e, hotkey !== 'default');
         };
     };
-    
+
     this.buildOnKeyDown = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}Hotkeys`];
         scope[label] = keyEventHandler(scope, hotkeys, 'keydown');
