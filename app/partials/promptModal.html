@@ -4,7 +4,7 @@
             <h2>{{::modalOptions.title}}</h2>
             <div class="prompt">{{::modalOptions.prompt}}</div>
 
-            <div class="action-button-container" ng-if="modalOptions.type === 'yesNo'">
+            <div class="primary-actions" ng-if="modalOptions.type === 'yesNo'">
                 <button class="action-btn" ng-click="yes()">Yes</button>
                 <button class="action-btn" ng-click="no()">No</button>
             </div>
