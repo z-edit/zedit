@@ -45,12 +45,14 @@ form {
   }
 }
 
-.action-button-container {
-  margin-top: 16px;
+.primary-actions {
+  margin: 16px 0 0;
   text-align: center;
 
   .action-btn {
+    font-size: 18px;
     margin: 1px;
+    padding: 4px 8px;
   }
 }
 
