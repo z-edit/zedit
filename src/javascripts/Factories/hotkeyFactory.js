@@ -97,14 +97,14 @@ ngapp.service('hotkeyFactory', function() {
             callback: (scope) => scope.$broadcast('navBack')
         }, {
             modifiers: [],
-            callback: 'handleRightArrow'
+            callback: 'handleLeftArrow'
         }],
         rightArrow: [{
             modifiers: ['altKey'],
             callback: (scope) => scope.$broadcast('navForward')
         }, {
             modifiers: [],
-            callback: 'handleLeftArrow'
+            callback: 'handleRightArrow'
         }],
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
