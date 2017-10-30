@@ -6,12 +6,8 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
     // scope variables
     $scope.search = '';
     $scope.showExactMatch = true;
-    $scope.searchOptions = { searchBy: "1", exact: true };
-    $scope.searchBy = {
-        0: "Form ID",
-        1: "Editor ID",
-        2: "Name"
-    };
+    $scope.searchOptions = { searchBy: 'Editor ID', exact: true };
+    $scope.searchBy = ['Form ID', 'Editor ID', 'Name'];
 
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'treeSearch');
@@ -66,7 +62,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
     };
 
     let findElement = function(reverse) {
-        let byName = $scope.searchOptions.searchBy === 2,
+        let byName = $scope.searchOptions.searchBy === 'Name',
             search = $scope.search;
         // search by FormID is always exact
         if ($scope.searchOptions.exact) {

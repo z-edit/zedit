@@ -6,8 +6,8 @@ ngapp.controller('recordSearchController', function($scope, $q, $timeout, hotkey
     // scope variables
     $scope.search = '';
     $scope.showExactMatch = false;
-    $scope.searchOptions = { searchBy: "1" };
-    $scope.searchBy = { 0: "Path", 1: "Value" };
+    $scope.searchOptions = { searchBy: 'Value' };
+    $scope.searchBy = ['Path', 'Value'];
 
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'recordSearch');

@@ -8,9 +8,7 @@
 <span class="divider"></span>
 <label>
     Search by
-    <select ng-model="searchOptions.searchBy">
-        <option ng-repeat="(key, value) in searchBy" value="{{::key}}">{{::value}}</option>
-    </select>
+    <select ng-model="searchOptions.searchBy" ng-options="item for item in searchBy"></select>
 </label>
 <label ng-if="showExactMatch">
     <input type="checkbox" ng-model="searchOptions.exact"/>
