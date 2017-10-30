@@ -105,6 +105,12 @@ Object.assign(xelib, {
                 Fail(`Failed to get element file for: ${id}`);
         });
     },
+    GetElementGroup: function(id) {
+        return GetHandle(function(_res) {
+            if (!lib.GetElementGroup(id, _res))
+                Fail(`Failed to get element group for: ${id}`);
+        });
+    },
     GetElementRecord: function(id) {
         return GetHandle(function(_res) {
             if (!lib.GetElementRecord(id, _res))

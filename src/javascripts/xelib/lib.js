@@ -81,6 +81,7 @@ try {
         'GetAddList': [WordBool, [Cardinal, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
         'GetElementFile': [WordBool, [Cardinal, PCardinal]],
+        'GetElementGroup': [WordBool, [Cardinal, PCardinal]],
         'GetElementRecord': [WordBool, [Cardinal, PCardinal]],
         'GetLinksTo': [WordBool, [Cardinal, PWChar, PCardinal]],
         'SetLinksTo': [WordBool, [Cardinal, PWChar, Cardinal]],
