@@ -42,6 +42,10 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         e.stopPropagation && e.stopPropagation();
     });
 
+    $scope.$on('searchResults', function(e, results) {
+        console.log(results);
+    });
+
     // handle hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
 
