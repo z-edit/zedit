@@ -1,0 +1,118 @@
+.advanced-search-modal {
+  .modal {
+    max-width: 700px;
+  }
+
+  form .input-label {
+    min-width: 75px;
+  }
+
+  form select {
+    min-width: 75px;
+  }
+
+  h3 .actions {
+    margin-left: 10px;
+  }
+
+  label.flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > .input-label {
+      margin-right: 4px;
+    }
+
+    > input[type="text"] {
+      flex: 1;
+    }
+
+    > select {
+      margin-right: 4px;
+    }
+  }
+
+  div.flex {
+    display: flex;
+    align-items: flex-start;
+    justify-content: stretch;
+    margin-top: 4px;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  list-view {
+    overflow-y: auto;
+    max-height: 400px;
+    display: block;
+  }
+
+  reference-select {
+    flex: 1;
+    display: flex;
+
+    select {
+      margin-right: 4px;
+    }
+
+    autocomplete-input {
+      flex: 1;
+
+      input[type="text"] {
+        width: 100%;
+      }
+    }
+  }
+
+  .edit-custom-scope {
+    font: 20px FontAwesome;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+
+    &:hover {
+      color: $secondary_action;
+    }
+
+    &:before {
+      content: '\f044'
+    }
+  }
+
+  .filter-item {
+    border: 1px solid $soft_border;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+
+    .dropdown .dropdown-item {
+      font-size: 14px;
+    }
+
+    .remove-item {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+    }
+
+    .range-to-label {
+      display: inline-block;
+      width: 18px;
+      text-align: center;
+    }
+
+    .filter-options {
+      padding-left: 75px;
+      padding-top: 2px;
+
+      label {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+}
