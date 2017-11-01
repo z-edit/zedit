@@ -60,7 +60,7 @@ ngapp.service('hotkeyFactory', function() {
         insert: 'handleInsert',
         f: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: 'toggleAdvancedSearch'
+            callback: 'openAdvancedSearchModal'
         }, {
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'

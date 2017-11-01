@@ -215,8 +215,7 @@ ngapp.service('contextMenuFactory', function(referenceService) {
             items.push({
                 label: 'Advanced Search',
                 hotkey: 'Ctrl+Shift+F',
-                disabled: true,
-                callback: () => scope.$emit('openModal', 'advancedSearch')
+                callback: scope.openAdvancedSearchModal
             })
         }
     }, {

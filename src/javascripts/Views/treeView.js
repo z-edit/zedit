@@ -37,6 +37,12 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
         });
     };
 
+    $scope.openAdvancedSearchModal = function() {
+        $scope.$emit('openModal', 'advancedSearch', {
+            nodes: $scope.selectedNodes
+        });
+    };
+
     $scope.onNodeDoubleClick = function(e, node) {
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
