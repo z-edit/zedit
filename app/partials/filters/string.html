@@ -1,0 +1,15 @@
+<label class="flex">
+    <span class="input-label">Path</span>
+    <input type="text" ng-model="filter.path" />
+</label>
+<label class="flex">
+    <span class="input-label">Value</span>
+    <select ng-model="filter.compareType" ng-options="item for item in filter.compareTypes"></select>
+    <input type="text" ng-model="filter.value" />
+</label>
+<div class="filter-options">
+    <label>
+        <input type="checkbox" ng-model="filter.ignoreCase"/>
+        Ignore case
+    </label>
+</div>
