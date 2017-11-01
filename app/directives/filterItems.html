@@ -1,0 +1,8 @@
+<div class="filter-item" ng-repeat="filter in filters">
+    <div class="remove-item" ng-click="removeFilter($index)"></div>
+    <label>
+        <span class="input-label">Type</span>
+        <select ng-model="filter.type" ng-options="item for item in filterTypes" ng-change="filterTypeChanged(filter)"></select>
+    </label>
+    <ng-include src="filter.templateUrl"></ng-include>
+</div>
