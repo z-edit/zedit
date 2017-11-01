@@ -124,6 +124,18 @@ Array.prototype.sortOnKey = function(key) {
     });
 };
 
+Array.prototype.filterOnKey = function(key) {
+    return this.filter((item) => { return item[key] });
+};
+
+Array.prototype.mapOnKey = function(key) {
+    return this.map((item) => { return item[key] });
+};
+
+Array.prototype.joinOnKey = function(key, separator = ',') {
+    return this.mapOnKey(key).join(separator);
+};
+
 Array.prototype.groupBy = function(propertyName) {
     let obj = {};
     this.forEach(function(item) {
