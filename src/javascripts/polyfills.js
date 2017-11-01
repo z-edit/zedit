@@ -2,6 +2,18 @@ String.prototype.setChar = function(pos, char) {
     return this.substr(0, pos) + char + this.substr(pos + 1, this.length);
 };
 
+String.prototype.equals = function(str, ignoreCase = false) {
+    return ignoreCase ?
+        this.toLowerCase() === str.toLowerCase() :
+        this === str;
+};
+
+String.prototype.contains = function(str, ignoreCase = false) {
+    return ignoreCase ?
+        this.toLowerCase().includes(str.toLowerCase()) :
+        this.includes(str);
+};
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
