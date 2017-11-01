@@ -1,0 +1,59 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal" ng-click="$broadcast('parentClick', $event)" ng-keydown="onKeyDown($event)" tabindex="0" autofocus>
+        <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+        <form ng-hide="showCustomScopeTab">
+            <h2>Advanced Search</h2>
+            <section>
+                <label>
+                    <span class="input-label">Scope</span>
+                    <select ng-model="searchScope" ng-options="scope for scope in searchScopes" ng-change="searchScopeChanged()"></select>
+                    <span class="edit-custom-scope" ng-click="showCustomScopeTab = true" title="Edit custom scope" ng-show="searchScope === 'Custom'"></span>
+                </label>
+            </section>
+
+            <h3>Filters
+                <span class="actions">
+                    <button class="action-btn positive small" ng-click="addFilter()">Add Filter</button>
+                </span>
+            </h3>
+            <section>
+                <label>
+                    <span class="input-label">Mode</span>
+                    <select ng-model="filterMode" ng-options="mode for mode in filterModes"></select>
+                </label>
+                <filter-items filters="filters"></filter-items>
+            </section>
+
+            <div class="primary-actions">
+                <button class="action-btn" ng-click="search()">Search</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+
+        <form ng-show="showCustomScopeTab">
+            <h2>Create Custom Scope</h2>
+
+            <div class="flex">
+                <div>
+                    <h3>Files</h3>
+                    <list-view items="customScope.files">
+                        <input type="checkbox" ng-model="$parent.item.active" />
+                        {{::$parent.item.filename}}
+                    </list-view>
+                </div>
+                <div>
+                    <h3>Groups</h3>
+                    <list-view items="customScope.groups">
+                        <input type="checkbox" ng-model="$parent.item.active" />
+                        {{::$parent.item.signature}} - {{::$parent.item.name}}
+                    </list-view>
+                </div>
+            </div>
+
+            <div class="primary-actions">
+                <button class="action-btn" ng-click="showCustomScopeTab = false">OK</button>
+            </div>
+        </form>
+    </div>
+</div>
