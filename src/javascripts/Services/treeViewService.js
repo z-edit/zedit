@@ -1,16 +1,27 @@
-ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsService) {
+ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsService, nodeHelpers) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
             caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
             settings = settingsService.settings;
 
+        // helper functions
+        let getElements = function(id, path) {
+            return xelib.GetElements(id, path, true, scope.view.filter);
+        };
+
+        let hideFileHeaders = function() {
+            return !settings.treeView.showFileHeaders;
+        };
+
         // inherited functions
         scope.releaseTree = treeViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {
-            scope.columns = scope.allColumns.filter((column) => { return column.enabled; });
+            scope.columns = scope.allColumns.filter(function(column) {
+                return column.enabled;
+            });
             let width = scope.columns.reduce(function(width, c) {
                 if (c.width) width += parseInt(c.width.slice(0, -1));
                 return width;
@@ -24,7 +35,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         scope.buildTree = function() {
             xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
-            scope.tree = xelib.GetElements(0, '', true).map(function(handle) {
+            scope.tree = getElements(0, '').map(function(handle) {
                 return scope.buildNode(handle, -1);
             });
         };
@@ -97,7 +108,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         scope.getNodeClass = function(node) {
             let classes = [];
             if (xelib.GetIsModified(node.handle)) classes.push('modified');
-            if (node.element_type === xelib.etMainRecord && node.fid > 0) {
+            if (nodeHelpers.isRecordNode(node) && node.fid > 0) {
                 if (xelib.IsInjected(node.handle)) classes.push('injected');
                 let conflictData = xelib.GetRecordConflictData(node.handle);
                 classes.push(caClasses[conflictData[0]]);
@@ -107,13 +118,12 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         };
 
         scope.getCanExpand = function(node) {
-            if (node.element_type === xelib.etMainRecord) {
+            if (nodeHelpers.isRecordNode(node)) {
                 let childGroup = xelib.GetElement(node.handle, 'Child Group');
                 node.can_expand = childGroup && xelib.ElementCount(childGroup) > 0;
             } else {
-                let isFile = node.element_type === xelib.etFile,
-                    targetCount = +(isFile && !settings.treeView.showFileHeaders);
-                node.can_expand = xelib.ElementCount(node.handle) > targetCount;
+                node.can_expand = xelib.ElementCount(node.handle) >
+                    +(nodeHelpers.isFileNode(node) && hideFileHeaders());
             }
         };
 
@@ -131,7 +141,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         scope.getNodeData = function(node) {
             node.element_type = xelib.ElementType(node.handle);
             node.has_data = true;
-            if (node.element_type === xelib.etMainRecord) {
+            if (nodeHelpers.isRecordNode(node)) {
                 node.fid = xelib.GetFormID(node.handle);
             }
             scope.getNodeClass(node);
@@ -147,10 +157,13 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         };
 
         scope.buildNodes = function(node) {
-            let path = node.element_type === xelib.etMainRecord ? 'Child Group' : '',
-                elements = xelib.GetElements(node.handle, path, true);
-            if (node.element_type === xelib.etFile && !settings.treeView.showFileHeaders) {
-                elements[scope.sort.reverse ? 'pop' : 'shift']();
+            let path = nodeHelpers.isRecordNode(node) ? 'Child Group' : '',
+                elements = getElements(node.handle, path);
+            if (nodeHelpers.isFileNode(node) && hideFileHeaders()) {
+                let index = elements.findIndex(function(element) {
+                    return xelib.Signature(element) === 'TES4';
+                });
+                if (index > -1) elements.splice(index, 1);
             }
             return elements.map((e) => { return scope.buildNode(e, node.depth); });
         };

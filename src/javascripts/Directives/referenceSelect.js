@@ -21,8 +21,8 @@ ngapp.controller('referenceSelectController', function($scope) {
 
     // scope functions
     $scope.referenceSearch = function(str) {
-        let search = xelib.FindValidReferences;
-        return search($scope.handle || 0, $scope.signature, str, 10);
+        let searchArgs = [$scope.handle || 0, $scope.signature, str, 10];
+        return xelib.FindValidReferences(...searchArgs);
     };
 
     $scope.setCustomResult = (str) => $scope.model = str;

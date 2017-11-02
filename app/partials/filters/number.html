@@ -1,0 +1,11 @@
+<label class="flex">
+    <span class="input-label">Path</span>
+    <input type="text" ng-model="filter.path" />
+</label>
+<label>
+    <span class="input-label">Value</span>
+    <select ng-model="filter.compareType" ng-options="item for item in filter.compareTypes"></select>
+    <number-input model="filter.value"></number-input>
+    <span ng-show="filter.compareType === 'Range'" class="range-to-label">to</span>
+    <number-input model="filter.secondValue" ng-show="filter.compareType === 'Range'"></number-input>
+</label>

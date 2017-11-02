@@ -1,4 +1,4 @@
-ngapp.service('columnsService', function(settingsService) {
+ngapp.service('columnsService', function(settingsService, nodeHelpers) {
     let service = this,
         settings = settingsService.settings;
 
@@ -24,7 +24,7 @@ ngapp.service('columnsService', function(settingsService) {
         label: "EditorID",
         canSort: true,
         getData: function(node, xelib) {
-            if (node.element_type === xelib.etMainRecord && node.fid > 0) {
+            if (nodeHelpers.isRecordNode(node) && node.fid > 0) {
                 return xelib.EditorID(node.handle, true);
             }
         }
@@ -33,7 +33,7 @@ ngapp.service('columnsService', function(settingsService) {
         label: "Name",
         canSort: true,
         getData: function(node, xelib) {
-            if (node.element_type === xelib.etMainRecord && node.fid > 0) {
+            if (nodeHelpers.isRecordNode(node) && node.fid > 0) {
                 return xelib.FullName(node.handle) || xelib.PlacementName(node.handle);
             }
         }

@@ -1,6 +1,6 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
-    $scope.view = $scope.$parent.tab;
+    $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
 
     // helper variables
@@ -26,7 +26,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
         let recordView = $scope.view.linkedRecordView;
         if (recordView) {
             // get a new handle for the record to be used with the record view
-            let path = node.element_type === xelib.etFile ? 'File Header' : '';
+            let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             recordView.scope.record = xelib.GetElementEx(node.handle, path);
         }
     };
@@ -37,6 +37,12 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
         });
     };
 
+    $scope.openAdvancedSearchModal = function() {
+        $scope.$emit('openModal', 'advancedSearch', {
+            nodes: $scope.selectedNodes
+        });
+    };
+
     $scope.onNodeDoubleClick = function(e, node) {
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);
@@ -44,7 +50,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     };
 
     $scope.onNodeDrag = function(node) {
-        if (node.element_type === xelib.etGroupRecord) return;
+        if (nodeHelpers.isGroupNode(node)) return;
         $scope.$root.dragData = {
             source: 'treeView',
             node: node

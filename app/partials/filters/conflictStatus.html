@@ -1,0 +1,20 @@
+<label class="flex">
+    <span class="input-label">Path</span>
+    <input type="text" ng-model="filter.path" placeholder="Leave blank to evaluate record conflict status" />
+</label>
+<div class="flex">
+    <div>
+        <b title="Conflict All">Overall Conflict Status</b>
+        <label ng-repeat="ca in filter.conflictAllOptions" ng-init="filter[ca] = true">
+            <input type="checkbox" ng-model="filter[ca]"/>
+            <span title="{{::ca}}">{{::ca.slice(2).humanize()}}</span>
+        </label>
+    </div>
+    <div>
+        <b title="Conflict This">Element Conflict Status</b>
+        <label ng-repeat="ct in filter.conflictThisOptions" ng-init="filter[ct] = true">
+            <input type="checkbox" ng-model="filter[ct]"/>
+            <span title="{{::ct}}">{{::ct.slice(2).humanize()}}</span>
+        </label>
+    </div>
+</div>

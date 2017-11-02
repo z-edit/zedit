@@ -78,6 +78,14 @@ input, textarea, select {
   border: 1px solid $hard_border;
 }
 
+input[type="text"] {
+  padding: 2px 4px;
+}
+
+select {
+  padding: 1px 0;
+}
+
 number-input {
   input {
     width: 100px;

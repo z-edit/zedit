@@ -1,4 +1,4 @@
-ngapp.service('recordViewDragDropService', function(errorService) {
+ngapp.service('recordViewDragDropService', function(errorService, nodeHelpers) {
     this.buildFunctions = function(scope) {
         // PRIVATE
         let isReference = function(node) {
@@ -88,7 +88,7 @@ ngapp.service('recordViewDragDropService', function(errorService) {
             let dragData = scope.$root.dragData;
             if (!dragData || dragData.source !== 'treeView') return;
             let node = dragData.node,
-                path = node.element_type === xelib.etFile ? 'File Header' : '';
+                path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             scope.record = xelib.GetElementEx(node.handle, path);
         };
 

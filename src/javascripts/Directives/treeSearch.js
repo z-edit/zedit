@@ -1,7 +1,7 @@
-ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService) {
+ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService, nodeHelpers) {
     // helper variables
-    let aKey = 65, eKey = 69, fKey = 70, nKey = 78,
-        searchOptionKeys = [fKey, eKey, nKey, aKey];
+    let eKey = 69, fKey = 70, nKey = 78,
+        searchOptionKeys = [fKey, eKey, nKey];
 
     // scope variables
     $scope.search = '';
@@ -19,30 +19,37 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
         });
     };
 
-    let getStartIndex = function(files, file, reverse, noOffset) {
+    let getSearchFiles = function(files, file, reverse, noOffset) {
+        let startIndex = 0;
         if (file) {
-            return getElementIndex(files, file) + noOffset ? 0 : (reverse ? -1 : 1);
-        } else {
-            return reverse ? files.length : 0;
+            startIndex = getElementIndex(files, file);
+            startIndex += noOffset ? 0 : (reverse ? -1 : 1);
         }
+        files = files.slice(startIndex);
+        if (reverse) return files.reverse();
+        return files;
+    };
+
+    let getExactMatch = function(file, nodeIsFile, search, reverse) {
+        let result = 0;
+        xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
+            let searchFiles = getSearchFiles(files, file, reverse, nodeIsFile);
+            searchFiles.find(function(file) {
+                if ($scope.cancelled) return true;
+                result = xelib.GetElement(file, search);
+                return result > 0;
+            });
+        });
     };
 
     let findExactMatch = function(search, reverse = false) {
         let action = $q.defer();
         $timeout(function() {
             let start = Date.now(),
-                result = 0,
-                currentNode = $scope.lastSelectedNode(),
-                currentFile = currentNode && xelib.GetElementFile(currentNode.handle),
-                currentNodeIsFile = currentNode && currentNode.element_type === xelib.etFile;
-            xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
-                let startIndex = getStartIndex(files, currentFile, reverse, currentNodeIsFile);
-                for (let i = startIndex; i >= 0 && i < files.length; reverse ? i-- : i++) {
-                    if ($scope.cancelled) return;
-                    result = xelib.GetElement(files[i], search);
-                    if (result) return;
-                }
-            });
+                node = $scope.lastSelectedNode(),
+                file = node && xelib.GetElementFile(node.handle),
+                nodeIsFile = node && nodeHelpers.isFileNode(node),
+                result = getExactMatch(file, nodeIsFile, search, reverse);
             console.log(`Search completed in ${Date.now() - start}ms`);
             action.resolve(result);
         }, 100);
@@ -114,7 +121,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
     $scope.setSearchBy = function(e) {
         let n = searchOptionKeys.indexOf(e.keyCode);
         if (n === -1) return;
-        $scope.searchOptions.searchBy = n.toString();
+        $scope.searchOptions.searchBy = $scope.searchBy[n];
     };
 
     // event listeners

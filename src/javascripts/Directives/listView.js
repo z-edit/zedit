@@ -163,8 +163,14 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     // angular event handlers
-    $scope.$on('parentClick', (e, event) => $scope.onParentClick(event));
-    $scope.$on('keyDown', (e, event) => $scope.onKeyDown(event));
+    $scope.$on('parentClick', (e, event) => {
+        if (!$scope.items) return;
+        $scope.onParentClick(event);
+    });
+    $scope.$on('keyDown', (e, event) => {
+        if (!$scope.items) return;
+        $scope.onKeyDown(event);
+    });
     $scope.$on('startDrag', function() {
         $scope.$applyAsync(() => $scope.dragging = true);
     });

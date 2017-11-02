@@ -1,0 +1,10 @@
+<label>
+    <span class="input-label">Mode</span>
+    <select ng-model="filter.mode" ng-options="mode for mode in filter.modes"></select>
+</label>
+<h4>Filters
+    <span class="actions">
+        <button class="action-btn positive small" ng-click="addChildFilter(filter)">Add Filter</button>
+    </span>
+</h4>
+<filter-items filters="filter.children"></filter-items>

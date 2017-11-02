@@ -1,4 +1,4 @@
-ngapp.service('treeViewElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService) {
+ngapp.service('treeViewElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService, nodeHelpers) {
     this.buildFunctions = function(scope) {
         // helper variables
         let settings = settingsService.settings;
@@ -38,7 +38,7 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         let getRecordHandles = function(nodes) {
             let records = [];
             nodes.forEach(function(node) {
-                if (node.element_type === xelib.etMainRecord) {
+                if (nodeHelpers.isRecordNode(node)) {
                     records.push(node.handle);
                     if (!xelib.HasElement(node.handle, 'Child Group')) return;
                 }
@@ -108,8 +108,7 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         let canPasteIntoGroup = function(selectedType, nodes) {
             if (selectedType === xelib.etGroupRecord) {
                 return scope.selectedNodes.reduce(function(b, node) {
-                    return b &&
-                        node.parent.element_type === xelib.etFile &&
+                    return b && nodeHelpers.isFileNode(node) &&
                         canAdd(nodes, node);
                 }, true);
             } else if (selectedType === xelib.etMainRecord) {
@@ -273,7 +272,7 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
             let showFileHeaders = settings.treeView.showFileHeaders;
             if (scope.selectedNodes.length === 0) return;
             for (let node of scope.selectedNodes) {
-                if (node.element_type === xelib.etFile) return;
+                if (nodeHelpers.isFileNode(node)) return;
                 if (showFileHeaders && node.fid === 0) return;
             }
             return true;

@@ -2,6 +2,18 @@ String.prototype.setChar = function(pos, char) {
     return this.substr(0, pos) + char + this.substr(pos + 1, this.length);
 };
 
+String.prototype.equals = function(str, ignoreCase = false) {
+    return ignoreCase ?
+        this.toLowerCase() === str.toLowerCase() :
+        this === str;
+};
+
+String.prototype.contains = function(str, ignoreCase = false) {
+    return ignoreCase ?
+        this.toLowerCase().includes(str.toLowerCase()) :
+        this.includes(str);
+};
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -110,6 +122,18 @@ Array.prototype.sortOnKey = function(key) {
         if (a[key] > b[key]) return 1;
         return 0;
     });
+};
+
+Array.prototype.filterOnKey = function(key) {
+    return this.filter((item) => { return item[key] });
+};
+
+Array.prototype.mapOnKey = function(key) {
+    return this.map((item) => { return item[key] });
+};
+
+Array.prototype.joinOnKey = function(key, separator = ',') {
+    return this.mapOnKey(key).join(separator);
 };
 
 Array.prototype.groupBy = function(propertyName) {
