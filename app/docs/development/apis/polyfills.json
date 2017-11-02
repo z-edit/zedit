@@ -47,7 +47,7 @@
     "returns": {
       "type": "string"
     },
-    "description": "Converts the input string to camel case.  E.g. `Test Variable Name` becomes `testVariableName`, `test-class-name` becomes `testClassName, and `test_var` becomes `testVar`."
+    "description": "Converts the input string to camel case.  E.g. `Test Variable Name` becomes `testVariableName`, `test-class-name` becomes `testClassName`, and `test_var` becomes `testVar`."
   },
   {
     "api": "String.prototype",
