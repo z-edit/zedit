@@ -55,6 +55,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
 
     $scope.newTab = function() {
         let newTab = viewFactory.newView('newTabView', true);
+        newTab.pane = $scope.pane;
         $scope.$applyAsync(function() {
             $scope.tabs.forEach((tab) => tab.active = false);
             $scope.tabs.push(newTab);
@@ -88,6 +89,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
     $scope.$on('changeView', function(e, viewName) {
         let tabIndex = e.targetScope.$index,
             viewTab = viewFactory.newView(viewName, true);
+        viewTab.pane = $scope.pane;
         $scope.tabs.splice(tabIndex, 1, viewTab);
         e.stopPropagation();
     });

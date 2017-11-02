@@ -17,7 +17,9 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
         if (pane.panes) pane.panes.forEach(service.buildPane);
         if (pane.tabs) {
             pane.tabs = pane.tabs.map(function(viewName, index) {
-                return viewFactory.newView(viewName, index === 0);
+                let view = viewFactory.newView(viewName, index === 0);
+                view.pane = pane;
+                return view;
             });
         }
     };
