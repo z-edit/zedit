@@ -59,9 +59,9 @@ Object.assign(xelib, {
                 Fail(`Failed to set element at ${id2} to ${id1}`);
         });
     },
-    GetElements: function(id = 0, path = '', sort = false) {
+    GetElements: function(id = 0, path = '', sort = false, filter = false) {
         return GetArray(function(_len) {
-            if (!lib.GetElements(id, wcb(path), sort, _len))
+            if (!lib.GetElements(id, wcb(path), sort, filter, _len))
                 Fail(`Failed to get child elements at: ${elementContext(id, path)}`);
         });
     },
