@@ -76,7 +76,7 @@ try {
         'RemoveElement': [WordBool, [Cardinal, PWChar]],
         'RemoveElementOrParent': [WordBool, [Cardinal]],
         'SetElement': [WordBool, [Cardinal, Cardinal, PCardinal]],
-        'GetElements': [WordBool, [Cardinal, PWChar, WordBool, PInteger]],
+        'GetElements': [WordBool, [Cardinal, PWChar, WordBool, WordBool, PInteger]],
         'GetDefNames': [WordBool, [Cardinal, PInteger]],
         'GetAddList': [WordBool, [Cardinal, PInteger]],
         'GetContainer': [WordBool, [Cardinal, PCardinal]],
@@ -160,11 +160,14 @@ try {
         'IsWinningOverride': [WordBool, [Cardinal, PWordBool]],
         'GetNodes': [WordBool, [Cardinal, PCardinal]],
         'GetConflictData': [WordBool, [Cardinal, Cardinal, PByte, PByte]],
-        'GetNodeElements': [WordBool, [Cardinal, Cardinal, PInteger]]
+        'GetNodeElements': [WordBool, [Cardinal, Cardinal, PInteger]],
+        // FILTERING METHODS
+        'FilterRecord': [WordBool, [Cardinal]],
+        'ResetFilter': [WordBool, []]
     });
 } catch (x) {
     console.log(x);
-    alert(`The required file XEditLib.dll was not found or could not be accessed.  Please try re-installing the application or running it as an administrator.\r\n\r\n` +
+    alert(`The required file XEditLib.dll was not found or could not be loaded.  Please try running the application with adminstrative permissions or contact the developers.\r\n\r\n` +
         `${x.stack}`);
     remote.getCurrentWindow().close();
 }

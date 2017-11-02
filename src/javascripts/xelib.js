@@ -10,6 +10,7 @@ import './xelib/elementValues';
 import './xelib/serialization';
 import './xelib/records';
 import './xelib/groups';
+import './xelib/filter';
 import './xelib/fileValues';
 import './xelib/recordValues';
 import './xelib/utils';
