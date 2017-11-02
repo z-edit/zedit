@@ -1,0 +1,30 @@
+.filter-view {
+  .results-bar {
+    margin-bottom: 6px;
+
+    .re-run {
+      font: 16px FontAwesome;
+      margin-left: 2px;
+
+      &:hover {
+        color: $secondary_action;
+      }
+
+      &:before {
+        content: '\f002'
+      }
+    }
+  }
+
+  .tree-view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}
+
+.filter-view-icon {
+  &:before {
+    content: '\f0b0'
+  }
+}
