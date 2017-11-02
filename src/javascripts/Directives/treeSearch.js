@@ -1,4 +1,4 @@
-ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService) {
+ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, hotkeyFactory, errorService, nodeHelpers) {
     // helper variables
     let eKey = 69, fKey = 70, nKey = 78,
         searchOptionKeys = [fKey, eKey, nKey];
@@ -48,7 +48,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
             let start = Date.now(),
                 node = $scope.lastSelectedNode(),
                 file = node && xelib.GetElementFile(node.handle),
-                nodeIsFile = node && node.element_type === xelib.etFile,
+                nodeIsFile = node && nodeHelpers.isFileNode(node),
                 result = getExactMatch(file, nodeIsFile, search, reverse);
             console.log(`Search completed in ${Date.now() - start}ms`);
             action.resolve(result);

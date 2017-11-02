@@ -1,5 +1,11 @@
-ngapp.service('contextMenuFactory', function(referenceService) {
+ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers) {
     let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
+
+    // helper functions
+    let isFileNode = nodeHelpers.isFileNode;
+    let isRecordNode = nodeHelpers.isRecordNode;
+    let isGroupNode = nodeHelpers.isGroupNode;
+    let isEditableNode = nodeHelpers.isEditableNode;
 
     let divider = {
         visible: (scope, items) => {
@@ -14,22 +20,7 @@ ngapp.service('contextMenuFactory', function(referenceService) {
         }, true);
     };
 
-    let isFileNode = function(node) {
-        return node.element_type === xelib.etFile;
-    };
-
-    let isRecordNode = function(node) {
-        return node.element_type === xelib.etMainRecord;
-    };
-
-    let isGroupNode = function(node) {
-        return node.element_type === xelib.etGroupRecord;
-    };
-
-    let isEditableNode = function(node) {
-        return xelib.GetIsEditable(node.handle);
-    };
-
+    // public api
     this.checkboxListItems = [{
         id: 'Select All',
         visible: () => { return true; },
