@@ -61,8 +61,11 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
 
     // scope functions
     $scope.search = function() {
+        let searchOptions = getSearchOptions();
         $scope.$root.$broadcast('searchResults', {
-            results: searchService.search(getSearchOptions())
+            results: searchService.search(searchOptions),
+            scopeLabel: $scope.searchScope,
+            searchOptions: searchOptions
         });
         $scope.$emit('closeModal');
     };

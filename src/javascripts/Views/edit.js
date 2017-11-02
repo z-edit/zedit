@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('editController', function ($scope, layoutService, hotkeyService) {
+ngapp.controller('editController', function ($scope, layoutService, hotkeyService, viewFactory) {
     let getPluginItem = function(file) {
         return {
             handle: file,
@@ -26,6 +26,18 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         });
     };
 
+    let createFilterView = function() {
+        let treeView = layoutService.findView(function(view) {
+            return view.class === 'tree-view';
+        });
+        let filterView = viewFactory.newView('filterView', true);
+        treeView.pane.tabs.forEach(function(tab) {
+            tab.active = false;
+        });
+        treeView.pane.tabs.push(filterView);
+        return filterView;
+    };
+
     // event handlers
     $scope.$on('settingsClick', function() {
         if (!$scope.loaded) return;
@@ -42,8 +54,12 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         e.stopPropagation && e.stopPropagation();
     });
 
-    $scope.$on('searchResults', function(e, results) {
-        console.log(results);
+    $scope.$on('searchResults', function(e, options) {
+        console.log(options.results);
+        let resultsView = layoutService.findView(function(view) {
+            return view.class === 'filter-view';
+        }) || createFilterView();
+        Object.defaults(resultsView, options);
     });
 
     // handle hotkeys
