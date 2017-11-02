@@ -31,10 +31,20 @@ search-bar {
 
   .previous-result {
     margin-left: 4px;
+    font: 16px FontAwesome;
+
+    &:before {
+      content: "\f062";
+    }
   }
 
   .next-result {
     margin-right: 8px;
+    font: 16px FontAwesome;
+
+    &:before {
+      content: "\f063";
+    }
   }
 
   > label {
