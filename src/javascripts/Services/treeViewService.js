@@ -160,7 +160,10 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             let path = nodeHelpers.isRecordNode(node) ? 'Child Group' : '',
                 elements = getElements(node.handle, path);
             if (nodeHelpers.isFileNode(node) && hideFileHeaders()) {
-                elements[scope.sort.reverse ? 'pop' : 'shift']();
+                let index = elements.findIndex(function(element) {
+                    return xelib.Signature(element) === 'TES4';
+                });
+                if (index > -1) elements.splice(index, 1);
             }
             return elements.map((e) => { return scope.buildNode(e, node.depth); });
         };

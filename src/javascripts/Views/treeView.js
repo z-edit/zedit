@@ -1,6 +1,6 @@
 ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
-    $scope.view = $scope.$parent.tab;
+    $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
 
     // helper variables
