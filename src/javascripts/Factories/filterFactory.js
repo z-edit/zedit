@@ -1,4 +1,22 @@
 ngapp.service('filterFactory', function(searchService) {
+    let recordTypes, filenames;
+
+    let getRecordTypes = function() {
+        let map = xelib.GetSignatureNameMap();
+        recordTypes = Object.keys(map).sort().map(function(signature) {
+            return {
+                signature: signature,
+                name: map[signature]
+            }
+        });
+        return recordTypes;
+    };
+
+    let getFileNames = function() {
+        filenames = xelib.GetLoadedFileNames();
+        return filenames;
+    };
+
     let buildRegex = function(filter) {
         let flags = filter.ignoreCase ? 'gi' : 'g';
         filter.expr = new RegExp(filter.value, flags);
@@ -45,6 +63,19 @@ ngapp.service('filterFactory', function(searchService) {
         'Name': (base, filter) => {
             let str = xelib.FullName(base);
             return str.contains(filter.value, filter.ignoreCase);
+        }
+    };
+
+    let referencedByCompare = {
+        'Record Type': (ref, filter) => {
+            return xelib.Signature(ref) === filter.value;
+        },
+        'File': (ref, filter) => {
+            let result = false;
+            xelib.WithHandle(xelib.GetElementFile(ref), function(refFile) {
+                result = xelib.Name(refFile) === filter.value;
+            });
+            return result;
         }
     };
 
@@ -173,6 +204,27 @@ ngapp.service('filterFactory', function(searchService) {
                     } finally {
                         xelib.ReleaseNodes(nodes);
                         xelib.Release(element);
+                    }
+                }
+            }
+        },
+        'Referenced By': function() {
+            return {
+                type: 'Referenced By',
+                compareType: 'Record Type',
+                compareTypes: ['Record Type', 'File'],
+                recordTypes: recordTypes || getRecordTypes(),
+                filenames: filenames || getFileNames(),
+                templateUrl: 'partials/filters/referencedBy.html',
+                test: function(record) {
+                    let compareFn = referencedByCompare[this.compareType],
+                        refs = xelib.GetReferencedBy(record);
+                    try {
+                        return refs.find((ref) => {
+                            return compareFn(ref, this);
+                        });
+                    } finally {
+                        refs.forEach(xelib.Release);
                     }
                 }
             }
