@@ -9,6 +9,7 @@ status-bar {
   border-top: 1px solid $hard_border;
   background-color: $background;
   font-size: 13px;
+  position: relative;
 
   .tiny-spinner {
     display: inline-block;
