@@ -7,6 +7,14 @@ import env from './env';
 import './xelib';
 import buildModuleService from './helpers/moduleService';
 
+// handle uncaught exceptions
+window.startupCompleted = false;
+process.on('uncaughtException', function(e) {
+    if (window.startupCompleted) return;
+    alert(`There was a critical error on startup:\n\n${e.stack}`);
+    remote.app.quit();
+});
+
 // initialize xelib when application starts
 xelib.Initialize();
 

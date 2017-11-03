@@ -6,13 +6,14 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, profileService, settingsService, appModeService, xelibService) {
+ngapp.controller('startController', function ($scope, $rootScope, $timeout, profileService, settingsService, appModeService, xelibService) {
     // initialization
     profileService.validateProfiles();
     $scope.profiles = profileService.profiles;
     $scope.appModes = appModeService.applicationModes;
     $scope.selectedProfile = profileService.getDefaultProfile();
     $scope.selectedAppMode = $scope.appModes[0];
+    $timeout(() => window.startupCompleted = true, 100);
 
     // helper functions
     let getMasterNames = function(filename) {
