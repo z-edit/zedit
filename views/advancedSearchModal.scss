@@ -31,6 +31,10 @@
     > select {
       margin-right: 4px;
     }
+
+    > select.flex {
+      flex: 1;
+    }
   }
 
   div.flex {
