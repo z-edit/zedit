@@ -52,4 +52,9 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 // load modules
 const moduleService = buildModuleService(ngapp, fh);
 moduleService.loadModules();
-ngapp.run(() => moduleService.loadDeferredModules());
+ngapp.run(function() {
+    moduleService.loadDeferredModules();
+    moduleService.getFailures().forEach(function(msg) {
+        console.error(msg);
+    });
+});

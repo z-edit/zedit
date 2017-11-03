@@ -45,16 +45,17 @@ export default function(ngapp, fh) {
     };
 
     let missingRequirementError = function(info) {
-        let message = `Module ${info.name} requires modules which could not be found: `;
+        let message = `Module ${info.name} requires modules which could not be found:`;
         info.requires.forEach(function(requirement) {
             if (modules.hasOwnProperty(requirement)) return;
-            message += `\r\n- ${requirement}`;
+            message += `\n- ${requirement}`;
         });
         failures.push(message);
     };
 
     let missingInfoError = function(modulePath) {
-        failures.push(`Missing module.json file at ${modulePath}, failed to load module.`);
+        failures.push(`Missing module.json file at ${modulePath}, failed to` +
+            `load module.`);
     };
 
     let loaderNotFoundError = function(module) {
@@ -65,6 +66,11 @@ export default function(ngapp, fh) {
     let deferredError = function(module) {
         failures.push(`Failed to load ${module.info.id}, loader ` +
             `${module.info.moduleLoader} was declared but not instantiated.`);
+    };
+
+    let loadFailedError = function(module, error) {
+        failures.push(`Failed to load ${module.info.id}, load error:\n\n` +
+            error.stack);
     };
 
     let allRequirementsLoaded = function(requirements) {
@@ -82,8 +88,12 @@ export default function(ngapp, fh) {
         } else if (loader === true) {
             allowDefer ? deferredModules.push(module) : deferredError(module);
         } else {
-            loader(module, fh, ngapp, service);
-            modules[module.info.id] = module.info;
+            try {
+                loader(module, fh, ngapp, service);
+                modules[module.info.id] = module.info;
+            } catch (x) {
+                loadFailedError(module, x);
+            }
         }
     };
 
@@ -143,6 +153,9 @@ export default function(ngapp, fh) {
                     missingRequirementError(info);
                 }
             }
+        },
+        getFailures: function() {
+            return failures;
         },
         loadDeferredModules: function() {
             deferredModules.forEach((module) => build(module, false));
