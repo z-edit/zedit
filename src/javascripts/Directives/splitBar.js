@@ -1,4 +1,4 @@
-ngapp.directive('splitBar', function () {
+ngapp.directive('splitBar', function (htmlHelpers) {
     return {
         restrict: 'E',
         template: '<div class="bar"></div>',
@@ -17,25 +17,30 @@ ngapp.directive('splitBar', function () {
             // helper variables
             let htmlElement = document.documentElement,
                 container = element[0].parentElement,
-                scrollContainer = container.parentElement,
                 vertical = container.classList.contains('vertical'),
                 targetDimension = vertical ? 'height' : 'width',
                 clientLabel = vertical ? 'clientY' : 'clientX',
-                scrollLabel = vertical ? 'scrollTop' : 'scrollLeft',
-                offsetLabel = vertical ? 'offsetTop' : 'offsetLeft',
                 sizeLabel = vertical ? 'offsetHeight' : 'offsetWidth',
+                rectLabel = vertical ? 'top' : 'left',
                 cursorClass = vertical ? 'row-resize' : 'col-resize',
                 moving = false;
+
+            // helper functions
+            let getWidth = function(e, sizeElement) {
+                let offset = sizeElement.getBoundingClientRect()[rectLabel],
+                    size = e[clientLabel] - offset;
+                if (scope.mode) return `${size}px`;
+                let ratio = size / (container[sizeLabel] - scope.offset);
+                return Math.min(ratio, 1.0).toPercentage(1);
+            };
 
             // event handlers
             let handleMouseMove = function(e) {
                 let sizeElement = element[0].previousElementSibling,
-                    localOffset = e[clientLabel] + scrollContainer[scrollLabel],
-                    size = localOffset - sizeElement[offsetLabel] - container[offsetLabel],
-                    ratio = size / (container[sizeLabel] - scope.offset),
-                    width = scope.mode ? size + 'px' :  Math.min(ratio, 1.0).toPercentage(1);
+                    width = getWidth(e, sizeElement);
                 sizeElement.style[targetDimension] = width;
-                scope.resizeCallback && scope.resizeCallback(scope.$index, width);
+                if (!scope.resizeCallback) return;
+                scope.resizeCallback(scope.$index, width);
             };
             let handleMouseDown = function(e) {
                 // only trigger when left mouse button is pressed
