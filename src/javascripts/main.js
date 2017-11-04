@@ -59,8 +59,9 @@ let resetProgress = function() {
 };
 
 let openMainWindow = function() {
-    mainWindow = createWindow('main', { frame: false });
+    mainWindow = createWindow('main', { frame: false, show: false });
     loadPage(mainWindow, 'app.html', env.name === 'development');
+    mainWindow.once('ready-to-show', () => mainWindow.show());
 };
 
 let openProgressWindow = function() {
