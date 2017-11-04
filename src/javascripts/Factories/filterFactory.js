@@ -199,8 +199,10 @@ ngapp.service('filterFactory', function(searchService) {
                     let nodes = xelib.GetNodes(record),
                         element = xelib.GetElement(record, path);
                     try {
-                        let [ca, ct] = xelib.GetConflictData(record, element);
-                        return this[xelib[ca]] && this[xelib[ct]];
+                        let [ca, ct] = xelib.GetConflictData(nodes, element),
+                            caString = xelib.conflictAll[ca],
+                            ctString = xelib.conflictThis[ct];
+                        return this[caString] && this[ctString];
                     } finally {
                         xelib.ReleaseNodes(nodes);
                         xelib.Release(element);
