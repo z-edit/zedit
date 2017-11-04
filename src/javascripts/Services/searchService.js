@@ -79,7 +79,7 @@ ngapp.service('searchService', function(progressService) {
                 count = records.length,
                 {filters, mode} = filterOptions,
                 results = records.filter(function(record, index) {
-                    if (index % 100 === 0) filteringMessage(index, count);
+                    filteringMessage(index, count);
                     return service.filter(record, filters, mode);
                 });
             progressService.progressMessage('Building tree...');
