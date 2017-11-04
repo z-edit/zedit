@@ -65,8 +65,10 @@ let openMainWindow = function() {
 
 let openProgressWindow = function() {
     progressWindow = new BrowserWindow({
+        parent: mainWindow,
         title: "zEdit Progress",
-        show: false,
+        modal: true,
+        show: true,
         frame: false,
         closable: false,
         transparent: true,
@@ -76,6 +78,7 @@ let openProgressWindow = function() {
         resizable: false,
         movabale: false
     });
+    progressWindow.hide();
     loadPage(progressWindow, 'progress.html');
 };
 
