@@ -88,6 +88,7 @@ ngapp.service('filterFactory', function(searchService) {
                 compareTypes: ['Contains', 'Exact match', 'Regex'],
                 value: '',
                 templateUrl: 'partials/filters/string.html',
+                exportKeys: ['path', 'compareType', 'value'],
                 test: function(record) {
                     let value = xelib.GetValue(record, this.path);
                     return stringCompare[this.compareType](value, this);
@@ -104,6 +105,7 @@ ngapp.service('filterFactory', function(searchService) {
                 value: 0,
                 secondValue: 0,
                 templateUrl: 'partials/filters/number.html',
+                exportKeys: ['path', 'compareType', 'value', 'secondValue'],
                 test: function(record) {
                     let value = xelib.GetValue(record, this.path),
                         num = parseFloat(value);
@@ -117,6 +119,7 @@ ngapp.service('filterFactory', function(searchService) {
                 path: path,
                 value: '',
                 templateUrl: 'partials/filters/reference.html',
+                exportKeys: ['path', 'value'],
                 test: function(record) {
                     let value = xelib.GetValue(record, this.path);
                     return value === this.value;
@@ -136,6 +139,7 @@ ngapp.service('filterFactory', function(searchService) {
                 value: '',
                 ignoreCase: false,
                 templateUrl: 'partials/filters/baseRecord.html',
+                exportKeys: ['compareType', 'value', 'ignoreCase'],
                 test: function(record) {
                     if (!xelib.HasElement(record, 'NAME')) return;
                     let base = xelib.GetLinksTo(record, 'NAME');
@@ -150,6 +154,7 @@ ngapp.service('filterFactory', function(searchService) {
                 value: '',
                 notPresent: false,
                 templateUrl: 'partials/filters/flag.html',
+                exportKeys: ['path', 'value', 'notPresent'],
                 test: function(record) {
                     let state = xelib.GetFlag(record, this.path, this.value);
                     return state === !this.notPresent;
@@ -164,6 +169,7 @@ ngapp.service('filterFactory', function(searchService) {
                 value: '',
                 notPresent: false,
                 templateUrl: 'partials/filters/arrayItem.html',
+                exportKeys: ['path', 'subpath', 'value', 'notPresent'],
                 test: function(record) {
                     let args = [record, this.path, this.subpath, this.value];
                     return xelib.HasArrayItem(...args) !== this.notPresent;
@@ -178,6 +184,7 @@ ngapp.service('filterFactory', function(searchService) {
                 injected: true,
                 notInjected: true,
                 templateUrl: 'partials/filters/recordType.html',
+                exportKeys: ['master', 'override', 'injected', 'notInjected'],
                 test: function(record) {
                     let injected = xelib.IsInjected(record),
                         master = xelib.IsMaster(record);
@@ -195,6 +202,9 @@ ngapp.service('filterFactory', function(searchService) {
                 conflictAllOptions: xelib.conflictAll,
                 conflictThisOptions: xelib.conflictThis,
                 templateUrl: 'partials/filters/conflictStatus.html',
+                exportKeys: ['path']
+                    .concat(xelib.conflictAll)
+                    .concat(xelib.conflictThis),
                 test: function(record) {
                     let nodes = xelib.GetNodes(record),
                         element = xelib.GetElement(record, path);
@@ -218,6 +228,7 @@ ngapp.service('filterFactory', function(searchService) {
                 recordTypes: recordTypes || getRecordTypes(),
                 filenames: filenames || getFileNames(),
                 templateUrl: 'partials/filters/referencedBy.html',
+                exportKeys: ['compareType', 'value'],
                 test: function(record) {
                     let compareFn = referencedByCompare[this.compareType],
                         refs = xelib.GetReferencedBy(record);
