@@ -112,4 +112,12 @@ fh.selectFile = function(title, defaultPath, filters = []) {
     return selection && selection[0];
 };
 
+fh.saveFile = function(title, defaultPath, filters = []) {
+    return remote.dialog.showSaveDialog({
+        title: title,
+        defaultPath: defaultPath,
+        filters: filters
+    });
+};
+
 export default fh;

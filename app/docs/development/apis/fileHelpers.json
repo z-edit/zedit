@@ -237,5 +237,26 @@
       "type": "string"
     },
     "description": "Returns the path to the file selected by the user.  Returns undefined if the user didn't select a file.  See [dialog.showOpenDialog](https://github.com/electron/electron/blob/master/docs/api/dialog.md#dialogshowopendialogbrowserwindow-options-callback) for additional information about `filters`."
+  },
+  {
+    "name": "saveFile",
+    "type": "function",
+    "args": [{
+      "name": "title",
+      "type": "string",
+      "description": "Title to display on the save file window."
+    }, {
+      "name": "defaultPath",
+      "type": "string",
+      "description": "Default path to start the save file window in."
+    }, {
+      "name": "filters",
+      "type": "array",
+      "description": "Array of file filters."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the path to the file saved by the user.  Returns undefined if the user didn't choose to save a file.  See [dialog.showSaveDialog](https://github.com/electron/electron/blob/master/docs/api/dialog.md#dialogshowsavedialogbrowserwindow-options-callback) for additional information about `filters`."
   }
 ]
