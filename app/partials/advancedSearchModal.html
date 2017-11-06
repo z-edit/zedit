@@ -15,6 +15,8 @@
             <h3>Filters
                 <span class="actions">
                     <button class="action-btn positive small" ng-click="addFilter()">Add Filter</button>
+                    <button class="action-btn small" ng-click="$broadcast('importFilters')">Import</button>
+                    <button class="action-btn small"  ng-click="$broadcast('exportFilters')">Export</button>
                 </span>
             </h3>
             <section>
