@@ -53,12 +53,16 @@ fh.openUrl = function(url) {
     shell.openItem(url);
 };
 
-fh.getFileUrl = function(path) {
+fh.pathToFileUrl = function(path) {
     return url.format({
         pathname: jetpack.path(path).replace(/\\/g, '/'),
         protocol: 'file:',
         slashes: true
     })
+};
+
+fh.fileUrlToPath = function(fileUrl) {
+    return fileUrl.startsWith('file:///') && fileUrl.slice(8);
 };
 
 fh.extractArchive = function(filePath, destDir, empty = false) {

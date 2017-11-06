@@ -110,7 +110,7 @@
     "description": "Opens `url` in the user's web browser.  The URI protocol must be included in the URL.  (e.g. `https://...`)"
   },
   {
-    "name": "getFileUrl",
+    "name": "pathToFileUrl",
     "type": "function",
     "args": [{
       "name": "path",
@@ -120,7 +120,20 @@
     "returns": {
       "type": "string"
     },
-    "description": "Returns the `file://` URL for `path`."
+    "description": "Converts the input `path` to a `file://` URL."
+  },
+  {
+    "name": "fileUrlToPath",
+    "type": "function",
+    "args": [{
+      "name": "fileUrl",
+      "type": "string",
+      "description": "File URL to convert."
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Converts the input the `file://` URL to a path."
   },
   {
     "name": "extractArchive",
