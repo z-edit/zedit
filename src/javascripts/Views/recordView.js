@@ -24,7 +24,11 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
-        visible ? $timeout($scope.focusAddressInput, 50) : $scope.treeElement.focus();
+        if (visible) {
+            $timeout($scope.focusAddressInput, 50);
+        } else if ($scope.treeElement) {
+            $scope.treeElement.focus();
+        }
     };
 
     $scope.focusAddressInput = function () {
@@ -54,11 +58,12 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.onCellMouseDown = function(e, node, index) {
         if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
-            const id = $scope.getRecord(index -1);
+            const id = $scope.getRecord(index - 1);
             const path = xelib.LocalPath(node.first_handle);
             const ref = xelib.GetLinksTo(id, path);
             if (ref > 0) {
                 $scope.record = ref;
+                $scope.syncWithLinkedViews(ref);
                 return;
             }
         }
@@ -99,6 +104,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     // event handling
     $scope.$on('setRecord', function(e, record) {
         $scope.record = record;
+        $scope.syncWithLinkedViews(record);
         e.stopPropagation();
     });
     $scope.$on('recordUpdated', function(e, record) {
@@ -125,7 +131,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     });
 
 
-    $scope.$on('controlKeyPressed', function(){
+    $scope.$on('controlKeyPressed', function() {
         if (!$scope.highlightedCell) return;
         $scope.highlightedCell.classList.add('highlight-reference');
     });

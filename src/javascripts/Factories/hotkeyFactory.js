@@ -236,6 +236,10 @@ ngapp.service('hotkeyFactory', function() {
         default: (scope, event) => scope.handleResolutionKey(event)
     };
 
+    this.referencedByViewHotkeys = {
+        enter: 'handleEnter'
+    };
+
     // HELPER FUNCTIONS
     let sortHotkeys = function(hotkeys) {
         hotkeys.sort(function(a, b) {

@@ -90,6 +90,7 @@ ngapp.service('recordViewDragDropService', function(errorService, nodeHelpers) {
             let node = dragData.node,
                 path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             scope.record = xelib.GetElementEx(node.handle, path);
+            scope.syncWithLinkedViews(scope.record);
         };
 
         scope.onCellDrag = function(node, index) {

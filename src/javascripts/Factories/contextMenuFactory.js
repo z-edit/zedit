@@ -374,4 +374,20 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers) {
             })
         }
     }]
+
+    this.referencedByViewItems = [{
+        id: 'Open',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last();
+            return node && !isGroupNode(node);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Open in Record View',
+                hotkey: 'Enter',
+                callback: () => scope.open(node)
+            })
+        }
+    }]
 });

@@ -331,5 +331,11 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             scope.view.linkTo(treeView);
             treeView.linkTo(scope.view);
         };
+
+        scope.syncWithLinkedViews = function(record) {
+            if (scope.view.linkedTreeView && scope.view.linkedTreeView.linkedReferencedByView) {
+                scope.view.linkedTreeView.linkedReferencedByView.scope.record = record;
+            }
+        }
     };
 });

@@ -29,11 +29,18 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
             let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             recordView.scope.record = xelib.GetElementEx(node.handle, path);
         }
+        let referencedByView = $scope.view.linkedReferencedByView;
+        if (referencedByView) {
+            // get a new handle for the record to be used with the record view
+            let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
+            referencedByView.scope.record = xelib.GetElementEx(node.handle, path);
+        }
     };
 
     $scope.openColumnsModal = function() {
         $scope.$emit('openModal', 'editColumns', {
-            allColumns: $scope.allColumns
+            allColumns: $scope.allColumns,
+            columnsService: columnsService
         });
     };
 

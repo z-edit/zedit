@@ -9,6 +9,7 @@ ngapp.service('treeViewFactory', function(viewFactory) {
         let scope = this.scope;
         scope.tree && factory.releaseTree(scope.tree);
         viewFactory.unlink(this.linkedRecordView, 'linkedTreeView');
+        viewFactory.unlink(this.linkedReferencedByView, 'linkedTreeView');
     };
 
     this.isLinkedTo = function(view) {
@@ -16,13 +17,17 @@ ngapp.service('treeViewFactory', function(viewFactory) {
     };
 
     this.canLinkTo = function(view) {
-        return view.class === 'record-view' && !this.linkedRecordView;
+        return ((view.class === 'record-view' && !this.linkedRecordView) || (view.class === 'referenced-by-view' && !this.linkedReferencedByView));
     };
 
     this.linkTo = function(view) {
         if (view.class === 'record-view') {
             view.linkedTreeView = this;
             this.linkedRecordView = view;
+        }
+        if (view.class === 'referenced-by-view') {
+            view.linkedTreeView = this;
+            this.linkedReferencedByView = view;
         }
     };
 
