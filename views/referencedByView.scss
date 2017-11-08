@@ -1,0 +1,47 @@
+
+.referenced-by-view {
+  text-align: left;
+  font-size: 13px;
+  overflow: hidden;
+  padding-top: 24px;
+
+  .tree-columns {
+    padding-right: 16px;
+
+    .column:last-of-type {
+      border-right: 1px solid $medium_border;
+    }
+  }
+
+  .tree-nodes {
+    min-width: 400px;
+    overflow-y: scroll;
+
+    .column {
+      min-width: 72px;
+
+      &:last-of-type {
+        flex: 1;
+        border-right: none;
+      }
+    }
+
+    .modified {
+      font-weight: 600;
+    }
+  }
+
+  .edit-columns {
+    right: 17px;
+
+    &::before {
+      content: "\f0db";
+    }
+  }
+}
+
+.referenced-by-view-icon {
+  &::before {
+    content: "\f079";
+  }
+}
