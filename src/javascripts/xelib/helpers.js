@@ -5,7 +5,7 @@ import { PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
 
 // HELPER FUNCTIONS
 export let createTypedBuffer = function(size, type) {
-    let buf = new Buffer(size);
+    let buf = Buffer.alloc(size, 0);
     buf.type = type;
     return buf;
 };
@@ -22,7 +22,7 @@ export let readCardinalArray = function(buf, len) {
 };
 
 export let wcb = function(value) {
-    let buf = new Buffer((value.length + 1) * 2);
+    let buf = Buffer.alloc((value.length + 1) * 2, 0);
     buf.write(value, 0, 'ucs2');
     buf.type = PWChar;
     return buf;
