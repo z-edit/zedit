@@ -152,9 +152,7 @@ Object.assign(xelib, {
         });
     },
     RemoveArrayItem: function(id, path, subpath, value) {
-        return GetHandle(function(_res) {
-            lib.RemoveArrayItem(id, wcb(path), wcb(subpath), wcb(value), _res);
-        });
+        lib.RemoveArrayItem(id, wcb(path), wcb(subpath), wcb(value));
     },
     MoveArrayItem: function(id, index) {
         if (!lib.MoveArrayItem(id, index))
