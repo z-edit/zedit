@@ -142,6 +142,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             node.element_type = xelib.ElementType(node.handle);
             node.has_data = true;
             if (nodeHelpers.isRecordNode(node)) {
+                node.kac = xelib.GetElement(node.handle, '[0]');
                 node.fid = xelib.GetFormID(node.handle);
             }
             scope.getNodeClass(node);

@@ -2,7 +2,10 @@ ngapp.service('treeViewFactory', function(viewFactory) {
     let factory = this;
 
     this.releaseTree = function(tree) {
-        tree.forEach((node) => xelib.Release(node.handle));
+        tree.forEach((node) => {
+            xelib.Release(node.handle);
+            if (node.kac) xelib.Release(node.kac);
+        });
     };
 
     this.destroy = function() {
