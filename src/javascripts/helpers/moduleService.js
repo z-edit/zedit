@@ -20,7 +20,7 @@ export default function(ngapp, fh) {
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
-            path: fh.getFileUrl(modulePath),
+            path: fh.pathToFileUrl(modulePath),
             code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
         }
     };
