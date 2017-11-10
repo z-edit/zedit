@@ -29,6 +29,7 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "build": "gulp build",
+    "rebuild": "electron-rebuild",
     "prerelease": "gulp build --env=production",
     "release": "build --ia32",
     "start": "gulp start",
@@ -63,6 +64,7 @@
     "electron": "^1.4.7",
     "electron-builder": "^8.6.0",
     "electron-mocha": "^3.0.0",
+    "electron-rebuild": "^1.6.0",
     "gulp": "^3.9.0",
     "gulp-batch": "^1.0.5",
     "gulp-include": "^2.3.1",
