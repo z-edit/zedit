@@ -11,8 +11,8 @@ let sortBy = {
 
 // META METHODS
 Object.assign(xelib, {
-    Initialize: function() {
-        lib.InitXEdit();
+    Initialize: function(libPath) {
+        lib.InitXEdit(libPath);
     },
     Finalize: function() {
         lib.CloseXEdit();

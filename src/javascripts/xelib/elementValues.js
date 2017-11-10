@@ -1,7 +1,6 @@
 import { lib } from './lib';
 import { elementContext, Fail, flagContext, GetNativeValue, GetBool, GetString,
          GetDictionary, GetStringValue, SetNativeValue, wcb } from './helpers';
-import { PCardinal, PInteger, PDouble } from './types';
 
 // ELEMENT VALUE METHODS
 Object.assign(xelib, {
@@ -64,28 +63,28 @@ Object.assign(xelib, {
             Fail(`Failed to set element value at: ${elementContext(id, path)}`);
     },
     GetIntValue: function(id, path = '') {
-        return GetNativeValue(id, path, 'GetIntValue', PInteger).readInt32LE();
+        return GetNativeValue(id, path, 'GetIntValue', 4).readInt32LE();
     },
     GetIntValueEx: function(id, path = '') {
-        return GetNativeValueEx(id, path, 'GetIntValue', PInteger).readInt32LE();
+        return GetNativeValueEx(id, path, 'GetIntValue', 4).readInt32LE();
     },
     SetIntValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetIntValue', value);
     },
     GetUIntValue: function(id, path = '') {
-        return GetNativeValue(id, path, 'GetUIntValue', PCardinal).readUInt32LE();
+        return GetNativeValue(id, path, 'GetUIntValue', 4).readUInt32LE();
     },
     GetUIntValueEx: function(_id, path = '') {
-        return GetNativeValueEx(_id, path, 'GetUIntValue', PCardinal).readUInt32LE();
+        return GetNativeValueEx(_id, path, 'GetUIntValue', 4).readUInt32LE();
     },
     SetUIntValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetUIntValue', value);
     },
     GetFloatValue: function(id, path = '') {
-        return GetNativeValue(id, path, 'GetFloatValue', PDouble).readDoubleLE();
+        return GetNativeValue(id, path, 'GetFloatValue', 8).readDoubleLE();
     },
     GetFloatValueEx: function(id, path = '') {
-        return GetNativeValueEx(id, path, 'GetFloatValue', PDouble).readDoubleLE();
+        return GetNativeValueEx(id, path, 'GetFloatValue', 8).readDoubleLE();
     },
     SetFloatValue: function(id, path, value) {
         SetNativeValue(id, path, 'SetFloatValue', value);

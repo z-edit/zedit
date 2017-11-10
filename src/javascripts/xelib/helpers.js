@@ -1,19 +1,6 @@
-const wchar_t = require('ref-wchar');
-
 import { lib } from './lib';
-import { PWChar, PCardinal, PInteger, PWordBool, PDouble, PByte} from './types';
 
 // HELPER FUNCTIONS
-export let createTypedBuffer = function(size, type) {
-    let buf = Buffer.alloc(size, 0);
-    buf.type = type;
-    return buf;
-};
-
-export let readPWCharString = function(buf) {
-    return wchar_t.toString(buf);
-};
-
 export let readCardinalArray = function(buf, len) {
     let a = [];
     for (let i = 0; i < 4 * len; i += 4)
@@ -24,7 +11,6 @@ export let readCardinalArray = function(buf, len) {
 export let wcb = function(value) {
     let buf = Buffer.alloc((value.length + 1) * 2, 0);
     buf.write(value, 0, 'ucs2');
-    buf.type = PWChar;
     return buf;
 };
 
@@ -51,18 +37,18 @@ export let Fail = function(message) {
 };
 
 export let GetString = function(callback, method = 'GetResultString') {
-    let _len = createTypedBuffer(4, PInteger);
+    let _len = Buffer.alloc(4, 0);
     callback(_len);
     let len = _len.readInt32LE(0);
     if (len < 1) return '';
-    let str = createTypedBuffer(2 * len, PWChar);
+    let str = Buffer.alloc(2 * len, 0);
     if (!lib[method](str, len))
         Fail(`${method} failed.`);
-    return readPWCharString(str);
+    return str.toString('utf16le');
 };
 
 export let GetHandle = function(callback) {
-    let _res = createTypedBuffer(4, PCardinal);
+    let _res = Buffer.alloc(4, 0);
     callback(_res);
     let handle = _res.readUInt32LE(0);
     if (xelib.HandleGroup) xelib.HandleGroup.push(handle);
@@ -70,33 +56,29 @@ export let GetHandle = function(callback) {
 };
 
 export let GetInteger = function(callback) {
-    let _res = createTypedBuffer(4, PInteger);
+    let _res = Buffer.alloc(4, 0);
     callback(_res);
     return _res.readInt32LE(0);
 };
 
 export let GetBool = function(callback) {
-    let _bool = createTypedBuffer(2, PWordBool);
+    let _bool = Buffer.alloc(2, 0);
     callback(_bool);
     return _bool.readUInt16LE(0) > 0;
 };
 
 export let GetByte = function(callback) {
-    let _res = createTypedBuffer(1, PByte);
+    let _res = Buffer.alloc(1, 0);
     callback(_res);
     return _res.readUInt8(0);
 };
 
-export let GetEnum = function(callback, enums) {
-    return enums[GetByte(callback)];
-};
-
 export let GetArray = function(callback) {
-    let _len = createTypedBuffer(4, PInteger);
+    let _len = Buffer.alloc(4, 0);
     callback(_len);
     let len = _len.readInt32LE(0);
     if (len < 1) return [];
-    let buf = createTypedBuffer(4 * len, PCardinal);
+    let buf = Buffer.alloc(4 * len, 0);
     if (!lib.GetResultArray(buf, len))
         Fail('GetResultArray failed');
     let a = readCardinalArray(buf, len);
@@ -140,14 +122,14 @@ export let GetEnumValue = function(_id, method) {
     });
 };
 
-export let GetNativeValue = function(_id, path, method, refType) {
-    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
+export let GetNativeValue = function(_id, path, method, len) {
+    let buff = Buffer.alloc(len, 0);
     lib[method](_id, wcb(path), buff);
     return buff;
 };
 
-export let GetNativeValueEx = function(_id, path, method, refType) {
-    let buff = createTypedBuffer(refType === PDouble ? 8 : 4, refType);
+export let GetNativeValueEx = function(_id, path, method, len) {
+    let buff = Buffer.alloc(len, 0);
     if (!lib[method](_id, wcb(path), buff))
         Fail(`Failed to ${method} for ${elementContext(_id, path)}`);
     return buff;

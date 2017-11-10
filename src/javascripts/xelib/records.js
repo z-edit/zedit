@@ -1,7 +1,6 @@
 import { lib } from './lib';
-import { applyEnums, createTypedBuffer, elementContext, Fail, GetArray,
+import { applyEnums, elementContext, Fail, GetArray,
          GetBoolValue, GetStringArray, GetHandle, wcb } from './helpers';
-import { PCardinal, PByte } from './types';
 
 // ENUMERATIONS
 const conflictThis = ['ctUnknown', 'ctIgnored', 'ctNotDefined', 'ctIdenticalToMaster', 'ctOnlyOne', 'ctHiddenByModGroup', 'ctMaster', 'ctConflictBenign', 'ctOverride', 'ctIdenticalToMasterWinsConflict', 'ctConflictWins', 'ctConflictLoses'];
@@ -13,7 +12,7 @@ applyEnums(xelib, conflictAll, 'conflictAll');
 // RECORD HANDLING METHODS
 Object.assign(xelib, {
     GetFormID: function(id, native = false, local = false) {
-        let _res = createTypedBuffer(4, PCardinal);
+        let _res = Buffer.alloc(4, 0);
         if (!lib.GetFormID(id, _res, native))
             Fail(`Failed to get FormID for ${id}`);
         let formID = _res.readUInt32LE();
@@ -107,8 +106,8 @@ Object.assign(xelib, {
         });
     },
     GetConflictData: function(id1, id2, asString = false) {
-        let _res1 = createTypedBuffer(1, PByte),
-            _res2 = createTypedBuffer(1, PByte);
+        let _res1 = Buffer.alloc(1, 0),
+            _res2 = Buffer.alloc(1, 0);
         if (!lib.GetConflictData(id1, id2, _res1, _res2))
             return [0, 0];
         let n1 = _res1.readUInt8(0),
@@ -116,8 +115,8 @@ Object.assign(xelib, {
         return asString ? [conflictAll[n1], conflictThis[n2]] : [n1, n2];
     },
     GetConflictDataEx: function(id1, id2, asString = false) {
-        let _res1 = createTypedBuffer(1, PByte),
-            _res2 = createTypedBuffer(1, PByte);
+        let _res1 = Buffer.alloc(1, 0),
+            _res2 = Buffer.alloc(1, 0);
         if (!lib.GetConflictData(id1, id2, _res1, _res2))
             Fail(`GetConflictData failed on ${id1}, ${id2}`);
         let n1 = _res1.readUInt8(0),

@@ -16,7 +16,13 @@ process.on('uncaughtException', function(e) {
 });
 
 // initialize xelib when application starts
-xelib.Initialize();
+try {
+    const libPath = jetpack.path('XEditLib.dll');
+    xelib.Initialize(libPath);
+} catch (e) {
+    alert(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
+    remote.getCurrentWindow().close();
+}
 
 // set up angular application
 const ngapp = angular.module('zedit', [
