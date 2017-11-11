@@ -4,7 +4,7 @@ import './polyfills';
 import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
-import './xelib';
+import { wrapper } from 'xelib';
 import buildModuleService from './helpers/moduleService';
 
 // handle uncaught exceptions
@@ -16,6 +16,7 @@ process.on('uncaughtException', function(e) {
 });
 
 // initialize xelib when application starts
+window.xelib = wrapper;
 try {
     const libPath = jetpack.path('XEditLib.dll');
     xelib.Initialize(libPath);
