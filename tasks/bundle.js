@@ -14,7 +14,7 @@ const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
 
 const electronBuiltInModules = ['electron'];
 
-const customExternalModules = ['angular', 'angular-ui-router', 'ui-router-extras', 'angular-spinner', 'angular-color-picker', 'angular-elastic-input', 'angular-marked', 'angular-vs-repeat'];
+const customExternalModules = ['angular', 'angular-ui-router', 'ui-router-extras', 'angular-spinner', 'angular-color-picker', 'angular-elastic-input', 'angular-marked', 'angular-vs-repeat', 'xelib'];
 
 const rollupPlugins = [];
 
@@ -23,7 +23,6 @@ let generateExternalModulesList = function() {
     return [].concat(
         nodeBuiltInModules,
         electronBuiltInModules,
-		customExternalModules,
         Object.keys(appManifest.dependencies),
         Object.keys(appManifest.devDependencies)
     );
