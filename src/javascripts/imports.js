@@ -6,3 +6,6 @@ import 'angular-color-picker';
 import 'angular-elastic-input';
 import 'angular-marked';
 import 'angular-vs-repeat';
+import './polyfills';
+import './color';
+window.xelib = require('xelib').wrapper;

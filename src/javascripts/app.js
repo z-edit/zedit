@@ -1,12 +1,9 @@
 import './imports';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
-import './polyfills';
-import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
 import buildModuleService from './helpers/moduleService';
-window.xelib = require('xelib').wrapper;
 
 // handle uncaught exceptions
 window.startupCompleted = false;
