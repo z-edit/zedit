@@ -4,6 +4,9 @@ import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
 import env from './env';
 import buildModuleService from './helpers/moduleService';
+import './polyfills';
+import './color';
+window.xelib = require('xelib').wrapper;
 
 // handle uncaught exceptions
 window.startupCompleted = false;
