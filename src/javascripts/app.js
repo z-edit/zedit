@@ -4,8 +4,8 @@ import './polyfills';
 import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
-import { wrapper } from 'xelib';
 import buildModuleService from './helpers/moduleService';
+window.xelib = require('xelib').wrapper;
 
 // handle uncaught exceptions
 window.startupCompleted = false;
@@ -16,13 +16,12 @@ process.on('uncaughtException', function(e) {
 });
 
 // initialize xelib when application starts
-window.xelib = wrapper;
 try {
     const libPath = jetpack.path('XEditLib.dll');
     xelib.Initialize(libPath);
 } catch (e) {
     alert(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
-    remote.getCurrentWindow().close();
+    remote.app.quit();
 }
 
 // set up angular application
