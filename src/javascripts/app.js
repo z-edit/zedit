@@ -1,10 +1,18 @@
+import 'angular';
+import 'angular-ui-router';
+import 'ui-router-extras';
+import 'angular-spinner';
+import 'angular-color-picker';
+import 'angular-elastic-input';
+import 'angular-marked';
+import 'angular-vs-repeat';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
-import './polyfills';
-import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
 import buildModuleService from './helpers/moduleService';
+import './polyfills';
+import './color';
 window.xelib = require('xelib').wrapper;
 
 // handle uncaught exceptions
