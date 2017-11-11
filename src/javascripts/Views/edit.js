@@ -55,7 +55,6 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
     });
 
     $scope.$on('searchResults', function(e, options) {
-        console.log(options.results);
         let resultsView = layoutService.findView(function(view) {
             return view.class === 'filter-view';
         }) || createFilterView();
