@@ -244,5 +244,12 @@ Object.defaults = function(target, defaults) {
     Object.keys(defaults).forEach(function(key) {
         if (target.hasOwnProperty(key)) return;
         target[key] = defaults[key];
-    })
+    });
 };
+
+Object.defineProperty(Function, 'execute', {
+    enumerable: false,
+    value: function(args, code) {
+        return new Function(...Object.keys(args), code)(...Object.values(args));
+    }
+});
