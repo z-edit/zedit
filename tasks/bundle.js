@@ -13,7 +13,6 @@ const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
     'tls', 'tty', 'url', 'util', 'v8', 'vm', 'zlib'];
 
 const electronBuiltInModules = ['electron'];
-
 const rollupPlugins = [];
 
 let generateExternalModulesList = function() {
