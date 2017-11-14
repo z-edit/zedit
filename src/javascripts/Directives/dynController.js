@@ -9,8 +9,7 @@ ngapp.directive('dynController', function($controller, $parse) {
 
     let resolveController = function(ctrlExpr, scope, element, attrs) {
         let ctrl = $parse(ctrlExpr)(scope);
-        if (!ctrl) return;
-        return typeof ctrl === 'string' ? getController(ctrl, scope, element, attrs) : ctrl;
+        return ctrl && getController(ctrl, scope, element, attrs);
     };
 
     return {
