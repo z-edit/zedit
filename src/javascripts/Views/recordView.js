@@ -24,7 +24,11 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
-        visible ? $timeout($scope.focusAddressInput, 50) : $scope.treeElement.focus();
+        if (visible) {
+            $timeout($scope.focusAddressInput, 50);
+        } else if ($scope.treeElement) {
+            $scope.treeElement.focus();
+        }
     };
 
     $scope.focusAddressInput = function () {
