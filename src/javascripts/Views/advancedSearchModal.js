@@ -58,6 +58,18 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
         };
     };
 
+    let setSearchScope = function(searchScope) {
+        let searchScopes = $scope.searchScopes;
+        if (!searchScope) {
+            $scope.searchScope = searchScopes[searchScopes.length - 2];
+        } else if (typeof searchScope === 'string') {
+            $scope.searchScope = searchScope;
+        } else {
+            $scope.searchScope = 'Custom';
+            $scope.customScope = searchScope;
+        }
+    };
+
     // scope functions
     $scope.search = function() {
         let searchOptions = getSearchOptions();
@@ -86,10 +98,11 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     // initialization
     let nodes = $scope.modalOptions.nodes,
         node = nodes[0],
+        filterOptions = $scope.modalOptions.filterOptions,
         elementType = node && xelib.elementTypes[node.element_type];
 
     $scope.searchScopes = validSearchScopes[elementType || 'default'];
-    $scope.searchScope = $scope.searchScopes[$scope.searchScopes.length - 2];
-    $scope.filterMode = 'and';
-    $scope.filters = [];
+    setSearchScope($scope.modalOptions.scope);
+    $scope.filterMode = filterOptions ? filterOptions.mode : 'and';
+    $scope.filters = filterOptions ? filterOptions.filters : [];
 });

@@ -18,10 +18,11 @@ ngapp.controller('filterViewController', function($scope, viewFactory) {
 
     // scope functions
     $scope.rerunSearch = function() {
-        // TODO
+        let options = $scope.view.searchOptions;
+        $scope.$emit('openModal', 'advancedSearch', options);
     };
 
-    $scope.$watch('results', function(oldVal, newVal) {
+    $scope.$watch('view.results', function(oldVal, newVal) {
         if (oldVal && newVal) $scope.$broadcast('reloadGUI');
     })
 });
