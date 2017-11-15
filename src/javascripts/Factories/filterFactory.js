@@ -115,8 +115,6 @@ ngapp.service('filterFactory', function(searchService) {
                 type: 'Number',
                 path: path,
                 compareType: 'Equal to',
-                compareTypes: ['Equal to', 'Not equal to', 'Greater than',
-                    'Less than', 'Range'],
                 value: 0,
                 secondValue: 0,
                 templateUrl: 'partials/filters/number.html',
@@ -145,12 +143,11 @@ ngapp.service('filterFactory', function(searchService) {
             return {
                 type: 'Base Record',
                 compareType: 'Signature',
-                compareTypes: ['Signature', 'Editor ID', 'Name'],
-                placeholders: [
-                    'Enter a comma separated list of signatures',
-                    'Enter a substring to search for',
-                    'Enter a substring to search for'
-                ],
+                placeholders: {
+                    'Signature': 'Enter a comma separated list of signatures',
+                    'Editor ID': 'Enter a substring to search for',
+                    'Name': 'Enter a substring to search for'
+                },
                 value: '',
                 ignoreCase: false,
                 templateUrl: 'partials/filters/baseRecord.html',
@@ -239,7 +236,6 @@ ngapp.service('filterFactory', function(searchService) {
             return {
                 type: 'Referenced By',
                 compareType: 'Record Type',
-                compareTypes: ['Record Type', 'File'],
                 recordTypes: recordTypes || getRecordTypes(),
                 filenames: filenames || getFileNames(),
                 templateUrl: 'partials/filters/referencedBy.html',
@@ -261,7 +257,6 @@ ngapp.service('filterFactory', function(searchService) {
             return {
                 type: 'Group',
                 mode: 'and',
-                modes: ['and', 'or'],
                 children: [],
                 templateUrl: 'partials/filters/group.html',
                 test: function(record) {

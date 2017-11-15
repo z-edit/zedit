@@ -1,6 +1,9 @@
 <label class="flex">
     <span class="input-label">Value</span>
-    <select ng-model="filter.compareType" ng-options="item for item in filter.compareTypes"></select>
+    <select ng-model="filter.compareType">
+        <option>Record Type</option>
+        <option>File</option>
+    </select>
     <select ng-if="filter.compareType === 'Record Type'" class="flex" ng-model="filter.value" ng-options="item.signature as (item.signature + ' - ' + item.name) for item in filter.recordTypes" ng-init="filter.value = filter.recordTypes[0].signature"></select>
     <select ng-if="filter.compareType === 'File'" class="flex" ng-model="filter.value" ng-options="item for item in filter.filenames" ng-init="filter.value = filter.filenames[0]"></select>
 </label>
