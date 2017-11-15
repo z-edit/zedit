@@ -1,5 +1,7 @@
 <div class="results-bar">
-    <span class="search-info">Search in {{view.scopeLabel}}, {{view.results.length}} results found.</span>
+    <span class="search-info">Search in
+        <span title="{{scopeTooltip}}">{{scopeLabel}}</span> -
+        {{view.results.length}} results found.</span>
     <span class="re-run" ng-click="rerunSearch()" title="Edit and re-run search"></span>
 </div>
 <div class="{{treeView.class}}" dyn-controller="treeView.controller" ng-include="treeView.templateUrl"></div>

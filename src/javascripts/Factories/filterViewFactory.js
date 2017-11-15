@@ -3,6 +3,10 @@ ngapp.service('filterViewFactory', function(viewFactory) {
 
     this.destroy = function() {
         this.scope.treeView.destroy();
+        this.scope.searchOptions.nodes.forEach(function(node) {
+            xelib.Release(node.handle);
+        });
+        this.scope.results.forEach(xelib.Release);
     };
 
     this.isLinkedTo = function(view) {

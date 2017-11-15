@@ -22,7 +22,10 @@
             <section>
                 <label>
                     <span class="input-label">Mode</span>
-                    <select ng-model="filterMode" ng-options="mode for mode in filterModes"></select>
+                    <select ng-model="filterMode">
+                        <option>and</option>
+                        <option>or</option>
+                    </select>
                 </label>
                 <filter-items filters="filters"></filter-items>
             </section>

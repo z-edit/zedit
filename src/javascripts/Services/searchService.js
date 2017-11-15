@@ -1,4 +1,4 @@
-ngapp.service('searchService', function(progressService) {
+ngapp.service('searchService', function(progressService, nodeHelpers) {
     let service = this;
 
     // PRIVATE
@@ -12,50 +12,74 @@ ngapp.service('searchService', function(progressService) {
         progressService.progressMessage(msg);
     };
 
-    let resolveSearchScope = {
-        'All files': function() {
-            let handles = [];
-            xelib.WithHandles(xelib.GetElements(), function(files) {
-                files.forEach(function(file) {
-                    gettingRecordsMessage(file);
-                    handles.push(...xelib.GetRecords(file, '', true));
-                });
+    let getRecordHandles = function(handles) {
+        let records = [];
+        xelib.WithHandles(handles, function(handles) {
+            handles.forEach(function(handle) {
+                gettingRecordsMessage(handle);
+                records.push(...xelib.GetRecords(handle, '', true));
             });
-            return handles;
+        });
+        return records;
+    };
+
+    let resolveSearchScope = {
+        'All files': () => {
+            return {
+                shortLabel: 'All files',
+                handles: getRecordHandles(xelib.GetElements())
+            }
         },
-        'Current file': function(nodes) {
-            let file = xelib.GetElementFile(nodes[0].handle);
-            gettingRecordsMessage(file);
-            return xelib.GetRecords(file, '', true);
+        'Selected files': (nodes) => {
+            let files = nodeHelpers.getUniqueHandles(nodes, xelib.etFile),
+                filenames = Object.keys(files);
+            return {
+                shortLabel: `${filenames.length} files`,
+                longLabel: `${filenames.join(', ')}`,
+                handles: getRecordHandles(Object.values(files))
+            }
         },
-        'Current group': function(nodes) {
-            let group = xelib.GetElementGroup(nodes[0].handle);
-            gettingRecordsMessage(group);
-            return xelib.GetRecords(group, '', true);
+        'Selected groups': (nodes) => {
+            let groups = nodeHelpers.getUniqueHandles(nodes, xelib.etGroupRecord),
+                groupPaths = Object.keys(groups);
+            return {
+                short: `${groupPaths.length} groups`,
+                long: `${groupPaths.join(', ')}`,
+                handles: getRecordHandles(Object.values(groups))
+            }
         },
-        'Selected records': function(nodes) {
-            return nodes.map((node) => { return node.handle });
+        'Selected records': (nodes) => {
+            return {
+                shortLabel: `${nodes.length} records`,
+                handles: nodeHelpers.getNodeHandles(nodes)
+            }
         }
     };
 
-    let getCustomScopeFilenames = function(scope) {
-        return scope.files.filterOnKey('active').mapOnKey('filename');
+    let getCustomScopeFilenames = function(customScope) {
+        return customScope.files.filterOnKey('active').mapOnKey('filename');
     };
 
-    let getCustomScopeSignatures = function(scope) {
-        return scope.groups.filterOnKey('active').joinOnKey('signature');
+    let getCustomScopeSignatures = function(customScope) {
+        return customScope.groups.filterOnKey('active').mapOnKey('signature');
     };
 
-    let resolveCustomScope = function(scope) {
-        let signatures = getCustomScopeSignatures(scope),
+    let resolveCustomScope = function(customScope) {
+        let signatures = getCustomScopeSignatures(customScope),
+            signaturesStr = signatures.join(','),
+            filenames = getCustomScopeFilenames(customScope),
             handles = [];
-        getCustomScopeFilenames(scope).forEach(function(filename) {
+        filenames.forEach(function(filename) {
             xelib.WithHandles(xelib.FileByName(filename), function(file) {
                 gettingRecordsMessage(file);
-                handles.push(...xelib.GetRecords(file, signatures, true));
+                handles.push(...xelib.GetRecords(file, signaturesStr, true));
             });
         });
-        return handles;
+        return {
+            shortLabel: `${filenames.length} files, ${signatures.length} groups`,
+            longLabel: `${filenames.join(', ')}; ${signaturesStr}`,
+            handles: handles
+        };
     };
 
     let resolveScope = function(scope, nodes) {
@@ -72,16 +96,22 @@ ngapp.service('searchService', function(progressService) {
     };
 
     // PUBLIC
-    this.search = function({nodes, scope, filterOptions}) {
+    this.search = function(options) {
+        let {nodes, scope, filterOptions} = options;
         progressService.showProgress({ message: 'Searching...' });
         try {
-            let records = resolveScope(scope, nodes),
+            let resolvedScope = resolveScope(scope, nodes),
+                records = resolvedScope.handles,
                 count = records.length,
                 {filters, mode} = filterOptions,
                 results = records.filter(function(record, index) {
                     filteringMessage(index, count);
                     return service.filter(record, filters, mode);
                 });
+            options.scopeLabel = {
+                short: resolvedScope.shortLabel,
+                long: resolvedScope.longLabel
+            };
             progressService.progressMessage('Building tree...');
             setFilterResults(results);
             return results;
