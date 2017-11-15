@@ -42,12 +42,12 @@ ngapp.service('filterFactory', function(searchService) {
     };
 
     let hasStringValue = function(record, filter) {
-        let element = 0;
-        do {
-            element = xelib.FindNextElement(record, filter.value, false, true);
+        let element = record;
+        while(element) {
+            element = xelib.FindNextElement(element, filter.value, false, true);
             let value = xelib.GetValue(element);
             if (stringCompare[filter.compareType](value, filter)) return true;
-        } while(element);
+        }
     };
 
     let numberCompare = {
