@@ -46,7 +46,7 @@
     <tr>
         <td class="nowrap">Modules <span class="better"></span></td>
         <td>
-            zEdit introduces a module system, which allows developers to extend or add functionality to zEdit.  xEdit has no such system, limitng larger contributions to the main codebase or standalone applications.
+            zEdit introduces a module system, which allows developers to extend or add functionality to zEdit.  xEdit has no such system, limiting larger contributions to the main codebase or standalone applications.
         </td>
     </tr>
     <tr>
@@ -58,7 +58,7 @@
     <tr>
         <td class="nowrap">Performance <span class="equivalent"></span></td>
         <td>
-            zEdit offers native Delphi performance within DLL functions, but has some flat overhead per each DLL function call due to data marshalling in JavaScript.  Techniques such as UI virtualization and data caching are used to keep the GUI as fast and efficient as possible.  You shouldn't notice any difference in performance unless you use the scrollbar to quickly scroll through 1000+ nodes in the tree view.
+            zEdit offers native Delphi performance by calling xEdit DLL functions.  Techniques such as UI virtualization and data caching are used to keep the GUI as fast and efficient as possible.
         </td>
     </tr>
     <tr>
@@ -170,6 +170,18 @@
         </td>
     </tr>
     <tr>
+        <td class="nowrap">Filtering <span class="better"></span></td>
+        <td>
+            zEdit offers more extensive filtering functionality than xEdit through the <a href="docs://Modal Views/Advanced Search Modal">Advanced Search Modal</a>.  zEdit's filtering allows users to create a flexible set of conditional statements for filtering without resorting to writing code.  It also allows users to filter a scope of records, making filtering faster in practice the majority of the time.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Referenced by view <span class="planned"></span></td>
+        <td>
+            A view similar to xEdit's referenced by tab is planned but not yet included in zEdit.
+        </td>
+    </tr>
+    <tr>
         <td class="nowrap">Spreadsheet view <span class="planned"></span></td>
         <td>
             A view similar to xEdit's spreadsheet tab is planned but not yet included in zEdit.
@@ -179,12 +191,6 @@
         <td class="nowrap">Messages view <span class="planned"></span></td>
         <td>
             A view similar to xEdit's messages tab is planned but not yet included in zEdit.
-        </td>
-    </tr>
-    <tr>
-        <td class="nowrap">Filtering <span class="planned"></span></td>
-        <td>
-            xEdit's filter functionality is planned but not yet included in zEdit.
         </td>
     </tr>
     </tbody>
