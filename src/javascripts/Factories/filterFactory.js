@@ -41,6 +41,15 @@ ngapp.service('filterFactory', function(searchService) {
         }
     };
 
+    let hasStringValue = function(record, filter) {
+        let element = 0;
+        do {
+            element = xelib.FindNextElement(record, filter.value, false, true);
+            let value = xelib.GetValue(element);
+            if (stringCompare[filter.compareType](value, filter)) return true;
+        } while(element);
+    };
+
     let numberCompare = {
         'Equal to': (n, filter) => { return n === filter.value },
         'Not equal to': (n, filter) => { return n !== filter.value },
@@ -85,11 +94,17 @@ ngapp.service('filterFactory', function(searchService) {
                 type: 'String',
                 path: path,
                 compareType: 'Contains',
-                compareTypes: ['Contains', 'Exact match', 'Regex'],
                 value: '',
                 templateUrl: 'partials/filters/string.html',
-                exportKeys: ['path', 'compareType', 'value'],
+                exportKeys: ['path', 'compareType', 'value', 'allPaths', 'ignoreCase'],
+                allPaths: false,
+                ignoreCase: false,
+                allPathsChanged: function() {
+                    if (this.compareType !== 'Regex') return;
+                    this.compareType = 'Contains';
+                },
                 test: function(record) {
+                    if (this.allPaths) return hasStringValue(record, this);
                     let value = xelib.GetValue(record, this.path);
                     return stringCompare[this.compareType](value, this);
                 }
