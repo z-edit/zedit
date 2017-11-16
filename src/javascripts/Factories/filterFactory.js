@@ -208,7 +208,7 @@ ngapp.service('filterFactory', function(searchService) {
             }
         },
         'Conflict Status': function(path = '') {
-            return {
+            let filter = {
                 type: 'Conflict Status',
                 path: path,
                 conflictAllOptions: xelib.conflictAll,
@@ -221,16 +221,18 @@ ngapp.service('filterFactory', function(searchService) {
                     let nodes = xelib.GetNodes(record),
                         element = xelib.GetElement(record, path);
                     try {
-                        let [ca, ct] = xelib.GetConflictData(nodes, element),
-                            caString = xelib.conflictAll[ca],
-                            ctString = xelib.conflictThis[ct];
-                        return this[caString] && this[ctString];
+                        let [ca, ct] = xelib.GetConflictData(nodes, element);
+                        return this[xelib.conflictAll[ca]] &&
+                            this[xelib.conflictThis[ct]];
                     } finally {
                         xelib.ReleaseNodes(nodes);
                         xelib.Release(element);
                     }
                 }
-            }
+            };
+            xelib.conflictAll.forEach((ca) => filter[ca] = true);
+            xelib.conflictThis.forEach((ct) => filter[ct] = true);
+            return filter;
         },
         'Referenced By': function() {
             return {
