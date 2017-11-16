@@ -65,6 +65,7 @@
     "label": "Modal Views",
     "children": [
       { "label": "Help Modal" },
+      { "label": "Manage Extensions Modal" },
       { "label": "Profiles Modal" },
       { "label": "Load Order Modal" },
       {
