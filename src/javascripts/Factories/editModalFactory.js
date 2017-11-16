@@ -1,4 +1,19 @@
 ngapp.service('editModalFactory', function() {
+    this.saveFileAs = function(node, scope) {
+        let dataPath = xelib.GetGlobal('DataPath');
+        scope.$emit('openModal', 'edit', {
+            title: 'Save File As',
+            class: 'edit-modal save-file-as-modal',
+            editType: 'string',
+            maxLength: 64,
+            initialValue: `${dataPath}${xelib.Name(node.handle)}`,
+            isValid: (value) => { return value.length > 0 },
+            callback: (filePath) => {
+                xelib.SaveFile(node.handle, filePath);
+            }
+        });
+    };
+
     this.addFile = function(scope, callback) {
         scope.$emit('openModal', 'edit', {
             title: 'Add File',

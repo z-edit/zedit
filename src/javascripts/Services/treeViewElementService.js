@@ -224,6 +224,11 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
             scope.$emit('openModal', modal, { nodes: scope.selectedNodes });
         };
 
+        scope.savePluginAs = function() {
+            let node = scope.selectedNodes.last();
+            editModalFactory.saveFileAs(node, scope);
+        };
+
         scope.addMasters = function(node) {
             scope.$emit('openModal', 'addMasters', { handle : node.handle });
         };
