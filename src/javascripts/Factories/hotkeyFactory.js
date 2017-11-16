@@ -77,10 +77,10 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'enableEditing'
         }],
-        f2: 'rename',
+        f2: 'refactor',
         r: [{
             modifiers: ['altKey', 'shiftKey'],
-            callback: 'rename'
+            callback: 'refactor'
         }],
         c: [{
             modifiers: ['ctrlKey', 'shiftKey'],
