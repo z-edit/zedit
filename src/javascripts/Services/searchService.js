@@ -17,7 +17,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
         xelib.WithHandles(handles, function(handles) {
             handles.forEach(function(handle) {
                 gettingRecordsMessage(handle);
-                records.push(...xelib.GetRecords(handle, '', true));
+                records.unite(xelib.GetRecords(handle, '', true));
             });
         });
         return records;
@@ -72,7 +72,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
         filenames.forEach(function(filename) {
             xelib.WithHandles(xelib.FileByName(filename), function(file) {
                 gettingRecordsMessage(file);
-                handles.push(...xelib.GetRecords(file, signaturesStr, true));
+                handles.unite(xelib.GetRecords(file, signaturesStr, true));
             });
         });
         return {
