@@ -9,7 +9,7 @@ ngapp.service('hotkeyFactory', function() {
         }],
         s: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: 'toggleSettings'
+            callback: (scope) => scope.$broadcast('openModal', 'settings')
         }, {
             modifiers: ['ctrlKey'],
             callback: (scope) => scope.$broadcast('save')
