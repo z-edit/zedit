@@ -96,7 +96,14 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'copyNodes'
         }],
-        v: 'handleV'
+        v: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: (scope) => scope.pasteNodes(false)
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: (scope) => scope.pasteNodes(true)
+        }],
+        default: 'handleLetter'
     };
 
     this.recordViewHotkeys = {
