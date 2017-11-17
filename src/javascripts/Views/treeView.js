@@ -20,15 +20,20 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     // helper functions
     let getFirstSiblingIndex = function() {
         let startIndex = $scope.tree.indexOf($scope.selectedNodes.last()),
-            targetDepth = $scope.tree[startIndex].depth;
-        for (let i = startIndex; i >= 1; i--) {
-            if ($scope.tree[i - 1].depth < targetDepth) return i;
-        }
+            targetDepth = $scope.tree[startIndex].depth,
+            i = startIndex;
+        for (; i >= 1; i--)
+            if ($scope.tree[i - 1].depth < targetDepth) break;
+        return i;
     };
 
     let nodeMatches = function(node) {
         if (!node.has_data) $scope.getNodeData(node);
-        return node.column_values[0].toLowerCase().startsWith(letterQueue);
+        let i = node.element_type === xelib.etMainRecord ? 1 : 0,
+            value = node.column_values[i].toLowerCase();
+        if (node.element_type === xelib.etFile)
+            return value.slice(5).startsWith(letterQueue);
+        return value.startsWith(letterQueue);
     };
 
     let selectNextNode = function(index) {
