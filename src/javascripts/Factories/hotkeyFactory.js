@@ -9,10 +9,14 @@ ngapp.service('hotkeyFactory', function() {
         }],
         s: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: 'toggleSettings'
+            callback: (scope) => scope.$broadcast('openModal', 'settings')
         }, {
             modifiers: ['ctrlKey'],
             callback: (scope) => scope.$broadcast('save')
+        }],
+        h: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: (scope) => scope.$emit('openModal', 'help')
         }],
         e: [{
             modifiers: ['ctrlKey', 'shiftKey'],
@@ -73,10 +77,14 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'enableEditing'
         }],
-        f2: 'rename',
+        s: [{
+            modifiers: ['ctrlKey', 'altKey'],
+            callback: 'savePluginAs'
+        }],
+        f2: 'refactor',
         r: [{
             modifiers: ['altKey', 'shiftKey'],
-            callback: 'rename'
+            callback: 'refactor'
         }],
         c: [{
             modifiers: ['ctrlKey', 'shiftKey'],
@@ -88,7 +96,14 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'copyNodes'
         }],
-        v: 'handleV'
+        v: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: (scope) => scope.pasteNodes(false)
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: (scope) => scope.pasteNodes(true)
+        }],
+        default: 'handleLetter'
     };
 
     this.recordViewHotkeys = {

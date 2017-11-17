@@ -5,14 +5,14 @@
 <div class="flex">
     <div>
         <b title="Conflict All">Overall Conflict Status</b>
-        <label ng-repeat="ca in filter.conflictAllOptions" ng-init="filter[ca] = true">
+        <label ng-repeat="ca in filter.conflictAllOptions">
             <input type="checkbox" ng-model="filter[ca]"/>
             <span title="{{::ca}}">{{::ca.slice(2).humanize()}}</span>
         </label>
     </div>
     <div>
         <b title="Conflict This">Element Conflict Status</b>
-        <label ng-repeat="ct in filter.conflictThisOptions" ng-init="filter[ct] = true">
+        <label ng-repeat="ct in filter.conflictThisOptions">
             <input type="checkbox" ng-model="filter[ct]"/>
             <span title="{{::ct}}">{{::ct.slice(2).humanize()}}</span>
         </label>

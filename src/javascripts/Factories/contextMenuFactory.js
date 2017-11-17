@@ -1,4 +1,4 @@
-ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers) {
+ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, editModalFactory) {
     let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
     // helper functions
@@ -131,6 +131,19 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers) {
                 callback: () => scope.$emit('openModal', modal, {
                     nodes: scope.selectedNodes
                 })
+            });
+        }
+    }, {
+        id: 'Save Plugin As',
+        visible: (scope) => {
+            if (!scope.selectedNodes.length) return;
+            return isFileNode(scope.selectedNodes.last());
+        },
+        build: (scope, items) => {
+            items.push({
+                label: 'Save Plugin As',
+                hotkey: 'Ctrl+Alt+S',
+                callback: scope.savePluginAs
             });
         }
     }, {

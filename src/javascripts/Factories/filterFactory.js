@@ -41,6 +41,15 @@ ngapp.service('filterFactory', function(searchService) {
         }
     };
 
+    let hasStringValue = function(record, filter) {
+        let element = record;
+        while(element) {
+            element = xelib.FindNextElement(element, filter.value, false, true);
+            let value = xelib.GetValue(element);
+            if (stringCompare[filter.compareType](value, filter)) return true;
+        }
+    };
+
     let numberCompare = {
         'Equal to': (n, filter) => { return n === filter.value },
         'Not equal to': (n, filter) => { return n !== filter.value },
@@ -85,11 +94,17 @@ ngapp.service('filterFactory', function(searchService) {
                 type: 'String',
                 path: path,
                 compareType: 'Contains',
-                compareTypes: ['Contains', 'Exact match', 'Regex'],
                 value: '',
                 templateUrl: 'partials/filters/string.html',
-                exportKeys: ['path', 'compareType', 'value'],
+                exportKeys: ['path', 'compareType', 'value', 'allPaths', 'ignoreCase'],
+                allPaths: false,
+                ignoreCase: false,
+                allPathsChanged: function() {
+                    if (this.compareType !== 'Regex') return;
+                    this.compareType = 'Contains';
+                },
                 test: function(record) {
+                    if (this.allPaths) return hasStringValue(record, this);
                     let value = xelib.GetValue(record, this.path);
                     return stringCompare[this.compareType](value, this);
                 }
@@ -100,8 +115,6 @@ ngapp.service('filterFactory', function(searchService) {
                 type: 'Number',
                 path: path,
                 compareType: 'Equal to',
-                compareTypes: ['Equal to', 'Not equal to', 'Greater than',
-                    'Less than', 'Range'],
                 value: 0,
                 secondValue: 0,
                 templateUrl: 'partials/filters/number.html',
@@ -130,12 +143,11 @@ ngapp.service('filterFactory', function(searchService) {
             return {
                 type: 'Base Record',
                 compareType: 'Signature',
-                compareTypes: ['Signature', 'Editor ID', 'Name'],
-                placeholders: [
-                    'Enter a comma separated list of signatures',
-                    'Enter a substring to search for',
-                    'Enter a substring to search for'
-                ],
+                placeholders: {
+                    'Signature': 'Enter a comma separated list of signatures',
+                    'Editor ID': 'Enter a substring to search for',
+                    'Name': 'Enter a substring to search for'
+                },
                 value: '',
                 ignoreCase: false,
                 templateUrl: 'partials/filters/baseRecord.html',
@@ -196,7 +208,7 @@ ngapp.service('filterFactory', function(searchService) {
             }
         },
         'Conflict Status': function(path = '') {
-            return {
+            let filter = {
                 type: 'Conflict Status',
                 path: path,
                 conflictAllOptions: xelib.conflictAll,
@@ -209,22 +221,23 @@ ngapp.service('filterFactory', function(searchService) {
                     let nodes = xelib.GetNodes(record),
                         element = xelib.GetElement(record, path);
                     try {
-                        let [ca, ct] = xelib.GetConflictData(nodes, element),
-                            caString = xelib.conflictAll[ca],
-                            ctString = xelib.conflictThis[ct];
-                        return this[caString] && this[ctString];
+                        let [ca, ct] = xelib.GetConflictData(nodes, element);
+                        return this[xelib.conflictAll[ca]] &&
+                            this[xelib.conflictThis[ct]];
                     } finally {
                         xelib.ReleaseNodes(nodes);
                         xelib.Release(element);
                     }
                 }
-            }
+            };
+            xelib.conflictAll.forEach((ca) => filter[ca] = true);
+            xelib.conflictThis.forEach((ct) => filter[ct] = true);
+            return filter;
         },
         'Referenced By': function() {
             return {
                 type: 'Referenced By',
                 compareType: 'Record Type',
-                compareTypes: ['Record Type', 'File'],
                 recordTypes: recordTypes || getRecordTypes(),
                 filenames: filenames || getFileNames(),
                 templateUrl: 'partials/filters/referencedBy.html',
@@ -246,7 +259,6 @@ ngapp.service('filterFactory', function(searchService) {
             return {
                 type: 'Group',
                 mode: 'and',
-                modes: ['and', 'or'],
                 children: [],
                 templateUrl: 'partials/filters/group.html',
                 test: function(record) {

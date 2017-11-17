@@ -246,5 +246,18 @@
       "type": "object"
     }],
     "description": "Assigns properties from `defaults` to `target`.  If a property is already set on `target` it is **not** overwritten."
+  },
+  {
+    "api": "Function",
+    "name": "execute",
+    "type": "function",
+    "args": [{
+      "name": "args",
+      "type": "object"
+    }, {
+      "name": "code",
+      "type": "string"
+    }],
+    "description": "Creates a function using `code` which accepts the keys of the `args` object as its arguments.  Executes the function with the values of the `args` object and returns the result."
   }
 ]

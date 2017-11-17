@@ -191,10 +191,10 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         };
 
         scope.deleteElements = function() {
-            let doDelete = () => scope.selectedNodes.forEach(scope.deleteElement);
+            let doDelete = (nodes) => nodes.forEach(scope.deleteElement);
             if (settings.treeView.promptOnDeletion) {
                 scope.deletionPrompt().then(function(result) {
-                    if (result) doDelete();
+                    if (result) doDelete(scope.selectedNodes);
                 });
             } else {
                 doDelete();
@@ -217,22 +217,20 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
             referenceService.buildReferences(fileHandles);
         };
 
-        scope.changeFileName = function(node) {
-            editModalFactory.renameFile(node, scope);
+        scope.refactor = function() {
+            let node = scope.selectedNodes.last(),
+                isFileNode = nodeHelpers.isFileNode,
+                modal = `refactor${isFileNode(node) ? 'File' : 'Records'}`;
+            scope.$emit('openModal', modal, { nodes: scope.selectedNodes });
         };
 
-        scope.changeFileAuthor = function(node) {
-            editModalFactory.changeFileAuthor(node, scope);
-        };
-
-        scope.changeFileDescription = function(node) {
-            editModalFactory.changeFileDescription(node, scope);
+        scope.savePluginAs = function() {
+            let node = scope.selectedNodes.last();
+            editModalFactory.saveFileAs(node, scope);
         };
 
         scope.addMasters = function(node) {
-            scope.$emit('openModal', 'addMasters', {
-                handle : node.handle
-            });
+            scope.$emit('openModal', 'addMasters', { handle : node.handle });
         };
 
         scope.copyNodes = function() {

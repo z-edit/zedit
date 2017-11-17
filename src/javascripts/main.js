@@ -92,7 +92,7 @@ app.on('ready', function () {
 app.on('window-all-closed', () => app.quit());
 
 ipcMain.on('show-progress', (e, p) => {
-    progressWindow.setBounds(mainWindow.getBounds());
+    progressWindow.setBounds(mainWindow.getContentBounds());
     progSend('set-progress', p);
     showProgressTimeout = setTimeout(() => progressWindow.show(), 50);
 });

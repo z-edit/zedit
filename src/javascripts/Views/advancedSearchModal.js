@@ -1,30 +1,29 @@
 ngapp.controller('advancedSearchModalController', function($scope, searchService, filterFactory) {
-    $scope.filterModes = ['and', 'or'];
-
-    let defaultSearchScopes = {
-        etMainRecord: 'Selected records',
-        etGroupRecord: 'Current group',
-        etFile: 'Current file',
-        default: 'All files'
+    let validSearchScopes = {
+        etFile: ['All files', 'Selected files', 'Custom'],
+        etGroupRecord: ['All files', 'Selected files', 'Selected groups', 'Custom'],
+        etMainRecord: ['All files', 'Selected files', 'Selected groups', 'Selected records', 'Custom'],
+        default: ['All files', 'Custom']
     };
 
-    let getValidSearchScopes = function(node) {
-        let searchScopes = ['All files'];
-        if (node) {
-            searchScopes.push('Current file');
-            if (node.element_type !== xelib.etFile)
-                searchScopes.push('Current group');
-            if (node.element_type !== xelib.etGroupRecord)
-                searchScopes.push('Selected records');
-        }
-        return searchScopes.concat(['Custom']);
+    let prepareNodes = function() {
+        return $scope.modalOptions.nodes.map(function(node) {
+            return {
+                handle: xelib.GetElementEx(node.handle),
+                element_type: node.element_type
+            }
+        });
+    };
+
+    let getSearchScope = function() {
+        if ($scope.searchScope === 'Custom') return $scope.customScope;
+        return $scope.searchScope;
     };
 
     let getSearchOptions = function() {
         return {
-            nodes: $scope.modalOptions.nodes,
-            scope: $scope.searchScope === 'Custom' ?
-                $scope.customScope : $scope.searchScope,
+            nodes: prepareNodes(),
+            scope: getSearchScope(),
             filterOptions: {
                 mode: $scope.filterMode,
                 filters: $scope.filters
@@ -59,12 +58,23 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
         };
     };
 
+    let setSearchScope = function(searchScope) {
+        let searchScopes = $scope.searchScopes;
+        if (!searchScope) {
+            $scope.searchScope = searchScopes[searchScopes.length - 2];
+        } else if (typeof searchScope === 'string') {
+            $scope.searchScope = searchScope;
+        } else {
+            $scope.searchScope = 'Custom';
+            $scope.customScope = searchScope;
+        }
+    };
+
     // scope functions
     $scope.search = function() {
         let searchOptions = getSearchOptions();
         $scope.$root.$broadcast('searchResults', {
             results: searchService.search(searchOptions),
-            scopeLabel: $scope.searchScope,
             searchOptions: searchOptions
         });
         $scope.$emit('closeModal');
@@ -86,11 +96,13 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     };
 
     // initialization
-    let node = $scope.modalOptions.nodes[0],
+    let nodes = $scope.modalOptions.nodes,
+        node = nodes[0],
+        filterOptions = $scope.modalOptions.filterOptions,
         elementType = node && xelib.elementTypes[node.element_type];
 
-    $scope.searchScopes = getValidSearchScopes(node);
-    $scope.searchScope = defaultSearchScopes[elementType || 'default'];
-    $scope.filterMode = 'and';
-    $scope.filters = [];
+    $scope.searchScopes = validSearchScopes[elementType || 'default'];
+    setSearchScope($scope.modalOptions.scope);
+    $scope.filterMode = filterOptions ? filterOptions.mode : 'and';
+    $scope.filters = filterOptions ? filterOptions.filters : [];
 });

@@ -4,7 +4,13 @@
 </label>
 <label>
     <span class="input-label">Value</span>
-    <select ng-model="filter.compareType" ng-options="item for item in filter.compareTypes"></select>
+    <select ng-model="filter.compareType">
+        <option>Equal to</option>
+        <option>Not equal to</option>
+        <option>Greater than</option>
+        <option>Less than</option>
+        <option>Range</option>
+    </select>
     <number-input model="filter.value"></number-input>
     <span ng-show="filter.compareType === 'Range'" class="range-to-label">to</span>
     <number-input model="filter.secondValue" ng-show="filter.compareType === 'Range'"></number-input>

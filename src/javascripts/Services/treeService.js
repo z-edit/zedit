@@ -95,6 +95,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             let removedNodes = scope.tree.splice(startIndex, endIndex - startIndex);
             removedNodes.forEach(function(node) {
                 if (node.handle) xelib.Release(node.handle);
+                if (node.kac) xelib.Release(node.kac);
                 if (node.handles) {
                     node.handles.forEach((handle) => handle && xelib.Release(handle));
                 }

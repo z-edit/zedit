@@ -1,6 +1,9 @@
 <label>
     <span class="input-label">Mode</span>
-    <select ng-model="filter.mode" ng-options="mode for mode in filter.modes"></select>
+    <select ng-model="filter.mode">
+        <option>and</option>
+        <option>or</option>
+    </select>
 </label>
 <h4>Filters
     <span class="actions">

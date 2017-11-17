@@ -1,11 +1,19 @@
+import 'angular';
+import 'angular-ui-router';
+import 'ui-router-extras';
+import 'angular-spinner';
+import 'angular-color-picker';
+import 'angular-elastic-input';
+import 'angular-marked';
+import 'angular-vs-repeat';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
-import './polyfills';
-import './color';
 import fh from './helpers/fileHelpers';
 import env from './env';
-import './xelib';
 import buildModuleService from './helpers/moduleService';
+import './polyfills';
+import './color';
+window.xelib = require('xelib').wrapper;
 
 // handle uncaught exceptions
 window.startupCompleted = false;
@@ -16,7 +24,13 @@ process.on('uncaughtException', function(e) {
 });
 
 // initialize xelib when application starts
-xelib.Initialize();
+try {
+    const libPath = jetpack.path('XEditLib.dll');
+    xelib.Initialize(libPath);
+} catch (e) {
+    alert(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
+    remote.app.quit();
+}
 
 // set up angular application
 const ngapp = angular.module('zedit', [

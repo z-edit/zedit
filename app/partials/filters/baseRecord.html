@@ -1,7 +1,11 @@
 <label class="flex">
     <span class="input-label">Value</span>
-    <select ng-model="filter.compareType" ng-options="item for item in filter.compareTypes"></select>
-    <input type="text" ng-model="filter.value" title="{{filter.placeholders[filter.compareType]}}" />
+    <select ng-model="filter.compareType">
+        <option>Signature</option>
+        <option>Editor ID</option>
+        <option>Name</option>
+    </select>
+    <input type="text" ng-model="filter.value" placeholder="{{filter.placeholders[filter.compareType]}}" />
 </label>
 <div class="filter-options" ng-show="filter.compareType !== 'Signature'">
     <label>

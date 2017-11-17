@@ -3,15 +3,13 @@ export default function(ngapp, fh) {
         failures = [],
         loaders = {
             default: function(module, fh, ngapp, moduleService) {
-                let args = {
+                Function.execute({
                     ngapp: ngapp,
                     fh: fh,
                     info: module.info,
                     modulePath: module.path,
                     moduleService: moduleService
-                };
-                let fn = new Function(...Object.keys(args), module.code);
-                fn(...Object.values(args));
+                }, module.code);
             }
         },
         deferredModules = [];
@@ -20,7 +18,7 @@ export default function(ngapp, fh) {
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
-            path: fh.getFileUrl(modulePath),
+            path: fh.pathToFileUrl(modulePath),
             code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
         }
     };

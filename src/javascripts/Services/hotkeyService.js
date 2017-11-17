@@ -37,6 +37,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         typeStr === 'function' ? action(scope, e) : scope[action](e);
         stop && e.stopImmediatePropagation();
         stop && e.preventDefault();
+        return true;
     };
 
     let keyEventHandler = function(scope, hotkeys, type) {
@@ -46,7 +47,9 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
                 return e.keyCode === keycodes[key];
             }) || 'default';
             if (!hotkeys[hotkey]) return;
-            trigger(scope, hotkeys[hotkey], e, hotkey !== 'default');
+            if (!trigger(scope, hotkeys[hotkey], e, hotkey !== 'default')) {
+                if (hotkeys.default) trigger(scope, hotkeys.default, e, true);
+            }
         };
     };
 

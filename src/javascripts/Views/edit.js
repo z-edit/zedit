@@ -55,11 +55,16 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
     });
 
     $scope.$on('searchResults', function(e, options) {
-        console.log(options.results);
-        let resultsView = layoutService.findView(function(view) {
-            return view.class === 'filter-view';
+        let filterView = layoutService.findView(function(view) {
+            if (view.class === 'filter-view') {
+                view.searchOptions.nodes.forEach(function(node) {
+                    xelib.Release(node.handle);
+                });
+                view.results.forEach(xelib.Release);
+                return true;
+            }
         }) || createFilterView();
-        Object.defaults(resultsView, options);
+        Object.assign(filterView, options);
     });
 
     // handle hotkeys
