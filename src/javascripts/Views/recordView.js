@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory, gridService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -8,6 +8,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.contextMenuItems = contextMenuFactory.recordViewItems;
 
     // inherited functions
+    gridService.buildFunctions($scope, $element);
     treeService.buildFunctions($scope, $element);
     recordViewService.buildFunctions($scope);
     recordViewElementService.buildFunctions($scope);
@@ -63,7 +64,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             const ref = xelib.GetLinksTo(id, path);
             if (ref > 0) {
                 $scope.record = ref;
-                $scope.syncWithLinkedViews(ref);
                 return;
             }
         }
@@ -104,7 +104,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     // event handling
     $scope.$on('setRecord', function(e, record) {
         $scope.record = record;
-        $scope.syncWithLinkedViews(record);
         e.stopPropagation();
     });
     $scope.$on('recordUpdated', function(e, record) {
@@ -157,6 +156,11 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.buildColumns();
             $scope.buildTree();
             $scope.$broadcast('recordChanged');
+            let referencedByView = $scope.view.linkedReferencedByView;
+            if (referencedByView) {
+                referencedByView.scope.record = xelib.GetElementEx($scope.record, '');
+            }
+
             $timeout($scope.resolveElements, 100);
         }
     });
@@ -164,4 +168,5 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.showAddressBar = true;
     $scope.autoExpand = true;
     $timeout($scope.linkToTreeView, 100);
+    $timeout($scope.linkToReferencedByView, 100);
 });

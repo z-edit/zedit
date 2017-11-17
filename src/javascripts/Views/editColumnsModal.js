@@ -1,4 +1,4 @@
-ngapp.controller('editColumnsModalController', function($scope, xelibService) {
+ngapp.controller('editColumnsModalController', function($scope, xelibService, columnsService) {
     // helper functions
     let getNewColumnLabel = function() {
         let baseLabel = "New Column",
@@ -39,16 +39,15 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService) {
 
     $scope.close = function() {
         $scope.allColumns.forEach(function(column) {
-            if (column.custom) $scope.columnsService.buildDataFunction(column);
+            if (column.custom) columnsService.buildDataFunction(column);
         });
         $scope.$root.$broadcast('rebuildColumns');
-        $scope.columnsService.saveColumns();
+        columnsService.saveColumns();
         $scope.$emit('closeModal');
     };
 
     // initialization
     $scope.allColumns = $scope.modalOptions.allColumns;
-    $scope.columnsService = $scope.modalOptions.columnsService;
     let firstCustomColumn = $scope.allColumns.find(function(column) {
         return column.custom;
     });

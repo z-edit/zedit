@@ -4,10 +4,10 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
         scope.releaseTree = referencedByViewFactory.releaseTree;
 
         scope.buildTree = function() {
-            xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
             scope.tree = xelib.GetReferencedBy(scope.record).map(function(handle) {
                 return scope.buildNode(handle);
             });
+            scope.sortTree();
         };
 
         // PUBLIC
@@ -19,10 +19,46 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
         scope.onDrop = function() {
             let dragData = scope.$root.dragData;
             if (!dragData || dragData.source !== 'treeView') return;
-            let node = dragData.node,
-                path = node.element_type === xelib.etFile ? 'File Header' : '';
-            scope.record = xelib.GetElementEx(node.handle, path);
-            scope.syncWithLinkedViews(scope.record);
+            let node = dragData.node;
+            scope.open(xelib.GetElementEx(node.handle, ''));
+        };
+
+        scope.toggleSort = function(column) {
+            if (!column.canSort) return;
+            if (scope.sort.column !== column.label) {
+                scope.sort.column = column.label;
+                scope.sort.reverse = false;
+            } else {
+                scope.sort.reverse = !scope.sort.reverse;
+            }
+            scope.sortTree();
+        };
+
+        scope.sortTree = function() {
+            const colIndex = scope.allColumns.findIndex(column => {
+                return column.label === scope.sort.column;
+            });
+            if (colIndex === -1) return;
+            scope.tree.sort((a, b) => {
+                if (!a.has_data) scope.getNodeData(a);
+                if (!b.has_data) scope.getNodeData(b);
+                return a.column_values[colIndex] > b.column_values[colIndex];
+            });
+            if (scope.sort.reverse) {
+                scope.tree.reverse();
+            }
+        }
+
+        scope.linkToRecordView = function() {
+            let recordView = layoutService.findView(function(view) {
+                return view.class === 'record-view' && !view.linkedReferencedByView;
+            });
+            if (!recordView) {
+                scope.linkToTreeView();
+                return;
+            }
+            scope.view.linkTo(recordView);
+            recordView.linkTo(scope.view);
         };
 
         scope.linkToTreeView = function() {
@@ -32,12 +68,6 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
             if (!treeView) return;
             scope.view.linkTo(treeView);
             treeView.linkTo(scope.view);
-        };
-
-        scope.syncWithLinkedViews = function(record) {
-            if (scope.view.linkedTreeView && scope.view.linkedTreeView.linkedRecordView) {
-                scope.view.linkedTreeView.linkedRecordView.scope.record = record;
-            }
         };
     }
 });

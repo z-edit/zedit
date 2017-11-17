@@ -332,10 +332,13 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             treeView.linkTo(scope.view);
         };
 
-        scope.syncWithLinkedViews = function(record) {
-            if (scope.view.linkedTreeView && scope.view.linkedTreeView.linkedReferencedByView) {
-                scope.view.linkedTreeView.linkedReferencedByView.scope.record = record;
-            }
-        }
+        scope.linkToReferencedByView = function() {
+            let referencedByView = layoutService.findView(function(view) {
+                return view.class === 'referenced-by-view' && !view.linkedRecordView;
+            });
+            if (!referencedByView) return;
+            scope.view.linkTo(referencedByView);
+            referencedByView.linkTo(scope.view);
+        };
     };
 });

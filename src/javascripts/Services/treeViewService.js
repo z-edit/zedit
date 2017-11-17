@@ -18,21 +18,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         scope.releaseTree = treeViewFactory.releaseTree;
 
         // scope functions
-        scope.buildColumns = function() {
-            scope.columns = scope.allColumns.filter(function(column) {
-                return column.enabled;
-            });
-            let width = scope.columns.reduce(function(width, c) {
-                if (c.width) width += parseInt(c.width.slice(0, -1));
-                return width;
-            }, 0);
-            if (width > 100) {
-                let defaultWidth = Math.floor(100 / scope.columns.length) + '%';
-                scope.columns.slice(0, -1).forEach((column) => column.width = defaultWidth);
-            }
-            scope.resizeColumns();
-        };
-
         scope.buildTree = function() {
             xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
             scope.tree = getElements(0, '').map(function(handle) {
@@ -52,23 +37,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             if (!node.expanded) return;
             scope.collapseNode(node);
             scope.expandNode(node);
-        };
-
-        scope.resolveNode = function(path) {
-            let node = undefined,
-                handle = 0;
-            path.split('\\').forEach(function(part) {
-                let nextHandle = xelib.GetElementEx(handle, `${part}`);
-                if (handle > 0) xelib.Release(handle);
-                handle = nextHandle;
-                if (part !== 'Child Group') {
-                    node = scope.getNodeForElement(handle);
-                    if (!node) throw scope.resolveNodeError(path, part);
-                    if (!node.has_data) scope.getNodeData(node);
-                    if (!node.expanded) scope.expandNode(node);
-                }
-            });
-            return node;
         };
 
         scope.navigateToElement = function(handle, open) {
@@ -125,17 +93,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
                 node.can_expand = xelib.ElementCount(node.handle) >
                     +(nodeHelpers.isFileNode(node) && hideFileHeaders());
             }
-        };
-
-        scope.buildColumnValues = function(node) {
-            node.column_values = scope.columns.map(function(column) {
-                try {
-                    return column.getData(node, xelib);
-                } catch (x) {
-                    console.log(x);
-                    return { value: '' };
-                }
-            }).trimFalsy();
         };
 
         scope.getNodeData = function(node) {

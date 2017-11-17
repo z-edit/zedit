@@ -9,12 +9,16 @@ ngapp.service('referencedByViewFactory', function(viewFactory) {
         let scope = this.scope;
         scope.tree && factory.releaseTree(scope.tree);
         viewFactory.unlink(this.linkedTreeView, 'linkedReferencedByView');
+        viewFactory.unlink(this.linkedRecordView, 'linkedReferencedByView');
     };
 
     this.linkTo = function(view) {
         if (view.class === 'tree-view') {
             view.linkedReferencedByView = this;
             this.linkedTreeView = view;
+        } else if (view.class === 'record-view') {
+            view.linkedReferencedByView = this;
+            this.linkedRecordView = view;
         }
     };
 

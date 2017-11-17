@@ -27,8 +27,7 @@ ngapp.service('treeViewFactory', function(viewFactory) {
         if (view.class === 'record-view') {
             view.linkedTreeView = this;
             this.linkedRecordView = view;
-        }
-        if (view.class === 'referenced-by-view') {
+        } else if (view.class === 'referenced-by-view') {
             view.linkedTreeView = this;
             this.linkedReferencedByView = view;
         }
