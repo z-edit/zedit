@@ -42,8 +42,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     $scope.openColumnsModal = function() {
         $scope.$emit('openModal', 'editColumns', {
-            allColumns: $scope.allColumns,
-            columnsService: columnsService
+            allColumns: $scope.allColumns
         });
     };
 
