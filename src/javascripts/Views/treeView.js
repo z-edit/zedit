@@ -1,10 +1,9 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory, nodeHelpers) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
 
     // helper variables
-    let letterTimeout, queueLetter, letterQueue = '';
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.columns;
     $scope.contextMenuItems = contextMenuFactory.treeViewItems;
@@ -13,43 +12,10 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     treeService.buildFunctions($scope, $element);
     treeViewService.buildFunctions($scope);
     treeViewElementService.buildFunctions($scope);
+    typeToSearchService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope, true);
     treeColumnService.buildFunctions($scope, '.tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
-
-    // helper functions
-    let getFirstSiblingIndex = function() {
-        let startIndex = $scope.tree.indexOf($scope.selectedNodes.last()),
-            targetDepth = $scope.tree[startIndex].depth,
-            i = startIndex;
-        for (; i >= 1; i--)
-            if ($scope.tree[i - 1].depth < targetDepth) break;
-        return i;
-    };
-
-    let nodeMatches = function(node) {
-        if (!node.has_data) $scope.getNodeData(node);
-        let i = node.element_type === xelib.etMainRecord ? 1 : 0,
-            value = node.column_values[i].toLowerCase();
-        if (node.element_type === xelib.etFile)
-            return value.slice(5).startsWith(letterQueue);
-        return value.startsWith(letterQueue);
-    };
-
-    let selectNextNode = function(index) {
-        let targetDepth = $scope.tree[index].depth;
-        for (let i = index; i < $scope.tree.length; i++) {
-            let node = $scope.tree[i];
-            if (node.depth > targetDepth) continue;
-            if (node.depth < targetDepth) break;
-            if (nodeMatches(node)) {
-                $scope.clearSelection();
-                $scope.selectSingle(node);
-                return;
-            }
-        }
-        if (targetDepth > 0) selectNextNode(index - 1);
-    };
 
     // scope functions
     $scope.showContextMenu = function(e) {
@@ -100,18 +66,6 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     $scope.handleDelete = function(e) {
         $scope.deleteElements();
-        e.stopImmediatePropagation();
-    };
-
-    $scope.handleLetter = function(e) {
-        if (e.keyCode < 65 || e.keyCode > 90) return;
-        if (e.shiftKey || e.ctrlKey || e.altKey) return;
-        clearTimeout(letterTimeout);
-        letterTimeout = setTimeout(() => queueLetter = false, 500);
-        if (!queueLetter) letterQueue = '';
-        queueLetter = true;
-        letterQueue += e.key;
-        selectNextNode(getFirstSiblingIndex());
         e.stopImmediatePropagation();
     };
 
