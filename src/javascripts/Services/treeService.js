@@ -52,16 +52,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 item.class = classes.join(' ');
             }
         };
-        
+
         scope.hasNoChildren = function(node) {
             let checkIndex = scope.tree.indexOf(node) + 1;
             if (checkIndex >= scope.tree.length) return true;
             return scope.tree[checkIndex].depth <= node.depth;
-        };
-
-        scope.onNodeMouseDown = function(e, node) {
-            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
-            if (e.button === 2) scope.showContextMenu(e);
         };
 
         scope.setNodeModified = function(node) {
@@ -114,6 +109,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             e && e.stopImmediatePropagation();
             scope[node.expanded ? 'collapseNode' : 'expandNode'](node);
             scope.$emit('closeContextMenu');
+        };
+
+        scope.onNodeMouseDown = function(e, node) {
+            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
+            if (e.button === 2) scope.showContextMenu(e);
         };
 
         let scrollbarWidth = 17;
