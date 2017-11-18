@@ -1,13 +1,17 @@
 ngapp.service('referencedByViewService', function($timeout, layoutService, settingsService, xelibService, referencedByViewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // inherited functions
-        scope.releaseTree = referencedByViewFactory.releaseTree;
+        scope.releaseGrid = referencedByViewFactory.releaseGrid;
 
-        scope.buildTree = function() {
-            scope.tree = xelib.GetReferencedBy(scope.record).map(function(handle) {
-                return scope.buildNode(handle);
+        scope.buildGrid = function() {
+            scope.grid = xelib.GetReferencedBy(scope.record).map(function(handle) {
+                let node = {
+                    handle: handle
+                };
+                scope.getNodeData(node);
+                return node;
             });
-            scope.sortTree();
+            scope.sortGrid();
         };
 
         // PUBLIC
@@ -20,7 +24,7 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
             let dragData = scope.$root.dragData;
             if (!dragData || dragData.source !== 'treeView') return;
             let node = dragData.node;
-            scope.open(xelib.GetElementEx(node.handle, ''));
+            scope.open(node);
         };
 
         scope.toggleSort = function(column) {
@@ -31,43 +35,25 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
             } else {
                 scope.sort.reverse = !scope.sort.reverse;
             }
-            scope.sortTree();
+            scope.sortGrid();
         };
 
-        scope.sortTree = function() {
+        scope.sortGrid = function() {
             const colIndex = scope.allColumns.findIndex(column => {
                 return column.label === scope.sort.column;
             });
             if (colIndex === -1) return;
-            scope.tree.sort((a, b) => {
-                if (!a.has_data) scope.getNodeData(a);
-                if (!b.has_data) scope.getNodeData(b);
+            scope.grid.sort((a, b) => {
                 return a.column_values[colIndex] > b.column_values[colIndex];
             });
             if (scope.sort.reverse) {
-                scope.tree.reverse();
+                scope.grid.reverse();
             }
         }
 
-        scope.linkToRecordView = function() {
-            let recordView = layoutService.findView(function(view) {
-                return view.class === 'record-view' && !view.linkedReferencedByView;
-            });
-            if (!recordView) {
-                scope.linkToTreeView();
-                return;
-            }
-            scope.view.linkTo(recordView);
-            recordView.linkTo(scope.view);
-        };
-
-        scope.linkToTreeView = function() {
-            let treeView = layoutService.findView(function(view) {
-                return view.class === 'tree-view' && !view.linkedReferencedByView;
-            });
-            if (!treeView) return;
-            scope.view.linkTo(treeView);
-            treeView.linkTo(scope.view);
+        scope.selectNode = function(e, node) {
+            scope.clearSelection();
+            scope.selectSingle(node, true, false, false);
         };
     }
 });

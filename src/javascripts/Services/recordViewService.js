@@ -340,5 +340,12 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             scope.view.linkTo(referencedByView);
             referencedByView.linkTo(scope.view);
         };
+
+        scope.syncWithReferencedByView = function(record) {
+            let referencedByView = scope.view.linkedReferencedByView;
+            if (referencedByView) {
+                referencedByView.scope.record = xelib.GetElementEx(record, '');
+            }
+        }
     };
 });

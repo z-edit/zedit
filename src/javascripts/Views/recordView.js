@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory, gridService) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -8,7 +8,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.contextMenuItems = contextMenuFactory.recordViewItems;
 
     // inherited functions
-    gridService.buildFunctions($scope, $element);
     treeService.buildFunctions($scope, $element);
     recordViewService.buildFunctions($scope);
     recordViewElementService.buildFunctions($scope);
@@ -155,11 +154,8 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();
+            $scope.syncWithReferencedByView($scope.record);
             $scope.$broadcast('recordChanged');
-            let referencedByView = $scope.view.linkedReferencedByView;
-            if (referencedByView) {
-                referencedByView.scope.record = xelib.GetElementEx($scope.record, '');
-            }
 
             $timeout($scope.resolveElements, 100);
         }

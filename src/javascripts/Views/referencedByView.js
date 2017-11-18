@@ -8,10 +8,10 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
 
     // inherited functions
     gridService.buildFunctions($scope, $element);
+    nodeSelectionService.buildFunctions($scope, false);
     referencedByViewService.buildFunctions($scope);
     treeColumnService.buildFunctions($scope, '.referenced-by-view', true);
-    nodeSelectionService.buildFunctions($scope, false);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'referencedByView');
+    hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
 
     $scope.open = function(node) {
         let recordView = $scope.view.linkedRecordView;
@@ -34,10 +34,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         });
     };
 
-    $scope.onScroll = function(e) {
-        $scope.columnsElement.scrollLeft = e.currentTarget.scrollLeft;
-    };
-
     $scope.onNodeDoubleClick = function(e, node) {
         $scope.open(node);
     };
@@ -45,10 +41,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     $scope.handleEnter = function(e) {
         $scope.open($scope.lastSelectedNode());
         e.stopImmediatePropagation();
-    };
-
-    $scope.releaseHandles = function(oldValue) {
-        xelib.Release(oldValue);
     };
 
     // initialization
@@ -70,7 +62,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
 
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue === newValue) return;
-        if (oldValue) $scope.releaseHandles(oldValue);
+        if (oldValue) xelib.Release(oldValue);
         if (!newValue) {
             $scope.view.label = 'Referenced By View';
             return;
@@ -78,11 +70,9 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         $scope.view.label = xelib.Name(newValue);
         $scope.focusedIndex = -1;
         $scope.buildColumns();
-        $scope.buildTree();
+        $scope.buildGrid();
         $timeout($scope.resolveElements, 100);
     });
 
-    $scope.showAddressBar = false;
     $scope.sort = { column: 'Record', reverse: false };
-    $timeout($scope.linkToRecordView, 100);
 });

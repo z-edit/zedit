@@ -12,16 +12,15 @@ ngapp.service('columnsService', function(columnsFactory, nodeHelpers) {
         }
     };
 
-    this.addColumn = function(view, column) {
-        // TODO: Implement JS Sorting for Tree View custom columns
-        column.canSort = (view === 'referencedByView');
+    this.addColumn = function(columnConfig, column) {
+        column.canSort = columnConfig.customColumnsSortable;
         column.custom = true;
         service.buildDataFunction(column);
-        service.views[view].columns.push(column);
+        columnConfig.columns.push(column);
     };
 
-    this.activeColumns = function(view) {
-        return service.views[view].columns.filter(function(column) {
+    this.activeColumns = function(viewName) {
+        return columnsFactory[`${viewName}Columns`].columns.filter(function(column) {
             return column.enabled;
         }).map(function(column) {
             return {
@@ -31,8 +30,8 @@ ngapp.service('columnsService', function(columnsFactory, nodeHelpers) {
         });
     };
 
-    this.customColumns = function(view) {
-        return service.views[view].columns.filter(function(column) {
+    this.customColumns = function(viewName) {
+        return columnsFactory[`${viewName}Columns`].columns.filter(function(column) {
             return column.custom;
         }).map(function(column) {
             return {
@@ -42,19 +41,16 @@ ngapp.service('columnsService', function(columnsFactory, nodeHelpers) {
         });
     };
 
-    this.saveColumns = function() {
-        let data = {}; 
-        columnsFactory.views.forEach(view => {
-            data[view.viewId] = {
-                activeColumns: service.activeColumns(view.viewId),
-                customColumns: service.customColumns(view.viewId)
-            };
-        });
-        fh.saveJsonFile('columns.json', data);
+    this.saveColumns = function(viewName) {
+        let data = {
+            activeColumns: service.activeColumns(viewName),
+            customColumns: service.customColumns(viewName)
+        };
+        fh.saveJsonFile(`${viewName}Columns.json`, data);
     };
 
-    this.setColumnData = function(view, columnData) {
-        let column = service.views[view].columns.find(function(column) {
+    this.setColumnData = function(columnConfig, columnData) {
+        let column = columnConfig.columns.find(function(column) {
             return column.label === columnData.label;
         });
         if (column) {
@@ -63,22 +59,18 @@ ngapp.service('columnsService', function(columnsFactory, nodeHelpers) {
         }
     };
 
-    this.loadColumns = function() {
-        let fileData = fh.loadJsonFile('columns.json');
-        columnsFactory.views.forEach(view => {
-            let data = (!fileData || !fileData[view.viewId]) 
-                ? view.defaultColumnsConfig : fileData[view.viewId];
-            service.views[view.viewId] = {};
-            service.views[view.viewId].columns = view.defaultColumns;
-            data.customColumns.forEach((column) => service.addColumn(view.viewId, column));
-            data.activeColumns.forEach((column) => service.setColumnData(view.viewId, column));
-        });
+    this.loadColumns = function(columnConfig, viewName) {
+        let data = fh.loadJsonFile(`${viewName}Columns.json`) || columnConfig.defaultColumnsConfig;
+        columnConfig.columns = columnConfig.defaultColumns;
+        data.customColumns.forEach((column) => service.addColumn(columnConfig, column));
+        data.activeColumns.forEach((column) => service.setColumnData(columnConfig, column));
     };
 
-    this.getColumnsForView = function(view) {
-        return service.views[view].columns;
+    this.getColumnsForView = function(viewName) {
+        let columnConfig = columnsFactory[`${viewName}Columns`];
+        if (!columnConfig.columns) {
+            service.loadColumns(columnConfig, viewName);
+        }
+        return columnConfig.columns;
     }
-
-    // load columns immediately upon service initialization
-    service.loadColumns();
 });

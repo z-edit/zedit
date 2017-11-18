@@ -41,12 +41,21 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
+        scope.resolveNodeError = (path, part) => {
+            return new Error(`Failed to resolve node "${part}" in path "${path}"`);
+        };
+
         scope.addModifiedClass = function(item) {
             let classes = item.class.split(' ');
             if (!classes.includes('modified')) {
                 classes.push('modified');
                 item.class = classes.join(' ');
             }
+        };
+
+        scope.onNodeMouseDown = function(e, node) {
+            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
+            if (e.button === 2) scope.showContextMenu(e);
         };
 
         scope.hasNoChildren = function(node) {
@@ -129,6 +138,12 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             } else {
                 scope.treeElement.focus();
             }
+        };
+
+        scope.resolveElements = function() {
+            scope.tabView = element[0];
+            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.tree-nodes');
+            scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
         };
     }
 });

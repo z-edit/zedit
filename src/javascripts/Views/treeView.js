@@ -1,4 +1,4 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers, gridService) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -9,7 +9,6 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.contextMenuItems = contextMenuFactory.treeViewItems;
 
     // inherited functions
-    gridService.buildFunctions($scope, $element);
     treeService.buildFunctions($scope, $element);
     treeViewService.buildFunctions($scope);
     treeViewElementService.buildFunctions($scope);
@@ -30,19 +29,13 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
             // get a new handle for the record to be used with the record view
             let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             recordView.scope.record = xelib.GetElementEx(node.handle, path);
-        } else {
-            let referencedByView = $scope.view.linkedReferencedByView;
-            if (referencedByView) {
-                // get a new handle for the record to be used with the record view
-                let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
-                referencedByView.scope.record = xelib.GetElementEx(node.handle, path);
-            }
         }
     };
 
     $scope.openColumnsModal = function() {
         $scope.$emit('openModal', 'editColumns', {
-            allColumns: $scope.allColumns
+            allColumns: $scope.allColumns,
+            viewName: 'treeView'
         });
     };
 

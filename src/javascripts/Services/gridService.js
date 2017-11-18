@@ -1,19 +1,15 @@
-// Base view to show nodes and columns. It's like a tree view but with no depth. 
-// Utilized by all views. Functions for specialized views (e.g. treeView/recordView)
+// Base view to show nodes and columns. It's like a grid view but with no depth. 
+// Utilized by all views. Functions for specialized views (e.g. gridView/recordView)
 // will overwrite most of these base functions.
 ngapp.service('gridService', function($timeout, htmlHelpers) {
     this.buildFunctions = function(scope, element) {
         // scope functions
         scope.reload = function() {
-            if (!scope.tree) return;
-            let oldTree = scope.tree;
+            if (!scope.grid) return;
+            let oldGrid = scope.grid;
             scope.clearSelection(true);
-            scope.buildTree();
-            scope.releaseTree(oldTree);
-        };
-
-        scope.resolveNodeError = (path, part) => {
-            return new Error(`Failed to resolve node "${part}" in path "${path}"`);
+            scope.buildGrid();
+            scope.releaseGrid(oldGrid);
         };
 
         scope.onNodeMouseDown = function(e, node) {
@@ -23,7 +19,7 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
 
         scope.resolveElements = function() {
             scope.tabView = element[0];
-            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.tree-nodes');
+            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.grid-nodes');
             scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
         };
         
@@ -44,22 +40,6 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
             scope.resizeColumns();
         };
 
-        scope.resolveNode = function(path) {
-            let node,
-                handle = 0;
-            path.split('\\').forEach(function(part) {
-                let nextHandle = xelib.GetElementEx(handle, `${part}`);
-                if (handle > 0) xelib.Release(handle);
-                handle = nextHandle;
-                if (part !== 'Child Group') {
-                    node = scope.getNodeForElement(handle);
-                    if (!node) throw scope.resolveNodeError(path, part);
-                    if (!node.has_data) scope.getNodeData(node);
-                }
-            });
-            return node;
-        };
-
         scope.buildColumnValues = function(node) {
             node.column_values = scope.columns.map(function(column) {
                 try {
@@ -75,16 +55,6 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
             node.has_data = true;
             node.fid = xelib.GetFormID(node.handle);
             scope.buildColumnValues(node);
-        };
-
-        scope.getNodeClass = function(node) {
-            node.class = ' ';
-        };
-
-        scope.buildNode = function(handle) {
-            return {
-                handle: handle
-            }
         };
     }
 });
