@@ -12,7 +12,7 @@ ngapp.service('recordViewFactory', function(viewFactory) {
         scope.tree && factory.releaseTree(scope.tree);
         scope.virtualNodes && xelib.ReleaseNodes(scope.virtualNodes);
         viewFactory.unlink(this.linkedTreeView, 'linkedRecordView');
-        viewFactory.unlink(this.linkedRecordView, 'linkedReferencedByView');
+        viewFactory.unlink(this.linkedReferencedByView, 'linkedRecordView');
     };
 
     this.linkTo = function(view) {
