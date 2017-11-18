@@ -40,6 +40,20 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             });
         };
 
+        scope.rebuildNode = function(node) {
+            let index = scope.tree.indexOf(node);
+            scope.tree.splice(index, 1, {
+                handle: node.handle,
+                depth: node.depth
+            });
+        };
+
+        scope.rebuildChildren = function(node) {
+            if (!node.expanded) return;
+            scope.collapseNode(node);
+            scope.expandNode(node);
+        };
+
         scope.resolveNode = function(path) {
             let node = undefined,
                 handle = 0;
@@ -57,20 +71,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             return node;
         };
 
-        scope.rebuildNode = function(node) {
-            let index = scope.tree.indexOf(node);
-            scope.tree.splice(index, 1, {
-                handle: node.handle,
-                depth: node.depth
-            });
-        };
-
-        scope.rebuildChildren = function(node) {
-            if (!node.expanded) return;
-            scope.collapseNode(node);
-            scope.expandNode(node);
-        };
-
         scope.navigateToElement = function(handle, open) {
             if (handle === 0) return;
             let node = scope.resolveNode(xelib.LongPath(handle));
@@ -80,17 +80,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
                 if (open) scope.open(node);
                 $timeout(() => scope.scrollToNode(node, true));
             }
-        };
-
-        scope.buildColumnValues = function(node) {
-            node.column_values = scope.columns.map(function(column) {
-                try {
-                    return column.getData(node, xelib);
-                } catch (x) {
-                    console.log(x);
-                    return { value: '' };
-                }
-            }).trimFalsy();
         };
 
         scope.nodeHasHandle = function(node, handle) {
@@ -136,6 +125,17 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
                 node.can_expand = xelib.ElementCount(node.handle) >
                     +(nodeHelpers.isFileNode(node) && hideFileHeaders());
             }
+        };
+
+        scope.buildColumnValues = function(node) {
+            node.column_values = scope.columns.map(function(column) {
+                try {
+                    return column.getData(node, xelib);
+                } catch (x) {
+                    console.log(x);
+                    return { value: '' };
+                }
+            }).trimFalsy();
         };
 
         scope.getNodeData = function(node) {

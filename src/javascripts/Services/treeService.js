@@ -52,16 +52,16 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 item.class = classes.join(' ');
             }
         };
-
-        scope.onNodeMouseDown = function(e, node) {
-            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
-            if (e.button === 2) scope.showContextMenu(e);
-        };
-
+        
         scope.hasNoChildren = function(node) {
             let checkIndex = scope.tree.indexOf(node) + 1;
             if (checkIndex >= scope.tree.length) return true;
             return scope.tree[checkIndex].depth <= node.depth;
+        };
+
+        scope.onNodeMouseDown = function(e, node) {
+            if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
+            if (e.button === 2) scope.showContextMenu(e);
         };
 
         scope.setNodeModified = function(node) {

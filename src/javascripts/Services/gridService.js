@@ -16,12 +16,6 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
             if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
             if (e.button === 2) scope.showContextMenu(e);
         };
-
-        scope.resolveElements = function() {
-            scope.tabView = element[0];
-            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.grid-nodes');
-            scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
-        };
         
         scope.buildColumns = function() {
             scope.columns = scope.allColumns.filter(function(column) {
@@ -46,7 +40,7 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
                     return column.getData(node, xelib);
                 } catch (x) {
                     console.log(x);
-                    return { value: '' };
+                    return '';
                 }
             }).trimFalsy();
         };

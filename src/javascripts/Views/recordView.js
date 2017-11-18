@@ -156,7 +156,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.buildTree();
             $scope.syncWithReferencedByView($scope.record);
             $scope.$broadcast('recordChanged');
-
             $timeout($scope.resolveElements, 100);
         }
     });

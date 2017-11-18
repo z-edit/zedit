@@ -1,7 +1,6 @@
 ngapp.service('columnsService', function(columnsFactory, nodeHelpers) {
     let service = this;
 
-    service.views = {};
     this.buildDataFunction = function(column) {
         try {
             column.getData = new Function('node', 'xelib', column.getDataCode);

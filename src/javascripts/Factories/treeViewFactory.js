@@ -19,7 +19,7 @@ ngapp.service('treeViewFactory', function(viewFactory) {
     };
 
     this.canLinkTo = function(view) {
-        return (view.class === 'record-view' && !this.linkedRecordView);
+        return view.class === 'record-view' && !this.linkedRecordView;
     };
 
     this.linkTo = function(view) {
