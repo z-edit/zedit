@@ -29,6 +29,7 @@
 'components/treeColumns',
 'components/treeNodes',
 'components/viewLinker',
+'components/gridNodes',
 'views/start',
 'views/edit',
 'views/clean',
@@ -50,4 +51,5 @@
 'views/promptModal',
 'views/refactorModal',
 'views/resolveModal',
-'views/settingsModal';
+'views/settingsModal',
+'views/referencedByView';

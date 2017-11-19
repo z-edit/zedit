@@ -10,6 +10,7 @@ ngapp.service('referenceService', function($rootScope, progressService) {
         let duration = ((new Date() - start) / 1000).toFixed(1);
         console.log(`References built for ${file.filename} in ${duration}s`);
         file.built = true;
+        $rootScope.$broadcast('builtReferences', true);
     };
 
     let checkIfBuilt = function() {

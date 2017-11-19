@@ -6,7 +6,7 @@
             <h2>Edit Columns</h2>
             <section class="columns-container">
                 <div ng-repeat="column in allColumns" class="column-item" ng-click="selectColumn($index)" ng-class="{ 'selected' : $index == selectedIndex }">
-                    <input type="checkbox" ng-model="column.enabled" ng-if="!$first">
+                    <input type="checkbox" ng-model="column.enabled" ng-if="!$first && (column.canBeDisabled || column.custom)">
                     {{column.label}}
                 </div>
             </section>

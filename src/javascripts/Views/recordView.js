@@ -58,7 +58,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.onCellMouseDown = function(e, node, index) {
         if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
-            const id = $scope.getRecord(index -1);
+            const id = $scope.getRecord(index - 1);
             const path = xelib.LocalPath(node.first_handle);
             const ref = xelib.GetLinksTo(id, path);
             if (ref > 0) {
@@ -129,7 +129,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     });
 
 
-    $scope.$on('controlKeyPressed', function(){
+    $scope.$on('controlKeyPressed', function() {
         if (!$scope.highlightedCell) return;
         $scope.highlightedCell.classList.add('highlight-reference');
     });
@@ -154,6 +154,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();
+            $scope.syncWithReferencedByView($scope.record);
             $scope.$broadcast('recordChanged');
             $timeout($scope.resolveElements, 100);
         }
@@ -162,4 +163,5 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.showAddressBar = true;
     $scope.autoExpand = true;
     $timeout($scope.linkToTreeView, 100);
+    $timeout($scope.linkToReferencedByView, 100);
 });

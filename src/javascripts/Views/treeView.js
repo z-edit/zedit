@@ -5,7 +5,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     // helper variables
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
-    $scope.allColumns = columnsService.columns;
+    $scope.allColumns = columnsService.getColumnsForView('treeView');
     $scope.contextMenuItems = contextMenuFactory.treeViewItems;
 
     // inherited functions
@@ -34,7 +34,8 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     $scope.openColumnsModal = function() {
         $scope.$emit('openModal', 'editColumns', {
-            allColumns: $scope.allColumns
+            allColumns: $scope.allColumns,
+            viewName: 'treeView'
         });
     };
 

@@ -1,0 +1,26 @@
+<record-address-bar ng-if="showAddressBar"></record-address-bar>
+<!-- TODO: search bar disabled for alpha because not coded yet -->
+<div ng-if="record" class="column-wrapper">
+    <div class="tree-columns">
+        <span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
+            {{::column.label}}
+            <span class="sort-arrow" ng-if="column.label === sort.column" title="Elements are sorted by this column in {{sort.reverse ? 'ascending' : 'descending'}} order.">
+                <i class="fa fa-arrow-{{sort.reverse ? 'up' : 'down'}}"></i>
+            </span>
+        </span>
+        <split-bar ng-repeat-end ng-if="!$last" offset="16" resize-callback="columnResized"></split-bar>
+        <div class="column-action edit-columns" ng-click="openColumnsModal()" title="Edit columns"></div>
+    </div>
+</div>
+<div class="grid-nodes" tabindex="0" ng-keydown="onGridKeyDown($event)" ng-mousedown="onGridMouseDown($event)" ng-drop="onDrop()" drag-over="onDragOver()" theme-scrollbar-fix vs-repeat>
+    <div ng-repeat="node in grid" ng-mousedown="onNodeMouseDown($event, node)" ng-dblclick="onNodeDoubleClick($event, node)" ng-drag="onNodeDrag(node)" ng-class="{'selected' : node.selected}" class="node {{node.class}}">
+        <span ng-repeat="value in node.column_values track by $index" title="{{::value}}" class="column column-{{::$index}}">
+            {{::value}}
+        </span>
+    </div>
+</div>
+<div ng-if="!record" class="message-container" ng-drop="onDrop()" drag-over="onDragOver()">
+    <div ng-if="!view.linkedGridView" class="pane-message">
+        Drag and drop a record or file here to view it.
+    </div>
+</div>
