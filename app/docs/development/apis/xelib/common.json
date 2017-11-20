@@ -14,7 +14,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Keyword matching `value`."
+    "description": "Returns true if the `record` has a Keyword element matching `value`."
   },
   {
     "name": "GetKeyword",
@@ -48,7 +48,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Keywords\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Keyword."
+    "description": "Adds an item to the `Keywords` array on `record`, setting `` to `value`.  Returns a handle to the added Keyword element."
   },
   {
     "name": "RemoveKeyword",
@@ -79,7 +79,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Form I D matching `value`."
+    "description": "Returns true if the `record` has a Form I D element matching `value`."
   },
   {
     "name": "GetFormID",
@@ -113,7 +113,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"FormIDs\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Form I D."
+    "description": "Adds an item to the `FormIDs` array on `record`, setting `` to `value`.  Returns a handle to the added Form I D element."
   },
   {
     "name": "RemoveFormID",
@@ -144,7 +144,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Music Track matching `value`."
+    "description": "Returns true if the `record` has a Music Track element matching `value`."
   },
   {
     "name": "GetMusicTrack",
@@ -178,7 +178,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Music Tracks\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Music Track."
+    "description": "Adds an item to the `Music Tracks` array on `record`, setting `` to `value`.  Returns a handle to the added Music Track element."
   },
   {
     "name": "RemoveMusicTrack",
@@ -209,7 +209,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Footstep matching `value`."
+    "description": "Returns true if the `record` has a Footstep element matching `value`."
   },
   {
     "name": "GetFootstep",
@@ -243,7 +243,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Footstep Sets\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Footstep."
+    "description": "Adds an item to the `Footstep Sets` array on `record`, setting `` to `value`.  Returns a handle to the added Footstep element."
   },
   {
     "name": "RemoveFootstep",
@@ -274,7 +274,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Additional Race matching `value`."
+    "description": "Returns true if the `record` has a Additional Race element matching `value`."
   },
   {
     "name": "GetAdditionalRace",
@@ -308,7 +308,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Additional Races\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Additional Race."
+    "description": "Adds an item to the `Additional Races` array on `record`, setting `` to `value`.  Returns a handle to the added Additional Race element."
   },
   {
     "name": "RemoveAdditionalRace",
@@ -339,7 +339,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Effect matching `value` at \"EFID - Base Effect\"."
+    "description": "Returns true if the `record` has a Effect element matching `value` at `EFID - Base Effect`."
   },
   {
     "name": "GetEffect",
@@ -356,7 +356,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Effect element in `record` matching `value` at \"EFID - Base Effect\" if found.  Returns `0` if a matching Effect is not found."
+    "description": "Returns a handle for the first Effect element in `record` matching `value` at `EFID - Base Effect` if found.  Returns `0` if a matching Effect is not found."
   },
   {
     "name": "AddEffect",
@@ -385,7 +385,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Effects\" array on `record`, setting \"EFID - Base Effect\" to `value`, \"EFIT\\Magnitude\" to `value2`, \"EFIT\\Area\" to `value3`, \"EFIT\\Duration\" to `value4`.  Returns a handle to the added Effect."
+    "description": "Adds an item to the `Effects` array on `record`, setting `EFID - Base Effect` to `value`, `EFIT\\Magnitude` to `value2`, `EFIT\\Area` to `value3`, and `EFIT\\Duration` to `value4`.  Returns a handle to the added Effect element."
   },
   {
     "name": "RemoveEffect",
@@ -399,7 +399,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Effect element in `record` matching `value` at \"EFID - Base Effect\"."
+    "description": "Removes the first Effect element in `record` matching `value` at `EFID - Base Effect`."
   },
   {
     "name": "HasItem",
@@ -416,7 +416,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Item matching `value` at \"CNTO\\Item\"."
+    "description": "Returns true if the `record` has a Item element matching `value` at `CNTO\\Item`."
   },
   {
     "name": "GetItem",
@@ -433,7 +433,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Item element in `record` matching `value` at \"CNTO\\Item\" if found.  Returns `0` if a matching Item is not found."
+    "description": "Returns a handle for the first Item element in `record` matching `value` at `CNTO\\Item` if found.  Returns `0` if a matching Item is not found."
   },
   {
     "name": "AddItem",
@@ -454,7 +454,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Items\" array on `record`, setting \"CNTO\\Item\" to `value`, \"CNTO\\Count\" to `value2`.  Returns a handle to the added Item."
+    "description": "Adds an item to the `Items` array on `record`, setting `CNTO\\Item` to `value` and `CNTO\\Count` to `value2`.  Returns a handle to the added Item element."
   },
   {
     "name": "RemoveItem",
@@ -468,7 +468,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Item element in `record` matching `value` at \"CNTO\\Item\"."
+    "description": "Removes the first Item element in `record` matching `value` at `CNTO\\Item`."
   },
   {
     "name": "HasLeveledEntry",
@@ -485,7 +485,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Leveled Entry matching `value` at \"LVLO\\Reference\"."
+    "description": "Returns true if the `record` has a Leveled Entry element matching `value` at `LVLO\\Reference`."
   },
   {
     "name": "GetLeveledEntry",
@@ -502,7 +502,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Leveled Entry element in `record` matching `value` at \"LVLO\\Reference\" if found.  Returns `0` if a matching Leveled Entry is not found."
+    "description": "Returns a handle for the first Leveled Entry element in `record` matching `value` at `LVLO\\Reference` if found.  Returns `0` if a matching Leveled Entry is not found."
   },
   {
     "name": "AddLeveledEntry",
@@ -527,7 +527,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Leveled List Entries\" array on `record`, setting \"LVLO\\Reference\" to `value`, \"LVLO\\Level\" to `value2`, \"LVLO\\Count\" to `value3`.  Returns a handle to the added Leveled Entry."
+    "description": "Adds an item to the `Leveled List Entries` array on `record`, setting `LVLO\\Reference` to `value`, `LVLO\\Level` to `value2`, and `LVLO\\Count` to `value3`.  Returns a handle to the added Leveled Entry element."
   },
   {
     "name": "RemoveLeveledEntry",
@@ -541,7 +541,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Leveled Entry element in `record` matching `value` at \"LVLO\\Reference\"."
+    "description": "Removes the first Leveled Entry element in `record` matching `value` at `LVLO\\Reference`."
   },
   {
     "name": "HasScript",
@@ -558,7 +558,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Script matching `value` at \"scriptName\"."
+    "description": "Returns true if the `record` has a Script element matching `value` at `scriptName`."
   },
   {
     "name": "GetScript",
@@ -575,7 +575,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Script element in `record` matching `value` at \"scriptName\" if found.  Returns `0` if a matching Script is not found."
+    "description": "Returns a handle for the first Script element in `record` matching `value` at `scriptName` if found.  Returns `0` if a matching Script is not found."
   },
   {
     "name": "AddScript",
@@ -596,7 +596,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"VMAD\\Scripts\" array on `record`, setting \"scriptName\" to `value`, \"Flags\" to `value2`.  Returns a handle to the added Script."
+    "description": "Adds an item to the `VMAD\\Scripts` array on `record`, setting `scriptName` to `value` and `Flags` to `value2`.  Returns a handle to the added Script element."
   },
   {
     "name": "RemoveScript",
@@ -610,7 +610,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Script element in `record` matching `value` at \"scriptName\"."
+    "description": "Removes the first Script element in `record` matching `value` at `scriptName`."
   },
   {
     "name": "HasScriptProperty",
@@ -627,7 +627,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `scriptElement` has a Script Property matching `value` at \"propertyName\"."
+    "description": "Returns true if the `scriptElement` has a Script Property element matching `value` at `propertyName`."
   },
   {
     "name": "GetScriptProperty",
@@ -644,7 +644,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Script Property element in `scriptElement` matching `value` at \"propertyName\" if found.  Returns `0` if a matching Script Property is not found."
+    "description": "Returns a handle for the first Script Property element in `scriptElement` matching `value` at `propertyName` if found.  Returns `0` if a matching Script Property is not found."
   },
   {
     "name": "AddScriptProperty",
@@ -669,7 +669,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Properties\" array on `scriptElement`, setting \"propertyName\" to `value`, \"Type\" to `value2`, \"Flags\" to `value3`.  Returns a handle to the added Script Property."
+    "description": "Adds an item to the `Properties` array on `scriptElement`, setting `propertyName` to `value`, `Type` to `value2`, and `Flags` to `value3`.  Returns a handle to the added Script Property element."
   },
   {
     "name": "RemoveScriptProperty",
@@ -683,7 +683,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Script Property element in `scriptElement` matching `value` at \"propertyName\"."
+    "description": "Removes the first Script Property element in `scriptElement` matching `value` at `propertyName`."
   },
   {
     "name": "HasCondition",
@@ -700,7 +700,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns true if the `record` has a Condition matching `value` at \"CTDA\\Function\"."
+    "description": "Returns true if the `record` has a Condition element matching `value` at `CTDA\\Function`."
   },
   {
     "name": "GetCondition",
@@ -717,7 +717,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Returns a handle for the first Condition element in `record` matching `value` at \"CTDA\\Function\" if found.  Returns `0` if a matching Condition is not found."
+    "description": "Returns a handle for the first Condition element in `record` matching `value` at `CTDA\\Function` if found.  Returns `0` if a matching Condition is not found."
   },
   {
     "name": "AddCondition",
@@ -746,7 +746,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the \"Conditions\" array on `record`, setting \"CTDA\\Function\" to `value`, \"CTDA\\Type\" to `value2`, \"CTDA\\Comparison Value\" to `value3`, \"CTDA\\Parameter #1\" to `value4`.  Returns a handle to the added Condition."
+    "description": "Adds an item to the `Conditions` array on `record`, setting `CTDA\\Function` to `value`, `CTDA\\Type` to `value2`, `CTDA\\Comparison Value` to `value3`, and `CTDA\\Parameter #1` to `value4`.  Returns a handle to the added Condition element."
   },
   {
     "name": "RemoveCondition",
@@ -760,7 +760,7 @@
         "type": "string"
       }
     ],
-    "description": "Removes the first Condition element in `record` matching `value` at \"CTDA\\Function\"."
+    "description": "Removes the first Condition element in `record` matching `value` at `CTDA\\Function`."
   },
   {
     "name": "GetGoldValue",
@@ -773,7 +773,7 @@
     "returns": {
       "type": "number"
     },
-    "description": "Returns the value at \"DATA\\Value\" on `record`."
+    "description": "Returns the value at `DATA\\Value` on `record`."
   },
   {
     "name": "SetGoldValue",
@@ -787,7 +787,7 @@
         "type": "number"
       }
     ],
-    "description": "Sets the value at \"DATA\\Value\" on `record` to `value`."
+    "description": "Sets the value at `DATA\\Value` on `record` to `value`."
   },
   {
     "name": "GetWeight",
@@ -800,7 +800,7 @@
     "returns": {
       "type": "number"
     },
-    "description": "Returns the value at \"DATA\\Weight\" on `record`."
+    "description": "Returns the value at `DATA\\Weight` on `record`."
   },
   {
     "name": "SetWeight",
@@ -814,7 +814,7 @@
         "type": "number"
       }
     ],
-    "description": "Sets the value at \"DATA\\Weight\" on `record` to `value`."
+    "description": "Sets the value at `DATA\\Weight` on `record` to `value`."
   },
   {
     "name": "GetDamage",
@@ -827,7 +827,7 @@
     "returns": {
       "type": "number"
     },
-    "description": "Returns the value at \"DATA\\Damage\" on `record`."
+    "description": "Returns the value at `DATA\\Damage` on `record`."
   },
   {
     "name": "SetDamage",
@@ -841,7 +841,7 @@
         "type": "number"
       }
     ],
-    "description": "Sets the value at \"DATA\\Damage\" on `record` to `value`."
+    "description": "Sets the value at `DATA\\Damage` on `record` to `value`."
   },
   {
     "name": "GetArmorRating",
@@ -854,7 +854,7 @@
     "returns": {
       "type": "number"
     },
-    "description": "Returns the value at \"DNAM\" on `record`."
+    "description": "Returns the value at `DNAM` on `record`."
   },
   {
     "name": "SetArmorRating",
@@ -868,7 +868,7 @@
         "type": "number"
       }
     ],
-    "description": "Sets the value at \"DNAM\" on `record` to `value`."
+    "description": "Sets the value at `DNAM` on `record` to `value`."
   },
   {
     "name": "GetIsFemale",
@@ -881,7 +881,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns the state of flag \"Female\" at \"ACBS\\Flags\" on `record`."
+    "description": "Returns the state of flag Female at `ACBS\\Flags` on `record`."
   },
   {
     "name": "SetIsFemale",
@@ -895,7 +895,7 @@
         "type": "boolean"
       }
     ],
-    "description": "Sets flag \"Female\" at \"ACBS\\Flags\" on `record` to `state`."
+    "description": "Sets flag Female at `ACBS\\Flags` on `record` to `state`."
   },
   {
     "name": "GetIsEssential",
@@ -908,7 +908,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns the state of flag \"Essential\" at \"ACBS\\Flags\" on `record`."
+    "description": "Returns the state of flag Essential at `ACBS\\Flags` on `record`."
   },
   {
     "name": "SetIsEssential",
@@ -922,7 +922,7 @@
         "type": "boolean"
       }
     ],
-    "description": "Sets flag \"Essential\" at \"ACBS\\Flags\" on `record` to `state`."
+    "description": "Sets flag Essential at `ACBS\\Flags` on `record` to `state`."
   },
   {
     "name": "GetIsUnique",
@@ -935,7 +935,7 @@
     "returns": {
       "type": "boolean"
     },
-    "description": "Returns the state of flag \"Unique\" at \"ACBS\\Flags\" on `record`."
+    "description": "Returns the state of flag Unique at `ACBS\\Flags` on `record`."
   },
   {
     "name": "SetIsUnique",
@@ -949,6 +949,6 @@
         "type": "boolean"
       }
     ],
-    "description": "Sets flag \"Unique\" at \"ACBS\\Flags\" on `record` to `state`."
+    "description": "Sets flag Unique at `ACBS\\Flags` on `record` to `state`."
   }
 ]

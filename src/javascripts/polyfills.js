@@ -136,6 +136,24 @@ Array.prototype.joinOnKey = function(key, separator = ',') {
     return this.mapOnKey(key).join(separator);
 };
 
+Array.prototype.joinList = function(separator = ', ', lastSeparator = ' and ') {
+    if (this.length > 1) {
+        let R = '';
+        for (let k = 0; k < this.length; k++) {
+            if (k === this.length - 1) {
+                if (k > 1) R += separator.trim();
+                R += lastSeparator;
+            } else if (k > 0) {
+                R += separator;
+            }
+            R += this[k] || '';
+        }
+        return R;
+    } else {
+        return this[0].toString();
+    }
+};
+
 Array.prototype.groupBy = function(propertyName) {
     let obj = {};
     this.forEach(function(item) {

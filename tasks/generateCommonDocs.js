@@ -9,8 +9,8 @@ let docs;
 let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'record', extraArgs = null) {
     let descLabel = label.humanize();
     let matchStr = '`value`';
-    if (subpath) matchStr += ` at "${subpath}"`;
-    let argNotes = [`setting "${subpath}" to \`value\``];
+    if (subpath) matchStr += ` at \`${subpath}\``;
+    let argNotes = [`setting \`${subpath}\` to \`value\``];
     let argObjects = [{
         name: handleLabel,
         type: 'handle'
@@ -22,7 +22,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
     if (extraArgs) {
         extraArgs.forEach(function(arg, index) {
             argObjects.push({ name: `value${index + 2}`, type: 'string' });
-            argNotes.push(`"${arg}" to \`value${index + 2}\``);
+            argNotes.push(`\`${arg}\` to \`value${index + 2}\``);
         });
     }
 
@@ -38,7 +38,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
         returns: {
             type: 'boolean'
         },
-        description: `Returns true if the \`${handleLabel}\` has a ${descLabel} matching ${matchStr}.`
+        description: `Returns true if \`${handleLabel}\` has a ${descLabel} element matching ${matchStr}.`
     }, {
         name: `Get${label}`,
         args: [{
@@ -58,7 +58,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
         returns: {
             type: 'handle'
         },
-        description: `Adds an item to the "${path}" array on \`${handleLabel}\`, ${argNotes.join(', ')}.  Returns a handle to the added ${descLabel}.`
+        description: `Adds an item to the \`${path}\` array on \`${handleLabel}\`, ${argNotes.joinList()}.  Returns a handle to the added ${descLabel} element.`
     }, {
         name: `Remove${label}`,
         args: [{
@@ -82,7 +82,7 @@ let buildValueDocs = function(label, path) {
         returns: {
             type: 'number'
         },
-        description: `Returns the value at "${path}" on \`record\`.`
+        description: `Returns the value at \`${path}\` on \`record\`.`
     }, {
         name: `Set${label}`,
         args: [{
@@ -92,7 +92,7 @@ let buildValueDocs = function(label, path) {
             name: 'value',
             type: 'number'
         }],
-        description: `Sets the value at "${path}" on \`record\` to \`value\`.`
+        description: `Sets the value at \`${path}\` on \`record\` to \`value\`.`
     })
 };
 
@@ -106,7 +106,7 @@ let buildFlagDocs = function(label, path, flagName) {
         returns: {
             type: 'boolean'
         },
-        description: `Returns the state of flag "${flagName}" at "${path}" on \`record\`.`
+        description: `Returns the state of flag ${flagName} at \`${path}\` on \`record\`.`
     }, {
         name: `Set${label}`,
         args: [{
@@ -116,7 +116,7 @@ let buildFlagDocs = function(label, path, flagName) {
             name: 'state',
             type: 'boolean'
         }],
-        description: `Sets flag "${flagName}" at "${path}" on \`record\` to \`state\`.`
+        description: `Sets flag ${flagName} at \`${path}\` on \`record\` to \`state\`.`
     });
 };
 
