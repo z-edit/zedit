@@ -1,0 +1,36 @@
+[
+  {
+    "key": "label",
+    "type": "string",
+    "description": "The settings tab's label."
+  },
+  {
+    "key": "appModes",
+    "type": "array of string",
+    "optional": true,
+    "description": "Array of application modes the settings tab is shown for.  E.g. `['edit', 'clean']`.  If omitted the settings tab will be available for all application modes."
+  },
+  {
+    "key": "templateUrl",
+    "type": "string",
+    "description": "File URL of the HTML template to display for the settings tab.  URL must be relative to [`appPath`](docs://Development/APIs/File Helpers) or absolute."
+  },
+  {
+    "key": "controller",
+    "types": ["string", "function"],
+    "optional": true,
+    "description": "Name of the controller to apply to the settings tab **OR** a controller function with dependencies injected through its arguments."
+  },
+  {
+    "key": "defaultSettings",
+    "type": "object",
+    "optional": true,
+    "description": "Default setting values.  Default values are applied when settings are loaded."
+  },
+  {
+    "key": "defaultGlobalSettings",
+    "type": "object",
+    "optional": true,
+    "description": "Default global setting values.  Default values are applied when global settings are loaded."
+  }
+]

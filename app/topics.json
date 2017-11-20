@@ -155,9 +155,10 @@
           {
             "label": "Angular Services",
             "children": [
-              { "label": "Progress Service" },
+              { "label": "Button Factory" },
               { "label": "Help Service" },
-              { "label": "Button Factory" }
+              { "label": "Progress Service" },
+              { "label": "Settings Service" }
             ]
           },
           { "label": "Polyfills" },

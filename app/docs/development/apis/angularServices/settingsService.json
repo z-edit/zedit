@@ -1,0 +1,38 @@
+[
+  {
+    "name": "loadProfileSettings",
+    "type": "function",
+    "args": [{
+      "name": "profileName",
+      "type": "string"
+    }],
+    "description": "Loads the profile settings associated with `profileName`."
+  },
+  {
+    "name": "loadGlobalSettings",
+    "type": "function",
+    "args": [],
+    "description": "Loads global settings."
+  },
+  {
+    "name": "saveProfileSettings",
+    "type": "function",
+    "args": [],
+    "description": "Saves the currently loaded profile settings to disk."
+  },
+  {
+    "name": "saveGlobalSettings",
+    "type": "function",
+    "args": [],
+    "description": "Saves the currently loaded global settings to disk."
+  },
+  {
+    "name": "registerSettings",
+    "type": "function",
+    "args": [{
+      "name": "settingsTab",
+      "type": "object"
+    }],
+    "description": "Registers `settingsTab` on the settings modal.  See the settings schema below for more information."
+  }
+]
