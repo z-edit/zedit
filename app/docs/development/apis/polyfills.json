@@ -148,6 +148,16 @@
   },
   {
     "api": "Array.prototype",
+    "name": "unite",
+    "type": "function",
+    "args": [{
+      "name": "array",
+      "type": "array"
+    }],
+    "description": "Pushes all of the items in `array` onto the input array."
+  },
+  {
+    "api": "Array.prototype",
     "name": "random",
     "type": "function",
     "args": [],
@@ -213,6 +223,32 @@
   },
   {
     "api": "Array.prototype",
+    "name": "filterOnKey",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "array"
+    },
+    "description": "Filters the items in the input array so only ones with a truthy value for their `key` property are returned."
+  },
+  {
+    "api": "Array.prototype",
+    "name": "mapOnKey",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "array"
+    },
+    "description": "Maps the items in the input array to the values of their `key` property."
+  },
+  {
+    "api": "Array.prototype",
     "name": "groupBy",
     "type": "function",
     "args": [{
@@ -245,7 +281,26 @@
       "name": "defaults",
       "type": "object"
     }],
-    "description": "Assigns properties from `defaults` to `target`.  If a property is already set on `target` it is **not** overwritten."
+    "returns": {
+      "type": "object"
+    },
+    "description": "Assigns properties from `defaults` to `target`.  If a property is already set on `target` it is **not** overwritten.  Returns `target`."
+  },
+  {
+    "api": "Object",
+    "name": "copyProperties",
+    "type": "function",
+    "args": [{
+      "name": "target",
+      "type": "object"
+    }, {
+      "name": "keys",
+      "type": "array of string"
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Copies properties from `target` corresponding to `keys` to a new object and returns it."
   },
   {
     "api": "Function",
