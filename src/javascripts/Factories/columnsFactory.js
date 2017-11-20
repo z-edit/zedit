@@ -4,6 +4,7 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
     let formIDColumn = {
         label: 'FormID',
         canSort: true,
+        required: true,
         getData: function (node, xelib) {
             switch (node.element_type) {
             case xelib.etFile:
@@ -40,7 +41,6 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
     let recordColumn = {
         label: 'Record',
         canSort: true,
-        canBeDisabled: true,
         getData: function(node, xelib) {
             return xelib.LongName(node.handle);
         }
@@ -48,15 +48,13 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
     let signatureColumn = {
         label: 'Signature',
         canSort: true,
-        canBeDisabled: true,
         getData: function(node, xelib) {
             return xelib.Signature(node.handle);
         }
-    }
+    };
     let fileColumn = {
         label: 'File',
         canSort: true,
-        canBeDisabled: true,
         getData: function(node, xelib) {
             let fileName = '';
             xelib.WithHandle(xelib.GetElementFile(node.handle), file => {
