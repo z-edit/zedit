@@ -21,10 +21,28 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         if ($scope.scripts.length === 0) $scope.newScript();
     };
 
+    let loadScripts = function() {
+        fh.jetpack.dir('scripts');
+        let scripts = fh.jetpack.find('scripts', { matching: '*.js'});
+        $scope.scriptHistory = fh.loadJsonFile('scripts\\history.json') || {};
+        $scope.scripts = scripts.map(function(filePath) {
+            let filename = filePath.split('\\').last();
+            return {
+                filePath: filePath,
+                filename: filename,
+                lastRun: new Date($scope.scriptHistory[filename] || 0)
+            }
+        });
+    };
+
+    let saveHistory = function() {
+        fh.saveJsonFile('scripts\\history.json', $scope.scriptHistory);
+    };
+
     // scope variables
     $scope.sortModes = [{
         label: 'Sort by Recent',
-        compare: (a, b) => { return compare(a.lastRun, b.lastRun); }
+        compare: (a, b) => { return b.lastRun - a.lastRun }
     }, {
         label: 'Sort by Filename',
         compare: (a, b) => {
@@ -36,7 +54,10 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     hotkeyService.buildOnKeyDown($scope, 'onModalKeyDown', 'automateModal');
 
     // scope functions
-    $scope.setSortMode = (sortMode) => $scope.sortMode = sortMode;
+    $scope.setSortMode = function(sortMode) {
+        $scope.sortMode = sortMode;
+        sortScripts();
+    };
 
     $scope.saveScript = function() {
         let script = $scope.selectedScript,
@@ -59,6 +80,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     };
 
     $scope.closeModal = function() {
+        saveHistory();
         $scope.saveScript();
         $scope.$emit('closeModal');
     };
@@ -69,6 +91,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         let scriptFilename = $scope.selectedScript.filename,
             scriptCode = $scope.scriptContents,
             targetScope = $scope.modalOptions.targetScope;
+        $scope.scriptHistory[scriptFilename] = new Date();
         $scope.closeModal();
         automationService.runScript(targetScope, scriptCode, scriptFilename);
     };
@@ -78,23 +101,9 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         $scope.scriptContents = fh.loadTextFile(item.filePath);
     };
 
-    $scope.loadScripts = function() {
-        fh.jetpack.dir('scripts');
-        let scripts = fh.jetpack.find('scripts', { matching: '*.js'}),
-            scriptHistory = fh.loadJsonFile('scripts\\history.json') || {};
-        $scope.scripts = scripts.map(function(filePath) {
-            let filename = filePath.split('\\').last();
-            return {
-                filePath: filePath,
-                filename: filename,
-                lastRun: scriptHistory[filename] || new Date(0)
-            }
-        });
-    };
-
     $scope.newScript = function() {
         let filePath = getNewScriptPath();
-        $scope.scripts.unshift({
+        $scope.scripts.shift({
             filePath: filePath,
             filename: filePath.split('\\').last(),
             lastRun: new Date()
@@ -102,11 +111,8 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
         $scope.selectScript($scope.scripts[0]);
     };
 
-    // event handlers
-    $scope.$watch('sortMode', sortScripts);
-
     // initialization
-    $scope.loadScripts();
+    loadScripts();
     createScriptIfNone();
     $scope.setSortMode($scope.sortModes[0]);
     $scope.selectScript($scope.scripts[0]);
