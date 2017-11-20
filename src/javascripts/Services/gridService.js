@@ -3,7 +3,6 @@
 // will overwrite most of these base functions.
 ngapp.service('gridService', function() {
     this.buildFunctions = function(scope) {
-        // scope functions
         scope.reload = function() {
             if (!scope.grid) return;
             let oldGrid = scope.grid;
@@ -47,7 +46,6 @@ ngapp.service('gridService', function() {
 
         scope.getNodeData = function(node) {
             node.has_data = true;
-            node.fid = xelib.GetFormID(node.handle);
             scope.buildColumnValues(node);
         };
     }

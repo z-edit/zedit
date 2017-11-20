@@ -1,8 +1,9 @@
-ngapp.service('referencedByViewService', function($timeout, layoutService, settingsService, xelibService, referencedByViewFactory, objectUtils) {
+ngapp.service('referencedByViewService', function(referencedByViewFactory) {
     this.buildFunctions = function(scope) {
         // inherited functions
         scope.releaseGrid = referencedByViewFactory.releaseGrid;
 
+        // scope functions
         scope.buildGrid = function() {
             scope.grid = xelib.GetReferencedBy(scope.record).map(function(handle) {
                 let node = {
@@ -14,7 +15,6 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
             scope.sortGrid();
         };
 
-        // PUBLIC
         scope.onDragOver = function() {
             let dragData = scope.$root.dragData;
             if (dragData && dragData.source === 'treeView') return true;

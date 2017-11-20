@@ -1,5 +1,3 @@
-<record-address-bar ng-if="showAddressBar"></record-address-bar>
-<!-- TODO: search bar disabled for alpha because not coded yet -->
 <div ng-if="record" class="column-wrapper">
     <div class="node-columns">
         <span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'sortable' : column.canSort}" ng-click="toggleSort(column)">
