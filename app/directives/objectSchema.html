@@ -9,8 +9,11 @@
     <tbody>
     <tr ng-repeat="property in schema">
         <td>{{::property.key}}</td>
-        <td class="nowrap">
+        <td class="nowrap" ng-if="::property.type.Constructor !== Array">
             <span class="type type-{{::property.type | classify}}">{{::property.type}}</span>
+        </td>
+        <td class="nowrap" ng-if="::property.type.Constructor === Array">
+            <span ng-repeat="t in property.type" class="type type-{{::t | classify}}">{{::t}}</span>
         </td>
         <td marked="::property.description || '\\-'"></td>
     </tr>
