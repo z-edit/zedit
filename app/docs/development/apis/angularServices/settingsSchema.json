@@ -13,7 +13,7 @@
   {
     "key": "templateUrl",
     "type": "string",
-    "description": "File URL of the HTML template to display for the settings tab.  URL must be relative to [`appPath`](docs://Development/APIs/File Helpers) or absolute."
+    "description": "File URL of the HTML template to display for the settings tab.  URL must be relative to [appPath](docs://Development/APIs/File Helpers) or absolute."
   },
   {
     "key": "controller",

@@ -60,6 +60,8 @@
         "label": "Resolve Modal",
         "description": "Allows you to select resolutions for errors."
       }]
+    }, {
+      "label": "Progress View"
     }]
   }, {
     "label": "Modal Views",
