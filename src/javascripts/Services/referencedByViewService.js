@@ -44,10 +44,10 @@ ngapp.service('referencedByViewService', function(referencedByViewFactory) {
             });
             if (colIndex === -1) return;
             scope.grid.sort(function(a, b) {
-                let v1 = a.column_values[colIndex],
-                    v2 = b.column_values[colIndex];
-                if (!v2 || v1 < v2) return -1;
-                if (!v1 || v1 > v2) return 1;
+                let v1 = a.column_values[colIndex] || '',
+                    v2 = b.column_values[colIndex] || '';
+                if (v1 < v2) return -1;
+                if (v1 > v2) return 1;
                 return 0;
             });
             if (scope.sort.reverse) scope.grid.reverse();
