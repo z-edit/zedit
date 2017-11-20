@@ -1,10 +1,10 @@
 ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
     let settings = settingsService.settings;
 
-    let formIDColumn = {
+    this.columns = [{
         label: 'FormID',
-        canSort: true,
         required: true,
+        canSort: true,
         getData: function (node, xelib) {
             switch (node.element_type) {
             case xelib.etFile:
@@ -19,8 +19,7 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
                 return node.fid === 0 ? 'File Header' : xelib.Hex(node.fid);
             }
         }
-    };
-    let editorIDColumn = {
+    }, {
         label: 'EditorID',
         canSort: true,
         getData: function(node, xelib) {
@@ -28,8 +27,7 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
                 return xelib.EditorID(node.handle, true);
             }
         }
-    };
-    let nameColumn = {
+    }, {
         label: 'Name',
         canSort: true,
         getData: function(node, xelib) {
@@ -37,24 +35,18 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
                 return xelib.FullName(node.handle) || xelib.PlacementName(node.handle);
             }
         }
-    };
-    let recordColumn = {
+    }, {
         label: 'Record',
-        canSort: true,
         getData: function(node, xelib) {
             return xelib.LongName(node.handle);
         }
-    };
-    let signatureColumn = {
+    }, {
         label: 'Signature',
-        canSort: true,
         getData: function(node, xelib) {
             return xelib.Signature(node.handle);
         }
-    };
-    let fileColumn = {
+    }, {
         label: 'File',
-        canSort: true,
         getData: function(node, xelib) {
             let fileName = '';
             xelib.WithHandle(xelib.GetElementFile(node.handle), file => {
@@ -62,39 +54,31 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
             });
             return fileName;
         }
-    };
+    }];
 
-    this.treeViewColumns = {
-        customColumnsSortable: false,
-        defaultColumns: [formIDColumn, editorIDColumn, nameColumn],
-        defaultColumnsConfig: {
-            customColumns: [],
-            activeColumns: [{
-                label: 'FormID',
-                width: '40%'
-            }, {
-                label: 'EditorID',
-                width: '25%'
-            }, {
-                label: 'Name'
-            }]
-        }
-    };
+    this.treeView = [{
+        label: 'FormID',
+        width: '40%',
+        enabled: true
+    }, {
+        label: 'EditorID',
+        width: '25%',
+        enabled: true
+    }, {
+        label: 'Name',
+        enabled: true
+    }];
 
-    this.referencedByViewColumns = {
-        customColumnsSortable: true,
-        defaultColumns: [recordColumn, signatureColumn, fileColumn],
-        defaultColumnsConfig: {
-            customColumns: [],
-            activeColumns: [{
-                label: 'Record',
-                width: '50%'
-            }, {
-                label: 'Signature',
-                width: '15%'
-            }, {
-                label: 'File'
-            }]
-        }
-    };
+    this.referencedByView = [{
+        label: 'Record',
+        width: '50%',
+        enabled: true
+    }, {
+        label: 'Signature',
+        width: '15%',
+        enabled: true
+    }, {
+        label: 'File',
+        enabled: true
+    }];
 });

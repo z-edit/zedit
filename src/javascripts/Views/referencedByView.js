@@ -4,8 +4,9 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     $scope.view.scope = $scope;
 
     // initialization
+    $scope.canSortAll = true;
     $scope.sort = { column: 'Record', reverse: false };
-    $scope.allColumns = columnsService.getColumnsForView('referencedByView');
+    $scope.allColumns = columnsService.getColumns('referencedByView');
     $scope.contextMenuItems = contextMenuFactory.referencedByViewItems;
 
     // inherited functions

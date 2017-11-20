@@ -244,6 +244,7 @@ Object.defaults = function(target, defaults) {
         if (target.hasOwnProperty(key)) return;
         target[key] = defaults[key];
     });
+    return target;
 };
 
 Object.copyProperties = function(target, keys) {
