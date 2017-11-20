@@ -217,9 +217,8 @@ Object.defineProperty(Object.prototype, 'equals', {
 });
 
 Object.deepAssign = function(target, varArgs) {
-    if (target === null) { // TypeError if undefined or null
+    if (target === null) // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
-    }
 
     let to = Object(target);
     for (let index = 1; index < arguments.length; index++) {
@@ -245,6 +244,15 @@ Object.defaults = function(target, defaults) {
         if (target.hasOwnProperty(key)) return;
         target[key] = defaults[key];
     });
+};
+
+Object.copyProperties = function(target, keys) {
+    let newObj = {};
+    Object.keys(target).forEach(function(key) {
+        if (!keys.includes(key)) return;
+        newObj[key] = target[key];
+    });
+    return newObj;
 };
 
 Object.defineProperty(Function, 'execute', {
