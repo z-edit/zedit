@@ -7,7 +7,8 @@ ngapp.service('settingsService', function($rootScope) {
             defaultGlobalSettings: { theme: 'day.css', syntaxTheme: '' }
         }];
 
-    this.buildSettings = function(settings, global = false) {
+    // private functions
+    let buildSettings = function(settings, global = false) {
         let defaults = {},
             defaultsPath = global ? 'defaultGlobalSettings' : 'defaultSettings';
         tabs.forEach(function(tab) {
@@ -17,18 +18,19 @@ ngapp.service('settingsService', function($rootScope) {
         return Object.deepAssign(defaults, settings);
     };
 
+    // public functions
     this.loadProfileSettings = function(profileName) {
         service.currentProfile = profileName;
         service.settingsPath = `profiles/${profileName}/settings.json`;
         let settings = fh.loadJsonFile(service.settingsPath) || {};
-        service.settings = service.buildSettings(settings);
+        service.settings = buildSettings(settings);
         service.saveProfileSettings();
     };
 
     this.loadGlobalSettings = function() {
         service.globalSettingsPath = `${fh.userPath}\\settings.json`;
         let settings = fh.loadJsonFile(service.globalSettingsPath) || {};
-        service.globalSettings = service.buildSettings(settings, true);
+        service.globalSettings = buildSettings(settings, true);
         service.saveGlobalSettings();
     };
 
