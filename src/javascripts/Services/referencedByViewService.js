@@ -39,17 +39,19 @@ ngapp.service('referencedByViewService', function($timeout, layoutService, setti
         };
 
         scope.sortGrid = function() {
-            const colIndex = scope.allColumns.findIndex(column => {
+            let colIndex = scope.columns.findIndex(function(column) {
                 return column.label === scope.sort.column;
             });
             if (colIndex === -1) return;
-            scope.grid.sort((a, b) => {
-                return a.column_values[colIndex] > b.column_values[colIndex];
+            scope.grid.sort(function(a, b) {
+                let v1 = a.column_values[colIndex],
+                    v2 = b.column_values[colIndex];
+                if (!v2 || v1 < v2) return -1;
+                if (!v1 || v1 > v2) return 1;
+                return 0;
             });
-            if (scope.sort.reverse) {
-                scope.grid.reverse();
-            }
-        }
+            if (scope.sort.reverse) scope.grid.reverse();
+        };
 
         scope.selectNode = function(e, node) {
             scope.clearSelection();

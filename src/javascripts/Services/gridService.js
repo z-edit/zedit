@@ -1,8 +1,8 @@
-// Base view to show nodes and columns. It's like a grid view but with no depth. 
+// Base view to show nodes and columns. It's like a grid view but with no depth.
 // Utilized by all views. Functions for specialized views (e.g. gridView/recordView)
 // will overwrite most of these base functions.
-ngapp.service('gridService', function($timeout, htmlHelpers) {
-    this.buildFunctions = function(scope, element) {
+ngapp.service('gridService', function() {
+    this.buildFunctions = function(scope) {
         // scope functions
         scope.reload = function() {
             if (!scope.grid) return;
@@ -16,7 +16,7 @@ ngapp.service('gridService', function($timeout, htmlHelpers) {
             if (e.button !== 2 || !node.selected) scope.selectNode(e, node);
             if (e.button === 2) scope.showContextMenu(e);
         };
-        
+
         scope.buildColumns = function() {
             scope.columns = scope.allColumns.filter(function(column) {
                 return column.enabled;

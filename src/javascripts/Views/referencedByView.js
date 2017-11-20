@@ -3,6 +3,8 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
 
+    // initialization
+    $scope.sort = { column: 'Record', reverse: false };
     $scope.allColumns = columnsService.getColumnsForView('referencedByView');
     $scope.contextMenuItems = contextMenuFactory.referencedByViewItems;
 
@@ -13,6 +15,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     treeColumnService.buildFunctions($scope, '.referenced-by-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
 
+    // scope functions
     $scope.open = function(node) {
         let recordView = $scope.view.linkedRecordView;
         if (recordView) {
@@ -22,7 +25,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         }
     };
 
-    // scope functions
     $scope.showContextMenu = function(e) {
         contextMenuService.showContextMenu($scope, e);
     };
@@ -43,7 +45,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         e.stopImmediatePropagation();
     };
 
-    // initialization
+    // event handlers
     $scope.$on('reloadGUI', function() {
         if (!$scope.record) return;
         if (!xelib.HasElement($scope.record)) {
@@ -73,6 +75,4 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         $scope.buildGrid();
         $timeout($scope.resolveElements, 100);
     });
-
-    $scope.sort = { column: 'Record', reverse: false };
 });
