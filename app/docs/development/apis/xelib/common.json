@@ -1,0 +1,954 @@
+[
+  {
+    "name": "HasKeyword",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Keyword matching `value`."
+  },
+  {
+    "name": "GetKeyword",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Keyword element in `record` matching `value` if found.  Returns `0` if a matching Keyword is not found."
+  },
+  {
+    "name": "AddKeyword",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Keywords\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Keyword."
+  },
+  {
+    "name": "RemoveKeyword",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Keyword element in `record` matching `value`."
+  },
+  {
+    "name": "HasFormID",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Form I D matching `value`."
+  },
+  {
+    "name": "GetFormID",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Form I D element in `record` matching `value` if found.  Returns `0` if a matching Form I D is not found."
+  },
+  {
+    "name": "AddFormID",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"FormIDs\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Form I D."
+  },
+  {
+    "name": "RemoveFormID",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Form I D element in `record` matching `value`."
+  },
+  {
+    "name": "HasMusicTrack",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Music Track matching `value`."
+  },
+  {
+    "name": "GetMusicTrack",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Music Track element in `record` matching `value` if found.  Returns `0` if a matching Music Track is not found."
+  },
+  {
+    "name": "AddMusicTrack",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Music Tracks\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Music Track."
+  },
+  {
+    "name": "RemoveMusicTrack",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Music Track element in `record` matching `value`."
+  },
+  {
+    "name": "HasFootstep",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Footstep matching `value`."
+  },
+  {
+    "name": "GetFootstep",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Footstep element in `record` matching `value` if found.  Returns `0` if a matching Footstep is not found."
+  },
+  {
+    "name": "AddFootstep",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Footstep Sets\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Footstep."
+  },
+  {
+    "name": "RemoveFootstep",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Footstep element in `record` matching `value`."
+  },
+  {
+    "name": "HasAdditionalRace",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Additional Race matching `value`."
+  },
+  {
+    "name": "GetAdditionalRace",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Additional Race element in `record` matching `value` if found.  Returns `0` if a matching Additional Race is not found."
+  },
+  {
+    "name": "AddAdditionalRace",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Additional Races\" array on `record`, setting \"\" to `value`.  Returns a handle to the added Additional Race."
+  },
+  {
+    "name": "RemoveAdditionalRace",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Additional Race element in `record` matching `value`."
+  },
+  {
+    "name": "HasEffect",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Effect matching `value` at \"EFID - Base Effect\"."
+  },
+  {
+    "name": "GetEffect",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Effect element in `record` matching `value` at \"EFID - Base Effect\" if found.  Returns `0` if a matching Effect is not found."
+  },
+  {
+    "name": "AddEffect",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      },
+      {
+        "name": "value3",
+        "type": "string"
+      },
+      {
+        "name": "value4",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Effects\" array on `record`, setting \"EFID - Base Effect\" to `value`, \"EFIT\\Magnitude\" to `value2`, \"EFIT\\Area\" to `value3`, \"EFIT\\Duration\" to `value4`.  Returns a handle to the added Effect."
+  },
+  {
+    "name": "RemoveEffect",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Effect element in `record` matching `value` at \"EFID - Base Effect\"."
+  },
+  {
+    "name": "HasItem",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Item matching `value` at \"CNTO\\Item\"."
+  },
+  {
+    "name": "GetItem",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Item element in `record` matching `value` at \"CNTO\\Item\" if found.  Returns `0` if a matching Item is not found."
+  },
+  {
+    "name": "AddItem",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Items\" array on `record`, setting \"CNTO\\Item\" to `value`, \"CNTO\\Count\" to `value2`.  Returns a handle to the added Item."
+  },
+  {
+    "name": "RemoveItem",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Item element in `record` matching `value` at \"CNTO\\Item\"."
+  },
+  {
+    "name": "HasLeveledEntry",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Leveled Entry matching `value` at \"LVLO\\Reference\"."
+  },
+  {
+    "name": "GetLeveledEntry",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Leveled Entry element in `record` matching `value` at \"LVLO\\Reference\" if found.  Returns `0` if a matching Leveled Entry is not found."
+  },
+  {
+    "name": "AddLeveledEntry",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      },
+      {
+        "name": "value3",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Leveled List Entries\" array on `record`, setting \"LVLO\\Reference\" to `value`, \"LVLO\\Level\" to `value2`, \"LVLO\\Count\" to `value3`.  Returns a handle to the added Leveled Entry."
+  },
+  {
+    "name": "RemoveLeveledEntry",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Leveled Entry element in `record` matching `value` at \"LVLO\\Reference\"."
+  },
+  {
+    "name": "HasScript",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Script matching `value` at \"scriptName\"."
+  },
+  {
+    "name": "GetScript",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Script element in `record` matching `value` at \"scriptName\" if found.  Returns `0` if a matching Script is not found."
+  },
+  {
+    "name": "AddScript",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"VMAD\\Scripts\" array on `record`, setting \"scriptName\" to `value`, \"Flags\" to `value2`.  Returns a handle to the added Script."
+  },
+  {
+    "name": "RemoveScript",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Script element in `record` matching `value` at \"scriptName\"."
+  },
+  {
+    "name": "HasScriptProperty",
+    "args": [
+      {
+        "name": "scriptElement",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `scriptElement` has a Script Property matching `value` at \"propertyName\"."
+  },
+  {
+    "name": "GetScriptProperty",
+    "args": [
+      {
+        "name": "scriptElement",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Script Property element in `scriptElement` matching `value` at \"propertyName\" if found.  Returns `0` if a matching Script Property is not found."
+  },
+  {
+    "name": "AddScriptProperty",
+    "args": [
+      {
+        "name": "scriptElement",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      },
+      {
+        "name": "value3",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Properties\" array on `scriptElement`, setting \"propertyName\" to `value`, \"Type\" to `value2`, \"Flags\" to `value3`.  Returns a handle to the added Script Property."
+  },
+  {
+    "name": "RemoveScriptProperty",
+    "args": [
+      {
+        "name": "scriptElement",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Script Property element in `scriptElement` matching `value` at \"propertyName\"."
+  },
+  {
+    "name": "HasCondition",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `record` has a Condition matching `value` at \"CTDA\\Function\"."
+  },
+  {
+    "name": "GetCondition",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the first Condition element in `record` matching `value` at \"CTDA\\Function\" if found.  Returns `0` if a matching Condition is not found."
+  },
+  {
+    "name": "AddCondition",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "value2",
+        "type": "string"
+      },
+      {
+        "name": "value3",
+        "type": "string"
+      },
+      {
+        "name": "value4",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the \"Conditions\" array on `record`, setting \"CTDA\\Function\" to `value`, \"CTDA\\Type\" to `value2`, \"CTDA\\Comparison Value\" to `value3`, \"CTDA\\Parameter #1\" to `value4`.  Returns a handle to the added Condition."
+  },
+  {
+    "name": "RemoveCondition",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first Condition element in `record` matching `value` at \"CTDA\\Function\"."
+  },
+  {
+    "name": "GetGoldValue",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the value at \"DATA\\Value\" on `record`."
+  },
+  {
+    "name": "SetGoldValue",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "number"
+      }
+    ],
+    "description": "Sets the value at \"DATA\\Value\" on `record` to `value`."
+  },
+  {
+    "name": "GetWeight",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the value at \"DATA\\Weight\" on `record`."
+  },
+  {
+    "name": "SetWeight",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "number"
+      }
+    ],
+    "description": "Sets the value at \"DATA\\Weight\" on `record` to `value`."
+  },
+  {
+    "name": "GetDamage",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the value at \"DATA\\Damage\" on `record`."
+  },
+  {
+    "name": "SetDamage",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "number"
+      }
+    ],
+    "description": "Sets the value at \"DATA\\Damage\" on `record` to `value`."
+  },
+  {
+    "name": "GetArmorRating",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the value at \"DNAM\" on `record`."
+  },
+  {
+    "name": "SetArmorRating",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "number"
+      }
+    ],
+    "description": "Sets the value at \"DNAM\" on `record` to `value`."
+  },
+  {
+    "name": "GetIsFemale",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns the state of flag \"Female\" at \"ACBS\\Flags\" on `record`."
+  },
+  {
+    "name": "SetIsFemale",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "state",
+        "type": "boolean"
+      }
+    ],
+    "description": "Sets flag \"Female\" at \"ACBS\\Flags\" on `record` to `state`."
+  },
+  {
+    "name": "GetIsEssential",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns the state of flag \"Essential\" at \"ACBS\\Flags\" on `record`."
+  },
+  {
+    "name": "SetIsEssential",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "state",
+        "type": "boolean"
+      }
+    ],
+    "description": "Sets flag \"Essential\" at \"ACBS\\Flags\" on `record` to `state`."
+  },
+  {
+    "name": "GetIsUnique",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns the state of flag \"Unique\" at \"ACBS\\Flags\" on `record`."
+  },
+  {
+    "name": "SetIsUnique",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "state",
+        "type": "boolean"
+      }
+    ],
+    "description": "Sets flag \"Unique\" at \"ACBS\\Flags\" on `record` to `state`."
+  }
+]

@@ -121,7 +121,7 @@
       background-color: $negative;
     }
 
-    .type-enumeration, .type-boolean, .type-integer,
+    .type-enumeration, .type-boolean, .type-number, .type-integer,
     .type-unsigned-integer, .type-float, .type-array-of-integer {
       background-color: $positive;
     }
