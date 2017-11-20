@@ -1,0 +1,22 @@
+[
+  {
+    "key": "class",
+    "type": "string",
+    "description": "The CSS class to apply to the button."
+  },
+  {
+    "key": "title",
+    "type": "string",
+    "description": "The tooltip to display when the user hovers over the button."
+  },
+  {
+    "key": "hidden",
+    "type": "boolean",
+    "description": "If true, the button will not be displayed.  Keep a reference to the button object in your code to change this as needed when the button should be shown or hidden."
+  },
+  {
+    "key": "onClick",
+    "type": "function",
+    "description": "The function to call when the user clicks the button.  The first argument is the application's base scope, and the second argument is the click event."
+  }
+]

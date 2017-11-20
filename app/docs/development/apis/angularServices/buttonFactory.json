@@ -1,0 +1,7 @@
+[
+  {
+    "name": "buttons",
+    "type": "array of object",
+    "description": "Array of buttons which get displayed in the title bar."
+  }
+]
