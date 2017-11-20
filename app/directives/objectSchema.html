@@ -8,7 +8,9 @@
     </thead>
     <tbody>
     <tr ng-repeat="property in schema">
-        <td>{{::property.key}}</td>
+        <td>{{::property.key}}
+            <span ng-if="::property.optional" title="Optional">*</span>
+        </td>
         <td class="nowrap" ng-if="::property.type.Constructor !== Array">
             <span class="type type-{{::property.type | classify}}">{{::property.type}}</span>
         </td>
