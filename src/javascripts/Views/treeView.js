@@ -1,4 +1,4 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, treeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -14,7 +14,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     treeViewElementService.buildFunctions($scope);
     typeToSearchService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope, true);
-    treeColumnService.buildFunctions($scope, '.tree-view', true);
+    nodeColumnService.buildFunctions($scope, '.tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
 
     // scope functions

@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, htmlHelpers, gridService, referencedByViewService, columnsService, hotkeyService, nodeSelectionService, treeColumnService, contextMenuService, contextMenuFactory) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, htmlHelpers, gridService, referencedByViewService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -12,7 +12,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     gridService.buildFunctions($scope, $element);
     nodeSelectionService.buildFunctions($scope, false);
     referencedByViewService.buildFunctions($scope);
-    treeColumnService.buildFunctions($scope, '.referenced-by-view', true);
+    nodeColumnService.buildFunctions($scope, '.referenced-by-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
 
     // scope functions

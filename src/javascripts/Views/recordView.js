@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, treeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, nodeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -13,7 +13,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     recordViewElementService.buildFunctions($scope);
     recordViewDragDropService.buildFunctions($scope);
     nodeSelectionService.buildFunctions($scope);
-    treeColumnService.buildFunctions($scope, '.record-view', false, true);
+    nodeColumnService.buildFunctions($scope, '.record-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
 
     // scope functions

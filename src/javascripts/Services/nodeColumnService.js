@@ -1,11 +1,11 @@
-ngapp.service('treeColumnService', function(stylesheetService) {
+ngapp.service('nodeColumnService', function(stylesheetService) {
     this.buildFunctions = function(scope, treeSelector, columnsEditable, allowOverflow) {
         if (columnsEditable) {
             scope.showColumnsModal = () => scope.$emit('openModal', 'columns');
         }
 
         scope.toggleSort = function(column) {
-            if (!column.canSort) return;
+            if (!scope.canSortAll && !column.canSort) return;
             if (scope.sort.column !== column.label) {
                 scope.sort.column = column.label;
                 scope.sort.reverse = false;
