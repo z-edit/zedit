@@ -1,11 +1,10 @@
-
 .referenced-by-view {
   text-align: left;
   font-size: 13px;
   overflow: hidden;
   padding-top: 24px;
 
-  .tree-columns {
+  .node-columns {
     padding-right: 16px;
 
     .column:last-of-type {
@@ -13,7 +12,7 @@
     }
   }
 
-  .grid-nodes {
+  .nodes {
     min-width: 400px;
     overflow-y: scroll;
 
@@ -24,10 +23,6 @@
         flex: 1;
         border-right: none;
       }
-    }
-
-    .modified {
-      font-weight: 600;
     }
   }
 
