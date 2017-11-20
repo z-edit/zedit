@@ -38,7 +38,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
         returns: {
             type: 'boolean'
         },
-        description: `Returns true if \`${handleLabel}\` has a ${descLabel} element matching ${matchStr}.`
+        description: `Returns true if the \`${path}\` array on \`${handleLabel}\` has an element matching ${matchStr}.`
     }, {
         name: `Get${label}`,
         args: [{
@@ -51,7 +51,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
         returns: {
             type: 'handle'
         },
-        description: `Returns a handle for the first ${descLabel} element in \`${handleLabel}\` matching ${matchStr} if found.  Returns \`0\` if a matching ${descLabel} is not found.`
+        description: `Finds the first item in the \`${path}\` array on \`${handleLabel}\` matching ${matchStr}.  Returns a handle to the element if found, else returns \`0\`.`
     }, {
         name: `Add${label}`,
         args: argObjects,
@@ -68,7 +68,7 @@ let buildArrayValueDocs = function(label, path, subpath = '', handleLabel = 'rec
             name: 'value',
             type: 'string'
         }],
-        description: `Removes the first ${descLabel} element in \`${handleLabel}\` matching ${matchStr}.`
+        description: `Removes the first item in the \`${path}\` array on \`${handleLabel}\` matching ${matchStr}.`
     });
 };
 
