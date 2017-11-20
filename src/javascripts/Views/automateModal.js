@@ -103,7 +103,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
 
     $scope.newScript = function() {
         let filePath = getNewScriptPath();
-        $scope.scripts.shift({
+        $scope.scripts.unshift({
             filePath: filePath,
             filename: filePath.split('\\').last(),
             lastRun: new Date()
