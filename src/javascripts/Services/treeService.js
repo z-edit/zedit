@@ -118,11 +118,10 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         let scrollbarWidth = 17;
         scope.onTreeMouseDown = function(e) {
-            if (!e.srcElement.classList.contains('tree-nodes')) return;
+            if (!e.srcElement.classList.contains('nodes')) return;
             let t = scope.treeElement;
-            if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth) {
+            if (e.clientX - t.offsetLeft < t.offsetWidth - scrollbarWidth)
                 scope.clearSelection(true);
-            }
             if (e.button === 2) scope.showContextMenu(e);
         };
 
@@ -142,7 +141,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         scope.resolveElements = function() {
             scope.tabView = element[0];
-            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.tree-nodes');
+            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.nodes');
             scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
         };
     }

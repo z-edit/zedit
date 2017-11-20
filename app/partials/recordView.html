@@ -2,7 +2,7 @@
 <!-- TODO: search bar disabled for alpha because not coded yet -->
 <search-bar ng-if="false" ng-controller="recordSearchController"></search-bar>
 <div ng-if="record" class="column-wrapper">
-    <div class="tree-columns fix-width">
+    <div class="node-columns fix-width">
         <span ng-repeat-start="column in columns" class="column column-{{::$index}}" ng-class="{'focused' : focusedIndex == $index}">
             {{::column.label}}
             <div ng-if="::$first" class="column-action expand-all-nodes" ng-click="expandAllNodes()" title="Expand all nodes"></div>
@@ -11,7 +11,7 @@
         <split-bar ng-repeat-end mode="1" resize-callback="columnResized" class="{{::$first ? 'first-split-bar' : ''}}" offset="17"></split-bar>
     </div>
 </div>
-<div ng-if="record" class="tree-nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" ng-scroll="onScroll($event)" ng-drop="onDrop()" drag-over="onDragOver()" theme-scrollbar-fix vs-repeat>
+<div ng-if="record" class="nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" ng-scroll="onScroll($event)" ng-drop="onDrop()" drag-over="onDragOver()" theme-scrollbar-fix vs-repeat>
     <div ng-repeat="node in tree" class="node fix-width" tree-node>
         <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}}" ng-mousedown="onCellMouseDown($event, node, $index)" ng-mouseover="onCellMouseOver($event, node, $index)" ng-mouseleave="onCellMouseLeave()" ng-dblclick="onCellDoubleClick($event, node, $index)" ng-class="{'focused' : focusedIndex == $index}" ng-drag="onCellDrag(node, $index)" ng-drop="onCellDrop(node, $index)" drag-over="onCellDragOver(node, $index)">
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">

@@ -38,7 +38,7 @@ ngapp.service('treeColumnService', function(stylesheetService) {
             let width = scope.columns.reduce(function(total, column) {
                     return total + parseInt(column.width.slice(0, -2));
                 }, 0),
-                columnsSelector = `${treeSelector} .tree-columns.fix-width`,
+                columnsSelector = `${treeSelector} .node-columns.fix-width`,
                 nodeSelector = `${treeSelector} .node.fix-width`;
             stylesheetService.setProperty(columnsSelector, 'min-width', `${width + 17}px`);
             stylesheetService.setProperty(nodeSelector, 'min-width', `${width}px`);

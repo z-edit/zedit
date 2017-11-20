@@ -4,7 +4,7 @@
   overflow: hidden;
   padding-top: 24px;
 
-  .tree-columns {
+  .node-columns {
     padding-right: 16px;
 
     .column:last-of-type {
@@ -12,7 +12,7 @@
     }
   }
 
-  .tree-nodes {
+  .nodes {
     min-width: 400px;
     overflow-y: scroll;
 
