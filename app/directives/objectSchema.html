@@ -8,14 +8,17 @@
     </thead>
     <tbody>
     <tr ng-repeat="property in schema">
-        <td>{{::property.key}}
-            <span ng-if="::property.optional" title="Optional">*</span>
+        <td>{{::property.key}}<br/>
+            <i ng-if="::property.optional">(optional)</i>
         </td>
-        <td class="nowrap" ng-if="::property.type.Constructor !== Array">
+        <td class="nowrap" ng-if="::property.type">
             <span class="type type-{{::property.type | classify}}">{{::property.type}}</span>
         </td>
-        <td class="nowrap" ng-if="::property.type.Constructor === Array">
-            <span ng-repeat="t in property.type" class="type type-{{::t | classify}}">{{::t}}</span>
+        <td class="nowrap" ng-if="::property.types">
+            <span ng-repeat="type in property.types">
+                <span class="type type-{{::type | classify}}">{{::type}}</span>
+                <span ng-show="::!$last">/</span>
+            </span>
         </td>
         <td marked="::property.description || '\\-'"></td>
     </tr>
