@@ -1,0 +1,50 @@
+<p>The referenced by view allows you to view a list of records a record is referenced by.</p>
+
+<h2>Building references</h2>
+<p>The referenced by view won't display anything until you build reference information for plugins.  See the Build References action in the context menu section on the <a href="docs://Views/Edit View/Tree View">tree view</a> documentation page.</p>
+
+<h2>Linking</h2>
+<p>The referenced by view links to the first available record view it can find when it is created.  When linked to a record view it will display referenced by information for the record open in the record view.</p>
+
+<p>You can unlink a referenced by view from the record view it is linked to by clicking the <span class="fa fa-unlink"></span> button in the record view's address bar.  When unlinked the only way to view a record on the referenced by view is through drag and drop from the tree view.</p>
+
+<h2>Columns</h2>
+<p>The referenced by displays the same columns as xEdit by default: Record, Signature, and File.  You can edit columns by clicking the <span class="fa fa-columns" title="columns"></span> icon to open the <a href="docs://Modal Views/Edit Columns Modal">edit columns modal</a>.</p>
+
+<h3>Sorting</h3>
+<p>All columns, including custom columns, support sorting on the referenced by view.  You can click on a column's header to sort by it or reverse its sort direction.</p>
+
+<h2>Hotkeys</h2>
+<ul>
+    <li>
+        <kbd>Double Click</kbd> - Opens the record in the referenced by view and the linked record view.
+    </li>
+    <li>
+        <kbd>Enter</kbd> - Opens the selected record node in the referenced by view and the linked record view.
+    </li>
+</ul>
+
+<h2>Context menu</h2>
+<p>You can right-click a node in the referenced by view to open a context menu with actions.  The context menu actions available are listed below:</p>
+
+<table class="full-width">
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th>Availability</th>
+        <th>Hotkey</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Open</td>
+        <td></td>
+        <td class="nowrap"><kbd>Enter</kbd></td>
+        <td>Opens the selected node in the referenced by view and the linked record view.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Modal views</h2>
+<modal-views-list></modal-views-list>

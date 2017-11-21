@@ -56,6 +56,12 @@
           "label": "Edit Value Modal",
           "description": "Allows you to edit record values."
         }]
+      }, {
+        "label": "Referenced By View",
+        "modalViews": [{
+          "label": "Edit Columns Modal",
+          "description": "Allows you to manage the columns that are displayed on the view, including creating custom columns."
+        }]
       }]
     }, {
       "label": "Clean View",
