@@ -1,0 +1,12 @@
+<div class="viewport merge-view" ng-keydown="onKeyDown($event)">
+    <div class="center-container">
+        <div class="merge-items">
+            <merge-item ng-repeat="merge in merges" class="content-block"></merge-item>
+        </div>
+    </div>
+
+    <div class="primary-actions">
+        <button class="action-btn" ng-click="buildMerges()">Build Merges</button>
+        <button class="action-btn positive" ng-click="createMerge()">Create Merge</button>
+    </div>
+</div>
