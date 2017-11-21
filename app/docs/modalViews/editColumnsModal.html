@@ -1,0 +1,13 @@
+<p>The edit columns modal allows you to toggle the display of columns and create custom columns.</p>
+
+<p>The edit columns modal is available on the <a href="docs://Views/Edit View/Tree View">tree view</a> and on the <a href="docs://Views/Edit View/Referenced By View">referenced by view</a>.</p>
+
+<h2>Disabling columns</h2>
+<p>You can disable a column by unchecking the checkbox by it.</p>
+
+<h2>Custom columns</h2>
+<p>You can create a new custom column by clicking the <b>Add Column</b> button.</p>
+
+<p>To edit a custom column, click on it to select it.  Once selected you can change the column's label and data retrieval code.  The label must be unique among all columns, including disabled ones.  The data retrieval code should <code>return</code> a string value by calling one or more functions on the input <code>node</code>.  You should use <a href="docs://Development/APIs/xelib">the xelib API</a> to get a value to display.  If the code does not return a value for a given node no value will be displayed in the column.</p>
+
+<p>You can delete a custom column by clicking the <b>Delete</b> button.</p>

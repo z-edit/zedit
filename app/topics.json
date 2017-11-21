@@ -46,6 +46,9 @@
         "modalViews": [{
           "label": "Automate Modal",
           "description": "Allows you to create, manage, and run scripts."
+        }, {
+          "label": "Edit Columns Modal",
+          "description": "Allows you to manage the columns that are displayed on the view, including creating custom columns."
         }]
       }, {
         "label": "Record View",
@@ -79,6 +82,7 @@
           { "label": "Error Caching Settings" }
         ]
       },
+      { "label": "Edit Columns Modal" },
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
       {
