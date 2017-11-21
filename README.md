@@ -6,6 +6,9 @@ This project is built off of the xEdit codebase via [xedit-lib](https://github.c
 
 You can view screenshots of the application [here](https://imgur.com/a/sHguD).
 
+# usage
+Download a release from the [releases tab](https://github.com/matortheeternal/zedit/releases) and install or extract it, then run `zEdit.exe`.  You shouldn't need to install any dependencies to use zEdit.
+
 # setup
 zEdit is a Windows x86 NodeJS Electron application.  Install [NodeJS](https://nodejs.org/en/download/current/) **32-bit**, then start a terminal/command prompt in the application directory and run `node -v` and `npm -v`.  The output should be v6.9.5 and 5.3.0 or newer.  If you get anything else you probably have multiple installations of node which you'll need to sort out.
 
