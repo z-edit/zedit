@@ -28,6 +28,10 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
         }
     };
 
+    let confirmCleanMode = function() {
+        return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
+    };
+
     // scope functions
     $scope.getLoadOrder = function () {
         let loadOrder = xelib.GetLoadOrder().split('\r\n');
@@ -51,6 +55,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
     };
 
     $scope.startSession = function () {
+        if ($scope.selectedAppMode === 'clean' && !confirmCleanMode()) return;
         if (!$scope.checkHardcodedDat()) return;
         $rootScope.profile = $scope.selectedProfile;
         $rootScope.appMode = $scope.selectedAppMode;
