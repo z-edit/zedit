@@ -124,9 +124,10 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         },
         build: (scope, items) => {
             let node = scope.selectedNodes.last(),
-                modal = `refactor${isFileNode(node) ? 'File' : 'Records'}`;
+                typeLabel = isFileNode(node) ? 'File' : 'Records',
+                modal = `refactor${typeLabel}`;
             items.push({
-                label: 'Refactor',
+                label: `Refactor ${typeLabel}`,
                 hotkey: 'Alt+Shift+R',
                 callback: () => scope.$emit('openModal', modal, {
                     nodes: scope.selectedNodes
