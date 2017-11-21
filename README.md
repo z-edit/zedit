@@ -11,7 +11,7 @@ zEdit is a Windows x86 NodeJS Electron application.  Install [NodeJS](https://no
 
 Before installing node modules you need to tell NodeJS where Python is so it can build certain native dependencies.  Install [python 2.7](https://www.python.org/downloads/windows/)\* and [add an environmental variable](https://kb.wisc.edu/cae/page.php?id=24500) `PYTHON` set to the full path to `python.exe`.  E.g. `C:\dev\lang\Python27\python.exe`.  Restart your command prompt and test the environmental variable by typing `echo %PYTHON%`.
 
-Run `npm install` in an elevated command prompt.  This will install required node modules and dependencies.  If you run into any errors (indicated by `ERR!`) contact us and we'll help sort things out.
+Clone zEdit and run `npm install` in an elevated command prompt in its directory.  This will install required node modules and dependencies.  If you run into any errors (indicated by `ERR!`) contact us and we'll help sort things out.
 
 You can then run the application with `npm start`.  
 
