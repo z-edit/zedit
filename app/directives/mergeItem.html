@@ -1,0 +1,33 @@
+<div class="content-title">{{merge.name}} ({{merge.filename}})
+    <span class="right">
+        <button class="action-btn small" ng-click="buildMerge(merge)">
+            Build
+        </button>
+        <button class="action-btn small" ng-click="editMerge(merge)">
+            Edit
+        </button>
+        <button class="action-btn small negative" ng-click="deleteMerge(merge)">
+            Delete
+        </button>
+    </span>
+</div>
+<div class="content-container">
+    <div class="merge-info">
+        <div class="status-{{merge.status | classify}}">{{merge.status}}</div>
+        <div class="last-built" ng-show="merge.dateBuilt">Built {{merge.dateBuilt}}</div>
+    </div>
+
+    <div class="merge-plugin-items">
+        <div ng-repeat="plugin in merge.plugins" class="merge-plugin-item">
+            <div class="plugin-title" ng-click="toggleDetails(plugin)">
+                <span class="fa fa-plus-square-o"></span> {{::plugin.filename}}
+                <span class="merge-rating-{{::Math.round(plugin.rating)}}" ng-show="plugin.reports.length">{{::plugin.rating / 4.0}}</span>
+            </div>
+            <div ng-show="plugin.showDetails" class="plugin-details">
+                <div ng-repeat="report in plugin.reports" class="merge-report-item">
+                    <!-- TODO -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
