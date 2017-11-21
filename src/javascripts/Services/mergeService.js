@@ -1,0 +1,3 @@
+ngapp.service('mergeService', function() {
+
+});

@@ -6,18 +6,43 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, hotkeyService) {
+ngapp.controller('mergeController', function ($scope, hotkeyService, mergeService) {
     // helper functions
     let openSaveModal = function(shouldFinalize) {
         if (!shouldFinalize && !$scope.mergedPlugins.length) return;
         $scope.$emit('openModal', 'save', {
             shouldFinalize: shouldFinalize,
-            plugins: $scope.mergedPlugins
+            merges: $scope.merges
         });
     };
 
     // scope functions
-    // TODO
+    $scope.buildMerge = function(merge) {
+        mergeService.buildMerges([merge]);
+    };
+
+    $scope.editMerge = function(merge) {
+        $scope.$emit('openModal', 'editMerge', { merge: merge });
+    };
+
+    $scope.deleteMerge = function(merge) {
+        $scope.merges.remove(merge);
+    };
+
+    $scope.createMerge = function() {
+        $scope.$emit('openModal', 'editMerge', { merges: $scope.merges });
+    };
+
+    $scope.buildMerges = function() {
+        let mergesToBuild = $scope.merges.filter(function(merge) {
+            return merge.status === 'Ready to be built';
+        });
+        mergeService.buildMerges(mergesToBuild);
+    };
+
+    $scope.toggleDetails = function(plugin) {
+        plugin.showDetails = !plugin.showDetails;
+    };
 
     // event handlers
     $scope.$on('settingsClick', function() {
