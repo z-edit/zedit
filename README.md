@@ -20,10 +20,10 @@ You can then run the application with `npm start`.
 
 \*Python 3.x may work as well, but I haven't tested with it.
 
-# building
+## building
 You can build a release of the application using `npm run release`.  The application structure is based off of [electron-boilerplate](https://github.com/szwacz/electron-boilerplate).  
 
-# troubleshooting
+## troubleshooting
 - If you get `Error: Electron failed to install correctly`, simply delete the `node_modules\electron` folder and run `npm install` again.  
 - If you get `Exception loading X, *.hardcoded.dat not found` when loading plugins copy the appropriate dat file from the base directory to the `node_modules\electron\dist` folder.
 - Fall back to `npm run release` if `npm start` doesn't work for you due to a DLL not found error.
