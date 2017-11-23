@@ -1,10 +1,10 @@
-ngapp.controller('settingsModalController', function($scope, settingsService, modalService) {
+ngapp.controller('settingsModalController', function($scope, settingsService, tabService) {
     // initialization
     $scope.settings = settingsService.settings;
     $scope.globalSettings = settingsService.globalSettings;
     $scope.profileName = settingsService.currentProfile;
     $scope.tabs = settingsService.getTabs();
-    modalService.initTabsModal($scope);
+    tabService.buildFunctions($scope);
 
     // scope functions
     $scope.saveSettings = function(closeModal = true) {

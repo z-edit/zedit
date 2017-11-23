@@ -1,4 +1,4 @@
-ngapp.controller('manageExtensionsModalController', function($scope, extensionService, modalService) {
+ngapp.controller('manageExtensionsModalController', function($scope, extensionService, tabService) {
     $scope.tabs = extensionService.getTabs();
-    modalService.initTabsModal($scope);
+    tabService.buildFunctions($scope);
 });
