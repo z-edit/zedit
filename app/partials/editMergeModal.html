@@ -1,0 +1,16 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal huge-modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>{{editing ? 'Edit' : 'Create'}} Merge</h2>
+
+            <tabs></tabs>
+        </form>
+
+        <div class="primary-actions">
+            <button class="action-btn" ng-click="createMerge()" ng-hide="editing">OK</button>
+            <button class="action-btn" ng-click="$emit('closeModal')">{{editing ? 'OK' : 'Cancel'}}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,244 @@
+<expandable-section ng-if="merge.archives.length">
+    <title>Bethesda Archives</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.extractArchives"/>
+            Extract Archives
+        </label>
+        <label>
+            <input type="checkbox" ng-model="merge.buildArchive"/>
+            Build Merged Archive
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+                <th>File Size</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="archive in merge.archives">
+                <td>{{::file.plugin}}</td>
+                <td title="{{::archive.filePath}}">{{::archive.filename}}</td>
+                <td>{{::archive.fileSize | bytes}}</td>
+                <td>
+                    <select ng-model="archive.action">
+                        <option ng-show="merge.extractArchives">Extract</option>
+                        <option ng-show="merge.buildArchive">Merge</option>
+                        <option>Ignore</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.faceDataFiles.length">
+    <title>NPC Face Data</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleFaceData"/>
+            Handle NPC Face Data
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+                <th>NPC</th>
+            </tr>
+            </thead>
+            <tbody vs-repeat>
+            <tr ng-repeat="file in merge.faceDataFiles">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+                <td>{{::file.npc}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.voiceDataFiles.length">
+    <title>NPC Voice Data</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleVoiceData"/>
+            Handle NPC Voice Data
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+                <th>NPC</th>
+            </tr>
+            </thead>
+            <tbody vs-repeat>
+            <tr ng-repeat="file in merge.voiceDataFiles">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+                <td>{{::file.npc}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.scriptFragments.length">
+    <title>Script Fragments</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleScriptFragments"/>
+            Handle Script Fragments
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+                <th>Record</th>
+            </tr>
+            </thead>
+            <tbody vs-repeat>
+            <tr ng-repeat="fragment in merge.scriptFragments">
+                <td>{{::fragment.plugin}}</td>
+                <td>{{::fragment.filePath}}</td>
+                <td>{{::fragment.record}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.stringFiles.length">
+    <title>String Files</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleStringFiles"/>
+            Handle String Files
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="file in merge.stringFiles">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.translations.length">
+    <title>MCM Translations</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleTranslations"/>
+            Handle MCM Translations
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="file in merge.translations">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.iniFiles.length">
+    <title>INI Files</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleIniFiles"/>
+            Handle INI Files
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="file in merge.iniFiles">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="merge.seqFiles.length">
+    <title>SEQ Files</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleSeqFiles"/>
+            Handle SEQ Files
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>File</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="file in merge.seqFiles">
+                <td>{{::file.plugin}}</td>
+                <td>{{::file.filePath}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
+
+<expandable-section ng-if="canCopyGeneralAssets">
+    <title>General Assets</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.copyGeneralAssets"/>
+            Copy General Assets
+        </label>
+
+        <table class="files-table">
+            <thead>
+            <tr>
+                <th>Plugin(s)</th>
+                <th>File</th>
+            </tr>
+            </thead>
+            <tbody vs-repeat>
+            <tr ng-repeat="file in merge.generalAssets">
+                <td>{{::file.plugins.join(', ')}}</td>
+                <td>{{::file.filePath}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </content>
+</expandable-section>
