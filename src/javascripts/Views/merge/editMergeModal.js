@@ -1,8 +1,7 @@
-ngapp.controller('editMergeModalController', function($scope, mergeService, modalService, tabsFactory) {
+ngapp.controller('editMergeModalController', function($scope, mergeService, tabsFactory) {
     // initialization
     $scope.editing = $scope.modalOptions.hasOwnProperty('merge');
     $scope.merge = $scope.modalOptions.merge || mergeService.newMerge();
-    $scope.tabs = tabsFactory.editMergeModalTabs;
 
     // scope functions
     $scope.createMerge = function() {

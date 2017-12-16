@@ -1,10 +1,16 @@
 ngapp.service('mergeService', function(settingsService) {
+    let getMergePath = function() {
+        let mergePath = settingsService.settings.mergePath;
+        fh.jetpack.dir(mergePath);
+        return mergePath;
+    };
+
     let getNewMergeName = function() {
         let mergeName = 'New Merge',
             counter = 1,
-            mergePath = settingsService.settings.mergePath,
+            mergePath = getMergePath(),
             directories = fh.getDirectories(mergePath).map(fh.getFileName);
-        while (directories.include(mergeName))
+        while (directories.includes(mergeName))
             mergeName = `New Merge ${++counter}`;
         return mergeName;
     };
