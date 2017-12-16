@@ -53,8 +53,9 @@ ngapp.service('settingsService', function($rootScope) {
             return {
                 label: tab.label,
                 templateUrl: tab.templateUrl,
-                controller: tab.controller
+                controller: tab.controller,
+                customActions: tab.customActions
             };
         });
-    }
+    };
 });

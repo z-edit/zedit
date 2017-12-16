@@ -3,6 +3,11 @@
     margin: 100px auto;
   }
 
+  ng-include.flex {
+    display: flex;
+    flex-direction: column;
+  }
+
   .theme-metadata {
     padding-left: 20px;
     font-size: 15px;
