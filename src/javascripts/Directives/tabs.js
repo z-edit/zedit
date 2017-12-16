@@ -2,16 +2,13 @@ ngapp.directive('tabs', function() {
     return {
         restrict: 'E',
         scope: {
-            tabs: '=?'
+            source: '@'
         },
         controller: 'tabsController'
     }
 });
 
-ngapp.controller('tabsController', function($scope, tabService) {
-    Object.defaults($scope, {
-        tabs: $scope.$parent.tabs
-    });
-
+ngapp.controller('tabsController', function($scope, tabService, tabsFactory) {
+    $scope.tabs = tabsFactory[$scope.source];
     tabService.buildFunctions($scope);
 });

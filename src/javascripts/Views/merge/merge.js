@@ -46,7 +46,7 @@ ngapp.controller('mergeController', function ($scope, hotkeyService, mergeServic
 
     // event handlers
     $scope.$on('settingsClick', function() {
-        if (!$scope.loaded) return;
+        //if (!$scope.loaded) return;
         $scope.$emit('openModal', 'settings');
     });
 

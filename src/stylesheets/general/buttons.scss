@@ -84,3 +84,13 @@ h2, h3 {
     padding: 0 5px;
   }
 }
+
+.browse-button {
+  font: 14px FontAwesome;
+  font-size: inherit;
+  cursor: pointer;
+
+  &:before {
+    content: "\f115";
+  }
+}

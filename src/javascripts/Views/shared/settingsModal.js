@@ -12,4 +12,10 @@ ngapp.controller('settingsModalController', function($scope, settingsService, ta
         settingsService.saveGlobalSettings();
         if (closeModal) $scope.$emit('closeModal');
     };
+
+    $scope.browseSettingsPath = function(settingsKey, title) {
+        let defaultPath = $scope.settings[settingsKey] || fh.appPath,
+            newPath = fh.selectDirectory(title, defaultPath);
+        if (newPath) $scope.settings[settingsKey] = newPath;
+    };
 });

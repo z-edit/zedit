@@ -19,15 +19,7 @@
 
     <div class="merge-plugin-items">
         <div ng-repeat="plugin in merge.plugins" class="merge-plugin-item">
-            <div class="plugin-title" ng-click="toggleDetails(plugin)">
-                <span class="fa fa-plus-square-o"></span> {{::plugin.filename}}
-                <span class="merge-rating-{{::Math.round(plugin.rating)}}" ng-show="plugin.reports.length">{{::plugin.rating / 4.0}}</span>
-            </div>
-            <div ng-show="plugin.showDetails" class="plugin-details">
-                <div ng-repeat="report in plugin.reports" class="merge-report-item">
-                    <!-- TODO -->
-                </div>
-            </div>
+            {{::plugin.filename}}
         </div>
     </div>
 </div>
