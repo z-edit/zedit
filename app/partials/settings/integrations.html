@@ -1,0 +1,49 @@
+<div>
+    <h2>Integration Settings</h2>
+
+    <h3>Mod Manager</h3>
+    <section>
+        <div class="path-setting">
+            <span class="input-label">Mod manager</span>
+            <select ng-model="settings.modManager">
+                <option>None</option>
+                <option>Nexus Mod Manager</option>
+                <option>Mod Organizer</option>
+            </select>
+        </div>
+        <div ng-show="settings.modManager !== 'None'" class="path-setting">
+            <span class="input-label">Mod manager path</span>
+            <input type="text" ng-model="settings.managerPath" />
+            <span class="browse-button" ng-click="browseSettingsPath('managerPath', 'Mod Manager Path')" title="Browse"></span>
+        </div>
+        <div ng-show="settings.modManager !== 'None'" class="path-setting">
+            <span class="input-label">Mod manager mods path</span>
+            <input type="text" ng-model="settings.modsPath" />
+            <span class="browse-button" ng-click="browseSettingsPath('modsPath', 'Mod Manager Mods Path')" title="Browse"></span>
+        </div>
+    </section>
+
+    <h3>Papyrus</h3>
+    <section>
+        <div class="path-setting">
+            <span class="input-label">Champollion decompiler path</span>
+            <input type="text" ng-model="settings.decompilerPath" />
+            <span class="browse-button" ng-click="browseSettingsPath('decompilerPath', 'Papyrus Decompiler Path')" title="Browse"></span>
+        </div>
+        <div class="path-setting">
+            <span class="input-label">Papyrus compiler path</span>
+            <input type="text" ng-model="settings.compilerPath" />
+            <span class="browse-button" ng-click="browseSettingsPath('compilerPath', 'Papyrus Compiler Path')" title="Browse"></span>
+        </div>
+        <div class="path-setting">
+            <span class="input-label">Papyrus flags path</span>
+            <input type="text" ng-model="settings.papyrusFlags" />
+            <span class="browse-button" ng-click="browseSettingsPath('papyrusFlagsPath', 'Papyrus Flags Path')"  title="Browse"></span>
+        </div>
+    </section>
+</div>
+
+<div class="primary-actions">
+    <button class="action-btn" ng-click="detect()" title="Detect and configure integrations automatically.">Detect</button>
+    <button class="action-btn" ng-click="saveSettings()">OK</button>
+</div>
