@@ -72,8 +72,12 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
     extract(filePath, { dir: destDir }, (err) => { throw err });
 };
 
+fh.getFileBase = function(filePath) {
+    return filePath.match(/(.*\\)?.*\.([^\\]+)/)[1];
+};
+
 fh.getFileExt = function(filePath) {
-    return filePath.match(/.*\.([^\\]+)/)[1];
+    return filePath.match(/(.*\\)?.*\.([^\\]+)/)[2];
 };
 
 fh.getFileName = function(filePath) {
@@ -86,6 +90,10 @@ fh.getDirectory = function(filePath) {
 
 fh.getDateModified = function(filePath) {
     return fh.jetpack.inspect(filePath, {times: true}).modifyTime;
+};
+
+fh.getFileSize = function(filePath) {
+    return fh.jetpack.inspect(filePath).size;
 };
 
 fh.getDirectories = function(path) {
