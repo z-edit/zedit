@@ -1,11 +1,13 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import minimatch from 'minimatch'
 import extract from 'extract-zip';
 import url from 'url';
 
 let fh = {};
 
 fh.jetpack = jetpack;
+fh.minimatch = minimatch;
 fh.appPath = remote.app.getAppPath();
 fh.userPath = remote.app.getPath('userData');
 fh.userDir = jetpack.cwd(fh.userPath);
