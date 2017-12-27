@@ -73,7 +73,7 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
 };
 
 fh.getFileBase = function(filePath) {
-    return filePath.match(/(.*\\)?.*\.([^\\]+)/)[1];
+    return filePath.match(/(.*\\)?(.*)\.[^\\]+/)[2];
 };
 
 fh.getFileExt = function(filePath) {
@@ -81,7 +81,7 @@ fh.getFileExt = function(filePath) {
 };
 
 fh.getFileName = function(filePath) {
-    return filePath.match(/.*\\(.*)/)[1];
+    return filePath.match(/(.*\\)?(.*)/)[2];
 };
 
 fh.getDirectory = function(filePath) {
