@@ -1,4 +1,6 @@
-ngapp.service('mergeService', function(settingsService) {
+ngapp.service('mergeService', function(settingsService, mergeDataService) {
+    let initMergeData = mergeDataService.clearMergeData;
+
     let getMergePath = function() {
         let mergePath = settingsService.settings.mergePath;
         fh.jetpack.dir(mergePath);
@@ -17,19 +19,10 @@ ngapp.service('mergeService', function(settingsService) {
 
     this.newMerge = function() {
         let mergeName = getNewMergeName();
-        return {
+        return initMergeData({
             name: mergeName,
             filename: `${mergeName}.esp`,
             plugins: [],
-            archives: [],
-            faceDataFiles: [],
-            voiceDataFiles: [],
-            scriptFragments: [],
-            stringFiles: [],
-            translations: [],
-            iniFiles: [],
-            seqFiles: [],
-            generalAssets: [],
             extractArchives: false,
             buildArchive: false,
             handleFaceData: true,
@@ -38,8 +31,7 @@ ngapp.service('mergeService', function(settingsService) {
             handleStringFiles: true,
             handleTranslations: true,
             handleIniFiles: true,
-            handleSeqFiles: true,
             copyGeneralAssets: false
-        }
+        });
     };
 });
