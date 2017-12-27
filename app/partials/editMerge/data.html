@@ -193,31 +193,6 @@
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.seqFiles.length">
-    <title>SEQ Files</title>
-    <content>
-        <label>
-            <input type="checkbox" ng-model="merge.handleSeqFiles"/>
-            Handle SEQ Files
-        </label>
-
-        <table class="files-table">
-            <thead>
-            <tr>
-                <th>Plugin</th>
-                <th>File</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="file in merge.seqFiles">
-                <td>{{::file.plugin}}</td>
-                <td>{{::file.filePath}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </content>
-</expandable-section>
-
 <expandable-section ng-if="canCopyGeneralAssets">
     <title>General Assets</title>
     <content>
