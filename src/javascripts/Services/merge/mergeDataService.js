@@ -1,5 +1,15 @@
-ngapp.service('mergeDataService', function(assetService) {
-    let service = this;
+ngapp.service('mergeDataService', function(assetService, settingsService) {
+    let service = this,
+        dataPath;
+
+    let getDataPath = function() {
+        dataPath = xelib.GetGlobal('DataPath');
+        return dataPath;
+    };
+
+    let usingModManager = function() {
+        return settingsService.settings.modManager !== 'None';
+    };
 
     let getPluginArchives = function(merge, plugin, folder) {
         let defaultAction = merge.buildArchive ? 'Merge' :
@@ -72,11 +82,15 @@ ngapp.service('mergeDataService', function(assetService) {
         });
     };
 
-    let getPluginGeneralAssets = function(merge, plugin, folder) {
-        assetService.getGeneralAssets(plugin, folder).forEach(function(filePath) {
-            merge.iniFiles.push({
-                plugin: plugin,
-                filePath: filePath
+    let getGeneralAssets = function(merge, folders) {
+        if (!usingModManager()) return;
+        Object.keys(folders).forEach(function(folder) {
+            let plugins = folders[folder];
+            assetService.getGeneralAssets(folder).forEach(function(filePath) {
+                merge.generalAssets.push({
+                    filePath: filePath,
+                    plugins: plugins
+                });
             });
         });
     };
@@ -84,11 +98,12 @@ ngapp.service('mergeDataService', function(assetService) {
     let dataSteps = [
         getPluginArchives, getPluginFaceData, getPluginVoiceData,
         getPluginScriptFragments, getPluginStringFiles,
-        getPluginMcmTranslations, getPluginIniFiles, getPluginGeneralAssets
+        getPluginMcmTranslations, getPluginIniFiles
     ];
 
     this.clearMergeData = function(merge) {
         return Object.assign(merge, {
+            hasData: false,
             archives: [],
             faceDataFiles: [],
             voiceDataFiles: [],
@@ -101,14 +116,22 @@ ngapp.service('mergeDataService', function(assetService) {
     };
 
     this.getPluginDataFolder = function(plugin) {
-
+        if (!usingModManager()) return dataPath || getDataPath();
+        let pluginPath = fh.jetpack.find(settingsService.settings.modsPath, {
+            matching: `*/${plugin}`
+        }).last();
+        return fh.getDirectory(pluginPath);
     };
 
     this.buildMergeData = function(merge) {
         clearMergeData(merge);
+        let folders = {};
         merge.plugins.forEach(function(plugin) {
-            let pluginDataFolder = service.getPluginDataFolder(plugin);
-            dataSteps.forEach((fn) => fn(merge, plugin, pluginDataFolder));
+            let folder = service.getPluginDataFolder(plugin);
+            dataSteps.forEach((fn) => fn(merge, plugin, folder));
+            folders[folder] = (folders[folder] || []).concat([plugin]);
         });
+        getGeneralAssets(merge, folders);
+        merge.hasData = true;
     };
 });
