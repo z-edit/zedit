@@ -36,12 +36,12 @@ ngapp.service('assetService', function(bsaHelpers) {
         try {
             return records.reduce(function(items, record) {
                 let fragment = xelib.GetElement(record, fragmentPath);
-                if (!fragment) return;
-                return {
+                if (fragment) items.push({
                     formId: xelib.GetFormID(record),
                     name: xelib.LongName(record),
                     filename: xelib.GetValue(fragment, 'fileName')
-                }
+                });
+                return items;
             }, []);
         } finally {
             records.forEach(xelib.Release);
