@@ -30,7 +30,7 @@ ngapp.service('assetService', function(bsaHelpers) {
     };
 
     // TODO: Check if script fragment file exists for override records
-    let getFragments = function(pluginFile, folder, group) {
+    let getFragmentsFromPlugin = function(pluginFile, folder, group) {
         let fragmentPath = getFragmentsPath(group),
             records = xelib.GetRecords(pluginFile, group, true);
         try {
@@ -65,11 +65,13 @@ ngapp.service('assetService', function(bsaHelpers) {
         return findGameAssets(plugin, folder, `${voicePath}${plugin}/**/*`);
     };
 
-    this.getScriptFragments = function(pluginFile, folder) {
+    this.getScriptFragments = function(plugin, folder) {
+        let pluginFile = xelib.FileByName(plugin);
+        if (!pluginFile) return [];
         return Array.prototype.concat(
-            getFragments(pluginFile, folder, 'SCEN'),
-            getFragments(pluginFile, folder, 'QUST'),
-            getFragments(pluginFile, folder, 'INFO')
+            getFragmentsFromPlugin(pluginFile, folder, 'SCEN'),
+            getFragmentsFromPlugin(pluginFile, folder, 'QUST'),
+            getFragmentsFromPlugin(pluginFile, folder, 'INFO')
         );
     };
 
