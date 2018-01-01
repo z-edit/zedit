@@ -1,1 +1,9 @@
-<!-- TODO -->
+<section>
+    <list-view items="plugins" drag-type="mergePlugins">
+        <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled" ng-show="!$parent.item.blacklisted" />
+        <span ng-class="{'disabled': $parent.item.disabled, 'required' : $parent.item.required}" title="{{$parent.item.title}}">
+            <span ng-show="$parent.item.active || $parent.item.required">[{{$parent.item.index | hex:2 }}]</span>
+            {{::$parent.item.filename}}
+        </span>
+    </list-view>
+</section>

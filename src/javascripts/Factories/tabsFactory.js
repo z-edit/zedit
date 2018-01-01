@@ -6,7 +6,8 @@ ngapp.service('tabsFactory', function() {
     }, {
         label: 'Plugins',
         class: 'plugins-tab',
-        templateUrl: 'partials/editMerge/plugins.html'
+        templateUrl: 'partials/editMerge/plugins.html',
+        controller: 'editMergePluginsController'
     }, {
         label: 'Data',
         class: 'data-tab',
