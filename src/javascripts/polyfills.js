@@ -185,7 +185,7 @@ Array.prototype.equals = function(otherArray) {
 };
 
 Array.prototype.forEachReverse = function(callback) {
-    for (let i = this.length; i > -1; i--) {
+    for (let i = this.length - 1; i > -1; i--) {
         callback(this[i], i, this);
     }
 };
