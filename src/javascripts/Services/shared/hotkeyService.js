@@ -48,7 +48,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
             }) || 'default';
             if (!hotkeys[hotkey]) return;
             if (!trigger(scope, hotkeys[hotkey], e, hotkey !== 'default')) {
-                if (hotkeys.default) trigger(scope, hotkeys.default, e, true);
+                if (hotkeys.default) trigger(scope, hotkeys.default, e, false);
             }
         };
     };
