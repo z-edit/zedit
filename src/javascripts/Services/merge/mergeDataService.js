@@ -124,7 +124,7 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
     };
 
     this.buildMergeData = function(merge) {
-        clearMergeData(merge);
+        service.clearMergeData(merge);
         let folders = {};
         merge.plugins.forEach(function(plugin) {
             let folder = service.getPluginDataFolder(plugin);
