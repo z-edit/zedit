@@ -10,6 +10,7 @@ ngapp.service('tabsFactory', function() {
     }, {
         label: 'Data',
         class: 'data-tab',
-        templateUrl: 'partials/editMerge/data.html'
+        templateUrl: 'partials/editMerge/data.html',
+        controller: 'editMergeDataController'
     }];
 });
