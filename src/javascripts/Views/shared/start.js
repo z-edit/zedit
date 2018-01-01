@@ -10,7 +10,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
     // initialization
     profileService.validateProfiles();
     $scope.profiles = profileService.profiles;
-    $scope.appModes = appModeService.applicationModes;
+    $scope.appModes = appModeService.getAppModes();
     $scope.selectedProfile = profileService.getDefaultProfile();
     $scope.selectedAppMode = $scope.appModes[0];
     $timeout(() => window.startupCompleted = true, 100);
@@ -32,8 +32,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
         return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
     };
 
-    // scope functions
-    $scope.getLoadOrder = function () {
+    let getLoadOrder = function () {
         let loadOrder = xelib.GetLoadOrder().split('\r\n');
         let activePlugins = xelib.GetActivePlugins().split('\r\n');
         console.log('Load Order:\n' + loadOrder);
@@ -47,6 +46,17 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
         })
     };
 
+    let storeLoadOrder = function() {
+        $rootScope.loadOrder = getLoadOrder();
+        appModeService.setAppMode();
+    };
+
+    let selectLoadOrder = function() {
+        $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
+        $scope.$emit('openModal', 'loadOrder', { loadOrder: getLoadOrder() });
+    };
+
+    // scope functions
     $scope.checkHardcodedDat = function() {
         let game = profileService.getGame($scope.selectedProfile.gameMode);
         let fileName = game.shortName + '.Hardcoded.dat';
@@ -61,11 +71,8 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
         $rootScope.appMode = $scope.selectedAppMode;
         settingsService.loadProfileSettings($scope.selectedProfile.name);
         xelibService.startSession($scope.selectedProfile);
-        $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
         $scope.$emit('sessionStarted', $scope.selectedProfile);
-        $scope.$emit('openModal', 'loadOrder', {
-            loadOrder: $scope.getLoadOrder()
-        });
+        appModeService.skipLoad() ? storeLoadOrder() : selectLoadOrder();
     };
 
     // event listeners

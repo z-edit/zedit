@@ -1,7 +1,16 @@
 ngapp.service('appModeService', function($rootScope, $state) {
-    this.applicationModes = ['edit', 'clean', 'merge'];
+    let applicationModes = ['edit', 'clean', 'merge'],
+        skipLoadModes = ['merge', 'smash'];
+
+    this.getAppModes = function() {
+        return applicationModes;
+    };
 
     this.setAppMode = function() {
         $state.go(`base.${$rootScope.appMode}`);
+    };
+
+    this.skipLoad = function() {
+        return skipLoadModes.includes($rootScope.appMode);
     };
 });
