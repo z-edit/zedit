@@ -115,8 +115,7 @@ ngapp.service('loadOrderService', function() {
     this.updateWarnings = function(item) {
         if (item.disabled) return;
         let activeMasters = item.masters
-            .filter((item) => { return item.active })
-            .mapOnKey('filename');
+            .filterOnKey('active').mapOnKey('filename');
         item.warn = activeMasters.length > 0;
         item.title = buildTitle(warnTitle, activeMasters);
     };

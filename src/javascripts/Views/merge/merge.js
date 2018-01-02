@@ -7,6 +7,8 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('mergeController', function ($scope, hotkeyService, mergeService) {
+    $scope.merges = [];
+
     // helper functions
     let openSaveModal = function(shouldFinalize) {
         if (!shouldFinalize && !$scope.mergedPlugins.length) return;
