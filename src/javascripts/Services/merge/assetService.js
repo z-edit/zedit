@@ -12,11 +12,12 @@ ngapp.service('assetService', function(bsaHelpers) {
         INFO: 'Info'
     };
 
-    let findGameAssets = function(plugin, folder, expr) {
-        let assets = fh.jetpack.find(folder, { matching: expr });
+    let findGameAssets = function(plugin, folder, subfolder, expr) {
+        let assets = fh.findInSubfolder(folder, subfolder, { matching: expr }),
+            fullExpr = `${subfolder}/${expr}`;
         service.getBsaFiles(plugin, folder).forEach(function(bsaPath) {
             if (fh.getFileExt(bsaPath) === 'bsl') return;
-            bsaHelpers.find(bsaPath, expr).forEach(function(assetPath) {
+            bsaHelpers.find(bsaPath, fullExpr).forEach(function(assetPath) {
                 assets.push(`${bsaPath}/${assetPath}`);
             });
         });
@@ -49,20 +50,22 @@ ngapp.service('assetService', function(bsaHelpers) {
     };
 
     this.getBsaFiles = function(plugin, folder) {
-        return fh.jetpack.find(folder, {
-            matching: `${fh.getFileBase(plugin)}.@(bsa|ba2|bsl)`
-        });
+        return fh.filterExists(folder, [
+            `${fh.getFileBase(plugin)}.bsa`,
+            `${fh.getFileBase(plugin)}.bsl`,
+            `${fh.getFileBase(plugin)}.ba2`
+        ]);
     };
 
     this.getFaceData = function(plugin, folder) {
         return Array.prototype.concat(
-            findGameAssets(plugin, folder, `${faceTintPath}${plugin}/*`),
-            findGameAssets(plugin, folder, `${faceGeomPath}${plugin}/*`)
+            findGameAssets(plugin, folder, faceTintPath, `${plugin}/*`),
+            findGameAssets(plugin, folder, faceGeomPath, `${plugin}/*`)
         );
     };
 
     this.getVoiceData = function(plugin, folder) {
-        return findGameAssets(plugin, folder, `${voicePath}${plugin}/**/*`);
+        return findGameAssets(plugin, folder, voicePath, `${plugin}/**/*`);
     };
 
     this.getScriptFragments = function(plugin, folder) {
@@ -76,20 +79,20 @@ ngapp.service('assetService', function(bsaHelpers) {
     };
 
     this.getStringFiles = function(plugin, folder) {
-        return findGameAssets(plugin, folder,
-            `strings/${fh.getFileBase(plugin)}*.?(DL|IL)STRINGS`);
+        return findGameAssets(plugin, folder, 'strings',
+            `${fh.getFileBase(plugin)}*.?(DL|IL)STRINGS`);
     };
 
     this.getMcmTranslations = function(plugin, folder) {
-        return fh.jetpack.find(folder, {
-            matching: `${translationPath}${fh.getFileBase(plugin)}*.txt`
+        return fh.findInSubfolder(folder, translationPath, {
+            matching: `${fh.getFileBase(plugin)}*.txt`
         });
     };
 
     this.getIniFiles = function(plugin, folder) {
-        return fh.jetpack.find(folder, {
-            matching: `${fh.getFileBase(plugin)}.ini`
-        });
+        return fh.filterExists(folder, [
+            `${fh.getFileBase(plugin)}.ini`
+        ]);
     };
 
     this.getGeneralAssets = function(folder) {
