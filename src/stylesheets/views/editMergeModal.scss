@@ -1,0 +1,13 @@
+.edit-merge-modal {
+  .disabled {
+    color: $negative;
+  }
+
+  .warn {
+    color: $neutral;
+  }
+
+  .required {
+    color: $positive;
+  }
+}
