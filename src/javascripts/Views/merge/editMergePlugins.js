@@ -17,16 +17,18 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             .filterOnKey('active').mapOnKey('filename');
     };
 
+    // scope functions
     $scope.itemToggled = function(item) {
+        mergeDataService.clearMergeData($scope.merge);
         item.masters.forEach(loadOrderService.updateRequired);
+        item.requiredBy.forEach(loadOrderService.updateWarnings);
         loadOrderService.updateIndexes($scope.plugins);
+        updateMergePlugins();
     };
 
     // event handlers
     $scope.$on('itemToggled', function(e, item) {
-        mergeDataService.clearMergeData($scope.merge);
         $scope.itemToggled(item);
-        updateMergePlugins();
         e.stopPropagation();
     });
 
@@ -40,4 +42,5 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     buildPlugins();
     loadOrderService.activateMode = false;
     loadOrderService.init($scope.plugins, activeFilter);
+    $scope.plugins.forEach(loadOrderService.updateWarnings);
 });

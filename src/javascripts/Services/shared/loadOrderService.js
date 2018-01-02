@@ -2,7 +2,8 @@ ngapp.service('loadOrderService', function() {
     let service = this,
         disabledTitle = 'This plugin cannot be loaded because it requires plugins \r\n' +
         'which are unavailable or cannot be loaded:',
-        requiredTitle = 'This plugin is required by the following active plugins:';
+        requiredTitle = 'This plugin is required by:',
+        warnTitle = 'This plugin requires active plugins:';
 
     // helper functions
     let defaultActiveFilter = (item) => { return item.active };
@@ -72,19 +73,13 @@ ngapp.service('loadOrderService', function() {
         });
     };
 
-    let fixMasters = function(loadOrder) {
+    let updateMasters = function(loadOrder) {
         loadOrder.forEach(function(item) {
             if (item.masters.includes(undefined)) {
                 disablePlugin(item);
             } else if (item.active && service.activateMode) {
                 service.activateMasters(item);
             }
-        });
-    };
-
-    let updateItems = function(loadOrder) {
-        loadOrder.forEach(function(item) {
-            if (item.active) service.updateRequired(item);
         });
     };
 
@@ -110,18 +105,27 @@ ngapp.service('loadOrderService', function() {
     };
 
     this.updateRequired = function(item) {
-        if (!item.active) return;
+        if (item.disabled) return;
         let activeRequiredBy = item.requiredBy
             .filter(service.activeFilter).mapOnKey('filename');
         item.required = activeRequiredBy.length > 0;
         item.title = buildTitle(requiredTitle, activeRequiredBy);
     };
 
+    this.updateWarnings = function(item) {
+        if (item.disabled) return;
+        let activeMasters = item.masters
+            .filter((item) => { return item.active })
+            .mapOnKey('filename');
+        item.warn = activeMasters.length > 0;
+        item.title = buildTitle(warnTitle, activeMasters);
+    };
+
     this.init = function(loadOrder, activeFilter = defaultActiveFilter) {
         service.activeFilter = activeFilter;
         buildMasterData(loadOrder);
-        fixMasters(loadOrder);
-        updateItems(loadOrder);
+        updateMasters(loadOrder);
+        loadOrder.forEach(service.updateRequired);
         service.updateIndexes(loadOrder);
     }
 });
