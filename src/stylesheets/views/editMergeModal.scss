@@ -10,4 +10,37 @@
   .required {
     color: $positive;
   }
+
+  .table-container {
+    overflow-x: auto;
+    border: 1px solid $soft_border;
+    margin-top: 14px;
+  }
+
+  table.files-table {
+    font-size: 14px;
+    margin: 4px;
+
+    th {
+      min-width: 80px;
+    }
+
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 8px;
+    }
+  }
+
+  .data-tab {
+    padding: 12px 10px;
+  }
+
+  expandable-section h3.title {
+    margin-top: 0 !important;
+
+    title {
+      display: inline-block;
+    }
+  }
 }
