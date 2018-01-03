@@ -60,7 +60,7 @@
                     <th>NPC</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat>
+                <tbody>
                 <tr ng-repeat="file in merge.faceDataFiles">
                     <td>{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -89,7 +89,7 @@
                     <th>NPC</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat>
+                <tbody>
                 <tr ng-repeat="file in merge.voiceDataFiles">
                     <td>{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -118,7 +118,7 @@
                     <th>Record</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat>
+                <tbody>
                 <tr ng-repeat="fragment in merge.scriptFragments">
                     <td>{{::fragment.plugin}}</td>
                     <td>{{::fragment.filePath}}</td>
@@ -227,7 +227,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat>
+                <tbody>
                 <tr ng-repeat="file in merge.generalAssets">
                     <td>{{::file.plugins.join(', ')}}</td>
                     <td>{{::file.filePath}}</td>
