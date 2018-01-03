@@ -1,14 +1,29 @@
 ngapp.service('mergeDataService', function(assetService, settingsService) {
     let service = this,
-        dataPath;
+        dataPath,
+        modDirectories;
 
     let getDataPath = function() {
         dataPath = xelib.GetGlobal('DataPath');
         return dataPath;
     };
 
+    let getModDirectories = function() {
+        modDirectories = fh.getDirectories(settingsService.settings.modsPath);
+        return modDirectories;
+    };
+
     let usingModManager = function() {
         return settingsService.settings.modManager !== 'None';
+    };
+
+    // TODO
+    let getFaceDataNpc = function() {
+        return '';
+    };
+
+    let getVoiceDataNpc = function() {
+        return '';
     };
 
     let getPluginArchives = function(merge, plugin, folder) {
@@ -117,10 +132,12 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
 
     this.getPluginDataFolder = function(plugin) {
         if (!usingModManager()) return dataPath || getDataPath();
-        let pluginPath = fh.jetpack.find(settingsService.settings.modsPath, {
-            matching: `*/${plugin}`
-        }).last();
-        return fh.getDirectory(pluginPath);
+        let directories = modDirectories || getModDirectories(),
+            dataFolder = directories.find(function(path) {
+                return fh.jetpack.exists(`${path}/${plugin}`);
+            });
+        if (dataFolder) return dataFolder + '\\';
+        return dataPath || getDataPath();
     };
 
     this.buildMergeData = function(merge) {
