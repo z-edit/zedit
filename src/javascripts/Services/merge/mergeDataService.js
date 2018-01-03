@@ -40,20 +40,22 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
     };
 
     let getPluginFaceData = function(merge, plugin, folder) {
+        let sliceLen = folder.length;
         assetService.getFaceData(plugin, folder).forEach(function(filePath) {
             merge.faceDataFiles.push({
                 plugin: plugin,
-                filePath: filePath,
+                filePath: filePath.slice(sliceLen),
                 npc: getFaceDataNpc(filePath)
             });
         });
     };
 
     let getPluginVoiceData = function(merge, plugin, folder) {
+        let sliceLen = folder.length;
         assetService.getVoiceData(plugin, folder).forEach(function(filePath) {
             merge.voiceDataFiles.push({
                 plugin: plugin,
-                filePath: filePath,
+                filePath: filePath.slice(sliceLen),
                 npc: getVoiceDataNpc(filePath)
             });
         });
@@ -71,28 +73,31 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
     };
 
     let getPluginStringFiles = function(merge, plugin, folder) {
+        let sliceLen = folder.length;
         assetService.getStringFiles(plugin, folder).forEach(function(filePath) {
             merge.stringFiles.push({
                 plugin: plugin,
-                filePath: filePath
+                filePath: filePath.slice(sliceLen)
             });
         });
     };
 
     let getPluginMcmTranslations = function(merge, plugin, folder) {
+        let sliceLen = folder.length;
         assetService.getMcmTranslations(plugin, folder).forEach(function(filePath) {
             merge.translations.push({
                 plugin: plugin,
-                filePath: filePath
+                filePath: filePath.slice(sliceLen)
             });
         });
     };
 
     let getPluginIniFiles = function(merge, plugin, folder) {
+        let sliceLen = folder.length;
         assetService.getIniFiles(plugin, folder).forEach(function(filePath) {
             merge.iniFiles.push({
                 plugin: plugin,
-                filePath: filePath
+                filePath: filePath.slice(sliceLen)
             });
         });
     };
@@ -100,10 +105,11 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
     let getGeneralAssets = function(merge, folders) {
         if (!usingModManager()) return;
         Object.keys(folders).forEach(function(folder) {
-            let plugins = folders[folder];
+            let sliceLen = folder.length,
+                plugins = folders[folder];
             assetService.getGeneralAssets(folder).forEach(function(filePath) {
                 merge.generalAssets.push({
-                    filePath: filePath,
+                    filePath: filePath.slice(sliceLen),
                     plugins: plugins
                 });
             });
