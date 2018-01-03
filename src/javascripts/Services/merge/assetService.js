@@ -1,10 +1,10 @@
 ngapp.service('assetService', function(bsaHelpers) {
     let service = this;
 
-    let faceGeomPath = 'meshes/actors/character/facegendata/facegeom/',
-        faceTintPath = 'textures/actors/character/facegendata/facetint/',
-        voicePath = 'sound/voice/',
-        translationPath = 'interface/translations/';
+    let faceGeomPath = 'meshes\\actors\\character\\facegendata\\facegeom\\',
+        faceTintPath = 'textures\\actors\\character\\facegendata\\facetint\\',
+        voicePath = 'sound\\voice\\',
+        translationPath = 'interface\\translations\\';
 
     let fragmentPathNames = {
         SCEN: 'Scene',
@@ -13,7 +13,7 @@ ngapp.service('assetService', function(bsaHelpers) {
     };
 
     let findGameAssets = function(plugin, folder, subfolder, expr) {
-        let assets = fh.findInSubfolder(folder, subfolder, { matching: expr }),
+        let assets = fh.getFiles(folder + subfolder, { matching: expr }),
             fullExpr = `${subfolder}/${expr}`;
         service.getBsaFiles(plugin, folder).forEach(function(bsaPath) {
             if (fh.getFileExt(bsaPath) === 'bsl') return;
@@ -59,13 +59,13 @@ ngapp.service('assetService', function(bsaHelpers) {
 
     this.getFaceData = function(plugin, folder) {
         return Array.prototype.concat(
-            findGameAssets(plugin, folder, faceTintPath, `${plugin}/*`),
-            findGameAssets(plugin, folder, faceGeomPath, `${plugin}/*`)
+            findGameAssets(plugin, folder, faceTintPath + plugin, '*'),
+            findGameAssets(plugin, folder, faceGeomPath + plugin, '*')
         );
     };
 
     this.getVoiceData = function(plugin, folder) {
-        return findGameAssets(plugin, folder, voicePath, `${plugin}/**/*`);
+        return findGameAssets(plugin, folder, voicePath + plugin, `**/*`);
     };
 
     this.getScriptFragments = function(plugin, folder) {
@@ -84,7 +84,7 @@ ngapp.service('assetService', function(bsaHelpers) {
     };
 
     this.getMcmTranslations = function(plugin, folder) {
-        return fh.findInSubfolder(folder, translationPath, {
+        return fh.getFiles(folder + translationPath, {
             matching: `${fh.getFileBase(plugin)}*.txt`
         });
     };

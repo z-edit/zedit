@@ -105,9 +105,8 @@ fh.getDirectories = function(path) {
     });
 };
 
-fh.findInSubfolder = function(folder, subfolder, options) {
-    let path = `${folder}/${subfolder}`;
-    if (fh.jetpack.exists(path) !== 'folder') return [];
+fh.getFiles = function(path, options) {
+    if (fh.jetpack.exists(path) !== 'dir') return [];
     return fh.jetpack.find(path, options);
 };
 
