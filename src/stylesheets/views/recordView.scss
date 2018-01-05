@@ -40,6 +40,10 @@
     white-space: nowrap;
     margin-top: -24px;
 
+    &.top-border {
+      border-top: 1px solid $medium_border;
+    }
+
     .node-columns {
       margin-top: 0;
       border: none;
@@ -64,10 +68,6 @@
 
     &::-webkit-scrollbar {
       display: none;
-    }
-
-    &:first-child {
-      border-top: 1px solid $medium_border;
     }
   }
 

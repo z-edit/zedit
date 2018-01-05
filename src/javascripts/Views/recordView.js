@@ -16,6 +16,15 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     nodeColumnService.buildFunctions($scope, '.record-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
 
+    // helper functions
+    let fixTopBorder = function() {
+        if ($scope.showAddressBar || $scope.showSearchBar) {
+            $scope.columnsElement.classList.remove('top-border');
+        } else {
+            $scope.columnsElement.classList.add('top-border');
+        }
+    };
+
     // scope functions
     $scope.showContextMenu = function(e) {
         if ($scope.focusedIndex === 0 || !$scope.selectedNodes.length) return;
@@ -24,6 +33,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
+        fixTopBorder();
         if (visible) {
             $timeout($scope.focusAddressInput, 50);
         } else if ($scope.treeElement) {
