@@ -159,6 +159,11 @@ ngapp.service('hotkeyFactory', function() {
         }]
     };
 
+    this.addressBarHotkeys = {
+        enter: 'go',
+        escape: 'closeBar'
+    };
+
     this.recordSearchHotkeys = {
         escape: 'closeSearch',
         enter: [{

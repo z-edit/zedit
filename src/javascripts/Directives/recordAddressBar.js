@@ -6,12 +6,15 @@ ngapp.directive('recordAddressBar', function () {
     }
 });
 
-ngapp.controller('recordAddressBarController', function($scope, $element, xelibService, htmlHelpers) {
-    let enterKey = 13;
+ngapp.controller('recordAddressBarController', function($scope, $element, xelibService, hotkeyService, htmlHelpers) {
     let addressInput = htmlHelpers.resolveElement($element[0], 'input');
 
+    // scope variables
     $scope.history = [];
     $scope.historyIndex = -1;
+
+    // inherited functions
+    hotkeyService.buildOnKeyDown($scope, 'onAddressKeyDown', 'addressBar');
 
     // scope functions
     $scope.historyGo = function() {
@@ -49,8 +52,8 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
         }
     };
 
-    $scope.onAddressKeyDown = function(e) {
-        if (e.keyCode === enterKey) $scope.go();
+    $scope.closeBar = function() {
+        $scope.toggleAddressBar();
     };
 
     $scope.setAddress = function(showPath) {
@@ -87,9 +90,16 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
     };
 
     $scope.unlinkView = function() {
-        let treeView = $scope.view.linkedTreeView;
-        delete treeView.linkedRecordView;
-        delete $scope.view.linkedTreeView;
+        let treeView = $scope.view.linkedTreeView,
+            referencedByView = $scope.view.linkedReferencedByView;
+        if (treeView) {
+            delete treeView.linkedRecordView;
+            delete $scope.view.linkedTreeView;
+        }
+        if (referencedByView) {
+            delete referencedByView.linkedRecordView;
+            delete $scope.view.linkedReferencedByView;
+        }
     };
 
     // event handling
