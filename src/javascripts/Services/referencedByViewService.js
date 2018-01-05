@@ -1,4 +1,4 @@
-ngapp.service('referencedByViewService', function(referencedByViewFactory) {
+ngapp.service('referencedByViewService', function(referencedByViewFactory, layoutService) {
     this.buildFunctions = function(scope) {
         // inherited functions
         scope.releaseGrid = referencedByViewFactory.releaseGrid;
@@ -56,6 +56,15 @@ ngapp.service('referencedByViewService', function(referencedByViewFactory) {
         scope.selectNode = function(e, node) {
             scope.clearSelection();
             scope.selectSingle(node, true, false, false);
+        };
+
+        scope.linkToRecordView = function() {
+            let recordView = layoutService.findView(function(view) {
+                return view.class === 'record-view' && !view.linkedReferencedByView;
+            });
+            if (!recordView) return;
+            scope.view.linkTo(recordView);
+            recordView.linkTo(scope.view);
         };
     }
 });
