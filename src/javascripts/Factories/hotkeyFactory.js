@@ -133,15 +133,11 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'
         }],
-        a: [{
-            modifiers: ['ctrlKey'],
-            callback: 'toggleAddressBar'
-        }],
         r: [{
             modifiers: ['ctrlKey'],
             callback: 'toggleReplaceBar'
         }],
-        f6: 'focusAddressInput'
+        f6: (scope) => scope.toggleAddressBar(true)
     };
 
     this.treeSearchHotkeys = {
@@ -161,6 +157,11 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['altKey'],
             callback: 'setSearchBy'
         }]
+    };
+
+    this.addressBarHotkeys = {
+        enter: 'go',
+        escape: 'closeBar'
     };
 
     this.recordSearchHotkeys = {

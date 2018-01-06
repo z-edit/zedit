@@ -10,6 +10,21 @@ ngapp.service('referencedByViewFactory', function(viewFactory) {
         scope.grid && factory.releaseGrid(scope.grid);
     };
 
+    this.isLinkedTo = function(view) {
+        return view.linkedReferencedByView === this;
+    };
+
+    this.canLinkTo = function(view) {
+        return view.class === 'record-view' && !this.linkedRecordView;
+    };
+
+    this.linkTo = function(view) {
+        if (view.class === 'record-view') {
+            view.linkedReferencedByView = this;
+            this.linkedRecordView = view;
+        }
+    };
+
     this.new = function() {
         return viewFactory.new('referencedByView', factory);
     };

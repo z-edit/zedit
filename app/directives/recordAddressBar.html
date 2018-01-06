@@ -8,7 +8,7 @@
 <div class="link-view">
     <span class="fa fa-link" ng-click="linkView()" title="Link view"></span>
 </div>
-<div class="unlink-view" ng-if="view.linkedTreeView">
+<div class="unlink-view" ng-if="view.linkedTreeView || view.linkedReferencedByView">
     <span class="fa fa-unlink" ng-click="unlinkView()" title="Unlink view"></span>
 </div>
 <div class="close-bar">

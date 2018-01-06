@@ -76,4 +76,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         $scope.buildGrid();
         $timeout($scope.resolveElements, 100);
     });
+
+    $timeout($scope.linkToRecordView, 100);
 });
