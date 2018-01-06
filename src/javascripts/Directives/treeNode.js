@@ -6,8 +6,8 @@ let initNodeFn = function(scope, element) {
         scope.onNodeMouseDown(e, scope.node);
     });
 
-    el.addEventListener('doubleclick', function(e) {
-        scope.onNodeDoubleClick(e, scope.node);
+    el.addEventListener('dblclick', function(e) {
+        scope.$applyAsync(() => scope.onNodeDoubleClick(e, scope.node));
     });
 
     scope.$watch('node.selected', function(newVal) {
