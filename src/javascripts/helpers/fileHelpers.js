@@ -2,6 +2,7 @@ import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
 import minimatch from 'minimatch'
 import extract from 'extract-zip';
+import md5file from 'md5-file';
 import url from 'url';
 
 let fh = {};
@@ -94,6 +95,10 @@ fh.getDateModified = function(filePath) {
 
 fh.getFileSize = function(filePath) {
     return fh.jetpack.inspect(filePath).size;
+};
+
+fh.getMd5Hash = function(filePath) {
+    return md5file.sync(filePath);
 };
 
 fh.getDirectories = function(path) {
