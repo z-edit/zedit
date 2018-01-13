@@ -4,10 +4,7 @@ ngapp.controller('editMergeDataController', function($scope, mergeDataService, p
 
     let buildMergeData = function() {
         if ($scope.merge.hasData) return;
-        progressService.showProgress({
-            determinate: false,
-            message: 'Detecting assets...'
-        });
+        progressService.showProgress({ message: 'Detecting assets...' });
         mergeDataService.buildMergeData($scope.merge);
         progressService.hideProgress();
     };
