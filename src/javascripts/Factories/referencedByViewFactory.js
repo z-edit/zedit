@@ -1,35 +1,24 @@
-ngapp.service('referencedByViewFactory', function(viewFactory) {
-    let factory = this;
-
-    this.releaseGrid = function(grid) {
-        grid.forEach((node) => xelib.Release(node.handle));
-    };
-
-    this.destroy = function() {
-        let scope = this.scope;
-        scope.grid && factory.releaseGrid(scope.grid);
-    };
-
-    this.isLinkedTo = function(view) {
-        return view.linkedReferencedByView === this;
-    };
-
-    this.canLinkTo = function(view) {
-        return view.class === 'record-view' && !this.linkedRecordView;
-    };
-
-    this.linkTo = function(view) {
-        if (view.class === 'record-view') {
-            view.linkedReferencedByView = this;
-            this.linkedRecordView = view;
-        }
-    };
-
+ngapp.service('referencedByViewFactory', function(viewFactory, viewLinkingService) {
     this.new = function() {
-        return viewFactory.new('referencedByView', factory);
+        let view = viewFactory.new('referencedByView');
+
+        view.releaseGrid = function(grid) {
+            grid.forEach((node) => xelib.Release(node.handle));
+        };
+
+        view.destroy = function() {
+            view.scope.grid && factory.releaseGrid(view.scope.grid);
+        };
+
+        viewLinkingService.buildFunctions(view, 'linkedReferencedByView', [
+            'record-view'
+        ]);
+
+        return view;
     };
 });
 
 ngapp.run(function(viewFactory, referencedByViewFactory) {
-    viewFactory.registerView('referencedByView', referencedByViewFactory.new, 'Referenced By View');
+    viewFactory.registerView('referencedByView', referencedByViewFactory.new,
+        'Referenced By View');
 });

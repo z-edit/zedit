@@ -2,9 +2,10 @@ ngapp.service('viewFactory', function(randomService) {
     let viewConstructors = {},
         accessibleViews = {};
 
-    let bind = function(fn, thisArg) {
-        if (!fn) return () => {};
-        return fn.bind(thisArg);
+    this.link = function(view, otherView) {
+        if (!view || !otherView) return;
+        view.linkTo(otherView);
+        otherView.linkTo(view);
     };
 
     this.unlink = function(linkedView, linkKey) {
@@ -34,11 +35,7 @@ ngapp.service('viewFactory', function(randomService) {
             templateUrl: `partials/${viewName}.html`,
             controller: `${viewName}Controller`,
             class: viewName.underscore('-'),
-            label: viewName.humanize(),
-            destroy: bind(factory.destroy, view),
-            isLinkedTo: bind(factory.isLinkedTo, view),
-            canLinkTo: bind(factory.canLinkTo, view),
-            linkTo: bind(factory.linkTo, view)
+            label: viewName.humanize()
         }, options);
     }
 });

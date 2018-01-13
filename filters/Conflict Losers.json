@@ -1,0 +1,32 @@
+[
+  {
+    "type": "Record Type",
+    "master": false,
+    "override": true,
+    "injected": true,
+    "notInjected": true
+  },
+  {
+    "type": "Conflict Status",
+    "path": "",
+    "caUnknown": true,
+    "caOnlyOne": true,
+    "caNoConflict": true,
+    "caConflictBenign": true,
+    "caOverride": true,
+    "caConflict": true,
+    "caConflictCritical": true,
+    "ctUnknown": false,
+    "ctIgnored": false,
+    "ctNotDefined": false,
+    "ctIdenticalToMaster": false,
+    "ctOnlyOne": false,
+    "ctHiddenByModGroup": false,
+    "ctMaster": false,
+    "ctConflictBenign": false,
+    "ctOverride": false,
+    "ctIdenticalToMasterWinsConflict": false,
+    "ctConflictWins": false,
+    "ctConflictLoses": true
+  }
+]

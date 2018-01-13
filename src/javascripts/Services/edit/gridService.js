@@ -8,7 +8,7 @@ ngapp.service('gridService', function() {
             let oldGrid = scope.grid;
             scope.clearSelection(true);
             scope.buildGrid();
-            scope.releaseGrid(oldGrid);
+            scope.view.releaseGrid(oldGrid);
         };
 
         scope.onNodeMouseDown = function(e, node) {

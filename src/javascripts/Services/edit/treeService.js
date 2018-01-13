@@ -27,7 +27,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             scope.buildTree();
             oldExpandedNodes.forEach((n) => reExpandNode(n));
             oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i === a.length - 1));
-            scope.releaseTree(oldTree);
+            scope.view.releaseTree(oldTree);
         };
 
         scope.getNodeForElement = function(handle) {

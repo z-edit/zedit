@@ -1,36 +1,24 @@
-ngapp.service('treeViewFactory', function(viewFactory) {
-    let factory = this;
-
-    this.releaseTree = function(tree) {
-        tree.forEach((node) => {
-            xelib.Release(node.handle);
-            if (node.kac) xelib.Release(node.kac);
-        });
-    };
-
-    this.destroy = function() {
-        let scope = this.scope;
-        scope.tree && factory.releaseTree(scope.tree);
-        viewFactory.unlink(this.linkedRecordView, 'linkedTreeView');
-    };
-
-    this.isLinkedTo = function(view) {
-        return view.linkedTreeView === this;
-    };
-
-    this.canLinkTo = function(view) {
-        return view.class === 'record-view' && !this.linkedRecordView;
-    };
-
-    this.linkTo = function(view) {
-        if (view.class === 'record-view') {
-            view.linkedTreeView = this;
-            this.linkedRecordView = view;
-        }
-    };
-
+ngapp.service('treeViewFactory', function(viewFactory, viewLinkingService) {
     this.new = function() {
-        return viewFactory.new('treeView', factory);
+        let view = viewFactory.new('treeView');
+
+        view.releaseTree = function(tree) {
+            tree.forEach((node) => {
+                xelib.Release(node.handle);
+                if (node.kac) xelib.Release(node.kac);
+            });
+        };
+
+        view.destroy = function() {
+            view.scope.tree && view.releaseTree(view.scope.tree);
+            view.unlinkAll();
+        };
+
+        viewLinkingService.buildFunctions(view, 'linkedTreeView', [
+            'record-view'
+        ]);
+
+        return view;
     };
 });
 

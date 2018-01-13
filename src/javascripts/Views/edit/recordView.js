@@ -4,6 +4,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.view.scope = $scope;
 
     // helper/scope variables
+    let viewsToLink = ['tree-view', 'referenced-by-view', 'filter-view'];
     $scope.overrides = [];
     $scope.contextMenuItems = contextMenuFactory.recordViewItems;
 
@@ -172,6 +173,5 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.showAddressBar = true;
     $scope.autoExpand = true;
-    $timeout($scope.linkToTreeView, 100);
-    $timeout($scope.linkToReferencedByView, 100);
+    $timeout(() => viewsToLink.forEach($scope.linkToView), 100);
 });

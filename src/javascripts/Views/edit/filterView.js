@@ -1,4 +1,4 @@
-ngapp.controller('filterViewController', function($scope, viewFactory) {
+ngapp.controller('filterViewController', function($scope, $timeout, viewFactory, layoutService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -16,6 +16,14 @@ ngapp.controller('filterViewController', function($scope, viewFactory) {
         $scope.scopeTooltip = labels.long.wordwrap(80);
     }
 
+    // helper functions
+    let linkToRecordView = function() {
+        let recordView = layoutService.findView(function(view) {
+            return view.class === 'record-view' && !view.linkedFilterView;
+        });
+        viewFactory.link($scope.view, recordView);
+    };
+
     // scope functions
     $scope.rerunSearch = function() {
         let options = $scope.view.searchOptions;
@@ -24,5 +32,7 @@ ngapp.controller('filterViewController', function($scope, viewFactory) {
 
     $scope.$watch('view.results', function(oldVal, newVal) {
         if (oldVal && newVal) $scope.$broadcast('reloadGUI');
-    })
+    });
+
+    $timeout(linkToRecordView, 100);
 });
