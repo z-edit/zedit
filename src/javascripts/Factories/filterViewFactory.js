@@ -1,31 +1,20 @@
-ngapp.service('filterViewFactory', function(viewFactory) {
-    let factory = this;
-
-    this.destroy = function() {
-        this.scope.treeView.destroy();
-        this.searchOptions.nodes.forEach(function(node) {
-            xelib.Release(node.handle);
-        });
-        this.results.forEach(xelib.Release);
-    };
-
-    this.isLinkedTo = function(view) {
-        return view.linkedFilterView === this;
-    };
-
-    this.canLinkTo = function(view) {
-        return view.class === 'record-view' && !this.linkedRecordView;
-    };
-
-    this.linkTo = function(view) {
-        if (view.class === 'record-view') {
-            view.linkedFilterView = this;
-            this.linkedRecordView = view;
-        }
-    };
-
+ngapp.service('filterViewFactory', function(viewFactory, viewLinkingService) {
     this.new = function() {
-        return viewFactory.new('filterView', factory);
+        let view = viewFactory.new('filterView');
+
+        view.destroy = function() {
+            view.scope.treeView.destroy();
+            view.searchOptions.nodes.forEach(function(node) {
+                xelib.Release(node.handle);
+            });
+            view.results.forEach(xelib.Release);
+        };
+
+        viewLinkingService.buildFunctions(view, 'linkedFilterView', [
+            'record-view'
+        ]);
+
+        return view;
     };
 });
 

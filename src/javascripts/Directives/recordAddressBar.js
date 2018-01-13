@@ -90,16 +90,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
     };
 
     $scope.unlinkView = function() {
-        let treeView = $scope.view.linkedTreeView,
-            referencedByView = $scope.view.linkedReferencedByView;
-        if (treeView) {
-            delete treeView.linkedRecordView;
-            delete $scope.view.linkedTreeView;
-        }
-        if (referencedByView) {
-            delete referencedByView.linkedRecordView;
-            delete $scope.view.linkedReferencedByView;
-        }
+        $scope.view.unlinkAll();
     };
 
     // event handling

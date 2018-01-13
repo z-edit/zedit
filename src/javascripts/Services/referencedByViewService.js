@@ -1,8 +1,5 @@
-ngapp.service('referencedByViewService', function(referencedByViewFactory, layoutService) {
+ngapp.service('referencedByViewService', function(layoutService) {
     this.buildFunctions = function(scope) {
-        // inherited functions
-        scope.releaseGrid = referencedByViewFactory.releaseGrid;
-
         // scope functions
         scope.buildGrid = function() {
             scope.grid = xelib.GetReferencedBy(scope.record).map(function(handle) {

@@ -4,6 +4,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.view.scope = $scope;
 
     // helper variables
+    let filterView = $scope.$parent.view;
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.getColumns('treeView');
     $scope.contextMenuItems = contextMenuFactory.treeViewItems;
@@ -24,7 +25,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
 
     $scope.open = function(node) {
         if (!openableTypes.includes(node.element_type)) return;
-        let recordView = $scope.view.linkedRecordView;
+        let recordView = (filterView || $scope.view).linkedRecordView;
         if (recordView) {
             // get a new handle for the record to be used with the record view
             let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';

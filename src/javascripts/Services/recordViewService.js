@@ -1,4 +1,4 @@
-ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, recordViewFactory, objectUtils) {
+ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, viewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -44,9 +44,6 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 return xelib.GetValue(handle, '');
             }
         };
-
-        // inherited functions
-        scope.releaseTree = recordViewFactory.releaseTree;
 
         // scope functions
         scope.buildColumns = function() {
@@ -323,22 +320,11 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             }
         };
 
-        scope.linkToTreeView = function() {
-            let treeView = layoutService.findView(function(view) {
-                return view.class === 'tree-view' && !view.linkedRecordView;
+        scope.linkToView = function(className) {
+            let targetView = layoutService.findView(function(view) {
+                return view.class === className && !view.linkedRecordView;
             });
-            if (!treeView) return;
-            scope.view.linkTo(treeView);
-            treeView.linkTo(scope.view);
-        };
-
-        scope.linkToReferencedByView = function() {
-            let referencedByView = layoutService.findView(function(view) {
-                return view.class === 'referenced-by-view' && !view.linkedRecordView;
-            });
-            if (!referencedByView) return;
-            scope.view.linkTo(referencedByView);
-            referencedByView.linkTo(scope.view);
+            viewFactory.link(scope.view, targetView);
         };
 
         scope.syncWithReferencedByView = function(record) {

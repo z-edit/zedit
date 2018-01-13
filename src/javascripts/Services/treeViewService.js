@@ -14,9 +14,6 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             return !settings.treeView.showFileHeaders;
         };
 
-        // inherited functions
-        scope.releaseTree = treeViewFactory.releaseTree;
-
         // scope functions
         scope.buildColumns = function() {
             scope.columns = scope.allColumns.filter(function(column) {
