@@ -6,10 +6,16 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, hotkeyService, mergeService) {
-    $scope.merges = [];
-
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeDataService) {
     // helper functions
+    let init = function() {
+        progressService.showProgress({ message: 'Loading merge data...' });
+        mergeDataService.cacheDataFolders();
+        mergeService.loadMerges();
+        progressService.hideProgress();
+        $scope.merges = mergeService.merges;
+    };
+
     let openSaveModal = function(shouldFinalize) {
         if (!shouldFinalize && !$scope.mergedPlugins.length) return;
         $scope.$emit('openModal', 'save', {
@@ -66,4 +72,7 @@ ngapp.controller('mergeController', function ($scope, hotkeyService, mergeServic
         e.returnValue = false;
         if (!$scope.$root.modalActive) openSaveModal(true);
     };
+
+    // initialization
+    $timeout(init);
 });

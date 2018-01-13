@@ -1,28 +1,59 @@
-ngapp.service('mergeDataService', function(assetService, settingsService) {
+ngapp.service('mergeDataService', function($rootScope, assetService, settingsService) {
     let service = this,
-        dataPath,
-        modDirectories;
+        voiceFileExpr = /.*_([0-9a-fA-F]+)_[0-9]\.fuz/,
+        plugins = {},
+        responsePath = 'Responses\\[0]\\NAM1',
+        dataFolders = {},
+        dataPath;
+
+    let pluginsInFolder = function(folder) {
+        return fh.getFiles(folder, {
+            matching: '*.es[plm]',
+            recursive: false
+        });
+    };
+
+    let findPlugins = function() {
+        let dataPath = xelib.GetGlobal('DataPath');
+        if (!usingModManager()) return pluginsInFolder(dataPath);
+        let modsPath = settingsService.settings.modsPath,
+            pluginPaths = [];
+        fh.getDirectories(modsPath).forEach(function(dir) {
+            pluginPaths.unite(pluginsInFolder(dir));
+        });
+        return pluginPaths;
+    };
 
     let getDataPath = function() {
         dataPath = xelib.GetGlobal('DataPath');
         return dataPath;
     };
 
-    let getModDirectories = function() {
-        modDirectories = fh.getDirectories(settingsService.settings.modsPath);
-        return modDirectories;
-    };
-
     let usingModManager = function() {
         return settingsService.settings.modManager !== 'None';
     };
 
-    // TODO
-    let getFaceDataNpc = function() {
-        return '';
+    let getFile = function(plugin) {
+        if (!plugins.hasOwnProperty(plugin))
+            plugins[plugin] = xelib.FileByName(plugin);
+        return plugins[plugin];
     };
 
-    let getVoiceDataNpc = function() {
+    let getFaceDataNpc = function(plugin, filePath) {
+        let pluginFile = getFile(plugin);
+        if (!pluginFile) return '';
+        let npcFormId = parseInt(fh.getFileBase(filePath), 16),
+            npcRecord = xelib.GetRecord(pluginFile, npcFormId);
+        return npcRecord ? xelib.Name(npcRecord) : '';
+    };
+
+    let getVoiceDataDialogue = function(plugin, filePath) {
+        let pluginFile = getFile(plugin);
+        if (!pluginFile) return '';
+        let dialogueFormId = parseInt(voiceFileExpr.exec(filePath), 16),
+            dialogueRecord = xelib.GetRecord(pluginFile, dialogueFormId);
+        if (dialogueRecord && xelib.HasElement(dialogueRecord, responsePath))
+            return xelib.GetValue(dialogueRecord, responsePath);
         return '';
     };
 
@@ -45,7 +76,7 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
             merge.faceDataFiles.push({
                 plugin: plugin,
                 filePath: filePath.slice(sliceLen),
-                npc: getFaceDataNpc(filePath)
+                npc: getFaceDataNpc(plugin, filePath)
             });
         });
     };
@@ -56,7 +87,7 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
             merge.voiceDataFiles.push({
                 plugin: plugin,
                 filePath: filePath.slice(sliceLen),
-                npc: getVoiceDataNpc(filePath)
+                dialogue: getVoiceDataDialogue(filePath)
             });
         });
     };
@@ -137,20 +168,22 @@ ngapp.service('mergeDataService', function(assetService, settingsService) {
     };
 
     this.getPluginDataFolder = function(plugin) {
-        if (!usingModManager()) return dataPath || getDataPath();
-        let directories = modDirectories || getModDirectories(),
-            dataFolder = directories.find(function(path) {
-                return fh.jetpack.exists(`${path}/${plugin}`);
-            });
-        if (dataFolder) return dataFolder + '\\';
-        return dataPath || getDataPath();
+        return dataFolders[plugin] || dataPath || getDataPath();
+    };
+
+    this.cacheDataFolders = function() {
+        findPlugins().forEach(function(filePath) {
+            let plugin = fh.getFileName(filePath);
+            dataFolders[plugin] = fh.getDirectory(filePath) + '\\';
+        });
     };
 
     this.buildMergeData = function(merge) {
         service.clearMergeData(merge);
         let folders = {};
-        merge.plugins.forEach(function(plugin) {
-            let folder = service.getPluginDataFolder(plugin);
+        merge.plugins.forEach(function(pluginObj) {
+            let plugin = pluginObj.filename,
+                folder = service.getPluginDataFolder(plugin);
             dataSteps.forEach((fn) => fn(merge, plugin, folder));
             folders[folder] = (folders[folder] || []).concat([plugin]);
         });
