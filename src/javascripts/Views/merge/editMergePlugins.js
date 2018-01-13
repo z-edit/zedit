@@ -2,19 +2,36 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     // helper functions
     let activeFilter = (item) => { return item.active || item.required };
 
+    let getPluginObject = function(plugins, filename) {
+        return plugins && plugins.findByKey('filename', filename);
+    };
+
     let buildPlugins = function() {
-        $scope.plugins = $rootScope.loadOrder.map(function(item) {
+        $scope.plugins = $rootScope.loadOrder.map(function(plugin) {
+            let filename = plugin.filename;
             return {
-                filename: item.filename,
-                masterNames: item.masterNames,
-                active: $scope.merge.plugins.includes(item.filename)
+                filename: filename,
+                masterNames: plugin.masterNames,
+                active: !!getPluginObject($scope.merge.plugins, filename),
+                dataFolder: mergeDataService.getPluginDataFolder(filename)
             }
         });
     };
 
+    let mergePluginMap = function(plugin) {
+        let obj = getPluginObject($scope.merge.oldPlugins, plugin.filename);
+        return {
+            filename: plugin.filename,
+            hash: plugin.hash,
+            oldHash: obj && obj.hash,
+            dataFolder: plugin.dataFolder,
+            oldDataFolder: obj && obj.dataFolder
+        }
+    };
+
     let updateMergePlugins = function() {
         $scope.merge.plugins = $scope.plugins
-            .filterOnKey('active').mapOnKey('filename');
+            .filterOnKey('active').map(mergePluginMap);
     };
 
     // scope functions
