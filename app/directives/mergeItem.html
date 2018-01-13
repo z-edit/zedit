@@ -1,25 +1,42 @@
 <div class="content-title">{{merge.name}} ({{merge.filename}})
     <span class="right">
-        <button class="action-btn small" ng-click="buildMerge(merge)">
+        <button class="action-btn small no-hover" ng-click="buildMerge(merge)">
             Build
         </button>
-        <button class="action-btn small" ng-click="editMerge(merge)">
+        <button class="action-btn small no-hover" ng-click="editMerge(merge)">
             Edit
         </button>
-        <button class="action-btn small negative" ng-click="deleteMerge(merge)">
+        <button class="action-btn small negative no-hover" ng-click="deleteMerge(merge)">
             Delete
         </button>
     </span>
 </div>
 <div class="content-container">
     <div class="merge-info">
-        <div class="status-{{merge.status | classify}}">{{merge.status}}</div>
-        <div class="last-built" ng-show="merge.dateBuilt">Built {{merge.dateBuilt}}</div>
+        <div>
+            <b>Status:</b>
+            <span class="status-{{merge.status | classify}}">{{merge.status}}</span>
+        </div>
+        <div>
+            <b>Last Built:</b>
+            <span class="last-built {{merge.dateBuilt ? 'neutral-fg' : 'negative-fg'}}">{{merge.dateBuilt || 'Never'}}</span>
+        </div>
     </div>
 
-    <div class="merge-plugin-items">
-        <div ng-repeat="plugin in merge.plugins" class="merge-plugin-item">
-            {{::plugin.filename}}
-        </div>
+    <div class="merge-plugins">
+        <table>
+            <thead>
+            <tr>
+                <th>Plugin</th>
+                <th>Data Folder</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="plugin in merge.plugins">
+                <td ng-class="{'neutral-fg' : plugin.changed}">{{::plugin.filename}}</td>
+                <td>{{::plugin.dataFolder}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>

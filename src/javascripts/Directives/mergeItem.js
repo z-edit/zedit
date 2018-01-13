@@ -1,5 +1,6 @@
 ngapp.directive('mergeItem', function() {
     return {
-        restrict: 'E'
+        restrict: 'E',
+        templateUrl: 'directives/mergeItem.html',
     }
 });
