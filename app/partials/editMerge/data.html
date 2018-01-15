@@ -1,5 +1,16 @@
+<expandable-section ng-if="merge.plugins.length">
+    <title>Plugin Data Folders</title>
+    <content>
+        <div class="data-folder-item" ng-repeat="plugin in merge.plugins">
+            <span class="input-label">{{::plugin.filename}}</span>
+            <input type="text" ng-model="plugin.dataFolder" ng-blur="setDataFolder(plugin)" />
+            <span class="browse-button" ng-click="browseDataFolder(plugin)" title="Browse"></span>
+        </div>
+    </content>
+</expandable-section>
+
 <div ng-show="noAssets" class="content-message">
-    No file-specific assets were found for this merge.
+    No data files were found for this merge.
 </div>
 
 <expandable-section ng-if="merge.archives.length">
