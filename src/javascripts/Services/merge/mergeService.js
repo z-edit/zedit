@@ -1,7 +1,7 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
         mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets'],
-        pluginExportKeys = ['filename', 'hash', 'dataFolder'],
+        pluginExportKeys = ['filename', 'dataFolder'],
         dataPath;
 
     // private functions
@@ -33,16 +33,6 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         });
     };
 
-    let getDataPath = function() {
-        dataPath = xelib.GetGlobal('DataPath');
-        return dataPath;
-    };
-
-    let getHash = function(plugin) {
-        let filePath = (dataPath || getDataPath()) + plugin.filename;
-        return fh.getMd5Hash(filePath);
-    };
-
     let getDataFolder = function(plugin) {
         let path = plugin.dataFolder + plugin.filename;
         if (fh.jetpack.exists(path)) return plugin.dataFolder;
@@ -50,20 +40,15 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     let importPluginData = function(plugin) {
-        return {
-            filename: plugin.filename,
-            hash: getHash(plugin),
-            oldHash: plugin.hash,
-            dataFolder: getDataFolder(plugin),
-            oldDataFolder: plugin.dataFolder
-        }
+        plugin.dataFolder = getDataFolder(plugin);
+        plugin.hash = fh.getMd5Hash(plugin.dataFolder + plugin.filename);
     };
 
-    let importMergeData = function(merges) {
-        return merges.map(function(merge) {
-            merge.oldPlugins = merge.plugins;
-            merge.plugins = merge.plugins.map(importPluginData)
-        });
+    let importMergeData = function(merge) {
+        let path = `${getMergePath()}\\${merge.name}\\merge\\merge.json`,
+            oldMerge = fh.loadJsonFile(path);
+        merge.oldPlugins = oldMerge && oldMerge.plugins;
+        merge.plugins.forEach(importPluginData);
     };
 
     // public api
@@ -93,8 +78,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     this.loadMerges = function() {
         let profileName = settingsService.currentProfile;
         service.mergeDataPath = `profiles/${profileName}/merges.json`;
-        let merges = fh.loadJsonFile(service.mergeDataPath) || [];
-        service.merges = importMergeData(merges);
+        service.merges = fh.loadJsonFile(service.mergeDataPath) || [];
+        service.merges.forEach(importMergeData);
         service.saveMerges();
     };
 });

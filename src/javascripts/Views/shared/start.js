@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, $timeout, profileService, settingsService, appModeService, xelibService) {
+ngapp.controller('startController', function ($scope, $rootScope, $timeout, profileService, settingsService, appModeService, xelibService, loadOrderService) {
     // initialization
     profileService.validateProfiles();
     $scope.profiles = profileService.profiles;
@@ -48,6 +48,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
 
     let storeLoadOrder = function() {
         $rootScope.loadOrder = getLoadOrder();
+        loadOrderService.init($rootScope.loadOrder);
         appModeService.setAppMode();
     };
 

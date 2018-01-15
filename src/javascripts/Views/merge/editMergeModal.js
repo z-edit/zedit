@@ -1,8 +1,8 @@
-ngapp.controller('editMergeModalController', function($scope, mergeService) {
+ngapp.controller('editMergeModalController', function($scope, mergeService, mergeStatusService) {
     // scope functions
     $scope.save = function() {
         if (!$scope.editing) $scope.modalOptions.merges.push($scope.merge);
-        mergeService.updateStatus($scope.merge);
+        mergeStatusService.updateStatus($scope.merge);
         $scope.$emit('closeModal');
     };
 

@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeDataService) {
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeDataService, mergeStatusService) {
     // helper functions
     let init = function() {
         progressService.showProgress({ message: 'Loading merge data...' });
@@ -14,6 +14,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         mergeService.loadMerges();
         progressService.hideProgress();
         $scope.merges = mergeService.merges;
+        $scope.merges.forEach(mergeStatusService.updateStatus);
     };
 
     let openSaveModal = function(shouldFinalize) {
