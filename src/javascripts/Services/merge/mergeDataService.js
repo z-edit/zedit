@@ -134,8 +134,9 @@ ngapp.service('mergeDataService', function($rootScope, assetService, settingsSer
     };
 
     let getGeneralAssets = function(merge, folders) {
-        if (!usingModManager()) return;
+        if (!dataPath) getDataPath();
         Object.keys(folders).forEach(function(folder) {
+            if (folder === dataPath) return;
             let sliceLen = folder.length,
                 plugins = folders[folder];
             assetService.getGeneralAssets(folder).forEach(function(filePath) {
@@ -169,6 +170,10 @@ ngapp.service('mergeDataService', function($rootScope, assetService, settingsSer
 
     this.getPluginDataFolder = function(plugin) {
         return dataFolders[plugin] || dataPath || getDataPath();
+    };
+
+    this.setPluginDataFolder = function(plugin, dataFolder) {
+        dataFolders[plugin] = dataFolder;
     };
 
     this.cacheDataFolders = function() {
