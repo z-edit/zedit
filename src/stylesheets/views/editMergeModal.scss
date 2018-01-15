@@ -37,6 +37,21 @@
     padding: 12px 10px;
   }
 
+  .data-folder-item {
+    display: flex;
+    margin: 5px 0;
+
+    .input-label {
+      min-width: 225px;
+      margin: 0;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      margin-right: 6px;
+    }
+  }
+
   expandable-section h3.title {
     margin-top: 0 !important;
 
