@@ -1,6 +1,6 @@
 <div class="content-title">{{merge.name}} ({{merge.filename}})
     <span class="right">
-        <button class="action-btn small no-hover" ng-click="buildMerge(merge)">
+        <button class="action-btn small no-hover" ng-click="buildMerge(merge)" ng-hide="merge.status !== 'Ready to be built'">
             Build
         </button>
         <button class="action-btn small no-hover" ng-click="editMerge(merge)">
