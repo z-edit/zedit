@@ -21,6 +21,7 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
             .map(getPluginItem);
         if (!shouldFinalize && !plugins.length) return;
         $scope.$emit('openModal', 'save', {
+            controller: 'editSaveModalController',
             shouldFinalize: shouldFinalize,
             plugins: plugins
         });

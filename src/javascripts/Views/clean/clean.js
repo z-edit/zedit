@@ -20,6 +20,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
         });
         if (!shouldFinalize && !pluginsToSave.length) return;
         $scope.$emit('openModal', 'save', {
+            controller: 'cleanSaveModalController',
             shouldFinalize: shouldFinalize,
             plugins: pluginsToSave
         });
