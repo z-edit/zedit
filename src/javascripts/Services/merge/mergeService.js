@@ -1,8 +1,7 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
         mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets'],
-        pluginExportKeys = ['filename', 'dataFolder'],
-        dataPath;
+        pluginExportKeys = ['filename', 'dataFolder'];
 
     // private functions
     let initMergeData = mergeDataService.clearMergeData;
@@ -82,4 +81,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         service.merges.forEach(importMergeData);
         service.saveMerges();
     };
+
+    this.getMergeDataPath = function(merge) {
+        return `${getMergePath()}\\${merge.name}`;
+    }
 });
