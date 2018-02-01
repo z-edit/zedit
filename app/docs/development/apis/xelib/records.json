@@ -292,6 +292,31 @@
     "description": "Returns up to `limitTo` records matching `signature` which can be referenced by the file containing `id`.  Excludes results which do not contain `search` in their `LongName`."
   },
   {
+    "name": "GetReferencedBy",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of the records that reference record `id`.  References must be built with [xelib.BuildReferences](docs://Development/APIs/xelib/Setup) to be returned."
+  },
+  {
+    "name": "ExchangeReferences",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }, {
+      "name": "oldFormID",
+      "type": "unsigned integer"
+    }, {
+      "name": "newFormID",
+      "type": "unsigned integer"
+    }],
+    "description": "Exchanges all references to `oldFormID` with references to `newFormID` on record `id`."
+  },
+  {
     "name": "IsMaster",
     "args": [{
       "name": "id",
