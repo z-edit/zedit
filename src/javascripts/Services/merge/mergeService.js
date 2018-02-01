@@ -84,5 +84,5 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
 
     this.getMergeDataPath = function(merge) {
         return `${getMergePath()}\\${merge.name}`;
-    }
+    };
 });
