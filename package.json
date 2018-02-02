@@ -59,7 +59,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "electron": "^1.8.1",
+    "electron": "^1.8.2-beta.4",
     "electron-builder": "^8.6.0",
     "electron-mocha": "^3.0.0",
     "electron-rebuild": "^1.6.0",
