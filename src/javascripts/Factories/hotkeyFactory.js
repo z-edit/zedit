@@ -103,6 +103,10 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey'],
             callback: (scope) => scope.pasteNodes(true)
         }],
+        b: [{
+            modifiers: ['ctrlKey'],
+            callback: 'buildReferences'
+        }],
         default: 'handleLetter'
     };
 
