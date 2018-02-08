@@ -235,12 +235,14 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 valueType = firstHandle && xelib.ValueType(firstHandle),
                 isFlags = valueType === xelib.vtFlags,
                 isSorted = valueType === xelib.vtArray && xelib.IsSorted(firstHandle),
+                isFixed = valueType === xelib.vtArray && xelib.IsFixed(firstHandle),
                 canExpand = firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0;
             return {
                 label: name,
                 child_index: setChildIndex ? i : undefined,
                 value_type: valueType,
                 is_sorted: isSorted,
+                is_fixed: isFixed,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
@@ -268,14 +270,20 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             });
         };
 
-        scope.buildArrayNodes = function(parentHandles, depth, name, sorted) {
+        let getLabel = function(elementArrays, index) {
+            let a = elementArrays.find(function(a) { return a.length > 0 });
+            return xelib.Name(a[index]);
+        };
+
+        scope.buildArrayNodes = function(parentHandles, depth, name, sorted, useLabels) {
             let elementArrays = parentHandles.map(function(handle) {
                     return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
                 }),
                 maxLen = getMaxLength(elementArrays),
-                setChildIndex = settings.recordView.showArrayIndexes && !sorted,
+                setChildIndex = settings.recordView.showArrayIndexes && !sorted && !useLabels,
                 nodes = [];
             for (let i = 0; i < maxLen; i++) {
+                if (useLabels) name = getLabel(elementArrays, i);
                 nodes.push(scope.buildNode(depth, name, elementArrays, i, setChildIndex));
             }
             if (sorted && settings.recordView.showArrayIndexes) {
@@ -288,7 +296,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             let names = xelib.GetDefNames(node.first_handle);
             if (!names[0].length) return [];
             if (node.value_type === xelib.vtArray) {
-                return scope.buildArrayNodes(node.handles, node.depth, names[0], node.is_sorted);
+                return scope.buildArrayNodes(node.handles, node.depth, names[0],
+                    node.is_sorted, node.is_fixed);
             } else {
                 return scope.buildStructNodes(node.handles, node.depth, names);
             }

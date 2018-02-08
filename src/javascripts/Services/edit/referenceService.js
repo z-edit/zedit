@@ -89,9 +89,4 @@ ngapp.service('referenceService', function($rootScope, progressService) {
     this.canBuildReferences = function(handle) {
         return !builtFileNames.includes(xelib.Name(handle));
     };
-
-    this.buildAll = function(sync = false) {
-        let files = xelib.GetElements().filter(service.canBuildReferences);
-        service.buildReferences(files, sync);
-    };
 });

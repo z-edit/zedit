@@ -209,18 +209,16 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         };
 
         scope.buildReferences = function() {
-            let fileHandles = [];
-            scope.selectedNodes.forEach(function(node) {
-                if (node.element_type !== xelib.etFile) return;
-                fileHandles.push(node.handle);
-            });
+            let fileHandles = scope.selectedNodes
+                .filter(nodeHelpers.isFileNode)
+                .mapOnKey('handle');
             referenceService.buildReferences(fileHandles);
         };
 
         scope.refactor = function() {
             let node = scope.selectedNodes.last(),
-                isFileNode = nodeHelpers.isFileNode,
-                modal = `refactor${isFileNode(node) ? 'File' : 'Records'}`;
+                isFile = nodeHelpers.isFileNode(node),
+                modal = `refactor${isFile ? 'File' : 'Records'}`;
             scope.$emit('openModal', modal, { nodes: scope.selectedNodes });
         };
 
