@@ -66,6 +66,7 @@ h2, h3 {
 
 .glyph-button {
   font-size: 14px;
+  color: $secondary_action;
   border: none;
   background: none;
 
@@ -82,5 +83,15 @@ h2, h3 {
     border: 1px solid $medium_border;
     border-radius: 4px;
     padding: 0 5px;
+  }
+}
+
+.browse-button {
+  font: 14px FontAwesome;
+  font-size: inherit;
+  cursor: pointer;
+
+  &:before {
+    content: "\f115";
   }
 }
