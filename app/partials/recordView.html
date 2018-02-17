@@ -13,7 +13,7 @@
 </div>
 <div ng-if="record" class="nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" ng-scroll="onScroll($event)" ng-drop="onDrop()" drag-over="onDragOver()" theme-scrollbar-fix vs-repeat>
     <div ng-repeat="node in tree" class="node fix-width" tree-node>
-        <span ng-repeat="cell in node.cells track by $index" class="column column-{{::$index}} {{::cell.class}}" ng-mousedown="onCellMouseDown($event, node, $index)" ng-mouseover="onCellMouseOver($event, node, $index)" ng-mouseleave="onCellMouseLeave()" ng-dblclick="onCellDoubleClick($event, node, $index)" ng-class="{'focused' : focusedIndex == $index}" ng-drag="onCellDrag(node, $index)" ng-drop="onCellDrop(node, $index)" drag-over="onCellDragOver(node, $index)">
+        <span ng-repeat="cell in node.cells track by $index" ng-drag="onCellDrag(node, $index)" ng-drop="onCellDrop(node, $index)" drag-over="onCellDragOver(node, $index)" record-cell>
             <span ng-if="::$first" ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
                 <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="node.can_expand"></span>
                 <span class="placeholder" ng-if="!node.can_expand"></span>
