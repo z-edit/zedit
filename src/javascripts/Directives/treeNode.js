@@ -3,11 +3,11 @@ let initNodeFn = function(scope, element) {
 
     // event listeners
     el.addEventListener('mousedown', function(e) {
-        scope.onNodeMouseDown(e, scope.node);
+        scope.$applyAsync(() => scope.onNodeMouseDown(e, scope.node));
     });
 
-    el.addEventListener('doubleclick', function(e) {
-        scope.onNodeDoubleClick(e, scope.node);
+    el.addEventListener('dblclick', function(e) {
+        scope.$applyAsync(() => scope.onNodeDoubleClick(e, scope.node));
     });
 
     scope.$watch('node.selected', function(newVal) {
