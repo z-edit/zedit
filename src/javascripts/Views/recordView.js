@@ -26,12 +26,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         }
     };
 
-    let editCell = function(node, index) {
-        if ($scope.$root.modalActive || !node.selected ||
-            $scope.focusedIndex !== index) return;
-        node.cells[index].editing = true;
-    };
-
     // scope functions
     $scope.showContextMenu = function(e) {
         if ($scope.focusedIndex === 0 || !$scope.selectedNodes.length) return;
@@ -48,7 +42,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         }
     };
 
-    $scope.focusAddressInput = function () {
+    $scope.focusAddressInput = function() {
         let addressInput = htmlHelpers.resolveElement($scope.tabView, 'record-address-bar/input');
         if (addressInput) addressInput.focus();
     };
@@ -84,7 +78,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             if (oldIndex !== index) {
                 $timeout($scope.updateNodeLabels);
             } else if (node.selected && e.button === 0) {
-                $timeout(() => editCell(node, index), 250);
+                $timeout(() => $scope.editElementInline(node, index), 250);
             }
         }
     };
