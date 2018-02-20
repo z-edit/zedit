@@ -1,5 +1,5 @@
 ngapp.service('nodeSelectionService', function() {
-    this.buildFunctions = function(scope, allowMultiSelect) {
+    this.buildFunctions = function(scope, allowMultiSelect, grid) {
         // initialize variables
         let lastRange = [], nodeHeight = 20;
         scope.selectedNodes = [];
@@ -91,25 +91,44 @@ ngapp.service('nodeSelectionService', function() {
             }
         };
 
+        let selectRight = function() {
+            if (scope.focusedIndex === scope.columns.length - 1) return;
+            scope.focusedIndex++;
+        };
+
         // expand node or navigate to first child when right arrow is pressed
-        scope.handleRightArrow = function() {
+        scope.handleRightArrow = function(e) {
             let node = scope.selectedNodes.last();
-            if (!node || !node.can_expand) return;
-            scope.clearSelection();
-            if (!node.expanded) {
-                scope.expandNode(node);
-                scope.selectSingle(node);
-            } else {
-                let index = scope.tree.indexOf(node) + 1;
-                scope.selectSingle(scope.tree[index]);
+            if (!node) return;
+            if (grid && !e.ctrlKey) {
+                selectRight();
+            } else if (node.can_expand) {
+                scope.clearSelection();
+                if (grid && e.shiftKey) {
+                    scope.expandChildren(node);
+                    scope.selectSingle(node);
+                } else if (!node.expanded) {
+                    scope.expandNode(node);
+                    scope.selectSingle(node);
+                } else {
+                    let index = scope.tree.indexOf(node) + 1;
+                    scope.selectSingle(scope.tree[index]);
+                }
             }
         };
 
+        let selectLeft = function() {
+            if (scope.focusedIndex === 0) return;
+            scope.focusedIndex--;
+        };
+
         // navigate to parent or collapse node when left arrow is pressed
-        scope.handleLeftArrow = function() {
+        scope.handleLeftArrow = function(e) {
             let node = scope.selectedNodes.last();
             if (!node) return;
-            if (node.expanded) {
+            if (grid && !e.ctrlKey) {
+                selectLeft();
+            } else if (node.expanded) {
                 scope.clearSelection();
                 scope.collapseNode(node);
                 scope.selectSingle(node);

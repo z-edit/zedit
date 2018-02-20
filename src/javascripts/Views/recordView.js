@@ -13,7 +13,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     recordViewService.buildFunctions($scope);
     recordViewElementService.buildFunctions($scope);
     recordViewDragDropService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope);
+    nodeSelectionService.buildFunctions($scope, false, true);
     nodeColumnService.buildFunctions($scope, '.record-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
 

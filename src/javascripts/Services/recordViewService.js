@@ -341,6 +341,6 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             if (referencedByView) {
                 referencedByView.scope.record = xelib.GetElementEx(record, '');
             }
-        }
+        };
     };
 });
