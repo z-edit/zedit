@@ -1,5 +1,6 @@
 ngapp.service('hotkeyFactory', function() {
-    let factory = this;
+    let factory = this,
+        ctrlDown = false;
 
     // PUBLIC HOTKEYS
     this.baseHotkeys = {
@@ -22,12 +23,19 @@ ngapp.service('hotkeyFactory', function() {
             modifiers: ['ctrlKey', 'shiftKey'],
             callback: (scope) => scope.$emit('openModal', 'manageExtensions')
         }],
-        ctrl: (scope) => scope.$broadcast('controlKeyPressed'),
+        ctrl: (scope) => {
+            if (ctrlDown) return;
+            scope.$broadcast('controlKeyPressed');
+            ctrlDown = true;
+        },
         escape: 'handleEscape'
     };
 
     this.baseHotkeysUp = {
-        ctrl: (scope) => scope.$broadcast('controlKeyReleased')
+        ctrl: (scope) => {
+            scope.$broadcast('controlKeyReleased');
+            ctrlDown = false;
+        }
     };
 
     this.editViewHotkeys = {};

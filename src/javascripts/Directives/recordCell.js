@@ -24,6 +24,7 @@ let initCellFn = function(scope, element) {
     scope.$watch('cell.class', function(newVal) {
         el.className = `column column-${index} ${newVal}`;
         if (focused) el.classList.add('focused');
+        if (scope.cell.underline) el.classList.add('highlight-reference');
     });
 
     scope.$watch('focusedIndex', function(newVal) {
@@ -31,6 +32,11 @@ let initCellFn = function(scope, element) {
         if (focused === shouldFocus) return;
         el.classList.toggle('focused');
         focused = shouldFocus;
+    });
+
+    scope.$watch('cell.underline', function(newVal, oldVal) {
+        if (!newVal === !oldVal) return;
+        el.classList.toggle('highlight-reference');
     });
 };
 

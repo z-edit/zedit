@@ -69,32 +69,26 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.onCellMouseDown = function(e, node, index) {
         if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
-            const id = $scope.getRecord(index - 1);
-            const path = xelib.LocalPath(node.first_handle);
-            const ref = xelib.GetLinksTo(id, path);
-            if (ref > 0) {
-                $scope.record = ref;
-                return;
-            }
+            let element = node.handles[index - 1];
+            let ref = element && xelib.GetLinksTo(element, '');
+            if (ref) $scope.record = ref;
+        } else {
+            let oldIndex = $scope.focusedIndex;
+            $scope.focusedIndex = index;
+            if (oldIndex !== index) $timeout($scope.updateNodeLabels);
         }
-        let oldIndex = $scope.focusedIndex;
-        $scope.focusedIndex = index;
-        if (oldIndex !== index) $timeout($scope.updateNodeLabels);
     };
 
     $scope.onCellMouseOver = function(e, node, index) {
         if (index === 0 || node.value_type !== xelib.vtReference) return;
-        $scope.highlightedCell = e.srcElement;
-        if (e.srcElement && e.ctrlKey) {
-            e.srcElement.classList.add('highlight-reference');
-        }
+        $scope.refCell = node.cells[index];
+        $scope.refCell.underline = e.ctrlKey;
     };
 
     $scope.onCellMouseLeave = function() {
-        if ($scope.highlightedCell) {
-            $scope.highlightedCell.classList.remove('highlight-reference');
-            delete $scope.highlightedCell;
-        }
+        if (!$scope.refCell) return;
+        $scope.refCell.underline = false;
+        delete $scope.refCell;
     };
 
     $scope.handleEnter = function(e) {
@@ -141,13 +135,13 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
 
     $scope.$on('controlKeyPressed', function() {
-        if (!$scope.highlightedCell) return;
-        $scope.highlightedCell.classList.add('highlight-reference');
+        if (!$scope.refCell) return;
+        $scope.$applyAsync(() => $scope.refCell.underline = true);
     });
 
     $scope.$on('controlKeyReleased', function() {
-        if (!$scope.highlightedCell) return;
-        $scope.highlightedCell.classList.remove('highlight-reference');
+        if (!$scope.refCell) return;
+        $scope.$applyAsync(() => $scope.refCell.underline = false);
     });
 
     // initialization
