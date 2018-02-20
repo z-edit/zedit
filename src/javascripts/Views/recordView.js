@@ -27,7 +27,8 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     };
 
     let editCell = function(node, index) {
-        if (!node.selected || $scope.focusedIndex !== index) return;
+        if ($scope.$root.modalActive || !node.selected ||
+            $scope.focusedIndex !== index) return;
         node.cells[index].editing = true;
     };
 

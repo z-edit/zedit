@@ -6,17 +6,20 @@ ngapp.directive('cellEditor', function() {
     }
 });
 
-ngapp.controller('cellEditorController', function($scope, errorService, hotkeyService) {
+ngapp.controller('cellEditorController', function($scope, $element, errorService, hotkeyService) {
     let cell = $scope.$parent.cell,
         node = $scope.$parent.node,
         index = $scope.$parent.$index,
         record = $scope.$parent.getRecord();
 
+    // init scope variables
     $scope.newValue = cell.value;
     $scope.valueType = node.value_type;
 
+    // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'cellEditor');
 
+    // helper functions
     let setNewValue = function() {
         if (cell.value === $scope.newValue) return;
         let handle = node.handles[index - 1];
@@ -24,12 +27,16 @@ ngapp.controller('cellEditorController', function($scope, errorService, hotkeySe
         $scope.$root.$broadcast('recordUpdated', record);
     };
 
+    // scope functions
     $scope.cancel = () => cell.editing = false;
+    $scope.stopPropagation = e => e.stopPropagation();
 
     $scope.save = function() {
         errorService.try(setNewValue);
         cell.editing = false;
     };
 
-    $scope.stopPropagation = e => e.stopPropagation();
+    $scope.selectText = function(e) {
+        e.target.setSelectionRange(0, e.target.value.length);
+    }
 });
