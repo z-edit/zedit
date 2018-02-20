@@ -2,4 +2,10 @@
   form .input-label {
     min-width: 115px;
   }
+
+  textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 60px;
+  }
 }
