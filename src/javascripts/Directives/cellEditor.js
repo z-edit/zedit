@@ -30,4 +30,6 @@ ngapp.controller('cellEditorController', function($scope, errorService, hotkeySe
         errorService.try(setNewValue);
         cell.editing = false;
     };
+
+    $scope.stopPropagation = e => e.stopPropagation();
 });
