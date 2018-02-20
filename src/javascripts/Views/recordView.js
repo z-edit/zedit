@@ -105,6 +105,12 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         e.stopImmediatePropagation();
     };
 
+    $scope.handleInsert = function(e) {
+        let node = $scope.lastSelectedNode();
+        $scope.addElement(node, $scope.focusedIndex - 1);
+        e.stopImmediatePropagation();
+    };
+
     $scope.releaseHandles = function(oldValue) {
         xelib.Release(oldValue);
         xelib.ReleaseNodes($scope.virtualNodes);
