@@ -100,8 +100,12 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.handleEnter = function(e) {
         let node = $scope.lastSelectedNode();
-        $scope.onNodeDoubleClick(e, node);
-        $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
+        if (e.shiftKey) {
+            $scope.editElementInline(node, $scope.focusedIndex);
+        } else {
+            $scope.onNodeDoubleClick(e, node);
+            $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
+        }
         e.stopImmediatePropagation();
     };
 
