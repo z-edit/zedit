@@ -28,12 +28,16 @@ ngapp.controller('cellEditorController', function($scope, $element, errorService
     };
 
     // scope functions
-    $scope.cancel = () => cell.editing = false;
     $scope.stopPropagation = e => e.stopPropagation();
+
+    $scope.stopEditing = function() {
+        cell.editing = false;
+        $scope.$parent.treeElement.focus();
+    };
 
     $scope.save = function() {
         errorService.try(setNewValue);
-        cell.editing = false;
+        $scope.stopEditing();
     };
 
     $scope.selectText = function(e) {

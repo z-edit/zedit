@@ -270,7 +270,7 @@ ngapp.service('hotkeyFactory', function() {
 
     this.cellEditorHotkeys = {
         enter: 'save',
-        escape: 'cancel',
+        escape: 'stopEditing',
         default: 'stopPropagation'
     };
 
