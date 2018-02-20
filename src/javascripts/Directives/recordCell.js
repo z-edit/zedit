@@ -21,22 +21,25 @@ let initCellFn = function(scope, element) {
         scope.$applyAsync(() => scope.onCellDoubleClick(e, node, index));
     });
 
-    scope.$watch('cell.class', function(newVal) {
-        el.className = `column column-${index} ${newVal}`;
-        if (focused) el.classList.add('focused');
-        if (scope.cell.underline) el.classList.add('highlight-reference');
-    });
+    // helper functions
+    let updateCellClass = function() {
+        let classes = ['column', `column-${index}`, scope.cell.class];
+        if (focused) classes.push('focused');
+        if (scope.cell.underline) classes.push('highlight-reference');
+        if (scope.cell.editing) classes.push('editing');
+        el.className = classes.join(' ');
+    };
+
+    // watchers
+    scope.$watch('cell.class', updateCellClass);
+    scope.$watch('cell.underline', updateCellClass);
+    scope.$watch('cell.editing', updateCellClass);
 
     scope.$watch('focusedIndex', function(newVal) {
         let shouldFocus = newVal === index;
         if (focused === shouldFocus) return;
         el.classList.toggle('focused');
         focused = shouldFocus;
-    });
-
-    scope.$watch('cell.underline', function(newVal, oldVal) {
-        if (!newVal === !oldVal) return;
-        el.classList.toggle('highlight-reference');
     });
 };
 

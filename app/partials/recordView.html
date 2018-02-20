@@ -18,7 +18,8 @@
                 <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="node.can_expand"></span>
                 <span class="placeholder" ng-if="!node.can_expand"></span>
             </span>
-            {{::cell.value}}
+            <span ng-if="!cell.editing">{{::cell.value}}</span>
+            <cell-editor ng-if="cell.editing"></cell-editor>
         </span>
     </div>
 </div>

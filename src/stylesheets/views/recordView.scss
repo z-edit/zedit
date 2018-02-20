@@ -86,6 +86,11 @@
       border: 1px dashed $hard_border;
       padding: 2px 5px 1px;
     }
+
+    .column.editing {
+      border: 1px solid $hard_border;
+      padding: 0;
+    }
   }
 
   .node.selected:not(.element-unassigned) .column-0 {

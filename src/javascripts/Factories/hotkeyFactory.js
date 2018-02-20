@@ -268,6 +268,11 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'handleEnter'
     };
 
+    this.cellEditorHotkeys = {
+        enter: 'save',
+        escape: 'cancel'
+    };
+
     // HELPER FUNCTIONS
     let sortHotkeys = function(hotkeys) {
         hotkeys.sort(function(a, b) {
