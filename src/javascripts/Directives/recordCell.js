@@ -40,6 +40,11 @@ let initCellFn = function(scope, element) {
         if (focused === shouldFocus) return;
         el.classList.toggle('focused');
         focused = shouldFocus;
+        if (!focused && scope.cell.editing) scope.$broadcast('saveEdit');
+    });
+
+    scope.$watch('node.selected', function(newVal) {
+        if (!newVal && scope.cell.editing) scope.$broadcast('saveEdit');
     });
 };
 

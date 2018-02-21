@@ -57,7 +57,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     };
 
     $scope.onCellDoubleClick = function(e, node, index) {
-        if (index === 0) return;
+        if (index === 0 || node.cells[index].editing) return;
         if (!node.handles[index - 1]) {
             $scope.addElement(node, index);
             $timeout(() => $scope.editElement(node, index), 50);
