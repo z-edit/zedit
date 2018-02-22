@@ -18,16 +18,22 @@ ngapp.service('extensionService', function(themeService) {
         fh.jetpack.remove(tempPath);
     };
 
+    let loadModuleInfo = function(dir) {
+        if (fh.jetpack.exists(`${dir}\\dist\\module.json`))
+            dir = `${dir}\\dist`;
+        return [fh.loadJsonFile(`${dir}\\module.json`), dir];
+    };
+
     let getModuleInfo = function(modulePath) {
-        let testPath = `${modulePath}\\module.json`;
-        if (fh.jetpack.exists(testPath)) {
-            return [fh.loadJsonFile(testPath)];
+        let dir = modulePath;
+        if (fh.jetpack.exists(`${dir}\\module.json`)) {
+            return loadModuleInfo(dir);
         } else {
-            let dir = fh.getDirectories(modulePath).find(function(dir) {
+            dir = fh.getDirectories(modulePath).find(function(dir) {
                 return fh.jetpack.exists(`${dir}\\module.json`);
             });
             if (!dir) throw new Error('No module.json found.');
-            return [fh.loadJsonFile(`${dir}\\module.json`), dir];
+            return loadModuleInfo(dir);
         }
     };
 
