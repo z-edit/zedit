@@ -15,6 +15,7 @@ ngapp.service('extensionService', function(themeService) {
         if (!themeFile) throw new Error(`No theme file found in ${archivePath}`);
         let destPath = fh.jetpack.path(`themes\\${fh.getFileName(themeFile)}`);
         fh.jetpack.copy(themeFile, destPath, { overwrite: true });
+        fh.jetpack.remove(tempPath);
     };
 
     let getModuleInfo = function(modulePath) {
@@ -50,7 +51,7 @@ ngapp.service('extensionService', function(themeService) {
             tempPath = fh.userDir.path(filename);
         fh.extractArchive(archivePath, tempPath, true);
         installModule(tempPath);
-        fh.remove(tempPath);
+        fh.jetpack.remove(tempPath);
     };
 
     this.getTabs = function() {
