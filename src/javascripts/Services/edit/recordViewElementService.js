@@ -3,6 +3,12 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct],
             settings = settingsService.settings;
 
+        let canEdit = function(node, index) {
+            return node.handles[index - 1] > 0 &&
+                !uneditableValueTypes.includes(node.value_type) &&
+                xelib.GetIsEditable(scope.getRecord(index - 1));
+        };
+
         // scope functions
         scope.getFileName = function(index) {
             return scope.columns[index].label;
@@ -56,14 +62,19 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.editElement = function(node, index) {
-            if (uneditableValueTypes.includes(node.value_type)) return;
-            if (!xelib.GetIsEditable(scope.getRecord(index - 1))) return;
+            if (!canEdit(node, index)) return;
             scope.$emit('openModal', 'editValue', {
                 targetNode: node,
                 targetIndex: index - 1,
                 record: scope.record,
                 overrides: scope.overrides
             });
+        };
+
+
+        scope.editElementInline = function(node, index) {
+            if (scope.$root.modalActive || !canEdit(node, index)) return;
+            node.cells[index].editing = true;
         };
 
         scope.deleteElement = function(node) {

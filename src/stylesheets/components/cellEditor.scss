@@ -1,0 +1,27 @@
+cell-editor {
+  input[type="text"] {
+    border: none;
+    width: 100%;
+    max-height: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  reference-select {
+    display: flex;
+    max-height: 100%;
+
+    select {
+      border: none;
+      border-right: 1px solid $hard_border;
+    }
+  }
+
+  autocomplete-input {
+    flex: 1;
+    color: $font_color !important;
+    font-weight: normal !important;
+  }
+}

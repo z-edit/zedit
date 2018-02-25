@@ -12,7 +12,7 @@ ngapp.controller('installedModulesController', function($scope, extensionService
     };
 
     $scope.openRepo = function(module) {
-        fh.openUrl(module.repo);
+        module.repo && fh.openUrl(module.repo);
     };
 
     $scope.restart = function() {

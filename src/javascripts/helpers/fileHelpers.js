@@ -3,6 +3,7 @@ import jetpack from 'fs-jetpack';
 import minimatch from 'minimatch'
 import extract from 'extract-zip';
 import md5file from 'md5-file';
+import zip from 'adm-zip';
 import url from 'url';
 
 let fh = {};
@@ -70,7 +71,7 @@ fh.fileUrlToPath = function(fileUrl) {
 
 fh.extractArchive = function(filePath, destDir, empty = false) {
     fh.jetpack.dir(destDir, { empty: empty });
-    extract(filePath, { dir: destDir }, (err) => { throw err });
+    zip(filePath).extractAllTo(destDir, true);
 };
 
 fh.getFileBase = function(filePath) {

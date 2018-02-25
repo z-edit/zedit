@@ -1,15 +1,17 @@
 ngapp.controller('refactorFileModalController', function($scope) {
-    $scope.file = $scope.modalOptions.nodes.last();
-    $scope.filename = xelib.GetFileName($scope.file);
-    $scope.author = xelib.GetFileAuthor($scope.file);
-    $scope.description = xelib.GetFileDescription($scope.file);
+    let node = $scope.modalOptions.nodes.last(),
+        file = node.handle;
+
+    $scope.filename = xelib.GetFileName(file);
+    $scope.author = xelib.GetFileAuthor(file);
+    $scope.description = xelib.GetFileDescription(file);
 
     $scope.doRefactor = function() {
-        let originalFileName = xelib.GetFileName($scope.file),
-            originalAuthor = xelib.GetFileAuthor($scope.file),
-            originalDescription = xelib.GetFileDescription($scope.file);
+        let originalFileName = xelib.GetFileName(file),
+            originalAuthor = xelib.GetFileAuthor(file),
+            originalDescription = xelib.GetFileDescription(file);
         if ($scope.filename !== originalFileName)
-            xelib.RenameFile($scope.file, $scope.filename);
+            xelib.RenameFile(file, $scope.filename);
         if ($scope.author !== originalAuthor)
             xelib.SetFileAuthor($scope.author);
         if ($scope.description !== originalDescription)

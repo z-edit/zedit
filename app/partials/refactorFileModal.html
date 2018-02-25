@@ -13,14 +13,15 @@
                     <span class="input-label">Author</span>
                     <input type="text" ng-model="author" maxlength="255" />
                 </label>
+                <label>
+                    <span class="input-label">Description</span>
+                    <textarea ng-model="description" maxlength="255"></textarea>
+                </label>
             </section>
-
-            <h3>Description</h3>
-            <textarea ng-model="description" maxlength="255"></textarea>
 
             <div class="primary-actions">
                 <button class="action-btn" ng-click="doRefactor()">OK</button>
-                <button class="action-btn" ng-click="$emit('closeModal')">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
             </div>
         </form>
     </div>

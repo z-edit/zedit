@@ -19,6 +19,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     Object.defaults($scope, {
         minLength: 2,
         pause: 250,
+        results: [],
         getText: (item) => { return item }
     });
 
@@ -50,8 +51,15 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'dropdownItems');
 
     // scope functions
-    $scope.handleEscape = () => hideDropdown();
-    $scope.handleEnter = () => $scope.onItemClick($scope.results[$scope.currentIndex]);
+    $scope.handleEscape = function() {
+        hideDropdown();
+        $scope.$emit('handleEscape');
+    };
+
+    $scope.handleEnter = function() {
+        $scope.onItemClick($scope.results[$scope.currentIndex]);
+        $timeout(() => $scope.$emit('handleEnter'));
+    };
 
     $scope.handleUpArrow = function() {
         $scope.currentIndex--;
@@ -92,5 +100,8 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     $scope.onItemMouseOver = (index) => $scope.currentIndex = index;
-    $scope.$watch('selectedItem', () => $scope.text = $scope.getText($scope.selectedItem));
+
+    $scope.$watch('selectedItem', function() {
+        $scope.text = $scope.getText($scope.selectedItem)
+    });
 });

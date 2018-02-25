@@ -7,7 +7,14 @@ ngapp.directive('unfocusModal', function($parse) {
                 callback = attrs.unfocusModal && $parse(attrs.unfocusModal),
                 handleMouseUp = () => mouseDown = false;
 
+            let clickingScrollBar = function(e) {
+                let hasVerticalScrollBar = el.scrollHeight > el.clientHeight;
+                if (!hasVerticalScrollBar) return;
+                return e.clientX > el.clientWidth - 1;
+            };
+
             el.addEventListener('mousedown', function(e) {
+                if (clickingScrollBar(e)) return;
                 mouseDown = e.target === el;
             });
             el.addEventListener('mouseup', function(e) {

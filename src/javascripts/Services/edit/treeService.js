@@ -82,6 +82,17 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
+        scope.expandChildren = function(node) {
+            scope.expandNode(node);
+            let i = scope.tree.indexOf(node) + 1,
+                targetDepth = node.depth;
+            for (; i < scope.tree.length; i++) {
+                node = scope.tree[i];
+                if (node.depth <= targetDepth) return;
+                scope.expandNode(node);
+            }
+        };
+
         scope.collapseNode = function(node) {
             if (!node.expanded) return;
             delete node.expanded;

@@ -13,7 +13,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     recordViewService.buildFunctions($scope);
     recordViewElementService.buildFunctions($scope);
     recordViewDragDropService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope);
+    nodeSelectionService.buildFunctions($scope, false, true);
     nodeColumnService.buildFunctions($scope, '.record-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
 
@@ -42,7 +42,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         }
     };
 
-    $scope.focusAddressInput = function () {
+    $scope.focusAddressInput = function() {
         let addressInput = htmlHelpers.resolveElement($scope.tabView, 'record-address-bar/input');
         if (addressInput) addressInput.focus();
     };
@@ -57,7 +57,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     };
 
     $scope.onCellDoubleClick = function(e, node, index) {
-        if (index === 0) return;
+        if (index === 0 || node.cells[index].editing) return;
         if (!node.handles[index - 1]) {
             $scope.addElement(node, index);
             $timeout(() => $scope.editElement(node, index), 50);
@@ -69,38 +69,49 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.onCellMouseDown = function(e, node, index) {
         if (e.ctrlKey && index > 0 && node.value_type === xelib.vtReference) {
-            const id = $scope.getRecord(index - 1);
-            const path = xelib.LocalPath(node.first_handle);
-            const ref = xelib.GetLinksTo(id, path);
-            if (ref > 0) {
-                $scope.record = ref;
-                return;
+            let element = node.handles[index - 1];
+            let ref = element && xelib.GetLinksTo(element, '');
+            if (ref) $scope.record = ref;
+        } else {
+            let oldIndex = $scope.focusedIndex;
+            $scope.focusedIndex = index;
+            if (oldIndex !== index) {
+                $timeout($scope.updateNodeLabels);
+            } else if (node.selected && e.button === 0) {
+                $timeout(function() {
+                    if (!node.selected || $scope.focusedIndex !== index) return;
+                    $scope.editElementInline(node, index);
+                }, 250);
             }
         }
-        let oldIndex = $scope.focusedIndex;
-        $scope.focusedIndex = index;
-        if (oldIndex !== index) $timeout($scope.updateNodeLabels);
     };
 
     $scope.onCellMouseOver = function(e, node, index) {
         if (index === 0 || node.value_type !== xelib.vtReference) return;
-        $scope.highlightedCell = e.srcElement;
-        if (e.srcElement && e.ctrlKey) {
-            e.srcElement.classList.add('highlight-reference');
-        }
+        $scope.refCell = node.cells[index];
+        $scope.refCell.underline = e.ctrlKey;
     };
 
     $scope.onCellMouseLeave = function() {
-        if ($scope.highlightedCell) {
-            $scope.highlightedCell.classList.remove('highlight-reference');
-            delete $scope.highlightedCell;
-        }
+        if (!$scope.refCell) return;
+        $scope.refCell.underline = false;
+        delete $scope.refCell;
     };
 
     $scope.handleEnter = function(e) {
         let node = $scope.lastSelectedNode();
-        $scope.onNodeDoubleClick(e, node);
-        $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
+        if (e.shiftKey) {
+            $scope.editElementInline(node, $scope.focusedIndex);
+        } else {
+            $scope.onNodeDoubleClick(e, node);
+            $scope.onCellDoubleClick(e, node, $scope.focusedIndex);
+        }
+        e.stopImmediatePropagation();
+    };
+
+    $scope.handleInsert = function(e) {
+        let node = $scope.lastSelectedNode();
+        $scope.addElement(node, $scope.focusedIndex - 1);
         e.stopImmediatePropagation();
     };
 
@@ -141,13 +152,13 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
 
     $scope.$on('controlKeyPressed', function() {
-        if (!$scope.highlightedCell) return;
-        $scope.highlightedCell.classList.add('highlight-reference');
+        if (!$scope.refCell) return;
+        $scope.$applyAsync(() => $scope.refCell.underline = true);
     });
 
     $scope.$on('controlKeyReleased', function() {
-        if (!$scope.highlightedCell) return;
-        $scope.highlightedCell.classList.remove('highlight-reference');
+        if (!$scope.refCell) return;
+        $scope.$applyAsync(() => $scope.refCell.underline = false);
     });
 
     // initialization

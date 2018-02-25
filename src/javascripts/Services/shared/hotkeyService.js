@@ -2,7 +2,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
     let keycodes = {
         backspace: 8, tab: 9, enter: 13, escape: 27, space: 32,
         shift: 16, ctrl: 17, alt: 18,
-        pageUp: 33, pageDown: 34, end: 35, home: 36, delete: 46,
+        pageUp: 33, pageDown: 34, end: 35, home: 36, insert: 45, delete: 46, 
         leftArrow: 37, upArrow: 38, rightArrow: 39, downArrow: 40,
         plus: 61, minus: 173, tilde: 192
     };
@@ -40,9 +40,8 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         return true;
     };
 
-    let keyEventHandler = function(scope, hotkeys, type) {
+    let keyEventHandler = function(scope, hotkeys) {
         return function (e) {
-            if (e.type !== type) return;
             let hotkey = Object.keys(hotkeys).find(function(key) {
                 return e.keyCode === keycodes[key];
             }) || 'default';
@@ -55,11 +54,11 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
 
     this.buildOnKeyDown = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}Hotkeys`];
-        scope[label] = keyEventHandler(scope, hotkeys, 'keydown');
+        scope[label] = keyEventHandler(scope, hotkeys);
     };
 
     this.buildOnKeyUp = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}HotkeysUp`];
-        scope[label] = keyEventHandler(scope, hotkeys, 'keyup');
+        scope[label] = keyEventHandler(scope, hotkeys);
     };
 });

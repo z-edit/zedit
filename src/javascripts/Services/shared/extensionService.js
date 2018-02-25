@@ -15,18 +15,25 @@ ngapp.service('extensionService', function(themeService) {
         if (!themeFile) throw new Error(`No theme file found in ${archivePath}`);
         let destPath = fh.jetpack.path(`themes\\${fh.getFileName(themeFile)}`);
         fh.jetpack.copy(themeFile, destPath, { overwrite: true });
+        fh.jetpack.remove(tempPath);
+    };
+
+    let loadModuleInfo = function(dir) {
+        if (fh.jetpack.exists(`${dir}\\dist\\module.json`))
+            dir = `${dir}\\dist`;
+        return [fh.loadJsonFile(`${dir}\\module.json`), dir];
     };
 
     let getModuleInfo = function(modulePath) {
-        let testPath = `${modulePath}\\module.json`;
-        if (fh.jetpack.exists(testPath)) {
-            return [fh.loadJsonFile(testPath)];
+        let dir = modulePath;
+        if (fh.jetpack.exists(`${dir}\\module.json`)) {
+            return loadModuleInfo(dir);
         } else {
-            let dir = fh.getDirectories(modulePath).find(function(dir) {
+            dir = fh.getDirectories(modulePath).find(function(dir) {
                 return fh.jetpack.exists(`${dir}\\module.json`);
             });
             if (!dir) throw new Error('No module.json found.');
-            return [fh.loadJsonFile(`${dir}\\module.json`), dir];
+            return loadModuleInfo(dir);
         }
     };
 
@@ -50,7 +57,7 @@ ngapp.service('extensionService', function(themeService) {
             tempPath = fh.userDir.path(filename);
         fh.extractArchive(archivePath, tempPath, true);
         installModule(tempPath);
-        fh.remove(tempPath);
+        fh.jetpack.remove(tempPath);
     };
 
     this.getTabs = function() {
