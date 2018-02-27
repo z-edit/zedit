@@ -63,17 +63,25 @@ ngapp.service('recordMergingService', function() {
         });
     };
 
-    // PUBLIC API
-    this.clampRecords = function(merge) {
+    let clampRecords = function(merge) {
         merge.fidMap = {};
         getUsedFormIds(merge);
         renumberFormIds(merge);
         copyRecords(merge, false);
     };
 
-    this.refactorRecords = function(merge) {
+    let refactorRecords = function(merge) {
         merge.fidMap = {};
         copyRecords(merge, true);
         xelib.RefactorReferences(merge.plugin, merge.fidMap);
+    };
+
+    // PUBLIC API
+    this.mergeRecords = function(merge) {
+        if (merge.method === 'refactor') {
+            refactorRecords(merge);
+        } else {
+            clampRecords(merge);
+        }
     };
 });
