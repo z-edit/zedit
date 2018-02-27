@@ -5,6 +5,7 @@
 
 import path from 'path';
 import url from 'url';
+import { exec } from 'child_process';
 import { app, ipcMain, BrowserWindow } from 'electron';
 import createWindow from './helpers/window';
 
@@ -58,13 +59,22 @@ let resetProgress = function() {
     });
 };
 
+let getProcessList = function(callback) {
+    exec('tasklist /fo csv /nh', function(err, stdout) {
+        let expr = /\"([^\"]+)\"/,
+            lines = stdout.split('\r\n').slice(0, -1),
+            processes = lines.map((line) => { return line.match(expr)[1] });
+        callback(processes);
+    });
+};
+
 let openMainWindow = function() {
     mainWindow = createWindow('main', { frame: false, show: false });
     loadPage(mainWindow, 'app.html', env.name === 'development');
     mainWindow.once('ready-to-show', () => mainWindow.show());
 };
 
-let openProgressWindow = function() {
+let openProgressWindow = function(canUseTransparency) {
     progressWindow = new BrowserWindow({
         parent: mainWindow,
         title: "zEdit Progress",
@@ -72,7 +82,7 @@ let openProgressWindow = function() {
         show: true,
         frame: false,
         closable: false,
-        transparent: true,
+        transparent: canUseTransparency,
         focusable: false,
         maximizable: false,
         minimizable: false,
@@ -85,7 +95,9 @@ let openProgressWindow = function() {
 
 app.on('ready', function () {
     openMainWindow();
-    openProgressWindow();
+    getProcessList(function(processes) {
+        openProgressWindow(processes.includes('dwm.exe'));
+    });
     mainWindow.on('closed', () => progressWindow.destroy());
 });
 
