@@ -61,7 +61,7 @@ ngapp.run(function(mergeAssetHandler, scriptHelpers) {
     };
 
     let saveTranslations = function(merge, translations) {
-        translations.forEach(function(language) {
+        Object.keys(translations).forEach(function(language) {
             let basePath = `${merge.dataPath}\\interface\\translations`,
                 filename = `${fh.getFileBase(merge.filename)}${language}`,
                 content = translations[language];
