@@ -17,7 +17,7 @@ ngapp.service('recordMergingService', function() {
         while (merge.usedFids.hasOwnProperty(merge.nextFormId))
             merge.nextFormId = xelib.Hex(parseInt(merge.nextFormId, 16) + 1);
         merge.usedFids[merge.nextFormId] = true;
-        return merge.nextFormId++;
+        return parseInt(merge.nextFormId++, 16);
     };
 
     let renumberPluginRecords = function(plugin, merge) {
