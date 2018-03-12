@@ -1,15 +1,21 @@
-ngapp.service('mergeBuilder', function(recordMergingService, mergeAssetHandler, pluginLoadService) {
+ngapp.service('mergeBuilder', function($q, recordMergingService, mergeAssetHandler, pluginLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
+    let mergesToBuild = [];
+
     // INITIALIZATION
+    let storePluginHandles = function(merge) {
+        merge.plugins.forEach(function(plugin) {
+            plugin.handle = xelib.FileByName(plugin.filename);
+        });
+    };
+
     let createMergedPlugin = function(merge) {
         merge.plugin = xelib.AddFile(merge.filename);
     };
 
     let addMastersToMergedPlugin = function(merge) {
-        merge.plugins.forEach(function(pluginObj) {
-            xelib.AddMaster(merge.plugin, pluginObj.filename);
-        });
+        xelib.AddAllMasters(merge.plugin);
     };
 
     let removePluginMasters = function(merge) {
@@ -20,18 +26,23 @@ ngapp.service('mergeBuilder', function(recordMergingService, mergeAssetHandler, 
     };
 
     let prepareMerge = function(merge) {
-        pluginLoadService.loadPlugins(merge);
-        createMergedPlugin(merge);
-        addMastersToMergedPlugin(merge);
+        let prepared = $q.defer();
+        pluginLoadService.loadPlugins(merge).then(function() {
+            storePluginHandles(merge);
+            createMergedPlugin(merge);
+            addMastersToMergedPlugin(merge);
+            prepared.resolve('Merged prepared');
+        }, function(err) {
+            prepared.reject(err);
+        });
+        return prepared.promise;
     };
 
     // FINALIZATION
     let cleanMerge = function(merge) {
-        if (merge.method === 'refactor') {
-            xelib.CleanMasters(merge.plugin);
-        } else {
+        xelib.CleanMasters(merge.plugin);
+        if (merge.method !== 'refactor')
             removePluginMasters(merge);
-        }
     };
 
     let saveMergeFiles = function(merge) {
@@ -44,14 +55,42 @@ ngapp.service('mergeBuilder', function(recordMergingService, mergeAssetHandler, 
     let finalizeMerge = function(merge) {
         cleanMerge(merge);
         saveMergeFiles(merge);
-        pluginLoadService.unloadPlugins(merge);
+    };
+
+    // builder
+    let buildFailed = function(merge, err) {
+        progressService.hideProgress();
+        alert('Building merges failed: ' + err);
+    };
+
+    let buildMerge = function(merge) {
+        prepareMerge(merge).then(function() {
+            recordMergingService.mergeRecords(merge);
+            mergeAssetHandler.handleAssets(merge);
+            finalizeMerge(merge);
+            progressService.addProgress(1);
+            buildNextMerge();
+        }, function(err) {
+            buildFailed(merge, err);
+        });
+    };
+
+    let buildNextMerge = function() {
+        if (mergesToBuild.length === 0) return;
+        buildMerge(mergesToBuild.shift());
     };
 
     // PUBLIC API
-    this.buildMerge = function(merge) {
-        prepareMerge(merge);
-        recordMergingService.mergeRecords(merge);
-        mergeAssetHandler.handleAssets(merge);
-        finalizeMerge(merge);
+    this.buildMerges = function(merges) {
+        mergesToBuild = merges;
+        progressService.showProgress({
+            determinate: true,
+            title: 'Building Merges',
+            message: 'Initializing...',
+            log: [],
+            current: 0,
+            max: merges.length
+        });
+        buildNextMerge();
     };
 });
