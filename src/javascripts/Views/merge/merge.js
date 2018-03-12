@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeDataService, mergeStatusService) {
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService) {
     // helper functions
     let init = function() {
         progressService.showProgress({ message: 'Loading merge data...' });
@@ -27,7 +27,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
 
     // scope functions
     $scope.buildMerge = function(merge) {
-        mergeService.buildMerges([merge]);
+        mergeBuilder.buildMerges([merge]);
     };
 
     $scope.editMerge = function(merge) {
@@ -46,7 +46,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         let mergesToBuild = $scope.merges.filter(function(merge) {
             return merge.status === 'Ready to be built';
         });
-        mergeService.buildMerges(mergesToBuild);
+        mergeBuilder.buildMerges(mergesToBuild);
     };
 
     $scope.toggleDetails = function(plugin) {
