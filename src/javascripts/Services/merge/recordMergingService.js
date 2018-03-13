@@ -15,7 +15,7 @@ ngapp.service('recordMergingService', function() {
 
     let getNextFormId = function(merge) {
         while (merge.usedFids.hasOwnProperty(merge.nextFormId))
-            merge.nextFormId = xelib.Hex(parseInt(merge.nextFormId, 16) + 1);
+            merge.nextFormId = xelib.Hex(parseInt(merge.nextFormId, 16) + 1, 6);
         merge.usedFids[merge.nextFormId] = true;
         return parseInt(merge.nextFormId++, 16);
     };
@@ -24,7 +24,7 @@ ngapp.service('recordMergingService', function() {
         let fidMap = {},
             loadOrdinal = xelib.GetFileLoadOrder(plugin) << 24;
         xelib.GetRecords(plugin).forEach(function(rec) {
-            if (!xelib.IsMaster(rec)) return;
+            if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
             let oldFormId = getFid(rec);
             if (merge.usedFids[oldFormId]) {
                 let newFormId = getNextFormId(merge);
@@ -41,14 +41,14 @@ ngapp.service('recordMergingService', function() {
         merge.usedFids = {};
         getMergePlugins(merge).forEach(function(plugin) {
             xelib.GetRecords(plugin).forEach(function(rec) {
-                if (!xelib.IsMaster(rec)) return;
+                if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
                 merge.usedFids[getFid(rec)] = false;
             });
         });
     };
 
     let renumberFormIds = function(merge) {
-        merge.nextFormId = '00000801';
+        merge.nextFormId = '000801';
         getMergePlugins(merge).forEach(function(plugin) {
             let pluginName = xelib.Name(plugin);
             merge.fidMap[pluginName] = renumberPluginRecords(plugin, merge);
