@@ -19,7 +19,7 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeAssetHandl
     };
 
     let removePluginMasters = function(merge) {
-        let masters = xelib.GetElements(merge.plugin, mastersPath);
+        let masters = xelib.GetElement(merge.plugin, mastersPath);
         merge.plugins.forEach(function(pluginObj) {
             xelib.RemoveArrayItem(masters, '', 'MAST', pluginObj.filename);
         });
