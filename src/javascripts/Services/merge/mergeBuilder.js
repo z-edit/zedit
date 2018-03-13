@@ -1,7 +1,8 @@
 ngapp.service('mergeBuilder', function($q, recordMergingService, mergeAssetHandler, pluginLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
-    let mergesToBuild = [];
+    let mergesToBuild = [],
+        buildIndex;
 
     // INITIALIZATION
     let storePluginHandles = function(merge) {
@@ -64,6 +65,8 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeAssetHandl
     };
 
     let buildMerge = function(merge) {
+        let progress = `${merge.name} (${buildIndex}/${mergesToBuild.length})`;
+        progressService.progressTitle(`Building merge ${progress}`);
         prepareMerge(merge).then(function() {
             recordMergingService.mergeRecords(merge);
             mergeAssetHandler.handleAssets(merge);
@@ -76,13 +79,17 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeAssetHandl
     };
 
     let buildNextMerge = function() {
-        if (mergesToBuild.length === 0) return;
-        buildMerge(mergesToBuild.shift());
+        if (buildIndex >= mergesToBuild.length) {
+            progressService.allowClose();
+        } else {
+            buildMerge(mergesToBuild[buildIndex++]);
+        }
     };
 
     // PUBLIC API
     this.buildMerges = function(merges) {
         mergesToBuild = merges;
+        buildIndex = 0;
         progressService.showProgress({
             determinate: true,
             title: 'Building Merges',
