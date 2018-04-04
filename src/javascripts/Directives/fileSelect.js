@@ -13,8 +13,8 @@ ngapp.controller('fileSelectController', function($scope) {
     let fileNames = xelib.GetLoadedFileNames();
 
     $scope.fileSearch = function(str) {
-        return fileNames.filter(function(fileName) {
-            return fileName.indexOf(str) > -1;
+        return fileNames.filter((fileName) => {
+            return fileName.startsWith(str);
         });
     };
 });
