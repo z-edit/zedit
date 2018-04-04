@@ -98,6 +98,7 @@ Array.prototype.unite = function(array) {
 
 // gets a random item from the array
 Array.prototype.random = function() {
+    if (this.length === 0) return;
     return this[Math.floor((Math.random() * this.length))];
 };
 
