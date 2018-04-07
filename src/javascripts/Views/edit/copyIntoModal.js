@@ -17,15 +17,13 @@ ngapp.controller('copyIntoModalController', function($scope) {
 
     let getPluginObjects = function() {
         let plugins = [];
-        xelib.WithHandles(xelib.GetElements(), function(files) {
-            plugins = files.filter(xelib.GetIsEditable)
-                .map(function(file) {
-                    return {
-                        filename: xelib.Name(file),
-                        loadOrder: xelib.GetFileLoadOrder(file),
-                        active: false
-                    }
-                });
+        xelib.WithEachHandle(xelib.GetElements(), function(file) {
+            if (!xelib.GetIsEditable(file)) return;
+            plugins.push({
+                filename: xelib.Name(file),
+                loadOrder: xelib.GetFileLoadOrder(file),
+                active: false
+            });
         });
         return plugins;
     };
