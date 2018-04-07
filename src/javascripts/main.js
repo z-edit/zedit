@@ -69,6 +69,7 @@ let getProcessList = function(callback) {
 };
 
 let openMainWindow = function() {
+    if (mainWindow) mainWindow.destroy();
     mainWindow = createWindow('main', { frame: false, show: false });
     loadPage(mainWindow, 'app.html', env.name === 'development');
     mainWindow.once('ready-to-show', () => mainWindow.show());
@@ -93,13 +94,29 @@ let openProgressWindow = function(canUseTransparency) {
     loadPage(progressWindow, 'progress.html');
 };
 
-app.on('ready', function () {
+let getShouldReboot = function() {
+    return !electron.dialog.showMessageBox({
+        type: 'error',
+        buttons: ['Reboot', 'Close'],
+        defaultId: 1,
+        title: 'Crash Report',
+        message: 'zEdit crashed.  This sometimes happens when an Antivirus interferes with the zEdit process.  You may want to try adding zEdit\'s installation folder to your Antivirus\'s exception list.',
+        cancelId: 1
+    });
+};
+
+let createWindows = function() {
     openMainWindow();
-    getProcessList(function(processes) {
-        openProgressWindow(processes.includes('dwm.exe'));
+    mainWindow.webContents.on('crash', () => {
+        if (getShouldReboot()) createWindows();
     });
     mainWindow.on('closed', () => progressWindow.destroy());
-});
+    getProcessList((processes) => {
+        openProgressWindow(processes.includes('dwm.exe'));
+    });
+};
+
+electron.app.on('ready', createWindows);
 
 app.on('window-all-closed', () => app.quit());
 
