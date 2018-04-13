@@ -71,6 +71,7 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             alert('Exception running script: ' + e.stack);
         } finally {
             xelib.FreeHandleGroup();
+            xelib.ResetStore();
             $rootScope.$broadcast('reloadGUI');
             let method = keepOpen ? 'allowClose' : 'hideProgress';
             progressService[method]();
