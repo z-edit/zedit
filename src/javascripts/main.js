@@ -6,7 +6,7 @@
 import path from 'path';
 import url from 'url';
 import { exec } from 'child_process';
-import { app, ipcMain, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
 
 // Special module holding environment variables which you declared
@@ -95,7 +95,7 @@ let openProgressWindow = function(canUseTransparency) {
 };
 
 let getShouldReboot = function() {
-    return !electron.dialog.showMessageBox({
+    return !dialog.showMessageBox({
         type: 'error',
         buttons: ['Reboot', 'Close'],
         defaultId: 1,
@@ -116,7 +116,7 @@ let createWindows = function() {
     });
 };
 
-electron.app.on('ready', createWindows);
+app.on('ready', createWindows);
 
 app.on('window-all-closed', () => app.quit());
 
