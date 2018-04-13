@@ -13,14 +13,22 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
     let getSelectedNodes = function(targetScope) {
         return function() {
             if (!targetScope.selectedNodes) return [];
-            return targetScope.selectedNodes.map(function(node) {
-                return {
-                    handle: node.handle,
-                    element_type: node.element_type,
-                    column_values: node.column_values.slice(),
-                    class: node.class
-                }
-            });
+            return targetScope.selectedNodes.map(node => ({
+                handle: node.handle,
+                element_type: node.element_type,
+                column_values: node.column_values.slice(),
+                class: node.class
+            }));
+        };
+    };
+
+    let getSelectedRecords = function(targetScope) {
+        return function(sig) {
+            if (!targetScope.selectedNodes) return [];
+            return targetScope.selectedNodes.filter(node => {
+                if (node.element_type !== xelib.etMainRecord) return;
+                return !sig || xelib.Signature(node.handle) === sig;
+            }).map(node => node.handle);
         };
     };
 
@@ -47,6 +55,7 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         return {
             NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
+            GetSelectedRecords: getSelectedRecords(targetScope),
             ShowProgress: showProgress,
             LogMessage: progressService.logMessage,
             ProgressMessage: progressService.progressMessage,
