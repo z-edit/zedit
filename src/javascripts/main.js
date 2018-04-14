@@ -8,6 +8,7 @@ import url from 'url';
 import { exec } from 'child_process';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
+import logger from './helpers/logger.js';
 
 // Special module holding environment variables which you declared
 // in config/env_xxx.json file.
@@ -15,12 +16,14 @@ import env from './env';
 
 let mainWindow, progressWindow, showProgressTimeout;
 
+logger.init('main');
+
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
 // on same machine like those are two separate apps.
 if (env.name !== 'production') {
     let userDataPath = app.getPath('userData');
-    app.setPath('userData', userDataPath + ' (' + env.name + ')');
+    app.setPath('userData', `${userDataPath} (${env.name})`);
 }
 
 let getPageUrl = function(page) {
@@ -60,22 +63,37 @@ let resetProgress = function() {
 };
 
 let getProcessList = function(callback) {
-    exec('tasklist /fo csv /nh', function(err, stdout) {
-        let expr = /\"([^\"]+)\"/,
-            lines = stdout.split('\r\n').slice(0, -1),
-            processes = lines.map((line) => { return line.match(expr)[1] });
-        callback(processes);
-    });
+    try {
+        logger.info('Checking for transparency support.');
+        exec('tasklist /fo csv /nh', function(err, stdout) {
+            let expr = /\"([^\"]+)\"/,
+                lines = stdout.split('\r\n').slice(0, -1),
+                processes = lines.map((line) => { return line.match(expr)[1] });
+            callback(processes);
+        });
+    } catch (x) {
+        logger.error(`Error getting process list:\n\n${x.stackTrace}`);
+        callback([]);
+    }
 };
 
 let openMainWindow = function() {
     if (mainWindow) mainWindow.destroy();
+    logger.info('Creating main window...');
     mainWindow = createWindow('main', { frame: false, show: false });
+    logger.info('Main window created');
+    logger.info('Loading application...');
     loadPage(mainWindow, 'app.html', env.name === 'development');
-    mainWindow.once('ready-to-show', () => mainWindow.show());
+    mainWindow.once('ready-to-show', () => {
+        logger.info('Application loaded.  Showing window.');
+        mainWindow.show();
+    });
 };
 
-let openProgressWindow = function(canUseTransparency) {
+let openProgressWindow = function(processes) {
+    let hasDwm = processes.includes('dwm.exe');
+    logger.info(`Window transparency is ${hasDwm ? '' : 'not '}supported`);
+    logger.info('Creating progress window...');
     progressWindow = new BrowserWindow({
         parent: mainWindow,
         title: "zEdit Progress",
@@ -83,7 +101,7 @@ let openProgressWindow = function(canUseTransparency) {
         show: true,
         frame: false,
         closable: false,
-        transparent: canUseTransparency,
+        transparent: hasDwm,
         focusable: false,
         maximizable: false,
         minimizable: false,
@@ -92,6 +110,7 @@ let openProgressWindow = function(canUseTransparency) {
     });
     progressWindow.hide();
     loadPage(progressWindow, 'progress.html');
+    logger.info('Progress window created');
 };
 
 let getShouldReboot = function() {
@@ -105,28 +124,39 @@ let getShouldReboot = function() {
     });
 };
 
+let crashHandler = function()  {
+    logger.error('Main window crashed!');
+    if (!getShouldReboot()) return;
+    logger.info('Rebooting...');
+    createWindows();
+};
+
 let createWindows = function() {
+    logger.info('Creating windows');
     openMainWindow();
-    mainWindow.webContents.on('crash', () => {
-        if (getShouldReboot()) createWindows();
+    mainWindow.webContents.on('crash', crashHandler);
+    mainWindow.on('closed', () => {
+        progressWindow.destroy();
     });
-    mainWindow.on('closed', () => progressWindow.destroy());
-    getProcessList((processes) => {
-        openProgressWindow(processes.includes('dwm.exe'));
-    });
+    getProcessList(openProgressWindow);
 };
 
 app.on('ready', createWindows);
 
-app.on('window-all-closed', () => app.quit());
+app.on('window-all-closed', () => {
+    logger.close();
+    app.quit();
+});
 
 ipcMain.on('show-progress', (e, p) => {
+    logger.info('Showing progress window');
     progressWindow.setBounds(mainWindow.getContentBounds());
     progSend('set-progress', p);
     showProgressTimeout = setTimeout(() => progressWindow.show(), 50);
 });
 
 ipcMain.on('hide-progress', () => {
+    logger.info('Hiding progress window');
     resetProgress();
     mainSend('progress-hidden');
     clearTimeout(showProgressTimeout);
