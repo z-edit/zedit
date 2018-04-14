@@ -24,3 +24,5 @@ Thumbs.db
 themes/
 syntaxThemes/
 scripts/history.json
+*.zip
+logs/

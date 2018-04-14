@@ -36,6 +36,8 @@ ngapp.controller('baseController', function($scope, $rootScope, $document, $q, p
     };
 
     // event handlers
+    currentWindow.on('close', logger.close);
+
     $scope.$on('startDrag', (e, dragData) => $rootScope.dragData = dragData);
     $scope.$on('stopDrag', () => $rootScope.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
