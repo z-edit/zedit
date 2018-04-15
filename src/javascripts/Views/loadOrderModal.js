@@ -43,7 +43,7 @@ ngapp.controller('loadOrderModalController', function ($scope, appModeService) {
         let missingMasters = item.masterNames.filter(function(n, i) {
             return !item.masters[i]
         });
-        console.log(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
+        logger.warn(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
         item.active = false;
         item.disabled = true;
         item.title = buildTitle(disabledTitle, missingMasters);
@@ -121,7 +121,7 @@ ngapp.controller('loadOrderModalController', function ($scope, appModeService) {
         let loadOrder = opts.loadOrder.
             filter((item) => { return item.active; }).
             map((item) => { return item.filename;  });
-        console.log("Loading: \n" + loadOrder);
+        logger.info("Loading: \n" + loadOrder);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
         appModeService.setAppMode();

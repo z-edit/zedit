@@ -3,24 +3,24 @@ ngapp.service('xelibService', function() {
 
     this.getExceptionInformation = function() {
         try {
-            console.log(xelib.GetMessages());
-            console.log(xelib.GetExceptionMessage());
+            logger.info(xelib.GetMessages());
+            logger.error(xelib.GetExceptionMessage());
         } catch (e) {
-            console.log("Failed to get exception information: " + e);
+            logger.error('Failed to get exception information: ' + e.stacktrace);
         }
     };
 
     this.printGlobals = function() {
         try {
-            console.log(xelib.GetGlobals());
+            logger.log(xelib.GetGlobals());
         } catch (e) {
-            console.log(e);
+            logger.error(e.stacktrace);
             service.getExceptionInformation();
         }
     };
 
     this.startSession = function(profile) {
-        console.log(`Setting game mode to: ${profile.gameMode}`);
+        logger.info(`Setting game mode to: ${profile.gameMode}`);
         xelib.SetGamePath(profile.gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
