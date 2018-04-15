@@ -871,6 +871,33 @@
     "description": "Sets the value at `DNAM` on `record` to `value`."
   },
   {
+    "name": "GetArmorType",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      }
+    ],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the value of `[BODT|BOD2]\\Armor Type` on `record`."
+  },
+  {
+    "name": "SetArmorType",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "armorType",
+        "type": "string"
+      }
+    ],
+    "description": "Sets the value of `[BODT|BOD2]\\Armor Type` on `record` to `armorType`."
+  },
+  {
     "name": "GetIsFemale",
     "args": [
       {
