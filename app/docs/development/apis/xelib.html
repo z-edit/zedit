@@ -35,6 +35,51 @@
 <h3>Paths</h3>
 <p>Several functions in xelib make use of paths.  Paths are strings which describe how to reach an element from another element, or from the root.  Parts of a path are separated by the backslash <code>\</code>, which needs to be escaped in javascript code (e.g. <code>\\</code>).</p>
 
+<h4>Files</h4>
+<p>You can access files from the root via the following keys:</p>
+
+<ul>
+    <li>Filename: The name of the file, including extension.  E.g. <code>'Skyrim.esm'</code></li>
+    <li>Index: The index of the file in the files array.  E.g. <code>'[0]'</code>.  Note that the second file (index <code>'[1]'</code>) is usually a hardcoded file containing records that are added by the game executable. (it will have the same load order as the main game ESM).</li>
+</ul>
+
+<h4>File Header</h4>
+<p>You can access a file's header via the following keys:</p>
+
+<ul>
+    <li>File Header: Simply use the key <code>'File Header'</code>.</li>
+    <li>Index: Index <code>'[0]'</code> in a file will always return the file header.</li>
+</ul>
+
+<h4>Groups</h4>
+<p>You can access record groups in a file via the following keys:</p>
+
+<ul>
+    <li>Signature: The signature of top-level records in the group.  E.g. <code>'Skyrim.esm\\WRLD'</code>.</li>
+    <li>Name: The name of the group as displayed in the <a href="docs://Views/Edit View/Tree View">Tree View</a>.  E.g. <code>'Skyrim.esm\\Armor'</code>.</li>
+    <li>Index: The index of the group.  Indexes are based on the native order of groups in the ESP file.  Note that index <code>'[0]'</code> returns the file header.</li>
+</ul>
+
+<h4>Records</h4>
+<p>You can access records from a file or group via the following keys:</p>
+
+<ul>
+    <li>Load order form ID: The load order form ID of the record.  E.g. <code>'0300ACE1'</code>.</li>
+    <li>Editor ID: The Editor ID of the record.  E.g. <code>'Skyrim.esm\\ArmorIronHelmet'</code>.  Note that this is considerably slower than accessing records by load order form ID unless the file's records have been sorted by Editor ID via <a href="docs://Development/APIs/xelib/files">xelib.SortEditorIDs</a>.</li>
+    <li>Full Name: The <code>FULL - Name</code> of the record.  E.g. <code>'Skyrim.esm\\"Iron Helmet"'</code>.  Note that this is considerably slower than accessing records by load order form ID unless the file's records have been sorted by Name via <a href="docs://Development/APIs/xelib/files">xelib.SortNames</a>.</li>
+    <li>Index: The index of the record within a group.  Indexes are based on the native order of records in the ESP file.</li>
+</ul>
+
+<h4>Fields (Record Elements)</h4>
+<p>You can access fields (elements in records) via the following keys:</p>
+
+<ul>
+    <li>Signature: The signature of the element.  E.g. <code>'KWDA'</code>.</li>
+    <li>Name: The name of the element displayed in the <a href="docs://Views/Edit View/Record View">Record View</a>.  E.g. <code>'KWDA - Keywords'</code>.</li>
+    <li>Index: The index of the element within the record.  This should be used when accessing elements within arrays where each array item has the same name.  E.g. <code>'Conditions\\[1]'</code></li>
+    <li>Pipe syntax: This is a special syntax which returns the element corresponding to the first path that exists.  E.g. <code>'[BODT|BOD2]'</code>.</li>
+</ul>
+
 <h3>Handles</h3>
 <p>XEditLib.dll returns "handles" to elements.  Handles are like pointers, but in the case of XEditLib they're integer IDs which correspond to entries in an internal store.  Handles should be released with <code>xelib.Release</code> once your code is finished using them.  There are several <b>Utility</b> functions which make working with handles easier.</p>
 
