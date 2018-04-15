@@ -24,6 +24,17 @@
       },
       "description": "Returns an array of node objects corresponding to the nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
     }, {
+      "name": "GetSelectedRecords",
+      "type": "function",
+      "args": [{
+        "name": "signature",
+        "type": "string"
+      }],
+      "returns": {
+        "type": "array of handle"
+      },
+      "description": "Returns an array of handles correspondig to the record nodes the nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
+    }, {
       "name": "ShowProgress",
       "type": "function",
       "args": [{
