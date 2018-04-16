@@ -184,6 +184,7 @@
         "label": "Guides",
         "children": [
           { "label": "Creating Modules" },
+          { "label": "Debugging Modules" },
           { "label": "JavaScript" }
         ]
       }

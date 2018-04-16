@@ -1,0 +1,7 @@
+<p>All debugging in xEdit is done through Chrome's Developer Tools.  However, because modules are loaded dynamically when the application initializes you can't find their code in the inspector's sources tab.  There are a few ways to view and debug module code:</p>
+
+<h2><code>debugger;</code></h2>
+<p>You can add a line code that simply says <code>debugger;</code> anywhere in your module.  When this line of code gets executed the chrome developer tools will be opened, javascript execution will pause, and you will be viewing the file in the sources tab.  Note that this will create a permanent breakpoint which you will not be able to remove without deleting the line of code and restarting the program, so you're best off using it at the beginning of your module so it gets executed only once when the module is first loaded, at which time you have the file open in the sources tab and can apply other breakpoints as necessary.</p>
+
+<h2>Search</h2>
+<p>You can open a Search tab in chrome developer tools which will allow you to search for a string in all loaded JavaScript code (including code loaded dynamically at runtime such as zEdit modules).  To open this tab, click the three dots by the "Console" tab in the lower pane of the Developer Tools window (this pane can be opened by pressing Escape if it is not visible) and click "Search".  You'll want to search for a string unique to your module.</p>
