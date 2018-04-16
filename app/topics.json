@@ -107,6 +107,10 @@
             "label": "xelib",
             "children": [
               {
+                "label": "Paths",
+                "description": "Information about how xelib handles paths."
+              },
+              {
                 "label": "Meta",
                 "description": "Library-specific functions for tasks such as getting globals and managing handles."
               },
