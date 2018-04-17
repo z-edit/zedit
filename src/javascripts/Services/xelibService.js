@@ -1,8 +1,20 @@
 ngapp.service('xelibService', function() {
-    const globalsToPrint = ['ProgramPath', 'Version', 'GameName', 'DataPath',
-        'AppDataPath', 'MyGamesPath', 'GameIniPath'];
+    const pathsToPrint = ['DataPath', 'AppDataPath', 'MyGamesPath', 'GameIniPath'];
 
     let service = this;
+
+    let printPaths = function() {
+        try {
+            pathsToPrint.forEach(pathName => {
+                let path = xelib.GetGlobal(pathName),
+                    method = fh.jetpack.exists(path) ? 'info' : 'warn';
+                logger[method](`${pathName}: ${path}`);
+            });
+        } catch (e) {
+            logger.error(e.stacktrace);
+            service.getExceptionInformation();
+        }
+    };
 
     this.getExceptionInformation = function() {
         try {
@@ -13,24 +25,13 @@ ngapp.service('xelibService', function() {
         }
     };
 
-    this.printGlobals = function() {
-        try {
-            globalsToPrint.forEach(global => {
-                logger.info(`${global}: ${xelib.GetGlobal(global)}`);
-            });
-        } catch (e) {
-            logger.error(e.stacktrace);
-            service.getExceptionInformation();
-        }
-    };
-
     this.startSession = function(profile) {
         logger.info(`User selected profile: ${profile.name}`);
-        let gameMode = xelib.gameModes[profile.gameMode];
-        logger.info(`Using game mode: ${gameMode}`);
+        logger.info(`Using game mode: ${xelib.gameModes[profile.gameMode]}`);
         xelib.SetGamePath(profile.gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
+        printPaths();
     };
 
     let getFormIds = function(records) {

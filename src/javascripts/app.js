@@ -17,13 +17,13 @@ window.xelib = require('xelib').wrapper;
 
 // init logger
 logger.init('app');
+logger.addCallback('error', alert);
 
 // handle uncaught exceptions
 window.startupCompleted = false;
 process.on('uncaughtException', function(e) {
     if (window.startupCompleted) return;
-    const msg = `There was a critical error on startup:\n\n${e.stack}`;
-    logger.error(msg) && alert(msg);
+    logger.error(`There was a critical error on startup:\n\n${e.stack}`);
     remote.app.quit();
 });
 
@@ -32,10 +32,12 @@ try {
     const libPath = jetpack.path('XEditLib.dll');
     logger.info(`Initializing xelib with "${libPath}"`);
     xelib.Initialize(libPath);
-    logger.info(`xelib initialized successfully`);
+    const libVersion = xelib.GetGlobal('Version');
+    const libWorkingDir = xelib.GetGlobal('ProgramPath');
+    logger.info(`xelib v${libVersion} initialized successfully`);
+    logger.info(`xelib working directory: "${libWorkingDir}"`)
 } catch (e) {
-    const msg = `There was a critical error loading XEditLib.dll:\n\n${e.stack}`;
-    logger.error(msg) && alert(msg);
+    logger.error(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
     remote.app.quit();
 }
 
