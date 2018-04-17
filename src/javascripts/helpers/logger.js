@@ -5,16 +5,16 @@ export default (function() {
     const bar = '='.repeat(50);
 
     let callbacks = {
-            log: {},
-            info: {},
-            warn: {},
-            error: {}
+            log: [],
+            info: [],
+            warn: [],
+            error: []
         },
         messages = [],
         stream;
 
     let invokeCallbacks = function(key, msg) {
-        Object.values(callbacks[key]).forEach(fn => fn(msg));
+        callbacks[key].forEach(fn => fn(msg));
     };
 
     let logger = {
@@ -29,11 +29,11 @@ export default (function() {
             logger.log(`\nSession terminated at ${new Date()}\n${bar}\n\n`);
             stream.end();
         },
-        addCallback: function(id, callback) {
-            callbacks[id] = callback;
+        addCallback: function(key, callback) {
+            callbacks[key].push(callback);
         },
-        removeCallback: function(id) {
-            delete callbacks[id];
+        removeCallback: function(callback) {
+            callbacks[key].remove(callback);
         },
         getMessages: function() {
             return messages;

@@ -6,7 +6,7 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
                 "width": "45%",
                 "tabs": ["treeView"]
             }, {
-                "tabs": ["recordView", "referencedByView"]
+                "tabs": ["recordView", "referencedByView", "logView"]
             }]
         };
     // TODO: load from disk instead
