@@ -1,0 +1,38 @@
+.log-view {
+  overflow: hidden;
+
+  .messages {
+    overflow-y: scroll;
+    display: block;
+    flex: 1;
+    user-select: initial;
+    text-align: left;
+    font-size: 13px;
+
+    > div {
+      padding: 1px 6px;
+      border-bottom: 1px solid $soft_border;
+      white-space: pre;
+    }
+  }
+
+  .warn-message {
+    color: $neutral;
+  }
+
+  .error-message {
+    color: $negative;
+  }
+}
+
+.label .log-view-icon {
+  margin-top: -2px;
+
+  &::before {
+    font-size: 16px;
+  }
+}
+
+.log-view-icon::before {
+  content: "\f0f6";
+}
