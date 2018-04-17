@@ -1,4 +1,7 @@
 ngapp.service('xelibService', function() {
+    const globalsToPrint = ['ProgramPath', 'Version', 'GameName', 'DataPath',
+        'AppDataPath', 'MyGamesPath', 'GameIniPath'];
+
     let service = this;
 
     this.getExceptionInformation = function() {
@@ -12,7 +15,9 @@ ngapp.service('xelibService', function() {
 
     this.printGlobals = function() {
         try {
-            logger.log(xelib.GetGlobals());
+            globalsToPrint.forEach(global => {
+                logger.info(`${global}: ${xelib.GetGlobal(global)}`);
+            });
         } catch (e) {
             logger.error(e.stacktrace);
             service.getExceptionInformation();
@@ -20,7 +25,9 @@ ngapp.service('xelibService', function() {
     };
 
     this.startSession = function(profile) {
-        logger.info(`Setting game mode to: ${profile.gameMode}`);
+        logger.info(`User selected profile: ${profile.name}`);
+        let gameMode = xelib.gameModes[profile.gameMode];
+        logger.info(`Using game mode: ${gameMode}`);
         xelib.SetGamePath(profile.gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);

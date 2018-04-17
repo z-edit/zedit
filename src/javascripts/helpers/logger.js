@@ -2,7 +2,7 @@ import jetpack from 'fs-jetpack';
 import dateFormat from 'dateformat';
 
 export default (function() {
-    const bar = '='.repeat(50);
+    const bar = '='.repeat(80);
 
     let callbacks = {
             log: [],

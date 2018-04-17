@@ -118,10 +118,8 @@ ngapp.controller('loadOrderModalController', function ($scope, appModeService) {
 
     // scope functions
     $scope.loadPlugins = function() {
-        let loadOrder = opts.loadOrder.
-            filter((item) => { return item.active; }).
-            map((item) => { return item.filename;  });
-        logger.info("Loading: \n" + loadOrder);
+        let loadOrder = opts.loadOrder.filterOnKey('active').mapOnKey('filename');
+        logger.info(`User supplied load order: ${loadOrder.join(', ')}`);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
         appModeService.setAppMode();
