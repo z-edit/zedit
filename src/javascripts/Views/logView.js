@@ -4,7 +4,7 @@ ngapp.controller('logViewController', function($scope, contextMenuService) {
     $scope.view.scope = $scope;
 
     // helper functions
-    let onLogMessage = msg => messages.push(msg);
+    let onLogMessage = msg => $scope.messages.push(msg);
 
     let getMessageClass = (msg) => {
         let n = msg[0] === '[' && msg.indexOf(']');
@@ -24,13 +24,13 @@ ngapp.controller('logViewController', function($scope, contextMenuService) {
         contextMenuService.showContextMenu($scope, e);
     };
 
+    // initialization
+    $scope.loadMessages();
+
     // event handlers
     logger.addCallback('log', onLogMessage);
 
     $scope.$on('destroy', function() {
         logger.removeCallback('log', onLogMessage);
     });
-
-    // initialization
-    $scope.loadMessages();
 });
