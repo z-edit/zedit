@@ -4,9 +4,16 @@ ngapp.controller('logViewController', function($scope, contextMenuService) {
     $scope.view.scope = $scope;
 
     // helper functions
-    let onLogMessage = msg => $scope.messages.push(msg);
+    let buildMessageObj = msg => ({
+        text: msg.trimRight(),
+        class: getMessageClass(msg)
+    });
 
-    let getMessageClass = (msg) => {
+    let onLogMessage = msg => {
+        $scope.messages.push(buildMessageObj(msg));
+    };
+
+    let getMessageClass = msg => {
         let n = msg[0] === '[' && msg.indexOf(']');
         if (n <= 0) return 'log';
         return `${msg.slice(1, n).toLowerCase()}`;
@@ -14,10 +21,7 @@ ngapp.controller('logViewController', function($scope, contextMenuService) {
 
     // scope functions
     $scope.loadMessages = function() {
-        $scope.messages = logger.getMessages().map(msg => ({
-            text: msg.trimRight(),
-            class: getMessageClass(msg)
-        }));
+        $scope.messages = logger.getMessages().map(buildMessageObj);
     };
 
     $scope.showContextMenu = function(e) {
