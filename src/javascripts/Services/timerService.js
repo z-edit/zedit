@@ -24,4 +24,8 @@ ngapp.service('timerService', function() {
         let timer = timers[timerName];
         return (timer.pausedAt || new Date() - timer) / 1000.0;
     };
+
+    this.getSecondsStr = function(timerName) {
+        return `${service.getSeconds(timerName).toFixed(3)}s`;
+    }
 });

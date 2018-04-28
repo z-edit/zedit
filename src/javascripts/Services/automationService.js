@@ -67,14 +67,11 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
-    let getScriptTime = function() {
-        return `${timerService.getSeconds('scriptTime').toFixed(3)}s`;
-    };
-
     let executeScriptFn = function(scriptFn, zedit) {
         try {
             scriptFn(zedit, fh);
-            logger.info(`Script completed in ${getScriptTime()}`);
+            let timeStr = timerService.getSecondsStr('script');
+            logger.info(`Script completed in ${timeStr}`);
         } catch(e) {
             logger.error(`Exception running script: \n${e.stack}`);
         } finally {
@@ -91,7 +88,7 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             zedit = buildZEditContext(targetScope);
         xelib.CreateHandleGroup();
         targetScope.$emit('executingScript', scriptFilename);
-        timerService.start('scriptTime');
+        timerService.start('script');
         showProgress({
             determinate: false,
             message: `Executing ${scriptFilename}...`
