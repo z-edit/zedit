@@ -65,6 +65,9 @@
         "name": "timerName",
         "type": "string"
       }],
+      "returns": {
+        "type": "number"
+      },
       "description": "See [timerService.getSeconds](docs://Development/APIs/Angular Services/Timer Service)."
     }, {
       "name": "ShowProgress",

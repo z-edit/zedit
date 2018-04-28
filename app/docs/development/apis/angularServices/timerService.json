@@ -33,6 +33,9 @@
       "name": "timerName",
       "type": "string"
     }],
-    "description": "Gets the number of seconds that have passed on timer `timerName`."
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the number of seconds that have passed on timer `timerName`."
   }
 ]
