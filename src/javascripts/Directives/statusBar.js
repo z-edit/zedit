@@ -8,7 +8,7 @@ ngapp.directive('statusBar', function(spinnerFactory) {
 
             scope.$on('statusMessage', function(e, message) {
                 scope.$applyAsync(() => scope.statusMessage = message);
-
+                logger.info(message);
             });
 
             scope.$on('toggleStatusBar', function(e, show) {

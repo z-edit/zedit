@@ -1,15 +1,14 @@
-ngapp.service('referenceService', function($rootScope, progressService) {
-    let service = this,
-        builtFileNames = [],
+ngapp.service('referenceService', function($rootScope, progressService, timerService) {
+    const errorMsg = 'There was a critical error when building references for';
+
+    let builtFileNames = [],
         files = [],
-        building = false,
-        start,
-        currentFile;
+        building, currentFile;
 
     // PRIVATE
     let fileReferencesBuilt = function(file) {
-        let duration = ((new Date() - start) / 1000).toFixed(1);
-        console.log(`References built for ${file.filename} in ${duration}s`);
+        let timeStr = timerService.getSecondsStr(file.fileName);
+        logger.info(`References built for ${file.filename} in ${timeStr}`);
         file.built = true;
         $rootScope.$broadcast('builtReferences', true);
     };
@@ -20,8 +19,7 @@ ngapp.service('referenceService', function($rootScope, progressService) {
             fileReferencesBuilt(currentFile);
             buildNextFile();
         } else if (loaderStatus === xelib.lsError) {
-            alert('There was a critical error when building references for ' +
-                `${currentFile.filename}.`);
+            logger.error(`${errorMsg} ${currentFile.filename}.`);
             buildNextFile();
         } else {
             setTimeout(checkIfBuilt, 100);
@@ -30,30 +28,27 @@ ngapp.service('referenceService', function($rootScope, progressService) {
 
     let referencesBuilt = function() {
         $rootScope.$broadcast('toggleStatusBar', false);
+        let timeStr = timerService.getSecondsStr('references');
+        logger.info(`References built in ${timeStr}`);
         files.forEach((file) => xelib.Release(file.handle));
         files = [];
         building = false;
     };
 
     let buildNextFile = function() {
-        currentFile = files.find(function(file) {
-            return !file.built;
-        });
-        if (!currentFile) {
-            referencesBuilt();
-            return;
-        }
-        let message = `Building references for ${currentFile.filename}...`;
-        $rootScope.$broadcast('statusMessage', message);
-        start = new Date();
+        currentFile = files.find(file => !file.built);
+        if (!currentFile) return referencesBuilt();
+        $rootScope.$broadcast('statusMessage',
+            `Building references for ${currentFile.filename}...`);
+        timerService.start(currentFile.filename);
         xelib.BuildReferences(currentFile.handle, false);
         checkIfBuilt();
     };
 
     let buildFileSync = function(fileHandle) {
-        let fileName = xelib.Name(fileHandle),
-            msg = `Building references for ${fileName}...`;
-        progressService.progressMessage(msg);
+        let fileName = xelib.Name(fileHandle);
+        progressService.progressMessage(
+            `Building references for ${fileName}...`);
         xelib.BuildReferences(fileHandle);
         builtFileNames.push(fileName);
     };
@@ -75,6 +70,7 @@ ngapp.service('referenceService', function($rootScope, progressService) {
     };
 
     let buildAsync = function(fileHandles) {
+        timerService.start('references');
         $rootScope.$broadcast('toggleStatusBar', true);
         fileHandles.forEach(queueBuildFile);
         if (!building) buildNextFile();
