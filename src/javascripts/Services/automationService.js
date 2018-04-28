@@ -1,12 +1,11 @@
-ngapp.service('automationService', function($rootScope, $timeout, progressService) {
+ngapp.service('automationService', function($rootScope, $timeout, progressService, timerService) {
     let keepOpen;
 
     let buildScriptFunction = function(scriptCode) {
         try {
             return new Function('zedit', 'fh', scriptCode);
         } catch (e) {
-            alert('Exception parsing script: ' + e.message);
-            console.log(e);
+            logger.error(`Exception parsing script: ${e.message}`);
         }
     };
 
@@ -34,11 +33,11 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
 
     let navigateToElement = function(targetScope) {
         return function(element, open) {
-            xelib.OutsideHandleGroup(function() {
+            xelib.OutsideHandleGroup(() => {
                 try {
                     targetScope.navigateToElement(element, open);
                 } catch (x) {
-                    console.log(`Failed to navigate to element, ${x.message}`);
+                    logger.error(`Failed to navigate to element, ${x.message}`);
                 }
             });
         }
@@ -64,11 +63,16 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         }
     };
 
+    let getScriptTime = function() {
+        return `${timerService.getSeconds('scriptTime').toFixed(3)}s`;
+    };
+
     let executeScriptFn = function(scriptFn, zedit) {
         try {
             scriptFn(zedit, fh);
+            logger.info(`Script completed in ${getScriptTime()}`);
         } catch(e) {
-            alert('Exception running script: ' + e.stack);
+            logger.error(`Exception running script: \n${e.stack}`);
         } finally {
             xelib.FreeHandleGroup();
             xelib.CleanStore();
@@ -82,6 +86,8 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         let scriptFn = buildScriptFunction(scriptCode),
             zedit = buildZEditContext(targetScope);
         xelib.CreateHandleGroup();
+        targetScope.$emit('executingScript', scriptFilename);
+        timerService.start('scriptTime');
         showProgress({
             determinate: false,
             message: `Executing ${scriptFilename}...`
