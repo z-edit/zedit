@@ -2,7 +2,7 @@
   {
     "name": "zedit",
     "type": "object",
-    "description": "A collection of functions which allow you to interface with the zEdit UI.",
+    "description": "A collection of functions which allow you to interface with the zEdit UI and angular services.",
     "itemsApi": "zedit",
     "items": [{
       "name": "NavigateToElement",
