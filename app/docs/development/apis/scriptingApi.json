@@ -35,6 +35,38 @@
       },
       "description": "Returns an array of handles correspondig to the record nodes the nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
     }, {
+      "name": "StartTimer",
+      "type": "function",
+      "args": [{
+        "name": "timerName",
+        "type": "string"
+      }],
+      "description": "See [timerService.start](docs://Development/APIs/Angular Services/Timer Service)."
+    }, {
+      "name": "PauseTimer",
+      "type": "function",
+      "args": [{
+        "name": "timerName",
+        "type": "string"
+      }],
+      "description": "See [timerService.pause](docs://Development/APIs/Angular Services/Timer Service)."
+    }, {
+      "name": "ResumeTimer",
+      "type": "function",
+      "args": [{
+        "name": "timerName",
+        "type": "string"
+      }],
+      "description": "See [timerService.resume](docs://Development/APIs/Angular Services/Timer Service)."
+    }, {
+      "name": "GetSeconds",
+      "type": "function",
+      "args": [{
+        "name": "timerName",
+        "type": "string"
+      }],
+      "description": "See [timerService.getSeconds](docs://Development/APIs/Angular Services/Timer Service)."
+    }, {
       "name": "ShowProgress",
       "type": "function",
       "args": [{

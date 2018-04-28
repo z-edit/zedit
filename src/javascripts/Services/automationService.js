@@ -57,6 +57,8 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             GetSelectedRecords: getSelectedRecords(targetScope),
             ShowProgress: showProgress,
             StartTimer: timerService.start,
+            PauseTimer: timerService.pause,
+            ResumeTimer: timerService.resume,
             GetSeconds: timerService.getSeconds,
             LogMessage: progressService.logMessage,
             ProgressMessage: progressService.progressMessage,
