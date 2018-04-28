@@ -99,4 +99,6 @@ ngapp.service('referenceService', function($rootScope, progressService, timerSer
     this.canBuildReferences = function(handle) {
         return !builtFileNames.includes(xelib.Name(handle));
     };
+
+    this.building = () => building;
 });

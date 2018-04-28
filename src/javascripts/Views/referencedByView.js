@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, htmlHelpers, gridService, referencedByViewService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, htmlHelpers, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -15,6 +15,12 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     referencedByViewService.buildFunctions($scope);
     nodeColumnService.buildFunctions($scope, '.referenced-by-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
+
+    // helper functions
+    let getAllReferencesBuilt = function() {
+        $scope.allReferencesBuilt = referenceService.allReferencesBuilt();
+        $scope.building = referenceService.building();
+    };
 
     // scope functions
     $scope.open = function(node) {
@@ -46,6 +52,11 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         e.stopImmediatePropagation();
     };
 
+    $scope.buildAllReferences = function() {
+        referenceService.buildAllReferences();
+        getAllReferencesBuilt();
+    };
+
     // event handlers
     $scope.$on('reloadGUI', function() {
         if (!$scope.record) return;
@@ -57,11 +68,16 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
             $scope.reload();
         }
     });
+
     $scope.$on('rebuildColumns', function() {
         $scope.buildColumns();
         $scope.reload();
     });
-    $scope.$on('builtReferences', $scope.reload);
+
+    $scope.$on('builtReferences', () => {
+        $scope.reload();
+        getAllReferencesBuilt();
+    });
 
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue === newValue) return;
@@ -77,5 +93,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         $timeout($scope.resolveElements, 100);
     });
 
+    // initialization
     $timeout($scope.linkToRecordView, 100);
+    getAllReferencesBuilt();
 });

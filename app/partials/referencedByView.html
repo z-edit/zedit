@@ -17,9 +17,14 @@
         </span>
     </div>
 </div>
-<div ng-if="!record" class="message-container" ng-drop="onDrop()" drag-over="onDragOver()">
-    <div ng-if="!view.linkedGridView" class="pane-message">
-        Drag and drop a record or file here to find records that reference it.
+<div ng-if="!record || !grid.length" class="message-container" ng-drop="onDrop()" drag-over="onDragOver()">
+    <div class="pane-message">
+        <span ng-hide="record">Drag and drop a record or file here to find records that reference it.</span>
+        <span ng-show="record && building">Building references...</span>
+        <span ng-show="record && !building">
+            <span ng-hide="allReferencesBuilt">It doesn't look like any records reference this record.  <br>You may want to <a ng-click="buildAllReferences()">build references for all loaded plugins</a> to make sure though.</span>
+            <span ng-show="allReferencesBuilt">No records reference this record.</span>
+        </span>
     </div>
 </div>
 
