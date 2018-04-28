@@ -1,5 +1,6 @@
 ngapp.service('timerService', function() {
-    let timers = {};
+    let service = this,
+        timers = {};
 
     let millisecondsAgo = function(ms) {
         return new Date((new Date()).getTime() - ms);
