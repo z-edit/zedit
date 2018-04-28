@@ -1,13 +1,14 @@
 ngapp.service('referenceService', function($rootScope, progressService, timerService) {
     const errorMsg = 'There was a critical error when building references for';
 
-    let builtFileNames = [],
+    let service = this,
+        builtFileNames = [],
         files = [],
         building, currentFile;
 
     // PRIVATE
     let fileReferencesBuilt = function(file) {
-        let timeStr = timerService.getSecondsStr(file.fileName);
+        let timeStr = timerService.getSecondsStr(file.filename);
         logger.info(`References built for ${file.filename} in ${timeStr}`);
         file.built = true;
         $rootScope.$broadcast('builtReferences', true);
@@ -54,6 +55,7 @@ ngapp.service('referenceService', function($rootScope, progressService, timerSer
     };
 
     let buildSync = function(fileHandles) {
+        if (building) return;
         progressService.showProgress({ message: 'Building references...' });
         fileHandles.forEach(buildFileSync);
         progressService.hideProgress();
@@ -61,6 +63,7 @@ ngapp.service('referenceService', function($rootScope, progressService, timerSer
 
     let queueBuildFile = function(fileHandle) {
         let fileName = xelib.Name(fileHandle);
+        if (builtFileNames.includes(fileName)) return;
         builtFileNames.push(fileName);
         files.push({
             handle: xelib.GetElement(fileHandle),
@@ -70,7 +73,7 @@ ngapp.service('referenceService', function($rootScope, progressService, timerSer
     };
 
     let buildAsync = function(fileHandles) {
-        timerService.start('references');
+        if (!building) timerService.start('references');
         $rootScope.$broadcast('toggleStatusBar', true);
         fileHandles.forEach(queueBuildFile);
         if (!building) buildNextFile();
@@ -80,6 +83,17 @@ ngapp.service('referenceService', function($rootScope, progressService, timerSer
     // PUBLIC
     this.buildReferences = function(fileHandles, sync = false) {
         sync ? buildSync(fileHandles) : buildAsync(fileHandles);
+    };
+
+    this.buildAllReferences = function(sync = false) {
+        let files = xelib.GetElements().filter(service.canBuildReferences);
+        service.buildReferences(files, sync);
+    };
+
+    this.allReferencesBuilt = function() {
+        if (building) return;
+        let notBuilt = xelib.GetLoadedFileNames().subtract(builtFileNames);
+        return notBuilt.length === 0;
     };
 
     this.canBuildReferences = function(handle) {
