@@ -37,5 +37,17 @@
       "type": "number"
     },
     "description": "Returns the number of seconds that have passed on timer `timerName`."
+  },
+  {
+    "name": "getSecondsStr",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the number of seconds that have passed on timer `timerName` as a formatted seconds string.  E.g. `7.562s`."
   }
 ]
