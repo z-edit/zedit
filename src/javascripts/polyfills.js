@@ -168,23 +168,6 @@ Array.prototype.groupBy = function(propertyName) {
     return obj;
 };
 
-Array.prototype.equals = function(otherArray) {
-    if (!otherArray || this.length !== otherArray.length) return false;
-    for (let index = 0; index < this.length; index++) {
-        let item = this[index],
-            otherItem = otherArray[index],
-            itemType = typeof item,
-            otherItemType = typeof otherItem;
-        if (itemType !== otherItemType) return false;
-        if (itemType === 'object') {
-            if (!item.equals(otherItem)) return false;
-        } else if (item !== otherItem) {
-            return false;
-        }
-    }
-    return true;
-};
-
 Array.prototype.forEachReverse = function(callback) {
     for (let i = this.length; i > -1; i--) {
         callback(this[i], i, this);
@@ -220,29 +203,6 @@ Array.prototype.findNested = function(sKey, nKey, callback) {
         if (found) return found;
     }
 };
-
-Object.prototype.equals = () => {};
-Object.defineProperty(Object.prototype, 'equals', {
-    enumerable: false,
-    value: function(otherObject) {
-        if (!object || !otherObject) return false;
-        let object = this,
-            objectKeys = Object.keys(object);
-        if (!objectKeys.equals(Object.keys(otherObject))) return false;
-        for (let i = 0; i < objectKeys.length; i++) {
-            let key = objectKeys[i],
-                value = object[key], otherValue = otherObject[key],
-                valueType = typeof value, otherValueType = typeof otherValue;
-            if (valueType !== otherValueType) return false;
-            if (valueType === 'object') {
-                if (!value.equals(otherValue)) return false;
-            } else if (value !== otherValue) {
-                return false;
-            }
-        }
-        return true;
-    }
-});
 
 Object.deepAssign = function(target, varArgs) {
     if (target === null) // TypeError if undefined or null

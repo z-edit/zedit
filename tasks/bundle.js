@@ -35,14 +35,14 @@ module.exports = function(src, dest) {
             external: generateExternalModulesList(),
             cache: cached[src],
             plugins: rollupPlugins,
-            format: 'cjs'
+            output: { format: 'cjs' }
         }))
         .on('bundle', function(bundle) {
             cached[src] = bundle;
 
             let jsFile = path.basename(dest);
             return bundle.generate({
-                format: 'cjs',
+                output: { format: 'cjs' },
                 sourcemap: true,
                 sourcemapFile: jsFile
             }).then(function(result) {
