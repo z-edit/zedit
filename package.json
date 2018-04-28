@@ -47,7 +47,7 @@
     "angular-marked": "^1.2.2",
     "angular-spinner": "^1.0.1",
     "angular-ui-router": "^0.4.3",
-    "angular-vs-repeat": "^1.1.11",
+    "angular-vs-repeat": "1.1.7",
     "angularjs-scroll-glue": "^2.2.0",
     "bindings": "^1.2.1",
     "codemirror": "^5.37.0",
