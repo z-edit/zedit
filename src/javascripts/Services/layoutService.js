@@ -32,4 +32,10 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
     this.findView = function(callback) {
         return service.layout.panes.findNested('tabs', 'panes', callback);
     };
+
+    this.switchToView = function(viewClass) {
+        let view = service.findView(tab => tab.class === viewClass);
+        if (!view) return;
+        view.pane.tabs.forEach(tab => tab.active = tab === view);
+    };
 });
