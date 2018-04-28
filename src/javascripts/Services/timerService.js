@@ -1,11 +1,27 @@
 ngapp.service('timerService', function() {
     let timers = {};
 
-    this.start = function(timerKey = 'default') {
-        timers[timerKey] = new Date();
+    let millisecondsAgo = function(ms) {
+        return new Date((new Date()).getTime() - ms);
     };
 
-    this.getSeconds = function(timerKey = 'default') {
-        return (new Date() - timers[timerKey]) / 1000.0;
+    this.start = function(timerName) {
+        timers[timerName] = new Date();
+    };
+
+    this.pause = function(timerName) {
+        timers[timerName] = {
+            started: timers[timerName],
+            paused: new Date()
+        };
+    };
+
+    this.resume = function(timerName) {
+        timers[timerName] = millisecondsAgo(timers[timerName].pausedAt);
+    };
+
+    this.getSeconds = function(timerName) {
+        let timer = timers[timerName];
+        return (timer.pausedAt || new Date() - timer) / 1000.0;
     };
 });
