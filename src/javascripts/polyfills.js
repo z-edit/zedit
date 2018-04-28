@@ -212,6 +212,15 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
+Array.prototype.findNested = function(sKey, nKey, callback) {
+    for (let i = 0; i < this.length; i++) {
+        let item = this[i],
+            found = item[sKey] && item[sKey].find(callback) ||
+                item[nKey] && item[nKey].findNested(sKey, nKey, callback);
+        if (found) return found;
+    }
+};
+
 Object.prototype.equals = () => {};
 Object.defineProperty(Object.prototype, 'equals', {
     enumerable: false,
