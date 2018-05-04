@@ -151,7 +151,8 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         };
 
         scope.deleteElement = function(node) {
-            errorService.try(function() {
+            if (node.element_type === xelib.etFile) return;
+            errorService.try(() => {
                 scope.$root.$broadcast('deleteElement', node.handle, node.element_type);
                 xelib.RemoveElement(node.handle);
                 xelib.Release(node.handle);
@@ -191,14 +192,12 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         };
 
         scope.deleteElements = function() {
-            let doDelete = (nodes) => nodes.forEach(scope.deleteElement);
-            if (settings.treeView.promptOnDeletion) {
-                scope.deletionPrompt().then(function(result) {
-                    if (result) doDelete(scope.selectedNodes);
-                });
-            } else {
-                doDelete();
-            }
+            let doDelete = (confirmed = true) => {
+                if (!confirmed) return;
+                scope.selectedNodes.forEach(scope.deleteElement);
+            };
+            let shouldPrompt = settings.treeView.promptOnDeletion;
+            shouldPrompt ? scope.deletionPrompt().then(doDelete) : doDelete();
         };
 
         scope.enableEditing = function() {
