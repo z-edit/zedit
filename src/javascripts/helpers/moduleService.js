@@ -1,13 +1,12 @@
 export default function(ngapp, fh, logger) {
     let modules = {},
         loaders = {
-            default: function(module, fh, ngapp, moduleService) {
+            default: function({module, fh, logger, ngapp, moduleService}) {
                 Function.execute({
-                    ngapp: ngapp,
-                    fh: fh,
+                    ngapp, fh, logger, moduleService,
                     info: module.info,
-                    modulePath: module.path,
-                    moduleService: moduleService
+                    moduleUrl: fh.pathToFileUrl(module.path),
+                    modulePath: module.path
                 }, module.code);
             }
         },
@@ -17,7 +16,7 @@ export default function(ngapp, fh, logger) {
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
-            path: fh.pathToFileUrl(modulePath),
+            path: modulePath,
             code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
         }
     };
@@ -88,7 +87,7 @@ export default function(ngapp, fh, logger) {
         } else {
             try {
                 logger.info(`Loading module ${module.info.id}`);
-                loader(module, fh, ngapp, service);
+                loader({module, fh, ngapp, logger, moduleService: service});
                 modules[module.info.id] = module.info;
                 return true;
             } catch (x) {
