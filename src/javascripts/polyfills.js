@@ -58,6 +58,7 @@ String.prototype.wordCount = function() {
 };
 
 String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
+    if (this.length === 0) return this;
     let cutExpr = cut ? `|.{${width}}|.+$` : `|\\S+?(\\s|$)`,
         expr = `.{1,${width}}(\\s|$)${cutExpr}`;
     return this.match(new RegExp(expr, 'g')).map(function(str) {
@@ -202,6 +203,18 @@ Array.prototype.findNested = function(sKey, nKey, callback) {
                 item[nKey] && item[nKey].findNested(sKey, nKey, callback);
         if (found) return found;
     }
+};
+
+Array.prototype.itemsBefore = function(arg) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return index > -1 ? this.slice(0, index) : this.slice();
+};
+
+Array.prototype.itemsAfter = function(arg) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return index > -1 ? this.slice(index + 1) : this.slice();
 };
 
 Object.deepAssign = function(target, varArgs) {
