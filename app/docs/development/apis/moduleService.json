@@ -27,7 +27,61 @@
       "name": "loaderFunction",
       "type": "function"
     }],
-    "description": "Registers a module loader `id`.  The `loaderFunction` will be used to load any modules that specify `\"moduleLoader\": id` in their `module.json`."
+    "description": "Registers a module loader `id`.  The `loaderFunction` will be used to load any modules that specify `\"moduleLoader\": id` in their `module.json`.",
+    "itemsLabel": "loaderFunction arguments",
+    "items": [
+      {
+        "name": "args",
+        "type": "object",
+        "description": "Loader function arguments are provided as an object to prevent breaking API changes when new arguments are added.",
+        "itemsLabel": "args schema",
+        "items": [
+          {
+            "name": "module",
+            "type": "object",
+            "description": "The module object being loaded.",
+            "itemsLabel": "module schema",
+            "items": [
+              {
+                "name": "info",
+                "type": "object",
+                "description": "The module's information, loaded from its `module.json` file."
+              },
+              {
+                "name": "path",
+                "type": "string",
+                "description": "The absolute path to the folder where the module is installed."
+              },
+              {
+                "name": "code",
+                "type": "string",
+                "description": "The code contained in the module's `index.js` file."
+              }
+            ]
+          },
+          {
+            "name": "fh",
+            "type": "object",
+            "description": "The [File Helpers API](docs://Development/APIs/File Helpers)."
+          },
+          {
+            "name": "ngapp",
+            "type": "object",
+            "description": "The zEdit angular application.  See [angular.Module](https://docs.angularjs.org/api/ng/type/angular.Module) and [Dependency Injection](https://docs.angularjs.org/guide/di)."
+          },
+          {
+            "name": "logger",
+            "type": "object",
+            "description": "The [logger](docs://Development/APIs/logger)."
+          },
+          {
+            "name": "moduleService",
+            "type": "object",
+            "description": "The [Module Service](docs://Development/APIs/Module Service)."
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "deferLoader",
@@ -36,6 +90,6 @@
       "name": "id",
       "type": "string"
     }],
-    "description": "Defers the loading of modules that specify `\"moduleLoader\": id` in their `module.json` until after angular providers have been registered.  Module loaders which are deferred should not provide `ngapp` to their modules.  See [UPF index.js](https://github.com/matortheeternal/zedit-unified-patching-framework/blob/master/index.js#L59-L66) for an example of how to defer loaders."
+    "description": "Defers the loading of modules that specify `\"moduleLoader\": id` in their `module.json` until after angular providers have been registered.  Module loaders which are deferred should not provide `ngapp` to their modules.  See [UPF index.js](https://github.com/matortheeternal/zedit-unified-patching-framework/blob/master/index.js#L76-L87) for an example of how to defer loaders."
   }
 ]
