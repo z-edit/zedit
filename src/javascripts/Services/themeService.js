@@ -1,4 +1,4 @@
-ngapp.service('themeService', function(settingsService) {
+ngapp.service('themeService', function($timeout, settingsService) {
     let service = this,
         unknownMetaData = {
             author: 'Unknown',
@@ -76,7 +76,7 @@ ngapp.service('themeService', function(settingsService) {
             let themeFilePath = fh.jetpack.path(`themes/${scope.theme}`);
             themeStylesheet.href = themeFilePath;
             scope.$broadcast('themeChanged', scope.theme);
-            ipcRenderer.send('set-theme', themeFilePath);
+            $timeout(() => ipcRenderer.send('set-theme', themeFilePath), 1000);
         });
 
         scope.$watch('syntaxTheme', function() {
