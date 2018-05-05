@@ -54,6 +54,13 @@ ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|docs):/);
 });
 
+ngapp.factory('$exceptionHandler', function($log) {
+    return (exception, cause) => {
+        logger.error(exception.stack);
+        $log.error(exception, cause);
+    };
+});
+
 // state redirects
 ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart', function (e, toState, params) {
