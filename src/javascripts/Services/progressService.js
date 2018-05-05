@@ -1,15 +1,32 @@
 ngapp.service('progressService', function($q) {
-    let closed;
+    let closed, originalFunctions;
 
-    ipcRenderer.on('progress-hidden', () => closed.resolve(true));
+    // helper functions
+    let hideFunctions = function(...functionNames) {
+        functionNames.forEach(name => {
+            originalFunctions[name] = window[name];
+            window[name] = () => {};
+        });
+    };
 
+    let restoreFunctions = function(...functionNames) {
+        functionNames.forEach(name => {
+            if (!originalFunctions.hasOwnProperty(name)) return;
+            window[name] = originalFunctions[name];
+            delete originalFunctions[name];
+        });
+    };
+
+    // api functions
     this.showProgress = function(progress) {
         closed = $q.defer();
+        hideFunctions('alert', 'confirm');
         ipcRenderer.send('show-progress', progress);
     };
 
     this.hideProgress = function() {
         ipcRenderer.send('hide-progress');
+        restoreFunctions('alert', 'confirm')
     };
 
     this.logMessage = function(message, level = 0) {
@@ -33,4 +50,6 @@ ngapp.service('progressService', function($q) {
     };
 
     this.onProgressClosed = (callback) => closed.then(callback);
+
+    ipcRenderer.on('progress-hidden', () => closed.resolve(true));
 });
