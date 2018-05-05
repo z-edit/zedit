@@ -5,7 +5,6 @@
 
 import path from 'path';
 import url from 'url';
-import { exec } from 'child_process';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
 import logger from './helpers/logger.js';
@@ -62,21 +61,6 @@ let resetProgress = function() {
     });
 };
 
-let getProcessList = function(callback) {
-    try {
-        logger.info('Checking for transparency support.');
-        exec('tasklist /fo csv /nh', function(err, stdout) {
-            let expr = /\"([^\"]+)\"/,
-                lines = stdout.split('\r\n').slice(0, -1),
-                processes = lines.map((line) => { return line.match(expr)[1] });
-            callback(processes);
-        });
-    } catch (x) {
-        logger.error(`Error getting process list:\n\n${x.stackTrace}`);
-        callback([]);
-    }
-};
-
 let openMainWindow = function() {
     if (mainWindow) mainWindow.destroy();
     logger.info('Creating main window...');
@@ -90,9 +74,9 @@ let openMainWindow = function() {
     });
 };
 
-let openProgressWindow = function(processes) {
-    let hasDwm = processes.includes('dwm.exe');
-    logger.info(`Window transparency is ${hasDwm ? '' : 'not '}supported`);
+let openProgressWindow = function() {
+    let t = !process.argv.includes('--disable-transparency');
+    logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
     logger.info('Creating progress window...');
     progressWindow = new BrowserWindow({
         parent: mainWindow,
@@ -101,7 +85,7 @@ let openProgressWindow = function(processes) {
         show: true,
         frame: false,
         closable: false,
-        transparent: hasDwm,
+        transparent: t,
         focusable: false,
         maximizable: false,
         minimizable: false,
@@ -135,10 +119,8 @@ let createWindows = function() {
     logger.info('Creating windows');
     openMainWindow();
     mainWindow.webContents.on('crash', crashHandler);
-    mainWindow.on('closed', () => {
-        progressWindow.destroy();
-    });
-    getProcessList(openProgressWindow);
+    mainWindow.on('closed', () => progressWindow.destroy());
+    openProgressWindow();
 };
 
 app.on('ready', createWindows);
