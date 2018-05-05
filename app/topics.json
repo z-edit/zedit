@@ -178,6 +178,7 @@
               { "label": "Settings Service" }
             ]
           },
+          { "label": "Logger" },
           { "label": "Polyfills" },
           { "label": "File Helpers" },
           { "label": "Scripting API" },
