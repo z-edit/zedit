@@ -62,6 +62,8 @@
           "label": "Edit Columns Modal",
           "description": "Allows you to manage the columns that are displayed on the view, including creating custom columns."
         }]
+      }, {
+        "label": "Log View"
       }]
     }, {
       "label": "Clean View",
