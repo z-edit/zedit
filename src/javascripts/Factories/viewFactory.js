@@ -34,7 +34,8 @@ ngapp.service('viewFactory', function(randomService) {
             templateUrl: `partials/${viewName}.html`,
             controller: `${viewName}Controller`,
             class: viewName.underscore('-'),
-            label: viewName.humanize()
+            label: viewName.humanize(),
+            destroy: () => {}
         };
     }
 });

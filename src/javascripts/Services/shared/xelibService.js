@@ -1,29 +1,37 @@
 ngapp.service('xelibService', function() {
+    const pathsToPrint = ['DataPath', 'AppDataPath', 'MyGamesPath', 'GameIniPath'];
+
     let service = this;
 
-    this.getExceptionInformation = function() {
+    let printPaths = function() {
         try {
-            console.log(xelib.GetMessages());
-            console.log(xelib.GetExceptionMessage());
+            pathsToPrint.forEach(pathName => {
+                let path = xelib.GetGlobal(pathName),
+                    method = fh.jetpack.exists(path) ? 'info' : 'warn';
+                logger[method](`${pathName}: ${path}`);
+            });
         } catch (e) {
-            console.log("Failed to get exception information: " + e);
-        }
-    };
-
-    this.printGlobals = function() {
-        try {
-            console.log(xelib.GetGlobals());
-        } catch (e) {
-            console.log(e);
+            logger.error(e.stacktrace);
             service.getExceptionInformation();
         }
     };
 
+    this.getExceptionInformation = function() {
+        try {
+            logger.info(xelib.GetMessages());
+            logger.error(xelib.GetExceptionMessage());
+        } catch (e) {
+            logger.error('Failed to get exception information: ' + e.stacktrace);
+        }
+    };
+
     this.startSession = function(profile) {
-        console.log(`Setting game mode to: ${profile.gameMode}`);
+        logger.info(`User selected profile: ${profile.name}`);
+        logger.info(`Using game mode: ${xelib.gameModes[profile.gameMode]}`);
         xelib.SetGamePath(profile.gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
+        printPaths();
     };
 
     let getFormIds = function(records) {

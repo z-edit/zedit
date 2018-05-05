@@ -13,7 +13,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="child in topic.children">
+    <tr ng-repeat="child in topic.children.slice(1)">
         <td class="nowrap">
             <a ng-click="$emit('navigateToChild', child)">{{::child.label}}</a>
         </td>
@@ -34,6 +34,8 @@
 
 <h3>Paths</h3>
 <p>Several functions in xelib make use of paths.  Paths are strings which describe how to reach an element from another element, or from the root.  Parts of a path are separated by the backslash <code>\</code>, which needs to be escaped in javascript code (e.g. <code>\\</code>).</p>
+
+<p>To learn more about paths see the <a href="docs://Development/APIs/xelib/Paths">Paths page</a>.</p>
 
 <h3>Handles</h3>
 <p>XEditLib.dll returns "handles" to elements.  Handles are like pointers, but in the case of XEditLib they're integer IDs which correspond to entries in an internal store.  Handles should be released with <code>xelib.Release</code> once your code is finished using them.  There are several <b>Utility</b> functions which make working with handles easier.</p>

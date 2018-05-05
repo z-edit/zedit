@@ -9,26 +9,35 @@ import 'angular-vs-repeat';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
-import env from './env';
+import logger from './helpers/logger.js';
 import buildModuleService from './helpers/moduleService';
 import './polyfills';
 import './color';
 window.xelib = require('xelib').wrapper;
 
+// init logger
+logger.init('app');
+logger.addCallback('error', alert);
+
 // handle uncaught exceptions
 window.startupCompleted = false;
 process.on('uncaughtException', function(e) {
     if (window.startupCompleted) return;
-    alert(`There was a critical error on startup:\n\n${e.stack}`);
+    logger.error(`There was a critical error on startup:\n\n${e.stack}`);
     remote.app.quit();
 });
 
 // initialize xelib when application starts
 try {
     const libPath = jetpack.path('XEditLib.dll');
+    logger.info(`Initializing xelib with "${libPath}"`);
     xelib.Initialize(libPath);
+    const libVersion = xelib.GetGlobal('Version');
+    const libWorkingDir = xelib.GetGlobal('ProgramPath');
+    logger.info(`xelib v${libVersion} initialized successfully`);
+    logger.info(`xelib working directory: "${libWorkingDir}"`)
 } catch (e) {
-    alert(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
+    logger.error(`There was a critical error loading XEditLib.dll:\n\n${e.stack}`);
     remote.app.quit();
 }
 
@@ -48,10 +57,9 @@ ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
 // state redirects
 ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
     $rootScope.$on('$stateChangeStart', function (e, toState, params) {
-        if (toState.redirectTo) {
-            e.preventDefault();
-            $state.go(toState.redirectTo, params, {location: 'replace'});
-        }
+        if (!toState.redirectTo) return;
+        e.preventDefault();
+        $state.go(toState.redirectTo, params, { location: 'replace' });
     });
 }]);
 
@@ -64,11 +72,6 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 //== end angular files ==
 
 // load modules
-const moduleService = buildModuleService(ngapp, fh);
+const moduleService = buildModuleService(ngapp, fh, logger);
 moduleService.loadModules();
-ngapp.run(function() {
-    moduleService.loadDeferredModules();
-    moduleService.getFailures().forEach(function(msg) {
-        console.error(msg);
-    });
-});
+ngapp.run(moduleService.loadDeferredModules);

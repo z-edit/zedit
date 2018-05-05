@@ -6,7 +6,7 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
                 "width": "45%",
                 "tabs": ["treeView"]
             }, {
-                "tabs": ["recordView", "referencedByView"]
+                "tabs": ["recordView", "referencedByView", "logView"]
             }]
         };
     // TODO: load from disk instead
@@ -15,13 +15,12 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
     this.buildPane = function(pane) {
         pane.id = randomService.generateUniqueId();
         if (pane.panes) pane.panes.forEach(service.buildPane);
-        if (pane.tabs) {
-            pane.tabs = pane.tabs.map(function(viewName, index) {
-                let view = viewFactory.newView(viewName, index === 0);
-                view.pane = pane;
-                return view;
-            });
-        }
+        if (!pane.tabs) return;
+        pane.tabs = pane.tabs.map(function(viewName, index) {
+            let view = viewFactory.newView(viewName, index === 0);
+            view.pane = pane;
+            return view;
+        });
     };
 
     this.buildDefaultLayout = function() {
@@ -31,17 +30,12 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
     };
 
     this.findView = function(callback) {
-        let view = undefined,
-            findPane = function(pane) {
-                for (let i = 0; i < pane.tabs.length; i++) {
-                    if (callback(pane.tabs[i])) {
-                        view = pane.tabs[i];
-                        return true;
-                    }
-                }
-                return pane.panes && pane.panes.find(findPane);
-            };
-        service.layout.panes.find(findPane);
-        return view;
+        return service.layout.panes.findNested('tabs', 'panes', callback);
+    };
+
+    this.switchToView = function(viewClass) {
+        let view = service.findView(tab => tab.class === viewClass);
+        if (!view) return;
+        view.pane.tabs.forEach(tab => tab.active = tab === view);
     };
 });

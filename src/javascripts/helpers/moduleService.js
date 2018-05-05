@@ -1,14 +1,12 @@
-export default function(ngapp, fh) {
+export default function(ngapp, fh, logger) {
     let modules = {},
-        failures = [],
         loaders = {
-            default: function(module, fh, ngapp, moduleService) {
+            default: function({module, fh, logger, ngapp, moduleService}) {
                 Function.execute({
-                    ngapp: ngapp,
-                    fh: fh,
+                    ngapp, fh, logger, moduleService,
                     info: module.info,
-                    modulePath: module.path,
-                    moduleService: moduleService
+                    moduleUrl: fh.pathToFileUrl(module.path),
+                    modulePath: module.path
                 }, module.code);
             }
         },
@@ -18,7 +16,7 @@ export default function(ngapp, fh) {
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
-            path: fh.pathToFileUrl(modulePath),
+            path: modulePath,
             code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
         }
     };
@@ -48,26 +46,26 @@ export default function(ngapp, fh) {
             if (modules.hasOwnProperty(requirement)) return;
             message += `\n- ${requirement}`;
         });
-        failures.push(message);
+        logger.error(message);
     };
 
     let missingInfoError = function(modulePath) {
-        failures.push(`Missing module.json file at ${modulePath}, failed to` +
+        logger.error(`Missing module.json file at ${modulePath}, failed to` +
             `load module.`);
     };
 
     let loaderNotFoundError = function(module) {
-        failures.push(`Failed to load ${module.info.id}, module loader ` +
+        logger.error(`Failed to load ${module.info.id}, module loader ` +
             `${module.info.moduleLoader} not found.`);
     };
 
     let deferredError = function(module) {
-        failures.push(`Failed to load ${module.info.id}, loader ` +
+        logger.error(`Failed to load ${module.info.id}, loader ` +
             `${module.info.moduleLoader} was declared but not instantiated.`);
     };
 
     let loadFailedError = function(module, error) {
-        failures.push(`Failed to load ${module.info.id}, load error:\n\n` +
+        logger.error(`Failed to load ${module.info.id}, load error:\n\n` +
             error.stack);
     };
 
@@ -84,11 +82,14 @@ export default function(ngapp, fh) {
         if (!loader) {
             loaderNotFoundError(module);
         } else if (loader === true) {
-            allowDefer ? deferredModules.push(module) : deferredError(module);
+            if (allowDefer) return deferredModules.push(module) > 0;
+            deferredError(module);
         } else {
             try {
-                loader(module, fh, ngapp, service);
+                logger.info(`Loading module ${module.info.id}`);
+                loader({module, fh, ngapp, logger, moduleService: service});
                 modules[module.info.id] = module.info;
+                return true;
             } catch (x) {
                 loadFailedError(module, x);
             }
@@ -126,6 +127,7 @@ export default function(ngapp, fh) {
             }).filter((info) => { return !!info });
         },
         loadModules: function() {
+            logger.info('Loading modules...');
             let moduleFolders = getModuleFolders(),
                 modules = [];
             moduleFolders.forEach(function(modulePath) {
@@ -137,6 +139,7 @@ export default function(ngapp, fh) {
                 }
             });
             buildModules(modules);
+            logger.info('Modules loaded');
         },
         loadModule: function(modulePath) {
             let info = getModuleInfo(modulePath);
@@ -144,19 +147,14 @@ export default function(ngapp, fh) {
                 missingInfoError(modulePath);
             } else {
                 let module = prepareModule(modulePath, info);
-                if (allRequirementsLoaded(info.requires)) {
-                    build(module);
-                    return true;
-                } else {
-                    missingRequirementError(info);
-                }
+                return allRequirementsLoaded(info.requires) ?
+                    build(module) : missingRequirementError(info);
             }
         },
-        getFailures: function() {
-            return failures;
-        },
         loadDeferredModules: function() {
-            deferredModules.forEach((module) => build(module, false));
+            logger.info('Loading deferred modules...');
+            deferredModules.forEach(m => build(m, false));
+            logger.info('Deferred modules loaded');
         },
         registerLoader: (id, loaderFunction) => loaders[id] = loaderFunction,
         deferLoader: (id) => loaders[id] = true

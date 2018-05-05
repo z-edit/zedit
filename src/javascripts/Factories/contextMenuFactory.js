@@ -387,7 +387,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 callback: () => scope.paste()
             })
         }
-    }]
+    }];
 
     this.referencedByViewItems = [{
         id: 'Open',

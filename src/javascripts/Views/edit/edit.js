@@ -68,6 +68,11 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         Object.assign(filterView, options);
     });
 
+    $scope.$on('executingScript', function(e, scriptFilename) {
+        logger.info(`Executing script ${scriptFilename}...`);
+        layoutService.switchToView('log-view');
+    });
+
     // handle hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
 

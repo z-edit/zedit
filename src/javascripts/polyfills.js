@@ -58,6 +58,7 @@ String.prototype.wordCount = function() {
 };
 
 String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
+    if (this.length === 0) return this;
     let cutExpr = cut ? `|.{${width}}|.+$` : `|\\S+?(\\s|$)`,
         expr = `.{1,${width}}(\\s|$)${cutExpr}`;
     return this.match(new RegExp(expr, 'g')).map(function(str) {
@@ -98,6 +99,7 @@ Array.prototype.unite = function(array) {
 
 // gets a random item from the array
 Array.prototype.random = function() {
+    if (this.length === 0) return;
     return this[Math.floor((Math.random() * this.length))];
 };
 
@@ -167,23 +169,6 @@ Array.prototype.groupBy = function(propertyName) {
     return obj;
 };
 
-Array.prototype.equals = function(otherArray) {
-    if (!otherArray || this.length !== otherArray.length) return false;
-    for (let index = 0; index < this.length; index++) {
-        let item = this[index],
-            otherItem = otherArray[index],
-            itemType = typeof item,
-            otherItemType = typeof otherItem;
-        if (itemType !== otherItemType) return false;
-        if (itemType === 'object') {
-            if (!item.equals(otherItem)) return false;
-        } else if (item !== otherItem) {
-            return false;
-        }
-    }
-    return true;
-};
-
 Array.prototype.forEachReverse = function(callback) {
     for (let i = this.length - 1; i > -1; i--) {
         callback(this[i], i, this);
@@ -211,28 +196,26 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
-Object.prototype.equals = () => {};
-Object.defineProperty(Object.prototype, 'equals', {
-    enumerable: false,
-    value: function(otherObject) {
-        if (!object || !otherObject) return false;
-        let object = this,
-            objectKeys = Object.keys(object);
-        if (!objectKeys.equals(Object.keys(otherObject))) return false;
-        for (let i = 0; i < objectKeys.length; i++) {
-            let key = objectKeys[i],
-                value = object[key], otherValue = otherObject[key],
-                valueType = typeof value, otherValueType = typeof otherValue;
-            if (valueType !== otherValueType) return false;
-            if (valueType === 'object') {
-                if (!value.equals(otherValue)) return false;
-            } else if (value !== otherValue) {
-                return false;
-            }
-        }
-        return true;
+Array.prototype.findNested = function(sKey, nKey, callback) {
+    for (let i = 0; i < this.length; i++) {
+        let item = this[i],
+            found = item[sKey] && item[sKey].find(callback) ||
+                item[nKey] && item[nKey].findNested(sKey, nKey, callback);
+        if (found) return found;
     }
-});
+};
+
+Array.prototype.itemsBefore = function(arg) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return index > -1 ? this.slice(0, index) : this.slice();
+};
+
+Array.prototype.itemsAfter = function(arg) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return index > -1 ? this.slice(index + 1) : this.slice();
+};
 
 Object.deepAssign = function(target, varArgs) {
     if (target === null) // TypeError if undefined or null

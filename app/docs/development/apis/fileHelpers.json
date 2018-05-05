@@ -56,7 +56,7 @@
     "returns": {
       "type": "any"
     },
-    "description": "If a file exists at `filePath`, it's read into memory and deserialized into a JavaScript object or array, which is then returned.  If a file does not exist at the specified path the `defaultValue` is returned."
+    "description": "If a file exists at `filePath`, its contents are read into memory as a UTF8 string and returned.  If a file does not exist at the specified path the `defaultValue` is returned."
   },
   {
     "name": "saveJsonFile",

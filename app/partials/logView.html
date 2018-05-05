@@ -1,0 +1,7 @@
+<!-- TODO: search bar disabled for alpha because not coded yet -->
+<log-search-bar ng-if="false"></log-search-bar>
+<div class="messages" theme-scrollbar-fix>
+    <div ng-repeat="message in messages" class="{{::message.class}}-message">{{::message.text}}</div>
+</div>
+
+<view-linker ng-show="linking" class="{{linkClass}}" ng-click="link()"></view-linker>

@@ -81,7 +81,6 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
             errorService.try(function() {
                 let handle = node.handles[scope.focusedIndex - 1];
                 xelib.RemoveElement(handle);
-                //xelib.Release(handle);
             });
         };
 
@@ -116,19 +115,15 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         scope.deleteElements = function() {
             let record = scope.getRecord();
             if (!xelib.GetIsEditable(record)) return;
-            let doDelete = function() {
+            let doDelete = (confirmed = true) => {
+                if (!confirmed) return;
                 scope.selectedNodes.forEach(scope.deleteElement);
                 scope.clearSelection(true);
                 scope.reload(); // TODO? This is kind of greedy, but it's simple
                 scope.$root.$broadcast('recordUpdated', record);
             };
-            if (settings.recordView.promptOnDeletion) {
-                scope.deletionPrompt().then(function(result) {
-                    if (result) doDelete();
-                });
-            } else {
-                doDelete();
-            }
+            let shouldPrompt = settings.recordView.promptOnDeletion;
+            shouldPrompt ? scope.deletionPrompt().then(doDelete) : doDelete();
         };
 
         scope.canPaste = function(asOverride) {

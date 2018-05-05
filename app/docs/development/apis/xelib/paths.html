@@ -1,0 +1,70 @@
+<p>xelib uses paths to determine data to target when executing API functions.  Paths usually correspond directly to what you can see in the user interface of the <a href="docs://Views/Edit View/Tree View">Tree View</a> and the <a href="docs://Views/Edit View/Record View">Record View</a>.</p>
+
+<p>Many functions use paths to access elements/values, including:</p>
+
+<ul>
+    <li>GetElement</li>
+    <li>HasElement</li>
+    <li>RemoveElement</li>
+    <li>AddElement</li>
+    <li>AddElementValue</li>
+    <li>GetValue</li>
+    <li>GetIntValue</li>
+    <li>GetUIntValue</li>
+    <li>GetFloatValue</li>
+    <li>SetValue</li>
+    <li>SetIntValue</li>
+    <li>SetUIntValue</li>
+    <li>SetFloatValue</li>
+    <li>GetLinksTo</li>
+    <li>GetArrayItem</li>
+    <li>HasArrayItem</li>
+    <li>AddArrayItem</li>
+    <li>RemoveArrayItem</li>
+</ul>
+
+<h2>Files</h2>
+<p>You can access files from the root via the following keys:</p>
+
+<ul>
+    <li>Filename: The name of the file, including extension.  E.g. <code>'Skyrim.esm'</code></li>
+    <li>Index: The index of the file in the loaded files array.  E.g. <code>'[0]'</code>.  Note that the second file (index <code>'[1]'</code>) is usually a hardcoded file containing records that are added by the game executable. (it will have the same load order as the main game ESM).</li>
+</ul>
+
+<h2>File Header</h2>
+<p>You can access a file's header via the following keys:</p>
+
+<ul>
+    <li>File Header: Simply use the key <code>'File Header'</code>.</li>
+    <li>Index: Index <code>'[0]'</code> in a file will always return the file header.</li>
+</ul>
+
+<h2>Groups</h2>
+<p>You can access record groups in a file via the following keys:</p>
+
+<ul>
+    <li>Signature: The signature of top-level records in the group.  E.g. <code>'Skyrim.esm\\WRLD'</code>.</li>
+    <li>Name: The name of the group as displayed in the <a href="docs://Views/Edit View/Tree View">Tree View</a>.  E.g. <code>'Skyrim.esm\\Armor'</code>.</li>
+    <li>Index: The index of the group.  Indexes are based on the native order of groups in the ESP file.  Note that index <code>'[0]'</code> returns the file header.</li>
+</ul>
+
+<h2>Records</h2>
+<p>You can access records from a file or group via the following keys:</p>
+
+<ul>
+    <li>Load order form ID: The load order form ID of the record.  E.g. <code>'0300ACE1'</code>.</li>
+    <li>Editor ID: The Editor ID of the record.  E.g. <code>'Skyrim.esm\\ArmorIronHelmet'</code>.  Note that this is considerably slower than accessing records by load order form ID unless the file's records have been sorted by Editor ID via <a href="docs://Development/APIs/xelib/files">xelib.SortEditorIDs</a>.</li>
+    <li>Full Name: The <code>FULL - Name</code> of the record wrapped in double quotes.  E.g. <code>'Skyrim.esm\\"Iron Helmet"'</code>.  Note that this is considerably slower than accessing records by load order form ID unless the file's records have been sorted by Name via <a href="docs://Development/APIs/xelib/files">xelib.SortNames</a>.</li>
+    <li>Index: The index of the record within a group.  Indexes are based on the native order of records in the ESP file.</li>
+</ul>
+
+<h2>Fields (record elements)</h2>
+<p>You can access fields (elements in records) via the following keys:</p>
+
+<ul>
+    <li>Signature: The signature of the element.  E.g. <code>'KWDA'</code>.</li>
+    <li>Name: The name of the element displayed in the <a href="docs://Views/Edit View/Record View">Record View</a>.  E.g. <code>'KWDA - Keywords'</code>.</li>
+    <li>Index: The index of the element within the record.  This should always be used when accessing elements within arrays where each array item has the same name.  E.g. <code>'Conditions\\[1]'</code></li>
+    <li>Pipe syntax: This is a special syntax which resolves the first path that exists.  E.g. <code>'[BODT|BOD2]'</code>.</li>
+</ul>
+

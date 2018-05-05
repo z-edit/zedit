@@ -1,0 +1,53 @@
+[
+  {
+    "name": "start",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "description": "Starts a timer with name `timerName`."
+  },
+  {
+    "name": "pause",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "description": "Pauses timer `timerName`."
+  },
+  {
+    "name": "resume",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "description": "Resumes timer `timerName`."
+  },
+  {
+    "name": "getSeconds",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "number"
+    },
+    "description": "Returns the number of seconds that have passed on timer `timerName`."
+  },
+  {
+    "name": "getSecondsStr",
+    "type": "function",
+    "args": [{
+      "name": "timerName",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the number of seconds that have passed on timer `timerName` as a formatted seconds string.  E.g. `7.562s`."
+  }
+]

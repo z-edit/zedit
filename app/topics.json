@@ -107,6 +107,10 @@
             "label": "xelib",
             "children": [
               {
+                "label": "Paths",
+                "description": "Information about how xelib handles paths."
+              },
+              {
                 "label": "Meta",
                 "description": "Library-specific functions for tasks such as getting globals and managing handles."
               },
@@ -170,6 +174,7 @@
               { "label": "Button Factory" },
               { "label": "Help Service" },
               { "label": "Progress Service" },
+              { "label": "Timer Service" },
               { "label": "Settings Service" }
             ]
           },
@@ -184,6 +189,7 @@
         "label": "Guides",
         "children": [
           { "label": "Creating Modules" },
+          { "label": "Debugging Modules" },
           { "label": "JavaScript" }
         ]
       }
