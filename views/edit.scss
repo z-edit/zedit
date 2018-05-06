@@ -153,10 +153,11 @@ split-bar {
 
 .message-container {
   display: flex;
+  position: absolute;
   align-items: center;
   height: 100%;
+  width: 100%;
   justify-content: center;
-  margin-top: -24px;
   padding: 40px;
 
   .pane-message {
