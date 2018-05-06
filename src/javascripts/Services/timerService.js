@@ -30,3 +30,12 @@ ngapp.service('timerService', function() {
         return `${service.getSeconds(timerName).toFixed(3)}s`;
     }
 });
+
+ngapp.run(function(interApiService, timerService) {
+    interApiService.publish('zeditScripting', {
+        StartTimer: timerService.start,
+        PauseTimer: timerService.pause,
+        ResumeTimer: timerService.resume,
+        GetSeconds: timerService.getSeconds,
+    });
+});

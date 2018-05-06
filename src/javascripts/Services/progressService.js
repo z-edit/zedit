@@ -53,3 +53,12 @@ ngapp.service('progressService', function($q) {
 
     ipcRenderer.on('progress-hidden', () => closed.resolve(true));
 });
+
+ngapp.run(function(interApiService, progressService) {
+    interApiService.publish('zeditScripting', {
+        LogMessage: progressService.logMessage,
+        ProgressMessage: progressService.progressMessage,
+        AddProgress: progressService.addProgress,
+        ProgressTitle: progressService.progressTitle
+    });
+});
