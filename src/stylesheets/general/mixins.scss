@@ -20,25 +20,6 @@
   background-repeat: no-repeat;
 }
 
-@mixin gradient-triangle($color, $orientation) {
-  // 1% gradient shift is to fix aliasing issues
-  @if ($orientation == 'up') {
-    background-image: linear-gradient(45deg, transparent 49%, $color 51%), linear-gradient(135deg, $color 51%, transparent 49%);
-    background-position: 4px 6px, 8px 6px;
-  } @else if ($orientation == 'down') {
-    background-image: linear-gradient(135deg, transparent 49%, $color 51%), linear-gradient(45deg, $color 51%, transparent 49%);
-    background-position: 4px 6px, 8px 6px;
-  } @else if ($orientation == 'left') {
-    background-image: linear-gradient(135deg, transparent 50%, $color 51%), linear-gradient(225deg, $color 51%, transparent 49%);
-    background-position: 6px 4px, 6px 8px;
-  } @else if ($orientation == 'right') {
-    background-image: linear-gradient(225deg, transparent 49%, $color 51%), linear-gradient(135deg, $color 51%, transparent 49%);
-    background-position: 6px 4px, 6px 8px;
-  }
-  background-size: 4px;
-  background-repeat: no-repeat;
-}
-
 @mixin style-scrollbars($bg_color, $medium_color, $hard_color) {
   ::-webkit-scrollbar {
     display: block;
@@ -51,14 +32,6 @@
     background: $medium_color;
     border: solid $bg_color;
 
-    &:horizontal {
-      border-width: 2px 0;
-    }
-
-    &:vertical {
-      border-width: 0 2px;
-    }
-
     &:hover {
       background: $hard_color;
     }
@@ -70,30 +43,5 @@
 
   ::-webkit-scrollbar-track {
     background: $bg_color;
-  }
-
-  ::-webkit-scrollbar-button {
-    display: inline;
-    background-color: $bg_color;
-
-    &:enabled:hover {
-      background-color: $medium_color;
-    }
-
-    &:vertical:start {
-      @include gradient-triangle($hard_color, 'down');
-    }
-
-    &:vertical:end {
-      @include gradient-triangle($hard_color, 'up');
-    }
-
-    &:horizontal:start {
-      @include gradient-triangle($hard_color, 'left');
-    }
-
-    &:horizontal:end {
-      @include gradient-triangle($hard_color, 'right');
-    }
   }
 }
