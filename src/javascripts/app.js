@@ -18,7 +18,7 @@ window.xelib = require('xelib').wrapper;
 
 // init logger
 logger.init('app');
-logger.addCallback('error', alert);
+logger.addCallback('error', (msg) => window.alert(msg));
 
 // handle uncaught exceptions
 window.startupCompleted = false;
