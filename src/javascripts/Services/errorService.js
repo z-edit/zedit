@@ -4,6 +4,11 @@ ngapp.service('errorService', function($exceptionHandler) {
     this.handleException = $exceptionHandler;
 
     this.try = function(callback) {
-        try { callback() } catch(x) { service.handleException(x) }
+        try {
+            callback();
+            return true;
+        } catch(x) {
+            service.handleException(x)
+        }
     };
 });
