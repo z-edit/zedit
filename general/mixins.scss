@@ -42,6 +42,9 @@
 @mixin style-scrollbars($bg_color, $medium_color, $hard_color) {
   ::-webkit-scrollbar {
     display: block;
+    font-size: initial;
+    min-width: 1em;
+    min-height: 1em;
   }
 
   ::-webkit-scrollbar-thumb {
