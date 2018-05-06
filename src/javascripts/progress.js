@@ -47,8 +47,17 @@ ngapp.run(function($rootScope, spinnerFactory) {
         $rootScope.$applyAsync(() => $rootScope.progress.message = payload);
     });
 
+    ipcRenderer.on('progress-error', (e, payload) => {
+        alert(payload);
+        $rootScope.$applyAsync(() => $rootScope.progress.error = true);
+    });
+
     ipcRenderer.on('add-progress', (e, payload) => {
-        $rootScope.$applyAsync(() => $rootScope.progress.current += payload);
+        $rootScope.$applyAsync(() => {
+            let p = $rootScope.progress;
+            p.current += payload;
+            if (p.current === p.max) p.complete = true;
+        });
     });
 
     ipcRenderer.on('log-message', (e, payload) => {

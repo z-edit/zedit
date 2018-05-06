@@ -1,11 +1,13 @@
 ngapp.service('progressService', function($q) {
-    let closed;
+    let service = this,
+        closed;
 
     // helper functions
     let hideFunctions = function() {
         try {
             window.alert = () => {};
             window.confirm = () => {};
+            logger.addCallback('error', service.progressError);
         } catch(x) {}
     };
 
@@ -13,6 +15,7 @@ ngapp.service('progressService', function($q) {
         try {
             window.alert = window.Constructor.prototype.alert;
             window.confirm = window.Constructor.prototype.confirm;
+            logger.removeCallback('error', service.progressError);
         } catch(x) {}
     };
 
@@ -34,6 +37,10 @@ ngapp.service('progressService', function($q) {
 
     this.progressMessage = function(message) {
         ipcRenderer.send('progress-message', message);
+    };
+
+    this.progressError = function(message) {
+        ipcRenderer.send('progress-error', message);
     };
 
     this.addProgress = function(num) {
