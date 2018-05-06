@@ -6,6 +6,7 @@ import 'angular-color-picker';
 import 'angular-elastic-input';
 import 'angular-marked';
 import 'angular-vs-repeat';
+import 'angularjs-scroll-glue';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
@@ -44,7 +45,7 @@ try {
 // set up angular application
 const ngapp = angular.module('zedit', [
     'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat',
-    'mp.colorPicker', 'puElasticInput', 'hc.marked'
+    'mp.colorPicker', 'puElasticInput', 'hc.marked', 'luegg.directives'
 ]);
 
 ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
