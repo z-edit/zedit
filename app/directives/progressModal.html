@@ -5,7 +5,7 @@
         <div class="progress-title">{{progress.title}}</div>
 
         <div class="progress-message">{{progress.message}}</div>
-        <progress-bar current="progress.current" max="progress.max"></progress-bar>
+        <progress-bar progress="progress"></progress-bar>
 
         <div ng-click="toggleExpanded()">
             <span class="expander {{expanded ? 'expanded' : 'collapsed'}}"></span>
