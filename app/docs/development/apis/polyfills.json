@@ -312,7 +312,10 @@
     }, {
       "name": "code",
       "type": "string"
+    }, {
+      "name": "name",
+      "type": "string"
     }],
-    "description": "Creates a function using `code` which accepts the keys of the `args` object as its arguments.  Executes the function with the values of the `args` object and returns the result."
+    "description": "Creates a function using `code` which accepts the keys of the `args` object as its arguments.  Executes the function with the values of the `args` object and returns the result.  You can optionally supply a `name` for the function to help with debugging."
   }
 ]

@@ -7,7 +7,7 @@ export default function(ngapp, fh, logger) {
                     info: module.info,
                     moduleUrl: fh.pathToFileUrl(module.path),
                     modulePath: module.path
-                }, module.code);
+                }, module.code, module.info.id);
             }
         },
         deferredModules = [];

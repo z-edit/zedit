@@ -259,7 +259,9 @@ Object.copyProperties = function(target, keys) {
 
 Object.defineProperty(Function, 'execute', {
     enumerable: false,
-    value: function(args, code) {
-        return new Function(...Object.keys(args), code)(...Object.values(args));
+    value: function(args, code, name = '') {
+        let declaration = `function ${name}(${Object.keys(args).join(', ')})`,
+            fn = new Function(`return ${declaration} {\r\n${code}\r\n}`);
+        return fn()(...Object.values(args));
     }
 });
