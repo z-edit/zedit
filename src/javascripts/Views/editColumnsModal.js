@@ -17,7 +17,10 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
             label: getNewColumnLabel(),
             enabled: false,
             custom: true,
-            getDataCode: "if (node.element_type === xelib.etMainRecord) {\n    return xelib.FullName(node.handle, true);\n}"
+            getDataCode:
+                "if (node.element_type === xelib.etMainRecord) {\n" +
+                "    return xelib.FullName(node.handle, true);\n" +
+                "}"
         });
         $scope.selectColumn($scope.allColumns.last());
     };

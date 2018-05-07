@@ -7,10 +7,10 @@ ngapp.directive('pluginLoader', function() {
     }
 });
 
-ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout, xelibService, spinnerFactory) {
+ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout, xelibService, spinnerFactory, timerService) {
     // helper variables
-    let appMode = `z${$rootScope.appMode.capitalize()}`,
-        startTime = new Date();
+    let appMode = `z${$rootScope.appMode.capitalize()}`;
+    timerService.start('loader');
 
     let logMessages = function() {
         let str = xelib.GetMessages();
@@ -20,15 +20,12 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         $scope.loadingMessage = messages.last();
     };
 
-    let loaderError = function() {
-        const msg = 'There was a critical error during plugin/resource loading.  Please see the error log for more details.';
-        logger.error(msg) && alert(msg);
-        $scope.$emit('terminate');
-    };
-
-    let getLoadTime = function() {
-        let duration = (new Date() - startTime) / 1000.0;
-        return `${duration.toFixed(3)}s`;
+    let doneLoading = function() {
+        $scope.$emit('filesLoaded');
+        $scope.$emit('setTitle', `${appMode} - ${$rootScope.profile.name}`);
+        $scope.loaded = true;
+        let secondsStr = timerService.getSecondsStr('loader');
+        logger.info(`Files loaded in ${secondsStr}`);
     };
 
     // scope functions
@@ -37,12 +34,10 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         let loaderStatus = xelib.GetLoaderStatus();
 
         if (loaderStatus === xelib.lsDone) {
-            $scope.$emit('filesLoaded');
-            $scope.$emit('setTitle', `${appMode} - ${$rootScope.profile.name}`);
-            $scope.loaded = true;
-            logger.info(`Files loaded in ${getLoadTime()}`)
+            doneLoading();
         } else if (loaderStatus === xelib.lsError) {
-            loaderError();
+            logger.error('CRITICAL ERROR: Loading plugins/resources failed!');
+            $scope.$emit('terminate');
         } else {
             $timeout($scope.checkIfLoaded, 250);
         }
