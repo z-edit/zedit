@@ -19,6 +19,11 @@ window.xelib = require('xelib').wrapper;
 // init logger
 logger.init('app');
 logger.addCallback('error', (msg) => window.alert(msg));
+xelib.logger = logger;
+
+// verbose logging
+window.verbose = location.search.includes('verbose=1');
+xelib.verbose = verbose;
 
 // handle uncaught exceptions
 window.startupCompleted = false;

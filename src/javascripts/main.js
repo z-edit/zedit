@@ -26,8 +26,10 @@ if (env.name !== 'production') {
 }
 
 let getPageUrl = function(page) {
+    let [p, search] = page.split('?');
     return url.format({
-        pathname: path.join(__dirname, page),
+        pathname: path.join(__dirname, p),
+        search: search,
         protocol: 'file:',
         slashes: true
     });
@@ -67,7 +69,9 @@ let openMainWindow = function() {
     mainWindow = createWindow('main', { frame: false, show: false });
     logger.info('Main window created');
     logger.info('Loading application...');
-    loadPage(mainWindow, 'app.html', env.name === 'development');
+    let verboseLogging = process.argv.includes('-verbose'),
+        url = `app.html?verbose=${+verboseLogging}`;
+    loadPage(mainWindow, url, env.name === 'development');
     mainWindow.once('ready-to-show', () => {
         logger.info('Application loaded.  Showing window.');
         mainWindow.show();

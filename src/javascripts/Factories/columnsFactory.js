@@ -8,6 +8,7 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
         getData: function (node, xelib) {
             switch (node.element_type) {
             case xelib.etFile:
+                if (verbose) logger.info('- xelib.DisplayName');
                 return xelib.DisplayName(node.handle);
             case xelib.etGroupRecord:
                 let name = xelib.Name(node.handle);
