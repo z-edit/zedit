@@ -23,7 +23,6 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
     let doneLoading = function() {
         $scope.$emit('filesLoaded');
         $scope.$emit('setTitle', `${appMode} - ${$rootScope.profile.name}`);
-        $scope.loaded = true;
         let secondsStr = timerService.getSecondsStr('loader');
         logger.info(`Files loaded in ${secondsStr}`);
     };

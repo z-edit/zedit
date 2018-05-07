@@ -16,16 +16,16 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         // scope functions
         scope.buildColumns = function() {
-            scope.columns = scope.allColumns.filter(function(column) {
-                return column.enabled;
-            });
-            let width = scope.columns.reduce(function(width, c) {
+            if (verbose) logger.info('buildColumns()');
+            scope.columns = scope.allColumns.filterOnKey('enabled');
+            let width = scope.columns.reduce((width, c) => {
                 if (c.width) width += parseInt(c.width.slice(0, -1));
                 return width;
             }, 0);
             if (width > 100) {
-                let defaultWidth = Math.floor(100 / scope.columns.length) + '%';
-                scope.columns.slice(0, -1).forEach((column) => column.width = defaultWidth);
+                let defaultWidth = Math.floor(100/scope.columns.length) + '%',
+                    sizableColumns = scope.columns.slice(0, -1);
+                sizableColumns.forEach(column => column.width = defaultWidth);
             }
             scope.resizeColumns();
         };

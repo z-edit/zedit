@@ -24,8 +24,10 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
     };
 
     this.buildDefaultLayout = function() {
+        if (verbose) logger.info('buildDefaultLayout()');
         service.layout = angular.copy(defaultLayout);
         service.buildPane(service.layout);
+        if (verbose) logger.info(`built ${service.layout.panes.length} panes`);
         return service.layout;
     };
 

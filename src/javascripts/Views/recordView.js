@@ -3,6 +3,9 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
 
+    // verbose logging
+    if (verbose) logger.info(`Rendering recordView`);
+
     // helper/scope variables
     let viewsToLink = ['tree-view', 'referenced-by-view', 'filter-view'];
     $scope.overrides = [];

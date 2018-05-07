@@ -38,6 +38,11 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
         return filterView;
     };
 
+    // scope functions
+    $scope.onViewportRender = function() {
+        if (verbose) logger.info('Rendering viewport...');
+    };
+
     // event handlers
     $scope.$on('settingsClick', function() {
         if (!$scope.loaded) return;
@@ -70,6 +75,11 @@ ngapp.controller('editController', function ($scope, layoutService, hotkeyServic
     $scope.$on('executingScript', function(e, scriptFilename) {
         logger.info(`Executing script ${scriptFilename}...`);
         layoutService.switchToView('log-view');
+    });
+
+    $scope.$on('filesLoaded', function() {
+        if (verbose) logger.info('Rendering editView');
+        $scope.loaded = true;
     });
 
     // handle hotkeys

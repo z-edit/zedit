@@ -3,6 +3,9 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
 
+    // verbose logging
+    if (verbose) logger.info(`Rendering treeView`);
+
     // helper variables
     let filterView = $scope.$parent.view;
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
