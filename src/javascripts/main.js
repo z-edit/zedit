@@ -79,13 +79,15 @@ let openMainWindow = function() {
 };
 
 let openProgressWindow = function() {
-    let t = !process.argv.includes('--disable-transparency');
+    let t = !process.argv.includes('--disable-transparency'),
+        m = !process.argv.includes('--inspector-fix');
     logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
+    logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
     progressWindow = new BrowserWindow({
         parent: mainWindow,
         title: "zEdit Progress",
-        modal: true,
+        modal: m,
         show: true,
         frame: false,
         closable: false,
