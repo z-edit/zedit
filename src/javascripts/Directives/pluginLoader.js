@@ -12,6 +12,7 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
     let appMode = `z${$rootScope.appMode.capitalize()}`;
     timerService.start('loader');
 
+    // helper functions
     let logMessages = function() {
         let str = xelib.GetMessages();
         if (str.length <= 1) return;
