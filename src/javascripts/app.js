@@ -18,6 +18,7 @@ window.xelib = require('xelib').wrapper;
 
 // init logger
 logger.init('app');
+logger.info(`Using arch ${process.arch}`);
 logger.addCallback('error', (msg) => window.alert(msg));
 xelib.logger = logger;
 
