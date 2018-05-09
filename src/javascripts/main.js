@@ -16,6 +16,7 @@ import env from './env';
 let mainWindow, progressWindow, showProgressTimeout;
 
 logger.init('main');
+logger.info(`Using arch ${process.arch}`);
 
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
