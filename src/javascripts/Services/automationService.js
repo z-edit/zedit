@@ -64,7 +64,7 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
             let timeStr = timerService.getSecondsStr('script');
             logger.info(`Script completed in ${timeStr}`);
         } catch(e) {
-            logger.error(`Exception running script: \n${e.stack}`);
+            logger.error(`Exception running script: \r\n${e.stack}`);
         } finally {
             xelib.FreeHandleGroup();
             $rootScope.$broadcast('reloadGUI');
