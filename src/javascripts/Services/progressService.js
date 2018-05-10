@@ -1,5 +1,7 @@
 ngapp.service('progressService', function($q) {
     let service = this,
+        originalAlert = window.alert,
+        originalConfirm = window.confirm,
         closed;
 
     // helper functions
@@ -13,8 +15,8 @@ ngapp.service('progressService', function($q) {
 
     let restoreFunctions = function() {
         try {
-            window.alert = window.Constructor.prototype.alert;
-            window.confirm = window.Constructor.prototype.confirm;
+            window.alert = originalAlert;
+            window.confirm = originalConfirm;
             logger.removeCallback('error', service.progressError);
         } catch(x) {}
     };
@@ -28,7 +30,6 @@ ngapp.service('progressService', function($q) {
 
     this.hideProgress = function() {
         ipcRenderer.send('hide-progress');
-        restoreFunctions();
     };
 
     this.logMessage = function(message, level = 0) {
@@ -57,7 +58,10 @@ ngapp.service('progressService', function($q) {
 
     this.onProgressClosed = (callback) => closed.then(callback);
 
-    ipcRenderer.on('progress-hidden', () => closed.resolve(true));
+    ipcRenderer.on('progress-hidden', function() {
+        closed.resolve(true);
+        restoreFunctions();
+    });
 });
 
 ngapp.run(function(interApiService, progressService) {
