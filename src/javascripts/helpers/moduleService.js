@@ -37,7 +37,7 @@ export default function(ngapp, fh, logger) {
             files: false,
             directories: true,
             recursive: false
-        });
+        }).map(path => fh.jetpack.path(path));
     };
 
     let missingRequirementError = function(info) {
