@@ -93,10 +93,7 @@
       { "label": "Edit Columns Modal" },
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
-      {
-        "label": "Resolve Modal",
-        "controller": "resolveModalDocumentationController"
-      },
+      { "label": "Resolve Modal" },
       { "label": "Save Modal" }
     ]
   }, {
