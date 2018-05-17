@@ -16,18 +16,15 @@ Before installing node modules you need to tell NodeJS where Python is so it can
 
 You will also need to install the `windows-build-tools` package.  Run `npm install --global --production windows-build-tools` in an elevated command prompt to do so.
 
-Clone zEdit and run `npm install` in an elevated command prompt in its directory.  This will install required node modules and dependencies.  If you run into any errors (indicated by `ERR!`) contact us and we'll help sort things out.
+Clone zEdit and run `npm install` in an elevated command prompt in its directory.  This will install required node modules and dependencies.  You will also need to run `npm run rebuild` to rebuild the xelib native node addon to work with Electron.
 
-You can then run the application with `npm start`.  
-
-\*Python 3.x may work as well, but I haven't tested with it.
+You can then run the application with `npm start`.
 
 ## building
 You can build a release of the application using `npm run release`.  The application structure is based off of [electron-boilerplate](https://github.com/szwacz/electron-boilerplate).  
 
 ## troubleshooting
 - If you get `Error: Electron failed to install correctly`, simply delete the `node_modules\electron` folder and run `npm install` again.
-- If when running `npm install` you get `MSBUILD : error MSB3428: Could not load the Visual C++ component "VCBuild.exe".`, install the package `windows-build-tools` with npm as admin (`npm install --global --production windows-build-tools`).
 
 # contact
 If you're looking for support or want to contribute, join the [Modding Tools discord server](https://discord.gg/GUfRdpT).
