@@ -62,5 +62,5 @@ ngapp.service('helpService', function() {
     };
 
     // initialization
-    loadCoreTopics()
+    loadCoreTopics();
 });
