@@ -87,14 +87,11 @@ Number.prototype.toPercentage = function(precision = 1) {
     return (this * 100).toFixed(precision).toString() + "%";
 };
 
-// concatenates this with array and assigns the result to this
-// does nothing if either this or array are undefined
+// pushes array onto this
 Array.prototype.unite = function(array) {
-    if (this && array) {
-        for (let i = 0; i < array.length; i++) {
-            this.push(array[i]);
-        }
-    }
+    if (!this || !array) return;
+    for (let i = 0; i < array.length; i++)
+        this.push(array[i]);
 };
 
 // gets a random item from the array
