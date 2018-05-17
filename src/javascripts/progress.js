@@ -36,7 +36,11 @@ ngapp.run(function($rootScope, spinnerFactory) {
     });
 
     ipcRenderer.on('allow-close', () => {
-        $rootScope.$applyAsync(() => $rootScope.progress.canClose = true);
+        $rootScope.$applyAsync(() => {
+            let p = $rootScope.progress;
+            p.canClose = true;
+            p.complete = p.current === p.max;
+        });
     });
 
     ipcRenderer.on('progress-title', (e, payload) => {
@@ -53,11 +57,7 @@ ngapp.run(function($rootScope, spinnerFactory) {
     });
 
     ipcRenderer.on('add-progress', (e, payload) => {
-        $rootScope.$applyAsync(() => {
-            let p = $rootScope.progress;
-            p.current += payload;
-            if (p.current === p.max) p.complete = true;
-        });
+        $rootScope.$applyAsync(() => $rootScope.progress.current += payload);
     });
 
     ipcRenderer.on('log-message', (e, payload) => {
