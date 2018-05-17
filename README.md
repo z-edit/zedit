@@ -10,7 +10,7 @@ An integrated development environment for Bethesda Plugin Files.
 Download a release from the [releases tab](https://github.com/matortheeternal/zedit/releases) and install or extract it, then run `zEdit.exe`.
 
 # development
-zEdit is a Windows x86 NodeJS Electron application.  Install [NodeJS](https://nodejs.org/en/download/current/) **32-bit**, then start a terminal/command prompt in the application directory and run `node -v` and `npm -v`.  The output should be v6.9.5 and 5.3.0 or newer.  If you get anything else you probably have multiple installations of node which you'll need to sort out.
+zEdit is a Windows x64 NodeJS Electron application.  Install [NodeJS](https://nodejs.org/en/download/current/) **64-bit**, then start a terminal/command prompt in the application directory and run `node -v` and `npm -v`.  The output should be v6.9.5 and 5.3.0 or newer.  If you get anything else you probably have multiple installations of node which you'll need to sort out.
 
 Before installing node modules you need to tell NodeJS where Python is so it can build certain native dependencies.  Install [python 2.7](https://www.python.org/downloads/windows/)\* and [add an environmental variable](https://kb.wisc.edu/cae/page.php?id=24500) `PYTHON` set to the full path to `python.exe`.  E.g. `C:\dev\lang\Python27\python.exe`.  Restart your command prompt and test the environmental variable by typing `echo %PYTHON%`.
 
