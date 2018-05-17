@@ -10,11 +10,10 @@ ngapp.service('themeService', function($timeout, settingsService) {
     let loadTheme = function(filePath) {
         let fileContents = fh.jetpack.read(filePath),
             filename = filePath.split('\\').last(),
-            defaultMetaData = Object.assign(unknownMetaData, {
-                name: service.extractThemeName(filename),
-            }),
             match = fileContents.match(new RegExp(/^\/\*\{([\w\W]+)\}\*\//)),
-            metaData = defaultMetaData;
+            metaData = Object.assign({}, unknownMetaData, {
+                name: service.extractThemeName(filename)
+            });
         try {
             if (match) metaData = JSON.parse(`{${match[1]}}`);
         } catch (x) {
