@@ -134,8 +134,8 @@ export default function(ngapp, fh, logger) {
             let moduleUrl = fh.pathToFileUrl(modulePath);
             docs.forEach(({topic}) => {
                 topic.templateUrl = moduleUrl + topic.templateUrl;
-                service.moduleDocs.push(topic);
             });
+            docs.forEach(doc => service.moduleDocs.push(doc));
         },
         loadModules: function() {
             logger.info('Loading modules...');
