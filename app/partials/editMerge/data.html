@@ -1,5 +1,5 @@
 <expandable-section ng-if="merge.plugins.length">
-    <title>Plugin Data Folders</title>
+    <title>Plugin Data Folders ({{merge.plugins.length}})</title>
     <content>
         <div class="data-folder-item" ng-repeat="plugin in merge.plugins">
             <span class="input-label">{{::plugin.filename}}</span>
@@ -14,7 +14,7 @@
 </div>
 
 <expandable-section ng-if="merge.archives.length">
-    <title>Bethesda Archives</title>
+    <title>Bethesda Archives ({{merge.archives.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.extractArchives"/>
@@ -55,7 +55,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.faceDataFiles.length">
-    <title>NPC Face Data</title>
+    <title>NPC Face Data ({{merge.faceDataFiles.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleFaceData"/>
@@ -84,7 +84,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.voiceDataFiles.length">
-    <title>NPC Voice Data</title>
+    <title>NPC Voice Data ({{merge.voiceDataFiles.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleVoiceData"/>
@@ -113,7 +113,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.scriptFragments.length">
-    <title>Script Fragments</title>
+    <title>Script Fragments ({{merge.scriptFragments.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleScriptFragments"/>
@@ -142,7 +142,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.stringFiles.length">
-    <title>String Files</title>
+    <title>String Files ({{merge.stringFiles.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleStringFiles"/>
@@ -169,7 +169,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.translations.length">
-    <title>MCM Translations</title>
+    <title>MCM Translations ({{merge.translations.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleTranslations"/>
@@ -196,7 +196,7 @@
 </expandable-section>
 
 <expandable-section ng-if="merge.iniFiles.length">
-    <title>INI Files</title>
+    <title>INI Files ({{merge.iniFiles.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleIniFiles"/>
@@ -223,7 +223,7 @@
 </expandable-section>
 
 <expandable-section ng-if="canCopyGeneralAssets">
-    <title>General Assets</title>
+    <title>General Assets ({{merge.generalAssets.length}})</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.copyGeneralAssets"/>

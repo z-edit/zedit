@@ -34,7 +34,11 @@
   }
 
   .data-tab {
-    padding: 12px 10px;
+    padding: 6px 20px;
+
+    .content-message:last-child {
+      margin-bottom: 40px;
+    }
   }
 
   .data-folder-item {
@@ -52,8 +56,22 @@
     }
   }
 
-  expandable-section h3.title {
-    margin-top: 0 !important;
+  expandable-section {
+    border: 1px solid $hard_border;
+    background-color: $secondary_background;
+    margin: 16px 0;
+    padding: 12px;
+    border-radius: 5px;
+
+    .expander {
+      margin-right: 8px;
+    }
+
+    h3.title {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+    }
 
     title {
       display: inline-block;
