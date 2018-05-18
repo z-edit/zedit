@@ -13,7 +13,7 @@ import logger from './helpers/logger.js';
 // in config/env_xxx.json file.
 import env from './env';
 
-let mainWindow, progressWindow, showProgressTimeout;
+let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
 logger.init('main');
 logger.info(`Using arch ${process.arch}`);
@@ -154,7 +154,14 @@ ipcMain.on('hide-progress', () => {
 
 ipcMain.on('set-theme', (e, p) => progSend('set-theme', p));
 ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
-ipcMain.on('progress-message', (e, p) => progSend('progress-message', p));
+ipcMain.on('progress-message', (e, p) => {
+    if (!lastProgressMessage)
+        setTimeout(() => {
+            progSend('progress-message', p);
+            lastProgressMessage = undefined;
+        }, 50);
+    lastProgressMessage = p;
+});
 ipcMain.on('progress-error', (e, p) => progSend('progress-error', p));
 ipcMain.on('add-progress', (e, p) => progSend('add-progress', p));
 ipcMain.on('log-message', (e, p) => progSend('log-message', p));
