@@ -218,15 +218,16 @@ ngapp.service('filterFactory', function(searchService) {
                     .concat(xelib.conflictAll)
                     .concat(xelib.conflictThis),
                 test: function(record) {
-                    let nodes = xelib.GetNodes(record),
-                        element = xelib.GetElement(record, path);
+                    let nodes, element;
                     try {
+                        nodes = xelib.GetNodes(record);
+                        element = xelib.GetElement(record, path);
                         let [ca, ct] = xelib.GetConflictData(nodes, element);
                         return this[xelib.conflictAll[ca]] &&
                             this[xelib.conflictThis[ct]];
                     } finally {
-                        xelib.ReleaseNodes(nodes);
-                        xelib.Release(element);
+                        if (nodes) xelib.ReleaseNodes(nodes);
+                        if (element) xelib.Release(element);
                     }
                 }
             };
