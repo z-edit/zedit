@@ -31,5 +31,9 @@ merge-item {
   table {
     min-width: 600px;
     margin: 16px auto;
+
+    td:not(last-of-type) {
+      padding-right: 10px;
+    }
   }
 }
