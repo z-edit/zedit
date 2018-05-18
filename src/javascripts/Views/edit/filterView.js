@@ -9,11 +9,11 @@ ngapp.controller('filterViewController', function($scope, $timeout, viewFactory,
 
     // initialize scope label
     let labels = $scope.view.searchOptions.scopeLabel;
-    if (labels.long.length < 30) {
+    if (labels.long && labels.long.length < 30) {
         $scope.scopeLabel = labels.long;
     } else {
         $scope.scopeLabel = labels.short;
-        $scope.scopeTooltip = labels.long.wordwrap(80);
+        if (labels.long) $scope.scopeTooltip = labels.long.wordwrap(80);
     }
 
     // helper functions

@@ -1,0 +1,17 @@
+<h3 ng-repeat-start="errorType in errorTypes">{{::errorType.name}}</h3>
+<table ng-repeat-end>
+    <thead>
+    <tr>
+        <th>Resolution</th>
+        <th>Availability</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="resolution in resolutions[errorType.acronym]">
+        <td class="nowrap">{{::resolution.label}}</td>
+        <td>{{::resolution.availability}}</td>
+        <td>{{::resolution.description}}</td>
+    </tr>
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsService, nodeHelpers) {
+ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsService, nodeHelpers, errorService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -16,21 +16,22 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         // scope functions
         scope.buildColumns = function() {
-            scope.columns = scope.allColumns.filter(function(column) {
-                return column.enabled;
-            });
-            let width = scope.columns.reduce(function(width, c) {
+            if (verbose) logger.info('buildColumns()');
+            scope.columns = scope.allColumns.filterOnKey('enabled');
+            let width = scope.columns.reduce((width, c) => {
                 if (c.width) width += parseInt(c.width.slice(0, -1));
                 return width;
             }, 0);
             if (width > 100) {
-                let defaultWidth = Math.floor(100 / scope.columns.length) + '%';
-                scope.columns.slice(0, -1).forEach((column) => column.width = defaultWidth);
+                let defaultWidth = Math.floor(100/scope.columns.length) + '%',
+                    sizableColumns = scope.columns.slice(0, -1);
+                sizableColumns.forEach(column => column.width = defaultWidth);
             }
             scope.resizeColumns();
         };
 
         scope.buildTree = function() {
+            if (verbose) logger.info('scope.buildTree called');
             xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
             scope.tree = getElements(0, '').map(function(handle) {
                 return scope.buildNode(handle, -1);
@@ -91,12 +92,11 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             let node, element = xelib.GetElementEx(handle);
             while (!node) {
                 node = scope.getNodeForElement(element);
-                if (!node) {
-                    let container = xelib.GetContainer(element);
-                    xelib.Release(element);
-                    if (!container) return;
-                    element = container;
-                }
+                if (node) continue;
+                let container = xelib.GetContainer(element);
+                xelib.Release(element);
+                if (!container) return;
+                element = container;
             }
             scope.setNodeModified(node);
             xelib.Release(element);
@@ -104,6 +104,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         scope.getNodeClass = function(node) {
             let classes = [];
+            if (verbose) logger.info('- xelib.GetIsModified');
             if (xelib.GetIsModified(node.handle)) classes.push('modified');
             if (nodeHelpers.isRecordNode(node) && node.fid > 0) {
                 if (xelib.IsInjected(node.handle)) classes.push('injected');
@@ -126,16 +127,14 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         scope.buildColumnValues = function(node) {
             node.column_values = scope.columns.map(function(column) {
-                try {
-                    return column.getData(node, xelib);
-                } catch (x) {
-                    console.log(x);
-                    return { value: '' };
-                }
+                let v = { value : '' };
+                errorService.try(() => v = column.getData(node, xelib));
+                return v;
             }).trimFalsy();
         };
 
         scope.getNodeData = function(node) {
+            if (verbose) logger.info(`getNodeData({handle: ${node.handle}})`);
             node.element_type = xelib.ElementType(node.handle);
             node.has_data = true;
             if (nodeHelpers.isRecordNode(node)) {

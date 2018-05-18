@@ -17,7 +17,17 @@
   {
     "name": "modulePath",
     "type": "string",
+    "description": "Absolute path for the folder where your module is installed on the user's machine.  Should be prepended to file paths when loading/saving files."
+  },
+  {
+    "name": "moduleUrl",
+    "type": "string",
     "description": "`file://` URL for the folder where your module is installed on the user's machine.  Should be prepended to any HTML template/resource URLs."
+  },
+  {
+    "name": "logger",
+    "type": "object",
+    "description": "The [logger](docs://Development/APIs/Logger)."
   },
   {
     "name": "moduleService",

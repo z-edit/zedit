@@ -6,6 +6,7 @@ import 'angular-color-picker';
 import 'angular-elastic-input';
 import 'angular-marked';
 import 'angular-vs-repeat';
+import 'angularjs-scroll-glue';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
@@ -17,7 +18,13 @@ window.xelib = require('xelib').wrapper;
 
 // init logger
 logger.init('app');
-logger.addCallback('error', alert);
+logger.info(`Using arch ${process.arch}`);
+logger.addCallback('error', (msg) => window.alert(msg));
+xelib.logger = logger;
+
+// verbose logging
+window.verbose = location.search.includes('verbose=1');
+xelib.verbose = verbose;
 
 // handle uncaught exceptions
 window.startupCompleted = false;
@@ -44,7 +51,7 @@ try {
 // set up angular application
 const ngapp = angular.module('zedit', [
     'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat',
-    'mp.colorPicker', 'puElasticInput', 'hc.marked'
+    'mp.colorPicker', 'puElasticInput', 'hc.marked', 'luegg.directives'
 ]);
 
 ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
@@ -52,6 +59,13 @@ ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {
     $urlMatcherFactoryProvider.strictMode(false);
     // allow docs:// urls
     $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|file|docs):/);
+});
+
+ngapp.factory('$exceptionHandler', function($log) {
+    return (exception, cause) => {
+        logger.error(exception.stack);
+        $log.error(exception, cause);
+    };
 });
 
 // state redirects
@@ -74,4 +88,9 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 // load modules
 const moduleService = buildModuleService(ngapp, fh, logger);
 moduleService.loadModules();
-ngapp.run(moduleService.loadDeferredModules);
+ngapp.run(function(helpService) {
+    moduleService.loadDeferredModules();
+    moduleService.moduleDocs.forEach(({topic, path}) => {
+        helpService.addTopic(topic, path);
+    });
+});

@@ -11,8 +11,8 @@
         <form class="tab-contents">
             <ng-include src="currentTab.templateUrl" dyn-controller="currentTab.controller" ng-class="{'flex' : currentTab.customActions}"></ng-include>
 
-            <div class="primary-actions" ng-if="!currentTab.customActions">
-                <button class="action-btn" ng-click="saveSettings()">OK</button>
+            <div class="primary-actions">
+                <button type="button" class="action-btn" ng-click="saveSettings()">OK</button>
             </div>
         </form>
     </div>

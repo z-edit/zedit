@@ -1,4 +1,4 @@
-ngapp.service('automationService', function($rootScope, $timeout, progressService, timerService) {
+ngapp.service('automationService', function($rootScope, $timeout, interApiService, progressService, timerService) {
     let keepOpen;
 
     let buildScriptFunction = function(scriptCode) {
@@ -48,23 +48,14 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
         progressService.showProgress(progress);
     };
 
-    // TODO: Prompt and ShowModal
+    // TODO: Prompt and ShowModal?
     let buildZEditContext = function(targetScope) {
-        // these functions are pascal case for clarity
-        return {
+        return Object.assign({
             NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
             GetSelectedRecords: getSelectedRecords(targetScope),
-            ShowProgress: showProgress,
-            StartTimer: timerService.start,
-            PauseTimer: timerService.pause,
-            ResumeTimer: timerService.resume,
-            GetSeconds: timerService.getSeconds,
-            LogMessage: progressService.logMessage,
-            ProgressMessage: progressService.progressMessage,
-            AddProgress: progressService.addProgress,
-            ProgressTitle: progressService.progressTitle
-        }
+            ShowProgress: showProgress
+        }, interApiService.getApi('zeditScripting'));
     };
 
     let executeScriptFn = function(scriptFn, zedit) {
@@ -73,7 +64,7 @@ ngapp.service('automationService', function($rootScope, $timeout, progressServic
             let timeStr = timerService.getSecondsStr('script');
             logger.info(`Script completed in ${timeStr}`);
         } catch(e) {
-            logger.error(`Exception running script: \n${e.stack}`);
+            logger.error(`Exception running script: \r\n${e.stack}`);
         } finally {
             xelib.FreeHandleGroup();
             $rootScope.$broadcast('reloadGUI');

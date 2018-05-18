@@ -5,14 +5,14 @@
         <div class="progress-title">{{progress.title}}</div>
 
         <div class="progress-message">{{progress.message}}</div>
-        <progress-bar current="progress.current" max="progress.max"></progress-bar>
+        <progress-bar progress="progress"></progress-bar>
 
         <div ng-click="toggleExpanded()">
             <span class="expander {{expanded ? 'expanded' : 'collapsed'}}"></span>
             {{expanded ? 'Hide' : 'Show'}} Log
         </div>
         <!-- TODO: we should break this out into a log directive -->
-        <div ng-if="expanded" class="log" scroll-glue vs-repeat>
+        <div ng-if="expanded" class="log" scroll-glue>
             <div ng-repeat="item in progress.log" class="message-{{::item.level}}">
                 {{::item.message}}
             </div>

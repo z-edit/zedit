@@ -12,6 +12,9 @@ ngapp.directive('pane', function () {
 ngapp.controller('paneController', function ($scope, $element, viewFactory, hotkeyService) {
     Object.defaults($scope, $scope.pane || $scope.$parent.pane);
 
+    // verbose logging
+    if (verbose) logger.info(`Rendering pane #${$scope.id}`);
+
     // initialize pane size
     let paneElement = $element[0],
         container = paneElement.parentElement,

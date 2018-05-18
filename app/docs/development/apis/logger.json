@@ -1,0 +1,97 @@
+[
+  {
+    "name": "init",
+    "type": "function",
+    "icons": ["warn"],
+    "args": [{
+      "name": "name",
+      "type": "string",
+      "description": "Default value 'log'."
+    }],
+    "description": "Initializes the logger, creating a file in the logs folder named `${name}_yyyy_mm_dd_HH_MM.txt`."
+  },
+  {
+    "name": "close",
+    "type": "function",
+    "icons": ["warn"],
+    "args": [],
+    "description": "Terminates the current logging session."
+  },
+  {
+    "name": "addCallback",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string",
+      "description": "The type of messages you want the callback to be executed for.  Can be log, info, warn, or error."
+    }, {
+      "name": "callback",
+      "type": "function",
+      "description": "Callback function to be called."
+    }],
+    "description": "Calls the provided `callback` function whenever a `key` message is sent to the logger.  Use key `log` to capture all messages."
+  },
+  {
+    "name": "removeCallback",
+    "type": "function",
+    "args": [{
+      "name": "key",
+      "type": "string",
+      "description": "The type of messages you want remove the callback from."
+    }, {
+      "name": "callback",
+      "type": "function",
+      "description": "Callback function to be removed."
+    }],
+    "description": "Removes the `callback` for `key` messages."
+  },
+  {
+    "name": "getMessages",
+    "type": "function",
+    "args": [],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of all messages that have been sent to the logger."
+  },
+  {
+    "name": "log",
+    "type": "function",
+    "args": [{
+      "name": "msg",
+      "type": "string",
+      "description": "The message to add to the log."
+    }],
+    "description": "Adds message `msg` to the log."
+  },
+  {
+    "name": "info",
+    "type": "function",
+    "args": [{
+      "name": "msg",
+      "type": "string",
+      "description": "The message to add to the log."
+    }],
+    "description": "Adds the information message `msg` to the log."
+  },
+  {
+    "name": "warn",
+    "type": "function",
+    "args": [{
+      "name": "msg",
+      "type": "string",
+      "description": "The message to add to the log."
+    }],
+    "description": "Adds the warning message `msg` to the log."
+  },
+  {
+    "name": "error",
+    "type": "function",
+    "args": [{
+      "name": "msg",
+      "type": "string",
+      "description": "The message to add to the log."
+    }],
+    "description": "Adds error message `msg` to the log."
+  }
+]

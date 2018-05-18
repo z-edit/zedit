@@ -5,7 +5,6 @@
 
 import path from 'path';
 import url from 'url';
-import { exec } from 'child_process';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
 import logger from './helpers/logger.js';
@@ -14,9 +13,10 @@ import logger from './helpers/logger.js';
 // in config/env_xxx.json file.
 import env from './env';
 
-let mainWindow, progressWindow, showProgressTimeout;
+let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
 logger.init('main');
+logger.info(`Using arch ${process.arch}`);
 
 // Save userData in separate folders for each environment.
 // Thanks to this you can use production and development versions of the app
@@ -27,8 +27,10 @@ if (env.name !== 'production') {
 }
 
 let getPageUrl = function(page) {
+    let [p, search] = page.split('?');
     return url.format({
-        pathname: path.join(__dirname, page),
+        pathname: path.join(__dirname, p),
+        search: search,
         protocol: 'file:',
         slashes: true
     });
@@ -62,46 +64,35 @@ let resetProgress = function() {
     });
 };
 
-let getProcessList = function(callback) {
-    try {
-        logger.info('Checking for transparency support.');
-        exec('tasklist /fo csv /nh', function(err, stdout) {
-            let expr = /\"([^\"]+)\"/,
-                lines = stdout.split('\r\n').slice(0, -1),
-                processes = lines.map((line) => { return line.match(expr)[1] });
-            callback(processes);
-        });
-    } catch (x) {
-        logger.error(`Error getting process list:\n\n${x.stackTrace}`);
-        callback([]);
-    }
-};
-
 let openMainWindow = function() {
     if (mainWindow) mainWindow.destroy();
     logger.info('Creating main window...');
     mainWindow = createWindow('main', { frame: false, show: false });
     logger.info('Main window created');
     logger.info('Loading application...');
-    loadPage(mainWindow, 'app.html', env.name === 'development');
+    let verboseLogging = process.argv.includes('-verbose'),
+        url = `app.html?verbose=${+verboseLogging}`;
+    loadPage(mainWindow, url, env.name === 'development');
     mainWindow.once('ready-to-show', () => {
         logger.info('Application loaded.  Showing window.');
         mainWindow.show();
     });
 };
 
-let openProgressWindow = function(processes) {
-    let hasDwm = processes.includes('dwm.exe');
-    logger.info(`Window transparency is ${hasDwm ? '' : 'not '}supported`);
+let openProgressWindow = function() {
+    let t = !process.argv.includes('--disable-transparency'),
+        m = !process.argv.includes('--inspector-fix');
+    logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
+    logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
     progressWindow = new BrowserWindow({
         parent: mainWindow,
         title: "zEdit Progress",
-        modal: true,
+        modal: m,
         show: true,
         frame: false,
         closable: false,
-        transparent: hasDwm,
+        transparent: t,
         focusable: false,
         maximizable: false,
         minimizable: false,
@@ -135,10 +126,8 @@ let createWindows = function() {
     logger.info('Creating windows');
     openMainWindow();
     mainWindow.webContents.on('crash', crashHandler);
-    mainWindow.on('closed', () => {
-        progressWindow.destroy();
-    });
-    getProcessList(openProgressWindow);
+    mainWindow.on('closed', () => progressWindow.destroy());
+    openProgressWindow();
 };
 
 app.on('ready', createWindows);
@@ -165,7 +154,15 @@ ipcMain.on('hide-progress', () => {
 
 ipcMain.on('set-theme', (e, p) => progSend('set-theme', p));
 ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
-ipcMain.on('progress-message', (e, p) => progSend('progress-message', p));
+ipcMain.on('progress-message', (e, p) => {
+    if (!lastProgressMessage)
+        setTimeout(() => {
+            progSend('progress-message', p);
+            lastProgressMessage = undefined;
+        }, 50);
+    lastProgressMessage = p;
+});
+ipcMain.on('progress-error', (e, p) => progSend('progress-error', p));
 ipcMain.on('add-progress', (e, p) => progSend('add-progress', p));
 ipcMain.on('log-message', (e, p) => progSend('log-message', p));
 ipcMain.on('allow-close', () => progSend('allow-close'));

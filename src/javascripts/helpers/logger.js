@@ -32,7 +32,7 @@ export default (function() {
         addCallback: function(key, callback) {
             callbacks[key].push(callback);
         },
-        removeCallback: function(callback) {
+        removeCallback: function(key, callback) {
             callbacks[key].remove(callback);
         },
         getMessages: function() {

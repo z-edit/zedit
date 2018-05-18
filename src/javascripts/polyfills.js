@@ -87,14 +87,11 @@ Number.prototype.toPercentage = function(precision = 1) {
     return (this * 100).toFixed(precision).toString() + "%";
 };
 
-// concatenates this with array and assigns the result to this
-// does nothing if either this or array are undefined
+// pushes array onto this
 Array.prototype.unite = function(array) {
-    if (this && array) {
-        for (let i = 0; i < array.length; i++) {
-            this.push(array[i]);
-        }
-    }
+    if (!this || !array) return;
+    for (let i = 0; i < array.length; i++)
+        this.push(array[i]);
 };
 
 // gets a random item from the array
@@ -259,7 +256,9 @@ Object.copyProperties = function(target, keys) {
 
 Object.defineProperty(Function, 'execute', {
     enumerable: false,
-    value: function(args, code) {
-        return new Function(...Object.keys(args), code)(...Object.values(args));
+    value: function(args, code, name = '') {
+        let declaration = `function ${name}(${Object.keys(args).join(', ')})`,
+            fn = new Function(`return ${declaration} {\r\n${code}\r\n}`);
+        return fn()(...Object.values(args));
     }
 });

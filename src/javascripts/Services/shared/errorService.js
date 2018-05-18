@@ -1,10 +1,14 @@
-ngapp.service('errorService', function() {
+ngapp.service('errorService', function($exceptionHandler) {
     let service = this;
 
-    // default exception handler, should be overridden by view
-    this.handleException = (exception) => alert(exception.stack);
+    this.handleException = $exceptionHandler;
 
     this.try = function(callback) {
-        try { callback() } catch(x) { service.handleException(x) }
+        try {
+            callback();
+            return true;
+        } catch(x) {
+            service.handleException(x)
+        }
     };
 });

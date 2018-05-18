@@ -7,7 +7,8 @@ export default function(ngapp, fh, logger) {
                     info: module.info,
                     moduleUrl: fh.pathToFileUrl(module.path),
                     modulePath: module.path
-                }, module.code);
+                }, module.code, module.info.id);
+                service.loadDocs(module.path);
             }
         },
         deferredModules = [];
@@ -37,7 +38,7 @@ export default function(ngapp, fh, logger) {
             files: false,
             directories: true,
             recursive: false
-        });
+        }).map(path => fh.jetpack.path(path));
     };
 
     let missingRequirementError = function(info) {
@@ -117,6 +118,7 @@ export default function(ngapp, fh, logger) {
 
     // PUBLIC API
     let service = {
+        moduleDocs: [],
         getActiveModules: () => { return modules; },
         getInstalledModules: function() {
             let moduleFolders = getModuleFolders();
@@ -126,30 +128,33 @@ export default function(ngapp, fh, logger) {
                 return info;
             }).filter((info) => { return !!info });
         },
+        loadDocs: function(modulePath) {
+            let docs = fh.loadJsonFile(`${modulePath}/docs/topics.json`);
+            if (!docs) return;
+            let moduleUrl = fh.pathToFileUrl(modulePath);
+            docs.forEach(({topic}) => {
+                topic.templateUrl = moduleUrl + topic.templateUrl;
+            });
+            docs.forEach(doc => service.moduleDocs.push(doc));
+        },
         loadModules: function() {
             logger.info('Loading modules...');
             let moduleFolders = getModuleFolders(),
                 modules = [];
             moduleFolders.forEach(function(modulePath) {
                 let info = getModuleInfo(modulePath);
-                if (!info) {
-                    missingInfoError(modulePath);
-                } else {
-                    modules.push(prepareModule(modulePath, info));
-                }
+                if (!info) return missingInfoError(modulePath);
+                modules.push(prepareModule(modulePath, info));
             });
             buildModules(modules);
             logger.info('Modules loaded');
         },
         loadModule: function(modulePath) {
             let info = getModuleInfo(modulePath);
-            if (!info) {
-                missingInfoError(modulePath);
-            } else {
-                let module = prepareModule(modulePath, info);
-                return allRequirementsLoaded(info.requires) ?
-                    build(module) : missingRequirementError(info);
-            }
+            if (!info) return missingInfoError(modulePath);
+            let module = prepareModule(modulePath, info);
+            return allRequirementsLoaded(info.requires) ?
+                build(module) : missingRequirementError(info);
         },
         loadDeferredModules: function() {
             logger.info('Loading deferred modules...');
