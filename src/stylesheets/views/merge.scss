@@ -35,5 +35,13 @@ merge-item {
     td:not(last-of-type) {
       padding-right: 10px;
     }
+
+    a {
+      color: $font_color !important;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

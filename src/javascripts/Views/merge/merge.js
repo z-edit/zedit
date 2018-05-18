@@ -49,6 +49,10 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         mergeBuilder.buildMerges(mergesToBuild);
     };
 
+    $scope.openDataFolder = function(plugin) {
+        fh.openFile(plugin.dataFolder);
+    };
+
     $scope.toggleDetails = function(plugin) {
         plugin.showDetails = !plugin.showDetails;
     };
