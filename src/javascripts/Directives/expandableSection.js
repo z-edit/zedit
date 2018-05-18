@@ -13,8 +13,8 @@ ngapp.directive('expandableSection', function() {
 
             titleElement.addEventListener('click', function() {
                 contentElement.classList.toggle('ng-hide');
-                iconElement.classList.toggle('fa-plus');
-                iconElement.classList.toggle('fa-minus');
+                iconElement.classList.toggle('collapsed');
+                iconElement.classList.toggle('expanded');
             });
         }
     }
