@@ -70,7 +70,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
             filenames = getCustomScopeFilenames(customScope),
             handles = [];
         filenames.forEach(function(filename) {
-            xelib.WithHandles(xelib.FileByName(filename), function(file) {
+            xelib.WithHandle(xelib.FileByName(filename), function(file) {
                 gettingRecordsMessage(file);
                 handles.unite(xelib.GetRecords(file, signaturesStr, true));
             });
