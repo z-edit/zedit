@@ -108,11 +108,11 @@ Array.prototype.remove = function(needle) {
 
 Array.prototype.subtract = function(otherArray) {
     if (!otherArray) return this;
-    return this.filter((item) => { return !otherArray.includes(item) });
+    return this.filter(item => !otherArray.includes(item));
 };
 
 Array.prototype.findByKey = function(key, value) {
-    return this.find((item) => { return item[key] === value });
+    return this.find(item => item[key] === value);
 };
 
 Array.prototype.sortOnKey = function(key) {
@@ -124,15 +124,22 @@ Array.prototype.sortOnKey = function(key) {
 };
 
 Array.prototype.filterOnKey = function(key) {
-    return this.filter((item) => { return item[key] });
+    return this.filter(item => item[key]);
 };
 
 Array.prototype.mapOnKey = function(key) {
-    return this.map((item) => { return item[key] });
+    return this.map(item => item[key]);
 };
 
 Array.prototype.joinOnKey = function(key, separator = ',') {
     return this.mapOnKey(key).join(separator);
+};
+
+Array.prototype.unique = function() {
+    return this.reduce((a, item) => {
+        if (!a.includes(item)) a.push(item);
+        return a;
+    }, []);
 };
 
 Array.prototype.joinList = function(separator = ', ', lastSeparator = ' and ') {
