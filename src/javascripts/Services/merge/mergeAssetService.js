@@ -12,7 +12,6 @@ ngapp.service('mergeAssetService', function() {
     };
 
     let prepareToCopyAssets = function(merge) {
-        merge.dataPath = mergeService.getMergeDataPath(merge);
         merge.dataFolders = merge.plugins.reduce((obj, plugin) => {
             obj[plugin.filename] = plugin.dataPath;
             return obj;
@@ -31,7 +30,7 @@ ngapp.service('mergeAssetService', function() {
 
     this.forEachPlugin = function(merge, callback) {
         merge.plugins.forEach(pluginObj => {
-            callback(pluginObj.filename, pluginObj.dataFolder, pluginObj.file);
+            callback(pluginObj.filename, pluginObj.dataFolder, pluginObj.handle);
         });
     };
 
