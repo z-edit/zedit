@@ -44,8 +44,8 @@ ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressSe
         if (loaderStatus === xelib.lsDone) {
             loaded.resolve('filesLoaded');
         } else if (loaderStatus === xelib.lsError) {
-            logMessage('There was a critical error during plugin/resource loading.');
-            loaded.reject('loadError');
+            loaded.reject('There was a critical error during ' +
+                'plugin/resource loading.');
         } else {
             $timeout(checkIfLoaded, 250);
         }

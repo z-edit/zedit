@@ -31,11 +31,15 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
         merge.dataPath = mergeService.getMergeDataPath(merge);
         merge.failedToCopy = [];
         pluginLoadService.loadPlugins(merge).then(function() {
-            storePluginHandles(merge);
-            mergeDataService.buildMergeData(merge);
-            createMergedPlugin(merge);
-            addMastersToMergedPlugin(merge);
-            prepared.resolve('Merged prepared');
+            try {
+                storePluginHandles(merge);
+                mergeDataService.buildMergeData(merge);
+                createMergedPlugin(merge);
+                addMastersToMergedPlugin(merge);
+                prepared.resolve('Merged prepared');
+            } catch (x) {
+                prepared.reject(x.stackTrace);
+            }
         }, function(err) {
             prepared.reject(err);
         });
@@ -57,19 +61,23 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
 
     // builder
     let buildFailed = function(merge, err) {
-        progressService.hideProgress();
-        alert('Building merges failed: ' + err);
+        progressService.progressError('Building merges failed: \r\n' + err);
+        progressService.allowClose();
     };
 
     let buildMerge = function(merge) {
         let progress = `${merge.name} (${buildIndex}/${mergesToBuild.length})`;
         progressService.progressTitle(`Building merge ${progress}`);
         prepareMerge(merge).then(function() {
-            recordMergingService.mergeRecords(merge);
-            mergeAssetService.handleAssets(merge);
-            finalizeMerge(merge);
-            progressService.addProgress(1);
-            buildNextMerge();
+            try {
+                recordMergingService.mergeRecords(merge);
+                mergeAssetService.handleAssets(merge);
+                finalizeMerge(merge);
+                progressService.addProgress(1);
+                buildNextMerge();
+            } catch (x) {
+                buildFailed(merge, x.stackTrace);
+            }
         }, function(err) {
             buildFailed(merge, err);
         });
