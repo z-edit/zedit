@@ -20,6 +20,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
     let openSaveModal = function(shouldFinalize) {
         if (!shouldFinalize && !$scope.mergedPlugins.length) return;
         $scope.$emit('openModal', 'save', {
+            controller: 'mergeSaveModalController',
             shouldFinalize: shouldFinalize,
             merges: $scope.merges
         });
@@ -59,7 +60,6 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
 
     // event handlers
     $scope.$on('settingsClick', function() {
-        //if (!$scope.loaded) return;
         $scope.$emit('openModal', 'settings');
     });
 
