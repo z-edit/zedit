@@ -18,4 +18,11 @@ ngapp.controller('settingsModalController', function($scope, settingsService, ta
             newPath = fh.selectDirectory(title, defaultPath);
         if (newPath) $scope.settings[settingsKey] = newPath;
     };
+
+    $scope.browseSettingsFile = function(settingsKey, title, filters = []) {
+        let path = $scope.settings[settingsKey],
+            defaultPath =  path ? fh.getFileBase(path) : fh.appPath,
+            newPath = fh.selectFile(title, defaultPath, filters);
+        if (newPath) $scope.settings[settingsKey] = newPath;
+    };
 });
