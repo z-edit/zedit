@@ -2,8 +2,8 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     let service = this;
 
     this.findBsaFiles = function(plugin, folder) {
-        return fh.jetpack.find(folder, {
-            matches: `${fh.getFileBase(plugin)}*.@(bsa|ba2)`,
+        return fh.getFiles(folder, {
+            matching: `${fh.getFileBase(plugin)}*.@(bsa|ba2)`,
             recursive: false
         });
     };
