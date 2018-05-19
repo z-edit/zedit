@@ -1,7 +1,7 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets'],
-        pluginExportKeys = ['filename', 'dataFolder'];
+        mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        pluginExportKeys = ['filename', 'hash', 'dataFolder'];
 
     // private functions
     let initMergeData = mergeDataService.clearMergeData;
@@ -22,14 +22,16 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return mergeName;
     };
 
-    let exportMergeData = function() {
-        return service.merges.map(function(merge) {
-            let mergeObj = objectUtils.rebuildObject(merge, mergeExportKeys);
-            mergeObj.plugins = merge.plugins.map(function(plugin) {
-                return objectUtils.rebuildObject(plugin, pluginExportKeys);
-            });
-            return mergeObj;
+    let exportMerge = function(merge) {
+        let mergeObj = objectUtils.rebuildObject(merge, mergeExportKeys);
+        mergeObj.plugins = merge.plugins.map(function(plugin) {
+            return objectUtils.rebuildObject(plugin, pluginExportKeys);
         });
+        return mergeObj;
+    };
+
+    let exportMergeData = function() {
+        return service.merges.map(exportMerge);
     };
 
     let getDataFolder = function(plugin) {
@@ -80,6 +82,13 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         service.merges = fh.loadJsonFile(service.mergeDataPath) || [];
         service.merges.forEach(importMergeData);
         service.saveMerges();
+    };
+
+    this.saveMergeData = function(merge) {
+        let path = `${merge.dataPath}\\merge`;
+        fh.jetpack.dir(path);
+        fh.saveJsonFile(`${path}\\merge.json`, exportMerge(merge));
+        fh.saveJsonFile(`${path}\\map.json`, merge.fidMap || {});
     };
 
     this.getMergeDataPath = function(merge) {
