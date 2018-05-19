@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, recordMergingService, mergeDataService, mergeAssetService, pluginLoadService, progressService) {
+ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, mergeDataService, mergeAssetService, pluginLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
     let mergesToBuild = [],
@@ -28,6 +28,8 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeDataServic
 
     let prepareMerge = function(merge) {
         let prepared = $q.defer();
+        merge.dataPath = mergeService.getMergeDataPath(merge);
+        merge.failedToCopy = [];
         pluginLoadService.loadPlugins(merge).then(function() {
             storePluginHandles(merge);
             mergeDataService.buildMergeData(merge);
@@ -41,12 +43,6 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeDataServic
     };
 
     // FINALIZATION
-    let cleanMerge = function(merge) {
-        xelib.CleanMasters(merge.plugin);
-        if (merge.method !== 'refactor')
-            removePluginMasters(merge);
-    };
-
     let saveMergeFiles = function(merge) {
         fh.jetpack.dir(merge.dataPath);
         let filePath = `${merge.dataPath}\\${merge.filename}`;
@@ -55,7 +51,7 @@ ngapp.service('mergeBuilder', function($q, recordMergingService, mergeDataServic
     };
 
     let finalizeMerge = function(merge) {
-        cleanMerge(merge);
+        removePluginMasters(merge);
         saveMergeFiles(merge);
     };
 
