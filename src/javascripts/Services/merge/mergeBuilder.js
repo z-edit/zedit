@@ -4,6 +4,17 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
     let mergesToBuild = [],
         buildIndex;
 
+    // helpers
+    let tryPromise = function(action, onSuccess, onFailure) {
+        action.then(function() {
+            try {
+                onSuccess();
+            } catch (x) {
+                onFailure(x.stackTrace);
+            }
+        }, onFailure);
+    };
+
     // INITIALIZATION
     let storePluginHandles = function(merge) {
         merge.plugins.forEach(function(plugin) {
@@ -30,19 +41,13 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
         let prepared = $q.defer();
         merge.dataPath = mergeService.getMergeDataPath(merge);
         merge.failedToCopy = [];
-        pluginLoadService.loadPlugins(merge).then(function() {
-            try {
-                storePluginHandles(merge);
-                mergeDataService.buildMergeData(merge);
-                createMergedPlugin(merge);
-                addMastersToMergedPlugin(merge);
-                prepared.resolve('Merged prepared');
-            } catch (x) {
-                prepared.reject(x.stackTrace);
-            }
-        }, function(err) {
-            prepared.reject(err);
-        });
+        tryPromise(pluginLoadService.loadPlugins(merge), () => {
+            storePluginHandles(merge);
+            mergeDataService.buildMergeData(merge);
+            createMergedPlugin(merge);
+            addMastersToMergedPlugin(merge);
+            prepared.resolve('Merged prepared');
+        }, prepared.reject);
         return prepared.promise;
     };
 
@@ -68,19 +73,13 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
     let buildMerge = function(merge) {
         let progress = `${merge.name} (${buildIndex}/${mergesToBuild.length})`;
         progressService.progressTitle(`Building merge ${progress}`);
-        prepareMerge(merge).then(function() {
-            try {
-                recordMergingService.mergeRecords(merge);
-                mergeAssetService.handleAssets(merge);
-                finalizeMerge(merge);
-                progressService.addProgress(1);
-                buildNextMerge();
-            } catch (x) {
-                buildFailed(merge, x.stackTrace);
-            }
-        }, function(err) {
-            buildFailed(merge, err);
-        });
+        tryPromise(prepareMerge(merge), () => {
+            recordMergingService.mergeRecords(merge);
+            mergeAssetService.handleAssets(merge);
+            finalizeMerge(merge);
+            progressService.addProgress(1);
+            buildNextMerge();
+        }, err => buildFailed(merge, err));
     };
 
     let buildNextMerge = function() {
