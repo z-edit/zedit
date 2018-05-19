@@ -10,7 +10,8 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
             try {
                 onSuccess();
             } catch (x) {
-                onFailure(x.stackTrace);
+                console.error(x);
+                onFailure(x.stack);
             }
         }, onFailure);
     };

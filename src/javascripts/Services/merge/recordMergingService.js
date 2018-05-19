@@ -7,9 +7,9 @@ ngapp.service('recordMergingService', function() {
         try {
             return xelib.CopyElement(rec, merge.plugin, asNew);
         } catch (x) {
-            merge.failedToCopy.add({
+            merge.failedToCopy.push({
                 rec: xelib.LongName(rec),
-                stack: x.stackTrace
+                stack: x.stack
             });
         }
     };

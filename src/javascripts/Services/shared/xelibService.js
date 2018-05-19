@@ -11,7 +11,7 @@ ngapp.service('xelibService', function() {
                 logger[method](`${pathName}: ${path}`);
             });
         } catch (e) {
-            logger.error(e.stacktrace);
+            logger.error(e.stack);
             service.getExceptionInformation();
         }
     };
@@ -21,7 +21,7 @@ ngapp.service('xelibService', function() {
             logger.info(xelib.GetMessages());
             logger.error(xelib.GetExceptionMessage());
         } catch (e) {
-            logger.error('Failed to get exception information: ' + e.stacktrace);
+            logger.error('Failed to get exception information: ' + e.stack);
         }
     };
 
