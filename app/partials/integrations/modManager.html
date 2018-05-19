@@ -1,0 +1,21 @@
+<h3>Mod Manager</h3>
+<section>
+    <div class="path-setting">
+        <span class="input-label">Mod manager</span>
+        <select ng-model="settings.modManager">
+            <option>None</option>
+            <option>Nexus Mod Manager</option>
+            <option>Mod Organizer</option>
+        </select>
+    </div>
+    <div ng-show="settings.modManager !== 'None'" class="path-setting">
+        <span class="input-label">Mod manager path</span>
+        <input type="text" ng-model="settings.managerPath" />
+        <span class="browse-button" ng-click="browseSettingsPath('managerPath', 'Mod Manager Path')" title="Browse"></span>
+    </div>
+    <div ng-show="settings.modManager !== 'None'" class="path-setting">
+        <span class="input-label">Mod manager mods path</span>
+        <input type="text" ng-model="settings.modsPath" />
+        <span class="browse-button" ng-click="browseSettingsPath('modsPath', 'Mod Manager Mods Path')" title="Browse"></span>
+    </div>
+</section>

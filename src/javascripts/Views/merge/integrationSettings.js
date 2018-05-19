@@ -1,32 +1,28 @@
-ngapp.controller('integrationSettingsController', function($scope, $rootScope, settingsService) {
+ngapp.controller('integrationSettingsController', function($scope, $rootScope, integrationService, progressService, errorService) {
+    // initialization
     $scope.gameMode = $rootScope.profile.gameMode;
+    $scope.integrations = integrationService.integrations;
+    $scope.executablesFilter = [
+        { name: 'Executables', extensions: ['exe'] }
+    ];
 
-    let browseTitles = {
-        managerPath: 'Mod Manager Path',
-        modsPath: 'Mod Manager Mods Path',
-        decompilerPath: 'Papyrus Decompiler Path',
-        compilerPath: 'Papyrus Compiler Path',
-        papyrusFlagsPath: 'Papyrus Flags Path'
+    // scope functions
+    $scope.detect = function() {
+        progressService.showProgress({ message: 'Detecting integrations...' });
+        errorService.tryEach($scope.integrations, integration => {
+            integration.detect && integration.detect($scope.settings);
+        });
+        progressService.hideProgress();
     };
-
-    Object.keys(browseTitles).forEach(function(key) {
-        settingsService.browseSettingsPath($scope, key, browseTitles[key]);
-    });
 });
 
-ngapp.run(function(settingsService) {
+ngapp.run(function(settingsService, integrationService) {
     settingsService.registerSettings({
         label: 'Integration Settings',
         customActions: true,
         appModes: ['merge'],
         templateUrl: 'partials/settings/integrations.html',
-        defaultSettings: {
-            modManager: 'None',
-            managerPath: '',
-            modsPath: '',
-            decompilerPath: '',
-            compilerPath: '',
-            papyrusFlagsPath: ''
-        }
+        controller: 'integrationSettingsController',
+        defaultSettings: integrationService.defaultSettings
     });
 });
