@@ -1,6 +1,6 @@
 <div class="content-title">{{merge.name}} ({{merge.filename}})
     <span class="right">
-        <button class="action-btn small no-hover" ng-click="buildMerge(merge)" ng-hide="merge.status !== 'Ready to be built'">
+        <button class="action-btn small no-hover" ng-click="buildMerge(merge)">
             Build
         </button>
         <button class="action-btn small no-hover" ng-click="editMerge(merge)">
@@ -19,7 +19,9 @@
         </div>
         <div>
             <b>Last Built:</b>
-            <span class="last-built {{merge.dateBuilt ? 'neutral-fg' : 'negative-fg'}}">{{merge.dateBuilt || 'Never'}}</span>
+            <span class="last-built {{merge.dateBuilt ? 'neutral-fg' : 'negative-fg'}}">
+                {{merge.dateBuilt | customDate}}
+            </span>
         </div>
     </div>
 

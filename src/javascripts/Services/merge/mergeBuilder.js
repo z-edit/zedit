@@ -58,6 +58,7 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
         let filePath = `${merge.dataPath}\\${merge.filename}`;
         xelib.SaveFile(merge.plugin, filePath);
         // TODO: save form ID map and other log stuff
+        merge.dateBuilt = new Date();
     };
 
     let finalizeMerge = function(merge) {
