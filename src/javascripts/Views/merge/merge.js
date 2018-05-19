@@ -44,9 +44,10 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
     };
 
     $scope.buildMerges = function() {
-        let mergesToBuild = $scope.merges.filter(function(merge) {
+        let mergesToBuild = $scope.merges.filter(merge => {
             return merge.status === 'Ready to be built';
         });
+        if (mergesToBuild.length === 0) return;
         mergeBuilder.buildMerges(mergesToBuild);
     };
 

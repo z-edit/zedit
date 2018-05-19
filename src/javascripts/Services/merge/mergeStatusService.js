@@ -11,7 +11,7 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let pluginsChanged = function(merge) {
-        return merge.plugins.filter(function(plugin) {
+        return merge.plugins.filter(plugin => {
             plugin.changed = pluginChanged(merge, plugin);
             return plugin.changed;
         }).length > 0;
