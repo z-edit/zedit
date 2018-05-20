@@ -1,5 +1,6 @@
 ngapp.service('bsaHelpers', function() {
-    let bsaCache = {};
+    let bsaCache = {},
+        Minimatch = fh.minimatch.Minimatch;
 
     let containerLoaded = function(bsaPath) {
         let loadedContainers = xelib.GetLoadedContainers();
@@ -18,9 +19,10 @@ ngapp.service('bsaHelpers', function() {
         return bsaCache[bsaPath];
     };
 
-    this.find = function(bsaPath, expr) {
+    this.find = function(bsaPath, pattern) {
+        let expr = new Minimatch(pattern, { nocase: true });
         return getBsaFiles(bsaPath).filter(function(path) {
-            return fh.minimatch(path, expr);
+            return expr.match(path);
         });
     };
 });

@@ -34,10 +34,10 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
 
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
         let assets = fh.getFiles(folder + subfolder, { matching: expr }),
-            fullExpr = `${subfolder}/${expr}`;
+            fullExpr = `${subfolder}\\${expr}`;
         service.findBsaFiles(plugin, folder).forEach(bsaPath => {
             bsaHelpers.find(bsaPath, fullExpr).forEach(assetPath => {
-                assets.push(`${bsaPath}/${assetPath}`);
+                assets.push(`${bsaPath}\\${assetPath}`);
             });
         });
         return assets;
