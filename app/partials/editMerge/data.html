@@ -29,21 +29,22 @@
             <table class="files-table">
                 <thead>
                 <tr>
-                    <th>Plugin</th>
                     <th>File</th>
                     <th>File Size</th>
+                    <th>Associated Plugin</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="archive in merge.archives">
-                    <td>{{::file.plugin}}</td>
                     <td title="{{::archive.filePath}}">{{::archive.filename}}</td>
                     <td>{{::archive.fileSize | bytes}}</td>
+                    <td>{{::archive.plugin}}</td>
                     <td>
                         <select ng-model="archive.action">
                             <option ng-show="merge.extractArchives">Extract</option>
                             <option ng-show="merge.buildArchive">Merge</option>
+                            <option>Copy</option>
                             <option>Ignore</option>
                         </select>
                     </td>
@@ -74,8 +75,10 @@
                 <tbody>
                 <tr ng-repeat="file in merge.faceDataFiles">
                     <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                    <td>{{::file.npc}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
+                    <td>{{::file.npc || '?'}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -103,7 +106,9 @@
                 <tbody>
                 <tr ng-repeat="file in merge.voiceDataFiles">
                     <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
                     <td>{{::file.dialogue}}</td>
                 </tr>
                 </tbody>
@@ -132,7 +137,9 @@
                 <tbody>
                 <tr ng-repeat="fragment in merge.scriptFragments">
                     <td>{{::fragment.plugin}}</td>
-                    <td>{{::fragment.filePath}}</td>
+                    <td class="file-path" title="{{::fragment.filePath}}">
+                        {{::fragment.filePath}}
+                    </td>
                     <td>{{::fragment.record}}</td>
                 </tr>
                 </tbody>
@@ -160,7 +167,9 @@
                 <tbody>
                 <tr ng-repeat="file in merge.stringFiles">
                     <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -187,7 +196,9 @@
                 <tbody>
                 <tr ng-repeat="file in merge.translations">
                     <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -214,7 +225,9 @@
                 <tbody>
                 <tr ng-repeat="file in merge.iniFiles">
                     <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -241,7 +254,9 @@
                 <tbody>
                 <tr ng-repeat="file in merge.generalAssets">
                     <td>{{::file.plugins.join(', ')}}</td>
-                    <td>{{::file.filePath}}</td>
+                    <td class="file-path" title="{{::file.filePath}}">
+                        {{::file.filePath}}
+                    </td>
                 </tr>
                 </tbody>
             </table>

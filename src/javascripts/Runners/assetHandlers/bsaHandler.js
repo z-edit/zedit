@@ -25,6 +25,7 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
                     merge.archives.push({
                         plugin: plugin,
                         filePath: bsaPath,
+                        filename: fh.getFileName(bsaPath),
                         fileSize: fh.getFileSize(bsaPath),
                         action: defaultAction
                     });
