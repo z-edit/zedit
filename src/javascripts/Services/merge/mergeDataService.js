@@ -7,7 +7,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
         return fh.getFiles(folder, {
             matching: '*.es[plm]',
             recursive: false
-        }).map(path => fh.jetpack.path(path));
+        });
     };
 
     let getDataPath = function() {

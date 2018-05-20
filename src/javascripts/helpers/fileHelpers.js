@@ -114,7 +114,8 @@ fh.getDirectories = function(path) {
 
 fh.getFiles = function(path, options) {
     if (fh.jetpack.exists(path) !== 'dir') return [];
-    return fh.jetpack.find(path, options);
+    return fh.jetpack.find(path, options)
+        .map(path => fh.jetpack.path(path));
 };
 
 fh.filterExists = function(folder, paths) {
