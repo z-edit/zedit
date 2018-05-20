@@ -12,7 +12,8 @@
   }
 
   .table-container {
-    overflow: auto;
+    overflow-y: auto;
+    max-width: 100%;
     border: 1px solid $soft_border;
     margin-top: 14px;
     max-height: 500px;
@@ -20,8 +21,7 @@
 
   table.files-table {
     font-size: 14px;
-    margin: 4px;
-    min-width: 99%;
+    width: 100%;
 
     th {
       min-width: 80px;
@@ -32,14 +32,6 @@
       white-space: nowrap;
       overflow: hidden;
       padding-right: 8px;
-    }
-
-    td.file-path {
-      max-width: 310px;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      direction: rtl;
-      text-align: left;
     }
   }
 
