@@ -1,12 +1,18 @@
 ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
     let service = this,
-        dataFolders = {};
+        dataFolders = {},
+        dataPath;
 
     let pluginsInFolder = function(folder) {
         return fh.getFiles(folder, {
             matching: '*.es[plm]',
             recursive: false
-        });
+        }).map(path => fh.jetpack.path(path));
+    };
+
+    let getDataPath = function() {
+        dataPath = xelib.GetGlobal('DataPath');
+        return dataPath;
     };
 
     let usingModManager = function() {
@@ -47,7 +53,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
     };
 
     this.cacheDataFolders = function() {
-        findPlugins().forEach(function(filePath) {
+        findPlugins().forEach(filePath => {
             let plugin = fh.getFileName(filePath);
             dataFolders[plugin] = fh.getDirectory(filePath) + '\\';
         });
