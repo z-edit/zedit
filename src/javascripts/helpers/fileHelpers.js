@@ -98,10 +98,12 @@ fh.getFileSize = function(filePath) {
 };
 
 fh.getMd5Hash = function(filePath) {
+    if (fh.jetpack.exists(filePath) !== 'file') return;
     return md5file.sync(filePath);
 };
 
 fh.getDirectories = function(path) {
+    if (fh.jetpack.exists(path) !== 'dir') return [];
     return fh.jetpack.find(path, {
         matching: '*',
         files: false,
