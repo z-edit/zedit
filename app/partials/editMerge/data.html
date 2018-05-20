@@ -35,7 +35,7 @@
                     <th>Action</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody>
                 <tr ng-repeat="archive in merge.archives">
                     <td title="{{::archive.filePath}}">{{::archive.filename}}</td>
                     <td>{{::archive.fileSize | bytes}}</td>
@@ -71,7 +71,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody>
                 <tr ng-repeat="file in merge.faceDataFiles">
                     <td title="{{::file.npc}}">{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -98,7 +98,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody vs-repeat vs-scroll-parent=".table-container">
                 <tr ng-repeat="file in merge.voiceDataFiles">
                     <td title="{{::file.npc}}">{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -126,7 +126,7 @@
                     <th>Record</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody vs-repeat vs-scroll-parent=".table-container">
                 <tr ng-repeat="fragment in merge.scriptFragments">
                     <td>{{::fragment.plugin}}</td>
                     <td>{{::fragment.filePath}}</td>
@@ -154,7 +154,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody>
                 <tr ng-repeat="file in merge.stringFiles">
                     <td>{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -181,7 +181,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody>
                 <tr ng-repeat="file in merge.translations">
                     <td>{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -208,7 +208,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody>
                 <tr ng-repeat="file in merge.iniFiles">
                     <td>{{::file.plugin}}</td>
                     <td>{{::file.filePath}}</td>
@@ -235,7 +235,7 @@
                     <th>File</th>
                 </tr>
                 </thead>
-                <tbody vs-repeat vs-repeat-scroll-parent=".table-container">
+                <tbody vs-repeat vs-scroll-parent=".table-container">
                 <tr ng-repeat="file in merge.generalAssets">
                     <td>{{::file.plugins.join(', ')}}</td>
                     <td>{{::file.filePath}}</td>

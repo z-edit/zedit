@@ -1,4 +1,4 @@
-ngapp.directive('expandableSection', function() {
+ngapp.directive('expandableSection', function($timeout) {
     return {
         restrict: 'E',
         transclude: {
@@ -15,6 +15,7 @@ ngapp.directive('expandableSection', function() {
                 contentElement.classList.toggle('ng-hide');
                 iconElement.classList.toggle('collapsed');
                 iconElement.classList.toggle('expanded');
+                $timeout(() => scope.$broadcast('vsRepeatTrigger'));
             });
         }
     }
