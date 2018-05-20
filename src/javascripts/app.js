@@ -81,6 +81,7 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 //=include Directives/*.js
 //=include Factories/*.js
 //=include Filters/*.js
+//=include Runners/**/*.js
 //=include Services/**/*.js
 //=include Views/**/*.js
 //== end angular files ==
