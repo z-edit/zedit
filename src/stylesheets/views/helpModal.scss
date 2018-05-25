@@ -151,6 +151,11 @@
     color: $negative;
     content: '\f071';
   }
+
+  .icon-optional::before {
+    color: $secondary_action;
+    content: '\f059';
+  }
 }
 
 table.xedit-zedit-comparison {
