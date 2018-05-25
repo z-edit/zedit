@@ -94,6 +94,15 @@ api-items {
     color: $neutral;
   }
 
+  .legacy {
+    opacity: 0.5;
+    transition: opacity 1000ms ease 100ms;
+
+    &:hover {
+      opacity: 1.0;
+    }
+  }
+
   table code {
     background-color: $secondary_background;
   }
