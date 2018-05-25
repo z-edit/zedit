@@ -12,7 +12,7 @@
   {
     "key": "hidden",
     "type": "boolean",
-    "optional": true,
+    "icons": ["optional"],
     "description": "If true, the button will not be displayed.  Keep a reference to the button object in your code to change this as needed when the button should be shown or hidden."
   },
   {

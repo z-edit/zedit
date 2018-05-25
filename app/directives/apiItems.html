@@ -1,8 +1,8 @@
-<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args && !item.api" ng-class="{'tint-bg' : vm.tintBg}">
+<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args && !item.api" ng-class="{'tint-bg' : vm.tintBg, 'legacy' : item.legacy}">
     <span class="title" ng-click="item.expanded = !item.expanded">
         <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}"></span>
         {{::item.name}}
-        <span ng-repeat="icon in item.icons" class="icon icon-{{::icon}}"></span>
+        <span ng-repeat="icon in item.icons" class="icon icon-{{::icon}}" title="{{::icon.capitalize()}}"></span>
         <span class="property-code" ng-if="!short">
             <span ng-if="vm.api || item.api">
                 <span class="library">{{::vm.api || item.api}}</span>.

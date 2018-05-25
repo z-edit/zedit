@@ -7,7 +7,7 @@
   {
     "key": "appModes",
     "type": "array of string",
-    "optional": true,
+    "icons": ["optional"],
     "description": "Array of application modes the settings tab is shown for.  E.g. `['edit', 'clean']`.  If omitted the settings tab will be available for all application modes."
   },
   {
@@ -18,19 +18,19 @@
   {
     "key": "controller",
     "types": ["string", "function"],
-    "optional": true,
+    "icons": ["optional"],
     "description": "Name of the controller to apply to the settings tab **OR** a controller function with dependencies injected through its arguments."
   },
   {
     "key": "defaultSettings",
     "type": "object",
-    "optional": true,
+    "icons": ["optional"],
     "description": "Default setting values.  Default values are applied when settings are loaded."
   },
   {
     "key": "defaultGlobalSettings",
     "type": "object",
-    "optional": true,
+    "icons": ["optional"],
     "description": "Default global setting values.  Default values are applied when global settings are loaded."
   }
 ]
