@@ -16,37 +16,34 @@ console.log('App directory: ' + fh.appPath);
 
 // helper function for loading json file
 fh.loadJsonFile = function(filePath) {
-    if (fh.jetpack.exists(filePath) === 'file') {
-        return fh.jetpack.read(filePath, 'json');
+    if (jetpack.exists(filePath) === 'file') {
+        return jetpack.read(filePath, 'json');
     }
 };
 
 fh.loadTextFile = function(filePath) {
-    if (fh.jetpack.exists(filePath) === 'file') {
-        return fh.jetpack.read(filePath);
-    }
+    if (jetpack.exists(filePath) === 'file')
+        return jetpack.read(filePath);
 };
 
 fh.loadResource = function(filePath) {
     let format = filePath.endsWith('.json') ? 'json' : 'utf8';
-    if (fh.appDir.exists(filePath) === 'file') {
+    if (fh.appDir.exists(filePath) === 'file')
         return fh.appDir.read(filePath, format);
-    }
 };
 
 // helper function for saving json files
 fh.saveJsonFile = function(filePath, value, minify = false) {
-    fh.jetpack.write(filePath, minify ? JSON.stringify(value) : value);
+    jetpack.write(filePath, minify ? JSON.stringify(value) : value);
 };
 
 fh.saveTextFile = function(filePath, value) {
-    fh.jetpack.write(filePath, value);
+    jetpack.write(filePath, value);
 };
 
 fh.openFile = function(filePath) {
-    if (fh.jetpack.exists(filePath)) {
-        shell.openItem(fh.jetpack.path(filePath));
-    }
+    if (jetpack.exists(filePath))
+        shell.openItem(jetpack.path(filePath));
 };
 
 fh.openUrl = function(url) {
@@ -66,7 +63,7 @@ fh.fileUrlToPath = function(fileUrl) {
 };
 
 fh.extractArchive = function(filePath, destDir, empty = false) {
-    fh.jetpack.dir(destDir, { empty: empty });
+    jetpack.dir(destDir, { empty: empty });
     zip(filePath).extractAllTo(destDir, true);
 };
 
@@ -83,16 +80,16 @@ fh.getDirectory = function(filePath) {
 };
 
 fh.getDateModified = function(filePath) {
-    return fh.jetpack.inspect(filePath, {times: true}).modifyTime;
+    return jetpack.inspect(filePath, {times: true}).modifyTime;
 };
 
 fh.getDirectories = function(path) {
-    return fh.jetpack.find(path, {
+    return jetpack.find(path, {
         matching: '*',
         files: false,
         directories: true,
         recursive: false
-    });
+    }).map(path => jetpack.path(path));
 };
 
 // helper function for selecting a directory

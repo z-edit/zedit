@@ -33,12 +33,7 @@ export default function(ngapp, fh, logger) {
 
     let getModuleFolders = function() {
         if (!fh.jetpack.exists('modules')) return [];
-        return fh.jetpack.find('modules', {
-            matching: '*',
-            files: false,
-            directories: true,
-            recursive: false
-        }).map(path => fh.jetpack.path(path));
+        return fh.getDirectories('modules');
     };
 
     let missingRequirementError = function(info) {
