@@ -24,7 +24,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
         if (!usingModManager()) return pluginsInFolder(dataPath);
         let modsPath = settingsService.settings.modsPath,
             pluginPaths = [];
-        fh.getDirectories(modsPath).forEach(function(dir) {
+        fh.getDirectories(modsPath).forEach(dir => {
             pluginPaths.unite(pluginsInFolder(dir));
         });
         return pluginPaths;

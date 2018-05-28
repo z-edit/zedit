@@ -29,7 +29,7 @@ ngapp.service('extensionService', function(themeService) {
         if (fh.jetpack.exists(`${dir}\\module.json`)) {
             return loadModuleInfo(dir);
         } else {
-            dir = fh.getDirectories(modulePath).find(function(dir) {
+            dir = fh.getDirectories(modulePath).find(dir => {
                 return fh.jetpack.exists(`${dir}\\module.json`);
             });
             if (!dir) throw new Error('No module.json found.');
