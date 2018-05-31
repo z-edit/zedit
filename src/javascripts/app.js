@@ -88,9 +88,11 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 // load modules
 const moduleService = buildModuleService(ngapp, fh, logger);
 moduleService.loadModules();
-ngapp.run(function(helpService) {
-    moduleService.loadDeferredModules();
-    moduleService.moduleDocs.forEach(({topic, path}) => {
-        helpService.addTopic(topic, path);
-    });
+ngapp.run(function($timeout, helpService) {
+    $timeout(() => {
+        moduleService.loadDeferredModules();
+        moduleService.moduleDocs.forEach(({topic, path}) => {
+            helpService.addTopic(topic, path);
+        });
+    }, 100);
 });
