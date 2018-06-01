@@ -82,13 +82,20 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
             }
         };
 
-        let pasteElements = function(parent, elements, asNew) {
-            xelib.WithHandle(xelib.GetElementFile(parent), file => {
+        let recordUpdated = function(record) {
+            scope.$root.$broadcast('recordUpdated', record);
+        };
+
+        let pasteElements = function(target, elements, asNew, into) {
+            xelib.WithHandle(xelib.GetElementFile(target), file => {
+                if (!into) target = file;
                 elements.forEach(element => {
                     xelib.AddRequiredMasters(element, file, asNew);
-                    xelib.CopyElement(element, file, asNew);
+                    let copy = xelib.CopyElement(element, target, asNew);
+                    xelib.WithHandle(copy, c => into || recordUpdated(c));
                 });
             });
+            if (into) recordUpdated(target);
         };
 
         let canAdd = function(nodes, dstNode) {
@@ -252,9 +259,10 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
         scope.pasteNodes = function(asNew) {
             if (!scope.canPaste()) return;
             let nodes = clipboardService.getNodes(),
-                elements = nodes.mapOnKey('handle');
+                elements = nodes.mapOnKey('handle'),
+                into = clipboardService.getCopySource() === 'recordView';
             scope.selectedNodes.forEach(node =>
-                pasteElements(node.handle, elements, asNew));
+                pasteElements(node.handle, elements, asNew || into, into));
             scope.reload();
         };
 
@@ -268,16 +276,29 @@ ngapp.service('treeViewElementService', function($q, editModalFactory, errorServ
             return true;
         };
 
+        let canPaste = {
+            'treeView': function() {
+                let nodes = clipboardService.getNodes(),
+                    nodeParentType = nodes[0].parent.element_type,
+                    selectedType = scope.selectedNodes[0].element_type;
+                if (selectedType === xelib.etFile) return true;
+                if (nodeParentType === xelib.etGroupRecord)
+                    return canPasteIntoGroup(selectedType, nodes)
+            },
+            'recordView': function() {
+                return scope.selectedNodes.reduce((b, node) => {
+                    return b && node.element_type === xelib.etFile ||
+                        node.element_type === xelib.etMainRecord;
+                }, true);
+            }
+        };
+
         scope.canPaste = function() {
             if (!clipboardService.hasClipboard()) return;
-            if (clipboardService.getCopySource() !== 'treeView') return;
             if (scope.selectedNodes.length === 0) return;
-            let nodes = clipboardService.getNodes(),
-                nodeParentType = nodes[0].parent.element_type,
-                selectedType = scope.selectedNodes[0].element_type;
-            if (selectedType === xelib.etFile) return true;
-            if (nodeParentType === xelib.etGroupRecord)
-                return canPasteIntoGroup(selectedType, nodes)
+            let copySource = clipboardService.getCopySource(),
+                canPasteFn = canPaste[copySource];
+            return canPasteFn && canPasteFn();
         };
     }
 });
