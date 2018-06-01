@@ -176,6 +176,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.record = xelib.GetMasterRecord(newValue);
         } else {
             $scope.view.label = xelib.Name($scope.record);
+            $scope.selectedNodes = [];
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();

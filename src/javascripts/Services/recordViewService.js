@@ -3,6 +3,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
             caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
+            allowedNodeKeys = ['parent', 'label', 'child_index', 'value_type', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected'],
             settings = settingsService.settings;
 
         // helper functions
@@ -45,6 +46,17 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             }
         };
 
+        let getElementArrays = function(node) {
+            return node.handles.map(h => {
+                return h ? xelib.GetNodeElements(scope.virtualNodes, h) : [];
+            });
+        };
+
+        let getLabel = function(elementArrays, index) {
+            let a = elementArrays.find(function(a) { return a.length > 0 });
+            return xelib.Name(a[index]);
+        };
+
         // scope functions
         scope.buildColumns = function() {
             scope.columns = [{
@@ -67,10 +79,12 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         };
 
         scope.buildTree = function() {
-            let names = xelib.GetDefNames(scope.record);
-            let handles = scope.columns.slice(1).map((column) => { return column.handle; });
             scope.virtualNodes = xelib.GetNodes(scope.record);
-            scope.tree = scope.buildStructNodes(handles, -1, names);
+            let names = xelib.GetDefNames(scope.record),
+                handles = scope.columns.slice(1).mapOnKey('handle'),
+                elementArrays = getElementArrays( {handles});
+            scope.tree = names.map((name, i) =>
+                scope.buildNode(null, name, elementArrays, i));
             if (settings.recordView.autoExpand) scope.expandAllNodes();
         };
 
@@ -99,9 +113,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         scope.navigateToElement = function(handle, open) {
             if (handle === 0) return;
-            let node;
-            xelib.WithHandle(xelib.GetElementRecord(handle), function(record) {
-                node = scope.resolveNode(xelib.LocalPath(handle), record);
+            let node = xelib.WithHandle(xelib.GetElementRecord(handle), r => {
+                return scope.resolveNode(xelib.LocalPath(handle), r);
             });
             if (node) {
                 scope.clearSelection(true);
@@ -112,9 +125,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         };
 
         scope.nodeMatches = function(oldNode, newNode) {
-            if (oldNode.depth !== newNode.depth || oldNode.label !== newNode.label) {
-                return false;
-            }
+            if (oldNode.depth !== newNode.depth ||
+                oldNode.label !== newNode.label) return false;
             return oldNode.handles.reduce(function(b, oldHandle, index) {
                 let newHandle = newNode.handles[index];
                 return b || oldHandle && newHandle && xelib.ElementEquals(oldHandle, newHandle);
@@ -146,9 +158,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         scope.rebuildNode = function(node, index) {
             if (!index) index = scope.tree.indexOf(node);
-            let allowedKeys = ['parent', 'label', 'child_index', 'value_type', 'is_sorted', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected'],
-                selectedIndex = scope.selectedNodes.indexOf(node),
-                rebuiltNode = objectUtils.rebuildObject(node, allowedKeys);
+            let selectedIndex = scope.selectedNodes.indexOf(node),
+                rebuiltNode = objectUtils.rebuildObject(node, allowedNodeKeys);
             scope.tree.splice(index, 1, rebuiltNode);
             if (selectedIndex > -1) {
                 scope.selectedNodes.splice(selectedIndex, 1, rebuiltNode);
@@ -161,23 +172,21 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 counter = 0;
             for (let i = index + 1; i < scope.tree.length; i++) {
                 let node = scope.tree[i];
-                if (node.depth === targetDepth) {
-                    node.child_index = node.handles[recordIndex] ? counter++ : undefined;
-                    scope.rebuildNode(node, i);
-                } else if (node.depth < targetDepth) {
-                    return;
-                }
+                if (node.depth < targetDepth) return;
+                if (node.depth > targetDepth) continue;
+                if (node.handles[recordIndex] > 0)
+                    node.child_index = counter++;
+                scope.rebuildNode(node, i);
             }
         };
 
         scope.updateNodeLabels = function() {
-            // TODO: When we figure out union name display, we need to move this
+            // TODO: Union name display
             if (!settings.recordView.showArrayIndexes) return;
             scope.tree.forEach(function(node, index) {
-                if (node.disabled) return;
-                if (node.value_type === xelib.vtArray && node.is_sorted) {
-                    scope.updateSortedArrayLabels(index, node.depth + 1);
-                }
+                if (node.disabled || !xelib.IsSorted(node.first_handle) ||
+                    node.value_type !== xelib.vtArray) return;
+                scope.updateSortedArrayLabels(index, node.depth + 1);
             });
         };
 
@@ -229,78 +238,62 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             scope.buildCells(node);
         };
 
-        scope.buildNode = function(depth, name, elementArrays, i, setChildIndex) {
-            let handles = elementArrays.map((a) => { return a[i]; }),
-                firstHandle = handles.find((handle) => { return handle > 0; }),
+        scope.buildNode = function(parent, name, elementArrays, i, setChildIndex) {
+            let handles = elementArrays.map(a => a[i]),
+                firstHandle = handles.find(handle => handle > 0),
                 valueType = firstHandle && xelib.ValueType(firstHandle),
                 isFlags = valueType === xelib.vtFlags,
-                isSorted = valueType === xelib.vtArray && xelib.IsSorted(firstHandle),
-                isFixed = valueType === xelib.vtArray && xelib.IsFixed(firstHandle),
-                canExpand = firstHandle && !isFlags && xelib.ElementCount(firstHandle) > 0;
+                canExpand = firstHandle && !isFlags &&
+                    xelib.ElementCount(firstHandle) > 0;
             return {
                 label: name,
+                parent: parent,
                 child_index: setChildIndex ? i : undefined,
                 value_type: valueType,
-                is_sorted: isSorted,
-                is_fixed: isFixed,
                 handles: handles,
                 first_handle: firstHandle,
                 disabled: !firstHandle,
                 can_expand: canExpand,
-                depth: depth + 1
+                depth: parent ? parent.depth + 1 : 0
             }
         };
 
-        scope.buildStructNodes = function(parentHandles, depth, names) {
-            let elementArrays = parentHandles.map(function(handle) {
-                    return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
-                }),
-                nodes = [];
-            for (let i = 0; i < names.length; i++) {
-                nodes.push(scope.buildNode(depth, names[i], elementArrays, i))
-            }
-            return nodes;
+        scope.buildStructNodes = function(node, names) {
+            let elementArrays = getElementArrays(node);
+            return names.map((name, i) => {
+                return scope.buildNode(node, name, elementArrays, i);
+            });
         };
 
         scope.setArrayChildIndexes = function(nodes) {
             let recordIndex = scope.focusedIndex - 1,
                 counter = 0;
-            nodes.forEach(function(node) {
-                if (node.handles[recordIndex]) node.child_index = counter++;
-            });
+            nodes.filter(node => node.handles[recordIndex] > 0)
+                .forEach(node => node.child_index = counter++);
         };
 
-        let getLabel = function(elementArrays, index) {
-            let a = elementArrays.find(function(a) { return a.length > 0 });
-            return xelib.Name(a[index]);
-        };
-
-        scope.buildArrayNodes = function(parentHandles, depth, name, sorted, useLabels) {
-            let elementArrays = parentHandles.map(function(handle) {
-                    return handle ? xelib.GetNodeElements(scope.virtualNodes, handle) : [];
-                }),
+        scope.buildArrayNodes = function(node, name) {
+            let showArrayIndexes = settings.recordView.showArrayIndexes,
+                sorted = !node.disabled && xelib.IsSorted(node.first_handle),
+                useLabels = !node.disabled && xelib.IsFixed(node.first_handle),
+                elementArrays = getElementArrays(node),
                 maxLen = getMaxLength(elementArrays),
-                setChildIndex = settings.recordView.showArrayIndexes && !sorted && !useLabels,
+                setChildIndex = showArrayIndexes && !sorted && !useLabels,
                 nodes = [];
-            for (let i = 0; i < maxLen; i++) {
-                if (useLabels) name = getLabel(elementArrays, i);
-                nodes.push(scope.buildNode(depth, name, elementArrays, i, setChildIndex));
-            }
-            if (sorted && settings.recordView.showArrayIndexes) {
-                scope.setArrayChildIndexes(nodes);
-            }
+            for (let i = 0; i < maxLen; i++)
+                nodes.push(scope.buildNode(node,
+                    useLabels ? getLabel(elementArrays, i) : name,
+                    elementArrays, i, setChildIndex));
+            if (sorted && showArrayIndexes) scope.setArrayChildIndexes(nodes);
             return nodes;
         };
 
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
             if (!names[0].length) return [];
-            if (node.value_type === xelib.vtArray) {
-                return scope.buildArrayNodes(node.handles, node.depth, names[0],
-                    node.is_sorted, node.is_fixed);
-            } else {
-                return scope.buildStructNodes(node.handles, node.depth, names);
-            }
+            return node.value_type === xelib.vtArray ?
+                scope.buildArrayNodes(node, names[0]) :
+                scope.buildStructNodes(node, names);
         };
 
         scope.expandAllNodes = function() {
@@ -330,7 +323,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         };
 
         scope.linkToView = function(className) {
-            let targetView = layoutService.findView(function(view) {
+            let targetView = layoutService.findView(view => {
                 return view.class === className && !view.linkedRecordView;
             });
             viewFactory.link(scope.view, targetView);

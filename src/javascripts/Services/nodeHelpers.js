@@ -1,33 +1,30 @@
 ngapp.service('nodeHelpers', function() {
     let service = this;
 
-    let isNode = function(et) {
-        return (node) => { return node.element_type === et }
-    };
-
     let getMapFn = function(nodes, elementType, isGroup) {
         if (nodes[0].element_type === elementType) return xelib.GetElement;
         return xelib[`GetElement${isGroup ? 'Group' : 'File'}`];
     };
 
-    this.isFileNode = isNode(xelib.etFile);
-    this.isRecordNode = isNode(xelib.etMainRecord);
-    this.isGroupNode = isNode(xelib.etGroupRecord);
+    this.isFileNode = node => node.element_type === xelib.etFile;
+    this.isRecordNode = node => node.element_type === xelib.etMainRecord;
+    this.isGroupNode = node => node.element_type === xelib.etGroupRecord;
+    this.isRecordHeader = node => node.label === 'Record Header';
 
     this.isEditableNode = function(node) {
         return xelib.GetIsEditable(node.handle);
     };
 
     this.getNodeHandles = function(nodes) {
-        return nodes.map((node) => { return node.handle });
+        return nodes.mapOnKey('handle');
     };
 
     this.mapNodeHandles = function(nodes, mapFn) {
-        return nodes.map((node) => { return mapFn(node.handle) });
+        return nodes.map(node => mapFn(node.handle));
     };
 
     this.reduceHandles = function(handles, handleKeyFn) {
-        handles.reduce(function(obj, handle) {
+        handles.reduce((obj, handle) => {
             let key = handleKeyFn(handle);
             if (obj.hasOwnProperty(key)) {
                 xelib.Release(handle);

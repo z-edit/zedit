@@ -141,6 +141,20 @@ ngapp.service('hotkeyFactory', function() {
         delete: 'deleteElements',
         insert: 'handleInsert',
         backspace: (scope) => scope.$broadcast('navBack'),
+        c: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: 'copyPaths'
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: 'copyNodes'
+        }],
+        v: [{
+            modifiers: ['ctrlKey', 'shiftKey'],
+            callback: (scope) => scope.pasteNodes(true)
+        }, {
+            modifiers: ['ctrlKey'],
+            callback: (scope) => scope.pasteNodes()
+        }],
         f: [{
             modifiers: ['ctrlKey'],
             callback: 'toggleSearchBar'

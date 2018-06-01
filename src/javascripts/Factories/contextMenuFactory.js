@@ -203,7 +203,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, divider, {
         id: 'Automate',
-        visible: () => { return true; },
+        visible: () => true,
         build: (scope, items) => {
             items.push({
                 label: 'Automate',
@@ -215,7 +215,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, {
         id: 'Advanced Search',
-        visible: () => { return true; },
+        visible: () => true,
         build: (scope, items) => {
             items.push({
                 label: 'Advanced Search',
@@ -239,7 +239,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, divider, {
         id: 'Copy to',
-        visible: () => { return true; },
+        visible: () => true,
         build: (scope, items) => {
             items.push({
                 label: 'Copy into',
@@ -250,7 +250,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     },{
         id: 'Copy',
-        visible: (scope) => { return scope.selectedNodes.length > 0 },
+        visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
                 label: 'Copy',
@@ -261,18 +261,18 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, {
         id: 'Copy Path',
-        visible: (scope) => { return scope.selectedNodes.length > 0 },
+        visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
-                disabled: scope.selectedNodes.length === 0,
+                disabled: !scope.selectedNodes.length,
                 callback: () => scope.copyPaths()
             })
         }
     }, {
         id: 'Paste',
-        visible: (scope) => { return scope.selectedNodes.length > 0 },
+        visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
                 label: 'Paste',
@@ -283,7 +283,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, {
         id: 'Paste as Override',
-        visible: (scope) => { return scope.selectedNodes.length > 0 },
+        visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
                 label: 'Paste as Override',
@@ -354,38 +354,47 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         }
     }, divider, {
         id: 'Copy',
-        visible: () => { return true; },
+        visible: () => true,
         build: (scope, items) => {
-            //let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy',
                 hotkey: 'Ctrl+C',
-                disabled: true,//!node,
+                disabled: !scope.canCopy(),
                 callback: () => scope.copyNodes()
-            })
+            });
         }
     }, {
         id: 'Copy Path',
-        visible: () => { return true; },
+        visible: () => true,
         build: (scope, items) => {
-            //let node = scope.selectedNodes.last();
             items.push({
                 label: 'Copy Path',
                 hotkey: 'Ctrl+Shift+C',
-                disabled: true,//!node,
-                callback: () => scope.copyNodePaths()
-            })
+                disabled: !scope.selectedNodes.length,
+                callback: () => scope.copyPaths()
+            });
         }
     }, {
         id: 'Paste',
-        visible: () => { return true },
+        visible: () => true,
         build: (scope, items) => {
             items.push({
                 label: 'Paste',
                 hotkey: 'Ctrl+V',
-                disabled: true,//!scope.canPaste(),
-                callback: () => scope.paste()
-            })
+                disabled: !scope.canPaste(),
+                callback: () => scope.pasteNodes()
+            });
+        }
+    }, {
+        id: 'Paste into record',
+        visible: () => true,
+        build: (scope, items) => {
+            items.push({
+                label: 'Paste into record',
+                hotkey: 'Ctrl+Shift+V',
+                disabled: !scope.canPaste(true),
+                callback: () => scope.pasteNodes(true)
+            });
         }
     }];
 
