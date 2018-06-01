@@ -82,7 +82,8 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
                 $timeout($scope.updateNodeLabels);
             } else if (node.selected && e.button === 0) {
                 $timeout(function() {
-                    if (!node.selected || $scope.focusedIndex !== index) return;
+                    if (!!$scope.$root.dragData || !node.selected ||
+                        $scope.focusedIndex !== index) return;
                     $scope.editElementInline(node, index);
                 }, 250);
             }
