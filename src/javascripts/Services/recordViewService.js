@@ -1,4 +1,4 @@
-ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, viewFactory, objectUtils) {
+ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, viewFactory, objectUtils, stylesheetService) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
@@ -82,9 +82,10 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             scope.virtualNodes = xelib.GetNodes(scope.record);
             let names = xelib.GetDefNames(scope.record),
                 handles = scope.columns.slice(1).mapOnKey('handle'),
-                elementArrays = getElementArrays( {handles});
-            scope.tree = names.map((name, i) =>
-                scope.buildNode(null, name, elementArrays, i));
+                elements = getElementArrays( {handles});
+            scope.tree = names
+                .map((name, i) => scope.buildNode(null, name, elements, i))
+                .filter(node => !!node);
             if (settings.recordView.autoExpand) scope.expandAllNodes();
         };
 
@@ -245,6 +246,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 isFlags = valueType === xelib.vtFlags,
                 canExpand = firstHandle && !isFlags &&
                     xelib.ElementCount(firstHandle) > 0;
+            if (!firstHandle && scope.hideUnassigned) return;
             return {
                 label: name,
                 parent: parent,
@@ -262,7 +264,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             let elementArrays = getElementArrays(node);
             return names.map((name, i) => {
                 return scope.buildNode(node, name, elementArrays, i);
-            });
+            }).filter(node => !!node);
         };
 
         scope.setArrayChildIndexes = function(nodes) {
@@ -280,10 +282,12 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 maxLen = getMaxLength(elementArrays),
                 setChildIndex = showArrayIndexes && !sorted && !useLabels,
                 nodes = [];
-            for (let i = 0; i < maxLen; i++)
-                nodes.push(scope.buildNode(node,
+            for (let i = 0; i < maxLen; i++) {
+                let newNode = scope.buildNode(node,
                     useLabels ? getLabel(elementArrays, i) : name,
-                    elementArrays, i, setChildIndex));
+                    elementArrays, i, setChildIndex);
+                if (newNode) nodes.push(newNode);
+            }
             if (sorted && showArrayIndexes) scope.setArrayChildIndexes(nodes);
             return nodes;
         };

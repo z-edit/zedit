@@ -353,6 +353,17 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             });
         }
     }, divider, {
+        id: 'Toggle unassigned',
+        visible: () => true,
+        build: (scope, items) => {
+            let hidden = scope.hideUnassigned;
+            items.push({
+                label: `${hidden ? 'Show' : 'Hide'} unassigned fields`,
+                hotkey: '', //TODO
+                callback: () => scope.hideUnassigned = !hidden
+            })
+        }
+    }, divider, {
         id: 'Copy',
         visible: () => true,
         build: (scope, items) => {
