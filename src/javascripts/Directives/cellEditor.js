@@ -7,7 +7,8 @@ ngapp.directive('cellEditor', function() {
 });
 
 ngapp.controller('cellEditorController', function($scope, $timeout, $element, errorService, hotkeyService, htmlHelpers) {
-    const refInputPath = 'reference-select/autocomplete-input/input';
+    const refInputPath = 'reference-select/autocomplete-input/input',
+        enumSelectPath = 'enum-select/select';
 
     let cell = $scope.$parent.cell,
         node = $scope.$parent.node,
@@ -19,6 +20,8 @@ ngapp.controller('cellEditorController', function($scope, $timeout, $element, er
     $scope.newValue = cell.value;
     $scope.valueType = node.value_type;
     $scope.isReference = node.value_type === xelib.vtReference;
+    $scope.isEnum = node.value_type === xelib.vtEnum;
+    $scope.isOther = !$scope.isEnum && !$scope.isReference;
 
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'cellEditor');
@@ -39,11 +42,14 @@ ngapp.controller('cellEditorController', function($scope, $timeout, $element, er
     };
 
     let focusInput = function() {
-        let input = htmlHelpers.resolveElement($element[0], 'input') ||
-            htmlHelpers.resolveElement($element[0], refInputPath);
+        let el = $element[0],
+            input = htmlHelpers.resolveElement(el, 'input') ||
+                htmlHelpers.resolveElement(el, refInputPath) ||
+                htmlHelpers.resolveElement(el, enumSelectPath);
         if (!input) return;
         input.focus();
-        input.setSelectionRange(0, input.value.length);
+        if (input.hasOwnProperty('setSelectionRange'))
+            input.setSelectionRange(0, input.value.length);
     };
 
     // scope functions

@@ -1,4 +1,6 @@
-<!-- TODO: multiple editor types, like the editValueModal? -->
-<input ng-if="!isReference" type="text" ng-model="$parent.newValue" ng-keydown="onKeyDown($event)" />
+<!-- TODO: number editor?  color editor?  bytes editor? -->
+<input ng-if="::isOther" type="text" ng-model="$parent.newValue" ng-keydown="onKeyDown($event)" />
 
-<reference-select ng-if="isReference" model="$parent.newValue" signature="signature" signatures="signatures" handle="handle" ng-keydown="onKeyDown($event)"></reference-select>
+<enum-select ng-if="::isEnum" model="$parent.newValue" handle="handle" ng-keydown="onKeyDown($event)"></enum-select>
+
+<reference-select ng-if="::isReference" model="$parent.newValue" signature="signature" signatures="signatures" handle="handle" ng-keydown="onKeyDown($event)"></reference-select>
