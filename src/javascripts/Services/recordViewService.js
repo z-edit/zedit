@@ -1,4 +1,4 @@
-ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, viewFactory, objectUtils, stylesheetService) {
+ngapp.service('recordViewService', function($timeout, layoutService, settingsService, xelibService, viewFactory, objectUtils) {
     this.buildFunctions = function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
