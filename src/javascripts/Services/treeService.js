@@ -10,24 +10,23 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
-        let reSelectNode = function(node, scroll) {
+        let reSelectNode = function(node) {
             let newNode = scope.getNewNode(node);
-            if (newNode) {
-                scope.selectSingle(newNode, true, true, false);
-                if (scroll) scope.scrollToNode(newNode, true);
-            }
+            if (newNode) scope.selectSingle(newNode, true, true, false);
         };
 
         scope.reload = function() {
             if (!scope.tree) return;
-            let oldExpandedNodes = scope.tree.filter((node) => { return node.expanded; }),
+            let scrollOffset = scope.treeElement.scrollTop,
+                oldExpandedNodes = scope.tree.filter(node => node.expanded),
                 oldSelectedNodes = scope.selectedNodes.slice(),
                 oldTree = scope.tree;
             scope.clearSelection(true);
             scope.buildTree();
-            oldExpandedNodes.forEach((n) => reExpandNode(n));
-            oldSelectedNodes.forEach((n, i, a) => reSelectNode(n, i === a.length - 1));
+            oldExpandedNodes.forEach(n => reExpandNode(n));
+            oldSelectedNodes.forEach(n => reSelectNode(n));
             scope.view.releaseTree(oldTree);
+            scope.treeElement.scrollTop = scrollOffset;
         };
 
         scope.getNodeForElement = function(handle) {
