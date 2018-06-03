@@ -165,8 +165,9 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         $scope.$applyAsync(() => $scope.refCell.underline = false);
     });
 
-    // reload when hide unassigned is toggled
+    // reload when hide unassigned/non-conflicting is toggled
     $scope.$watch('hideUnassigned', $scope.reload);
+    $scope.$watch('hideNonConflicting', $scope.reload);
 
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {

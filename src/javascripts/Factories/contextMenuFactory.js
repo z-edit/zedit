@@ -361,7 +361,18 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 label: `${hidden ? 'Show' : 'Hide'} unassigned fields`,
                 hotkey: '', //TODO
                 callback: () => scope.hideUnassigned = !hidden
-            })
+            });
+        }
+    }, {
+        id: 'Toggle conflicting',
+        visible: () => true,
+        build: (scope, items) => {
+            let hidden = scope.hideNonConflicting;
+            items.push({
+                label: `${hidden ? 'Show' : 'Hide'} non-conflicting rows`,
+                hotkey: '', //TODO
+                callback: () => scope.hideNonConflicting = !hidden
+            });
         }
     }, divider, {
         id: 'Copy',

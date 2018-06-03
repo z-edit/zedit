@@ -3,7 +3,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
             caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
-            allowedNodeKeys = ['parent', 'label', 'child_index', 'value_type', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected'],
+            allowedNodeKeys = ['parent', 'label', 'child_index', 'value_type', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected', 'hidden'],
+            conflicting = [xelib.caOverride, xelib.caConflict, xelib.caConflictCritical],
             settings = settingsService.settings;
 
         // helper functions
@@ -55,6 +56,10 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         let getLabel = function(elementArrays, index) {
             let a = elementArrays.find(function(a) { return a.length > 0 });
             return xelib.Name(a[index]);
+        };
+
+        let isNonConflicting = function(conflictData) {
+            return !conflicting.includes(conflictData[0]);
         };
 
         // scope functions
@@ -175,8 +180,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 let node = scope.tree[i];
                 if (node.depth < targetDepth) return;
                 if (node.depth > targetDepth) continue;
-                if (node.handles[recordIndex] > 0)
-                    node.child_index = counter++;
+                node.child_index = node.handles[recordIndex] > 0 ?
+                    counter++ : undefined;
                 scope.rebuildNode(node, i);
             }
         };
@@ -196,6 +201,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             if (node.first_handle) {
                 let conflictData = getConflictData(node.first_handle);
                 classes.push(`${caClasses[conflictData[0]]}`);
+                if (scope.hideNonConflicting && isNonConflicting(conflictData))
+                    node.hidden = true;
             } else {
                 classes.push('element-unassigned');
             }
@@ -246,7 +253,6 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 isFlags = valueType === xelib.vtFlags,
                 canExpand = firstHandle && !isFlags &&
                     xelib.ElementCount(firstHandle) > 0;
-            if (!firstHandle && scope.hideUnassigned) return;
             return {
                 label: name,
                 parent: parent,
@@ -256,6 +262,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 first_handle: firstHandle,
                 disabled: !firstHandle,
                 can_expand: canExpand,
+                hidden: !firstHandle && !!(scope.hideUnassigned ||
+                    scope.hideNonConflicting),
                 depth: parent ? parent.depth + 1 : 0
             }
         };
@@ -264,7 +272,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             let elementArrays = getElementArrays(node);
             return names.map((name, i) => {
                 return scope.buildNode(node, name, elementArrays, i);
-            }).filter(node => !!node);
+            });
         };
 
         scope.setArrayChildIndexes = function(nodes) {
@@ -282,12 +290,10 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 maxLen = getMaxLength(elementArrays),
                 setChildIndex = showArrayIndexes && !sorted && !useLabels,
                 nodes = [];
-            for (let i = 0; i < maxLen; i++) {
-                let newNode = scope.buildNode(node,
+            for (let i = 0; i < maxLen; i++)
+                nodes.push(scope.buildNode(node,
                     useLabels ? getLabel(elementArrays, i) : name,
-                    elementArrays, i, setChildIndex);
-                if (newNode) nodes.push(newNode);
-            }
+                    elementArrays, i, setChildIndex));
             if (sorted && showArrayIndexes) scope.setArrayChildIndexes(nodes);
             return nodes;
         };
