@@ -3,7 +3,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
             caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],
-            allowedNodeKeys = ['parent', 'label', 'child_index', 'value_type', 'handles', 'first_handle', 'disabled', 'can_expand', 'depth', 'expanded', 'selected', 'hidden'],
+            allowedNodeKeys = ['parent', 'label', 'child_index', 'value_type', 'handles', 'first_handle', 'can_expand', 'depth', 'expanded', 'selected', 'hidden'],
             conflicting = [xelib.caOverride, xelib.caConflict, xelib.caConflictCritical],
             settings = settingsService.settings;
 
@@ -60,6 +60,10 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         let isNonConflicting = function(conflictData) {
             return !conflicting.includes(conflictData[0]);
+        };
+
+        let forFirstHandle = (node, fn) => {
+            return node.first_handle && fn(node.first_handle);
         };
 
         // scope functions
@@ -190,8 +194,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             // TODO: Union name display
             if (!settings.recordView.showArrayIndexes) return;
             scope.tree.forEach(function(node, index) {
-                if (node.disabled || !xelib.IsSorted(node.first_handle) ||
-                    node.value_type !== xelib.vtArray) return;
+                if (node.value_type !== xelib.vtArray ||
+                    !forFirstHandle(node, xelib.IsSorted)) return;
                 scope.updateSortedArrayLabels(index, node.depth + 1);
             });
         };
@@ -260,7 +264,6 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 value_type: valueType,
                 handles: handles,
                 first_handle: firstHandle,
-                disabled: !firstHandle,
                 can_expand: canExpand,
                 hidden: !firstHandle && !!(scope.hideUnassigned ||
                     scope.hideNonConflicting),
@@ -284,8 +287,8 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         scope.buildArrayNodes = function(node, name) {
             let showArrayIndexes = settings.recordView.showArrayIndexes,
-                sorted = !node.disabled && xelib.IsSorted(node.first_handle),
-                useLabels = !node.disabled && xelib.IsFixed(node.first_handle),
+                sorted = forFirstHandle(node, xelib.IsSorted),
+                useLabels = forFirstHandle(node, xelib.IsFixed),
                 elementArrays = getElementArrays(node),
                 maxLen = getMaxLength(elementArrays),
                 setChildIndex = showArrayIndexes && !sorted && !useLabels,
