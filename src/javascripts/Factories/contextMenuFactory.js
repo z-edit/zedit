@@ -303,7 +303,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 handle = node.handles[index],
                 record = index ? scope.overrides[index - 1] : scope.record,
                 parentAvailable = !node.depth || (node.parent && node.parent.handles[index]);
-            if (!xelib.GetIsEditable(record)) return false;
+            if (!record || !xelib.GetIsEditable(record)) return;
             return parentAvailable && (handle === 0 || node.value_type === xelib.vtArray);
         },
         build: (scope, items) => {
@@ -323,7 +323,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 index = scope.focusedIndex - 1,
                 handle = node.handles[index],
                 record = index === 0 ? scope.record : scope.overrides[index - 1];
-            if (!xelib.GetIsEditable(record)) return false;
+            if (!record || !xelib.GetIsEditable(record)) return;
             return handle !== 0 && !uneditableValueTypes.includes(node.value_type);
         },
         build: (scope, items) => {
