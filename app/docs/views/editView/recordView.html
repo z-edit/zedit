@@ -101,7 +101,7 @@
     <tbody>
     <tr>
         <td class="nowrap">Add</td>
-        <td>Visible when right-clicking an unassigned element or array element in an editable record.</td>
+        <td>Visible when right-clicking an unassigned element or an array element in an editable record.</td>
         <td class="nowrap"><kbd>Insert</kbd></td>
         <td>Adds the element to the record.  Adding an element to an array will append a new element to it.</td>
     </tr>
@@ -116,6 +116,18 @@
         <td>Visible when right-clicking a value element in an editable record.</td>
         <td class="nowrap"><kbd>Enter</kbd></td>
         <td>Opens the selected node in the record view.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Hide/Show unassigned fields</td>
+        <td>Always visible and available.</td>
+        <td class="nowrap"></td>
+        <td>Toggles the visibility of rows which are not assigned.  This option is redundant when using "Hide non-conflicting rows".</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Hide/Show non-conflicting rows</td>
+        <td>Always visible and available.</td>
+        <td class="nowrap"></td>
+        <td>Toggles the visibility of rows which do not have conflicting values.  Only rows with conflict statuses of <code>caOverride</code>, <code>caConflict</code>, and <code>caConflictCritical</code> are shown.</td>
     </tr>
     <tr>
         <td class="nowrap">Copy</td>
