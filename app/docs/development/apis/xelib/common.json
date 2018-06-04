@@ -308,7 +308,7 @@
     "returns": {
       "type": "handle"
     },
-    "description": "Adds an item to the `Additional Races` array on `record`, setting `` to `value`.  Returns a handle to the added Additional Race element."
+    "description": "Adds an `value` the `Additional Races` array on `record`.  Returns a handle to the added Additional Race element."
   },
   {
     "name": "RemoveAdditionalRace",
@@ -323,6 +323,76 @@
       }
     ],
     "description": "Removes the first item in the `Additional Races` array on `record` matching `value`."
+  },
+  {
+    "name": "HasPerk",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Returns true if the `Perks` array on `record` has an element matching `value` at path `Perk`."
+  },
+  {
+    "name": "GetPerk",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Finds the first item in the `Perks` array on `record` matching `value` at path `Perk`.  Returns a handle to the element if found, else returns `0`."
+  },
+  {
+    "name": "AddPerk",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      },
+      {
+        "name": "rank",
+        "type": "string",
+        "description": "Optional."
+      }
+    ],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Adds an item to the `Perk` array on `record`, setting `Perk` to `value` and `rank` if provided.  Returns a handle to the added Perk element."
+  },
+  {
+    "name": "RemovePerk",
+    "args": [
+      {
+        "name": "record",
+        "type": "handle"
+      },
+      {
+        "name": "value",
+        "type": "string"
+      }
+    ],
+    "description": "Removes the first item in the `Perks` array on `record` matching `value` at `Perk`."
   },
   {
     "name": "HasEffect",
