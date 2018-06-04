@@ -19,6 +19,6 @@
     "key": "children",
     "type": "array of object",
     "icons": ["optional"],
-    "description": "Array of children topics."
+    "description": "Array of children topics.  Not supported in module `topics.json` files."
   }
 ]
