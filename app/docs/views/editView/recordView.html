@@ -16,6 +16,23 @@
 <h2>Columns</h2>
 <p>The first column on the record view contains element names corresponding to each node.  The second column corresponds to the original "master" version of the record.  Subsequent columns correspond to overrides of the record.</p>
 
+<h2>Inline value editing</h2>
+<p>You can edit values inline by clicking on an editable element while it is focused or by pressing <kbd>Shift</kbd> + <kbd>Enter</kbd>.  When editing a value inline you will be presented with one of three editors:</p>
+
+<ul>
+    <li>
+        Text editor - used for editing text, numbers, and byte arrays.
+    </li>
+    <li>
+        Reference editor - used for editing references.  Select a signature from the first dropdown and type in the text input to search for valid references.  You can also type a hexadecimal FormID to reference a record without searching.
+    </li>
+    <li>
+        Enumeration editor - used for editing enumerations.  Provides a dropdown from which you can select a valid value.
+    </li>
+</ul>
+
+<p>You can apply your changes and close the inline value editor by pressing <kbd>Enter</kbd> or by clicking on another field in the record view.  Pressing <kbd>Escape</kbd> will cancel inline value editing and discard your changes.</p>
+
 <h2>Hotkeys</h2>
 <ul>
     <li>
