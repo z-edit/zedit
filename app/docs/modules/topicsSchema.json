@@ -1,0 +1,12 @@
+[
+  {
+    "key": "path",
+    "type": "string",
+    "description": "Path of the parent topic the topic should be added to."
+  },
+  {
+    "key": "topic",
+    "type": "object",
+    "description": "The topic object to register.  See the [help topic schema](docs://Development/APIs/Angular Services/Help Service)."
+  }
+]
