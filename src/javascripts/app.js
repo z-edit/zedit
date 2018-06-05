@@ -14,6 +14,7 @@ import logger from './helpers/logger.js';
 import buildModuleService from './helpers/moduleService';
 import './polyfills';
 import './color';
+window.md5File = require('md5-file');
 window.xelib = require('xelib').wrapper;
 
 // init logger

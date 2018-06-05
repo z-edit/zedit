@@ -12,6 +12,10 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
     let appMode = `z${$rootScope.appMode.capitalize()}`;
     timerService.start('loader');
 
+    // initialization
+    $scope.loaded = false;
+    $scope.spinnerOpts = spinnerFactory.defaultOptions;
+
     // helper functions
     let logMessages = function() {
         let str = xelib.GetMessages();
@@ -26,6 +30,11 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         $scope.$emit('setTitle', `${appMode} - ${$rootScope.profile.name}`);
         let secondsStr = timerService.getSecondsStr('loader');
         logger.info(`Files loaded in ${secondsStr}`);
+    };
+
+    let ignore = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
     };
 
     // scope functions
@@ -43,9 +52,20 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         }
     };
 
-    // initialization
-    $scope.loaded = false;
-    $scope.spinnerOpts = spinnerFactory.defaultOptions;
+    // event handlers
+    document.addEventListener('mousedown', ignore, true);
+    document.addEventListener('click', ignore, true);
+    document.addEventListener('mouseup', ignore, true);
+
+    $scope.$on('filesLoaded', function() {
+        $scope.loaded = true;
+        $timeout(() => {
+            logger.info('Allowing click events');
+            document.removeEventListener('mousedown', ignore, true);
+            document.removeEventListener('click', ignore, true);
+            document.removeEventListener('mouseup', ignore, true);
+        }, 500);
+    });
 
     $scope.checkIfLoaded();
     $scope.$emit('setTitle', `${appMode} - Loading Plugins`);

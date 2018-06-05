@@ -131,17 +131,18 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.getPlugins = function() {
-        $scope.plugins = xelib.GetElements().map(function(file) {
-            return {
-                handle: file,
-                filename: xelib.Name(file),
-                hash: xelib.MD5Hash(file),
-                status: 'Queued',
-                skip: false,
-                showContent: false
-            };
-        }).filter(function(plugin) {
-            return !$scope.ignorePlugin(plugin.filename);
+        let dataPath = xelib.GetGlobal('DataPath');
+        $scope.plugins = xelib.GetElements().map(file => ({
+            handle: file,
+            filename: xelib.Name(file),
+            status: 'Queued',
+            skip: false,
+            showContent: false
+        })).filter(plugin => {
+            if ($scope.ignorePlugin(plugin.filename)) return;
+            plugin.filePath = `${dataPath}\\${plugin.filename}`;
+            plugin.hash = md5File.sync(plugin.filePath);
+            return true;
         });
     };
 
