@@ -22,11 +22,11 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
 
     // public api
     this.checkboxListItems = [{
-        id: 'Select All',
+        id: 'Select all',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Select All',
+                label: 'Select all',
                 hotkey: 'Ctrl+A',
                 callback: scope.selectAll
             });
@@ -42,21 +42,21 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             });
         }
     }, {
-        id: 'Check Selected',
+        id: 'Check selected',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Check Selected',
+                label: 'Check selected',
                 hotkey: 'Ctrl+Space',
                 callback: () => scope.toggleSelected(true)
             });
         }
     }, {
-        id: 'Uncheck Selected',
+        id: 'Uncheck selected',
         visible: () => { return true; },
         build: (scope, items) => {
             items.push({
-                label: 'Uncheck Selected',
+                label: 'Uncheck selected',
                 hotkey: 'Shift+Space',
                 callback: () => scope.toggleSelected(false)
             });
@@ -73,7 +73,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             let node = scope.selectedNodes.last(),
                 addList = xelib.GetAddList(node.handle);
             items.push({
-                label: `Add ${isFileNode(node) ? 'Group' : 'Record'}`,
+                label: `Add ${isFileNode(node) ? 'group' : 'record'}`,
                 hotkey: 'Insert',
                 disabled: !addList.length,
                 children: addList.map(function(label) {
@@ -85,13 +85,13 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             });
         }
     }, {
-        id: 'Add File',
+        id: 'Add file',
         visible: (scope) => {
             return !scope.selectedNodes.length;
         },
         build: (scope, items) => {
             items.push({
-                label: 'Add File',
+                label: 'Add file',
                 hotkey: 'Insert',
                 callback: () => scope.addFile()
             });
@@ -127,7 +127,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 typeLabel = isFileNode(node) ? 'File' : 'Records',
                 modal = `refactor${typeLabel}`;
             items.push({
-                label: `Refactor ${typeLabel}`,
+                label: `Refactor ${typeLabel.uncapitalize()}`,
                 hotkey: 'Alt+Shift+R',
                 callback: () => scope.$emit('openModal', modal, {
                     nodes: scope.selectedNodes
@@ -135,14 +135,14 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             });
         }
     }, {
-        id: 'Save Plugin As',
+        id: 'Save as',
         visible: (scope) => {
             if (!scope.selectedNodes.length) return;
             return isFileNode(scope.selectedNodes.last());
         },
         build: (scope, items) => {
             items.push({
-                label: 'Save Plugin As',
+                label: 'Save plugin as',
                 hotkey: 'Ctrl+Alt+S',
                 callback: scope.savePluginAs
             });
@@ -159,13 +159,13 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             items.push({
                 label: "Masters",
                 children: [{
-                    label: 'Add Masters',
+                    label: 'Add masters',
                     callback: () => scope.addMasters(node)
                 }, {
-                    label: 'Sort Masters',
+                    label: 'Sort masters',
                     callback: () => xelib.SortMasters(node.handle)
                 }, {
-                    label: 'Clean Masters',
+                    label: 'Clean masters',
                     callback: () => xelib.CleanMasters(node.handle)
                 }]
             });
@@ -180,7 +180,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         },
         build: (scope, items) => {
             items.push({
-                label: 'Enable Editing',
+                label: 'Enable editing',
                 hotkey: 'Ctrl+E',
                 callback: () => scope.enableEditing()
             })
@@ -196,7 +196,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         },
         build: (scope, items) => {
             items.push({
-                label: 'Build References',
+                label: 'Build references',
                 hotkey: 'Ctrl+B',
                 callback: () => scope.buildReferences()
             })
@@ -218,7 +218,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         visible: () => true,
         build: (scope, items) => {
             items.push({
-                label: 'Advanced Search',
+                label: 'Advanced search',
                 hotkey: 'Ctrl+Shift+F',
                 callback: scope.openAdvancedSearchModal
             })
@@ -232,9 +232,23 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         build: (scope, items) => {
             let node = scope.selectedNodes.last();
             items.push({
-                label: 'Open in Record View',
+                label: 'Open in record view',
                 hotkey: 'Enter',
                 callback: () => scope.open(node)
+            })
+        }
+    }, {
+        id: 'Open in new',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last();
+            return node && !isGroupNode(node);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Open in new record view',
+                hotkey: 'Ctrl+Enter',
+                callback: () => scope.open(node, true)
             })
         }
     }, divider, {
@@ -264,7 +278,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
-                label: 'Copy Path',
+                label: 'Copy path',
                 hotkey: 'Ctrl+Shift+C',
                 disabled: !scope.selectedNodes.length,
                 callback: () => scope.copyPaths()
@@ -286,7 +300,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         visible: (scope) => scope.selectedNodes.length > 0,
         build: (scope, items) => {
             items.push({
-                label: 'Paste as Override',
+                label: 'Paste as override',
                 hotkey: 'Ctrl+Shift+V',
                 disabled: !scope.canPaste(),
                 callback: () => scope.pasteNodes()
@@ -390,7 +404,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         visible: () => true,
         build: (scope, items) => {
             items.push({
-                label: 'Copy Path',
+                label: 'Copy path',
                 hotkey: 'Ctrl+Shift+C',
                 disabled: !scope.selectedNodes.length,
                 callback: () => scope.copyPaths()
@@ -429,7 +443,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
         build: (scope, items) => {
             let node = scope.selectedNodes.last();
             items.push({
-                label: 'Open in Record View',
+                label: 'Open in record view',
                 hotkey: 'Enter',
                 callback: () => scope.open(node)
             })
