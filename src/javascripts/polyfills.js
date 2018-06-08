@@ -181,6 +181,14 @@ Array.prototype.forEachNested = function(callback, nestingKey) {
     this.forEachReverse(nestedCallback);
 };
 
+Array.prototype.findMapping = function(callback) {
+    let len = this.length;
+    for (let i = 0; i < len; i++) {
+        let m = callback(this[i], i, this);
+        if (!!m) return m;
+    }
+};
+
 Array.prototype.trimFalsy = function() {
     let n;
     for (n = this.length - 1; n > -1; n--) {
