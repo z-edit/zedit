@@ -1,15 +1,21 @@
 ngapp.service('interApiService', function() {
-    let service = this,
-        apis = {};
+    let registry = [];
 
+    // PRIVATE
+    let excludeApi = function(key, entry) {
+        return entry.hasOwnProperty('except') && entry.except.includes(key) ||
+            entry.hasOwnProperty('only') && !entry.only.includes(key);
+    };
+
+    // PUBLIC API
     this.getApi = function(key) {
-        if (!apis.hasOwnProperty(key)) apis[key] = {};
-        return apis[key];
+        let api = {};
+        registry.forEach(entry => {
+            if (excludeApi(key, entry)) return;
+            Object.assign(api, entry.api);
+        });
+        return api;
     };
 
-    this.publish = function(target, api) {
-        if (target.constructor !== Array)
-            return Object.assign(service.getApi(target), api);
-        target.forEach(t => service.publish(t, api));
-    };
+    this.register = opts => registry.push(opts);
 });

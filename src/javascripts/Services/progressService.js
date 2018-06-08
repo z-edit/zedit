@@ -65,10 +65,16 @@ ngapp.service('progressService', function($q) {
 });
 
 ngapp.run(function(interApiService, progressService) {
-    interApiService.publish('zeditScripting', {
-        LogMessage: progressService.logMessage,
-        ProgressMessage: progressService.progressMessage,
-        AddProgress: progressService.addProgress,
-        ProgressTitle: progressService.progressTitle
+    interApiService.register({
+        api: {
+            progressService: {
+                showProgress: progressService.showProgress,
+                logMessage: progressService.logMessage,
+                progressMessage: progressService.progressMessage,
+                addProgress: progressService.addProgress,
+                progressTitle: progressService.progressTitle
+            }
+        },
+        only: ['zeditScripting']
     });
 });

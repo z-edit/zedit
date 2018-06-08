@@ -33,82 +33,57 @@
       "returns": {
         "type": "array of handle"
       },
-      "description": "Returns an array of handles correspondig to the record nodes the nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
+      "description": "Returns an array of handles corresponding to the record nodes the user has selected in the [Tree View](docs://Views/Edit View/Tree View)."
     }, {
-      "name": "StartTimer",
-      "type": "function",
-      "args": [{
-        "name": "timerName",
-        "type": "string"
-      }],
-      "description": "See [timerService.start](docs://Development/APIs/Angular Services/Timer Service)."
+      "name": "timerService",
+      "type": "object",
+      "description": "See [timerService](docs://Development/APIs/Angular Services/Timer Service)."
     }, {
-      "name": "PauseTimer",
-      "type": "function",
-      "args": [{
-        "name": "timerName",
-        "type": "string"
-      }],
-      "description": "See [timerService.pause](docs://Development/APIs/Angular Services/Timer Service)."
-    }, {
-      "name": "ResumeTimer",
-      "type": "function",
-      "args": [{
-        "name": "timerName",
-        "type": "string"
-      }],
-      "description": "See [timerService.resume](docs://Development/APIs/Angular Services/Timer Service)."
-    }, {
-      "name": "GetSeconds",
-      "type": "function",
-      "args": [{
-        "name": "timerName",
-        "type": "string"
-      }],
-      "returns": {
-        "type": "number"
-      },
-      "description": "See [timerService.getSeconds](docs://Development/APIs/Angular Services/Timer Service)."
-    }, {
-      "name": "ShowProgress",
-      "type": "function",
-      "args": [{
-        "name": "progress",
-        "type": "object"
-      }],
-      "description": "See [progressService.showProgress](docs://Development/APIs/Angular Services/Progress Service)."
-    }, {
-      "name": "LogMessage",
-      "type": "function",
-      "args": [{
-        "name": "message",
-        "type": "string"
-      }],
-      "description": "See [progressService.logMessage](docs://Development/APIs/Angular Services/Progress Service)."
-    }, {
-      "name": "ProgressMessage",
-      "type": "function",
-      "args": [{
-        "name": "message",
-        "type": "string"
-      }],
-      "description": "See [progressService.progressMessage](docs://Development/APIs/Angular Services/Progress Service)."
-    }, {
-      "name": "AddProgress",
-      "type": "function",
-      "args": [{
-        "name": "num",
-        "type": "integer"
-      }],
-      "description": "See [progressService.addProgress](docs://Development/APIs/Angular Services/Progress Service)."
-    }, {
-      "name": "ProgressTitle",
-      "type": "function",
-      "args": [{
-        "name": "title",
-        "type": "string"
-      }],
-      "description": "See [progressService.progressTitle](docs://Development/APIs/Angular Services/Progress Service)."
+      "name": "progressService",
+      "type": "object",
+      "description": "Limited version of [progressService](docs://Development/APIs/Angular Services/Progress Service).",
+      "itemsApi": "zedit.progressService",
+      "items": [{
+        "name": "showProgress",
+        "type": "function",
+        "args": [{
+          "name": "progress",
+          "type": "object"
+        }],
+        "description": "See [progressService.showProgress](docs://Development/APIs/Angular Services/Progress Service)."
+      }, {
+        "name": "logMessage",
+        "type": "function",
+        "args": [{
+          "name": "message",
+          "type": "string"
+        }],
+        "description": "See [progressService.logMessage](docs://Development/APIs/Angular Services/Progress Service)."
+      }, {
+        "name": "progressMessage",
+        "type": "function",
+        "args": [{
+          "name": "message",
+          "type": "string"
+        }],
+        "description": "See [progressService.progressMessage](docs://Development/APIs/Angular Services/Progress Service)."
+      }, {
+        "name": "addProgress",
+        "type": "function",
+        "args": [{
+          "name": "num",
+          "type": "integer"
+        }],
+        "description": "See [progressService.addProgress](docs://Development/APIs/Angular Services/Progress Service)."
+      }, {
+        "name": "progressTitle",
+        "type": "function",
+        "args": [{
+          "name": "title",
+          "type": "string"
+        }],
+        "description": "See [progressService.progressTitle](docs://Development/APIs/Angular Services/Progress Service)."
+      }]
     }]
   },
   {

@@ -32,10 +32,7 @@ ngapp.service('timerService', function() {
 });
 
 ngapp.run(function(interApiService, timerService) {
-    interApiService.publish('zeditScripting', {
-        StartTimer: timerService.start,
-        PauseTimer: timerService.pause,
-        ResumeTimer: timerService.resume,
-        GetSeconds: timerService.getSeconds,
+    interApiService.register({
+        api: { timerService }
     });
 });
