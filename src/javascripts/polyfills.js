@@ -1,3 +1,5 @@
+window.r = String.raw;
+
 String.prototype.setChar = function(pos, char) {
     return this.substr(0, pos) + char + this.substr(pos + 1, this.length);
 };
