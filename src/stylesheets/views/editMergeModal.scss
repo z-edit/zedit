@@ -1,4 +1,9 @@
 .edit-merge-modal {
+  .modal-container .modal {
+    width: 1100px;
+    max-width: 90%;
+  }
+
   .disabled {
     color: $negative;
   }
@@ -14,7 +19,6 @@
   .table-container {
     overflow-y: auto;
     max-width: 100%;
-    border: 1px solid $soft_border;
     margin-top: 14px;
     max-height: 500px;
   }
