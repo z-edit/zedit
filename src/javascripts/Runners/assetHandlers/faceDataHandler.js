@@ -15,7 +15,8 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
 
     let getFaceDataNpc = function(pluginFile, filePath) {
         if (!pluginFile) return '';
-        let npcFormId = parseInt(fh.getFileBase(filePath), 16),
+        let loadOrder = xelib.GetFileLoadOrder(pluginFile) * 0x1000000,
+            npcFormId = loadOrder + parseInt(fh.getFileBase(filePath), 16),
             npcRecord = xelib.GetRecord(pluginFile, npcFormId);
         return npcRecord ? xelib.Name(npcRecord) : '';
     };
