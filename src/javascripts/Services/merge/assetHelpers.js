@@ -13,11 +13,10 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {
-        if (!expr) return `${merge.dataPath}\\${asset.filePath}`;
-        let replaceFn = merge.fidReplacer[asset.plugin],
-            newPath = asset.filePath.replace(expr, replaceFn);
-        if (!skipFn) newPath = newPath.replace(asset.plugin, merge.filename);
-        return `${merge.dataPath}\\${newPath}`;
+        let newPath = skipFn ? asset.filePath :
+            asset.filePath.replace(asset.plugin, merge.filename);
+        return `${merge.dataPath}\\${!expr ? newPath :
+            newPath.replace(expr, merge.fidReplacer[asset.plugin])}`;
     };
 
     this.copyAsset = function(asset, merge, expr, skipFn = false) {
