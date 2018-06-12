@@ -57,15 +57,13 @@
     "fs-jetpack": "^0.10.5",
     "marked": "^0.3.19",
     "minimatch": "^3.0.4",
-    "xelib": "github:matortheeternal/xelib",
     "md5-file": "^4.0.0",
-    "ui-router-extras": "^0.1.3"
+    "ui-router-extras": "^0.1.3",
+    "xelib": "github:matortheeternal/xelib"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
     "electron": "^2.0.0",
     "electron-builder": "^8.6.0",
-    "electron-mocha": "^3.0.0",
     "electron-rebuild": "^1.7.3",
     "gulp": "^3.9.0",
     "gulp-batch": "^1.0.5",
@@ -79,7 +77,6 @@
     "istanbul": "^0.4.3",
     "magic-string": "^0.22.5",
     "minimist": "^1.2.0",
-    "mocha": "^3.0.2",
     "rollup": "^0.36.4",
     "rollup-plugin-istanbul": "^1.1.0",
     "source-map-support": "^0.4.2",
