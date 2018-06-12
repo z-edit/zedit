@@ -1,6 +1,17 @@
 ngapp.service('assetHelpers', function(bsaHelpers) {
     let service = this;
 
+    let pluginExpr = /[^\\]+\.es[plm]\\/i;
+
+    // PRIVATE
+    let mergeHasPlugin = function(merge, filename) {
+        let lcFilename = filename.toLowerCase();
+        return merge.plugins.findIndex(plugin => {
+            return plugin.filename.toLowerCase() === lcFilename;
+        }) > -1;
+    };
+
+    // PUBLIC API
     this.findBsaFiles = function(plugin, folder) {
         return fh.getFiles(folder, {
             matching: `${fh.getFileBase(plugin)}*.@(bsa|ba2)`,
@@ -14,8 +25,12 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {
-        let newPath = skipFn ? asset.filePath :
-            asset.filePath.replace(asset.plugin, merge.filename);
+        let newPath = asset.filePath.replace(/^[^\\]+\.(bsa|ba2)\\/i, '');
+        if (!skipFn) newPath = newPath.replace(pluginExpr, match => {
+            let plugin = match.slice(0, -1);
+            if (!mergeHasPlugin(merge, plugin)) return match;
+            return merge.filename + '\\';
+        });
         return `${merge.dataPath}\\${!expr ? newPath :
             newPath.replace(expr, merge.fidReplacer[asset.plugin])}`;
     };
@@ -23,13 +38,16 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     this.copyAsset = function(asset, merge, expr, skipFn = false) {
         fh.jetpack.copy(
             service.getOldPath(asset, merge),
-            service.getNewPath(asset, merge, expr, skipFn)
+            service.getNewPath(asset, merge, expr, skipFn),
+            { overwrite: true }
         );
     };
 
     this.copyToMerge = function(filePath, merge) {
         let fileName = fh.getFileName(filePath);
-        fh.jetpack.copy(filePath, `${merge.dataPath}\\${fileName}`);
+        fh.jetpack.copy(filePath, `${merge.dataPath}\\${fileName}`, {
+            overwrite: true
+        });
     };
 
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
