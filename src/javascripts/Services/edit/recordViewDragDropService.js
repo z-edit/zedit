@@ -117,10 +117,12 @@ ngapp.service('recordViewDragDropService', function(errorService, nodeHelpers) {
             let dragData = scope.$root.dragData;
             if (index === 0 || !dragData) return;
             let recordIndex = index - 1,
+                targetRecord = scope.getRecord(recordIndex),
                 cellHandle = getOrCreateCell(node, recordIndex),
                 draggedElement = getDraggedElement(dragData);
             errorService.try(function() {
                 dropFrom[dragData.source](node, cellHandle, draggedElement);
+                scope.$root.$broadcast('recordUpdated', targetRecord);
                 scope.reload();
             });
         };

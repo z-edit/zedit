@@ -1,13 +1,37 @@
 <p>The record view allows you to view and edit values in records.</p>
 
 <h2>Record selection</h2>
-<p>You can open a record in the record view from the <a href="docs://Views/Edit View/Tree View">tree view</a> or by entering a path into the address bar.</p>
+<p>You can open a record in the record view by:<p>
+
+<ul>
+    <li>Entering a path into the address bar</li>
+    <li>Double clicking a file/record in a linked <a href="docs://Views/Edit View/Tree View">tree view</a></li>
+    <li>Dropping a record from a tree view on the record view</li>
+    <li>Control + clicking a reference in the record view or referenced by view</li>
+</ul>
 
 <h2>Element nodes</h2>
 <p>The record view is made up of a hierarchy of nodes which represent individual elements of a record.  Nodes can be expanded or collapsed by clicking on the <b>+</b> / <b>-</b> button, and you can select a node by clicking on it.  You can expand all nodes by clicking the <b>+</b> button in the <b>Element Names</b> header, and you can collapse all nodes by clicking the <b>-</b> button.  See the hotkeys section below for additional interactions.</p>
 
 <h2>Columns</h2>
-<p>The first column on the record view contains element names corresponding to each node.  The second column corresponmds to the original "master" version of the record.  Subsequent columns correspond to overrides of the record.</p>
+<p>The first column on the record view contains element names corresponding to each node.  The second column corresponds to the original "master" version of the record.  Subsequent columns correspond to overrides of the record.</p>
+
+<h2>Inline value editing</h2>
+<p>You can edit values inline by clicking on an editable element while it is focused or by pressing <kbd>Shift</kbd> + <kbd>Enter</kbd>.  When editing a value inline you will be presented with one of three editors:</p>
+
+<ul>
+    <li>
+        Text editor - used for editing text, numbers, and byte arrays.
+    </li>
+    <li>
+        Reference editor - used for editing references.  Select a signature from the first dropdown and type in the text input to search for valid references.  You can also type a hexadecimal FormID to reference a record without searching.
+    </li>
+    <li>
+        Enumeration editor - used for editing enumerations.  Provides a dropdown from which you can select a valid value.
+    </li>
+</ul>
+
+<p>You can apply your changes and close the inline value editor by pressing <kbd>Enter</kbd> or by clicking on another field in the record view.  Pressing <kbd>Escape</kbd> will cancel inline value editing and discard your changes.</p>
 
 <h2>Hotkeys</h2>
 <ul>
@@ -15,7 +39,13 @@
         <kbd>Double Click</kbd> - Toggles the expansion of the clicked node and opens the <a href="docs://Modal Views/Edit Value Modal">edit value modal</a> to edit it if it is an editable value.
     </li>
     <li>
+        <kbd>Ctrl</kbd> + <kbd>Click</kbd> - Opens the clicked reference in the record view.
+    </li>
+    <li>
         <kbd>Enter</kbd> - Opens the selected node in the edit value modal if it is an editable value.
+    </li>
+    <li>
+        <kbd>Shift + Enter</kbd> - Edits the selected node inline if it is an editable value.
     </li>
     <li>
         <kbd>Right Arrow</kbd> - Expands the last selected node if it is not expanded, else selects the first child node.
@@ -88,7 +118,7 @@
     <tbody>
     <tr>
         <td class="nowrap">Add</td>
-        <td>Visible when right-clicking an unassigned element or array element in an editable record.</td>
+        <td>Visible when right-clicking an unassigned element or an array element in an editable record.</td>
         <td class="nowrap"><kbd>Insert</kbd></td>
         <td>Adds the element to the record.  Adding an element to an array will append a new element to it.</td>
     </tr>
@@ -105,22 +135,115 @@
         <td>Opens the selected node in the record view.</td>
     </tr>
     <tr>
+        <td class="nowrap">Hide/Show unassigned fields</td>
+        <td>Always visible and available.</td>
+        <td class="nowrap"></td>
+        <td>Toggles the visibility of rows which are not assigned.  This option is redundant when using "Hide non-conflicting rows".</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Hide/Show non-conflicting rows</td>
+        <td>Always visible and available.</td>
+        <td class="nowrap"></td>
+        <td>Toggles the visibility of rows which do not have conflicting values.  Only rows with conflict statuses of <code>caOverride</code>, <code>caConflict</code>, and <code>caConflictCritical</code> are shown.</td>
+    </tr>
+    <tr>
         <td class="nowrap">Copy</td>
-        <td><!--Visible when all selected nodes are records or groups.--></td>
+        <td>Always visible, enabled when an assigned element is focused.</td>
         <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>C</kbd></td>
-        <td>Unimplemented.</td>
+        <td>Copies the selected element to the application's clipboard.</td>
     </tr>
     <tr>
         <td class="nowrap">Copy Path</td>
-        <td><!--Always visible and enabled.--></td>
+        <td>Always visible.  Enabled when an assigned element is focused.</td>
         <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></td>
-        <td>Unimplemented.</td>
+        <td>Copies the path of the selected element to the system clipboard.</td>
     </tr>
     <tr>
         <td class="nowrap">Paste</td>
-        <td><!--Visible when all selected nodes are valid targets for pasting the elements currently in the clipboard.--></td>
+        <td>Always visible.  Enabled when the application clipboard can be pasted into the selected element.</td>
         <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>V</kbd></td>
-        <td>Unimplemented.</td>
+        <td>Pastes copied elements into the selected elements.</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Paste into record</td>
+        <td>Always visible.  Enabled when the application clipboard can be pasted into the focused record.</td>
+        <td class="nowrap"><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd></td>
+        <td>Pastes copied elements into the focused record.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Drag and drop</h2>
+<p>The following is a list of supported drag and drop operations involving the record view:</p>
+
+<table class="full-width">
+    <thead>
+    <tr>
+        <th>Drag source</th>
+        <th>Drop target</th>
+        <th>Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Record node from tree view</td>
+        <td class="nowrap">Reference field on record view</td>
+        <td>Changes reference field to reference the dragged record</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Record node from tree view</td>
+        <td class="nowrap">Array of references on record view</td>
+        <td>Adds an entry to the array referencing the dragged record</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Element from record view</td>
+        <td class="nowrap">Element on record view (of same type)</td>
+        <td>Assigns the source element to the target element</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Value element from record view</td>
+        <td class="nowrap">Value element on record view</td>
+        <td>Attempts to set the value of the target element to the value of the source element</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Array entry from record view</td>
+        <td class="nowrap">Matching array on record view</td>
+        <td>Adds the entry to the array (can be used to create duplicate entries)</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Copy and paste</h2>
+<p>The following is a list of supported copy and paste operations involving the record view:</p>
+
+<table class="full-width">
+    <thead>
+    <tr>
+        <th>Copy source</th>
+        <th>Paste target</th>
+        <th>Result</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Element from record view</td>
+        <td class="nowrap">Element on record view (of same type)</td>
+        <td>Assigns the source element to the target element</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Value element from record view</td>
+        <td class="nowrap">Value element on record view</td>
+        <td>Attempts to set the value of the target element to the value of the source element</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Array entry from record view</td>
+        <td class="nowrap">Matching array on record view</td>
+        <td>Adds the entry to the array (can be used to create duplicate entries)</td>
+    </tr>
+    <tr>
+        <td class="nowrap">Element from record view</td>
+        <td class="nowrap">Records on tree view</td>
+        <td>Attempts to copy the element to the selected records</td>
     </tr>
     </tbody>
 </table>

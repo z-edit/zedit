@@ -13,12 +13,12 @@
     "key": "controller",
     "type": "string",
     "icons": ["optional"],
-    "description": "Name of the controller to use on the help topic page."
+    "description": "Name of the AngularJS controller to use on the help topic page.  It's highly recommended to use directives instead of controllers on documentation pages."
   },
   {
     "key": "children",
     "type": "array of object",
     "icons": ["optional"],
-    "description": "Array of children topics."
+    "description": "Array of children topics.  Not supported in module `topics.json` files."
   }
 ]

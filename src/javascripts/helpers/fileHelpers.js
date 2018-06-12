@@ -19,9 +19,8 @@ console.log('App directory: ' + fh.appPath);
 
 // helper function for loading json file
 fh.loadJsonFile = function(filePath) {
-    if (jetpack.exists(filePath) === 'file') {
+    if (jetpack.exists(filePath) === 'file')
         return jetpack.read(filePath, 'json');
-    }
 };
 
 fh.loadTextFile = function(filePath) {

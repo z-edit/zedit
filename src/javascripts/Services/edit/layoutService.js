@@ -12,9 +12,10 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
     // TODO: load from disk instead
     //defaultLayout = fh.loadJsonFile('layouts/default.json');
 
-    this.buildPane = function(pane) {
+    this.buildPane = function(pane, parent) {
         pane.id = randomService.generateUniqueId();
-        if (pane.panes) pane.panes.forEach(service.buildPane);
+        pane.parent = parent;
+        if (pane.panes) pane.panes.forEach(p => service.buildPane(p, pane));
         if (!pane.tabs) return;
         pane.tabs = pane.tabs.map(function(viewName, index) {
             let view = viewFactory.newView(viewName, index === 0);
@@ -39,5 +40,18 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
         let view = service.findView(tab => tab.class === viewClass);
         if (!view) return;
         view.pane.tabs.forEach(tab => tab.active = tab === view);
+    };
+
+    this.newView = function(viewName, sourceView) {
+        let s, p = sourceView.pane;
+        while (p.parent) {
+            s = p.parent.panes.find(pane => pane !== p);
+            p = p.parent;
+        }
+        let view = viewFactory.newView(viewName, true);
+        view.pane = s;
+        s.tabs.forEach(tab => tab.active = false);
+        s.tabs.push(view);
+        return view;
     };
 });

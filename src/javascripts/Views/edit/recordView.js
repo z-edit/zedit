@@ -82,7 +82,8 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
                 $timeout($scope.updateNodeLabels);
             } else if (node.selected && e.button === 0) {
                 $timeout(function() {
-                    if (!node.selected || $scope.focusedIndex !== index) return;
+                    if (!!$scope.$root.dragData || !node.selected ||
+                        $scope.focusedIndex !== index) return;
                     $scope.editElementInline(node, index);
                 }, 250);
             }
@@ -164,6 +165,10 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
         $scope.$applyAsync(() => $scope.refCell.underline = false);
     });
 
+    // reload when hide unassigned/non-conflicting is toggled
+    $scope.$watch('hideUnassigned', $scope.reload);
+    $scope.$watch('hideNonConflicting', $scope.reload);
+
     // initialization
     $scope.$watch('record', function(newValue, oldValue) {
         if (oldValue === newValue) return;
@@ -176,6 +181,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             $scope.record = xelib.GetMasterRecord(newValue);
         } else {
             $scope.view.label = xelib.Name($scope.record);
+            $scope.selectedNodes = [];
             $scope.focusedIndex = -1;
             $scope.buildColumns();
             $scope.buildTree();

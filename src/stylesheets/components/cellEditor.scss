@@ -19,6 +19,17 @@ cell-editor {
     }
   }
 
+  enum-select {
+    display: block;
+
+    select {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid $hard_border;
+      padding-bottom: 0;
+    }
+  }
+
   autocomplete-input {
     flex: 1;
     color: $font_color !important;

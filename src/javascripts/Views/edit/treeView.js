@@ -1,4 +1,4 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -26,14 +26,16 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
         contextMenuService.showContextMenu($scope, e);
     };
 
-    $scope.open = function(node) {
+    $scope.open = function(node, newView) {
         if (!openableTypes.includes(node.element_type)) return;
-        let recordView = (filterView || $scope.view).linkedRecordView;
-        if (recordView) {
+        let recordView = newView ?
+            layoutService.newView('recordView', $scope.view) :
+            (filterView || $scope.view).linkedRecordView;
+        if (recordView) $timeout(() => {
             // get a new handle for the record to be used with the record view
             let path = nodeHelpers.isFileNode(node) ? 'File Header' : '';
             recordView.scope.record = xelib.GetElementEx(node.handle, path);
-        }
+        });
     };
 
     $scope.openColumnsModal = function() {
@@ -65,7 +67,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     };
 
     $scope.handleEnter = function(e) {
-        $scope.open($scope.lastSelectedNode());
+        $scope.open($scope.lastSelectedNode(), e.ctrlKey);
         e.stopImmediatePropagation();
     };
 

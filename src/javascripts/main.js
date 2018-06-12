@@ -93,7 +93,7 @@ let openProgressWindow = function() {
         frame: false,
         closable: false,
         transparent: t,
-        focusable: false,
+        focusable: true,
         maximizable: false,
         minimizable: false,
         resizable: false,

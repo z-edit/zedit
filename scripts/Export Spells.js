@@ -1,11 +1,5 @@
 let allSpells = xelib.GetRecords(0, 'SPEL'),
-    sortedSpells = {
-        Alteration: [],
-        Conjuration: [],
-        Destruction: [],
-        Illusion: [],
-        Restoration: [],
-    },
+    sortedSpells = {},
     perkSuffixes = ['Novice00', 'Apprentice25', 'Adept50', 'Expert75', 'Master100'],
     perkExpr = new RegExp(`^([a-zA-Z]+)(${perkSuffixes.join('|')})$`),
     output = '';
@@ -19,15 +13,16 @@ let getSpellSchool = function(spell) {
     return match && match[1];
 };
 
-allSpells.forEach(function(spell) {
+allSpells.forEach(spell => {
     let school = getSpellSchool(spell);
     if (!school) return;
-    sortedSpells[school].push(xelib.Name(spell));
+    if (!sortedSpells.hasOwnProperty(school)) sortedSpells[school] = [];
+    sortedSpells[school].push(xelib.LongName(spell));
 });
 
-Object.keys(sortedSpells).forEach(function(school) {
+Object.keys(sortedSpells).forEach(school => {
     output += `== ${school} ==\r\n`;
-    sortedSpells[school].forEach((spell) => output += `- ${spell}\r\n`);
+    sortedSpells[school].forEach(spell => output += `- ${spell}\r\n`);
 });
 
 console.log(output);

@@ -1,12 +1,44 @@
-ngapp.service('recordViewElementService', function(errorService, settingsService) {
+ngapp.service('recordViewElementService', function(errorService, settingsService, clipboardService, nodeHelpers) {
     this.buildFunctions = function(scope) {
-        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct],
+        let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray,
+                xelib.vtStruct],
+            trueValueTypes = [xelib.vtBytes, xelib.vtNumber, xelib.vtText,
+                xelib.vtString, xelib.vtReference],
             settings = settingsService.settings;
 
         let canEdit = function(node, index) {
             return node.handles[index - 1] > 0 &&
                 !uneditableValueTypes.includes(node.value_type) &&
                 xelib.GetIsEditable(scope.getRecord(index - 1));
+        };
+
+        let getCopyNodes = function() {
+            let index = scope.focusedIndex - 1;
+            return scope.selectedNodes
+                .filter(node => node.handles[index] > 0)
+                .map(node => ({
+                    handle: xelib.GetElement(node.handles[index]),
+                    label: node.label,
+                    parent: node.parent,
+                    value_type: node.value_type
+                }));
+        };
+
+        let parentArrayMatches = function(nodes, selectedNode) {
+            return nodes.reduce((matches, node) => {
+                return matches && node.parent &&
+                    node.parent.value_type === xelib.vtArray &&
+                    selectedNode.label === node.parent.label;
+            }, true);
+        };
+
+        let pasteTo = function(sources, target, record) {
+            errorService.try(() => {
+                sources.forEach(src => xelib.CopyElement(src, target));
+            });
+            // update view
+            scope.reload(); // TODO? This is kind of greedy, but it's simple
+            scope.$root.$broadcast('recordUpdated', record);
         };
 
         // scope functions
@@ -17,10 +49,6 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         scope.getRecord = function(index) {
             if (angular.isUndefined(index)) index = scope.focusedIndex - 1;
             return (index ? scope.overrides[index - 1] : scope.record)
-        };
-
-        scope.getParentHandle = function(node, index) {
-            return node.parent ? node.parent.handles[index] : scope.getRecord(index);
         };
 
         scope.getElementArrayIndex = function(node, index) {
@@ -36,7 +64,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
 
         scope.getNewElementPath = function(node, index) {
             if (node.parent && node.parent.value_type === xelib.vtArray) {
-                if (!node.is_sorted) return '.';
+                if (!xelib.IsSorted(node.parent.first_handle)) return '.';
                 return '^' + scope.getElementArrayIndex(node, index);
             } else {
                 let n = node.label.indexOf(' - ');
@@ -126,8 +154,62 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
             shouldPrompt ? scope.deletionPrompt().then(doDelete) : doDelete();
         };
 
-        scope.canPaste = function(asOverride) {
-            return false;
+        scope.copyNodes = function() {
+            if (!scope.canCopy()) return;
+            clipboardService.copyNodes('recordView', getCopyNodes());
+        };
+
+        scope.pasteNodes = function(pasteIntoRecord) {
+            if (!scope.canPaste(pasteIntoRecord)) return;
+            let record = scope.getRecord(),
+                nodes = clipboardService.getNodes(),
+                sources = nodes.mapOnKey('handle');
+            // paste into record
+            if (pasteIntoRecord)
+                return pasteTo(sources, record, record);
+            // paste into array
+            let selectedNode = scope.selectedNodes.last(),
+                target = selectedNode.handles[scope.focusedIndex - 1],
+                copyType = nodes[0].value_type,
+                selectedType = selectedNode.value_type;
+            if (selectedType === xelib.vtArray && copyType !== xelib.vtArray)
+                return pasteTo(sources, target, record);
+            // paste directly
+            trueValueTypes.includes(selectedType) ?
+                xelib.SetValue(target, '', xelib.GetValue(sources[0])) :
+                xelib.SetElement(target, sources[0]);
+            // update view
+            scope.reload(); // TODO? This is kind of greedy, but it's simple
+            scope.$root.$broadcast('recordUpdated', record);
+        };
+
+        scope.copyPaths = function() {
+            let str = scope.selectedNodes.mapOnKey('first_handle')
+                .map(h => xelib.LocalPath(h)).join('\r\n');
+            clipboardService.copyText(str);
+        };
+
+        scope.canCopy = function() {
+            if (scope.selectedNodes.length === 0) return;
+            for (let node of scope.selectedNodes)
+                if (nodeHelpers.isRecordHeader(node)) return;
+            return getCopyNodes().length > 0;
+        };
+
+        scope.canPaste = function(pasteIntoRecord) {
+            if (!clipboardService.hasClipboard()) return;
+            if (clipboardService.getCopySource() !== 'recordView') return;
+            if (scope.focusedIndex < 0) return;
+            if (pasteIntoRecord) return true;
+            let nodes = clipboardService.getNodes(),
+                selectedNode = scope.selectedNodes.last(),
+                copyType = nodes[0].value_type,
+                selectedType = selectedNode.value_type;
+            if (selectedType === xelib.vtArray && copyType !== xelib.vtArray)
+                return parentArrayMatches(nodes, selectedNode);
+            if (trueValueTypes.includes(selectedType)) return true;
+            return selectedType === copyType &&
+                nodes[0].label === selectedNode.label;
         };
     }
 });

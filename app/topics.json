@@ -15,7 +15,8 @@
     "label": "Modules",
     "children": [
       { "label": "Core Modules" },
-      { "label": "Standard Modules" }
+      { "label": "Standard Modules" },
+      { "label": "Documentation" }
     ]
   }, {
     "label": "Views",
