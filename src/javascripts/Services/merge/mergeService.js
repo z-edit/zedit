@@ -1,6 +1,6 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'];
 
     // private functions
@@ -64,6 +64,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             buildArchive: false,
             handleFaceData: true,
             handleVoiceData: true,
+            handleBillboards: true,
             handleScriptFragments: true,
             handleStringFiles: true,
             handleTranslations: true,
