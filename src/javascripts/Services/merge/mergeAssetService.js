@@ -12,6 +12,7 @@ ngapp.service('mergeAssetService', function() {
     };
 
     let prepareToCopyAssets = function(merge) {
+        fh.jetpack.remove(merge.dataPath);
         merge.dataFolders = merge.plugins.reduce((obj, plugin) => {
             obj[plugin.filename] = plugin.dataFolder;
             return obj;

@@ -38,10 +38,18 @@ ngapp.service('mergeBuilder', function($q, mergeService, recordMergingService, m
         });
     };
 
+    let backupMergedPlugin = function(merge) {
+        let path = xelib.GetGlobal('DataPath') + merge.filename;
+        fh.jetpack.remove(path + '.bak');
+        if (fh.jetpack.exists(path) === 'file')
+            fh.jetpack.move(path, path + '.bak');
+    };
+
     let prepareMerge = function(merge) {
         let prepared = $q.defer();
         merge.dataPath = mergeService.getMergeDataPath(merge);
         merge.failedToCopy = [];
+        backupMergedPlugin(merge);
         tryPromise(pluginLoadService.loadPlugins(merge), () => {
             storePluginHandles(merge);
             mergeDataService.buildMergeData(merge);

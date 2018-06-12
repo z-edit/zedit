@@ -34,7 +34,6 @@ ngapp.service('bsaHelpers', function() {
         let match = asset.filePath.match(bsaExpr);
         if (!match) return;
         let [,bsaFileName,filePath] = match,
-            //bsaPath = merge.dataFolders[asset.plugin] + bsaFileName,
             outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
         xelib.ExtractFile(bsaFileName, filePath, outputPath);
         return outputPath;
