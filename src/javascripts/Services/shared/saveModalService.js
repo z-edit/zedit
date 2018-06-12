@@ -20,6 +20,8 @@ ngapp.service('saveModalService', function(errorService) {
         };
 
         scope.finalize = function() {
+            scope.setMessage('Deleting temporary files');
+            fh.jetpack.remove('temp');
             scope.setMessage('Finalizing xEditLib');
             xelib.Finalize();
             scope.$emit('terminate');
