@@ -2,6 +2,9 @@ ngapp.service('bsaHelpers', function() {
     let bsaCache = {},
         Minimatch = fh.minimatch.Minimatch;
 
+    let bsaExpr = /([^\\]+\.(?:bsa|ba2))\\(.+)/i;
+
+    // PRIVATE
     let containerLoaded = function(bsaPath) {
         let loadedContainers = xelib.GetLoadedContainers();
         return loadedContainers.includes(bsaPath);
@@ -19,10 +22,21 @@ ngapp.service('bsaHelpers', function() {
         return bsaCache[bsaPath];
     };
 
+    // PUBLIC API
     this.find = function(bsaPath, pattern) {
         let expr = new Minimatch(pattern, { nocase: true });
         return getBsaFiles(bsaPath).filter(function(path) {
             return expr.match(path);
         });
+    };
+
+    this.extractAsset = function(merge, asset) {
+        let match = asset.filePath.match(bsaExpr);
+        if (!match) return;
+        let [,bsaFileName,filePath] = match,
+            //bsaPath = merge.dataFolders[asset.plugin] + bsaFileName,
+            outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
+        xelib.ExtractFile(bsaFileName, filePath, outputPath);
+        return outputPath;
     };
 });

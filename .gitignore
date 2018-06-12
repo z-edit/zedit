@@ -27,3 +27,5 @@ scripts/history.json
 *.zip
 logs/
 merges/
+
+temp/

@@ -13,7 +13,7 @@ ngapp.service('mergeAssetService', function() {
 
     let prepareToCopyAssets = function(merge) {
         merge.dataFolders = merge.plugins.reduce((obj, plugin) => {
-            obj[plugin.filename] = plugin.dataPath;
+            obj[plugin.filename] = plugin.dataFolder;
             return obj;
         }, {});
         merge.fidReplacer = merge.plugins.reduce((obj, plugin) => {

@@ -9,7 +9,8 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     };
 
     this.getOldPath = function(asset, merge) {
-        return merge.dataFolders[asset.plugin] + asset.filePath;
+        return bsaHelpers.extractAsset(merge, asset) ||
+            merge.dataFolders[asset.plugin] + asset.filePath;
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {
