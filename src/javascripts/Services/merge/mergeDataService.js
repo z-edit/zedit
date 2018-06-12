@@ -36,6 +36,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
             archives: [],
             faceDataFiles: [],
             voiceDataFiles: [],
+            billboardFiles: [],
             scriptFragments: [],
             stringFiles: [],
             translations: [],
