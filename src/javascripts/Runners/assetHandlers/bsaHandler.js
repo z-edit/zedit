@@ -3,13 +3,13 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
         {forEachPlugin} = mergeAssetService;
 
     let actions = {
-        copy: function(archive, merge) {
+        "Copy": function(archive, merge) {
             assetHelpers.copyToMerge(archive.filePath, merge);
         },
-        extract: function(archive, merge) {
+        "Extract": function(archive, merge) {
             // TODO: Unimplemented
         },
-        merge: function(archive, merge) {
+        "Merge": function(archive, merge) {
             // TODO: Unimplemented
         }
     };
