@@ -41,6 +41,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
             stringFiles: [],
             translations: [],
             iniFiles: [],
+            extracted: [],
             generalAssets: []
         });
     };

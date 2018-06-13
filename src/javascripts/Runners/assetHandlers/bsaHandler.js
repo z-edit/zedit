@@ -1,5 +1,5 @@
-ngapp.run(function(mergeAssetService, assetHelpers) {
-    let {findBsaFiles}  = assetHelpers,
+ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers) {
+    let {findBsaFiles, copyToMerge, findGeneralAssets}  = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
     let actions = {
@@ -7,10 +7,10 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             assetHelpers.copyToMerge(archive.filePath, merge);
         },
         "Extract": function(archive, merge) {
-            // TODO: Unimplemented
+            merge.extracted.push(bsaHelpers.extractArchive(archive));
         },
         "Merge": function(archive, merge) {
-            // TODO: Unimplemented
+            merge.extracted.push(bsaHelpers.extractArchive(archive));
         }
     };
 
@@ -39,4 +39,18 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             });
         }
     });
+
+    mergeAssetService.addHandler({
+        label: 'BSA Files (Finalization)',
+        priority: 100,
+        handle: function(merge) {
+            merge.extracted.forEach(folder => {
+                let folderLen = folder.length;
+                findGeneralAssets(folder, merge).forEach(filePath => {
+                    let localPath = filePath.slice(folderLen);
+                    copyToMerge(filePath, merge, localPath);
+                });
+            });
+        }
+    })
 });

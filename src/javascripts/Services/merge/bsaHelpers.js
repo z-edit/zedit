@@ -35,7 +35,15 @@ ngapp.service('bsaHelpers', function() {
         if (!match) return;
         let [,bsaFileName,filePath] = match,
             outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
-        xelib.ExtractFile(bsaFileName, filePath, outputPath);
+        if (fh.jetpack.exists(outputPath) !== 'file')
+            xelib.ExtractFile(bsaFileName, filePath, outputPath);
+        return outputPath;
+    };
+
+    this.extractArchive = function(archive) {
+        let outputPath = fh.jetpack.path(`temp\\${archive.filename}`);
+        if (fh.jetpack.exists(outputPath) !== 'dir')
+            xelib.ExtractContainer(archive.filePath, outputPath + '\\', true);
         return outputPath;
     };
 });

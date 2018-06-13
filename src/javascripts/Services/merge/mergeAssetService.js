@@ -36,7 +36,7 @@ ngapp.service('mergeAssetService', function() {
     };
 
     this.getAssets = function(merge) {
-        handlers.forEach(handler => handler.get(merge));
+        handlers.forEach(handler => handler.get && handler.get(merge));
     };
 
     this.handleAssets = function(merge) {
