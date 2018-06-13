@@ -12,6 +12,16 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
     };
 
     // PUBLIC API
+    this.findGeneralAssets = function(folder, merge) {
+        let exclusions = merge.rules.map(rule => {
+            let pattern = `${folder}/${rule}`;
+            return new fh.minimatch.Minimatch(pattern, { nocase: true });
+        });
+        return fh.getFiles(folder, { matching: '**/*' }).filter(filePath => {
+            return !exclusions.find(expr => expr.match(filePath));
+        });
+    };
+
     this.findBsaFiles = function(plugin, folder) {
         return fh.getFiles(folder, {
             matching: `${fh.getFileBase(plugin)}*.@(bsa|ba2)`,
@@ -21,7 +31,7 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
 
     this.getOldPath = function(asset, merge) {
         return bsaHelpers.extractAsset(merge, asset) ||
-            merge.dataFolders[asset.plugin] + asset.filePath;
+            merge.dataFolders[asset.plugin || asset.plugins[0]] + asset.filePath;
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {
@@ -43,9 +53,9 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
         );
     };
 
-    this.copyToMerge = function(filePath, merge) {
-        let fileName = fh.getFileName(filePath);
-        fh.jetpack.copy(filePath, `${merge.dataPath}\\${fileName}`, {
+    this.copyToMerge = function(filePath, merge, localPath) {
+        if (!localPath) localPath = fh.getFileName(filePath);
+        fh.jetpack.copy(filePath, `${merge.dataPath}\\${localPath}`, {
             overwrite: true
         });
     };

@@ -1,19 +1,14 @@
 ngapp.run(function(mergeAssetService, assetHelpers) {
-    let {copyAsset} = assetHelpers;
+    let {copyAsset, findGeneralAssets} = assetHelpers;
 
-    let rules = ['**/*', '!*.@(esp|esm|bsa|ba2|bsl)', '!meta.ini',
-        '!translations/**/*', '!TES5Edit Backups/**/*'];
-
-    let findGeneralAssets = function(folder) {
-        fh.jetpack.find(folder, {
-            matching: '*.@(esp|esm)'
-        }).forEach(pluginPath => {
-            let plugin = fh.getFileName(pluginPath),
-                basePluginName = fh.getFileBase(plugin);
-            rules.push(`**/${basePluginName}.@(seq|ini)`,
-                `!**/${plugin}/**/*`);
+    let buildGeneralAssetRules = function(merge) {
+        merge.rules = ['*.@(esp|esm|bsa|ba2|bsl)', 'meta.ini',
+            'translations/**/*', 'TES5Edit Backups/**/*', 'fomod/**/*'];
+        merge.plugins.forEach(plugin => {
+            let basePluginName = fh.getFileBase(plugin.filename);
+            merge.rules.push(`**/${basePluginName}.@(seq|ini)`,
+                `**/${plugin.filename}/**/*`);
         });
-        return fh.jetpack.find(folder, { matching: rules });
     };
 
     let getPluginFolders = function(merge) {
@@ -33,11 +28,12 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             let folders = getPluginFolders(merge),
                 dataPath = xelib.GetGlobal('DataPath');
 
+            buildGeneralAssetRules(merge);
             Object.keys(folders).forEach(folder => {
                 if (folder === dataPath) return;
                 let folderLen = folder.length,
                     plugins = folders[folder];
-                findGeneralAssets(folder).forEach(filePath => {
+                findGeneralAssets(folder, merge).forEach(filePath => {
                     merge.generalAssets.push({
                         filePath: filePath.slice(folderLen),
                         plugins: plugins
@@ -46,7 +42,7 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             });
         },
         handle: function(merge) {
-            merge.generalAssets.forEach(function(asset) {
+            merge.generalAssets.forEach(asset => {
                 copyAsset(asset, merge, null, true);
             });
         }
