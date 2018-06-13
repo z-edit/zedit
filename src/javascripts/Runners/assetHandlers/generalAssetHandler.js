@@ -1,16 +1,6 @@
 ngapp.run(function(mergeAssetService, assetHelpers) {
     let {copyAsset, findGeneralAssets} = assetHelpers;
 
-    let buildGeneralAssetRules = function(merge) {
-        merge.rules = ['*.@(esp|esm|bsa|ba2|bsl)', 'meta.ini',
-            'translations/**/*', 'TES5Edit Backups/**/*', 'fomod/**/*'];
-        merge.plugins.forEach(plugin => {
-            let basePluginName = fh.getFileBase(plugin.filename);
-            merge.rules.push(`**/${basePluginName}.@(seq|ini)`,
-                `**/${plugin.filename}/**/*`);
-        });
-    };
-
     let getPluginFolders = function(merge) {
         return merge.plugins.reduce((folders, plugin) => {
             let folder = plugin.dataFolder;
@@ -28,7 +18,6 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             let folders = getPluginFolders(merge),
                 dataPath = xelib.GetGlobal('DataPath');
 
-            buildGeneralAssetRules(merge);
             Object.keys(folders).forEach(folder => {
                 if (folder === dataPath) return;
                 let folderLen = folder.length,

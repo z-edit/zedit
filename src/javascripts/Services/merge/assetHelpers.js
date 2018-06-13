@@ -11,9 +11,21 @@ ngapp.service('assetHelpers', function(bsaHelpers) {
         }) > -1;
     };
 
+    let getRules = function(merge) {
+        let rules = ['**/*.@(esp|esm|bsa|ba2|bsl)', 'meta.ini',
+            'translations/**/*', 'TES5Edit Backups/**/*', 'fomod/**/*',
+            'screenshot?(s)/**/*'];
+        merge.plugins.forEach(plugin => {
+            let basePluginName = fh.getFileBase(plugin.filename);
+            rules.push(`**/${basePluginName}.@(seq|ini)`,
+                `**/${plugin.filename}/**/*`);
+        });
+        return rules;
+    };
+
     // PUBLIC API
     this.findGeneralAssets = function(folder, merge) {
-        let exclusions = merge.rules.map(rule => {
+        let exclusions = getRules(merge).map(rule => {
             let pattern = `${folder}/${rule}`;
             return new fh.minimatch.Minimatch(pattern, { nocase: true });
         });
