@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers) {
+ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers, mergeLogger) {
     let {getOldPath, getNewPath} = assetHelpers,
         {getScriptSource, compileScript} = scriptHelpers,
         {forEachPlugin} = mergeAssetService;
@@ -61,6 +61,9 @@ ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers) {
             });
         },
         handle: function(merge) {
+            if (!merge.handleScriptFragments ||
+                !merge.scriptFragments.length) return;
+            mergeLogger.log('Handling Script Fragments');
             merge.scriptFragments.forEach(asset => {
                 let scriptPath = getOldPath(asset, merge),
                     sourcePath = getScriptSource(scriptPath),

@@ -1,4 +1,4 @@
-ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressService) {
+ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressService, mergeLogger) {
     let loaded;
 
     let getMasters = function(filename) {
@@ -29,18 +29,15 @@ ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressSe
         return { loaded: true };
     };
 
-    let logMessage = function(msg) {
-        progressService.progressMessage(msg);
-    };
-
     let logMessages = function() {
-        let messages = xelib.GetMessages().split('\n');
-        messages.slice(0, -1).forEach(logMessage);
+        let messages = xelib.GetMessages();
+        if (messages.length < 1) return;
+        messages.split('\n').forEach(msg => msg && mergeLogger.log(msg));
     };
 
     let checkIfLoaded = function() {
-        let loaderStatus = xelib.GetLoaderStatus();
         logMessages();
+        let loaderStatus = xelib.GetLoaderStatus();
         if (loaderStatus === xelib.lsDone) {
             loaded.resolve('filesLoaded');
         } else if (loaderStatus === xelib.lsError) {
@@ -56,21 +53,35 @@ ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressSe
         for (let i = fileCount - 1; i >= 0; i--) {
             let plugin = xelib.FileByIndex(i);
             if (xelib.GetLoadOrder(plugin) < index) return;
+            mergeLogger.log(`Unloading ${xelib.Name(plugin)}`);
             xelib.UnloadPlugin(plugin);
         }
     };
 
+    let logLoadOrder = function(loadOrder) {
+        let msg = '\r\nLoad order:\r\n' + loadOrder
+            .map((p, i) => `[${xelib.Hex(i, 2)}] ${p}`)
+            .join('\r\n');
+        mergeLogger.log(msg);
+    };
+
     // PUBLIC API
     this.loadPlugins = function(merge) {
+        mergeLogger.log('Getting merge load order...');
         let loadOrder = getLoadOrder(merge),
             status = getLoadStatus(loadOrder);
+        logLoadOrder(loadOrder);
         loaded = $q.defer();
         if (status.loaded) {
+            mergeLogger.progress('Plugins already loaded.');
             loaded.resolve('alreadyLoaded');
         } else {
-            let loadOrderStr = loadOrder.slice(status.badIndex).join('\n');
+            let pluginsToLoad = loadOrder.slice(status.badIndex),
+                numPlugins = pluginsToLoad.length;
             unloadAfterIndex(status.badIndex);
-            xelib.LoadPlugins(loadOrderStr, false);
+            mergeLogger.progress(`Loading ${numPlugins} plugins...`);
+            xelib.ClearMessages();
+            xelib.LoadPlugins(pluginsToLoad.join('\n'), false);
             checkIfLoaded();
         }
         return loaded.promise;

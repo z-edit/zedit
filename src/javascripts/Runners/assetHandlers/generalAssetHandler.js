@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers) {
+ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
     let {copyAsset, findGeneralAssets} = assetHelpers;
 
     let getPluginFolders = function(merge) {
@@ -31,6 +31,8 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             });
         },
         handle: function(merge) {
+            if (!merge.copyGeneralAssets || !merge.generalAssets.length) return;
+            mergeLogger.log(`Handling General Assets`);
             merge.generalAssets.forEach(asset => {
                 copyAsset(asset, merge, null, true);
             });

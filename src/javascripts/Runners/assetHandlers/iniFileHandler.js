@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService) {
+ngapp.run(function(mergeAssetService, mergeLogger) {
     let {forEachPlugin} = mergeAssetService;
 
     let findIniFiles = function(plugin, folder) {
@@ -22,6 +22,8 @@ ngapp.run(function(mergeAssetService) {
             });
         },
         handle: function(merge) {
+            if (!merge.handleIniFiles || !merge.iniFiles.length) return;
+            mergeLogger.log(`Handling INI Files`);
             merge.iniFiles.forEach(asset => {
                 // TODO
             });

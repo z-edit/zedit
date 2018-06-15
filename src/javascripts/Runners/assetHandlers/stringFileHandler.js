@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers) {
+ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
     let {findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -22,6 +22,8 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             });
         },
         handle: function(merge) {
+            if (!merge.handleStringFiles || !merge.stringFiles.length) return;
+            mergeLogger.log('Handling String Files');
             merge.stringFiles.forEach(asset => {
                 // TODO
             });

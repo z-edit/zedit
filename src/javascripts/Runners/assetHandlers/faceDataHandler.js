@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers) {
+ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
     let {copyAsset, findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -37,6 +37,8 @@ ngapp.run(function(mergeAssetService, assetHelpers) {
             });
         },
         handle: function(merge) {
+            if (!merge.handleFaceData || !merge.faceDataFiles.length) return;
+            mergeLogger.log(`Handling Face Data Files`);
             merge.faceDataFiles.forEach(asset => {
                 copyAsset(asset, merge, faceDataExpr);
             });

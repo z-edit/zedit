@@ -1,4 +1,4 @@
-ngapp.service('mergeAssetService', function() {
+ngapp.service('mergeAssetService', function(mergeLogger) {
     let handlers = [];
 
     // helper functions
@@ -12,7 +12,6 @@ ngapp.service('mergeAssetService', function() {
     };
 
     let prepareToCopyAssets = function(merge) {
-        fh.jetpack.remove(merge.dataPath);
         merge.dataFolders = merge.plugins.reduce((obj, plugin) => {
             obj[plugin.filename] = plugin.dataFolder;
             return obj;
@@ -40,6 +39,7 @@ ngapp.service('mergeAssetService', function() {
     };
 
     this.handleAssets = function(merge) {
+        mergeLogger.progress('Handling asset files...');
         prepareToCopyAssets(merge);
         handlers.forEach(handler => handler.handle(merge));
     };

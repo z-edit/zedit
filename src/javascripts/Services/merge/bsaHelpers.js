@@ -1,4 +1,4 @@
-ngapp.service('bsaHelpers', function() {
+ngapp.service('bsaHelpers', function(mergeLogger) {
     let bsaCache = {},
         Minimatch = fh.minimatch.Minimatch;
 
@@ -35,15 +35,19 @@ ngapp.service('bsaHelpers', function() {
         if (!match) return;
         let [,bsaFileName,filePath] = match,
             outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
-        if (fh.jetpack.exists(outputPath) !== 'file')
+        if (fh.jetpack.exists(outputPath) !== 'file') {
+            mergeLogger.log(`Extracting ${filePath} from ${bsaFileName}`, true);
             xelib.ExtractFile(bsaFileName, filePath, outputPath);
+        }
         return outputPath;
     };
 
     this.extractArchive = function(archive) {
         let outputPath = fh.jetpack.path(`temp\\${archive.filename}`);
-        if (fh.jetpack.exists(outputPath) !== 'dir')
+        if (fh.jetpack.exists(outputPath) !== 'dir') {
+            mergeLogger.log(`Extracting ${archive.filename}`, true);
             xelib.ExtractContainer(archive.filePath, outputPath + '\\', true);
+        }
         return outputPath;
     };
 });

@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers) {
+ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
     let {findBsaFiles, copyToMerge, findGeneralAssets}  = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -15,7 +15,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers) {
     };
 
     mergeAssetService.addHandler({
-        label: 'BSA Files',
+        label: 'Bethesda Archive Files',
         priority: -1,
         get: function(merge) {
             let defaultAction = merge.buildArchive ? 'Merge' :
@@ -33,6 +33,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers) {
             });
         },
         handle: function(merge) {
+            let archivesToHandle = merge.archives.filter(archive => {
+                return actions.hasOwnProperty(archive.action);
+            });
+            if (!archivesToHandle.length) return;
+            mergeLogger.log(`Handling Bethesda Archive Files`);
             merge.archives.forEach(archive => {
                 let action = actions[archive.action];
                 if (action) action(archive, merge);
@@ -41,9 +46,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers) {
     });
 
     mergeAssetService.addHandler({
-        label: 'BSA Files (Finalization)',
+        label: 'Extracted Files',
         priority: 100,
         handle: function(merge) {
+            if (!merge.extractArchives || !merge.extracted.length) return;
+            mergeLogger.log(`Handling Extracted Files`);
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
