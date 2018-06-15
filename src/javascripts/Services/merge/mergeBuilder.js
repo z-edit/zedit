@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, pluginLoadService, progressService) {
+ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, seqService, pluginLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
     let mergesToBuild = [],
@@ -102,6 +102,7 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         tryPromise(prepareMerge(merge), () => {
             recordMergingService.mergeRecords(merge);
             mergeAssetService.handleAssets(merge);
+            seqService.buildSeqFile(merge.plugin);
             finalizeMerge(merge);
             buildNextMerge();
         }, err => progressDone(err, merge));
