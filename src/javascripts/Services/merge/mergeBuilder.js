@@ -71,7 +71,7 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     let saveMergeFiles = function(merge) {
         mergeLogger.progress('Saving merge files...');
-        fh.jetpack.dir(merge.dataPath);
+        seqService.buildSeqFile(merge);
         mergeLogger.log('Saving merged plugin');
         xelib.SaveFile(merge.plugin, `${merge.dataPath}\\${merge.filename}`);
         merge.dateBuilt = new Date();
@@ -102,7 +102,6 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         tryPromise(prepareMerge(merge), () => {
             recordMergingService.mergeRecords(merge);
             mergeAssetService.handleAssets(merge);
-            seqService.buildSeqFile(merge.plugin);
             finalizeMerge(merge);
             buildNextMerge();
         }, err => progressDone(err, merge));

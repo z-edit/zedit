@@ -11,20 +11,35 @@ ngapp.service('seqService', function(mergeLogger) {
         });
     };
 
-    let getSeqQuests = function(plugin) {
-        let questGroup = xelib.GetElement(plugin, 'QUST'),
+    let masterIsMerged = function(rec, merge) {
+        return xelib.WithHandle(xelib.GetMasterRecord(rec), m => {
+            return xelib.WithHandle(xelib.GetElementFile(m), f => {
+                let masterName = xelib.Name(f);
+                return merge.plugins.findIndex(plugin => {
+                    return plugin.filename === masterName;
+                }) > -1;
+            });
+        });
+    };
+
+    let getSeqQuests = function(merge) {
+        let questGroup = xelib.GetElement(merge.plugin, 'QUST'),
+            masterCount = xelib.GetMasterNames(merge.plugin).length,
             formIds = [];
         if (!questGroup) return formIds;
         xelib.WithEachHandle(xelib.GetElements(questGroup), qust => {
             if (!isSEQ(qust)) return;
-            if (xelib.IsOverride(qust) && !masterIsSEQ(qust)) return;
-            formIds.push(xelib.GetFormID(qust, true));
+            let fid = xelib.GetFormID(qust, true);
+            if (masterIsMerged(qust, merge)) {
+                fid = fid & 0x00FFFFFF | masterCount << 24;
+            } else if (masterIsSEQ(qust)) return;
+            formIds.push(fid);
         });
         return formIds;
     };
 
     this.buildSeqFile = function(merge) {
-        let formIds = getSeqQuests(merge.plugin);
+        let formIds = getSeqQuests(merge);
         if (!formIds.length) return;
         let filename = fh.getFileBase(merge.filename) + '.seq',
             filePath = `${merge.dataPath}\\seq\\${filename}`,
