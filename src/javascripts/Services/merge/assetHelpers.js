@@ -64,13 +64,6 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
         fh.jetpack.copy(oldPath, newPath, { overwrite: true });
     };
 
-    this.copyToMerge = function(filePath, merge, localPath) {
-        if (!localPath) localPath = fh.getFileName(filePath);
-        let newPath = `${merge.dataPath}\\${localPath}`;
-        mergeLogger.log(`Copying ${filePath} to ${newPath}`, true);
-        fh.jetpack.copy(filePath, newPath, { overwrite: true });
-    };
-
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
         let assets = fh.getFiles(folder + subfolder, { matching: expr }),
             fullExpr = `${subfolder}\\${expr}`;

@@ -1,10 +1,12 @@
 ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
-    let {findBsaFiles, copyToMerge, findGeneralAssets}  = assetHelpers,
+    let {findBsaFiles, findGeneralAssets}  = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
     let actions = {
-        "Copy": function(archive, merge) {
-            assetHelpers.copyToMerge(archive.filePath, merge);
+        "Copy": function({filePath}, merge) {
+            let newPath = `${merge.dataPath}\\${fh.getFileName(filePath)}`;
+            mergeLogger.log(`Copying ${filePath} to ${newPath}`, true);
+            fh.jetpack.copy(filePath, newPath, { overwrite: true });
         },
         "Extract": function(archive, merge) {
             merge.extracted.push(bsaHelpers.extractArchive(archive));
@@ -54,8 +56,10 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
-                    let localPath = filePath.slice(folderLen);
-                    copyToMerge(filePath, merge, localPath);
+                    let localPath = filePath.slice(folderLen),
+                        newPath = `${merge.dataPath}\\${localPath}`;
+                    mergeLogger.log(`Moving ${filePath} to ${newPath}`, true);
+                    fh.jetpack.move(filePath, newPath, { overwrite: true });
                 });
             });
         }
