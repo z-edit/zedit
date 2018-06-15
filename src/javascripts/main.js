@@ -147,6 +147,7 @@ ipcMain.on('show-progress', (e, p) => {
 ipcMain.on('hide-progress', () => {
     logger.info('Hiding progress window');
     resetProgress();
+    progSend('progress-hidden');
     mainSend('progress-hidden');
     clearTimeout(showProgressTimeout);
     progressWindow.hide();
