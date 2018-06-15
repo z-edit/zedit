@@ -30,30 +30,31 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
     };
 
     let getNextFormId = function(merge) {
-        while (merge.usedFids.hasOwnProperty(merge.nextFormId))
-            merge.nextFormId = xelib.Hex(parseInt(merge.nextFormId, 16) + 1, 6);
-        merge.usedFids[merge.nextFormId] = true;
-        return parseInt(merge.nextFormId++, 16);
+        while (merge.usedFids.hasOwnProperty(xelib.Hex(merge.nextFormId, 6)))
+            merge.nextFormId++;
+        return merge.nextFormId;
     };
 
-    let renumberPluginRecords = function(plugin, merge) {
-        let fidMap = {},
+    let renumberPluginRecords = function(plugin, merge, index) {
+        let pluginName = xelib.Name(plugin),
+            fidMap = merge.fidMap[pluginName] = {},
             loadOrdinal = xelib.GetFileLoadOrder(plugin) << 24;
+        mergeLogger.log(`Renumbering FormIDs in ${pluginName}`);
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
             if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
             let oldFormId = getFid(rec);
-            if (merge.usedFids[oldFormId]) {
+            if (merge.usedFids[oldFormId] > -1) {
                 let newFormId = getNextFormId(merge),
                     newHexFormId = xelib.Hex(newFormId, 6),
                     msg = `Renumbering ${oldFormId} to ${newHexFormId}`;
                 mergeLogger.log(msg, true);
-                fidMap[oldFormId] = newFormId;
+                fidMap[oldFormId] = newHexFormId;
                 xelib.SetFormID(rec, loadOrdinal + newFormId);
+                merge.usedFids[newHexFormId] = index;
             } else {
-                merge.usedFids[oldFormId] = true;
+                merge.usedFids[oldFormId] = index;
             }
         });
-        return fidMap;
     };
 
     let getUsedFormIds = function(merge) {
@@ -64,18 +65,16 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
             mergeLogger.log(`Getting used FormIDs in ${pluginName}`);
             xelib.WithEachHandle(getAllRecords(plugin), rec => {
                 if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
-                merge.usedFids[getFid(rec)] = false;
+                merge.usedFids[getFid(rec)] = -1;
             });
         });
     };
 
     let renumberFormIds = function(merge) {
-        merge.nextFormId = '000801';
+        merge.nextFormId = 0x000801;
         mergeLogger.progress('Renumbering FormIDs...');
-        getMergePlugins(merge).forEach(plugin => {
-            let pluginName = xelib.Name(plugin);
-            mergeLogger.log(`Renumbering FormIDs in ${pluginName}`);
-            merge.fidMap[pluginName] = renumberPluginRecords(plugin, merge);
+        getMergePlugins(merge).forEach((plugin, index) => {
+            renumberPluginRecords(plugin, merge, index);
         });
     };
 

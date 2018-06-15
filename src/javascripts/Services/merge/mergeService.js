@@ -34,6 +34,19 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return service.merges.map(exportMerge);
     };
 
+    let getFidCache = function(merge) {
+        let fids = merge.plugins.map(() => []);
+        Object.keys(merge.usedFids).forEach(key => {
+            let index = merge.usedFids[key];
+            fids[index].push(key);
+        });
+        return fids.reduce((obj, a, index) => {
+            let filename = merge.plugins[index].filename;
+            obj[filename] = a;
+            return obj;
+        }, {});
+    };
+
     let getDataFolder = function(plugin) {
         let path = plugin.dataFolder + plugin.filename;
         if (fh.jetpack.exists(path)) return plugin.dataFolder;
@@ -90,6 +103,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         fh.jetpack.dir(path);
         fh.saveJsonFile(`${path}\\merge.json`, exportMerge(merge));
         fh.saveJsonFile(`${path}\\map.json`, merge.fidMap || {});
+        fh.saveJsonFile(`${path}\\fidCache.json`, getFidCache(merge), true);
     };
 
     this.getMergeDataPath = function(merge) {
