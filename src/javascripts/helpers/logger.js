@@ -10,7 +10,7 @@ export default (function() {
             warn: [],
             error: []
         },
-        messages = [],
+        messages,
         stream;
 
     let invokeCallbacks = function(key, msg) {
@@ -18,25 +18,26 @@ export default (function() {
     };
 
     let logger = {
-        init: function(name = 'log') {
+        init: function(name = 'log', path = 'logs') {
             let dateStr = dateFormat(new Date(), 'yyyy_mm_dd_HH_MM'),
-                filename = jetpack.path(`logs/${name}_${dateStr}.txt`);
-            jetpack.dir('logs');
-            stream = jetpack.createWriteStream(filename, { flags: 'a+' });
+                filePath = jetpack.path(`${path}/${name}_${dateStr}.txt`);
+            jetpack.dir(path);
+            stream = jetpack.createWriteStream(filePath, { flags: 'a+' });
+            messages = [];
             logger.log(`${bar}\nSession started at ${new Date()}\n`);
         },
         close: function() {
             logger.log(`\nSession terminated at ${new Date()}\n${bar}\n\n`);
             stream.end();
+            messages = undefined;
         },
+        closed: () => !messages,
+        getMessages: () => messages,
         addCallback: function(key, callback) {
             callbacks[key].push(callback);
         },
         removeCallback: function(key, callback) {
             callbacks[key].remove(callback);
-        },
-        getMessages: function() {
-            return messages;
         },
         log: function(msg) {
             messages.push(msg);

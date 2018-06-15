@@ -11,11 +11,8 @@
             <span class="expander {{expanded ? 'expanded' : 'collapsed'}}"></span>
             {{expanded ? 'Hide' : 'Show'}} Log
         </div>
-        <!-- TODO: we should break this out into a log directive -->
         <div ng-if="expanded" class="log" scroll-glue>
-            <div ng-repeat="item in progress.log" class="message-{{::item.level}}">
-                {{::item.message}}
-            </div>
+            <div ng-repeat="message in progress.log" class="{{::message.class}}-message">{{::message.text}}</div>
         </div>
     </div>
 </div>
