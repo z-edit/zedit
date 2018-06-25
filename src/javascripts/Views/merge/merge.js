@@ -51,6 +51,10 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         mergeBuilder.buildMerges(mergesToBuild);
     };
 
+    $scope.relinkScripts = function() {
+        $scope.$emit('openModal', 'relinkScripts', {merges: $scope.merges });
+    };
+
     $scope.openDataFolder = function(plugin) {
         fh.openFile(plugin.dataFolder);
     };
