@@ -11,6 +11,7 @@ import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
 import logger from './helpers/logger.js';
+import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
 import './polyfills';
 import './color';

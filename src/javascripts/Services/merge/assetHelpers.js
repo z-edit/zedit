@@ -1,7 +1,8 @@
 ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
     let service = this;
 
-    let pluginExpr = /[^\\]+\.es[plm]\\/i;
+    let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
+        pluginExpr = /[^\\]+\.es[plm]\\/i;
 
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
@@ -47,7 +48,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {
-        let newPath = asset.filePath.replace(/^[^\\]+\.(bsa|ba2)\\/i, '');
+        let newPath = asset.filePath.replace(archiveExpr, '');
         if (!skipFn) newPath = newPath.replace(pluginExpr, match => {
             let plugin = match.slice(0, -1);
             if (!mergeHasPlugin(merge, plugin)) return match;
