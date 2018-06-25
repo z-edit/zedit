@@ -7,7 +7,7 @@ ngapp.service('referencedByViewFactory', function(viewFactory, viewLinkingServic
         };
 
         view.destroy = function() {
-            view.scope.grid && factory.releaseGrid(view.scope.grid);
+            view.scope.grid && view.releaseGrid(view.scope.grid);
         };
 
         viewLinkingService.buildFunctions(view, 'linkedReferencedByView', [
