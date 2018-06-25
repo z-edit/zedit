@@ -13,7 +13,7 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //=include Services/modalService.js
 //== end angular assets ==
 
-ngapp.run(function($rootScope, spinnerFactory) {
+ngapp.run(function($rootScope, $timeout, spinnerFactory) {
     // initialization
     let themeStylesheet = document.getElementById('theme');
     $rootScope.spinnerOpts = spinnerFactory.inverseOptions;
@@ -58,9 +58,11 @@ ngapp.run(function($rootScope, spinnerFactory) {
     ipcRenderer.on('log-message', (e, [level, msg]) => logger[level](msg));
 
     ipcRenderer.on('progress-error', (e, msg) => {
-        $rootScope.progress.error = true;
-        logger.error(msg);
-        alert(msg);
+        $timeout(() => {
+            $rootScope.progress.error = true;
+            logger.error(msg);
+            alert(msg);
+        }, 100);
     });
 
     ipcRenderer.on('set-theme', (e, href) => {
