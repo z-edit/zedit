@@ -87,6 +87,7 @@ ngapp.run(function($rootScope, $timeout, spinnerFactory) {
 
     ipcRenderer.on('progress-message', apply((e, msg) => {
         $rootScope.progress.message = msg;
+        if ($rootScope.progress.echo) logger.log(msg);
     }));
 
     ipcRenderer.on('add-progress', apply((e, n) => {
