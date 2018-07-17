@@ -51,6 +51,10 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
             return (index ? scope.overrides[index - 1] : scope.record)
         };
 
+        scope.getParentHandle = function(node, index) {
+            return node.parent.handles[index];
+        };
+
         scope.getElementArrayIndex = function(node, index) {
             let nodeIndex = scope.tree.indexOf(node),
                 counter = 0,
