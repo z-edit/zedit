@@ -45,7 +45,7 @@ ngapp.service('loadOrderService', function() {
         let missingMasters = item.masterNames.filter(function(n, i) {
             return !item.masters[i]
         });
-        console.log(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
+        logger.warn(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
         item.active = false;
         item.disabled = true;
         item.title = buildTitle(disabledTitle, missingMasters);

@@ -17,7 +17,7 @@ ngapp.service('themeService', function($timeout, settingsService) {
         try {
             if (match) metaData = JSON.parse(`{${match[1]}}`);
         } catch (x) {
-            console.log(`Error parsing metadata for theme ${filename}: ${x.message}`);
+            logger.error(`Error parsing metadata for theme ${filename}: ${x.message}`);
         }
         metaData.filename = filename;
         return metaData;
