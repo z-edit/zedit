@@ -13,13 +13,30 @@ ngapp.directive('listView', function() {
 });
 
 ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, contextMenuFactory, htmlHelpers) {
+    // initialization
+    $scope.parent = htmlHelpers.findParent($element[0], el => {
+        return el.hasAttribute('list-view-parent');
+    });
+
     // helper variables
-    let prevIndex = -1;
+    let prevIndex = -1,
+        eventListeners = {
+            click: e => $scope.onParentClick(e),
+            keydown: e => $scope.items && $scope.onKeyDown(e)
+        };
 
     // helper functions
     let removeClasses = function(element) {
         element.classList.remove('insert-after');
         element.classList.remove('insert-before');
+    };
+
+    let toggleEventListeners = function(add) {
+        if (!$scope.parent) return;
+        let method = `${add ? 'add' : 'remove'}EventListener`;
+        Object.keys(eventListeners).forEach(key => {
+            $scope.parent[method](key, eventListeners[key]);
+        });
     };
 
     // inherited variables and functions
@@ -97,17 +114,17 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         $scope.selectItem({}, prevIndex);
     };
 
+    $scope.onParentClick = function(e) {
+        let inListView = htmlHelpers.findParent(e.srcElement, node => {
+            return node === $element[0];
+        });
+        if (!inListView) $scope.clearSelection(true);
+    };
+
     $scope.onItemMouseDown = function(e, index) {
         let item = $scope.items[index];
         if (e.button !== 2 || !item.selected) $scope.selectItem(e, index);
         if (e.button === 2) $scope.showContextMenu(e);
-    };
-
-    $scope.onParentClick = function(e) {
-        let parentListView = htmlHelpers.findParent(e.srcElement, function(parentNode) {
-            return parentNode === $element[0];
-        });
-        if (!parentListView) $scope.clearSelection(true);
     };
 
     $scope.onItemDrag = function(index) {
@@ -162,19 +179,16 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
-    // angular event handlers
-    $scope.$on('parentClick', (e, event) => {
-        if (!$scope.items) return;
-        $scope.onParentClick(event);
-    });
-    $scope.$on('keyDown', (e, event) => {
-        if (!$scope.items) return;
-        $scope.onKeyDown(event);
-    });
+    $scope.$on('destroy', () => toggleEventListeners(false));
+
     $scope.$on('startDrag', function() {
         $scope.$applyAsync(() => $scope.dragging = true);
     });
+
     $scope.$on('stopDrag', function() {
         $scope.$applyAsync(() => $scope.dragging = false);
     });
+
+    // initialization
+    toggleEventListeners(true);
 });
