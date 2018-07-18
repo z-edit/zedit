@@ -230,12 +230,26 @@ ngapp.service('hotkeyFactory', function() {
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
         space: 'handleSpace',
-        escape: 'clearSelection',
+        escape: scope => scope.clearSelection(true),
         enter: 'handleEnter',
         a: [{
             modifiers: ['ctrlKey'],
             callback: 'selectAll'
+        }],
+        f: [{
+            modifiers: ['ctrlKey'],
+            callback: scope => scope.toggleFilter(true)
         }]
+    };
+
+    let closeFilter = (scope, e) => {
+        e.stopPropagation();
+        scope.toggleFilter(false);
+    };
+
+    this.listViewFilterHotkeys = {
+        escape: closeFilter,
+        enter: closeFilter
     };
 
     this.automateModalHotkeys = {
