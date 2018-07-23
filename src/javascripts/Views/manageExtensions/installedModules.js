@@ -3,7 +3,7 @@ ngapp.controller('installedModulesController', function($scope, extensionService
 
     // scope functions
     $scope.uninstallModule = function(module) {
-        fs.jetpack.remove(module.modulePath);
+        fh.jetpack.remove(module.modulePath);
         $scope.showRestart = true;
     };
 
