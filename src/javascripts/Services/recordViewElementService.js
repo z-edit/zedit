@@ -52,7 +52,8 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.getParentHandle = function(node, index) {
-            return node.parent.handles[index];
+            return node.parent ? node.parent.handles[index] :
+                scope.getRecord(index);
         };
 
         scope.getElementArrayIndex = function(node, index) {
