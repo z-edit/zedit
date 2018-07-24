@@ -69,8 +69,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
 
         scope.getNewElementPath = function(node, index) {
             if (node.parent && node.parent.value_type === xelib.vtArray) {
-                if (!xelib.IsSorted(node.parent.first_handle)) return '.';
-                return '^' + scope.getElementArrayIndex(node, index);
+                return '.';
             } else {
                 let n = node.label.indexOf(' - ');
                 return n === 4 ? node.label.substr(0, 4) : node.label;
