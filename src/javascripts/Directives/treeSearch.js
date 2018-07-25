@@ -40,6 +40,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
                 return result > 0;
             });
         });
+        return result;
     };
 
     let findExactMatch = function(search, reverse = false) {
