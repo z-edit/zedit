@@ -68,7 +68,6 @@ ngapp.run(function(interApiService, progressService) {
     interApiService.register({
         api: {
             progressService: {
-                showProgress: progressService.showProgress,
                 logMessage: progressService.logMessage,
                 progressMessage: progressService.progressMessage,
                 addProgress: progressService.addProgress,
