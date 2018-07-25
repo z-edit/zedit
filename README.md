@@ -16,7 +16,7 @@ Before installing node modules you need to tell NodeJS where Python is so it can
 
 You will also need to install the `windows-build-tools` package.  Run `npm install --global --production windows-build-tools` in an elevated command prompt to do so.
 
-Clone zEdit and run `npm install` in an elevated command prompt in its directory.  This will install required node modules and dependencies.  You will also need to run `npm run rebuild` to rebuild the xelib native node addon to work with Electron.
+Clone zEdit and run `npm install` in an elevated command prompt in its directory.  This will install required node modules and dependencies.  You will also need to run `npm run rebuild` to rebuild the xelib native node addon to work with Electron and initialize submodules with `git submodule update --init`.
 
 You can then run the application with `npm start`.
 
