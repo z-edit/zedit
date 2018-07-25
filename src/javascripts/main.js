@@ -67,7 +67,11 @@ let resetProgress = function() {
 let openMainWindow = function() {
     if (mainWindow) mainWindow.destroy();
     logger.info('Creating main window...');
-    mainWindow = createWindow('main', { frame: false, show: false });
+    mainWindow = createWindow('main', {
+        frame: false,
+        show: false,
+        backgroundColor: '#555'
+    });
     logger.info('Main window created');
     logger.info('Loading application...');
     let verboseLogging = process.argv.includes('-verbose'),
