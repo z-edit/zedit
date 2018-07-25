@@ -159,8 +159,14 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.copyNodes = function() {
-            if (!scope.canCopy()) return;
-            clipboardService.copyNodes('recordView', getCopyNodes());
+            let nodesToCopy = getCopyNodes();
+            if (nodesToCopy.length === 0) return;
+            clipboardService.copyNodes('recordView', nodesToCopy);
+            let textToCopy = nodesToCopy
+                .filter(node => trueValueTypes.includes(node.value_type))
+                .map(node => xelib.GetValue(node.handle))
+                .join('\r\n');
+            clipboardService.copyText(textToCopy)
         };
 
         scope.pasteNodes = function(pasteIntoRecord) {
