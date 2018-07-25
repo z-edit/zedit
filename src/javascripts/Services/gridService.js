@@ -1,8 +1,5 @@
-// Base view to show nodes and columns. It's like a grid view but with no depth.
-// Utilized by all views. Functions for specialized views (e.g. gridView/recordView)
-// will overwrite most of these base functions.
-ngapp.service('gridService', function() {
-    this.buildFunctions = function(scope) {
+ngapp.service('gridService', function(htmlHelpers) {
+    this.buildFunctions = function(scope, element) {
         scope.reload = function() {
             if (!scope.grid) return;
             let oldGrid = scope.grid;
@@ -47,6 +44,11 @@ ngapp.service('gridService', function() {
         scope.getNodeData = function(node) {
             node.has_data = true;
             scope.buildColumnValues(node);
+        };
+
+        scope.resolveElements = function() {
+            scope.tabView = element[0];
+            scope.gridElement = htmlHelpers.resolveElement(scope.tabView, '.nodes');
         };
     }
 });
