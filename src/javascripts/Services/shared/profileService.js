@@ -1,6 +1,8 @@
 ngapp.service('profileService', function() {
     let service = this;
 
+    let getProfile = name => service.profiles.findByKey('name', name);
+
     this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json') || [];
     this.languages = ['English'];
 
@@ -17,18 +19,11 @@ ngapp.service('profileService', function() {
     };
 
     this.newProfileName = function(name) {
-        let counter = 2;
-        let profileName = name;
-        let existingProfile;
-        do {
-            if (existingProfile) {
-                profileName = `${name} ${counter}`;
-                counter++;
-            }
-            existingProfile = service.profiles.find(function(profile) {
-                return profile.name === profileName;
-            });
-        } while (existingProfile);
+        let counter = 2,
+            profileName = name,
+            existingProfile;
+        while (existingProfile = getProfile(profileName))
+            profileName = `${name} ${counter++}`;
         return profileName;
     };
 
