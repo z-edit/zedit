@@ -13,6 +13,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         mergeDataService.cacheDataFolders();
         mergeService.loadMerges();
         progressService.hideProgress();
+        $scope.allowRelinking = remote.getGlobal('env').allowRelinking;
         $scope.merges = mergeService.merges;
         $scope.merges.forEach(mergeStatusService.updateStatus);
     };

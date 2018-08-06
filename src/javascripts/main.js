@@ -8,10 +8,7 @@ import url from 'url';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
 import logger from './helpers/logger.js';
-
-// Special module holding environment variables which you declared
-// in config/env_xxx.json file.
-import env from './env';
+global.env = require('./env');
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
