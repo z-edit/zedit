@@ -16,7 +16,8 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
         hidden: true
     }, {
         name: 'sort',
-        loader: 'storeLoadOrder'
+        loader: 'storeLoadOrder',
+        hidden: true
     }, {
         name: 'smash',
         loader: 'storeLoadOrder',
@@ -35,7 +36,9 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
     };
 
     this.getAppModes = function() {
-        return applicationModes.filter(m => !m.hidden).mapOnKey('name');
+        return applicationModes.filter(m => {
+            return !m.hidden || env.show_hidden_appmodes;
+        }).mapOnKey('name');
     };
 
     this.addAppMode = function(appMode) {

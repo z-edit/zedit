@@ -1,4 +1,5 @@
 {
   "name": "development",
-  "allow_relinking": true
+  "allow_relinking": true,
+  "show_hidden_appmodes": true
 }

@@ -15,6 +15,7 @@ import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
 import './polyfills';
 import './color';
+window.env = remote.getGlobal('env');
 window.md5File = require('md5-file');
 window.xelib = require('xelib').wrapper;
 window.appVersion = remote.app.getVersion();
