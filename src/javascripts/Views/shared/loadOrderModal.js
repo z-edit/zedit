@@ -14,7 +14,7 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
         console.log("Loading: \n" + loadOrder);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
-        appModeService.setAppMode();
+        appModeService.goToAppView();
         $scope.$emit('closeModal');
     };
 

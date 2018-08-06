@@ -1,16 +1,64 @@
-ngapp.service('appModeService', function($rootScope, $state) {
-    let applicationModes = ['edit', 'clean', 'merge'],
-        skipLoadModes = ['merge', 'smash'];
+ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
+    let service = this;
 
-    this.getAppModes = function() {
-        return applicationModes;
+    let applicationModes = [{
+        name: 'edit',
+        loader: 'selectLoadOrder'
+    }, {
+        name: 'clean',
+        loader: 'selectLoadOrder',
+        confirm: function() {
+            return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
+        }
+    }, {
+        name: 'merge',
+        loader: 'storeLoadOrder',
+        hidden: true
+    }, {
+        name: 'sort',
+        loader: 'storeLoadOrder'
+    }, {
+        name: 'smash',
+        loader: 'storeLoadOrder',
+        hidden: true
+    }];
+
+    let loaders = {
+        storeLoadOrder: function() {
+            loadOrderService.init();
+            service.goToAppView();
+        },
+        selectLoadOrder: function(scope) {
+            scope.$emit('setTitle', `${$rootScope.appMode} - Selecting Load Order`);
+            scope.$emit('openModal', 'loadOrder');
+        }
     };
 
-    this.setAppMode = function() {
+    this.getAppModes = function() {
+        return applicationModes.filter(m => !m.hidden).mapOnKey('name');
+    };
+
+    this.addAppMode = function(appMode) {
+        applicationModes.push(appMode);
+    };
+
+    this.addLoader = function(name, loadFn) {
+        loaders[name] = loadFn;
+    };
+
+    this.goToAppView = function() {
         $state.go(`base.${$rootScope.appMode}`);
     };
 
-    this.skipLoad = function() {
-        return skipLoadModes.includes($rootScope.appMode);
+    this.selectAppMode = function(appModeName) {
+        let appMode = appModes.findByKey('name', appModeName);
+        if (appMode.confirm && !appMode.confirm()) return;
+        $rootScope.appMode = appModeName;
+        return true;
+    };
+
+    this.runLoader = function(scope) {
+        let appMode = appModes.findByKey('name', appModeName);
+        loaders[appMode.loader](scope);
     };
 });

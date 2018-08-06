@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, $timeout, profileService, settingsService, appModeService, xelibService, loadOrderService) {
+ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService,  appModeService) {
     // initialization
     profileService.validateProfiles();
     $scope.appVersion = appVersion;
@@ -15,21 +15,6 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
     $scope.selectedProfile = profileService.getDefaultProfile();
     $scope.selectedAppMode = $scope.appModes[0];
     $timeout(() => window.startupCompleted = true, 100);
-
-    // helper functions
-    let confirmCleanMode = function() {
-        return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
-    };
-
-    let storeLoadOrder = function() {
-        loadOrderService.init();
-        appModeService.setAppMode();
-    };
-
-    let selectLoadOrder = function() {
-        $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
-        $scope.$emit('openModal', 'loadOrder');
-    };
 
     // scope functions
     $scope.checkHardcodedDat = function() {
@@ -40,14 +25,9 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
     };
 
     $scope.startSession = function () {
-        if ($scope.selectedAppMode === 'clean' && !confirmCleanMode()) return;
-        if (!$scope.checkHardcodedDat()) return;
-        $rootScope.profile = $scope.selectedProfile;
-        $rootScope.appMode = $scope.selectedAppMode;
-        settingsService.loadProfileSettings($scope.selectedProfile.name);
-        xelibService.startSession($scope.selectedProfile);
-        $scope.$emit('sessionStarted', $scope.selectedProfile);
-        appModeService.skipLoad() ? storeLoadOrder() : selectLoadOrder();
+        if (!appModeService.selectAppMode($scope.selectedAppMode)) return;
+        profileService.selectProfile($scope.selectedProfile);
+        appModeService.runLoader($scope);
     };
 
     // event listeners

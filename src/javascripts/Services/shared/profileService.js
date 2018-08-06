@@ -1,4 +1,4 @@
-ngapp.service('profileService', function() {
+ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
     let service = this;
 
     let getProfile = name => service.profiles.findByKey('name', name);
@@ -74,6 +74,12 @@ ngapp.service('profileService', function() {
 
     this.validateProfiles = function() {
         service.profiles.forEach(service.validateProfile);
+    };
+
+    this.selectProfile = function(selectedProfile) {
+        settingsService.loadProfileSettings(selectedProfile.name);
+        $rootScope.profile = selectedProfile;
+        xelibService.startSession(selectedProfile);
     };
 
     this.detectMissingProfiles();
