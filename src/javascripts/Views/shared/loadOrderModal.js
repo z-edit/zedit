@@ -1,4 +1,4 @@
-ngapp.controller('loadOrderModalController', function ($scope, $timeout, appModeService, loadOrderService) {
+ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $timeout, appModeService, loadOrderService) {
     $scope.loadOrderFilters = [{
         label: 'Filename',
         modes: { select: true, jump: true },
@@ -7,8 +7,10 @@ ngapp.controller('loadOrderModalController', function ($scope, $timeout, appMode
 
     // scope functions
     $scope.loadPlugins = function() {
-        let loadOrder = $scope.modalOptions.loadOrder.
-            filterOnKey('active').mapOnKey('filename');
+        let loadOrder = $scope.loadOrder.reduce((a, item) => {
+            if (item.active) a.push(item.filename);
+            return a;
+        }, []);
         console.log("Loading: \n" + loadOrder);
         xelib.ClearMessages();
         xelib.LoadPlugins(loadOrder.join('\n'));
@@ -25,7 +27,7 @@ ngapp.controller('loadOrderModalController', function ($scope, $timeout, appMode
             item.title = '';
         }
         item.masters.forEach(loadOrderService.updateRequired);
-        loadOrderService.updateIndexes($scope.modalOptions.loadOrder);
+        loadOrderService.updateIndexes($scope.loadOrder);
     };
 
     // event handlers
@@ -35,11 +37,12 @@ ngapp.controller('loadOrderModalController', function ($scope, $timeout, appMode
     });
 
     $scope.$on('itemsReordered', function(e) {
-        loadOrderService.updateIndexes($scope.modalOptions.loadOrder);
+        loadOrderService.updateIndexes($scope.loadOrder);
         e.stopPropagation();
     });
 
     // initialize view model properties
     loadOrderService.activateMode = true;
-    loadOrderService.init($scope.modalOptions.loadOrder);
+    loadOrderService.init();
+    $scope.loadOrder = $rootScope.loadOrder;
 });

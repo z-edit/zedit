@@ -1,4 +1,4 @@
-ngapp.service('loadOrderService', function() {
+ngapp.service('loadOrderService', function($rootScope) {
     let service = this,
         disabledTitle = 'This plugin cannot be loaded because it requires plugins \r\n' +
         'which are unavailable or cannot be loaded:',
@@ -83,6 +83,31 @@ ngapp.service('loadOrderService', function() {
         });
     };
 
+    let getMasterNames = function(filename) {
+        let handle;
+        try {
+            handle = xelib.LoadPluginHeader(filename);
+            return xelib.GetMasterNames(handle);
+        } catch(x) {
+            console.log(x);
+        } finally {
+            if (handle) xelib.UnloadPlugin(handle);
+        }
+    };
+
+    let getLoadOrder = function () {
+        let loadOrder = xelib.GetLoadOrder().split('\r\n'),
+            activePlugins = xelib.GetActivePlugins().split('\r\n');
+        console.log({loadOrder, activePlugins});
+        return loadOrder.map(function(filename) {
+            return {
+                filename: filename,
+                masterNames: getMasterNames(filename) || [],
+                active: activePlugins.includes(filename)
+            }
+        })
+    };
+
     // public api
     this.activateMode = true;
 
@@ -120,11 +145,12 @@ ngapp.service('loadOrderService', function() {
         item.title = buildTitle(warnTitle, activeMasters);
     };
 
-    this.init = function(loadOrder, activeFilter = defaultActiveFilter) {
+    this.init = function(activeFilter = defaultActiveFilter) {
+        $rootScope.loadOrder = getLoadOrder();
         service.activeFilter = activeFilter;
-        buildMasterData(loadOrder);
-        updateMasters(loadOrder);
-        loadOrder.forEach(service.updateRequired);
-        service.updateIndexes(loadOrder);
-    }
+        buildMasterData($rootScope.loadOrder);
+        updateMasters($rootScope.loadOrder);
+        $rootScope.loadOrder.forEach(service.updateRequired);
+        service.updateIndexes($rootScope.loadOrder);
+    };
 });

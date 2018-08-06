@@ -17,45 +17,18 @@ ngapp.controller('startController', function ($scope, $rootScope, $timeout, prof
     $timeout(() => window.startupCompleted = true, 100);
 
     // helper functions
-    let getMasterNames = function(filename) {
-        let handle;
-        try {
-            handle = xelib.LoadPluginHeader(filename);
-            return xelib.GetMasterNames(handle);
-        } catch(x) {
-            console.log(x);
-        } finally {
-            if (handle) xelib.UnloadPlugin(handle);
-        }
-    };
-
     let confirmCleanMode = function() {
         return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
     };
 
-    let getLoadOrder = function () {
-        let loadOrder = xelib.GetLoadOrder().split('\r\n');
-        let activePlugins = xelib.GetActivePlugins().split('\r\n');
-        console.log('Load Order:\n' + loadOrder);
-        console.log('Active Plugins:\n' + activePlugins);
-        return loadOrder.map(function(filename) {
-            return {
-                filename: filename,
-                masterNames: getMasterNames(filename) || [],
-                active: activePlugins.includes(filename)
-            }
-        })
-    };
-
     let storeLoadOrder = function() {
-        $rootScope.loadOrder = getLoadOrder();
-        loadOrderService.init($rootScope.loadOrder);
+        loadOrderService.init();
         appModeService.setAppMode();
     };
 
     let selectLoadOrder = function() {
         $scope.$emit('setTitle', 'zEdit - Selecting Load Order');
-        $scope.$emit('openModal', 'loadOrder', { loadOrder: getLoadOrder() });
+        $scope.$emit('openModal', 'loadOrder');
     };
 
     // scope functions
