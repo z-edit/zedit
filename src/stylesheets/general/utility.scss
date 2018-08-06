@@ -68,13 +68,13 @@
   color: $inverse_font_color;
 }
 
-.negative-bg {
-  background-color: $negative;
+.neutral-bg {
+  background-color: $neutral;
   color: $inverse_font_color;
 }
 
-.neutral-bg {
-  background-color: $neutral;
+.negative-bg {
+  background-color: $negative;
   color: $inverse_font_color;
 }
 
@@ -82,10 +82,10 @@
   color: $positive;
 }
 
-.negative-fg {
-  color: $negative;
-}
-
 .neutral-fg {
   color: $neutral;
+}
+
+.negative-fg {
+  color: $negative;
 }

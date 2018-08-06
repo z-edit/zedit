@@ -6,8 +6,12 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService) {
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService) {
     // helper functions
+    let updateMergeStatuses = function() {
+        $scope.merges.forEach(mergeStatusService.updateStatus);
+    };
+
     let init = function() {
         progressService.showProgress({ message: 'Loading merge data...' });
         mergeDataService.cacheDataFolders();
@@ -15,7 +19,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         progressService.hideProgress();
         $scope.allowRelinking = remote.getGlobal('env').allowRelinking;
         $scope.merges = mergeService.merges;
-        $scope.merges.forEach(mergeStatusService.updateStatus);
+        updateMergeStatuses();
     };
 
     let openSaveModal = function(shouldFinalize) {
@@ -82,6 +86,20 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         if (remote.app.forceClose) return;
         e.returnValue = false;
         if (!$scope.$root.modalActive) openSaveModal(true);
+    };
+
+    // update load order and merge statuses when program regains focus
+    let focusTimeout, lostFocus = false;
+
+    window.onblur = () => {
+        focusTimeout = setTimeout(() => lostFocus = true, 3000);
+    };
+
+    window.onfocus = () => {
+        if (focusTimeout) clearTimeout(focusTimeout);
+        if (!lostFocus) return;
+        loadOrderService.init();
+        $scope.$applyAsync(updateMergeStatuses);
     };
 
     // initialization
