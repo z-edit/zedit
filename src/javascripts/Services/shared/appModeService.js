@@ -1,7 +1,7 @@
 ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
     let service = this;
 
-    let applicationModes = [{
+    let appModes = [{
         name: 'edit',
         loader: 'selectLoadOrder'
     }, {
@@ -36,13 +36,13 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
     };
 
     this.getAppModes = function() {
-        return applicationModes.filter(m => {
+        return appModes.filter(m => {
             return !m.hidden || env.show_hidden_appmodes;
         }).mapOnKey('name');
     };
 
     this.addAppMode = function(appMode) {
-        applicationModes.push(appMode);
+        appModes.push(appMode);
     };
 
     this.addLoader = function(name, loadFn) {
@@ -61,7 +61,7 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
     };
 
     this.runLoader = function(scope) {
-        let appMode = appModes.findByKey('name', appModeName);
+        let appMode = appModes.findByKey('name', $rootScope.appMode);
         loaders[appMode.loader](scope);
     };
 });
