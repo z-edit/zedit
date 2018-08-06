@@ -145,12 +145,12 @@ ngapp.service('loadOrderService', function($rootScope) {
         item.title = buildTitle(warnTitle, activeMasters);
     };
 
-    this.init = function(activeFilter = defaultActiveFilter) {
-        $rootScope.loadOrder = getLoadOrder();
+    this.init = function(plugins, activeFilter = defaultActiveFilter) {
+        if (!plugins) plugins = $rootScope.loadOrder = getLoadOrder();
         service.activeFilter = activeFilter;
-        buildMasterData($rootScope.loadOrder);
-        updateMasters($rootScope.loadOrder);
-        $rootScope.loadOrder.forEach(service.updateRequired);
-        service.updateIndexes($rootScope.loadOrder);
+        buildMasterData(plugins);
+        updateMasters(plugins);
+        plugins.forEach(service.updateRequired);
+        service.updateIndexes(plugins);
     };
 });
