@@ -50,9 +50,7 @@ ngapp.service('profileService', function() {
     };
 
     this.getDefaultProfile = function() {
-        return service.profiles.find(function(profile) {
-            return profile.valid
-        });
+        return service.profiles.findByKey('valid', true);
     };
 
     this.setDefaultProfile = function(defaultProfile) {
