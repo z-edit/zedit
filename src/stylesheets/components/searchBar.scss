@@ -2,7 +2,7 @@ search-bar {
   display: flex;
   margin-top: -24px;
   margin-bottom: 24px;
-  padding: 3px 2px;
+  padding: 2px 2px 4px;
   border-bottom: 1px solid $medium_border;
   align-items: center;
 
@@ -49,6 +49,10 @@ search-bar {
 
   > label {
     padding: 0 4px;
+
+    > * {
+      vertical-align: middle;
+    }
   }
 
   > select {

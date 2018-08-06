@@ -7,7 +7,7 @@
     <select ng-model="searchOptions.searchBy" ng-options="item for item in searchBy"></select>
 </label>
 <label ng-if="showExactMatch">
-    <input type="checkbox" ng-model="searchOptions.exact"/>
+    <input type="checkbox" ng-model="searchOptions.exact" ng-disabled="searchOptions.disableExactMatch"/>
     Exact Match
 </label>
 <span ng-if="notFound" class="no-match-found">

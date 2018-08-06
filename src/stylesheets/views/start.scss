@@ -34,3 +34,11 @@
     @include dropdown-triangle(10px);
   }
 }
+
+.app-version {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 4px 6px;
+  font-size: 12px;
+}

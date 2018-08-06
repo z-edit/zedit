@@ -52,7 +52,8 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.getParentHandle = function(node, index) {
-            return node.parent.handles[index];
+            return node.parent ? node.parent.handles[index] :
+                scope.getRecord(index);
         };
 
         scope.getElementArrayIndex = function(node, index) {
@@ -68,8 +69,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
 
         scope.getNewElementPath = function(node, index) {
             if (node.parent && node.parent.value_type === xelib.vtArray) {
-                if (!xelib.IsSorted(node.parent.first_handle)) return '.';
-                return '^' + scope.getElementArrayIndex(node, index);
+                return '.';
             } else {
                 let n = node.label.indexOf(' - ');
                 return n === 4 ? node.label.substr(0, 4) : node.label;
@@ -159,8 +159,14 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.copyNodes = function() {
-            if (!scope.canCopy()) return;
-            clipboardService.copyNodes('recordView', getCopyNodes());
+            let nodesToCopy = getCopyNodes();
+            if (nodesToCopy.length === 0) return;
+            clipboardService.copyNodes('recordView', nodesToCopy);
+            let textToCopy = nodesToCopy
+                .filter(node => trueValueTypes.includes(node.value_type))
+                .map(node => xelib.GetValue(node.handle))
+                .join('\r\n');
+            clipboardService.copyText(textToCopy)
         };
 
         scope.pasteNodes = function(pasteIntoRecord) {

@@ -17,10 +17,11 @@ import './polyfills';
 import './color';
 window.md5File = require('md5-file');
 window.xelib = require('xelib').wrapper;
+window.appVersion = remote.app.getVersion();
 
 // init logger
 logger.init('app');
-logger.info(`Using arch ${process.arch}`);
+logger.info(`zEdit v${appVersion} ${process.arch}`);
 logger.addCallback('error', (msg) => window.alert(msg));
 xelib.logger = logger;
 

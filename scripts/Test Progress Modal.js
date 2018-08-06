@@ -1,7 +1,10 @@
+let {showProgress, logMessage, progressTitle,
+     addProgress, progressMessage} = zedit.progressService;
+
 let targetDuration = 5, // duration in seconds
     numOperations = targetDuration * 10;
 
-zedit.ShowProgress({
+showProgress({
     determinate: true,
     title: '?_?',
     message: '...',
@@ -19,14 +22,14 @@ let doLongOperation = function() {
     }
 };
 
-zedit.LogMessage('Let\'s do some stuff!');
-zedit.ProgressTitle('Doing Stuff');
+logMessage('Let\'s do some stuff!');
+progressTitle('Doing Stuff');
 
 // ~10s
 for (let i = 0; i < numOperations; i++) {
-    zedit.LogMessage(`Stuff #${i}`);
+    logMessage(`Stuff #${i}`);
     doLongOperation();
-    zedit.AddProgress(1);
-    if (i === 5) zedit.ProgressMessage('Herp');
-    if (i === 10) zedit.ProgressMessage('Derp');
+    addProgress(1);
+    if (i === 5) progressMessage('Herp');
+    if (i === 10) progressMessage('Derp');
 }

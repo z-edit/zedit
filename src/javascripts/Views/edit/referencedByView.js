@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, htmlHelpers, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -90,7 +90,10 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         $scope.focusedIndex = -1;
         $scope.buildColumns();
         $scope.buildGrid();
-        $timeout($scope.resolveElements, 100);
+        $timeout(() => {
+            $scope.resolveElements();
+            $scope.gridElement.scrollTop = 0;
+        }, 100);
     });
 
     // initialization

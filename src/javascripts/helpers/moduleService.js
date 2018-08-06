@@ -82,7 +82,7 @@ export default function(ngapp, fh, logger) {
             deferredError(module);
         } else {
             try {
-                logger.info(`Loading module ${module.info.id}`);
+                logger.info(`Loading module ${module.info.id} v${module.info.version}`);
                 loader({module, fh, ngapp, logger, moduleService: service});
                 modules[module.info.id] = module.info;
                 return true;

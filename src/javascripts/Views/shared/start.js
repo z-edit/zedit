@@ -9,6 +9,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 ngapp.controller('startController', function ($scope, $rootScope, $timeout, profileService, settingsService, appModeService, xelibService, loadOrderService) {
     // initialization
     profileService.validateProfiles();
+    $scope.appVersion = appVersion;
     $scope.profiles = profileService.profiles;
     $scope.appModes = appModeService.getAppModes();
     $scope.selectedProfile = profileService.getDefaultProfile();

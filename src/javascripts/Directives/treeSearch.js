@@ -40,6 +40,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
                 return result > 0;
             });
         });
+        return result;
     };
 
     let findExactMatch = function(search, reverse = false) {
@@ -126,4 +127,10 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     // event listeners
     $scope.$on('cancel', () => $scope.cancelled = true);
+
+    $scope.$watch('searchOptions.searchBy', () => {
+        let searchByFormId = $scope.searchOptions.searchBy === 'Form ID';
+        if (searchByFormId) $scope.searchOptions.exact = true;
+        $scope.searchOptions.disableExactMatch = searchByFormId;
+    })
 });
