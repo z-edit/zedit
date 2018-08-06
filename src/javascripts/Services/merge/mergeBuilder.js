@@ -22,14 +22,21 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         });
     };
 
-    let createMergedPlugin = function(merge) {
+    let prepareMergedPlugin = function(merge) {
         merge.plugin = xelib.AddFile(merge.filename);
-        mergeLogger.log(`Created plugin file ${merge.filename}`);
+        mergeLogger.log(`Merging into ${merge.filename}`);
     };
 
     let addMastersToMergedPlugin = function(merge) {
         xelib.AddAllMasters(merge.plugin);
         mergeLogger.log(`Added masters to merged plugin`);
+    };
+
+    let addMastersToPlugins = function(merge) {
+        merge.plugins.forEach(plugin => {
+            xelib.AddMaster(plugin.handle, merge.filename);
+        });
+        mergeLogger.log(`Added ${merge.filename} as a master to the plugins being merged`);
     };
 
     let removeOldMergeFiles = function(merge) {
@@ -52,8 +59,9 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
             mergeLogger.progress('Preparing merge...', true);
             storePluginHandles(merge);
             mergeDataService.buildMergeData(merge);
-            createMergedPlugin(merge);
-            addMastersToMergedPlugin(merge);
+            prepareMergedPlugin(merge);
+            merge.method === 'Master' ? addMastersToPlugins(merge) :
+                addMastersToMergedPlugin(merge);
             prepared.resolve('Merged prepared');
         }, prepared.reject);
         return prepared.promise;

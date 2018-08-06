@@ -1,5 +1,6 @@
 {
   "name": "development",
   "allow_relinking": true,
-  "show_hidden_appmodes": true
+  "show_hidden_appmodes": true,
+  "allow_experimental_merge_methods": true
 }

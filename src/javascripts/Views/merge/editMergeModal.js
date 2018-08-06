@@ -9,4 +9,5 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
     // initialization
     $scope.editing = $scope.modalOptions.hasOwnProperty('merge');
     $scope.merge = $scope.modalOptions.merge || mergeService.newMerge();
+    $scope.experimental = env.allow_experimental_merge_methods;
 });

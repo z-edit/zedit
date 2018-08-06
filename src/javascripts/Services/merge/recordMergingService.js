@@ -1,5 +1,5 @@
 ngapp.service('recordMergingService', function(mergeLogger, progressService) {
-    let getFid = (rec) => { return xelib.GetHexFormID(rec, false, true) };
+    let getFid = rec => xelib.GetHexFormID(rec, false, true);
     let getMergePlugins = merge => merge.plugins.mapOnKey('handle');
     let getAllRecords = plugin => xelib.GetRecords(plugin, '', true);
 
@@ -89,17 +89,22 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
         });
     };
 
+    let renumberAndCopy = function(merge) {
+        getUsedFormIds(merge);
+        renumberFormIds(merge);
+        copyRecords(merge, false);
+    };
+
+    let copyAndRefactor = function(merge) {
+        mergeLogger.error('Refactor merge method not implemented');
+        copyRecords(merge, true);
+        // TODO: xelib.RefactorReferences(merge.plugin, merge.fidMap);
+    };
+
     let mergeMethods = {
-        'Clamp': function(merge) {
-            getUsedFormIds(merge);
-            renumberFormIds(merge);
-            copyRecords(merge, false);
-        },
-        'Refactor': function(merge) {
-            mergeLogger.error('Refactor merge method not implemented');
-            copyRecords(merge, true);
-            xelib.RefactorReferences(merge.plugin, merge.fidMap);
-        }
+        'Master': renumberAndCopy,
+        'Clamp': renumberAndCopy,
+        'Refactor': copyAndRefactor
     };
 
     // PUBLIC API
