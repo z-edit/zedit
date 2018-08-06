@@ -17,13 +17,6 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     $timeout(() => window.startupCompleted = true, 100);
 
     // scope functions
-    $scope.checkHardcodedDat = function() {
-        let game = profileService.getGame($scope.selectedProfile.gameMode);
-        let fileName = game.shortName + '.Hardcoded.dat';
-        if (fh.jetpack.exists(fileName)) return true;
-        alert(`Error: Required file "${fileName}" not found, please re-install the application.`);
-    };
-
     $scope.startSession = function () {
         if (!appModeService.selectAppMode($scope.selectedAppMode)) return;
         profileService.selectProfile($scope.selectedProfile);
