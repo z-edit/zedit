@@ -1,11 +1,14 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import minimatch from 'minimatch'
+import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
 
 let fh = {};
 
 fh.jetpack = jetpack;
+fh.minimatch = minimatch;
 fh.appPath = remote.app.getAppPath();
 fh.userPath = remote.app.getPath('userData');
 fh.userDir = jetpack.cwd(fh.userPath);
@@ -66,12 +69,16 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
     zip(filePath).extractAllTo(destDir, true);
 };
 
+fh.getFileBase = function(filePath) {
+    return filePath.match(/(.*\\)?(.*)\.[^\\]+/)[2];
+};
+
 fh.getFileExt = function(filePath) {
-    return filePath.match(/.*\.([^\\]+)/)[1];
+    return filePath.match(/(.*\\)?.*\.([^\\]+)/)[2];
 };
 
 fh.getFileName = function(filePath) {
-    return filePath.match(/.*\\(.*)/)[1];
+    return filePath.match(/(.*\\)?(.*)/)[2];
 };
 
 fh.getDirectory = function(filePath) {
@@ -82,13 +89,35 @@ fh.getDateModified = function(filePath) {
     return jetpack.inspect(filePath, {times: true}).modifyTime;
 };
 
+fh.getFileSize = function(filePath) {
+    return fh.jetpack.inspect(filePath).size;
+};
+
+fh.getMd5Hash = function(filePath) {
+    if (fh.jetpack.exists(filePath) !== 'file') return;
+    return md5file.sync(filePath);
+};
+
 fh.getDirectories = function(path) {
+    if (fh.jetpack.exists(path) !== 'dir') return [];
     return jetpack.find(path, {
         matching: '*',
         files: false,
         directories: true,
         recursive: false
     }).map(path => jetpack.path(path));
+};
+
+fh.getFiles = function(path, options) {
+    if (fh.jetpack.exists(path) !== 'dir') return [];
+    return fh.jetpack.find(path, options)
+        .map(path => fh.jetpack.path(path));
+};
+
+fh.filterExists = function(folder, paths) {
+    return paths.filter(function(path) {
+        return fh.jetpack.exists(`${folder}/${path}`);
+    });
 };
 
 // helper function for selecting a directory

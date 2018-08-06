@@ -3,18 +3,34 @@ ngapp.directive('listView', function() {
         restrict: 'E',
         templateUrl: 'directives/listView.html',
         transclude: true,
-        scope: {
+        ctrl: {},
+        bindToController: {
             items: '=',
             defaultAction: '=?',
+            filters: '=?',
             dragType: '@'
         },
+        controllerAs: 'ctrl',
         controller: 'listViewController'
     }
 });
 
 ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, contextMenuFactory, htmlHelpers) {
+    // initialization
+    let ctrl = this;
+
+    ctrl.parent = htmlHelpers.findParent($element[0], el => {
+        return el.hasAttribute('list-view-parent');
+    });
+
     // helper variables
-    let prevIndex = -1;
+    let prevIndex = -1,
+        eventListeners = {
+            click: e => $scope.$apply(() => ctrl.onParentClick(e)),
+            keydown: e => $scope.$apply(() => {
+                ctrl.items && ctrl.onKeyDown(e)
+            })
+        };
 
     // helper functions
     let removeClasses = function(element) {
@@ -22,27 +38,36 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         element.classList.remove('insert-before');
     };
 
+    let toggleEventListeners = function(add) {
+        if (!ctrl.parent) return;
+        let method = `${add ? 'add' : 'remove'}EventListener`;
+        Object.keys(eventListeners).forEach(key => {
+            ctrl.parent[method](key, eventListeners[key]);
+        });
+    };
+
     // inherited variables and functions
     $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
+    hotkeyService.buildOnKeyDown(ctrl, 'onKeyDown', 'listView');
+    hotkeyService.buildOnKeyDown(ctrl, 'onFilterKeyDown', 'listViewFilter');
 
-    // scope functions
-    $scope.showContextMenu = function(e) {
+    // ctrl functions
+    ctrl.showContextMenu = function(e) {
         contextMenuService.showContextMenu($scope, e);
     };
 
-    $scope.clearSelection = function(resetPrevIndex ) {
-        $scope.items.forEach((item) => item.selected = false);
+    ctrl.clearSelection = function(resetPrevIndex) {
+        ctrl.items.forEach(item => item.selected = false);
         if (resetPrevIndex) prevIndex = -1;
     };
 
-    $scope.selectAll = function() {
-        $scope.items.forEach((item) => item.selected = true);
-        prevIndex = $scope.items.length - 1;
+    ctrl.selectAll = function() {
+        ctrl.items.forEach(item => item.selected = true);
+        prevIndex = ctrl.items.length - 1;
     };
 
-    $scope.toggleSelected = function(targetValue) {
-        let selectedItems = $scope.items.filter(function(item) {
+    ctrl.toggleSelected = function(targetValue) {
+        let selectedItems = ctrl.items.filter(function(item) {
                 return item.selected && !item.disabled;
             }),
             toggle = angular.isUndefined(targetValue),
@@ -57,73 +82,73 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         });
     };
 
-    $scope.selectItem = function(e, index) {
-        let item = $scope.items[index];
+    ctrl.selectItem = function(e, index) {
+        let item = ctrl.items[index];
         if (e.shiftKey && prevIndex > -1) {
             let start = Math.min(index, prevIndex),
                 end = Math.max(index, prevIndex);
-            if (!e.ctrlKey) $scope.clearSelection();
+            if (!e.ctrlKey) ctrl.clearSelection();
             for (let i = start; i <= end; i++) {
-                $scope.items[i].selected = true;
+                ctrl.items[i].selected = true;
             }
         } else if (e.ctrlKey) {
             item.selected = !item.selected;
             prevIndex = index;
         } else {
-            $scope.clearSelection(true);
+            ctrl.clearSelection(true);
             item.selected = true;
             prevIndex = index;
         }
     };
 
     // event handlers
-    $scope.handleEnter = function() {
-        $scope.defaultAction && $scope.defaultAction();
+    ctrl.handleEnter = function() {
+        ctrl.defaultAction && ctrl.defaultAction();
     };
 
-    $scope.handleSpace = function(e) {
+    ctrl.handleSpace = function(e) {
         // Ctrl+Space enables, Shift+Space disables, Space toggles
         let targetValue = e.ctrlKey ? true : (e.shiftKey ? false : undefined);
-        $scope.toggleSelected(targetValue);
+        ctrl.toggleSelected(targetValue);
     };
 
-    $scope.handleUpArrow = function() {
-        prevIndex = (prevIndex < 1 ? $scope.items.length : prevIndex) - 1;
-        $scope.selectItem({}, prevIndex);
+    ctrl.handleUpArrow = function() {
+        prevIndex = (prevIndex < 1 ? ctrl.items.length : prevIndex) - 1;
+        ctrl.selectItem({}, prevIndex);
     };
 
-    $scope.handleDownArrow = function() {
-        prevIndex = (prevIndex >= $scope.items.length - 1 ? -1 : prevIndex) + 1;
-        $scope.selectItem({}, prevIndex);
+    ctrl.handleDownArrow = function() {
+        prevIndex = (prevIndex >= ctrl.items.length - 1 ? -1 : prevIndex) + 1;
+        ctrl.selectItem({}, prevIndex);
     };
 
-    $scope.onItemMouseDown = function(e, index) {
-        let item = $scope.items[index];
-        if (e.button !== 2 || !item.selected) $scope.selectItem(e, index);
-        if (e.button === 2) $scope.showContextMenu(e);
-    };
-
-    $scope.onParentClick = function(e) {
-        let parentListView = htmlHelpers.findParent(e.srcElement, function(parentNode) {
-            return parentNode === $element[0];
+    ctrl.onParentClick = function(e) {
+        let inListView = htmlHelpers.findParent(e.srcElement, node => {
+            return node === $element[0];
         });
-        if (!parentListView) $scope.clearSelection(true);
+        if (!inListView) ctrl.clearSelection(true);
     };
 
-    $scope.onItemDrag = function(index) {
-        if (!$scope.dragType) return;
+    ctrl.onItemMouseDown = function(e, index) {
+        let item = ctrl.items[index];
+        if (e.button !== 2 || !item.selected) ctrl.selectItem(e, index);
+        if (e.button === 2) ctrl.showContextMenu(e);
+    };
+
+    ctrl.onItemDrag = function(index) {
+        if (!ctrl.dragType) return;
         $scope.$root.$broadcast('startDrag', {
-            source: $scope.dragType,
+            source: ctrl.dragType,
             index: index,
-            getItem: () => $scope.items.splice(index, 1)[0]
+            getItem: () => ctrl.items.splice(index, 1)[0]
         });
         return true;
     };
 
-    $scope.onItemDragOver = function(e, index) {
-        if (!$scope.dragType) return;
+    ctrl.onItemDragOver = function(e, index) {
+        if (!ctrl.dragType) return;
         let dragData = $scope.$root.dragData;
-        if (!dragData || dragData.source !== $scope.dragType) return;
+        if (!dragData || dragData.source !== ctrl.dragType) return;
         if (dragData.index === index) return true;
         let after = e.offsetY > (e.target.offsetHeight / 2);
         e.target.classList[after ? 'add' : 'remove']('insert-after');
@@ -131,50 +156,70 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
-    $scope.onPlaceholderDragOver = function() {
+    ctrl.onPlaceholderDragOver = function() {
         let dragData = $scope.$root.dragData;
-        return dragData && dragData.source === $scope.dragType;
+        return dragData && dragData.source === ctrl.dragType;
     };
 
-    $scope.onItemDragLeave = (e) => removeClasses(e.target);
+    ctrl.onItemDragLeave = (e) => removeClasses(e.target);
 
-    $scope.onItemDrop = function(e, index) {
-        if (!$scope.dragType) return;
+    ctrl.onItemDrop = function(e, index) {
+        if (!ctrl.dragType) return;
         let dragData = $scope.$root.dragData;
-        if (!dragData || dragData.source !== $scope.dragType) return;
+        if (!dragData || dragData.source !== ctrl.dragType) return;
         if (dragData.index === index) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
-            lengthBefore = $scope.items.length,
+            lengthBefore = ctrl.items.length,
             movedItem = dragData.getItem(),
-            adjust = lengthBefore > $scope.items.length && index > dragData.index;
+            adjust = lengthBefore > ctrl.items.length && index > dragData.index;
         removeClasses(e.target);
-        $scope.items.splice(index + after - adjust, 0, movedItem);
+        ctrl.items.splice(index + after - adjust, 0, movedItem);
         prevIndex = index + after - adjust;
         $scope.$emit('itemsReordered');
         return true;
     };
 
-    $scope.onPlaceholderDrop = function() {
-        let dragData = $scope.$root.dragData;
-        if (!dragData || dragData.source !== $scope.dragType) return;
-        $scope.items.push(dragData.getItem());
+    ctrl.onPlaceholderDrop = function() {
+        let dragData = ctrl.$root.dragData;
+        if (!dragData || dragData.source !== ctrl.dragType) return;
+        ctrl.items.push(dragData.getItem());
         $scope.$emit('itemsReordered');
         return true;
     };
 
-    // angular event handlers
-    $scope.$on('parentClick', (e, event) => {
-        if (!$scope.items) return;
-        $scope.onParentClick(event);
-    });
-    $scope.$on('keyDown', (e, event) => {
-        if (!$scope.items) return;
-        $scope.onKeyDown(event);
-    });
+    ctrl.toggleFilter = function(visible) {
+        if (!ctrl.filters) return;
+        let filters = ctrl.filters.filter(f => f.modes.select);
+        if (!filters.length) return;
+        ctrl.filterItems = visible && filters.map(f => ({
+            label: f.label,
+            text: '',
+            filter: f.filter
+        }));
+        if (!visible) ctrl.parent.focus();
+        return true;
+    };
+
+    ctrl.filterChanged = function() {
+        if (!ctrl.filterItems) return;
+        ctrl.items.forEach((item, index) => {
+            item.selected = ctrl.filterItems.reduce((b, f) => {
+                return b && f.filter(item, f.text);
+            }, true);
+            if (item.selected) prevIndex = index;
+        });
+    };
+
+    $scope.$on('destroy', () => toggleEventListeners(false));
+
     $scope.$on('startDrag', function() {
-        $scope.$applyAsync(() => $scope.dragging = true);
+        $scope.$applyAsync(() => ctrl.dragging = true);
     });
+
     $scope.$on('stopDrag', function() {
-        $scope.$applyAsync(() => $scope.dragging = false);
+        $scope.$applyAsync(() => ctrl.dragging = false);
     });
+
+    // initialization
+    toggleEventListeners(true);
 });

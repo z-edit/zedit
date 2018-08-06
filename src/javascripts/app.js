@@ -11,6 +11,7 @@ import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
 import logger from './helpers/logger.js';
+import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
 import './polyfills';
 import './color';
@@ -83,6 +84,7 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 //=include Directives/*.js
 //=include Factories/*.js
 //=include Filters/*.js
+//=include Runners/**/*.js
 //=include Services/**/*.js
 //=include Views/**/*.js
 //== end angular files ==

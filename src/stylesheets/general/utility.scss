@@ -73,10 +73,19 @@
   color: $inverse_font_color;
 }
 
+.neutral-bg {
+  background-color: $neutral;
+  color: $inverse_font_color;
+}
+
 .positive-fg {
   color: $positive;
 }
 
 .negative-fg {
   color: $negative;
+}
+
+.neutral-fg {
+  color: $neutral;
 }

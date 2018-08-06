@@ -27,11 +27,11 @@
                 <div class="content-title">{{::plugin.filename}}
                     <span ng-show="checking || plugin.errors">({{plugin.status}})</span>
                     <span class="right" ng-hide="checking">
-                <button class="action-btn small no-hover {{plugin.skip ? 'negative' : 'positive'}}" ng-click="toggleSkip(plugin)">{{plugin.skip ? 'Skip' : 'Process'}}</button>
-            </span>
+                        <button class="action-btn small no-hover {{plugin.skip ? 'negative' : 'positive'}}" ng-click="toggleSkip(plugin)">{{plugin.skip ? 'Skip' : 'Process'}}</button>
+                    </span>
                     <span class="right" ng-show="plugin.checking">
-                <span class="fa fa-circle-o-notch fa-spin" title="Error check in progress..."></span>
-            </span>
+                        <span class="fa fa-circle-o-notch fa-spin" title="Error check in progress..."></span>
+                    </span>
                 </div>
 
                 <div class="content-container" ng-if="plugin.groupedErrors && plugin.errors.length > 0">

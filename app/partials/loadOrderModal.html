@@ -1,10 +1,10 @@
 <div class="modal-container">
-    <div class="modal skinny-modal" ng-click="$broadcast('parentClick', $event)" ng-keydown="$broadcast('keyDown', $event)" tabindex="0" autofocus>
+    <div class="modal skinny-modal" list-view-parent>
         <form>
             <h2>Load Order</h2>
 
             <section>
-                <list-view items="modalOptions.loadOrder" drag-type="loadOrderList" default-action="loadPlugins">
+                <list-view items="modalOptions.loadOrder" drag-type="loadOrderList" default-action="loadPlugins" filters="loadOrderFilters">
                     <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled" />
                     <span ng-class="{'disabled': $parent.item.disabled, 'required' : $parent.item.required}" title="{{$parent.item.title}}">
                         <span ng-show="$parent.item.active">[{{$parent.item.index | hex:2 }}]</span>

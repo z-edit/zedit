@@ -1,0 +1,10 @@
+<div>
+    <h2>Integration Settings</h2>
+
+    <ng-include ng-repeat="integration in integrations" src="integration.templateUrl"></ng-include>
+</div>
+
+<div class="primary-actions">
+    <button class="action-btn" ng-click="detect()" title="Detect and configure integrations automatically.">Detect</button>
+    <button class="action-btn" ng-click="saveSettings()">OK</button>
+</div>

@@ -1,0 +1,86 @@
+.edit-merge-modal {
+  .modal-container .modal {
+    width: 1100px;
+    max-width: 90%;
+  }
+
+  .disabled {
+    color: $negative;
+  }
+
+  .warn {
+    color: $neutral;
+  }
+
+  .required {
+    color: $positive;
+  }
+
+  .table-container {
+    overflow-y: auto;
+    max-width: 100%;
+    margin-top: 14px;
+    max-height: 500px;
+  }
+
+  table.files-table {
+    font-size: 14px;
+    width: 100%;
+
+    th {
+      min-width: 80px;
+      text-align: left;
+    }
+
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 8px;
+    }
+  }
+
+  .data-tab {
+    padding: 14px 20px;
+
+    .content-message:last-child {
+      margin-bottom: 40px;
+    }
+  }
+
+  .data-folder-item {
+    display: flex;
+    margin: 5px 0;
+
+    .input-label {
+      min-width: 225px;
+      margin: 0;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      margin-right: 6px;
+    }
+  }
+
+  expandable-section {
+    border: 1px solid $hard_border;
+    background-color: $secondary_background;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 5px;
+
+    .expander {
+      margin-right: 8px;
+    }
+
+    h3.title {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+    }
+
+    title {
+      display: inline-block;
+    }
+  }
+}

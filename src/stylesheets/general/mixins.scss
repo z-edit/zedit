@@ -20,7 +20,7 @@
   background-repeat: no-repeat;
 }
 
-@mixin style-scrollbars($bg_color, $medium_color, $hard_color) {
+@mixin style-scrollbars($bg_color, $medium_soft_color, $medium_color, $hard_color) {
   ::-webkit-scrollbar {
     display: block;
     font-size: initial;
@@ -43,5 +43,19 @@
 
   ::-webkit-scrollbar-track {
     background: $bg_color;
+  }
+
+  expandable-section {
+    ::-webkit-scrollbar-thumb {
+      border: solid $medium_soft_color;
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: $medium_soft_color;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: $medium_soft_color;
+    }
   }
 }

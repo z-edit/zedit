@@ -10,7 +10,7 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //=include Directives/progressModal.js
 //=include Directives/loader.js
 //=include Factories/spinnerFactory.js
-//=include Services/modalService.js
+//=include Services/Shared/modalService.js
 //== end angular assets ==
 
 ngapp.run(function($rootScope, $timeout, spinnerFactory) {
@@ -87,6 +87,7 @@ ngapp.run(function($rootScope, $timeout, spinnerFactory) {
 
     ipcRenderer.on('progress-message', apply((e, msg) => {
         $rootScope.progress.message = msg;
+        if ($rootScope.progress.echo) logger.log(msg);
     }));
 
     ipcRenderer.on('add-progress', apply((e, n) => {
