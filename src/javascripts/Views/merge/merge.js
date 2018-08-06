@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService) {
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService) {
     // helper functions
     let updateMergeStatuses = function() {
         $scope.merges.forEach(mergeStatusService.updateStatus);
@@ -22,7 +22,8 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         updateMergeStatuses();
     };
 
-    let openSaveModal = function(shouldFinalize) {
+    let openSaveModal = function(shouldFinalize = true) {
+        if ($scope.$root.modalActive) return;
         if (!shouldFinalize && !$scope.mergedPlugins.length) return;
         $scope.$emit('openModal', 'save', {
             controller: 'mergeSaveModalController',
@@ -73,34 +74,19 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         $scope.$emit('openModal', 'settings');
     });
 
-    $scope.$on('save', function() {
-        if ($scope.$root.modalActive) return;
-        openSaveModal(true);
-    });
+    $scope.$on('save', openSaveModal);
 
     // handle hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'mergeView');
 
     // save data and terminate xelib when application is being closed
-    window.onbeforeunload = function(e) {
-        if (remote.app.forceClose) return;
-        e.returnValue = false;
-        if (!$scope.$root.modalActive) openSaveModal(true);
-    };
+    eventService.beforeClose(openSaveModal);
 
     // update load order and merge statuses when program regains focus
-    let focusTimeout, lostFocus = false;
-
-    window.onblur = () => {
-        focusTimeout = setTimeout(() => lostFocus = true, 3000);
-    };
-
-    window.onfocus = () => {
-        if (focusTimeout) clearTimeout(focusTimeout);
-        if (!lostFocus) return;
+    eventService.onRegainFocus(() => {
         loadOrderService.init();
         $scope.$applyAsync(updateMergeStatuses);
-    };
+    }, 3000);
 
     // initialization
     $timeout(init);
