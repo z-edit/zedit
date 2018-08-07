@@ -19,17 +19,17 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
 
     this.getInstanceModsPath = function(moInstance) {
         let instancePath = getInstancePath(moInstance),
-            modOrganizerIni = fh.loadIni(`${instancePath}/ModOrganizer.ini`),
-            settingsSection = modOrganizerIni.getSection('Settings'),
-            modsDirectory = settingsSection.getValue('mods_directory'),
-            baseDirectory = settingsSection.getValue('base_directory');
+            moIni = fh.loadIni(`${instancePath}/ModOrganizer.ini`),
+            section = moIni && moIni.getSection('Settings'),
+            modsDirectory = section && section.getValue('mods_directory'),
+            baseDirectory = section && section.getValue('base_directory');
         if (modsDirectory) return modsDirectory;
         if (baseDirectory) return `${baseDirectory}/mods`;
         return '';
     };
 
     this.getPortableModsPath = function(managerPath) {
-        let modsPath = `${managerPath}/mods`;
+        let modsPath = `${managerPath}\\mods`;
         if (fh.jetpack.exists(modsPath) === 'dir') return modsPath;
         return '';
     };
