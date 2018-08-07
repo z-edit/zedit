@@ -1,4 +1,4 @@
-ngapp.controller('integrationSettingsController', function($scope, $rootScope, integrationService, progressService, errorService) {
+ngapp.controller('integrationSettingsController', function($scope, $rootScope, integrationService, progressService, errorService, modOrganizerService) {
     // initialization
     $scope.gameMode = $rootScope.profile.gameMode;
     $scope.integrations = integrationService.integrations;
@@ -13,6 +13,10 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
             integration.detect && integration.detect($scope.settings);
         });
         progressService.hideProgress();
+    };
+
+    $scope.initIntegration = function(integration) {
+        integration.init && integration.init($scope);
     };
 });
 

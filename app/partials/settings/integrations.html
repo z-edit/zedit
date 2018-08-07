@@ -1,7 +1,7 @@
 <div>
     <h2>Integration Settings</h2>
 
-    <ng-include ng-repeat="integration in integrations" src="integration.templateUrl"></ng-include>
+    <ng-include ng-repeat="integration in integrations" src="integration.templateUrl" ng-init="initIntegration(integration)"></ng-include>
 </div>
 
 <div class="primary-actions">

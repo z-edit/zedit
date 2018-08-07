@@ -1,19 +1,23 @@
 <h3>Mod Manager</h3>
 <section>
-    <div class="path-setting">
+    <div class="setting">
         <span class="input-label">Mod manager</span>
-        <select ng-model="settings.modManager">
+        <select ng-model="settings.modManager" ng-options="modManager.label for modManager in modManagers">
             <option>None</option>
-            <option>Nexus Mod Manager</option>
-            <option>Mod Organizer</option>
         </select>
     </div>
-    <div ng-show="settings.modManager !== 'None'" class="path-setting">
+    <div ng-if="show.moInstance" class="setting" ng-init="getModOrganizerInstances()">
+        <span class="input-label">MO2 Instance:</span>
+        <select ng-model="settings.moInstance" ng-options="instance for instance in moInstances">
+            <option>Portable</option>
+        </select>
+    </div>
+    <div ng-if="show.managerPath" class="path-setting">
         <span class="input-label">Mod manager path</span>
         <input type="text" ng-model="settings.managerPath" />
         <span class="browse-button" ng-click="browseSettingsPath('managerPath', 'Mod Manager Path')" title="Browse"></span>
     </div>
-    <div ng-show="settings.modManager !== 'None'" class="path-setting">
+    <div ng-if="show.modsPath" class="path-setting">
         <span class="input-label">Mod manager mods path</span>
         <input type="text" ng-model="settings.modsPath" />
         <span class="browse-button" ng-click="browseSettingsPath('modsPath', 'Mod Manager Mods Path')" title="Browse"></span>
