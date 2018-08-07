@@ -70,19 +70,19 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
 };
 
 fh.getFileBase = function(filePath) {
-    return filePath.match(/(.*\\)?(.*)\.[^\\]+/)[2];
+    return filePath.match(/(.*[\\\/])?(.*)\.[^\\\/]+/)[2];
 };
 
 fh.getFileExt = function(filePath) {
-    return filePath.match(/(.*\\)?.*\.([^\\]+)/)[2];
+    return filePath.match(/(.*[\\\/])?.*\.([^\\\/]+)/)[2];
 };
 
 fh.getFileName = function(filePath) {
-    return filePath.match(/(.*\\)?(.*)/)[2];
+    return filePath.match(/(.*[\\\/])?(.*)/)[2];
 };
 
 fh.getDirectory = function(filePath) {
-    return filePath.match(/(.*)\\.*/)[1];
+    return filePath.match(/(.*)[\\\/].*/)[1];
 };
 
 fh.getDateModified = function(filePath) {
@@ -90,16 +90,16 @@ fh.getDateModified = function(filePath) {
 };
 
 fh.getFileSize = function(filePath) {
-    return fh.jetpack.inspect(filePath).size;
+    return jetpack.inspect(filePath).size;
 };
 
 fh.getMd5Hash = function(filePath) {
-    if (fh.jetpack.exists(filePath) !== 'file') return;
+    if (jetpack.exists(filePath) !== 'file') return;
     return md5file.sync(filePath);
 };
 
 fh.getDirectories = function(path) {
-    if (fh.jetpack.exists(path) !== 'dir') return [];
+    if (jetpack.exists(path) !== 'dir') return [];
     return jetpack.find(path, {
         matching: '*',
         files: false,
@@ -109,14 +109,14 @@ fh.getDirectories = function(path) {
 };
 
 fh.getFiles = function(path, options) {
-    if (fh.jetpack.exists(path) !== 'dir') return [];
-    return fh.jetpack.find(path, options)
-        .map(path => fh.jetpack.path(path));
+    if (jetpack.exists(path) !== 'dir') return [];
+    return jetpack.find(path, options)
+        .map(path => jetpack.path(path));
 };
 
 fh.filterExists = function(folder, paths) {
     return paths.filter(function(path) {
-        return fh.jetpack.exists(`${folder}/${path}`);
+        return jetpack.exists(`${folder}/${path}`);
     });
 };
 
