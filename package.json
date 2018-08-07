@@ -53,6 +53,7 @@
     "bindings": "^1.2.1",
     "codemirror": "^5.39.2",
     "dateformat": "^3.0.3",
+    "diskusage": "^0.2.4",
     "font-awesome": "^4.7.0",
     "fs-jetpack": "^0.10.5",
     "ini-api": "^1.0.0",
@@ -60,6 +61,7 @@
     "md5-file": "^4.0.0",
     "minimatch": "^3.0.4",
     "ui-router-extras": "^0.1.3",
+    "windows-drive-letters": "^3.1.0",
     "xelib": "github:z-edit/xelib"
   },
   "devDependencies": {
