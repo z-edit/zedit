@@ -7,8 +7,13 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
 
     this.getModManagerPath = function() {
         return fileSearchService.findFile(/^ModOrganizer\.exe$/, {
-            prioritize: [/organizer/i, /mod/i, /tool/i, /program/i, /steam/i,
-                /^common$/, /(Skyrim|Fallout|Oblivion)/i]
+            initialQueue: [
+                process.env.USERPROFILE,
+                `${process.env.USERPROFILE}\\My Documents`,
+                `${process.env.USERPROFILE}\\Desktop`
+            ].map(path => ({ path, priority: 2 })),
+            prioritize: [/organizer/i, /^mo$/i, /mod/i, /tool/i, /gam(e|ing)/i,
+                /program/i, /steam/i, /^common$/, /(Skyrim|Fallout|Oblivion)/i]
         });
     };
 

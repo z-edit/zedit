@@ -25,7 +25,7 @@ ngapp.service('fileSearchService', function() {
 
     let initSearch = function(expr, opts) {
         searchExpr = expr;
-        queue = [];
+        queue = opts.initalQueue || [];
         start = new Date();
         prioritize = opts.prioritize || [];
         maxPriority = prioritize.length;
@@ -44,7 +44,7 @@ ngapp.service('fileSearchService', function() {
         try {
             return fs.readdirSync(path).filter(f => {
                 try {
-                    let stats = fs.statSync(`${path}/${f}`);
+                    let stats = fs.statSync(`${path}\\${f}`);
                     return !stats.isDirectory();
                 } catch (x) {}
             });
@@ -55,9 +55,9 @@ ngapp.service('fileSearchService', function() {
 
     let getDirectories = function(path) {
         try {
-            return fs.readdirSync(path + '/').filter(f => {
+            return fs.readdirSync(path + '\\').filter(f => {
                 try {
-                    let stats = fs.statSync(`${path}/${f}`);
+                    let stats = fs.statSync(`${path}\\${f}`);
                     return stats.isDirectory();
                 } catch (x) {}
             });
@@ -71,9 +71,9 @@ ngapp.service('fileSearchService', function() {
         console.log('Searching ', path);
         let files = getFiles(path),
             foundFile = files.find(matchesSearch);
-        if (foundFile) return `${path}/${foundFile}`;
+        if (foundFile) return `${path}\\${foundFile}`;
         let dirs = getDirectories(path);
-        dirs.forEach(dir => enqueuePath(`${path}/${dir}`, dir));
+        dirs.forEach(dir => enqueuePath(`${path}\\${dir}`, dir));
     };
 
     let enqueueEntry = function(entry) {
@@ -96,6 +96,7 @@ ngapp.service('fileSearchService', function() {
             drives.forEach(drive => enqueuePath(drive.path, '', 100));
             let nextEntry;
             while (nextEntry = queue.shift()) {
+                if (!nextEntry.path) continue;
                 let foundPath = search(nextEntry.path);
                 if (foundPath) return foundPath;
             }
