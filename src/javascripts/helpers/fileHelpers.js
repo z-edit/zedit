@@ -4,6 +4,7 @@ import minimatch from 'minimatch'
 import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
+import {Ini} from 'ini-api';
 
 let fh = {};
 
@@ -17,7 +18,6 @@ fh.appDir = jetpack.cwd(fh.appPath);
 // log app directory for reference
 console.log('App directory: ' + fh.appPath);
 
-// helper function for loading json file
 fh.loadJsonFile = function(filePath) {
     if (jetpack.exists(filePath) === 'file')
         return jetpack.read(filePath, 'json');
@@ -34,7 +34,11 @@ fh.loadResource = function(filePath) {
         return fh.appDir.read(filePath, format);
 };
 
-// helper function for saving json files
+fh.loadIni = function(filePath) {
+    let text = fh.loadTextFile(filePath);
+    return text && new Ini(text);
+};
+
 fh.saveJsonFile = function(filePath, value, minify = false) {
     jetpack.write(filePath, minify ? JSON.stringify(value) : value);
 };
