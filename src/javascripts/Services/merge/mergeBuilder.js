@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, seqService, pluginLoadService, progressService) {
+ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, pluginLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
     let mergesToBuild = [],
@@ -88,6 +88,7 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
     };
 
     let finalizeMerge = function(merge) {
+        mergeIntegrationService.runIntegrations(merge);
         removePluginMasters(merge);
         saveMergeFiles(merge);
         mergeLogger.log(`Completed merge ${merge.name}.`);

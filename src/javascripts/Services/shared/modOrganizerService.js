@@ -57,4 +57,12 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
             service.getPortableModsPath(settings.managerPath);
         return (settings.managerPath !== '') && (settings.modsPath !== '');
     };
+
+    this.hidePluginFiles = function(merge) {
+        // TODO
+    };
+
+    this.disableMods = function(merge) {
+        // TODO
+    };
 });
