@@ -22,4 +22,8 @@ ngapp.service('modManagerService', function(nexusModManagerService, vortexServic
     this.addModManager = function(manager) {
         service.modManagers.push(manager);
     };
+
+    this.getModManager = function(name) {
+        return service.modManagers.find(m =>  m.name === name);
+    };
 });

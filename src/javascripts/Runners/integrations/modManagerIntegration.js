@@ -1,4 +1,6 @@
 ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
+    let {getModManager} = modManagerService;
+
     integrationService.addIntegration({
         name: 'Mod Manager',
         priority: -1,
@@ -22,10 +24,7 @@ ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
             });
         },
         detect: function(settings) {
-            let {modManagers} = modManagerService;
-            let modManager = modManagers.find(manager => {
-                return manager.name === settings.modManager;
-            });
+            let modManager = getModManager(settings.modManager);
             if (modManager)
                 return modManager.detect && modManager.detect(settings);
             for (let i = 0; i < modManagers.length; i++) {
