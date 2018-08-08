@@ -241,7 +241,8 @@ Object.deepAssign = function(target, varArgs) {
         if (nextSource === null) continue; // Skip over if undefined or null
         Object.keys(nextSource).forEach(function (nextKey) {
             let value = nextSource[nextKey];
-            if (typeof value === 'object' && value.constructor === Object) {
+            if (typeof value === 'object' && value !== null &&
+                value.constructor === Object) {
                 if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
                     to[nextKey] = {};
                 }
