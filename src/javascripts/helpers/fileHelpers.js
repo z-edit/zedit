@@ -1,6 +1,7 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
-import minimatch from 'minimatch'
+import minimatch from 'minimatch';
+import { enumerateValues, HKEY } from 'registry-js';
 import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
@@ -122,6 +123,10 @@ fh.filterExists = function(folder, paths) {
     return paths.filter(function(path) {
         return jetpack.exists(`${folder}/${path}`);
     });
+};
+
+fh.getRegistryValues = function(hkey, path) {
+    return enumerateValues(HKEY[hkey], path);
 };
 
 // helper function for selecting a directory

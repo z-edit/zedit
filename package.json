@@ -60,6 +60,7 @@
     "marked": "^0.3.19",
     "md5-file": "^4.0.0",
     "minimatch": "^3.0.4",
+    "registry-js": "^1.0.7",
     "ui-router-extras": "^0.1.3",
     "windows-drive-letters": "^3.1.0",
     "xelib": "github:z-edit/xelib"
