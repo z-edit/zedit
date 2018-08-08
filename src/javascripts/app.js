@@ -13,7 +13,7 @@ import fh from './helpers/fileHelpers';
 import logger from './helpers/logger.js';
 import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
-import './polyfills';
+import './extensions';
 import './color';
 window.env = remote.getGlobal('env');
 window.md5File = require('md5-file');

@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import './polyfills';
+import './extensions';
 import logger from './helpers/logger.js';
 
 // angular app initialization

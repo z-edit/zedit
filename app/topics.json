@@ -179,7 +179,7 @@
             ]
           },
           { "label": "Logger" },
-          { "label": "Polyfills" },
+          { "label": "Extensions" },
           { "label": "File Helpers" },
           { "label": "Scripting API" },
           { "label": "Modal API" },
