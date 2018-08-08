@@ -17,6 +17,7 @@ ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
                 let showItems = manager ? manager.show : [];
                 scope.show = showItems.reduce((obj, key) => {
                     obj[key] = true;
+                    return obj;
                 }, {});
             });
         },
@@ -28,9 +29,11 @@ ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
             if (modManager)
                 return modManager.detect && modManager.detect(settings);
             for (let i = 0; i < modManagers.length; i++) {
+                settings.modManager = modManagers[i].name;
                 let foundPath = modManagers[i].detect(settings);
                 if (foundPath) return foundPath;
             }
+            settings.modManager = null;
         },
         defaultSettings: {
             modManager: 'None',
