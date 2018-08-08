@@ -1,6 +1,8 @@
 ngapp.service('modOrganizerService', function(fileSearchService) {
     let service = this;
 
+    let backslash = path => path.replace(/\//g, '\\');
+
     let getInstancePath = function(moInstance) {
         return `${process.env.LOCALAPPDATA}/ModOrganizer/${moInstance}`;
     };
@@ -23,8 +25,8 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
             section = moIni && moIni.getSection('Settings'),
             modsDirectory = section && section.getValue('mods_directory'),
             baseDirectory = section && section.getValue('base_directory');
-        if (modsDirectory) return modsDirectory;
-        if (baseDirectory) return `${baseDirectory}/mods`;
+        if (modsDirectory) return backslash(modsDirectory);
+        if (baseDirectory) return `${backslash(baseDirectory)}\\mods`;
         return '';
     };
 
