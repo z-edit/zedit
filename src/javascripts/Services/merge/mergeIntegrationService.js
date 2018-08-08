@@ -1,4 +1,4 @@
-ngapp.service('mergeIntegrationService', function(settingsService, modManagerService) {
+ngapp.service('mergeIntegrationService', function(settingsService, modManagerService, mergeLogger) {
     let service = this;
 
     let runIntegration = function(key, modManager, merge) {
@@ -13,7 +13,9 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
         });
         return line => {
             line = line.toLowerCase();
-            return !pluginFilenames.find(filename => line === filename);
+            let inMerge = pluginFilenames.find(filename => line === filename);
+            if (inMerge) mergeLogger.log(`Disabling plugin: ${line}`);
+            return !inMerge;
         };
     };
 
@@ -21,6 +23,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
         let notInMerge = pluginNotInMerge(merge, true);
         return line => {
             if (notInMerge(line)) return line;
+            mergeLogger.log(`Disabling plugin: ${line.slice(1)}`);
             return line.replace(/^\*/, '');
         };
     };
@@ -36,6 +39,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
     };
 
     this.disablePlugins = function(merge) {
+        mergeLogger.log('Disabling merged plugins in plugins.txt');
         let appDataPath = xelib.GetGlobal('AppDataPath'),
             pluginsPath = appDataPath + 'plugins.txt',
             pluginsText = fh.loadTextFile(pluginsPath),
