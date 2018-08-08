@@ -25,8 +25,12 @@ ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
             let modManager = modManagers.find(manager => {
                 return manager.name === settings.modManager;
             });
-            if (!modManager || !modManager.detect) return;
-            return modManager.detect(settings);
+            if (modManager)
+                return modManager.detect && modManager.detect(settings);
+            for (let i = 0; i < modManagers.length; i++) {
+                let foundPath = modManagers[i].detect(settings);
+                if (foundPath) return foundPath;
+            }
         },
         defaultSettings: {
             modManager: 'None',
