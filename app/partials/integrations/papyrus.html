@@ -1,16 +1,16 @@
 <h3>Papyrus</h3>
 <section>
-    <div class="path-setting">
+    <div class="setting">
         <span class="input-label">Champollion decompiler path</span>
         <input type="text" ng-model="settings.decompilerPath" />
         <span class="browse-button" ng-click="browseSettingsFile('decompilerPath', 'Papyrus Decompiler Path', executablesFilter)" title="Browse"></span>
     </div>
-    <div class="path-setting">
+    <div class="setting">
         <span class="input-label">Papyrus compiler path</span>
         <input type="text" ng-model="settings.compilerPath" />
         <span class="browse-button" ng-click="browseSettingsFile('compilerPath', 'Papyrus Compiler Path', executablesFilter)" title="Browse"></span>
     </div>
-    <div class="path-setting">
+    <div class="setting">
         <span class="input-label">Papyrus flags path</span>
         <input type="text" ng-model="settings.papyrusFlags" />
         <span class="browse-button" ng-click="browseSettingsFile('papyrusFlagsPath', 'Papyrus Flags Path', [{ name: 'Flags File', extensions: ['flg'] }])"  title="Browse"></span>

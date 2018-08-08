@@ -24,7 +24,7 @@
     }
   }
 
-  .path-setting {
+  .setting {
     display: flex;
     margin: 5px 0;
 
@@ -36,6 +36,10 @@
     input[type="text"] {
       flex-grow: 1;
       margin-right: 6px;
+    }
+
+    select {
+      min-width: 150px;
     }
   }
 }
