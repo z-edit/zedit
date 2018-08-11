@@ -31,17 +31,17 @@
     "args": [{
       "name": "id",
       "type": "handle",
-      "description": "Handle of the file to add required masters to."
+      "description": "Handle of the element to determine required masters for."
     }, {
       "name": "id2",
       "type": "handle",
-      "description": "Handle of the element to determine required masters for."
+      "description": "Handle of the file to add required masters to."
     }, {
       "name": "asNew",
       "type": "boolean",
       "description": "Default false."
     }],
-    "description": "Adds masters to file `id` which are required when copying element `id2` to it.  Set `asNew` to true when copying `id2` as a new record."
+    "description": "Adds masters to file `id2` which are required when copying element `id` to it.  Set `asNew` to true when copying `id` as a new record."
   },
   {
     "name": "GetMasters",
