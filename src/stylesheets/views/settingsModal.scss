@@ -23,23 +23,23 @@
       height: 200px;
     }
   }
+}
 
-  .setting {
-    display: flex;
-    margin: 5px 0;
+.setting {
+  display: flex;
+  margin: 5px 0;
 
-    .input-label {
-      min-width: 225px;
-      margin: 0;
-    }
+  .input-label {
+    min-width: 225px;
+    margin: 0;
+  }
 
-    input[type="text"] {
-      flex-grow: 1;
-      margin-right: 6px;
-    }
+  input[type="text"] {
+    flex-grow: 1;
+    margin-right: 6px;
+  }
 
-    select {
-      min-width: 150px;
-    }
+  select {
+    min-width: 150px;
   }
 }
