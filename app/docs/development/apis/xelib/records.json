@@ -359,16 +359,5 @@
       "type": "boolean"
     },
     "description": "Returns true if record `id` is a winning override record."
-  },
-  {
-    "name": "GetRecordConflictData",
-    "args": [{
-      "name": "id",
-      "type": "handle"
-    }],
-    "returns": {
-      "type": "array of integer"
-    },
-    "description": "Returns an array where the first item is the `conflictAll` of `id` and the second item is the `conflictThis` of `id`."
   }
 ]

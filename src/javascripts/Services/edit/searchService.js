@@ -97,7 +97,8 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
 
     // PUBLIC
     this.search = function(options) {
-        let {nodes, scope, filterOptions} = options;
+        let {nodes, scope, filterOptions} = options,
+            start = new Date();
         progressService.showProgress({ message: 'Searching...' });
         try {
             let resolvedScope = resolveScope(scope, nodes),
@@ -116,6 +117,8 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
             setFilterResults(results);
             return results;
         } finally {
+            let duration = (new Date() - start) / 1000;
+            logger.log(`Completed search in ${duration.toFixed(3)}s`);
             progressService.hideProgress();
         }
     };

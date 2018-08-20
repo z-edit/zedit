@@ -108,7 +108,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             if (xelib.GetIsModified(node.handle)) classes.push('modified');
             if (nodeHelpers.isRecordNode(node) && node.fid > 0) {
                 if (xelib.IsInjected(node.handle)) classes.push('injected');
-                let conflictData = xelib.GetRecordConflictData(node.handle);
+                let conflictData = xelib.GetConflictData(0, node.handle);
                 classes.push(caClasses[conflictData[0]]);
                 classes.push(ctClasses[conflictData[1]]);
             }
