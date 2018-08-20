@@ -359,5 +359,55 @@
       "type": "boolean"
     },
     "description": "Returns true if record `id` is a winning override record."
+  },
+  {
+    "name": "GetNodes",
+    "args": [{
+      "name": "rec",
+      "type": "handle",
+      "description": "Record to get nodes for."
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle pointing to a node tree for `rec`.  The handle returned by this function must be freed with `xelib.ReleaseNodes`.  NOTE: Can be slow for very large records like NAVI."
+  },
+  {
+    "name": "GetConflictData",
+    "args": [{
+      "name": "nodes",
+      "type": "handle",
+      "description": "The node tree to get conflict data from.  Pass 0 to build any necessary conflict information."
+    }, {
+      "name": "element",
+      "type": "handle",
+      "description": "The element to get conflict data about."
+    }, {
+      "name": "asString",
+      "type": "boolean",
+      "description": "Default false.  If set to true, ConflictAll and ConflictThis values are converted to strings."
+    }],
+    "returns": {
+      "type": "array of number",
+      "description": "The first number is a ConflictAll value, second is ConflictThis."
+    },
+    "description": "Returns the `ConflictAll` and `ConflictThis` values for `element`.  Pass a handle for a node tree retrieved using `GetNodes` for `nodes` if you plan on calling this function for more than one element from the same record.  NOTE: Can be slow for very large records like NAVI."
+  },
+  {
+    "name": "GetNodeElements",
+    "args": [{
+      "name": "nodes",
+      "type": "handle",
+      "description": "The node tree to get elements from."
+    }, {
+      "name": "element",
+      "type": "handle",
+      "description": "The element to get node element children for."
+    }],
+    "returns": {
+      "type": "array of handle",
+      "description": "Array of element children handles."
+    },
+    "description": "Returns handles for the element children of `element`.  You must pass a handle for a node tree retrieved using `GetNodes` to `nodes`.  Note that this is different from `xelib.GetElements` in that it returns an array with null handles in it as placeholders for unassigned elements."
   }
 ]
