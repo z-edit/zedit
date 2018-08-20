@@ -123,6 +123,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     ctrl.onParentClick = function(e) {
+        if (!ctrl.items) return;
         let inListView = htmlHelpers.findParent(e.srcElement, node => {
             return node === $element[0];
         });
