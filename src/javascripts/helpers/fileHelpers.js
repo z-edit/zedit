@@ -139,7 +139,6 @@ fh.selectDirectory = function(title, defaultPath) {
     return selection && selection[0];
 };
 
-// helper function for selecting a theme
 fh.selectFile = function(title, defaultPath, filters = []) {
     let selection = remote.dialog.showOpenDialog({
         title: title,

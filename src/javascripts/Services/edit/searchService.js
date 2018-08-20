@@ -122,7 +122,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
 
     this.filter = function(record, filters, filterMode) {
         return filterMode === 'or' ?
-            filters.find((filter) => { return filter.test(record) }) :
+            filters.find(filter => filter.test(record)) :
             filters.reduce(function(passed, filter) {
                 return passed && filter.test(record);
             }, true);

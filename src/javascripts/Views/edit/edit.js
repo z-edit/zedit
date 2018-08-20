@@ -32,9 +32,7 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
             return view.class === 'tree-view';
         });
         let filterView = viewFactory.newView('filterView', true);
-        treeView.pane.tabs.forEach(function(tab) {
-            tab.active = false;
-        });
+        treeView.pane.tabs.forEach(tab => tab.active = false);
         treeView.pane.tabs.push(filterView);
         return filterView;
     };
