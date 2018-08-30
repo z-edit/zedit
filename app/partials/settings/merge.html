@@ -14,10 +14,6 @@
         <input type="checkbox" ng-model="settings.mergeIntegrations.disablePlugins"/>
         Disable plugins in loadorder.txt
     </label>
-    <label ng-show="availableIntegrations.moHidden" title="If checked, merged plugins will be hidden in MO through the creation of .mohidden files once a merge is successfully built.">
-        <input type="checkbox" ng-model="settings.mergeIntegrations.moHidden"/>
-        Create .mohidden files
-    </label>
     <label ng-show="availableIntegrations.disableMods" title="If checked, mods will be disabled in your mod manager once a merge with copy general assets enabled is successfully built.">
         <input type="checkbox" ng-model="settings.mergeIntegrations.disableMods"/>
         Disable mods

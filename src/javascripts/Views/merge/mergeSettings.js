@@ -1,6 +1,6 @@
 ngapp.controller('mergeSettingsController', function($scope, modManagerService) {
     let {getModManager} = modManagerService,
-        integrationKeys = ['moHidden', 'disableMods'];
+        integrationKeys = ['disableMods'];
 
     $scope.initIntegrationAvailability = function() {
         $scope.availableIntegrations = {};
@@ -22,7 +22,6 @@ ngapp.run(function(settingsService) {
             mergePath: fh.appDir.path('merges'),
             mergeIntegrations: {
                 disablePlugins: true,
-                moHidden: false,
                 disableMods: false
             }
         }

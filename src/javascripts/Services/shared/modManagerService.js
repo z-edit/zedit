@@ -3,7 +3,6 @@ ngapp.service('modManagerService', function(nexusModManagerService, vortexServic
 
     let modOrganizerShared = {
         detect: modOrganizerService.detect,
-        moHidden: modOrganizerService.hidePluginFiles,
         disableMods: modOrganizerService.disableMods
     };
 
