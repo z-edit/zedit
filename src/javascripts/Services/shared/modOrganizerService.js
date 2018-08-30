@@ -1,10 +1,34 @@
-ngapp.service('modOrganizerService', function(fileSearchService) {
+ngapp.service('modOrganizerService', function(fileSearchService, mergeLogger) {
     let service = this;
 
     let backslash = path => path.replace(/\//g, '\\');
 
     let getInstancePath = function(moInstance) {
         return `${process.env.LOCALAPPDATA}/ModOrganizer/${moInstance}`;
+    };
+
+    let loadModOrganizerIni = function({moInstance, managerPath}) {
+        let basePath = moInstance ? getInstancePath(moInstance) : managerPath;
+        return fh.loadIni(`${basePath}\\ModOrganizer.ini`);
+    };
+
+    let getIniValue = function(ini, sectionName, key) {
+        let section = ini.getSection(sectionName);
+        return section && section.getValue(key);
+    };
+
+    let modNotInMerge = function(merge) {
+        let modNames = [];
+        merge.plugins.forEach(plugin => {
+            let modName = fh.getFileName(plugin.dataFolder);
+            if (modNames.indexOf(modName) > -1) return;
+            let plugins = fh.getFiles(plugin.dataFolder, {
+                matching: '*.esp', recursive: false
+            });
+            if (plugins.subtract(merge.plugins).length > 0) return;
+            modNames.push('+' + modName.toLowerCase());
+        });
+        return line => modNames.indexOf(line.toLowerCase()) === -1;
     };
 
     this.getModManagerPath = function() {
@@ -20,11 +44,9 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
     };
 
     this.getInstanceModsPath = function(moInstance) {
-        let instancePath = getInstancePath(moInstance),
-            moIni = fh.loadIni(`${instancePath}/ModOrganizer.ini`),
-            section = moIni && moIni.getSection('Settings'),
-            modsDirectory = section && section.getValue('mods_directory'),
-            baseDirectory = section && section.getValue('base_directory');
+        let moIni = loadModOrganizerIni({moInstance}),
+            modsDirectory = getIniValue(moIni, 'Settings', 'mods_directory'),
+            baseDirectory = getIniValue(moIni, 'Settings', 'base_directory');
         if (modsDirectory) return backslash(modsDirectory);
         if (baseDirectory) return `${backslash(baseDirectory)}\\mods`;
         return '';
@@ -58,11 +80,29 @@ ngapp.service('modOrganizerService', function(fileSearchService) {
         return (settings.managerPath !== '') && (settings.modsPath !== '');
     };
 
-    this.hidePluginFiles = function(merge) {
-        // TODO
+    this.getProfilePath = function(settings) {
+        let moIni = loadModOrganizerIni(settings),
+            baseDirectory = getIniValue(moIni, 'Settings', 'base_directory'),
+            selectedProfile = getIniValue(moIni, 'General', 'selected_profile'),
+            profilesPath = `${baseDirectory || settings.managerPath}\\profiles`;
+        return `${profilesPath}\\${selectedProfile}`;
     };
 
-    this.disableMods = function(merge) {
-        // TODO
+    this.getModList = function(settings) {
+        let profilePath = service.getProfilePath(settings),
+            modListPath = `${profilePath}\\modlist.txt`;
+        return fh.loadTextFile(modListPath);
+    };
+
+    this.disableMods = function(merge, settings) {
+        let notInMerge = modNotInMerge(merge),
+            modlist = service.getModList(settings),
+            newModList = modlist.split('\r\n').map(line => {
+                if (notInMerge(line)) return line;
+                mergeLogger.log(`Disabling mod: ${line.slice(1)}`);
+                return line.replace(/^\+/, '-');
+            }).join('\r\n');
+        if (newModList === modList) return;
+        fh.saveTextFile(modListPath, newModList);
     };
 });

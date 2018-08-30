@@ -3,7 +3,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
 
     let runIntegration = function(key, modManager, merge) {
         let fn = (modManager && modManager[key]) || service[key];
-        fn && fn(merge);
+        fn && fn(merge, settingsService.settings);
     };
 
     let pluginNotInMerge = function(merge, newFormat) {
