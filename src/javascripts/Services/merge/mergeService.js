@@ -1,6 +1,6 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        mergeExportKeys = ['name', 'filename', 'method', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'];
 
     // private functions
@@ -61,6 +61,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     let importMergeData = function(merge) {
         let path = `${getMergePath()}\\${merge.name}\\merge\\merge.json`,
             oldMerge = fh.loadJsonFile(path);
+        if (!merge.method) merge.method = 'Clamp';
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
     };
@@ -71,6 +72,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return initMergeData({
             name: mergeName,
             filename: `${mergeName}.esp`,
+            method: 'Clamp',
             plugins: [],
             status: 'Ready to be built',
             extractArchives: false,
