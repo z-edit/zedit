@@ -9,6 +9,7 @@ ngapp.service('eventService', function() {
         window.onfocus = () => {
             if (focusTimeout) clearTimeout(focusTimeout);
             if (lostFocus) callback();
+            lostFocus = false;
         };
     };
 
