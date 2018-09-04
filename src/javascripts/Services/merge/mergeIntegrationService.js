@@ -60,12 +60,14 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
         let {modManager} = settingsService.settings;
         modManager = modManagerService.getModManager(modManager);
         if (!modManager || !modManager.getModsList) return folders;
-        return modManager.getModList().reduce((a, modName) => {
+        let sortedFolders = [];
+        modManager.getModList().forEach(modName => {
+            modName = modName.slice(1);
             let folder = folders.find(folder => {
                 return fh.getFileName(folder) === modName;
             });
-            if (folder && !a.includes(folder)) a.push(folder);
-            return a;
-        }, []);
+            if (folder && !sortedFolders.includes(folder))
+                sortedFolders.push(folder);
+        });
     };
 });
