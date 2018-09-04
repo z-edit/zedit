@@ -24,6 +24,10 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
         return rules;
     };
 
+    let assetFolder = function(asset, merge) {
+        return merge.dataFolders[asset.plugin || asset.plugins[0]];
+    };
+
     // PUBLIC API
     this.findGeneralAssets = function(folder, merge) {
         let exclusions = getRules(merge).map(rule => {
@@ -44,7 +48,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
 
     this.getOldPath = function(asset, merge) {
         return bsaHelpers.extractAsset(merge, asset) ||
-            merge.dataFolders[asset.plugin || asset.plugins[0]] + asset.filePath;
+            (assetFolder(asset, merge) + asset.filePath);
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {

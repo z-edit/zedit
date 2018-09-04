@@ -55,4 +55,17 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
             runIntegration(key, modManager, merge);
         });
     };
+
+    this.sortModFolders = function(folders) {
+        let {modManagerName} = settingsService.settings,
+            modManager = modManagerService.getModManager(modManagerName);
+        if (!modManager.getModsList) return folders;
+        return modManager.getModList().reduce((a, modName) => {
+            let folder = folders.find(folder => {
+                return fh.getFileName(folder) === modName;
+            });
+            if (folder && !a.includes(folder)) a.push(folder);
+            return a;
+        }, []);
+    };
 });

@@ -1,5 +1,6 @@
-ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
-    let {copyAsset, findGeneralAssets} = assetHelpers;
+ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, mergeLogger) {
+    let {copyAsset, findGeneralAssets} = assetHelpers,
+        {sortModFolders} = mergeIntegrationService;
 
     let getPluginFolders = function(merge) {
         return merge.plugins.reduce((folders, plugin) => {
@@ -16,9 +17,10 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         priority: 1,
         get: function(merge) {
             let folders = getPluginFolders(merge),
-                dataPath = xelib.GetGlobal('DataPath');
+                dataPath = xelib.GetGlobal('DataPath'),
+                modFolders = sortModFolders(Object.keys(folders));
 
-            Object.keys(folders).forEach(folder => {
+            modFolders.forEach(folder => {
                 if (folder === dataPath) return;
                 let folderLen = folder.length,
                     plugins = folders[folder];
