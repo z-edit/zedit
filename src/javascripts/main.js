@@ -72,8 +72,9 @@ let openMainWindow = function() {
     logger.info('Main window created');
     logger.info('Loading application...');
     let verboseLogging = process.argv.includes('-verbose'),
+        dev = env.name === 'development' || process.argv.includes('-dev'),
         url = `app.html?verbose=${+verboseLogging}`;
-    loadPage(mainWindow, url, env.name === 'development');
+    loadPage(mainWindow, url, dev);
     mainWindow.once('ready-to-show', () => {
         logger.info('Application loaded.  Showing window.');
         mainWindow.show();
