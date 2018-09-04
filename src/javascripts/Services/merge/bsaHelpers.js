@@ -1,5 +1,6 @@
 ngapp.service('bsaHelpers', function(mergeLogger) {
-    let bsaCache = {},
+    let service = this,
+        bsaCache = {},
         Minimatch = fh.minimatch.Minimatch;
 
     let bsaExpr = /([^\\]+\.(?:bsa|ba2))\\(.+)/i;
@@ -25,21 +26,23 @@ ngapp.service('bsaHelpers', function(mergeLogger) {
     // PUBLIC API
     this.find = function(bsaPath, pattern) {
         let expr = new Minimatch(pattern, { nocase: true });
-        return getBsaFiles(bsaPath).filter(function(path) {
-            return expr.match(path);
-        });
+        return getBsaFiles(bsaPath).filter(path => expr.match(path));
     };
 
-    this.extractAsset = function(merge, asset) {
-        let match = asset.filePath.match(bsaExpr);
-        if (!match) return;
-        let [,bsaFileName,filePath] = match,
-            outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
+    this.extractFile = function(bsaFileName, filePath) {
+        let outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
         if (fh.jetpack.exists(outputPath) !== 'file') {
             mergeLogger.log(`Extracting ${filePath} from ${bsaFileName}`, true);
             xelib.ExtractFile(bsaFileName, filePath, outputPath);
         }
         return outputPath;
+    };
+
+    this.extractAsset = function(merge, asset) {
+        let match = asset.filePath.match(bsaExpr);
+        if (!match) return;
+        let [,bsaFileName,filePath] = match;
+        return service.extractFile(bsaFileName, filePath);
     };
 
     this.extractArchive = function(archive) {
