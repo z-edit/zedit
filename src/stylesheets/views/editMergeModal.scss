@@ -62,6 +62,12 @@
     }
   }
 
+  .details-tab {
+    input[type="text"], select {
+      width: 250px;
+    }
+  }
+
   expandable-section {
     border: 1px solid $hard_border;
     background-color: $secondary_background;
