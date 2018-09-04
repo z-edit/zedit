@@ -1,8 +1,7 @@
-ngapp.service('scriptsCache', function(scriptHelpers) {
-    let {fileReferenceExpr, getSourceFileName} = scriptHelpers;
-
-    let dataPath, cachePath, archiveCache, scriptsCache, newScripts,
-        service = this;
+ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
+    let service = this,
+        {loadScript, getFileRefs} = pexService,
+        dataPath, cachePath, archiveCache, scriptsCache, newScripts;
 
     let getPaths = function() {
         dataPath = xelib.GetGlobal('DataPath');
@@ -28,12 +27,32 @@ ngapp.service('scriptsCache', function(scriptHelpers) {
         });
     };
 
+    let getArchiveScriptData = function(filePath) {
+        let bsaFileName = fh.getFileName(filePath),
+            scriptPaths = bsaHelpers.find(filePath, 'scripts\\*.pex');
+        scriptPaths.map(scriptPath => {
+            let outputPath = bsaHelpers.extractFile(bsaFileName, scriptPath),
+                script = loadScript(outputPath);
+            return { scriptPath, data: getFileRefs(script) };
+        });
+    };
+
     let cacheArchives = function() {
         fh.getFiles(dataPath, {
             matching: '*.@(bsa|ba2)',
             recursive: false
         }).forEach(filePath => {
-            // TODO
+            let filename = fh.getFileName(filePath),
+                hash = fh.getMd5Hash(filePath),
+                cacheEntry = archiveCache.find(entry => {
+                    return entry.filename === filename && entry.hash === hash;
+                });
+            if (!cacheEntry) {
+                archiveCache.push({
+                    filename, hash,
+                    scripts: getArchiveScriptData(filePath)
+                });
+            }
         });
     };
 
