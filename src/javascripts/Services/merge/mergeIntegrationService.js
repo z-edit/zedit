@@ -48,8 +48,8 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
     };
 
     this.runIntegrations = function(merge) {
-        let {mergeIntegrations, modManagerName} = settingsService.settings,
-            modManager = modManagerService.getModManager(modManagerName);
+        let {mergeIntegrations, modManager} = settingsService.settings;
+        modManager = modManagerService.getModManager(modManager);
         mergeIntegrations.keys().forEach(key => {
             if (!mergeIntegrations[key]) return;
             runIntegration(key, modManager, merge);
@@ -57,9 +57,9 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
     };
 
     this.sortModFolders = function(folders) {
-        let {modManagerName} = settingsService.settings,
-            modManager = modManagerService.getModManager(modManagerName);
-        if (!modManager.getModsList) return folders;
+        let {modManager} = settingsService.settings;
+        modManager = modManagerService.getModManager(modManager);
+        if (!modManager || !modManager.getModsList) return folders;
         return modManager.getModList().reduce((a, modName) => {
             let folder = folders.find(folder => {
                 return fh.getFileName(folder) === modName;
