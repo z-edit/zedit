@@ -1,6 +1,5 @@
-ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, pexService, mergeLogger) {
     let {getOldPath, getNewPath} = assetHelpers,
-        {getScriptSource, compileScript} = scriptHelpers,
         {forEachPlugin} = mergeAssetService;
 
     let fragmentPathNames = {
@@ -9,8 +8,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers, mergeLogger) 
         INFO: 'Info'
     };
 
-    let fixSource = function(sourcePath, asset, merge) {
-        // TODO
+    let fixFragment = function(oldPath, newPath) {
+        let script = pexService.loadScript(oldPath);
+        script.stringTable[0] = fh.getFileBase(oldPath);
+        script.filePath = newPath;
+        pexService.saveScript(script);
     };
 
     let getFragmentsPath = function(group) {
@@ -65,11 +67,9 @@ ngapp.run(function(mergeAssetService, assetHelpers, scriptHelpers, mergeLogger) 
                 !merge.scriptFragments.length) return;
             mergeLogger.log('Handling Script Fragments');
             merge.scriptFragments.forEach(asset => {
-                let scriptPath = getOldPath(asset, merge),
-                    sourcePath = getScriptSource(scriptPath),
+                let oldPath = getOldPath(asset, merge),
                     newPath = getNewPath(asset, merge, fragmentExpr, true);
-                sourcePath = fixSource(sourcePath, asset, merge);
-                compileScript(sourcePath, newPath);
+                fixFragment(oldPath, newPath);
             });
         }
     });
