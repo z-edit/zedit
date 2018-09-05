@@ -36,9 +36,10 @@ gulp.task('copySyntaxThemes', function() {
         .pipe(gulp.dest('syntaxThemes'));
 });
 
-gulp.task('environment', function() {
+gulp.task('environment', function(done) {
     let configFile = 'config/env_' + utils.getEnvName() + '.json';
     projectDir.copy(configFile, destDir.path('env.json'), { overwrite: true });
+    done();
 });
 
 gulp.task('watch', function() {
@@ -59,4 +60,4 @@ gulp.task('watch', function() {
     }));
 });
 
-gulp.task('build', ['bundle', 'sass', 'copySyntaxThemes', 'environment']);
+gulp.task('build', gulp.series('bundle', 'sass', 'copySyntaxThemes', 'environment'));
