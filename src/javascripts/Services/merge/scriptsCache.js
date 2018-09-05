@@ -1,7 +1,7 @@
 ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
-    let service = this,
-        {loadScript, getFileRefs} = pexService,
-        dataPath, cachePath, archiveCache, scriptsCache, newScripts;
+    let {loadScript, getFileRefs} = pexService,
+        dataPath, cachePath, scriptsCachePath, archiveCachePath,
+        archiveCache, scriptsCache, newScripts;
 
     let getPaths = function() {
         dataPath = xelib.GetGlobal('DataPath');
@@ -30,7 +30,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
     let getArchiveScriptData = function(filePath) {
         let bsaFileName = fh.getFileName(filePath),
             scriptPaths = bsaHelpers.find(filePath, 'scripts\\*.pex');
-        scriptPaths.map(scriptPath => {
+        return scriptPaths.map(scriptPath => {
             let outputPath = bsaHelpers.extractFile(bsaFileName, scriptPath),
                 script = loadScript(outputPath);
             return { scriptPath, data: getFileRefs(script) };
@@ -73,22 +73,8 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
         });
     };
 
-    let getFileReferences = function(sourceCode) {
-        let files = [];
-        sourceCode.replace(fileReferenceExpr, (m, filename) => {
-            if (!files.includes(filename)) files.push(filename);
-        });
-        return files;
-    };
-
-    let decompileNewScripts = function() {
+    let processNewScripts = function() {
         let scriptFileNames = newScripts.mapOnKey('filename');
-        scriptHelpers.decompileScripts(scriptFileNames, cachePath);
-        newScripts.forEach(script => {
-            let sourceCode = service.loadSourceCode(script.filename);
-            script.references = getFileReferences(sourceCode);
-            scriptsCache.push(script);
-        });
     };
 
     // PUBLIC API
@@ -104,7 +90,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
         cacheArchives();
         extractNewScripts();
         findNewScripts();
-        decompileNewScripts();
+        processNewScripts();
         saveCache();
         return scriptsCache;
     };

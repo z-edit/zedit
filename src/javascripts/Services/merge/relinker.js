@@ -47,5 +47,5 @@ ngapp.service('relinker', function(scriptsCache, scriptHelpers, settingsService)
             fh.saveTextFile(pscPath, updatedSource);
             compileScript(pscPath, pexPath);
         });
-    }
+    };
 });

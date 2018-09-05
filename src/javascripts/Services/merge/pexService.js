@@ -1,6 +1,6 @@
 ngapp.service('pexService', function() {
-    let {PexFile} = require('pex-parser'),
-        {loopWhile} = require('deasync');
+    /*let {PexFile} = require('pex-parser'),
+        {loopWhile} = require('deasync');*/
 
     this.loadScript = function(scriptPath) {
         let script = new PexFile(fh.jetpack.path(scriptPath)),
@@ -10,7 +10,7 @@ ngapp.service('pexService', function() {
             done = true;
             error = err;
         });
-        loopWhile(() => !done);
+        //loopWhile(() => !done);
         if (error) throw error;
         return script;
     };
@@ -22,7 +22,7 @@ ngapp.service('pexService', function() {
             done = true;
             error = err;
         });
-        loopWhile(() => !done);
+        //loopWhile(() => !done);
         if (error) throw error;
     };
 
