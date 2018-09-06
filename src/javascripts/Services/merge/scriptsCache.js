@@ -56,10 +56,6 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
         });
     };
 
-    let extractNewScripts = function() {
-        // TODO
-    };
-
     let findNewScripts = function() {
         newScripts = [];
         fh.getFiles(`${dataPath}\\scripts`, {
@@ -78,17 +74,10 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
     };
 
     // PUBLIC API
-    this.loadSourceCode = function(filename) {
-        let sourceName = getSourceFileName(filename),
-            sourcePath = `${cachePath}\\${sourceName}`;
-        return fh.loadTextFile(sourcePath);
-    };
-
     this.update = function() {
         getPaths();
         loadCache();
         cacheArchives();
-        extractNewScripts();
         findNewScripts();
         processNewScripts();
         saveCache();
