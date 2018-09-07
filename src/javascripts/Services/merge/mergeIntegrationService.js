@@ -1,6 +1,8 @@
 ngapp.service('mergeIntegrationService', function(settingsService, modManagerService, mergeLogger) {
     let service = this;
 
+    const oldFormatGames = ['TES5', 'TES4', 'FO3', 'FNV'];
+
     let runIntegration = function(key, modManager, merge) {
         let fn = (modManager && modManager[key]) || service[key];
         fn && fn(merge, settingsService.settings);
@@ -50,7 +52,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
     this.runIntegrations = function(merge) {
         let {mergeIntegrations, modManager} = settingsService.settings;
         modManager = modManagerService.getModManager(modManager);
-        mergeIntegrations.keys().forEach(key => {
+        Object.keys(mergeIntegrations).forEach(key => {
             if (!mergeIntegrations[key]) return;
             runIntegration(key, modManager, merge);
         });
