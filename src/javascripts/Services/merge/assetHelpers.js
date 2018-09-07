@@ -2,7 +2,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
     let service = this;
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
-        pluginExpr = /[^\\]+\.es[plm]\\/i;
+        pluginExpr = /[^\\]+\.es[plm]\\/i,
+        fragmentExpr = /.*scripts[\/\\].*(qf|tif|sf)_.*_[a-f0-9]{8}.pex$/i;
 
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
@@ -15,7 +16,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
     let getRules = function(merge) {
         let rules = ['**/*.@(esp|esm|bsa|ba2|bsl)', 'meta.ini',
             'translations/**/*', 'TES5Edit Backups/**/*', 'fomod/**/*',
-            'screenshot?(s)/**/*'];
+            'screenshot?(s)/**/*', 'scripts/source/*.psc'];
         merge.plugins.forEach(plugin => {
             let basePluginName = fh.getFileBase(plugin.filename);
             rules.push(`**/${basePluginName}.@(seq|ini)`,
@@ -24,16 +25,13 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
         return rules;
     };
 
-    let assetFolder = function(asset, merge) {
-        return merge.dataFolders[asset.plugin || asset.plugins[0]];
-    };
-
     // PUBLIC API
     this.findGeneralAssets = function(folder, merge) {
         let exclusions = getRules(merge).map(rule => {
             let pattern = `${folder}/${rule}`;
             return new fh.minimatch.Minimatch(pattern, { nocase: true });
         });
+        exclusions.push({ match: str => fragmentExpr.test(str) });
         return fh.getFiles(folder, { matching: '**/*' }).filter(filePath => {
             return !exclusions.find(expr => expr.match(filePath));
         });
@@ -48,7 +46,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
 
     this.getOldPath = function(asset, merge) {
         return bsaHelpers.extractAsset(merge, asset) ||
-            (assetFolder(asset, merge) + asset.filePath);
+            (asset.folder + asset.filePath);
     };
 
     this.getNewPath = function(asset, merge, expr, skipFn) {

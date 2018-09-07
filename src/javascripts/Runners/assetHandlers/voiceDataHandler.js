@@ -7,10 +7,6 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         voiceFileExpr = /.*_([0-9a-fA-F]+)_[0-9]\.fuz/,
         voiceDataExpr = /_([0-9A-F]{8})_[0-9]\.(fuz|wav)/i;
 
-    let findVoiceDataFiles = function(plugin, folder) {
-        return findGameAssets(plugin, folder, voicePath + plugin, `**/*`);
-    };
-
     let getVoiceDataDialogue = function(pluginFile, filePath) {
         if (!pluginFile) return '';
         let dialogueFormId = parseInt(voiceFileExpr.exec(filePath), 16),
@@ -20,26 +16,36 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         return '';
     };
 
+    let getVoiceDataAssets = function(plugin, folder, pluginFile) {
+        let sliceLen = folder.length;
+        return findGameAssets(plugin, folder, voicePath + plugin, `**/*`)
+            .map(filePath => ({
+                filePath: filePath.slice(sliceLen),
+                dialogue: getVoiceDataDialogue(pluginFile, filePath)
+            }));
+    };
+
     mergeAssetService.addHandler({
         label: 'Voice Data Files',
         priority: 0,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder, pluginFile) => {
-                let sliceLen = folder.length;
-                findVoiceDataFiles(plugin, folder).forEach(filePath => {
-                    merge.voiceDataFiles.push({
-                        plugin: plugin,
-                        filePath: filePath.slice(sliceLen),
-                        dialogue: getVoiceDataDialogue(pluginFile, filePath)
-                    });
-                });
+                let assets = getVoiceDataAssets(plugin, folder, pluginFile);
+                if (assets.length === 0) return;
+                merge.voiceData.push({ plugin, folder, assets });
             });
         },
         handle: function(merge) {
-            if (!merge.handleVoiceData || !merge.voiceDataFiles.length) return;
+            if (!merge.handleVoiceData || !merge.voiceData.length) return;
             mergeLogger.log('Handling Voice Data Files');
-            merge.voiceDataFiles.forEach(asset => {
-                copyAsset(asset, merge, voiceDataExpr);
+            merge.voiceData.forEach(entry => {
+                entry.assets.forEach(asset => {
+                    copyAsset({
+                        plugin: entry.plugin,
+                        folder: entry.folder,
+                        filePath: asset.filePath
+                    }, merge, voiceDataExpr);
+                });
             });
         }
     });

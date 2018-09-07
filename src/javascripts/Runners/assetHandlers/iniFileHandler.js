@@ -15,7 +15,7 @@ ngapp.run(function(mergeAssetService, mergeLogger, assetHelpers) {
                 let sliceLen = folder.length;
                 findIniFiles(plugin, folder).forEach(filePath => {
                     merge.iniFiles.push({
-                        plugin: plugin,
+                        plugin, folder,
                         filePath: filePath.slice(sliceLen)
                     });
                 });

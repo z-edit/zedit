@@ -34,9 +34,9 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
         return Object.assign(merge, {
             hasData: false,
             archives: [],
-            faceDataFiles: [],
-            voiceDataFiles: [],
-            billboardFiles: [],
+            faceData: [],
+            voiceData: [],
+            billboards: [],
             scriptFragments: [],
             stringFiles: [],
             translations: [],

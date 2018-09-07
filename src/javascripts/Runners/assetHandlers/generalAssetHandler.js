@@ -12,6 +12,12 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, mer
         }, {});
     };
 
+    let getGeneralAssets = function(folder, merge) {
+        let folderLen = folder.length;
+        return findGeneralAssets(folder, merge)
+            .map(path => ({ filePath: path.slice(folderLen) }))
+    };
+
     mergeAssetService.addHandler({
         label: 'General Assets',
         priority: 1,
@@ -22,21 +28,22 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, mer
 
             modFolders.forEach(folder => {
                 if (folder === dataPath) return;
-                let folderLen = folder.length,
-                    plugins = folders[folder];
-                findGeneralAssets(folder, merge).forEach(filePath => {
-                    merge.generalAssets.push({
-                        filePath: filePath.slice(folderLen),
-                        plugins: plugins
-                    });
-                });
+                let plugins = folders[folder],
+                    assets = getGeneralAssets(folder, merge);
+                if (assets.length === 0) return;
+                merge.generalAssets.push({ folder, plugins, assets });
             });
         },
         handle: function(merge) {
             if (!merge.copyGeneralAssets || !merge.generalAssets.length) return;
             mergeLogger.log(`Handling General Assets`);
-            merge.generalAssets.forEach(asset => {
-                copyAsset(asset, merge, null, true);
+            merge.generalAssets.forEach(entry => {
+                entry.assets.forEach(asset => {
+                    copyAsset({
+                        folder: entry.folder,
+                        filePath: asset.filePath
+                    }, merge, null, true);
+                });
             });
         }
     });

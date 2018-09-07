@@ -1,4 +1,4 @@
-<expandable-section ng-if="merge.plugins.length">
+<expandable-section class="asset-section" ng-if="merge.plugins.length">
     <title>Plugin Data Folders ({{merge.plugins.length}})</title>
     <content>
         <div class="data-folder-item" ng-repeat="plugin in merge.plugins">
@@ -13,7 +13,7 @@
     No data files were found for this merge.
 </div>
 
-<expandable-section ng-if="merge.archives.length">
+<expandable-section class="asset-section" ng-if="merge.archives.length">
     <title>Bethesda Archives ({{merge.archives.length}})</title>
     <content>
         <label>
@@ -55,117 +55,91 @@
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.faceDataFiles.length">
-    <title>NPC Face Data ({{merge.faceDataFiles.length}})</title>
+<expandable-section class="asset-section" ng-if="merge.faceData.length">
+    <title>NPC Face Data</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleFaceData"/>
             Handle NPC Face Data
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in merge.faceDataFiles">
-                    <td title="{{::file.npc}}">{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.faceData">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets" title="{{::asset.npc}}">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.voiceDataFiles.length">
-    <title>NPC Voice Data ({{merge.voiceDataFiles.length}})</title>
+<expandable-section class="asset-section" ng-if="merge.voiceData.length">
+    <title>NPC Voice Data</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleVoiceData"/>
             Handle NPC Voice Data
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody vs-repeat vs-scroll-parent=".table-container">
-                <tr ng-repeat="file in merge.voiceDataFiles">
-                    <td title="{{::file.npc}}">{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.voiceData">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets" title="{{::asset.dialogue}}">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.billboardFiles.length">
-    <title>LOD Billboards ({{merge.billboardFiles.length}})</title>
+<expandable-section class="asset-section" ng-if="merge.billboards.length">
+    <title>LOD Billboards</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleBillboards"/>
             Handle LOD Billboards
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in merge.billboardFiles">
-                    <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.billboards">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.scriptFragments.length">
-    <title>Script Fragments ({{merge.scriptFragments.length}})</title>
+<expandable-section class="asset-section" ng-if="merge.scriptFragments.length">
+    <title>Script Fragments</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleScriptFragments"/>
             Handle Script Fragments
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                    <th>Record</th>
-                </tr>
-                </thead>
-                <tbody vs-repeat vs-scroll-parent=".table-container">
-                <tr ng-repeat="fragment in merge.scriptFragments">
-                    <td>{{::fragment.plugin}}</td>
-                    <td>{{::fragment.filePath}}</td>
-                    <td>{{::fragment.record}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.scriptFragments">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets" title="{{::asset.record}}">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.stringFiles.length">
+<expandable-section class="asset-section" ng-if="merge.stringFiles.length">
     <title>String Files ({{merge.stringFiles.length}})</title>
     <content>
         <label>
@@ -192,7 +166,7 @@
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.translations.length">
+<expandable-section class="asset-section" ng-if="merge.translations.length">
     <title>MCM Translations ({{merge.translations.length}})</title>
     <content>
         <label>
@@ -219,7 +193,7 @@
     </content>
 </expandable-section>
 
-<expandable-section ng-if="merge.iniFiles.length">
+<expandable-section class="asset-section" ng-if="merge.iniFiles.length">
     <title>INI Files ({{merge.iniFiles.length}})</title>
     <content>
         <label>
@@ -246,29 +220,21 @@
     </content>
 </expandable-section>
 
-<expandable-section ng-if="canCopyGeneralAssets">
-    <title>General Assets ({{merge.generalAssets.length}})</title>
+<expandable-section class="asset-section" ng-if="merge.generalAssets.length">
+    <title>General Assets</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.copyGeneralAssets"/>
             Copy General Assets
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin(s)</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody vs-repeat vs-scroll-parent=".table-container">
-                <tr ng-repeat="file in merge.generalAssets">
-                    <td>{{::file.plugins.join(', ')}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.generalAssets">
+            <title>{{::entry.folder}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">{{::asset.filePath}}</div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>

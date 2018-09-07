@@ -23,6 +23,13 @@
     max-height: 500px;
   }
 
+  .assets-list {
+    font-size: 14px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 400px;
+  }
+
   table.files-table {
     font-size: 14px;
     width: 100%;
@@ -68,7 +75,7 @@
     }
   }
 
-  expandable-section {
+  expandable-section.asset-section {
     border: 1px solid $hard_border;
     background-color: $secondary_background;
     margin: 8px 0;
@@ -87,6 +94,27 @@
 
     title {
       display: inline-block;
+    }
+  }
+
+  expandable-section.assets-list-section {
+    display: block;
+    padding: 4px;
+
+    &:first-of-type {
+      margin-top: 16px;
+    }
+
+    .expander {
+      margin-right: 8px;
+    }
+
+    h3.title {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: normal;
     }
   }
 }

@@ -6,13 +6,6 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         faceTintPath = 'textures\\actors\\character\\facegendata\\facetint\\',
         faceDataExpr = /([0-9A-F]{8})\.(nif|dds)/i;
 
-    let findFaceDataFiles = function(plugin, folder) {
-        return Array.prototype.concat(
-            findGameAssets(plugin, folder, faceTintPath + plugin, '*'),
-            findGameAssets(plugin, folder, faceGeomPath + plugin, '*')
-        );
-    };
-
     let getFaceDataNpc = function(pluginFile, filePath) {
         if (!pluginFile) return '';
         let loadOrder = xelib.GetFileLoadOrder(pluginFile) * 0x1000000,
@@ -21,26 +14,38 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         return npcRecord ? xelib.Name(npcRecord) : '';
     };
 
+    let findFaceDataFiles = function(plugin, folder, pluginFile) {
+        let sliceLen = folder.length;
+        return Array.prototype.concat(
+            findGameAssets(plugin, folder, faceTintPath + plugin, '*'),
+            findGameAssets(plugin, folder, faceGeomPath + plugin, '*')
+        ).map(filePath => ({
+            filePath: filePath.slice(sliceLen),
+            npc: getFaceDataNpc(pluginFile, filePath)
+        }));
+    };
+
     mergeAssetService.addHandler({
         label: 'Face Data Files',
         priority: 0,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder, pluginFile) => {
-                let sliceLen = folder.length;
-                findFaceDataFiles(plugin, folder).forEach(filePath => {
-                    merge.faceDataFiles.push({
-                        plugin: plugin,
-                        filePath: filePath.slice(sliceLen),
-                        npc: getFaceDataNpc(pluginFile, filePath)
-                    });
-                });
+                let assets = findFaceDataFiles(plugin, folder, pluginFile);
+                if (assets.length === 0) return;
+                merge.faceData.push({ plugin, folder, assets });
             });
         },
         handle: function(merge) {
-            if (!merge.handleFaceData || !merge.faceDataFiles.length) return;
+            if (!merge.handleFaceData || !merge.faceData.length) return;
             mergeLogger.log(`Handling Face Data Files`);
-            merge.faceDataFiles.forEach(asset => {
-                copyAsset(asset, merge, faceDataExpr);
+            merge.faceData.forEach(entry => {
+                entry.assets.forEach(asset => {
+                    copyAsset({
+                        plugin: entry.plugin,
+                        folder: entry.folder,
+                        filePath: asset.filePath
+                    }, merge, faceDataExpr);
+                });
             });
         }
     });
