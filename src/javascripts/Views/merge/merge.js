@@ -84,6 +84,7 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
 
     // update load order and merge statuses when program regains focus
     eventService.onRegainFocus(() => {
+        if (xelib.GetLoadedFileNames().length > 0) return;
         loadOrderService.init();
         $scope.$applyAsync(updateMergeStatuses);
     }, 3000);
