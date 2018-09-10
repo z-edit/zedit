@@ -1,29 +1,14 @@
 ngapp.service('pexService', function() {
-    /*let {PexFile} = require('pex-parser'),
-        {loopWhile} = require('deasync');*/
+    let {PexFile} = require('pex-parser');
 
     this.loadScript = function(scriptPath) {
-        let script = new PexFile(fh.jetpack.path(scriptPath)),
-            done = false,
-            error = undefined;
-        script.parse(err => {
-            done = true;
-            error = err;
-        });
-        //loopWhile(() => !done);
-        if (error) throw error;
+        let script = new PexFile(fh.jetpack.path(scriptPath));
+        script.parse();
         return script;
     };
 
-    this.saveScript = function(script) {
-        let done = false,
-            error = undefined;
-        script.write(err => {
-            done = true;
-            error = err;
-        });
-        //loopWhile(() => !done);
-        if (error) throw error;
+    this.saveScript = function(script, callback) {
+        script.write(callback);
     };
 
     this.getFileRefs = function(script) {
