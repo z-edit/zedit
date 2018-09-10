@@ -17,8 +17,14 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     // INITIALIZATION
     let storePluginHandles = function(merge) {
-        merge.plugins.forEach(function(plugin) {
+        merge.plugins.forEach(plugin => {
             plugin.handle = xelib.FileByName(plugin.filename);
+        });
+    };
+
+    let releasePluginHandles = function(merge) {
+        merge.plugins.forEach(plugin => {
+            plugin.handle && xelib.Release(plugin.handle);
         });
     };
 
@@ -89,16 +95,21 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     let finalizeMerge = function(merge) {
         mergeIntegrationService.runIntegrations(merge);
-        mergeAssetService.cleanup(merge);
         removePluginMasters(merge);
         saveMergeFiles(merge);
-        merge.plugins.forEach(plugin => xelib.Release(plugin.handle));
         mergeLogger.log(`Completed merge ${merge.name}.`);
         mergeLogger.close();
     };
 
+    let cleanupMerge = function(merge) {
+        mergeAssetService.cleanup(merge);
+        releasePluginHandles(merge);
+        merge.plugin && xelib.Release(merge.plugin);
+    };
+
     // builder
     let progressDone = function(err, merge) {
+        cleanupMerge(merge);
         let msg = err ? `${merge.name} failed to build` :
             `${mergesToBuild.length} merges built successfully`;
         progressService.progressTitle(msg);
