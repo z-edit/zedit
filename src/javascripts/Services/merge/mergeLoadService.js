@@ -1,4 +1,4 @@
-ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressService, mergeLogger) {
+ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressService, mergeLogger) {
     let loaded;
 
     let getMasters = function(filename) {
@@ -55,6 +55,7 @@ ngapp.service('pluginLoadService', function($rootScope, $q, $timeout, progressSe
             if (xelib.GetLoadOrder(plugin) < index) return;
             mergeLogger.log(`Unloading ${xelib.Name(plugin)}`);
             xelib.UnloadPlugin(plugin);
+            xelib.Release(plugin);
         }
     };
 

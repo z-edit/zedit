@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, pluginLoadService, progressService) {
+ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
     let mergesToBuild = [],
@@ -55,7 +55,7 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         mergeLogger.log(`\r\nBuilding merge ${merge.name}`);
         mergeLogger.log(`Merge Folder: ${merge.dataPath}`);
         mergeLogger.log(`Merge Method: ${merge.method || 'Clamp'}`);
-        tryPromise(pluginLoadService.loadPlugins(merge), () => {
+        tryPromise(mergeLoadService.loadPlugins(merge), () => {
             mergeLogger.progress('Preparing merge...', true);
             storePluginHandles(merge);
             mergeDataService.buildMergeData(merge);
@@ -89,8 +89,10 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     let finalizeMerge = function(merge) {
         mergeIntegrationService.runIntegrations(merge);
+        mergeAssetService.cleanup(merge);
         removePluginMasters(merge);
         saveMergeFiles(merge);
+        merge.plugins.forEach(plugin => xelib.Release(plugin.handle));
         mergeLogger.log(`Completed merge ${merge.name}.`);
         mergeLogger.close();
     };
