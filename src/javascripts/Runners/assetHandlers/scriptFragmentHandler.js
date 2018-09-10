@@ -89,6 +89,13 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, mergeLogger) {
                     fixFragment(merge, entry, asset);
                 });
             });
+        },
+        cleanup: function(merge) {
+            merge.scriptFragments.forEach(entry => {
+                entry.assets.forEach(asset => {
+                    if (asset.handle) xelib.Release(asset.handle);
+                });
+            });
         }
     });
 });

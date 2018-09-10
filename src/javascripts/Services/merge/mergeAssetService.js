@@ -35,12 +35,16 @@ ngapp.service('mergeAssetService', function(mergeLogger) {
     };
 
     this.getAssets = function(merge) {
-        handlers.forEach(handler => handler.get && handler.get(merge));
+        handlers.forEach(h => h.get && h.get(merge));
     };
 
     this.handleAssets = function(merge) {
         mergeLogger.progress('Handling asset files...');
         prepareToCopyAssets(merge);
-        handlers.forEach(handler => handler.handle(merge));
+        handlers.forEach(h => h.handle && h.handle(merge));
     };
+
+    this.cleanup = function(merge) {
+        handlers.filter(h => h.cleanup && h.cleanup(merge));
+    }
 });
