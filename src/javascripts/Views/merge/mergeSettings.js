@@ -19,7 +19,7 @@ ngapp.run(function(settingsService) {
         appModes: ['merge'],
         templateUrl: 'partials/settings/merge.html',
         defaultSettings: {
-            mergePath: fh.appDir.path('merges'),
+            mergePath: fh.jetpack.path('merges'),
             mergeIntegrations: {
                 disablePlugins: true,
                 disableMods: false
