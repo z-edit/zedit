@@ -9,6 +9,6 @@ gulp.task('start', gulp.series('build', gulp.parallel('watch', function app(done
         stdio: 'inherit'
     }).on('close', function () {
         process.exit();
-        done()
+        done();
     });
 })));
