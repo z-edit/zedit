@@ -1,25 +1,6 @@
 ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressService, mergeLogger) {
     let loaded;
 
-    let getMasters = function(filename) {
-        let plugin = $rootScope.loadOrder.findByKey('filename', filename);
-        return plugin.masterNames;
-    };
-
-    let getLoadOrder = function(merge) {
-        let plugins = [],
-            masters = [];
-        merge.plugins.forEach(function(plugin) {
-            plugins.push(plugin.filename);
-            getMasters(plugin.filename).forEach(function(master) {
-                if (masters.includes(master) ||
-                    plugins.includes(master)) return;
-                masters.push(master);
-            });
-        });
-        return masters.concat(plugins);
-    };
-
     let getLoadStatus = function(desiredLoadOrder) {
         for (let i = 0; i < desiredLoadOrder.length; i++){
             let plugin = xelib.FileByLoadOrder(i);
@@ -68,16 +49,14 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
 
     // PUBLIC API
     this.loadPlugins = function(merge) {
-        mergeLogger.log('Getting merge load order...');
-        let loadOrder = getLoadOrder(merge),
-            status = getLoadStatus(loadOrder);
-        logLoadOrder(loadOrder);
+        let status = getLoadStatus(merge.loadOrder);
+        logLoadOrder(merge.loadOrder);
         loaded = $q.defer();
         if (status.loaded) {
             mergeLogger.progress('Plugins already loaded.');
             loaded.resolve('alreadyLoaded');
         } else {
-            let pluginsToLoad = loadOrder.slice(status.badIndex),
+            let pluginsToLoad = merge.loadOrder.slice(status.badIndex),
                 numPlugins = pluginsToLoad.length;
             unloadAfterIndex(status.badIndex);
             mergeLogger.progress(`Loading ${numPlugins} plugins...`);

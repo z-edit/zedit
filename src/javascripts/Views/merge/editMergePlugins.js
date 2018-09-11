@@ -30,6 +30,9 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     let updateMergePlugins = function() {
         $scope.merge.plugins = $scope.plugins
             .filterOnKey('active').map(mergePluginMap);
+        $scope.merge.loadOrder = $scope.plugins
+            .filter(plugin => plugin.active || plugin.required)
+            .mapOnKey('filename');
     };
 
     // scope functions
