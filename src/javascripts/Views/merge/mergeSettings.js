@@ -11,6 +11,13 @@ ngapp.controller('mergeSettingsController', function($scope, modManagerService) 
             $scope.availableIntegrations[integrationKey] = true;
         });
     };
+
+    $scope.browseMergePath = function() {
+        let label = 'Select merge output folder',
+            defaultPath = $scope.settings.mergePath,
+            newPath = fh.selectDirectory(label, defaultPath);
+        if (newPath) $scope.settings.mergePath = newPath;
+    };
 });
 
 ngapp.run(function(settingsService) {
