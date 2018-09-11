@@ -130,7 +130,8 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
     };
 
     let buildNextMerge = function() {
-        if (buildIndex >= mergesToBuild.length) return progressDone();
+        if (buildIndex >= mergesToBuild.length)
+            return progressService.allowClose();
         buildMerge(mergesToBuild[buildIndex++]);
     };
 

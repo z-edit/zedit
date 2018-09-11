@@ -45,6 +45,6 @@ ngapp.service('mergeAssetService', function(mergeLogger) {
     };
 
     this.cleanup = function(merge) {
-        handlers.filter(h => h.cleanup && h.cleanup(merge));
+        handlers.forEach(h => h.cleanup && h.cleanup(merge));
     }
 });
