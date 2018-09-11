@@ -35,7 +35,7 @@ ngapp.run(function(integrationService, modManagerService, modOrganizerService) {
             settings.modManager = null;
         },
         defaultSettings: {
-            modManager: 'None',
+            modManager: '',
             managerPath: '',
             modsPath: ''
         }
