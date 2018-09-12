@@ -35,37 +35,6 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
         return merge.nextFormId;
     };
 
-    let getElementFileName = function(element) {
-        return xelib.WithHandle(xelib.GetElementFile(element), xelib.Name);
-    };
-
-    let renumberReferences = function(rec, oldFormId, newFormId) {
-        xelib.GetReferencedBy(rec).forEach(ref => {
-            let name = xelib.LongName(ref);
-            mergeLogger.log(`- Fixing references in ${name}`, true);
-            xelib.ExchangeReferences(ref, oldFormId, newFormId);
-        });
-        // log failures
-        xelib.GetReferencedBy(rec).map(xelib.LongName).forEach(name => {
-            mergeLogger.warn(`- Failed to fix all references in ${name}`);
-        });
-    };
-
-    let renumberOverrides = function(rec, newFormId) {
-        xelib.GetOverrides(rec).forEach(override => {
-            let fileName = getElementFileName(override);
-            mergeLogger.log(`- Renumbering override in file: ${fileName}`);
-            xelib.SetFormID(override, newFormId, false, false);
-        });
-    };
-
-    let renumberRecord = function(rec, newFormId) {
-        let oldFormId = xelib.GetFormID(rec);
-        renumberReferences(rec, oldFormId, newFormId);
-        renumberOverrides(rec, newFormId);
-        xelib.SetFormID(rec, newFormId, false, false);
-    };
-
     let renumberPluginRecords = function(plugin, merge, index) {
         let pluginName = xelib.Name(plugin),
             fidMap = merge.fidMap[pluginName] = {},
@@ -80,8 +49,7 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
                     msg = `Renumbering ${oldFormId} to ${newHexFormId}`;
                 mergeLogger.log(msg, true);
                 fidMap[oldFormId] = newHexFormId;
-                newFormId += loadOrdinal;
-                renumberRecord(rec, newFormId);
+                xelib.SetFormID(rec, loadOrdinal + newFormId);
                 merge.usedFids[newHexFormId] = index;
             } else {
                 merge.usedFids[oldFormId] = index;
