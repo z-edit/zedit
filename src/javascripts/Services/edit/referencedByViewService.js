@@ -2,13 +2,9 @@ ngapp.service('referencedByViewService', function(layoutService) {
     this.buildFunctions = function(scope) {
         // scope functions
         scope.buildGrid = function() {
-            scope.grid = xelib.GetReferencedBy(scope.record).map(function(handle) {
-                let node = {
-                    handle: handle
-                };
-                scope.getNodeData(node);
-                return node;
-            });
+            scope.grid = xelib.GetReferencedBy(scope.record)
+                .map(handle => ({ handle }))
+                .forEach(node => scope.getNodeData(node));
             scope.sortGrid();
         };
 
