@@ -15,9 +15,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
         });
         return line => {
             line = line.toLowerCase();
-            let inMerge = pluginFilenames.find(filename => line === filename);
-            if (inMerge) mergeLogger.log(`Disabling plugin: ${line}`);
-            return !inMerge;
+            return !pluginFilenames.find(filename => line === filename);
         };
     };
 
