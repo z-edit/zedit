@@ -1,5 +1,5 @@
 ngapp.controller('editMergeDataController', function($scope, mergeDataService, progressService) {
-    let assetArrayNames = ['archives', 'faceDataFiles', 'voiceDataFiles',
+    let assetArrayNames = ['archives', 'faceData', 'voiceData',
         'scriptFragments', 'stringFiles', 'translations', 'iniFiles'];
 
     // helper functions
