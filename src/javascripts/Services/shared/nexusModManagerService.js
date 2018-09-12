@@ -2,7 +2,7 @@ ngapp.service('nexusModManagerService', function($rootScope, fileSearchService, 
     let service = this;
 
     this.getModManagerPath = function() {
-        return fileSearchService.findFile(/^NexusClient\.exe$/, {
+        let exePath = fileSearchService.findFile(/^NexusClient\.exe$/, {
             initialQueue: [
                 process.env.USERPROFILE,
                 `${process.env.USERPROFILE}\\My Documents`,
@@ -11,6 +11,7 @@ ngapp.service('nexusModManagerService', function($rootScope, fileSearchService, 
             prioritize: [/nexus/i, /^nmm$/i, /mod/i, /manager/i,
                 /tool/i, /gam(e|ing)/i, /program/i]
         });
+        return exePath ? fh.getDirectory(exePath) : '';
     };
 
     this.getModsPath = function(managerPath) {

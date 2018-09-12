@@ -32,7 +32,7 @@ ngapp.service('modOrganizerService', function(fileSearchService, mergeLogger) {
     };
 
     this.getModManagerPath = function() {
-        return fileSearchService.findFile(/^ModOrganizer\.exe$/, {
+        let exePath = fileSearchService.findFile(/^ModOrganizer\.exe$/, {
             initialQueue: [
                 process.env.USERPROFILE,
                 `${process.env.USERPROFILE}\\My Documents`,
@@ -41,6 +41,7 @@ ngapp.service('modOrganizerService', function(fileSearchService, mergeLogger) {
             prioritize: [/organizer/i, /^mo$/i, /mod/i, /tool/i, /gam(e|ing)/i,
                 /program/i, /steam/i, /^common$/, /(Skyrim|Fallout|Oblivion)/i]
         });
+        return exePath ? fh.getDirectory(exePath) : '';
     };
 
     this.getInstanceModsPath = function(moInstance) {

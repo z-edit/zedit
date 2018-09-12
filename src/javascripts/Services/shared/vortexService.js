@@ -2,7 +2,7 @@ ngapp.service('vortexService', function($rootScope, fileSearchService, profileSe
     let service = this;
 
     this.getModManagerPath = function() {
-        return fileSearchService.findFile(/^Vortex\.exe$/, {
+        let exePath = fileSearchService.findFile(/^Vortex\.exe$/, {
             initialQueue: [
                 process.env.USERPROFILE,
                 `${process.env.USERPROFILE}\\My Documents`,
@@ -11,6 +11,7 @@ ngapp.service('vortexService', function($rootScope, fileSearchService, profileSe
             prioritize: [/vortex/i, /gam(e|ing)/i, /program/i, /mod/i, /tool/i,
                 /steam/i, /^common$/, /(Skyrim|Fallout|Oblivion)/i]
         });
+        return exePath ? fh.getDirectory(exePath) : '';
     };
 
     this.getModsPath = function() {
