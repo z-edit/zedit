@@ -1,51 +1,34 @@
-ngapp.service('relinker', function(scriptsCache, scriptHelpers, settingsService) {
-    let {fileReferenceExpr, getSourceFileName, compileScript} = scriptHelpers;
+ngapp.service('relinker', function(scriptsCache, pexService) {
 
     let getMergedPlugins = function(merges) {
-        let plugins = [];
+        let mergedPlugins = {};
         merges.forEach(merge => {
-            merge.plugins.mapOnKey('filename').forEach(filename => {
-                if (!plugins.includes(filename)) plugins.push(filename);
+            merge.plugins.forEach(({filename}) => {
+                mergedPlugins[filename] = merge.filename;
             });
         });
-        return plugins;
-    };
-
-    let getPluginMerge = function(merges, filename) {
-        return merges.find(merge => {
-            return !!merge.plugins.findByKey('filename', filename);
-        });
+        return mergedPlugins;
     };
 
     let getScriptsToRelink = function(merges) {
         let cache = scriptsCache.update(),
-            plugins = getMergedPlugins(merges);
+            mergedPlugins = getMergedPlugins(merges);
         return cache.filter(entry => {
-            return !!entry.files.find(f => plugins.includes(f));
-        });
-    };
-
-    let updateSource = function(sourceCode, merges) {
-        return sourceCode.replace(fileReferenceExpr, (m, filename) => {
-            let merge = getPluginMerge(merges, filename);
-            if (!merge) return m;
-            return m.replace(filename, m.filename);
+            return !!entry.fileRefs.find(ref => {
+                return mergedPlugins.hasOwnProperty(ref.plugin);
+            });
         });
     };
 
     this.relinkScripts = function(merges) {
-        let scripts = getScriptsToRelink(merges),
-            {relinkPath} = settingsService.settings,
-            scriptsPath = `${relinkPath}\\Scripts`,
-            sourcePath = `${scriptsPath}\\source`;
+        let scripts = getScriptsToRelink(merges);
         scripts.forEach(script => {
-            let sourceCode = scriptsCache.loadSourceCode(script.filename),
-                updatedSource = updateSource(sourceCode, merges),
-                sourceName = getSourceFileName(script.filename),
-                pscPath = `${sourcePath}\\${sourceName}`,
-                pexPath = `${scriptsPath}\\${script.filename}`;
-            fh.saveTextFile(pscPath, updatedSource);
-            compileScript(pscPath, pexPath);
+            // 1: get script filePath,
+            // 1A: extract if necessary
+            // 1B: exit if does not exist
+            // 2: load script using pexService
+            // 3: iterate through calls, fix file refs
+            // 4: save script
         });
     };
 });
