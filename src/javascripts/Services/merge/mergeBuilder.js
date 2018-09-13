@@ -103,22 +103,23 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         mergeService.saveMergeData(merge);
     };
 
-    let finalizeMerge = function(merge) {
-        mergeIntegrationService.runIntegrations(merge);
-        removePluginMasters(merge);
-        saveMergeFiles(merge);
-        mergeLogger.log(`Completed merge ${merge.name}.`);
-        mergeLogger.close();
-    };
-
     let cleanupMerge = function(merge) {
         mergeAssetService.cleanup(merge);
         releasePluginHandles(merge);
         merge.plugin && xelib.Release(merge.plugin);
     };
 
+    let finalizeMerge = function(merge) {
+        mergeIntegrationService.runIntegrations(merge);
+        removePluginMasters(merge);
+        saveMergeFiles(merge);
+        cleanupMerge(merge);
+        mergeLogger.log(`Completed merge ${merge.name}.`);
+        mergeLogger.close();
+    };
+
     // builder
-    let progressDone = function(err, merge) {
+    let onMergeError = function(err, merge) {
         cleanupMerge(merge);
         let msg = err ? `${merge.name} failed to build` :
             `${mergesToBuild.length} merges built successfully`;
@@ -136,7 +137,7 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
             mergeAssetService.handleAssets(merge);
             finalizeMerge(merge);
             buildNextMerge();
-        }, err => progressDone(err, merge));
+        }, err => onMergeError(err, merge));
     };
 
     let buildNextMerge = function() {
