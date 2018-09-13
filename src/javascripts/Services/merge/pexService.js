@@ -1,5 +1,8 @@
 ngapp.service('pexService', function() {
-    let {PexFile} = require('pex-parser');
+    let service = this,
+        {PexFile} = require('pex-parser');
+
+    const pluginExpr = new RegExp(/\.(esp|esm|esl)$/i);
 
     this.loadScript = function(scriptPath) {
         let script = new PexFile(scriptPath);
@@ -12,7 +15,8 @@ ngapp.service('pexService', function() {
         script.write();
     };
 
-    this.getFileRefs = function(script) {
-
+    this.getFileRefs = function(scriptPath) {
+        let {stringTable} = service.loadScript(scriptPath);
+        return stringTable.filter(str => pluginExpr.test(str));
     };
 });

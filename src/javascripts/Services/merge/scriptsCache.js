@@ -36,7 +36,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
         let filename = fh.getFileName(filePath),
             hash = fh.getMd5Hash(filePath);
         if (getScriptEntry(filename, hash)) return;
-        let fileRefs = pexService.getFileRefs(script);
+        let fileRefs = pexService.getFileRefs(filePath);
         scriptsCache.push(bsa ?
             { bsa, filename, hash, fileRefs } :
             { filename, hash, fileRefs });
