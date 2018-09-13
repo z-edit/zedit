@@ -64,9 +64,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, mergeLogger) {
             fileName = fh.getFileBase(newPath),
             script = pexService.loadScript(oldPath);
         script.stringTable[0] = fileName;
-        script.filePath = newPath;
         fh.jetpack.dir(fh.getDirectory(newPath));
-        pexService.saveScript(script);
+        pexService.saveScript(script, newPath);
         xelib.SetValue(a.handle, fileName);
     };
 
