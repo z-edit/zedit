@@ -1,5 +1,8 @@
 ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService) {
-    let dataPath;
+    let opcodes = require('pex-parser/src/opcodes.js'),
+        dataPath;
+
+    const CALLMETHOD = opcodes.findByKey('name', 'callmethod');
 
     let getMergedPlugins = function(merges) {
         let mergedPlugins = {};
@@ -32,8 +35,41 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
             `${getDataPath()}\\${basePath}`;
     };
 
-    let fixFileRefs = function(script, merges) {
-        // TODO
+    let buildFormIdMap = function(merges) {
+        return merges.reduce((fidMap, merge) => {
+            // TODO
+        }, {});
+    };
+
+    let resolveString = function(script, arg) {
+        return script.stringTable[arg.data];
+    };
+
+    let fixGetFormCalls = function(script, merges) {
+        let fidMap = buildFormIdMap(merges),
+            functions = pexService.getFunctions(script);
+        functions.forEach(fn => {
+            fn.instructions.forEach(({op, arguments}) => {
+                if (op !== CALLMETHOD.code) return;
+                let methodName = resolveString(script, arguments[1]);
+                if (methodName !== 'GetFormFromFile') return;
+                let filename = resolveString(script, arguments[3]);
+                if (!fidMap.hasOwnProperty(filename)) return;
+                let oldFormId = xelib.Hex(arguments[2].data, 6),
+                    newFormId = fidMap[filename][oldFormId];
+                if (!newFormId) return;
+                // TODO: log message
+                arguments[2].data = parseInt(newFormId, 16);
+            });
+        });
+    };
+
+    let fixStrings = function(script, merges) {
+        let mergedPlugins = getMergedPlugins(merges);
+        script.stringTable.forEach((str, index) => {
+            let newStr = mergedPlugins[str];
+            if (newStr) script.stringTable[index] = newStr;
+        });
     };
 
     this.relinkScripts = function(merges) {
@@ -45,7 +81,8 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
             if (!filePath || !fh.jetpack.exists(filePath)) return;
             let script = pexService.loadScript(filePath),
                 newPath = `${relinkerPath}\\scripts\\${entry.filename}`;
-            fixFileRefs(script, merges);
+            fixStrings(script, merges);
+            fixGetFormCalls(script, merges);
             pexService.saveScript(script, newPath);
         });
     };
