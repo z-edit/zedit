@@ -36,8 +36,11 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     };
 
     let buildFormIdMap = function(merges) {
+        let {mergePath} = settingsService.settings;
         return merges.reduce((fidMap, merge) => {
-            // TODO
+            let path = `${mergePath}\\${merge.name}\\merge\\fidMap.json`,
+                map = fh.loadJsonFile(path);
+            return Object.assign(fidMap, map || {});
         }, {});
     };
 
