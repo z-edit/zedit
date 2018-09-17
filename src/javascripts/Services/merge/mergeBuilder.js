@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, referenceService, progressService) {
+ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, referenceService, progressService) {
     const mastersPath = 'File Header\\Master Files';
 
     let mergesToBuild = [],
@@ -30,27 +30,27 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     let buildReferences = function(merge) {
         merge.plugins.forEach(plugin => {
-            mergeLogger.log(`Building references for ${plugin.filename}`);
+            progressLogger.log(`Building references for ${plugin.filename}`);
             xelib.BuildReferences(plugin.handle);
         });
-        mergeLogger.log('Done building references');
+        progressLogger.log('Done building references');
     };
 
     let prepareMergedPlugin = function(merge) {
         merge.plugin = xelib.AddFile(merge.filename);
-        mergeLogger.log(`Merging into ${merge.filename}`);
+        progressLogger.log(`Merging into ${merge.filename}`);
     };
 
     let addMastersToMergedPlugin = function(merge) {
         xelib.AddAllMasters(merge.plugin);
-        mergeLogger.log(`Added masters to merged plugin`);
+        progressLogger.log(`Added masters to merged plugin`);
     };
 
     let addMastersToPlugins = function(merge) {
         merge.plugins.forEach(plugin => {
             xelib.AddMaster(plugin.handle, merge.filename);
         });
-        mergeLogger.log(`Added ${merge.filename} as a master to the plugins being merged`);
+        progressLogger.log(`Added ${merge.filename} as a master to the plugins being merged`);
     };
 
     let removeOldMergeFiles = function(merge) {
@@ -65,15 +65,15 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         merge.dataPath = mergeService.getMergeDataPath(merge);
         merge.failedToCopy = [];
         removeOldMergeFiles(merge);
-        mergeLogger.init(`${merge.dataPath}\\merge`);
-        mergeLogger.log(`\r\nBuilding merge ${merge.name}`);
-        mergeLogger.log(`Merge Folder: ${merge.dataPath}`);
-        mergeLogger.log(`Merge Method: ${merge.method || 'Clamp'}`);
+        progressLogger.init('merge', `${merge.dataPath}\\merge`);
+        progressLogger.log(`\r\nBuilding merge ${merge.name}`);
+        progressLogger.log(`Merge Folder: ${merge.dataPath}`);
+        progressLogger.log(`Merge Method: ${merge.method || 'Clamp'}`);
         tryPromise(mergeLoadService.loadPlugins(merge), () => {
-            mergeLogger.progress('Building references...', true);
+            progressLogger.progress('Building references...', true);
             storePluginHandles(merge);
             buildReferences(merge);
-            mergeLogger.progress('Preparing merge...', true);
+            progressLogger.progress('Preparing merge...', true);
             mergeDataService.buildMergeData(merge);
             prepareMergedPlugin(merge);
             merge.method === 'Master' ? addMastersToPlugins(merge) :
@@ -85,21 +85,21 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
 
     // FINALIZATION
     let removePluginMasters = function(merge) {
-        mergeLogger.progress('Removing masters from merge...', true);
+        progressLogger.progress('Removing masters from merge...', true);
         let masters = xelib.GetElement(merge.plugin, mastersPath);
         merge.plugins.forEach(plugin => {
-            mergeLogger.log(`Removing master ${plugin.filename}`);
+            progressLogger.log(`Removing master ${plugin.filename}`);
             xelib.RemoveArrayItem(masters, '', 'MAST', plugin.filename);
         });
     };
 
     let saveMergeFiles = function(merge) {
-        mergeLogger.progress('Saving merge files...');
+        progressLogger.progress('Saving merge files...');
         seqService.buildSeqFile(merge);
-        mergeLogger.log('Saving merged plugin');
+        progressLogger.log('Saving merged plugin');
         xelib.SaveFile(merge.plugin, `${merge.dataPath}\\${merge.filename}`);
         merge.dateBuilt = new Date();
-        mergeLogger.log('Saving additional merge data');
+        progressLogger.log('Saving additional merge data');
         mergeService.saveMergeData(merge);
     };
 
@@ -114,8 +114,8 @@ ngapp.service('mergeBuilder', function($q, mergeLogger, mergeService, recordMerg
         removePluginMasters(merge);
         saveMergeFiles(merge);
         cleanupMerge(merge);
-        mergeLogger.log(`Completed merge ${merge.name}.`);
-        mergeLogger.close();
+        progressLogger.log(`Completed merge ${merge.name}.`);
+        progressLogger.close();
     };
 
     // builder

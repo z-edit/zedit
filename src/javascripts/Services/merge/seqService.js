@@ -1,4 +1,4 @@
-ngapp.service('seqService', function(mergeLogger) {
+ngapp.service('seqService', function(progressLogger) {
     const seqFlag = 'Start Game Enabled';
 
     let isSEQ = function(rec) {
@@ -46,6 +46,6 @@ ngapp.service('seqService', function(mergeLogger) {
             buffer = new Buffer(formIds.length * 4);
         formIds.forEach((fid, n) => buffer.writeUInt32LE(fid, n * 4));
         fh.jetpack.write(filePath, buffer);
-        mergeLogger.log('Created SEQ file: ' + filePath);
+        progressLogger.log('Created SEQ file: ' + filePath);
     };
 });

@@ -1,11 +1,11 @@
-ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) {
     let {findBsaFiles, findGeneralAssets}  = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
     let actions = {
         "Copy": function({filePath}, merge) {
             let newPath = `${merge.dataPath}\\${fh.getFileName(filePath)}`;
-            mergeLogger.log(`Copying ${filePath} to ${newPath}`, true);
+            progressLogger.log(`Copying ${filePath} to ${newPath}`, true);
             fh.jetpack.copy(filePath, newPath, { overwrite: true });
         },
         "Extract": function(archive, merge) {
@@ -39,7 +39,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
                 return actions.hasOwnProperty(archive.action);
             });
             if (!archivesToHandle.length) return;
-            mergeLogger.log(`Handling Bethesda Archive Files`);
+            progressLogger.log(`Handling Bethesda Archive Files`);
             merge.archives.forEach(archive => {
                 let action = actions[archive.action];
                 if (action) action(archive, merge);
@@ -52,13 +52,13 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, mergeLogger) {
         priority: 100,
         handle: function(merge) {
             if (!merge.extractArchives || !merge.extracted.length) return;
-            mergeLogger.log(`Handling Extracted Files`);
+            progressLogger.log(`Handling Extracted Files`);
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
                     let localPath = filePath.slice(folderLen),
                         newPath = `${merge.dataPath}\\${localPath}`;
-                    mergeLogger.log(`Moving ${filePath} to ${newPath}`, true);
+                    progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
                     fh.jetpack.move(filePath, newPath, { overwrite: true });
                 });
             });

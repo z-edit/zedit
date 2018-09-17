@@ -1,4 +1,4 @@
-ngapp.service('mergeAssetService', function(mergeLogger) {
+ngapp.service('mergeAssetService', function(progressLogger) {
     let handlers = [];
 
     // helper functions
@@ -39,7 +39,7 @@ ngapp.service('mergeAssetService', function(mergeLogger) {
     };
 
     this.handleAssets = function(merge) {
-        mergeLogger.progress('Handling asset files...');
+        progressLogger.progress('Handling asset files...');
         prepareToCopyAssets(merge);
         handlers.forEach(h => h.handle && h.handle(merge));
     };

@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
     let {copyAsset, findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -37,7 +37,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         },
         handle: function(merge) {
             if (!merge.handleVoiceData || !merge.voiceData.length) return;
-            mergeLogger.log('Handling Voice Data Files');
+            progressLogger.log('Handling Voice Data Files');
             merge.voiceData.forEach(entry => {
                 entry.assets.forEach(asset => {
                     copyAsset({

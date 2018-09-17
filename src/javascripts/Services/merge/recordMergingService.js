@@ -1,4 +1,4 @@
-ngapp.service('recordMergingService', function(mergeLogger, progressService) {
+ngapp.service('recordMergingService', function(progressLogger, progressService) {
     let getFid = rec => xelib.GetHexFormID(rec, false, true);
     let getMergePlugins = merge => merge.plugins.mapOnKey('handle');
     let getAllRecords = plugin => xelib.GetRecords(plugin, '', true);
@@ -6,10 +6,10 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
     let tryCopy = function(rec, merge, asNew) {
         let name = xelib.LongName(rec);
         try {
-            mergeLogger.log(`Copying ${name}`, true);
+            progressLogger.log(`Copying ${name}`, true);
             return xelib.CopyElement(rec, merge.plugin, asNew);
         } catch (x) {
-            mergeLogger.warn(`Failed to copy record ${name}, ${x.stack}`);
+            progressLogger.warn(`Failed to copy record ${name}, ${x.stack}`);
             merge.failedToCopy.push({
                 rec: name,
                 stack: x.stack
@@ -39,7 +39,7 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
         let pluginName = xelib.Name(plugin),
             fidMap = merge.fidMap[pluginName] = {},
             loadOrdinal = xelib.GetFileLoadOrder(plugin) << 24;
-        mergeLogger.log(`Renumbering FormIDs in ${pluginName}`);
+        progressLogger.log(`Renumbering FormIDs in ${pluginName}`);
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
             if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
             let oldFormId = getFid(rec);
@@ -47,7 +47,7 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
                 let newFormId = getNextFormId(merge),
                     newHexFormId = xelib.Hex(newFormId, 6),
                     msg = `Renumbering ${oldFormId} to ${newHexFormId}`;
-                mergeLogger.log(msg, true);
+                progressLogger.log(msg, true);
                 fidMap[oldFormId] = newHexFormId;
                 xelib.SetFormID(rec, loadOrdinal + newFormId);
                 merge.usedFids[newHexFormId] = index;
@@ -59,10 +59,10 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
 
     let getUsedFormIds = function(merge) {
         merge.usedFids = {};
-        mergeLogger.progress('Getting used FormIDs...');
+        progressLogger.progress('Getting used FormIDs...');
         getMergePlugins(merge).forEach(plugin => {
             let pluginName = xelib.Name(plugin);
-            mergeLogger.log(`Getting used FormIDs in ${pluginName}`);
+            progressLogger.log(`Getting used FormIDs in ${pluginName}`);
             xelib.WithEachHandle(getAllRecords(plugin), rec => {
                 if (xelib.IsOverride(rec) || xelib.IsInjected(rec)) return;
                 merge.usedFids[getFid(rec)] = -1;
@@ -72,17 +72,17 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
 
     let renumberFormIds = function(merge) {
         merge.nextFormId = 0x000801;
-        mergeLogger.progress('Renumbering FormIDs...');
+        progressLogger.progress('Renumbering FormIDs...');
         getMergePlugins(merge).forEach((plugin, index) => {
             renumberPluginRecords(plugin, merge, index);
         });
     };
 
     let copyRecords = function(merge, allowNew) {
-        mergeLogger.progress('Copying records...');
+        progressLogger.progress('Copying records...');
         getMergePlugins(merge).forEachReverse(plugin => {
             let pluginName = xelib.Name(plugin);
-            mergeLogger.log(`Copying records from ${pluginName}`);
+            progressLogger.log(`Copying records from ${pluginName}`);
             let fidMap = copyPluginRecords(plugin, merge, allowNew);
             if (allowNew) merge.fidMap[pluginName] = fidMap;
             progressService.addProgress(1);
@@ -96,7 +96,7 @@ ngapp.service('recordMergingService', function(mergeLogger, progressService) {
     };
 
     let copyAndRefactor = function(merge) {
-        mergeLogger.error('Refactor merge method not implemented');
+        progressLogger.error('Refactor merge method not implemented');
         copyRecords(merge, true);
         // TODO: xelib.RefactorReferences(merge.plugin, merge.fidMap);
     };

@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, mergeLogger, assetHelpers) {
+ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
     let {forEachPlugin} = mergeAssetService;
 
     let findIniFiles = function(plugin, folder) {
@@ -23,21 +23,21 @@ ngapp.run(function(mergeAssetService, mergeLogger, assetHelpers) {
         },
         handle: function(merge) {
             if (!merge.handleIniFiles || !merge.iniFiles.length) return;
-            mergeLogger.log(`Handling INI Files`);
+            progressLogger.log(`Handling INI Files`);
             if (merge.iniFiles.length === 1)
                 return assetHelpers.copyAsset(merge.iniFiles[0], merge);
             let inis = merge.iniFiles.map(asset => {
-                mergeLogger.log(`Loading ${asset.filePath}`, true);
+                progressLogger.log(`Loading ${asset.filePath}`, true);
                 return new Ini(fh.loadTextFile(asset.filePath));
             });
-            mergeLogger.log(`Merging ${inis.length} INIs`, true);
+            progressLogger.log(`Merging ${inis.length} INIs`, true);
             let mergedIni = Ini.merge(...inis),
                 filename = fh.getFileBase(merge.filename) + '.ini',
                 output = mergedIni.stringify({
                     removeCommentLines: true,
                     blankLineAfterSection: true
                 });
-            mergeLogger.log(`Saving merged INI ${filename}`, true);
+            progressLogger.log(`Saving merged INI ${filename}`, true);
             fh.saveTextFile(`${merge.dataFolder}\\${filename}`, output);
         }
     });

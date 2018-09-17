@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, mergeLogger) {
+ngapp.run(function(mergeAssetService, progressLogger) {
     let {forEachPlugin} = mergeAssetService;
 
     let translationPath = 'interface\\translations\\';
@@ -48,7 +48,7 @@ ngapp.run(function(mergeAssetService, mergeLogger) {
         },
         handle: function(merge) {
             if (!merge.handleTranslations || !merge.translations.length) return;
-            mergeLogger.log(`Handling MCM Translation Files`);
+            progressLogger.log(`Handling MCM Translation Files`);
             let translations = {};
             loadTranslations(merge, translations);
             saveTranslations(merge, translations);

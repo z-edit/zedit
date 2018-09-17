@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, pexService, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger) {
     let {getOldPath, getNewPath, findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -82,7 +82,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, mergeLogger) {
         handle: function(merge) {
             if (!merge.handleScriptFragments ||
                 !merge.scriptFragments.length) return;
-            mergeLogger.log('Handling Script Fragments');
+            progressLogger.log('Handling Script Fragments');
             merge.scriptFragments.forEach(entry => {
                 entry.assets.forEach(asset => {
                     fixFragment(merge, entry, asset);

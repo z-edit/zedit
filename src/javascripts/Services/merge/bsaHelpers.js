@@ -1,4 +1,4 @@
-ngapp.service('bsaHelpers', function(mergeLogger) {
+ngapp.service('bsaHelpers', function(progressLogger) {
     let service = this,
         bsaCache = {},
         Minimatch = fh.minimatch.Minimatch;
@@ -32,7 +32,7 @@ ngapp.service('bsaHelpers', function(mergeLogger) {
     this.extractFile = function(bsaFileName, filePath) {
         let outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
         if (fh.jetpack.exists(outputPath) !== 'file') {
-            mergeLogger.log(`Extracting ${filePath} from ${bsaFileName}`, true);
+            progressLogger.log(`Extracting ${filePath} from ${bsaFileName}`, true);
             xelib.ExtractFile(bsaFileName, filePath, outputPath);
         }
         return outputPath;
@@ -48,7 +48,7 @@ ngapp.service('bsaHelpers', function(mergeLogger) {
     this.extractArchive = function(archive) {
         let outputPath = fh.jetpack.path(`temp\\${archive.filename}`);
         if (fh.jetpack.exists(outputPath) !== 'dir') {
-            mergeLogger.log(`Extracting ${archive.filename}`, true);
+            progressLogger.log(`Extracting ${archive.filename}`, true);
             xelib.ExtractContainer(archive.filePath, outputPath + '\\', true);
         }
         return outputPath;

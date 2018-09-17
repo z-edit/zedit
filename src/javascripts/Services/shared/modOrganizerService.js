@@ -1,4 +1,4 @@
-ngapp.service('modOrganizerService', function(fileSearchService, mergeLogger) {
+ngapp.service('modOrganizerService', function(fileSearchService, progressLogger) {
     let service = this;
 
     let backslash = path => path.replace(/\//g, '\\');
@@ -100,7 +100,7 @@ ngapp.service('modOrganizerService', function(fileSearchService, mergeLogger) {
             modlist = service.getModList(settings),
             newModList = modlist.split('\r\n').map(line => {
                 if (notInMerge(line)) return line;
-                mergeLogger.log(`Disabling mod: ${line.slice(1)}`);
+                progressLogger.log(`Disabling mod: ${line.slice(1)}`);
                 return line.replace(/^\+/, '-');
             }).join('\r\n');
         if (newModList === modList) return;

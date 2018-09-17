@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, progressLogger) {
     let {copyAsset, findGeneralAssets} = assetHelpers,
         {sortModFolders} = mergeIntegrationService;
 
@@ -36,7 +36,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, mer
         },
         handle: function(merge) {
             if (!merge.copyGeneralAssets || !merge.generalAssets.length) return;
-            mergeLogger.log(`Handling General Assets`);
+            progressLogger.log(`Handling General Assets`);
             merge.generalAssets.forEach(entry => {
                 entry.assets.forEach(asset => {
                     copyAsset({

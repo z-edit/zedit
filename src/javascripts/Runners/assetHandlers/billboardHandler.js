@@ -1,4 +1,4 @@
-ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
     let {copyAsset, findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
@@ -23,7 +23,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeLogger) {
         },
         handle: function(merge) {
             if (!merge.handleBillboards || !merge.billboards.length) return;
-            mergeLogger.log(`Handling LOD Billboards`);
+            progressLogger.log(`Handling LOD Billboards`);
             merge.billboards.forEach(entry => {
                 entry.assets.forEach(asset => {
                     copyAsset({

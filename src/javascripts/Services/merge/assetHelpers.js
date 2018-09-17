@@ -1,4 +1,4 @@
-ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
+ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     let service = this;
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
@@ -63,7 +63,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, mergeLogger) {
     this.copyAsset = function(asset, merge, expr, skipFn = false) {
         let oldPath = service.getOldPath(asset, merge),
             newPath = service.getNewPath(asset, merge, expr, skipFn);
-        mergeLogger.log(`Copying ${oldPath} to ${newPath}`, true);
+        progressLogger.log(`Copying ${oldPath} to ${newPath}`, true);
         fh.jetpack.copy(oldPath, newPath, { overwrite: true });
     };
 
