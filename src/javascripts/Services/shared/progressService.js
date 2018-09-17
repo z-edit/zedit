@@ -48,6 +48,13 @@ ngapp.service('progressService', function($q) {
         ipcRenderer.send('progress-error', message);
     };
 
+    this.error = function(msg, err) {
+        service.progressTitle(msg);
+        service.progressMessage('Error');
+        service.progressError(`${msg}:\n${err}`);
+        service.allowClose();
+    };
+
     this.addProgress = function(num) {
         ipcRenderer.send('add-progress', num);
     };
@@ -58,6 +65,12 @@ ngapp.service('progressService', function($q) {
 
     this.allowClose = function() {
         ipcRenderer.send('allow-close');
+    };
+
+    this.success = function(msg) {
+        service.progressTitle(msg);
+        service.progressMessage('All Done!');
+        service.allowClose();
     };
 
     this.onProgressClosed = (callback) => closed.then(callback);

@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService) {
+ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker) {
     // helper functions
     let updateMergeStatuses = function() {
         $scope.merges.forEach(mergeStatusService.updateStatus);
@@ -58,7 +58,10 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
     };
 
     $scope.relinkScripts = function() {
-        $scope.$emit('openModal', 'relinkScripts', {merges: $scope.merges });
+        let merges = $scope.merges.filter(merge => {
+            return merge.status === 'Up to date';
+        });
+        $timeout(() => relinker.run(merges));
     };
 
     $scope.openDataFolder = function(plugin) {

@@ -1,22 +1,64 @@
 import logger from '../../helpers/logger';
 
 ngapp.service('progressLogger', function(progressService) {
+    let {progressMessage, progressError, addProgress, progressTitle,
+         showProgress, logMessage, allowClose} = progressService;
+
     const bar = '='.repeat(60);
 
-    let logMessage = function(level, msg, v) {
+    let message = function(level, msg, v) {
         logger[level](msg);
-        if (!v) progressService.logMessage(level, msg);
+        if (!v) logMessage(level, msg);
     };
 
     this.init = logger.init;
-    this.close = logger.close;
-    this.log = (msg, v) => logMessage('log', msg, v);
-    this.info = (msg, v) => logMessage('info', msg, v);
-    this.warn = (msg, v) => logMessage('warn', msg, v);
-    this.error = (msg, v) => logMessage('error', msg, v);
+    this.log = (msg, v) => message('log', msg, v);
+    this.info = (msg, v) => message('info', msg, v);
+    this.warn = (msg, v) => message('warn', msg, v);
+    this.error = (msg, v) => message('error', msg, v);
+
+    this.done = (title) => {
+        if (title) progressTitle(title);
+        progressMessage('All Done!');
+        addProgress(1);
+    };
+
+    this.close = (progressAllowClose = true) => {
+        if (progressAllowClose) allowClose();
+        logger.close();
+    };
+
+    this.fatalError = (err, message, title) => {
+        progressTitle(title || message);
+        progressMessage('Error');
+        progressError(`${message}:\n${err}`);
+    };
+
+    let tryTask = (task, fn) => {
+        try {
+            fn();
+            this.done(`Done ${task}`);
+        } catch (err) {
+            this.fatalError(err, `Error ${task}`);
+        } finally {
+            this.close();
+        }
+    };
+
+    this.run = (logName, path, progressOpts, fn) => {
+        this.init(logName, path);
+        showProgress(Object.assign({
+            determinate: true,
+            message: 'Initializing...',
+            logName: logName,
+            current: 0
+        }, progressOpts));
+        tryTask(progressOpts.title.toLowerCase(), fn);
+    };
+
     this.progress = (msg, skipAdd) => {
-        logMessage('log', `\r\n${msg}\r\n${bar}`);
-        if (!skipAdd) progressService.addProgress(1);
-        progressService.progressMessage(msg);
+        message('log', `\r\n${msg}\r\n${bar}`);
+        if (!skipAdd) addProgress(1);
+        progressMessage(msg);
     };
 });

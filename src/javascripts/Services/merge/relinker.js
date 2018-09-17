@@ -1,5 +1,5 @@
-ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger) {
-    let {log, warn, error, progress} = progressLogger,
+ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger, progressService) {
+    let {log, warn, fatalError, progress} = progressLogger,
         opcodes = require('pex-parser/src/opcodes.js'),
         dataPath;
 
@@ -99,16 +99,14 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
 
     this.run = function(merges) {
         let {relinkerPath} = settingsService.settings;
-        progressLogger.init('relinker', relinkerPath);
-        try {
+        progressLogger.run('relinker', relinkerPath, {
+            title: 'Relinking Scripts',
+            max: 4
+        }, () => {
             let scripts = getScriptsToRelink(merges),
                 fidMap = buildFormIdMap(merges);
             fh.jetpack.dir(`${relinkerPath}\\scripts`);
             relinkScripts(scripts, fidMap, relinkerPath);
-        } catch(x) {
-            error(`Error relinking scripts:\n${x.stack}`);
-        } finally {
-            progressLogger.close();
-        }
+        });
     };
 });
