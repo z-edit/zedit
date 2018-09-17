@@ -56,18 +56,18 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     let fixGetFormCalls = function(script, fidMap) {
         let functions = pexService.getFunctions(script);
         functions.forEach(fn => {
-            fn.instructions.forEach(({op, arguments}) => {
+            fn.instructions.forEach(({op, args}) => {
                 if (op !== CALLMETHOD.code) return;
-                let methodName = resolveString(script, arguments[1]);
+                let methodName = resolveString(script, args[1]);
                 if (methodName !== 'GetFormFromFile') return;
-                let filename = resolveString(script, arguments[3]);
+                let filename = resolveString(script, args[3]);
                 log(`Found GetFormFromFile call targetting ${filename}`, true);
                 if (!fidMap.hasOwnProperty(filename)) return;
-                let oldFormId = xelib.Hex(arguments[2].data, 6),
+                let oldFormId = xelib.Hex(args[2].data, 6),
                     newFormId = fidMap[filename][oldFormId];
                 if (!newFormId) return log(`Form ID ${oldFormId} not renumbered`);
                 log(`Changing Form ID from ${oldFormId} to ${newFormId}`);
-                arguments[2].data = parseInt(newFormId, 16);
+                args[2].data = parseInt(newFormId, 16);
             });
         });
     };

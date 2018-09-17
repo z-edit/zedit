@@ -1,4 +1,4 @@
-import logger from '../../helpers/logger';
+import progressLogger from './helpers/logger';
 
 ngapp.service('progressLogger', function(progressService) {
     let {progressMessage, progressError, addProgress, progressTitle,
@@ -7,11 +7,11 @@ ngapp.service('progressLogger', function(progressService) {
     const bar = '='.repeat(60);
 
     let message = function(level, msg, v) {
-        logger[level](msg);
+        progressLogger[level](msg);
         if (!v) logMessage(level, msg);
     };
 
-    this.init = logger.init;
+    this.init = progressLogger.init;
     this.log = (msg, v) => message('log', msg, v);
     this.info = (msg, v) => message('info', msg, v);
     this.warn = (msg, v) => message('warn', msg, v);
@@ -25,7 +25,7 @@ ngapp.service('progressLogger', function(progressService) {
 
     this.close = (progressAllowClose = true) => {
         if (progressAllowClose) allowClose();
-        logger.close();
+        progressLogger.close();
     };
 
     this.fatalError = (err, message, title) => {
