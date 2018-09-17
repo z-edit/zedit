@@ -1,4 +1,6 @@
-ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
+ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger) {
+    let {log} = progressLogger;
+
     let dataPath, cachePath, scriptsCachePath, archiveCachePath,
         archiveCache, scriptsCache;
 
@@ -11,12 +13,16 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
 
     let loadCache = function() {
         if (scriptsCache && archiveCache) return;
+        log(`Loading scripts cache from ${scriptsCachePath}`);
         scriptsCache = fh.loadJsonFile(scriptsCachePath) || [];
+        log(`Loading archive cache from ${archiveCachePath}`);
         archiveCache = fh.loadJsonFile(archiveCachePath) || [];
     };
 
     let saveCache = function() {
+        log('Saving scripts cache');
         fh.saveJsonFile(scriptsCache, scriptsCachePath);
+        log('Saving archive cache');
         fh.saveJsonFile(archiveCache, archiveCachePath);
     };
 
@@ -37,6 +43,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
             hash = fh.getMd5Hash(filePath);
         if (getScriptEntry(filename, hash)) return;
         let fileRefs = pexService.getFileRefs(filePath);
+        log(`Caching script ${filePath}, file refs: [${fileRefs}]`, true);
         scriptsCache.push(bsa ?
             { bsa, filename, hash, fileRefs } :
             { filename, hash, fileRefs });
@@ -45,6 +52,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
     let cacheArchiveScripts = function(filePath) {
         let bsa = fh.getFileName(filePath),
             scriptPaths = bsaHelpers.find(filePath, 'scripts\\*.pex');
+        log(`Caching ${scriptPaths.length} scripts`);
         scriptPaths.forEach(scriptPath => {
             let outputPath = bsaHelpers.extractFile(bsa, scriptPath);
             cacheScript(outputPath, bsa);
@@ -52,6 +60,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
     };
 
     let cacheArchives = function() {
+        log(`Caching archives`);
         fh.getFiles(dataPath, {
             matching: '*.@(bsa|ba2)',
             recursive: false
@@ -59,13 +68,15 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers) {
             let filename = fh.getFileName(filePath),
                 hash = fh.getMd5Hash(filePath);
             if (getArchiveEntry(filename, hash)) return;
+            log(`Caching scripts in archive ${filePath}`);
             cacheArchiveScripts(filePath);
             archiveCache.push({ filename, hash });
         });
     };
 
     let cacheScripts = function() {
-        return fh.getFiles(`${dataPath}\\scripts`, {
+        log(`Caching loose scripts`);
+        fh.getFiles(`${dataPath}\\scripts`, {
             matching: '*.pex',
             recursive: false
         }).forEach(filePath => cacheScript(filePath));

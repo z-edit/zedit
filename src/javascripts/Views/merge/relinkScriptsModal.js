@@ -8,7 +8,7 @@ ngapp.controller('relinkScriptsModalController', function($scope, $timeout, reli
     $scope.relinkScripts = function() {
         let merges = $scope.merges.filterOnKey('active').mapOnKey('merge');
         $scope.$emit('closeModal');
-        $timeout(() => relinker.relinkScripts(merges));
+        $timeout(() => relinker.run(merges));
     };
 });
 
