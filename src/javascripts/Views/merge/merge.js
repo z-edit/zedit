@@ -6,7 +6,9 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function ($scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker) {
+ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker) {
+    const relinkGames = [xelib.gmTES5, xelib.gmSSE, xelib.gmFO4];
+
     // helper functions
     let updateMergeStatuses = function() {
         $scope.merges.forEach(mergeStatusService.updateStatus);
@@ -17,7 +19,8 @@ ngapp.controller('mergeController', function ($scope, $timeout, progressService,
         mergeDataService.cacheDataFolders();
         mergeService.loadMerges();
         progressService.hideProgress();
-        $scope.allowRelinking = env.allow_relinking;
+        let currentGameMode = $rootScope.profile.gameMode;
+        $scope.allowRelinking = relinkGames.includes(currentGameMode);
         $scope.merges = mergeService.merges;
         updateMergeStatuses();
     };

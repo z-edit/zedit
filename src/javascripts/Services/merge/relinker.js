@@ -1,5 +1,5 @@
-ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger, progressService) {
-    let {log, warn, fatalError, progress} = progressLogger,
+ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger) {
+    let {log, warn, progress} = progressLogger,
         opcodes = require('pex-parser/src/opcodes.js'),
         dataPath;
 
