@@ -6,6 +6,9 @@ ngapp.service('loadOrderService', function($rootScope) {
         warnTitle = 'This plugin requires active plugins:';
 
     // helper functions
+    let warn = msg => (logger.closed() ? console : logger).warn(msg);
+    let error = msg => (logger.closed() ? console : logger).error(msg);
+
     let defaultActiveFilter = (item) => { return item.active };
 
     let findIgnoreCase = function(ary, searchStr) {
@@ -45,7 +48,7 @@ ngapp.service('loadOrderService', function($rootScope) {
         let missingMasters = item.masterNames.filter(function(n, i) {
             return !item.masters[i]
         });
-        logger.warn(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
+        warn(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
         item.active = false;
         item.disabled = true;
         item.title = buildTitle(disabledTitle, missingMasters);
@@ -89,7 +92,7 @@ ngapp.service('loadOrderService', function($rootScope) {
             handle = xelib.LoadPluginHeader(filename);
             return xelib.GetMasterNames(handle);
         } catch(x) {
-            console.log(x);
+            error(x.stack);
         } finally {
             if (handle) xelib.UnloadPlugin(handle);
         }
