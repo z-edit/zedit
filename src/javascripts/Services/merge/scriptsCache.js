@@ -1,4 +1,4 @@
-ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger) {
+ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, gameService) {
     let {log} = progressLogger;
 
     let dataPath, cachePath, scriptsCachePath, archiveCachePath,
@@ -65,8 +65,9 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger) {
             matching: '*.@(bsa|ba2)',
             recursive: false
         }).forEach(filePath => {
-            let filename = fh.getFileName(filePath),
-                hash = fh.getMd5Hash(filePath);
+            let filename = fh.getFileName(filePath);
+            if (gameService.isBethesdaArchive(filename)) return;
+            let hash = fh.getMd5Hash(filePath);
             if (getArchiveEntry(filename, hash)) return;
             log(`Caching scripts in archive ${filePath}`);
             cacheArchiveScripts(filePath);
