@@ -1,5 +1,5 @@
 ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, gameService) {
-    let {log} = progressLogger;
+    let {log, error} = progressLogger;
 
     let dataPath, cachePath, scriptsCachePath, archiveCachePath,
         archiveCache, scriptsCache;
@@ -42,11 +42,15 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, g
         let filename = fh.getFileName(filePath),
             hash = fh.getMd5Hash(filePath);
         if (getScriptEntry(filename, hash)) return;
-        let fileRefs = pexService.getFileRefs(filePath);
-        log(`Caching script ${filePath}, file refs: [${fileRefs}]`, true);
-        scriptsCache.push(bsa ?
-            { bsa, filename, hash, fileRefs } :
-            { filename, hash, fileRefs });
+        try {
+            let fileRefs = pexService.getFileRefs(filePath);
+            log(`Caching script ${filePath}, file refs: [${fileRefs}]`, true);
+            scriptsCache.push(bsa ?
+                { bsa, filename, hash, fileRefs } :
+                { filename, hash, fileRefs });
+        } catch (x) {
+            error(`Error caching script ${filePath}:\n${x.message}`);
+        }
     };
 
     let cacheArchiveScripts = function(filePath) {
