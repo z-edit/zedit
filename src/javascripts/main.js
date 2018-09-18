@@ -7,11 +7,12 @@ import path from 'path';
 import url from 'url';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
-import logger from './helpers/logger.js';
+import Logger from './helpers/logger.js';
 global.env = require('./env');
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
+let logger = new Logger();
 logger.init('main');
 logger.info(`Using arch ${process.arch}`);
 

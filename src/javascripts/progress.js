@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
 import './extensions';
-import logger from './helpers/logger.js';
+import Logger from './helpers/logger.js';
+let logger = new Logger();
 
 // angular app initialization
 const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angularSpinner']);

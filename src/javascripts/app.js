@@ -10,7 +10,7 @@ import 'angularjs-scroll-glue';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
-import logger from './helpers/logger.js';
+import Logger from './helpers/logger.js';
 import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
 import './extensions';
@@ -21,6 +21,7 @@ window.xelib = require('xelib').wrapper;
 window.appVersion = remote.app.getVersion();
 
 // init logger
+let logger = new Logger();
 logger.init('app');
 logger.info(`zEdit v${appVersion} ${process.arch}`);
 logger.addCallback('error', (msg) => window.alert(msg));
