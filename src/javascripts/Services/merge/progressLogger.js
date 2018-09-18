@@ -31,7 +31,7 @@ ngapp.service('progressLogger', function(progressService) {
     this.fatalError = (err, message, title) => {
         progressTitle(title || message);
         progressMessage('Error');
-        progressError(`${message}:\n${err}`);
+        progressError(`${message}:\n${err.stack}`);
     };
 
     let tryTask = (task, fn) => {

@@ -21,9 +21,9 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, g
 
     let saveCache = function() {
         log('Saving scripts cache');
-        fh.saveJsonFile(scriptsCache, scriptsCachePath);
+        fh.saveJsonFile(scriptsCachePath, scriptsCache);
         log('Saving archive cache');
-        fh.saveJsonFile(archiveCache, archiveCachePath);
+        fh.saveJsonFile(archiveCachePath, archiveCache);
     };
 
     let getScriptEntry = function(filename, hash) {

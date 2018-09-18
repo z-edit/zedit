@@ -61,10 +61,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.relinkScripts = function() {
-        let merges = $scope.merges.filter(merge => {
-            return merge.status === 'Up to date';
-        });
-        $timeout(() => relinker.run(merges));
+        $timeout(() => relinker.run($scope.merges));
     };
 
     $scope.openDataFolder = function(plugin) {

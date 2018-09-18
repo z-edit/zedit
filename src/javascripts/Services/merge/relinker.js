@@ -39,12 +39,12 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
 
     let buildFormIdMap = function(merges) {
         progress('Building Form ID map');
-        let {mergePath} = settingsService.settings;
+        let mergePath = settingsService.settings.mergePath;
         return merges.reduce((fidMap, merge) => {
             log(`Loading FormID map for ${merge.name}`);
-            let path = `${mergePath}\\${merge.name}\\merge\\fidMap.json`,
+            let path = `${mergePath}\\${merge.name}\\merge\\map.json`,
                 map = fh.loadJsonFile(path);
-            if (!map) warn(`Form ID map for ${merge.name} not found.`);
+            if (!map) warn(`Form ID map for ${merge.name} not found at ${path}`);
             return Object.assign(fidMap, map || {});
         }, {});
     };
@@ -56,18 +56,18 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     let fixGetFormCalls = function(script, fidMap) {
         let functions = pexService.getFunctions(script);
         functions.forEach(fn => {
-            fn.instructions.forEach(({op, args}) => {
-                if (op !== CALLMETHOD.code) return;
-                let methodName = resolveString(script, args[1]);
+            fn.instructions.forEach(n => {
+                if (n.op !== CALLMETHOD.code) return;
+                let methodName = resolveString(script, n.arguments[1]);
                 if (methodName !== 'GetFormFromFile') return;
-                let filename = resolveString(script, args[3]);
+                let filename = resolveString(script, n.arguments[3]);
                 log(`Found GetFormFromFile call targetting ${filename}`, true);
                 if (!fidMap.hasOwnProperty(filename)) return;
-                let oldFormId = xelib.Hex(args[2].data, 6),
+                let oldFormId = xelib.Hex(n.arguments[2].data, 6),
                     newFormId = fidMap[filename][oldFormId];
                 if (!newFormId) return log(`Form ID ${oldFormId} not renumbered`);
                 log(`Changing Form ID from ${oldFormId} to ${newFormId}`);
-                args[2].data = parseInt(newFormId, 16);
+                n.arguments[2].data = parseInt(newFormId, 16);
             });
         });
     };
@@ -82,7 +82,7 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
         });
     };
 
-    let relinkScripts = function(scripts, fidMap, relinkerPath) {
+    let relinkScripts = function(merges, scripts, fidMap, relinkerPath) {
         progress(`Relinking ${scripts.length} scripts`);
         scripts.forEach(entry => {
             let filePath = getScriptFilePath(entry);
@@ -102,12 +102,12 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
             relinkerPath = `${mergePath}\\Relinker Output`;
         progressLogger.run('relinker', relinkerPath, {
             title: 'Relinking Scripts',
-            max: 4
+            max: 3
         }, () => {
             let scripts = getScriptsToRelink(merges),
                 fidMap = buildFormIdMap(merges);
             fh.jetpack.dir(`${relinkerPath}\\scripts`);
-            relinkScripts(scripts, fidMap, relinkerPath);
+            relinkScripts(merges, scripts, fidMap, relinkerPath);
         });
     };
 });
