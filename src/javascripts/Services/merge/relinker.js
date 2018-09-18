@@ -98,7 +98,8 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     };
 
     this.run = function(merges) {
-        let {relinkerPath} = settingsService.settings;
+        let mergePath = settingsService.settings.mergePath,
+            relinkerPath = `${mergePath}\\Relinker Output`;
         progressLogger.run('relinker', relinkerPath, {
             title: 'Relinking Scripts',
             max: 4

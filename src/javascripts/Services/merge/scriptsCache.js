@@ -27,7 +27,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger) {
     };
 
     let getScriptEntry = function(filename, hash) {
-        return scriptCache.find(entry => {
+        return scriptsCache.find(entry => {
             return entry.filename === filename && entry.hash === hash;
         });
     };
