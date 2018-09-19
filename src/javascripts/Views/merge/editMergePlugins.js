@@ -36,10 +36,13 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     };
 
     // scope functions
-    $scope.itemToggled = function(item) {
+    $scope.itemToggled = function() {
         mergeDataService.clearMergeData($scope.merge);
-        item.masters.forEach(loadOrderService.updateRequired);
-        item.requiredBy.forEach(loadOrderService.updateWarnings);
+        for (let i = $scope.plugins.length - 1; i >= 0; i--) {
+            let item = $scope.plugins[i];
+            loadOrderService.updateRequired(item);
+            loadOrderService.updateWarnings(item);
+        }
         loadOrderService.updateIndexes($scope.plugins);
         updateMergePlugins();
     };
