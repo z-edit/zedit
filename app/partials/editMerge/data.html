@@ -193,21 +193,8 @@
             Handle INI Files
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in merge.iniFiles">
-                    <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="assets-list">
+            <div ng-repeat="file in merge.iniFiles">{{::file.filePath}}</div>
         </div>
     </content>
 </expandable-section>
