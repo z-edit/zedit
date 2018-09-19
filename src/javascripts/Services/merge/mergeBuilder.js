@@ -76,7 +76,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
             storePluginHandles(merge);
             buildReferences(merge);
             progress('Preparing merge...', true);
-            mergeDataService.buildMergeData(merge);
+            if (!merge.hasData) mergeDataService.buildMergeData(merge);
             prepareMergedPlugin(merge);
             merge.method === 'Master' ? addMastersToPlugins(merge) :
                 addMastersToMergedPlugin(merge);
