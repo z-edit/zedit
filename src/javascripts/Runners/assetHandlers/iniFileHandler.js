@@ -1,10 +1,8 @@
 ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
     let {forEachPlugin} = mergeAssetService;
 
-    let findIniFiles = function(plugin, folder) {
-        return fh.filterExists(folder, [
-            `${fh.getFileBase(plugin)}.ini`
-        ]);
+    let getIniPath = function(plugin, folder) {
+        return `${folder}${fh.getFileBase(plugin)}.ini`;
     };
 
     mergeAssetService.addHandler({
@@ -12,12 +10,11 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
         priority: 0,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder) => {
-                let sliceLen = folder.length;
-                findIniFiles(plugin, folder).forEach(filePath => {
-                    merge.iniFiles.push({
-                        plugin, folder,
-                        filePath: filePath.slice(sliceLen)
-                    });
+                let filePath = getIniPath(plugin, folder);
+                if (fh.jetpack.exists(filePath) !== 'file') return;
+                merge.iniFiles.push({
+                    plugin, folder,
+                    filePath: filePath.slice(folder.length)
                 });
             });
         },
