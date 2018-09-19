@@ -9,11 +9,15 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
 
     let getVoiceDataDialogue = function(pluginFile, filePath) {
         if (!pluginFile) return '';
-        let dialogueFormId = parseInt(voiceFileExpr.exec(filePath), 16),
-            dialogueRecord = xelib.GetRecord(pluginFile, dialogueFormId);
-        if (dialogueRecord && xelib.HasElement(dialogueRecord, responsePath))
-            return xelib.GetValue(dialogueRecord, responsePath);
-        return '';
+        try {
+            let dialogueFormId = parseInt(voiceFileExpr.exec(filePath), 16),
+                dialogueRecord = xelib.GetRecord(pluginFile, dialogueFormId);
+            if (dialogueRecord && xelib.HasElement(dialogueRecord, responsePath))
+                return xelib.GetValue(dialogueRecord, responsePath);
+            return '';
+        } catch (x) {
+            return '';
+        }
     };
 
     let getVoiceDataAssets = function(plugin, folder, pluginFile) {
@@ -21,7 +25,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
         return findGameAssets(plugin, folder, voicePath + plugin, `**/*`)
             .map(filePath => ({
                 filePath: filePath.slice(sliceLen),
-                dialogue: getVoiceDataDialogue(pluginFile, filePath)
+                //dialogue: getVoiceDataDialogue(pluginFile, filePath)
             }));
     };
 

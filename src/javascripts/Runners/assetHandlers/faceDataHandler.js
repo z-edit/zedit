@@ -8,10 +8,14 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
 
     let getFaceDataNpc = function(pluginFile, filePath) {
         if (!pluginFile) return '';
-        let loadOrder = xelib.GetFileLoadOrder(pluginFile) * 0x1000000,
-            npcFormId = loadOrder + parseInt(fh.getFileBase(filePath), 16),
-            npcRecord = xelib.GetRecord(pluginFile, npcFormId);
-        return npcRecord ? xelib.Name(npcRecord) : '';
+        try {
+            let loadOrder = xelib.GetFileLoadOrder(pluginFile) * 0x1000000,
+                npcFormId = loadOrder + parseInt(fh.getFileBase(filePath), 16),
+                npcRecord = xelib.GetRecord(pluginFile, npcFormId);
+            return npcRecord ? xelib.Name(npcRecord) : '';
+        } catch (x) {
+            return '';
+        }
     };
 
     let findFaceDataFiles = function(plugin, folder, pluginFile) {
@@ -21,7 +25,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
             findGameAssets(plugin, folder, faceGeomPath + plugin, '*')
         ).map(filePath => ({
             filePath: filePath.slice(sliceLen),
-            npc: getFaceDataNpc(pluginFile, filePath)
+            //npc: getFaceDataNpc(pluginFile, filePath)
         }));
     };
 
