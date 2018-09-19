@@ -17,12 +17,13 @@
     <title>Bethesda Archives ({{merge.archives.length}})</title>
     <content>
         <label>
-            <input type="checkbox" ng-model="merge.extractArchives"/>
-            Extract Archives
-        </label>
-        <label ng-if="false">
-            <input type="checkbox" ng-model="merge.buildArchive"/>
-            Build Merged Archive
+            Archive Action
+            <select ng-model="merge.archiveAction">
+                <option>Extract</option>
+                <option ng-if="false">Merge</option>
+                <option>Copy</option>
+                <option>Ignore</option>
+            </select>
         </label>
 
         <div class="table-container">
@@ -32,7 +33,6 @@
                     <th>File</th>
                     <th>File Size</th>
                     <th>Associated Plugin</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,14 +40,6 @@
                     <td title="{{::archive.filePath}}">{{::archive.filename}}</td>
                     <td>{{::archive.fileSize | bytes}}</td>
                     <td>{{::archive.plugin}}</td>
-                    <td>
-                        <select ng-model="archive.action">
-                            <option ng-show="merge.extractArchives">Extract</option>
-                            <option ng-show="merge.buildArchive">Merge</option>
-                            <option>Copy</option>
-                            <option>Ignore</option>
-                        </select>
-                    </td>
                 </tr>
                 </tbody>
             </table>
