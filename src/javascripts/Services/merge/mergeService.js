@@ -47,14 +47,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         }, {});
     };
 
-    let getDataFolder = function(plugin) {
-        let path = plugin.dataFolder + plugin.filename;
-        if (fh.jetpack.exists(path)) return plugin.dataFolder;
-        return mergeDataService.getPluginDataFolder(plugin.filename);
-    };
-
     let importPluginData = function(plugin) {
-        plugin.dataFolder = getDataFolder(plugin);
+        mergeDataService.updatePluginDataFolder(plugin);
         plugin.hash = fh.getMd5Hash(plugin.dataFolder + plugin.filename);
     };
 

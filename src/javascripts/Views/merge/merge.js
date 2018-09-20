@@ -9,8 +9,6 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker) {
     const relinkGames = [xelib.gmTES5, xelib.gmSSE, xelib.gmFO4];
 
-    let {cacheDataFolders, getPluginDataFolder} = mergeDataService;
-
     // helper functions
     let updateMergeStatuses = function() {
         $scope.merges.forEach(mergeStatusService.updateStatus);
@@ -18,7 +16,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
 
     let init = function() {
         progressService.showProgress({ message: 'Loading merge data...' });
-        cacheDataFolders();
+        mergeDataService.cacheDataFolders();
         mergeService.loadMerges();
         progressService.hideProgress();
         let currentGameMode = $rootScope.profile.gameMode;
@@ -35,10 +33,6 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
             shouldFinalize: shouldFinalize,
             merges: $scope.merges
         });
-    };
-
-    let updateDataFolder = function(plugin) {
-        plugin.dataFolder = getPluginDataFolder(plugin.filename);
     };
 
     // scope functions
@@ -84,8 +78,10 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     });
 
     $scope.$on('updateDataFolders', function() {
-        cacheDataFolders();
-        $scope.merges.forEach(merge => merge.plugins.forEach(updateDataFolder));
+        mergeDataService.cacheDataFolders();
+        $scope.merges.forEach(merge => merge.plugins.forEach(plugin => {
+            mergeDataService.updatePluginDataFolder(plugin);
+        }));
     });
 
     $scope.$on('save', openSaveModal);

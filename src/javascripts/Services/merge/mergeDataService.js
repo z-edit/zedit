@@ -50,6 +50,12 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
         return dataFolders[plugin] || dataPath || getDataPath();
     };
 
+    this.updatePluginDataFolder = function(plugin) {
+        let {filename} = plugin;
+        if (plugin.dataFolder && !dataFolders.hasOwnProperty(filename)) return;
+        plugin.dataFolder =  service.getPluginDataFolder(filename);
+    };
+
     this.setPluginDataFolder = function(plugin, dataFolder) {
         dataFolders[plugin] = dataFolder;
     };
