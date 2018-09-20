@@ -59,8 +59,12 @@
     margin: 5px 0;
 
     .input-label {
-      min-width: 225px;
+      min-width: 300px;
       margin: 0;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     input[type="text"] {

@@ -2,7 +2,7 @@
     <title>Plugin Data Folders ({{merge.plugins.length}})</title>
     <content>
         <div class="data-folder-item" ng-repeat="plugin in merge.plugins">
-            <span class="input-label">{{::plugin.filename}}</span>
+            <span class="input-label" title="{{::plugin.filename}}">{{::plugin.filename}}</span>
             <input type="text" ng-model="plugin.dataFolder" ng-blur="setDataFolder(plugin)" />
             <span class="browse-button" ng-click="browseDataFolder(plugin)" title="Browse"></span>
         </div>
