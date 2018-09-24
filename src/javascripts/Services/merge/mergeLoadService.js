@@ -33,7 +33,7 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         let fileCount = parseInt(xelib.GetGlobal('FileCount'));
         for (let i = fileCount - 1; i >= 0; i--) {
             let plugin = xelib.FileByIndex(i);
-            if (xelib.GetLoadOrder(plugin) < index) return;
+            if (xelib.GetFileLoadOrder(plugin) <= index) return;
             progressLogger.log(`Unloading ${xelib.Name(plugin)}`);
             xelib.UnloadPlugin(plugin);
             xelib.Release(plugin);
