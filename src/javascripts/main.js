@@ -161,7 +161,7 @@ ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
 ipcMain.on('progress-message', (e, p) => {
     if (!lastProgressMessage)
         setTimeout(() => {
-            progSend('progress-message', p);
+            progSend('progress-message', lastProgressMessage);
             lastProgressMessage = undefined;
         }, 50);
     lastProgressMessage = p;
