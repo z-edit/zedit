@@ -1,8 +1,7 @@
 ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
-    let {copyAsset, findGameAssets} = assetHelpers,
-        {forEachPlugin} = mergeAssetService;
+    let {copyAsset, findGameAssets} = assetHelpers;
 
-    let billboardPath = `textures\\Terrain\\LODGen\\`,
+    let billboardPath = `textures\\terrain\\lodgen\\`,
         billboardExpr = /([0-9A-F]{8})\.(dds|txt)/i;
 
     let getBillboardFiles = function(plugin, folder) {
@@ -15,7 +14,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
         label: 'LOD Billboards',
         priority: 0,
         get: function(merge) {
-            forEachPlugin(merge, (plugin, folder) => {
+            mergeAssetService.forEachPlugin(merge, (plugin, folder) => {
                 let assets = getBillboardFiles(plugin, folder);
                 if (assets.length === 0) return;
                 merge.billboards.push({ plugin, folder, assets });
