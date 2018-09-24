@@ -1,4 +1,8 @@
 ngapp.run(function(mergeAssetService, progressLogger) {
+    let getFilePath = function(asset) {
+        return `${asset.folder}\\${asset.filePath}`;
+    };
+
     mergeAssetService.addHandler({
         label: 'INI Files',
         priority: 0,
@@ -17,12 +21,16 @@ ngapp.run(function(mergeAssetService, progressLogger) {
             if (!merge.handleIniFiles || !merge.iniFiles.length) return;
             progressLogger.log(`Handling INI Files`);
             let filename = fh.getFileBase(merge.filename) + '.ini',
-                outputPath = `${merge.dataFolder}\\${filename}`;
-            if (merge.iniFiles.length === 1)
-                return fh.jetpack.copy(merge.iniFiles[0], outputPath);
+                newPath = `${merge.dataPath}\\${filename}`;
+            if (merge.iniFiles.length === 1) {
+                let oldPath = getFilePath(merge.iniFiles[0]);
+                progressLogger.log(`Copying ${oldPath} to ${newPath}`, true);
+                return fh.jetpack.copy(oldPath, newPath);
+            }
             let inis = merge.iniFiles.map(asset => {
-                progressLogger.log(`Loading ${asset.filePath}`, true);
-                return new Ini(fh.loadTextFile(asset.filePath));
+                let filePath = getFilePath(asset);
+                progressLogger.log(`Loading ${filePath}`, true);
+                return new Ini(fh.loadTextFile(filePath));
             });
             progressLogger.log(`Merging ${inis.length} INIs`, true);
             let mergedIni = Ini.merge(...inis),
@@ -30,8 +38,8 @@ ngapp.run(function(mergeAssetService, progressLogger) {
                     removeCommentLines: true,
                     blankLineAfterSection: true
                 });
-            progressLogger.log(`Saving merged INI ${filename}`, true);
-            fh.saveTextFile(outputPath, output);
+            progressLogger.log(`Saving merged INI to ${newPath}`, true);
+            fh.saveTextFile(newPath, output);
         }
     });
 });
