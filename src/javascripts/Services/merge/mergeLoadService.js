@@ -62,7 +62,7 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         } else {
             let pluginsToLoad = merge.loadOrder.slice(status.badIndex),
                 numPlugins = pluginsToLoad.length;
-            unloadAfterIndex(status.badIndex);
+            unloadAfterIndex(-1);
             progressLogger.progress(`Loading ${numPlugins} plugins...`);
             xelib.ClearMessages();
             xelib.LoadPlugins(pluginsToLoad.join('\n'), false);
@@ -75,7 +75,7 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         let firstIndex = merge.loadOrder.findIndex(filename => {
             return mergeHasPlugin(merge, filename);
         });
-        unloadAfterIndex(firstIndex - 1);
+        unloadAfterIndex(-1);
         merge.plugins.forEach(plugin => { delete plugin.handle });
         delete merge.plugin;
     }

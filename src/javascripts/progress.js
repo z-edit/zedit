@@ -72,8 +72,8 @@ ngapp.run(function($rootScope, $timeout, spinnerFactory) {
 
     ipcRenderer.on('set-progress', (e, progress) => {
         if (!progress) return;
-        if (progress.determinate) initLog(progress);
         $rootScope.progress = progress;
+        if (progress.determinate) initLog(progress);
     });
 
     ipcRenderer.on('allow-close', apply(() => {
