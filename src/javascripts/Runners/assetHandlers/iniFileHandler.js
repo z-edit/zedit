@@ -18,21 +18,22 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
         handle: function(merge) {
             if (!merge.handleIniFiles || !merge.iniFiles.length) return;
             progressLogger.log(`Handling INI Files`);
+            let filename = fh.getFileBase(merge.filename) + '.ini',
+                outputPath = `${merge.dataFolder}\\${filename}`;
             if (merge.iniFiles.length === 1)
-                return assetHelpers.copyAsset(merge.iniFiles[0], merge);
+                return fh.jetpack.copy(merge.iniFiles[0], outputPath);
             let inis = merge.iniFiles.map(asset => {
                 progressLogger.log(`Loading ${asset.filePath}`, true);
                 return new Ini(fh.loadTextFile(asset.filePath));
             });
             progressLogger.log(`Merging ${inis.length} INIs`, true);
             let mergedIni = Ini.merge(...inis),
-                filename = fh.getFileBase(merge.filename) + '.ini',
                 output = mergedIni.stringify({
                     removeCommentLines: true,
                     blankLineAfterSection: true
                 });
             progressLogger.log(`Saving merged INI ${filename}`, true);
-            fh.saveTextFile(`${merge.dataFolder}\\${filename}`, output);
+            fh.saveTextFile(outputPath, output);
         }
     });
 });
