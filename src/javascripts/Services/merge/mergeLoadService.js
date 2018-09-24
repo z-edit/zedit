@@ -47,6 +47,10 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         progressLogger.log(msg);
     };
 
+    let mergeHasPlugin = function(merge, filename) {
+        return !!merge.plugins.findByKey('filename', filename);
+    };
+
     // PUBLIC API
     this.loadPlugins = function(merge) {
         let status = getLoadStatus(merge.loadOrder);
@@ -66,4 +70,13 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         }
         return loaded.promise;
     };
+
+    this.unload = function(merge) {
+        let firstIndex = merge.loadOrder.findIndex(filename => {
+            return mergeHasPlugin(merge, filename);
+        });
+        unloadAfterIndex(firstIndex - 1);
+        merge.plugins.forEach(plugin => { delete plugin.handle });
+        delete merge.plugin;
+    }
 });
