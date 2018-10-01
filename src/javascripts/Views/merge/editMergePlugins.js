@@ -1,6 +1,6 @@
 ngapp.controller('editMergePluginsController', function($scope, $rootScope, mergeDataService, loadOrderService) {
     // helper functions
-    let activeFilter = (item) => { return item.active || item.required };
+    let activeFilter = item => item && item.active || item.required;
 
     let getPluginObject = function(plugins, filename) {
         return plugins && plugins.findByKey('filename', filename);

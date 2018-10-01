@@ -9,11 +9,11 @@ ngapp.service('loadOrderService', function($rootScope) {
     let warn = msg => (logger.closed() ? console : logger).warn(msg);
     let error = msg => (logger.closed() ? console : logger).error(msg);
 
-    let defaultActiveFilter = (item) => { return item.active };
+    let defaultActiveFilter = (item) => { return item && item.active };
 
     let findIgnoreCase = function(ary, searchStr) {
         searchStr = searchStr.toLowerCase();
-        return ary.find((str) => { return str.toLowerCase() === searchStr });
+        return ary.find(str => str.toLowerCase() === searchStr);
     };
 
     let buildTitle = function(title, filenames) {
@@ -27,25 +27,25 @@ ngapp.service('loadOrderService', function($rootScope) {
 
     let findItem = function(loadOrder, filename) {
         filename = filename.toLowerCase();
-        return loadOrder.find(function(item) {
+        return loadOrder.find(item => {
             return !item.disabled && item.filename.toLowerCase() === filename;
         });
     };
 
     let getRequiredBy = function(loadOrder, filename) {
-        return loadOrder.filter(function(item) {
+        return loadOrder.filter(item => {
             return !!findIgnoreCase(item.masterNames, filename);
         });
     };
 
     let getMasters = function(loadOrder, item) {
-        return item.masterNames.map(function(masterName) {
+        return item.masterNames.map(masterName => {
             return findItem(loadOrder, masterName);
         });
     };
 
     let disablePlugin = function(item) {
-        let missingMasters = item.masterNames.filter(function(n, i) {
+        let missingMasters = item.masterNames.filter((n, i) => {
             return !item.masters[i]
         });
         warn(`Disabling ${item.filename}, missing masters: ${missingMasters}`);
@@ -70,7 +70,7 @@ ngapp.service('loadOrderService', function($rootScope) {
     };
 
     let buildMasterData = function(loadOrder) {
-        loadOrder.forEach(function(item) {
+        loadOrder.forEach(item => {
             item.masters = getMasters(loadOrder, item);
             item.requiredBy = getRequiredBy(loadOrder, item.filename);
         });
@@ -115,13 +115,13 @@ ngapp.service('loadOrderService', function($rootScope) {
     this.activateMode = true;
 
     this.activateMasters = function(item) {
-        item.masters.forEach(function(masterItem) {
-            if (!masterItem.active) activatePlugin(masterItem);
+        item.masters.forEach(masterItem => {
+            if (masterItem && !masterItem.active) activatePlugin(masterItem);
         });
     };
 
     this.deactivateRequiredBy = function(item) {
-        item.requiredBy.forEach(function(requiredItem) {
+        item.requiredBy.forEach(requiredItem => {
             if (requiredItem.active) deactivatePlugin(requiredItem);
         });
     };
@@ -133,7 +133,7 @@ ngapp.service('loadOrderService', function($rootScope) {
     };
 
     this.updateRequired = function(item) {
-        if (item.disabled) return;
+        if (!item || item.disabled) return;
         let activeRequiredBy = item.requiredBy
             .filter(service.activeFilter).mapOnKey('filename');
         item.required = activeRequiredBy.length > 0;
