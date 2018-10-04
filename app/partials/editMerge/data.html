@@ -159,29 +159,23 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.translations.length">
-    <title>MCM Translations ({{merge.translations.length}})</title>
+    <title>MCM Translations</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleTranslations"/>
             Handle MCM Translations
         </label>
 
-        <div class="table-container">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>Plugin</th>
-                    <th>File</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in merge.translations">
-                    <td>{{::file.plugin}}</td>
-                    <td>{{::file.filePath}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.translations">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 

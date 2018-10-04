@@ -15,8 +15,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
 
     let getRules = function(merge) {
         let rules = ['**/*.@(esp|esm|bsa|ba2|bsl)', 'meta.ini',
-            'translations/**/*', 'TES5Edit Backups/**/*', 'fomod/**/*',
-            'screenshot?(s)/**/*', 'scripts/source/*.psc'];
+            'interface/translations/*.txt', 'TES5Edit Backups/**/*',
+            'fomod/**/*', 'screenshot?(s)/**/*', 'scripts/source/*.psc'];
         merge.plugins.forEach(plugin => {
             let basePluginName = fh.getFileBase(plugin.filename);
             rules.push(`**/${basePluginName}.@(seq|ini)`,

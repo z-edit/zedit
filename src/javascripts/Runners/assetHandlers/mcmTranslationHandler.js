@@ -4,16 +4,19 @@ ngapp.run(function(mergeAssetService, progressLogger) {
     let translationPath = 'interface\\translations\\';
 
     let loadTranslations = function(merge, translations) {
-        merge.translations.forEach(asset => {
-            let fullPath = merge.dataFolders[asset.plugin] + asset.filePath,
-                content = fh.loadTextFile(fullPath),
-                language = fh.getFileBase(asset.filePath)
-                    .replace(fh.getFileBase(asset.plugin), '');
-            if (translations.hasOwnProperty(language)) {
-                translations[language] += '\r\n\r\n' + content;
-            } else {
-                translations[language] = content;
-            }
+        merge.translations.forEach(entry => {
+            let dataFolder = merge.dataFolders[entry.plugin];
+            entry.assets.forEach(asset => {
+                let fullPath = dataFolder + asset.filePath,
+                    content = fh.loadTextFile(fullPath),
+                    language = fh.getFileBase(asset.filePath)
+                        .replace(fh.getFileBase(entry.plugin), '');
+                if (translations.hasOwnProperty(language)) {
+                    translations[language] += '\r\n\r\n' + content;
+                } else {
+                    translations[language] = content;
+                }
+            });
         });
     };
 
@@ -27,9 +30,12 @@ ngapp.run(function(mergeAssetService, progressLogger) {
     };
 
     let findMcmTranslations = function(plugin, folder) {
+        let sliceLen = folder.length;
         return fh.getFiles(folder + translationPath, {
             matching: `${fh.getFileBase(plugin)}*.txt`
-        });
+        }).map(filePath => ({
+            filePath: filePath.slice(sliceLen)
+        }));
     };
 
     mergeAssetService.addHandler({
@@ -37,13 +43,9 @@ ngapp.run(function(mergeAssetService, progressLogger) {
         priority: 0,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder) => {
-                let sliceLen = folder.length;
-                findMcmTranslations(plugin, folder).forEach(filePath => {
-                    merge.translations.push({
-                        plugin: plugin,
-                        filePath: filePath.slice(sliceLen)
-                    });
-                });
+                let assets = findMcmTranslations(plugin, folder);
+                if (assets.length === 0) return;
+                merge.translations.push({ plugin, folder, assets });
             });
         },
         handle: function(merge) {
