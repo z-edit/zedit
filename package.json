@@ -55,7 +55,7 @@
     "dateformat": "^3.0.3",
     "diskusage": "^0.2.4",
     "font-awesome": "^4.7.0",
-    "fs-jetpack": "^0.10.5",
+    "fs-jetpack": "github:matortheeternal/fs-jetpack#feature/fix-windows-case-sensitivity",
     "ini-api": "^1.0.0",
     "marked": "^0.3.19",
     "md5-file": "^4.0.0",
