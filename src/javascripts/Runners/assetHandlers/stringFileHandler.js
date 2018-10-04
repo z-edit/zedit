@@ -19,7 +19,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
                         filePath: filePath.slice(sliceLen)
                     });
                 });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleStringFiles || !merge.stringFiles.length) return;

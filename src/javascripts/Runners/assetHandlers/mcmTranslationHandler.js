@@ -46,7 +46,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
                 let assets = findMcmTranslations(plugin, folder);
                 if (assets.length === 0) return;
                 merge.translations.push({ plugin, folder, assets });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleTranslations || !merge.translations.length) return;

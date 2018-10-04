@@ -18,7 +18,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
                 let assets = getBillboardFiles(plugin, folder);
                 if (assets.length === 0) return;
                 merge.billboards.push({ plugin, folder, assets });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleBillboards || !merge.billboards.length) return;

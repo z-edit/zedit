@@ -15,7 +15,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
                     plugin, folder,
                     filePath: filename
                 });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleIniFiles || !merge.iniFiles.length) return;

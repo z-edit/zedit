@@ -37,7 +37,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
                 let assets = getVoiceDataAssets(plugin, folder, pluginFile);
                 if (assets.length === 0) return;
                 merge.voiceData.push({ plugin, folder, assets });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleVoiceData || !merge.voiceData.length) return;

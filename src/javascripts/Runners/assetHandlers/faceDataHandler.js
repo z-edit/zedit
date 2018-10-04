@@ -37,7 +37,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
                 let assets = findFaceDataFiles(plugin, folder, pluginFile);
                 if (assets.length === 0) return;
                 merge.faceData.push({ plugin, folder, assets });
-            });
+            }, { useGameDataFolder: true });
         },
         handle: function(merge) {
             if (!merge.handleFaceData || !merge.faceData.length) return;

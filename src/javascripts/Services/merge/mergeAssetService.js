@@ -28,9 +28,11 @@ ngapp.service('mergeAssetService', function(progressLogger) {
         handlers.sortOnKey('priority');
     };
 
-    this.forEachPlugin = function(merge, callback) {
-        merge.plugins.forEach(pluginObj => {
-            callback(pluginObj.filename, pluginObj.dataFolder, pluginObj.handle);
+    this.forEachPlugin = function(merge, callback, {useGameDataFolder}) {
+        let gameDataFolder = xelib.GetGlobal('DataFolder');
+        merge.plugins.forEach(({filename, dataFolder, handle}) => {
+            if (useGameDataFolder) dataFolder = gameDataFolder;
+            callback(filename, dataFolder, handle);
         });
     };
 
