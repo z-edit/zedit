@@ -203,12 +203,13 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     ctrl.filterChanged = function() {
         if (!ctrl.filterItems) return;
-        ctrl.items.forEach((item, index) => {
-            item.selected = ctrl.filterItems.reduce((b, f) => {
+        let index = ctrl.items.findIndex(item => {
+            return ctrl.filterItems.reduce((b, f) => {
                 return b && f.filter(item, f.text);
             }, true);
-            if (item.selected) prevIndex = index;
         });
+        if (index === -1) return;
+        ctrl.selectItem({}, index);
     };
 
     $scope.$on('destroy', () => toggleEventListeners(false));

@@ -1,6 +1,6 @@
 ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $timeout, appModeService, loadOrderService) {
     $scope.loadOrderFilters = [{
-        label: 'Filename',
+        label: 'Search',
         modes: { select: true, jump: true },
         filter: (item, str) => item.filename.contains(str, true)
     }];

@@ -6,4 +6,20 @@
   .required {
     color: $positive;
   }
+
+  section.scrollable-section {
+    min-height: 57vh;
+    max-height: 57vh;
+  }
+
+  list-view {
+    .list-items {
+      max-height: 56vh;
+      min-height: 56vh;
+    }
+
+    .list-item {
+      padding-right: 30px;
+    }
+  }
 }

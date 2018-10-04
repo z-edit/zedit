@@ -35,6 +35,13 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             .mapOnKey('filename');
     };
 
+    // filtering
+    $scope.loadOrderFilters = [{
+        label: 'Search',
+        modes: { select: true, jump: true },
+        filter: (item, str) => item.filename.contains(str, true)
+    }];
+
     // scope functions
     $scope.itemToggled = function() {
         mergeDataService.clearMergeData($scope.merge);

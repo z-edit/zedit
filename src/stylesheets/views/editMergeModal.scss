@@ -1,7 +1,7 @@
 .edit-merge-modal {
   .modal-container .modal {
-    width: 1300px;
-    max-width: 90%;
+    min-width: 700px;
+    padding: 30px 40px 15px;
   }
 
   .disabled {
@@ -46,6 +46,13 @@
     }
   }
 
+  .plugins-tab list-view {
+    .list-items {
+      max-height: 51vh;
+      min-height: 51vh;
+    }
+  }
+
   .data-tab {
     padding: 14px 20px;
 
@@ -85,6 +92,9 @@
     margin: 8px 0;
     padding: 12px;
     border-radius: 5px;
+    width: 1000px;
+    user-select: initial;
+    max-width: calc(90vw - 108px);
 
     .expander {
       margin-right: 8px;

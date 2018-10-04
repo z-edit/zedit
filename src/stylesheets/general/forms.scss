@@ -1,59 +1,46 @@
-form {
-  .section-title {
-    display: block;
-    vertical-align: top;
-    font-size: 22px;
-    font-weight: 500;
-  }
+.section-title {
+  display: block;
+  vertical-align: top;
+  font-size: 22px;
+  font-weight: 500;
+}
 
-  section {
+section {
+  display: block;
+  margin-top: 15px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+
+  .subsection {
     display: block;
+    margin-bottom: 15px;
     margin-top: 15px;
-    margin-left: 30px;
-    margin-bottom: 30px;
 
-    .subsection {
-      display: block;
-      margin-bottom: 15px;
-      margin-top: 15px;
-
-      span, input {
-        display: inline-block;
-        vertical-align: middle;
-      }
-
-      span.action-btn {
-        font-size: 16px;
-      }
-
-      .fa {
-        margin-left: 2px;
-        cursor: pointer;
-      }
+    span, input {
+      display: inline-block;
+      vertical-align: middle;
     }
 
-    label {
-      display: block;
+    span.action-btn {
+      font-size: 16px;
+    }
+
+    .fa {
+      margin-left: 2px;
+      cursor: pointer;
     }
   }
 
-  .input-label {
-    display: inline-block;
-    min-width: 200px;
-    margin-bottom: 5px;
-    margin-top: 5px;
+  label {
+    display: block;
   }
+}
 
-  .primary-actions {
-    margin: 16px 0 0;
-    text-align: center;
-
-    .action-btn {
-      font-size: 18px;
-      margin: 1px;
-      padding: 4px 8px;
-    }
-  }
+.input-label {
+  display: inline-block;
+  min-width: 200px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .remove-item {
