@@ -249,7 +249,27 @@ ngapp.service('hotkeyFactory', function() {
 
     this.listViewFilterHotkeys = {
         escape: closeFilter,
-        enter: closeFilter
+        enter: closeFilter,
+        a: [{
+            modifiers: ['ctrlKey'],
+            callback: (scope, e) => {
+                e.stopPropagation();
+                e.target.select();
+            }
+        }],
+        space: [{
+            modifiers: ['ctrlKey'],
+            callback: 'handleSpace'
+        }, {
+            modifiers: ['shiftKey'],
+            callback: 'handleSpace'
+        }, {
+            modifiers: [],
+            callback: (scope, e) => {
+                e.stopPropagation();
+                e.target.value += ' ';
+            }
+        }]
     };
 
     this.automateModalHotkeys = {

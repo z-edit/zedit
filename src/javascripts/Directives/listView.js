@@ -23,6 +23,8 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return el.hasAttribute('list-view-parent');
     });
 
+    ctrl.listItems = $element[0].firstElementChild;
+
     // helper variables
     let prevIndex = -1,
         eventListeners = {
@@ -82,8 +84,22 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         });
     };
 
-    ctrl.selectItem = function(e, index) {
+    ctrl.scrollTo = function(index) {
+        let child = ctrl.listItems.children[index],
+            offsetTop = child.offsetTop,
+            offsetBottom = offsetTop + child.offsetHeight,
+            topBound = ctrl.listItems.scrollTop,
+            bottomBound = topBound + ctrl.listItems.offsetHeight;
+        if (offsetTop < topBound) { // scroll up
+            ctrl.listItems.scrollTop = offsetTop;
+        } else if (offsetBottom > bottomBound) { // scroll down
+            ctrl.listItems.scrollTop += offsetBottom - bottomBound;
+        }
+    };
+
+    ctrl.selectItem = function(e, index, scroll = true) {
         let item = ctrl.items[index];
+        if (scroll) ctrl.scrollTo(index);
         if (e.shiftKey && prevIndex > -1) {
             let start = Math.min(index, prevIndex),
                 end = Math.max(index, prevIndex);
