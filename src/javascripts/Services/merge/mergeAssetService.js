@@ -28,8 +28,9 @@ ngapp.service('mergeAssetService', function(progressLogger) {
         handlers.sortOnKey('priority');
     };
 
-    this.forEachPlugin = function(merge, callback, {useGameDataFolder}) {
-        let gameDataFolder = xelib.GetGlobal('DataPath');
+    this.forEachPlugin = function(merge, callback, options = {}) {
+        let {useGameDataFolder} = options,
+            gameDataFolder = xelib.GetGlobal('DataPath');
         merge.plugins.forEach(({filename, dataFolder, handle}) => {
             if (useGameDataFolder) dataFolder = gameDataFolder;
             callback(filename, dataFolder, handle);
