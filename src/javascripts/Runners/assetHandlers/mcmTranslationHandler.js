@@ -9,8 +9,9 @@ ngapp.run(function(mergeAssetService, progressLogger) {
             entry.assets.forEach(asset => {
                 let fullPath = dataFolder + asset.filePath,
                     content = fh.loadTextFile(fullPath),
+                    baseName = fh.getFileBase(entry.plugin).toLowerCase(),
                     language = fh.getFileBase(asset.filePath)
-                        .replace(fh.getFileBase(entry.plugin), '');
+                        .toLowerCase().replace(baseName, '');
                 if (translations.hasOwnProperty(language)) {
                     translations[language] += '\r\n\r\n' + content;
                 } else {
@@ -23,7 +24,8 @@ ngapp.run(function(mergeAssetService, progressLogger) {
     let saveTranslations = function(merge, translations) {
         Object.keys(translations).forEach(language => {
             let basePath = `${merge.dataPath}\\interface\\translations`,
-                filename = `${fh.getFileBase(merge.filename)}${language}`,
+                baseName = fh.getFileBase(merge.filename).toLowerCase(),
+                filename = `${baseName}${language}`,
                 content = translations[language];
             fh.saveTextFile(`${basePath}\\${filename}`, content);
         });
