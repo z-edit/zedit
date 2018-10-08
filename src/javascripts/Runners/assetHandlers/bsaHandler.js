@@ -32,9 +32,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
             }, { useGameDataFolder: true });
         },
         handle: function(merge) {
-            if (!merge.archives.length) return;
             let action = actions[merge.archiveAction];
-            if (!action) return;
+            if (!merge.archives.length || !action) return;
             progressLogger.log(`Handling Bethesda Archive Files`);
             merge.archives.forEach(archive => action(archive, merge));
         }
@@ -44,7 +43,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
         label: 'Extracted Files',
         priority: 100,
         handle: function(merge) {
-            if (!merge.extractArchives || !merge.extracted.length) return;
+            if (merge.action !== 'Extract' || !merge.extracted.length) return;
             progressLogger.log(`Handling Extracted Files`);
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
