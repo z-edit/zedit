@@ -32,10 +32,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
             }, { useGameDataFolder: true });
         },
         handle: function(merge) {
-            let archivesToHandle = merge.archives.filter(archive => {
-                return actions.hasOwnProperty(archive.action);
-            });
-            if (!archivesToHandle.length) return;
+            if (!merge.archives.length) return;
             let action = actions[merge.archiveAction];
             if (!action) return;
             progressLogger.log(`Handling Bethesda Archive Files`);
