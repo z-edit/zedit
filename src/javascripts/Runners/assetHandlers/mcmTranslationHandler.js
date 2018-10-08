@@ -25,7 +25,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
         Object.keys(translations).forEach(language => {
             let basePath = `${merge.dataPath}\\interface\\translations`,
                 baseName = fh.getFileBase(merge.filename).toLowerCase(),
-                filename = `${baseName}${language}`,
+                filename = `${baseName}${language}.txt`,
                 content = translations[language];
             fh.saveTextFile(`${basePath}\\${filename}`, content);
         });
