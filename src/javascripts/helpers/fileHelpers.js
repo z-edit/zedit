@@ -5,6 +5,7 @@ import { enumerateValues, HKEY } from 'registry-js';
 import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
+import fs from 'fs';
 import {Ini} from 'ini-api';
 
 let fh = {};
@@ -24,9 +25,9 @@ fh.loadJsonFile = function(filePath) {
         return jetpack.read(filePath, 'json');
 };
 
-fh.loadTextFile = function(filePath) {
-    if (jetpack.exists(filePath) === 'file')
-        return jetpack.read(filePath);
+fh.loadTextFile = function(filePath, encoding = 'utf8') {
+    if (!jetpack.exists(filePath) === 'file') return;
+    return fs.readFileSync(filePath, { encoding });
 };
 
 fh.loadResource = function(filePath) {
@@ -44,8 +45,9 @@ fh.saveJsonFile = function(filePath, value, minify = false) {
     jetpack.write(filePath, minify ? JSON.stringify(value) : value);
 };
 
-fh.saveTextFile = function(filePath, value) {
-    jetpack.write(filePath, value);
+fh.saveTextFile = function(filePath, value, encoding = 'utf8') {
+    jetpack.dir(fh.getDirectory(filePath));
+    fs.writeFileSync(filePath, value, { encoding });
 };
 
 fh.openFile = function(filePath) {
