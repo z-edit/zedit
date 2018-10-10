@@ -48,6 +48,11 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         $scope.merges.remove(merge);
     };
 
+    $scope.removeUnavailablePlugins = function(merge) {
+        merge.plugins = merge.plugins.filter(plugin => plugin.available);
+        mergeStatusService.updateStatus(merge);
+    };
+
     $scope.createMerge = function() {
         $scope.$emit('openModal', 'editMerge', { merges: $scope.merges });
     };

@@ -40,6 +40,7 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let getStatus = function(merge) {
+        if (merge.plugins.length === 0) return 'No plugins to merge';
         if (!allPluginsAvailable(merge)) return 'Plugins unavailable';
         if (upToDate(merge)) return 'Up to date';
         return 'Ready to be built';
@@ -58,6 +59,8 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
 
     this.updateStatus = function(merge) {
         merge.status = getStatus(merge);
+        merge.canBuild = merge.status === 'Up to Date' ||
+            merge.status === 'Ready to be built';
         updatePluginTitles(merge);
     };
 });

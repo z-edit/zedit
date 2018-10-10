@@ -1,6 +1,6 @@
 <div class="content-title">{{merge.name}} ({{merge.filename}})
     <span class="right">
-        <button class="action-btn small no-hover" ng-click="buildMerge(merge)">
+        <button class="action-btn small no-hover" ng-show="merge.canBuild" ng-click="buildMerge(merge)">
             Build
         </button>
         <button class="action-btn small no-hover" ng-click="editMerge(merge)">
@@ -42,5 +42,11 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="merge-actions" ng-show="merge.status === 'Plugins unavailable'">
+        <button class="action-btn negative" ng-click="removeUnavailablePlugins(merge)">
+            Remove Unavailable Plugins
+        </button>
     </div>
 </div>
