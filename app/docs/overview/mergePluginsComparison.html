@@ -1,0 +1,50 @@
+<p>zMerge is the successor to <a href="https://www.nexusmods.com/skyrim/mods/69905">Merge Plugins</a>, and offers a variety of improvements.</p>
+
+<h2>Simplified Workflow</h2>
+<p>zMerge loads plugins when building merges and unloads them immediately afterwards.  This means you can build any number of merges covering any number of plugin files as many times as you want without having to restart the program as long as you don't exceed 255 modules in the load order for any individual merge.</p>
+
+<p>zMerge doesn't care about plugin errors or non-contiguous plugins.  You no longer need to fix errors in plugins, create a custom Mod Organizer profile, or change your load order prior to creating a merge.</p>
+
+<h2>Improved Form ID Renumbering</h2>
+<p>zMerge compacts form IDs when renumbering, so you will never overflow your form ID space from merging too many times.  zMerge also has a form ID consistency feature, so adding new plugins to or otherwise updating an existing merge will not break your save games.</p>
+
+<h2>Improved Integrations</h2>
+<p>zMerge suppots MO2 instances out of the box and has integrations for disabling plugins or mods automatically when merges complete successfully.</p>
+
+<h2>Improved Asset Handling</h2>
+<p>Added asset handling for INI files and LOD Billboards.  The new asset handling system allows new asset handlers to be added cleanly and easily.</p>
+
+<p>In addition, the data tab of the <a href="docs://Modal Views/Edit Merge Modal">Edit Merge Modal</a> allows users to preview assets detected by zMerge and configure how they will be handled per-merge instead of globally.</p>
+
+<h2>Improved Logging</h2>
+<p>Logs are now actively written to disk while the program executes and are more verbose without making the progress log needlessly verbose as well or requiring debug settings.</p>
+
+<h2>Improved Asset Copying</h2>
+<p>No more batch script copying and a lower chance of running into file system permission issues.</p>
+
+<h2>Planned Improvements</h2>
+<p>Other planned improvements to zMerge include the following:</p>
+
+<ul>
+    <li>
+        <b>String file merging:</b> For merging plugins that use .DLSTRINGS or .ILSTRINGS files.
+    </li>
+    <li>
+        <b>Merged BSA creation:</b> Similar to the option provided in Merge Plugins, except it will probably be made using Bethesda's <code>archive.exe</code> instead of BSAOpt.
+    </li>
+    <li>
+        <b>Merge upwards:</b> This will allow you to merge upwards, e.g. into a master file.
+    </li>
+    <li>
+        <b>FO4 MCM file handling:</b> Fallout 4's MCM system is different from Skyrim's and involves considerably more file references.  A handler for these FO4 MCM files will be added in the near future.
+    </li>
+    <li>
+        <b>Fallout 3/NV self-reference handling:</b> This is the same as the option provided in Merge Plugins.
+    </li>
+    <li>
+        <b>Rebuilding NAVI:</b> This feature will allow zMerge to rebuild NAVI records automatically when merging multiple plugin files that modify the same NAVI records so you don't have to open the CK to rebuild them.
+    </li>
+    <li>
+        <b>Integrated Conflict Resolution:</b> An integration to resolve conflicts for a merge through zSmash will be developed once zSmash is built.
+    </li>
+</ul>
