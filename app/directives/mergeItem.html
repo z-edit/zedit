@@ -35,7 +35,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="plugin in merge.plugins">
-                <td ng-class="{'neutral-fg' : plugin.changed, 'negative-fg' : !plugin.available}" title="{{plugin.title}}">{{::plugin.filename}}</td>
+                <td ng-class="{'positive-fg': plugin.added, 'neutral-fg' : plugin.changed, 'negative-fg' : !plugin.available}" title="{{plugin.title}}">{{::plugin.filename}}</td>
                 <td>
                     <a ng-click="openDataFolder(plugin)">{{::plugin.dataFolder}}</a>
                 </td>

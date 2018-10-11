@@ -4,16 +4,13 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
         return merge.oldPlugins.findByKey('filename', filename);
     };
 
-    let pluginChanged = function(merge, plugin) {
-        let oldPlugin = getOldPlugin(merge, plugin.filename);
-        return !oldPlugin || plugin.hash !== oldPlugin.hash ||
-            plugin.dataFolder !== oldPlugin.dataFolder;
-    };
-
     let pluginsChanged = function(merge) {
         return merge.plugins.filter(plugin => {
-            plugin.changed = pluginChanged(merge, plugin);
-            return plugin.changed;
+            let oldPlugin = getOldPlugin(merge, plugin.filename);
+            plugin.added = !oldPlugin;
+            plugin.changed = oldPlugin && plugin.hash !== oldPlugin.hash ||
+                plugin.dataFolder !== oldPlugin.dataFolder;
+            return plugin.changed || plugin.added;
         }).length > 0;
     };
 
@@ -48,7 +45,8 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
 
     let getPluginTitle = function(plugin) {
         if (!plugin.available) return 'Plugin unavailable to load.';
-        if (plugin.changed) return 'Plugin changed or just added to merge.';
+        if (plugin.added) return 'Plugin just added to merge.';
+        if (plugin.changed) return 'Plugin or data folder changed.';
     };
 
     let updatePluginTitles = function(merge) {
