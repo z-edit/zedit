@@ -1,0 +1,48 @@
+<p>The merge view is the main view of the Merge <a href="docs://Application Modes">application mode</a>.  This view offers a means to create, build, and manage merges.</p>
+
+<h2>Merges</h2>
+<p>The merge view displays a list of merges associated with the currently active profile.  Each merge displays the following information:</p>
+
+<ul>
+    <li><b>Merge name:</b> The name of the merge.  Displayed in the header.</li>
+    <li><b>Actions:</b> Actions for the merge.  Displayed on the right in the header.</li>
+    <li>
+        <b>Status:</b> The merge's status.  The status can be one of the following:
+        <ul>
+            <li><b>No plugins to merge:</b> When the merge has no plugins assigned to it.  A merge with no plugins assigned to it cannot be built.</li>
+            <li><b>Plugins unavailable:</b> One or more plugins assigned to the merge are not available in the game data folder.  You can remove these plugins by clicking the <b>Remove unavailable plugins</b> button.</li>
+            <li><b>Ready to be built:</b> The merge is ready to be built.</li>
+            <li><b>Up to date:</b> The merge has been built and doesn't need to be built again.</li>
+        </ul>
+    </li>
+    <li><b>Date built:</b> The date and time when the merge was last built.</li>
+    <li>
+        <b>Plugins table:</b> The plugins in the merge.  Each row has the plugin filename and detected data folder.  You can click the data folder to open it.  Plugins can be the following styles:
+        <ul>
+            <li><b class="negative-fg">Negative:</b> The plugin is unavailable.</li>
+            <li><b class="neutral-fg">Neutral:</b> The plugin or data folder has changed since the merge was last built.</li>
+            <li><b class="positive-fg">Positive:</b> The plugin was just added to the merge.</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>Creating a Merge</h2>
+<p>Click the <b>Create Merge</b> button to open the <a href="docs://Modal Views/Edit Merge Modal">Edit Merge Modal</a> to create a new merge.</p>
+
+<h2>Editing a Merge</h2>
+<p>Click the <b>Edit</b> button in the header of a merge item to edit it in the <a href="docs://Modal Views/Edit Merge Modal">Edit Merge Modal</a>.</p>
+
+<h2>Deleting a Merge</h2>
+<p>Click the <b>Delete</b> button in the header of a merge item to delete it.</p>
+
+<h2>Building Merges</h2>
+<p>You can build all merges that have a status of "Ready to be built" by clicking the <b>Build Merges</b> button.  You can also click the <b>Build</b> button in the header of a merge to build it regardless of its status.</p>
+
+<h2>Removing Unavailable Plugins from Merges</h2>
+<p>If you uninstall some plugins that were in a merge you won't be able to remove them from the merge in the edit merge modal.  You can click the <b>Remove Unavailable Plugins</b> button to remove plugins from a merge that are no longer present in your game's data directory.</p>
+
+<h2>Relinking Scripts</h2>
+<p>Relinking scripts is a task where papyrus scripts which reference plugins that were merged via <code>Game.GetFormFromFile</code> or <code>Game.GetFileByName</code> are copied and edited so they point to merged plugins.  You can click the <b>Relink Scripts</b> button to relink scripts for all merges.</p>
+
+<h2>Modal views</h2>
+<modal-views-list></modal-views-list>

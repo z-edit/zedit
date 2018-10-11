@@ -68,6 +68,12 @@
         "label": "Log View"
       }]
     }, {
+      "label": "Merge View",
+      "modalViews": [{
+        "label": "Edit Merge Modal",
+        "description": "Allows you to set the name, filename, merge method, and plugins for a merge.  Also allows you to view and adjust how data files will be handled when the merge is built."
+      }]
+    }, {
       "label": "Clean View",
       "modalViews": [{
         "label": "Resolve Modal",
