@@ -3,10 +3,11 @@
         <span class="input-label">Name</span>
         <input type="text" ng-model="merge.name" />
     </label>
-    <label>
+    <label ng-show="merge.method !== 'Master'">
         <span class="input-label">Filename</span>
         <input type="text" ng-model="merge.filename" />
     </label>
+    <span class="negative-fg" ng-if="pluginExists">A plugin with this filename already exists, it will be deleted when the merge is built.</span>
     <label>
         <span class="input-label">Merge Method</span>
         <select ng-model="merge.method">
