@@ -5,6 +5,16 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
         filter: (item, str) => item.filename.contains(str, true)
     }];
 
+    let updateLoadOrder = function() {
+        $scope.loadOrder.forEach(item => {
+            if (item.disabled) return;
+            item.title = '';
+            loadOrderService.updateRequired(item);
+            loadOrderService.updateWarnings(item);
+        });
+        loadOrderService.updateIndexes($scope.loadOrder);
+    };
+
     // scope functions
     $scope.loadPlugins = function() {
         let loadOrder = $scope.loadOrder.reduce((a, item) => {
@@ -22,12 +32,7 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
         item.active ?
             loadOrderService.activateMasters(item) :
             loadOrderService.deactivateRequiredBy(item);
-        if (!item.active) {
-            item.required = false;
-            item.title = '';
-        }
-        item.masters.forEach(loadOrderService.updateRequired);
-        loadOrderService.updateIndexes($scope.loadOrder);
+        updateLoadOrder();
     };
 
     // event handlers

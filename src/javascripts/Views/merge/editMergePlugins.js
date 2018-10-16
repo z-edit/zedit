@@ -49,6 +49,8 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         mergeDataService.clearMergeData($scope.merge);
         for (let i = $scope.plugins.length - 1; i >= 0; i--) {
             let item = $scope.plugins[i];
+            if (item.disabled) continue;
+            item.title = '';
             loadOrderService.updateRequired(item);
             loadOrderService.updateWarnings(item);
         }
