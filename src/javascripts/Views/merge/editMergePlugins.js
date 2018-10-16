@@ -1,4 +1,6 @@
-ngapp.controller('editMergePluginsController', function($scope, $rootScope, mergeDataService, loadOrderService) {
+ngapp.controller('editMergePluginsController', function($scope, $rootScope, mergeDataService, loadOrderService, gameService) {
+    let {isBethesdaPlugin} = gameService;
+
     // helper functions
     let activeFilter = item => item && item.active || item.required;
 
@@ -71,4 +73,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     loadOrderService.activateMode = false;
     loadOrderService.init($scope.plugins, activeFilter);
     $scope.plugins.forEach(loadOrderService.updateWarnings);
+    $scope.plugins.forEach(plugin => {
+        plugin.isBethesdaPlugin = isBethesdaPlugin(plugin.filename);
+    });
 });
