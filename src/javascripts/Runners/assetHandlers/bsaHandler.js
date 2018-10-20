@@ -3,8 +3,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
         {forEachPlugin} = mergeAssetService;
 
     let actions = {
-        "Copy": function({filePath}, merge) {
-            let newPath = `${merge.dataPath}\\${fh.getFileName(filePath)}`;
+        "Copy": function(archive, merge, index) {
+            let ext = fh.getFileExt(archive.filePath),
+                base = fh.getFileBase(merge.filename),
+                filename = `${base} - ${index}.${ext}`,
+                newPath = `${merge.dataPath}\\${filename}`;
             progressLogger.log(`Copying ${filePath} to ${newPath}`, true);
             fh.jetpack.copy(filePath, newPath, { overwrite: true });
         },
@@ -35,7 +38,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
             let action = actions[merge.archiveAction];
             if (!merge.archives.length || !action) return;
             progressLogger.log(`Handling Bethesda Archive Files`);
-            merge.archives.forEach(archive => action(archive, merge));
+            merge.archives.forEach((a, n) => action(a, merge, n));
         }
     });
 
