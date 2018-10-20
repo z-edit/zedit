@@ -68,7 +68,7 @@
     "xelib": "github:z-edit/xelib"
   },
   "devDependencies": {
-    "electron": "^2.0.6",
+    "electron": "^2.0.8",
     "electron-builder": "^20.28.4",
     "electron-rebuild": "^1.8.2",
     "gulp": "^4.0.0",
@@ -81,6 +81,7 @@
     "gulp-wait": "0.0.2",
     "gulp-watch": "^5.0.1",
     "istanbul": "^0.4.3",
+    "macaddress": ">=0.2.9",
     "magic-string": "^0.22.5",
     "minimist": "^1.2.0",
     "rollup": "^0.36.4",
