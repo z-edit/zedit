@@ -6,6 +6,7 @@
       { "label": "Getting Started" },
       { "label": "xEdit Comparison" },
       { "label": "Merge Plugins Comparison" },
+      { "label": "Merging Workflows" },
       { "label": "Community" }
     ]
   },
@@ -102,6 +103,7 @@
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
       { "label": "Resolve Modal" },
+      { "label": "Edit Merge Modal" },
       { "label": "Save Modal" }
     ]
   }, {
