@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron';
-import './polyfills';
-import logger from './helpers/logger.js';
+import './extensions';
+import Logger from './helpers/logger.js';
+let logger = new Logger();
 
 // angular app initialization
 const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angularSpinner']);
@@ -10,7 +11,7 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //=include Directives/progressModal.js
 //=include Directives/loader.js
 //=include Factories/spinnerFactory.js
-//=include Services/modalService.js
+//=include Services/Shared/modalService.js
 //== end angular assets ==
 
 ngapp.run(function($rootScope, $timeout, spinnerFactory) {
@@ -71,8 +72,8 @@ ngapp.run(function($rootScope, $timeout, spinnerFactory) {
 
     ipcRenderer.on('set-progress', (e, progress) => {
         if (!progress) return;
-        if (progress.determinate) initLog(progress);
         $rootScope.progress = progress;
+        if (progress.determinate) initLog(progress);
     });
 
     ipcRenderer.on('allow-close', apply(() => {
@@ -87,6 +88,7 @@ ngapp.run(function($rootScope, $timeout, spinnerFactory) {
 
     ipcRenderer.on('progress-message', apply((e, msg) => {
         $rootScope.progress.message = msg;
+        if ($rootScope.progress.echo) logger.log(msg);
     }));
 
     ipcRenderer.on('add-progress', apply((e, n) => {

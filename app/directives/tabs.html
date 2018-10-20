@@ -1,0 +1,7 @@
+<div class="tabs-bar">
+    <div ng-repeat="tab in tabs" class="tab" ng-class="{'active' : tab.selected}" ng-mousedown="onTabClick($event, tab)">
+        {{tab.label}}
+    </div>
+    <div class="space"></div>
+</div>
+<div class="tab-view {{currentTab.class}}" ng-include="currentTab.templateUrl" dyn-controller="currentTab.controller"></div>

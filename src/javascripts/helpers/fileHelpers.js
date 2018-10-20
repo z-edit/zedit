@@ -1,11 +1,17 @@
 import { remote, shell } from 'electron';
 import jetpack from 'fs-jetpack';
+import minimatch from 'minimatch';
+import { enumerateValues, HKEY } from 'registry-js';
+import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
+import fs from 'fs';
+import {Ini} from 'ini-api';
 
 let fh = {};
 
 fh.jetpack = jetpack;
+fh.minimatch = minimatch;
 fh.appPath = remote.app.getAppPath();
 fh.userPath = remote.app.getPath('userData');
 fh.userDir = jetpack.cwd(fh.userPath);
@@ -14,15 +20,14 @@ fh.appDir = jetpack.cwd(fh.appPath);
 // log app directory for reference
 console.log('App directory: ' + fh.appPath);
 
-// helper function for loading json file
 fh.loadJsonFile = function(filePath) {
     if (jetpack.exists(filePath) === 'file')
         return jetpack.read(filePath, 'json');
 };
 
-fh.loadTextFile = function(filePath) {
-    if (jetpack.exists(filePath) === 'file')
-        return jetpack.read(filePath);
+fh.loadTextFile = function(filePath, encoding = 'utf8') {
+    if (!jetpack.exists(filePath) === 'file') return;
+    return fs.readFileSync(filePath, { encoding });
 };
 
 fh.loadResource = function(filePath) {
@@ -31,13 +36,18 @@ fh.loadResource = function(filePath) {
         return fh.appDir.read(filePath, format);
 };
 
-// helper function for saving json files
+fh.loadIni = function(filePath) {
+    let text = fh.loadTextFile(filePath);
+    return text && new Ini(text);
+};
+
 fh.saveJsonFile = function(filePath, value, minify = false) {
     jetpack.write(filePath, minify ? JSON.stringify(value) : value);
 };
 
-fh.saveTextFile = function(filePath, value) {
-    jetpack.write(filePath, value);
+fh.saveTextFile = function(filePath, value, encoding = 'utf8') {
+    jetpack.dir(fh.getDirectory(filePath));
+    fs.writeFileSync(filePath, value, { encoding });
 };
 
 fh.openFile = function(filePath) {
@@ -66,29 +76,59 @@ fh.extractArchive = function(filePath, destDir, empty = false) {
     zip(filePath).extractAllTo(destDir, true);
 };
 
+fh.getFileBase = function(filePath) {
+    return filePath.match(/(.*[\\\/])?(.*)\.[^\\\/]+/)[2];
+};
+
 fh.getFileExt = function(filePath) {
-    return filePath.match(/.*\.([^\\]+)/)[1];
+    return filePath.match(/(.*[\\\/])?.*\.([^\\\/]+)/)[2];
 };
 
 fh.getFileName = function(filePath) {
-    return filePath.match(/.*\\(.*)/)[1];
+    return filePath.match(/(.*[\\\/])?(.*)/)[2];
 };
 
 fh.getDirectory = function(filePath) {
-    return filePath.match(/(.*)\\.*/)[1];
+    return filePath.match(/(.*)[\\\/].*/)[1];
 };
 
 fh.getDateModified = function(filePath) {
     return jetpack.inspect(filePath, {times: true}).modifyTime;
 };
 
+fh.getFileSize = function(filePath) {
+    return jetpack.inspect(filePath).size;
+};
+
+fh.getMd5Hash = function(filePath) {
+    if (jetpack.exists(filePath) !== 'file') return;
+    return md5file.sync(filePath);
+};
+
 fh.getDirectories = function(path) {
+    if (jetpack.exists(path) !== 'dir') return [];
     return jetpack.find(path, {
         matching: '*',
         files: false,
         directories: true,
         recursive: false
     }).map(path => jetpack.path(path));
+};
+
+fh.getFiles = function(path, options) {
+    if (jetpack.exists(path) !== 'dir') return [];
+    return jetpack.find(path, options)
+        .map(path => jetpack.path(path));
+};
+
+fh.filterExists = function(folder, paths) {
+    return paths.filter(function(path) {
+        return jetpack.exists(`${folder}/${path}`);
+    });
+};
+
+fh.getRegistryValues = function(hkey, path) {
+    return enumerateValues(HKEY[hkey], path);
 };
 
 // helper function for selecting a directory
@@ -101,7 +141,6 @@ fh.selectDirectory = function(title, defaultPath) {
     return selection && selection[0];
 };
 
-// helper function for selecting a theme
 fh.selectFile = function(title, defaultPath, filters = []) {
     let selection = remote.dialog.showOpenDialog({
         title: title,

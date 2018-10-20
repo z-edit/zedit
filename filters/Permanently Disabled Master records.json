@@ -1,0 +1,16 @@
+[
+  {
+    "type": "String",
+    "path": "XESP\\Reference",
+    "compareType": "Exact match",
+    "value": "Player [00000014]",
+    "allPaths": false,
+    "ignoreCase": false
+  },
+  {
+    "type": "Flag",
+    "path": "XESP\\Flags",
+    "value": "Set Enable State to Opposite of Parent",
+    "notPresent": false
+  }
+]

@@ -1,0 +1,21 @@
+<h3>Merge Settings</h3>
+
+<section>
+    <div class="setting">
+        <span class="input-label">Merge output path</span>
+        <input type="text" ng-model="settings.mergePath" />
+        <span class="browse-button" ng-click="browseSettingsPath('mergePath', 'Select merge output folder')" title="Browse"></span>
+    </div>
+</section>
+
+<div class="section-title">Integrations</div>
+<section ng-init="initIntegrationAvailability()">
+    <label title="If checked, merged plugins will be automatically disabled in loadorder.txt once a merge is successfully built.">
+        <input type="checkbox" ng-model="settings.mergeIntegrations.disablePlugins"/>
+        Disable plugins in loadorder.txt
+    </label>
+    <label ng-show="availableIntegrations.disableMods" title="If checked, mods will be disabled in your mod manager once a merge with copy general assets enabled is successfully built.">
+        <input type="checkbox" ng-model="settings.mergeIntegrations.disableMods"/>
+        Disable mods
+    </label>
+</section>

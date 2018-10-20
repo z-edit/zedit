@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const jetpack = require('fs-jetpack');
 
 global.window = {};
-require('../src/JavaScripts/polyfills');
+require('../src/javascripts/extensions');
 
 let docs;
 

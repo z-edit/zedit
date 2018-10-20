@@ -27,3 +27,6 @@ scripts/history.json
 *.zip
 logs/
 merges/
+temp/
+/cache/scripts/*.json
+build/config\.gypi

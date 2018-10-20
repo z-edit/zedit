@@ -1,0 +1,44 @@
+tabs {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $hard_border;
+
+  .tabs-bar {
+    display: flex;
+    font-size: 14px;
+    line-height: 22px;
+    height: 25px;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      display: flex;
+      justify-content: space-between;
+      min-width: 100px;
+      padding: 2px 8px;
+      border-bottom: 1px solid $hard_border;
+      border-right: 1px solid $hard_border;
+      background-color: $medium_soft_border;
+
+      &.active {
+        border-bottom: 1px solid $background;
+        margin-bottom: -1px;
+        background-color: $background;
+      }
+    }
+
+    .space {
+      flex: 1;
+      border-bottom: 1px solid $hard_border;
+    }
+  }
+
+  .tab-view {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+}
