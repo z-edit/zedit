@@ -1,0 +1,47 @@
+<p>People use a variety of workflows when merging plugins.  Below is a breakdown of these workflows including their pros and cons.  These workflows didn't really have names, but I've assigned descriptive names to them here for the purpose of this comparison.</p>
+
+<h2>Disable Plugins Workflow</h2>
+<p>This is the default workflow in zMerge.  This workflow involves disabling plugins in the <code>plugins.txt</code> file while leaving the merged mods installed.  Disabled plugins do not count towards the 255 plugin limit.</p>
+
+<b>Pros:</b>
+<ul>
+    <li>Allows you to rebuild merges in zMerge at any time without any extra steps.</li>
+    <li>Can be used with any mod manager.</li>
+    <li>zMerge has an integration which disables plugins after they are merged.  This integration is enabled by default.</li>
+</ul>
+
+<b>Cons:</b>
+<ul>
+    <li>Clutters your load order a little bit with disabled plugins.</li>
+</ul>
+
+<h2>Hide Plugins Workflow</h2>
+<p>This workflow was mostly used by users of Mod Organizer.  It involves marking merged plugins as hidden (which appends the .mohidden prefix to them) so they are no longer active in your load order.  An extension for MO was created to support this workflow with Merge Plugins Standalone.</p>
+
+<b>Pros:</b>
+<ul>
+    <li>Keeps your load order clean and uncluttered.</li>
+</ul>
+
+<b>Cons:</b>
+<ul>
+    <li>Requires a lot of manual steps when rebuilding merges.</li>
+    <li>The MO extension doesn't work with zMerge.</li>
+    <li>Can only be used by Mod Organizer users.</li>
+</ul>
+
+<h2>Merge Everything Workflow</h2>
+<p>Any workflow which involves copying general assets would fall under this designation.</p>
+
+<b>Pros:</b>
+<ul>
+    <li>Creates a single mod package which can be distributed.</li>
+</ul>
+
+<b>Cons:</b>
+<ul>
+    <li>Merges take more time.</li>
+    <li>Rebuilding merges requires re-enabling the mods that were merged unless you use a separate MO profile.</li>
+    <li>Merged mods take up twice as much hard drive space.  This is a larger problem if you store your mods on an SSD with limited storage capacity.</li>
+    <li>Cannot be used with mod managers that do not isolate mod data files.</li>
+</ul>
