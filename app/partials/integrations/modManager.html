@@ -10,7 +10,7 @@
         </select>
     </div>
     <div ng-if="show.moInstance" class="setting" ng-init="getModOrganizerInstances()">
-        <span class="input-label">MO2 Instance:</span>
+        <span class="input-label">MO2 instance:</span>
         <select ng-model="settings.moInstance">
             <option value="">Portable</option>
             <option ng-repeat="instance in moInstances" value="{{::instance}}">

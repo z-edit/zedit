@@ -96,6 +96,12 @@
           { "label": "Core Settings" },
           { "label": "Tree View Settings" },
           { "label": "Record View Settings" },
+          {
+            "label": "Integration Settings",
+            "children": [
+              { "label": "Mod Manager Integration" }
+            ]
+          },
           { "label": "Error Caching Settings" }
         ]
       },
