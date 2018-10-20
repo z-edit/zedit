@@ -10,9 +10,9 @@
 
 <div class="section-title">Integrations</div>
 <section ng-init="initIntegrationAvailability()">
-    <label title="If checked, merged plugins will be automatically disabled in loadorder.txt once a merge is successfully built.">
+    <label title="If checked, merged plugins will be automatically disabled in plugins.txt once a merge is successfully built.">
         <input type="checkbox" ng-model="settings.mergeIntegrations.disablePlugins"/>
-        Disable plugins in loadorder.txt
+        Disable plugins
     </label>
     <label ng-show="availableIntegrations.disableMods" title="If checked, mods will be disabled in your mod manager once a merge with copy general assets enabled is successfully built.">
         <input type="checkbox" ng-model="settings.mergeIntegrations.disableMods"/>

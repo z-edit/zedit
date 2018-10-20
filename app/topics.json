@@ -96,6 +96,7 @@
           { "label": "Core Settings" },
           { "label": "Tree View Settings" },
           { "label": "Record View Settings" },
+          { "label": "Merge Settings" },
           {
             "label": "Integration Settings",
             "children": [
