@@ -35,6 +35,12 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             .mapOnKey('filename');
     };
 
+    let updateWarningPlugins = function() {
+        $scope.merge.warningPlugins = $scope.plugins
+            .filter(p => p.warn && !p.active)
+            .mapOnKey('filename');
+    };
+
     // filtering
     $scope.loadOrderFilters = [{
         label: 'Search',
@@ -52,6 +58,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         }
         loadOrderService.updateIndexes($scope.plugins);
         updateMergePlugins();
+        updateWarningPlugins();
     };
 
     // event handlers
@@ -63,6 +70,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     $scope.$on('itemsReordered', function(e) {
         loadOrderService.updateIndexes($scope.plugins);
         updateMergePlugins();
+        updateWarningPlugins();
         e.stopPropagation();
     });
 
