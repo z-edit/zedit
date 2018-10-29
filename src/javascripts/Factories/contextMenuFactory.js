@@ -28,7 +28,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             items.push({
                 label: 'Select all',
                 hotkey: 'Ctrl+A',
-                callback: scope.ctrl.selectAll
+                callback: scope.selectAll
             });
         }
     }, {
@@ -38,7 +38,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             items.push({
                 label: 'Toggle selected',
                 hotkey: 'Space',
-                callback: () => scope.ctrl.toggleSelected()
+                callback: () => scope.toggleSelected()
             });
         }
     }, {
@@ -48,7 +48,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             items.push({
                 label: 'Check selected',
                 hotkey: 'Ctrl+Space',
-                callback: () => scope.ctrl.toggleSelected(true)
+                callback: () => scope.toggleSelected(true)
             });
         }
     }, {
@@ -58,7 +58,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
             items.push({
                 label: 'Uncheck selected',
                 hotkey: 'Shift+Space',
-                callback: () => scope.ctrl.toggleSelected(false)
+                callback: () => scope.toggleSelected(false)
             });
         }
     }];
