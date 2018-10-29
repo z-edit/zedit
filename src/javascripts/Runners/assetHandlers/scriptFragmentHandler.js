@@ -26,7 +26,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger) 
     };
 
     let getFragmentsFromDisk = function(plugin, folder) {
-        if (folder === xelib.GetGlobal('DataFolder')) return;
+        if (folder === xelib.GetGlobal('DataPath')) return [];
         let folderLen = folder.length;
         return findGameAssets(plugin, folder, 'Scripts', '*.pex')
             .filter(filePath => fragmentExpr.test(filePath))
