@@ -50,6 +50,16 @@ fh.saveTextFile = function(filePath, value, encoding = 'utf8') {
     fs.writeFileSync(filePath, value, { encoding });
 };
 
+fh.delete = function(path) {
+    if(!fs.existsSync(path)) return;
+    let isDir = fs.lstatSync(path).isDirectory();
+    if (!isDir) return fs.unlinkSync(path);
+    fs.readdirSync(path).forEach(file => {
+        fh.delete(path + "/" + file);
+    });
+    fs.rmdirSync(path);
+};
+
 fh.openFile = function(filePath) {
     if (jetpack.exists(filePath))
         shell.openItem(jetpack.path(filePath));
