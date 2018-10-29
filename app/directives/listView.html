@@ -1,12 +1,12 @@
-<div class="list-items" ng-class="{'dragging' : ctrl.dragging}">
-    <div ng-repeat="item in ctrl.items" class="list-item" ng-class="{'selected': item.selected}" ng-mousedown="ctrl.onItemMouseDown($event, $index)" ng-drag="ctrl.onItemDrag($index)" ng-drop="ctrl.onItemDrop($event, $index)" drag-over="ctrl.onItemDragOver($event, $index)" drag-leave="ctrl.onItemDragLeave($event)" ng-transclude></div>
-    <div ng-if="!ctrl.items.length && ctrl.dragType" class="placeholder" ng-drop="ctrl.onPlaceholderDrop($event)" drag-over="ctrl.onPlaceholderDragOver()"></div>
+<div class="list-items" ng-class="{'dragging' : dragging}">
+    <div ng-repeat="item in items" class="list-item" ng-class="{'selected': item.selected}" ng-mousedown="onItemMouseDown($event, $index)" ng-drag="onItemDrag($index)" ng-drop="onItemDrop($event, $index)" drag-over="onItemDragOver($event, $index)" drag-leave="onItemDragLeave($event)" ng-transclude></div>
+    <div ng-if="!items.length && dragType" class="placeholder" ng-drop="onPlaceholderDrop($event)" drag-over="onPlaceholderDragOver()"></div>
 </div>
-<div class="filter-container" ng-if="ctrl.filterItems">
-    <div ng-repeat="item in ctrl.filterItems">
+<div class="filter-container" ng-if="filterItems">
+    <div ng-repeat="item in filterItems">
         <label>
             {{::item.label}}
-            <input type="text" ng-model="item.text" ng-change="ctrl.filterChanged()" ng-keydown="ctrl.onFilterKeyDown($event)" autofocus />
+            <input type="text" ng-model="item.text" ng-change="filterChanged()" ng-keydown="onFilterKeyDown($event)" autofocus />
         </label>
     </div>
 </div>

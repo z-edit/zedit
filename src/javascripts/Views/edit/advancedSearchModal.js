@@ -32,23 +32,19 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     };
 
     let getCustomScopeFiles = function() {
-        return xelib.GetLoadedFileNames().map(function(filename) {
-            return {
-                filename: filename,
-                active: true
-            }
-        });
+        return xelib.GetLoadedFileNames().map(filename => ({
+            filename: filename,
+            active: true
+        }));
     };
 
     let getCustomScopeGroups = function() {
         let map = xelib.GetSignatureNameMap();
-        return Object.keys(map).sort().map(function(signature) {
-            return {
-                signature: signature,
-                name: map[signature],
-                active: true
-            }
-        });
+        return Object.keys(map).sort().map(signature => ({
+            signature: signature,
+            name: map[signature],
+            active: true
+        }));
     };
 
     let createCustomScope = function() {
