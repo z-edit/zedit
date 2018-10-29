@@ -8,8 +8,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
                 base = fh.getFileBase(merge.filename),
                 filename = `${base} - ${index}.${ext}`,
                 newPath = `${merge.dataPath}\\${filename}`;
-            progressLogger.log(`Copying ${filePath} to ${newPath}`, true);
-            fh.jetpack.copy(filePath, newPath, { overwrite: true });
+            progressLogger.log(`Copying ${archive.filePath} to ${newPath}`, true);
+            fh.jetpack.copy(archive.filePath, newPath, { overwrite: true });
         },
         "Extract": function(archive, merge) {
             merge.extracted.push(bsaHelpers.extractArchive(archive));
