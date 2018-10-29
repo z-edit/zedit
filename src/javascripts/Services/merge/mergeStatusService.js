@@ -8,8 +8,8 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
         return merge.plugins.filter(plugin => {
             let oldPlugin = getOldPlugin(merge, plugin.filename);
             plugin.added = !oldPlugin;
-            plugin.changed = oldPlugin && plugin.hash !== oldPlugin.hash ||
-                plugin.dataFolder !== oldPlugin.dataFolder;
+            plugin.changed = oldPlugin && (plugin.hash !== oldPlugin.hash ||
+                plugin.dataFolder !== oldPlugin.dataFolder);
             return plugin.changed || plugin.added;
         }).length > 0;
     };
