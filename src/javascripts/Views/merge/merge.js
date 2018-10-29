@@ -45,6 +45,8 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.deleteMerge = function(merge) {
+        let msg = `Are you sure you want to delete the merge "${merge.name}"?`;
+        if (!confirm(msg)) return;
         $scope.merges.remove(merge);
     };
 
