@@ -1,11 +1,24 @@
 .merge-view {
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   background: $background_tint;
+
+  .scroll-container {
+    overflow: auto;
+    flex-grow: 1;
+  }
 
   .center-container {
     max-width: 1100px;
-    padding: 0 50px;
+    padding: 20px 50px;
     margin: auto;
+  }
+
+  .primary-actions {
+    padding: 20px;
+    border-top: 1px solid $hard_border;
+    margin: 0;
+    background: $background;
   }
 }
 
