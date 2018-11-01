@@ -57,7 +57,7 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
 
     this.updateStatus = function(merge) {
         merge.status = getStatus(merge);
-        merge.canBuild = merge.status === 'Up to Date' ||
+        merge.canBuild = merge.status === 'Up to date' ||
             merge.status === 'Ready to be built';
         updatePluginTitles(merge);
     };
