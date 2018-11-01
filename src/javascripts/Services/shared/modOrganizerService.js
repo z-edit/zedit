@@ -102,8 +102,8 @@ ngapp.service('modOrganizerService', function(fileSearchService, progressLogger)
 
     this.disableMods = function(merge, settings) {
         let notInMerge = modNotInMerge(merge),
-            modlist = service.getModList(settings),
-            newModList = modlist.split('\r\n').map(line => {
+            modList = service.getModList(settings),
+            newModList = modList.split('\r\n').map(line => {
                 if (notInMerge(line)) return line;
                 progressLogger.log(`Disabling mod: ${line.slice(1)}`);
                 return line.replace(/^\+/, '-');
