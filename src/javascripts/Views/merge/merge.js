@@ -52,7 +52,11 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.removeUnavailablePlugins = function(merge) {
+        let dataPath = xelib.GetGlobal('DataPath');
         merge.plugins = merge.plugins.filter(plugin => plugin.available);
+        merge.loadOrder = merge.loadOrder.filter(filename => {
+            return fh.jetpack.exists(dataPath + filename);
+        });
         mergeStatusService.updateStatus(merge);
     };
 
