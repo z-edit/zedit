@@ -24,11 +24,16 @@ ngapp.service('modOrganizerService', function(fileSearchService, progressLogger)
             if (modNames.indexOf(modName) > -1) return;
             let plugins = fh.getFiles(plugin.dataFolder, {
                 matching: '*.esp', recursive: false
+            }).filter(filePath => {
+                let filename = fh.getFileName(filePath);
+                return !merge.plugins.find(p => {
+                    return p.filename === filename;
+                });
             });
-            if (plugins.subtract(merge.plugins).length > 0) return;
+            if (plugins.length > 0) return;
             modNames.push('+' + modName.toLowerCase());
         });
-        return line => modNames.indexOf(line.toLowerCase()) === -1;
+        return line => !modNames.includes(line.toLowerCase());
     };
 
     this.getModManagerPath = function() {
@@ -104,6 +109,8 @@ ngapp.service('modOrganizerService', function(fileSearchService, progressLogger)
                 return line.replace(/^\+/, '-');
             }).join('\r\n');
         if (newModList === modList) return;
+        let backupPath = modListPath + '.bak';
+        fh.jetpack.copy(modListPath, backupPath, { overwrite: true });
         fh.saveTextFile(modListPath, newModList);
     };
 });
