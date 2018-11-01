@@ -8,6 +8,11 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
         { name: 'Executables', extensions: ['exe'] }
     ];
 
+    // helper functions
+    let usingDefaultMergePath = function() {
+        return $scope.settings.mergePath === fh.jetpack.path('merges');
+    };
+
     // scope functions
     $scope.detect = function() {
         progressService.showProgress({ message: 'Detecting integrations...' });
@@ -25,7 +30,11 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
         if (updateDataFolders) $rootScope.$broadcast('updateDataFolders');
     });
 
-    $scope.$watch('settings.modsPath', () => updateDataFolders = true);
+    $scope.$watch('settings.modsPath', () => {
+        updateDataFolders = true;
+        if (usingDefaultMergePath())
+            $scope.settings.mergePath = $scope.settings.modsPath;
+    });
     $scope.$watch('settings.modManager', () => updateDataFolders = true);
 });
 
