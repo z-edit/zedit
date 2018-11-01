@@ -58,15 +58,11 @@ ngapp.service('loadOrderService', function($rootScope) {
     let activatePlugin = function(item) {
         item.active = true;
         service.activateMasters(item);
-        item.masters.forEach(service.updateRequired);
     };
 
     let deactivatePlugin = function(item) {
         item.active = false;
-        item.required = false;
-        item.title = '';
         service.deactivateRequiredBy(item);
-        item.masters.forEach(service.updateRequired);
     };
 
     let buildMasterData = function(loadOrder) {
@@ -137,6 +133,7 @@ ngapp.service('loadOrderService', function($rootScope) {
         let activeRequiredBy = item.requiredBy
             .filter(service.activeFilter).mapOnKey('filename');
         item.required = activeRequiredBy.length > 0;
+        if (!item.required) return;
         item.title = buildTitle(requiredTitle, activeRequiredBy);
     };
 
@@ -145,6 +142,7 @@ ngapp.service('loadOrderService', function($rootScope) {
         let activeMasters = item.masters
             .filterOnKey('active').mapOnKey('filename');
         item.warn = activeMasters.length > 0;
+        if (!item.warn) return;
         item.title = buildTitle(warnTitle, activeMasters);
     };
 
