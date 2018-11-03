@@ -82,8 +82,10 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     buildPlugins();
     loadOrderService.activateMode = false;
     loadOrderService.init($scope.plugins, activeFilter);
-    $scope.plugins.forEach(loadOrderService.updateWarnings);
     $scope.plugins.forEach(plugin => {
+        loadOrderService.updateRequired(plugin);
+        loadOrderService.updateWarnings(plugin);
         plugin.isBethesdaPlugin = isBethesdaPlugin(plugin.filename);
     });
+    loadOrderService.updateIndexes($scope.plugins);
 });
