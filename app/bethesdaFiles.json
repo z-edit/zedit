@@ -2,7 +2,7 @@
   "plugins": {
     "TES5": ["Skyrim.esm", "Update.esm", "Dawnguard.esm", "HearthFires.esm", "Dragonborn.esm"],
     "SSE": ["Skyrim.esm", "Update.esm", "Dawnguard.esm", "HearthFires.esm", "Dragonborn.esm"],
-    "FO4": ["Fallout4.esm", "DLCCoast.esm", "DLCNukaworld.esm", "DLCRobot.esm", "DLCworkshop03.esm", "DLCworkshop02.esm", "DLCworkshop01.esm"],
+    "FO4": ["Fallout4.esm", "DLCCoast.esm", "DLCNukaWorld.esm", "DLCRobot.esm", "DLCworkshop03.esm", "DLCworkshop02.esm", "DLCworkshop01.esm"],
     "FO3": ["Fallout3.esm", "Anchorage.esm", "ThePitt.esm", "BrokenSteel.esm", "PointLookout.esm", "Zeta.esm"],
     "FNV": ["FalloutNV.esm", "TribalPack.esm", "MercenaryPack.esm", "ClassicPack.esm", "CaravanPack.esm", "OldWorldBlues.esm", "LonesomeRoad.esm", "HonestHearts.esm", "DeadMoney.esm", "GunRunnersArsenal.esm"],
     "TES4": ["Oblivion.esm", "DLCShiveringIsles.esp", "DLCHorseArmor.esp", "DlCOrrery.esp", "DLCVileLair.esp", "DLCMehrunesRazor.esp", "DLCSpellTomes.esp", "DLCThievesDen.esp", "DLCBattlehornCastle.esp", "DLCfrostcrag.esp", "Knights.esp"]

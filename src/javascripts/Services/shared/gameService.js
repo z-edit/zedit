@@ -6,14 +6,19 @@ ngapp.service('gameService', function() {
         appName = xelib.GetGlobal('AppName')
     };
 
+    let includesIgnoreCase = function(a, str) {
+        str = str.toLowerCase();
+        return a.find(f => f.toLowerCase() === str) !== undefined;
+    };
+
     // PUBLIC API
     this.isBethesdaPlugin = function(filename) {
         if (!appName) getAppName();
-        return bethesdaFiles.plugins[appName].includes(filename);
+        return includesIgnoreCase(bethesdaFiles.plugins[appName], filename);
     };
 
     this.isBethesdaArchive = function(filename) {
         if (!appName) getAppName();
-        return bethesdaFiles.archives[appName].includes(filename);
+        return includesIgnoreCase(bethesdaFiles.archives[appName], filename);
     };
 });
