@@ -2,7 +2,8 @@ ngapp.service('seqService', function(progressLogger) {
     const seqFlag = 'Start Game Enabled';
 
     let isSEQ = function(rec) {
-        return xelib.GetFlag(rec, 'DNAM\\Flags', seqFlag);
+        return xelib.HasElement(rec, 'DNAM\\Flags') &&
+            xelib.GetFlag(rec, 'DNAM\\Flags', seqFlag);
     };
 
     let masterIsSEQ = function(rec) {
