@@ -1,5 +1,7 @@
 ngapp.controller('integrationSettingsController', function($scope, $rootScope, integrationService, progressService, errorService) {
     // initialization
+    const modOrganizerManagers = ['Mod Organizer', 'Mod Organizer 2'];
+
     let updateDataFolders = false;
 
     $scope.gameMode = $rootScope.profile.gameMode;
@@ -11,6 +13,10 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
     // helper functions
     let usingDefaultMergePath = function() {
         return $scope.settings.mergePath === fh.jetpack.path('merges');
+    };
+
+    let usingMO = function() {
+        return modOrganizerManagers.includes($scope.settings.modManager);
     };
 
     // scope functions
@@ -32,7 +38,7 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
 
     $scope.$watch('settings.modsPath', () => {
         updateDataFolders = true;
-        if (usingDefaultMergePath())
+        if (usingMO() && usingDefaultMergePath())
             $scope.settings.mergePath = $scope.settings.modsPath;
     });
     $scope.$watch('settings.modManager', () => updateDataFolders = true);
