@@ -13,7 +13,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             let filename = plugin.filename;
             return {
                 filename: filename,
-                masterNames: plugin.masterNames,
+                masterNames: plugin.masterNames.slice(),
                 active: !!getPluginObject($scope.merge.plugins, filename),
                 dataFolder: mergeDataService.getPluginDataFolder(filename)
             }
