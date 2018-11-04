@@ -26,7 +26,7 @@ fh.loadJsonFile = function(filePath) {
 };
 
 fh.loadTextFile = function(filePath, encoding = 'utf8') {
-    if (!jetpack.exists(filePath) === 'file') return;
+    if (jetpack.exists(filePath) !== 'file') return;
     return fs.readFileSync(filePath, { encoding });
 };
 
