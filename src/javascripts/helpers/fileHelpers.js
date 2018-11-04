@@ -57,7 +57,7 @@ fh.delete = function(path) {
     fs.readdirSync(path).forEach(file => {
         fh.delete(path + '/' + file);
     });
-    fs.rmdirSync(path);
+    try { fs.rmdirSync(path) } catch (x) {}
 };
 
 fh.openFile = function(filePath) {
