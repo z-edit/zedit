@@ -16,6 +16,7 @@ import buildModuleService from './helpers/moduleService';
 import './extensions';
 import './color';
 window.env = remote.getGlobal('env');
+window.argv = remote.getGlobal('argv');
 window.md5File = require('md5-file');
 window.xelib = require('xelib').wrapper;
 window.appVersion = remote.app.getVersion();

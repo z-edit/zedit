@@ -9,6 +9,7 @@ import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
 import Logger from './helpers/logger.js';
 global.env = require('./env');
+global.argv = process.argv;
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 

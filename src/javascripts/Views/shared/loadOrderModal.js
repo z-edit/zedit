@@ -46,8 +46,9 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
         e.stopPropagation();
     });
 
-    // initialize view model properties
+    // initialization
     loadOrderService.activateMode = true;
     loadOrderService.init();
     $scope.loadOrder = $rootScope.loadOrder;
+    if (argv.includes('-skipLoadOrder')) $scope.loadPlugins();
 });

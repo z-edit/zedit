@@ -6,15 +6,20 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService,  appModeService) {
-    // initialization
-    profileService.validateProfiles();
-    $scope.appVersion = appVersion;
-    $scope.profiles = profileService.profiles;
-    $scope.appModes = appModeService.getAppModes();
-    $scope.selectedProfile = profileService.getDefaultProfile();
-    $scope.selectedAppMode = $scope.appModes[0];
-    $timeout(() => window.startupCompleted = true, 100);
+ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService,  appModeService, argService) {
+    // helper functions
+    let selectAppMode = function(appModeName) {
+        $scope.selectedAppMode = $scope.appModes.includes(appModeName) ?
+            appModeName : $scope.appModes[0];
+    };
+
+    let selectProfile = function(profileName) {
+        $scope.selectedProfile = profileName ?
+            $scope.profiles.findByKey('name', profileName) :
+            profileService.getDefaultProfile();
+        if ($scope.selectedProfile.name === profileName)
+            $timeout($scope.startSession);
+    };
 
     // scope functions
     $scope.startSession = function () {
@@ -32,4 +37,14 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     $scope.$on('profilesUpdated', function() {
         $scope.selectedProfile = profileService.getDefaultProfile();
     });
+
+    // initialization
+    profileService.validateProfiles();
+    $scope.appVersion = appVersion;
+    $scope.profiles = profileService.profiles;
+    $scope.appModes = appModeService.getAppModes();
+    $timeout(() => window.startupCompleted = true);
+
+    selectAppMode(argService.getArgValue('-appMode'));
+    selectProfile(argService.getArgValue('-profile'));
 });
