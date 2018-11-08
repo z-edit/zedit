@@ -30,7 +30,7 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
         },
         selectLoadOrder: function(scope) {
             scope.$emit('setTitle', `${$rootScope.appMode} - Selecting Load Order`);
-            scope.$emit('openModal', 'loadOrder');
+            scope.$emit('openModal', 'loadOrder', {}, true);
         }
     };
 

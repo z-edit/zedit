@@ -19,9 +19,11 @@ ngapp.service('modalService', function($rootScope) {
             if (!modalActive(modalName)) scope.$emit('openModal', modalName);
         };
 
-        scope.$on('openModal', function(e, label, options = {}) {
+        scope.$on('openModal', function(e, label, options = {}, lock = false) {
+            if ($rootScope.lockModal) return;
             scope.$evalAsync(function() {
                 $rootScope.modalActive = true;
+                $rootScope.lockModal = lock;
                 scope.modalOptions = buildOptions(label, options);
                 scope.showModal = true;
             });
@@ -31,6 +33,7 @@ ngapp.service('modalService', function($rootScope) {
         scope.$on('closeModal', function(e) {
             scope.$applyAsync(function() {
                 $rootScope.modalActive = false;
+                $rootScope.lockModal = false;
                 scope.modalOptions = undefined;
                 scope.showModal = false;
             });
