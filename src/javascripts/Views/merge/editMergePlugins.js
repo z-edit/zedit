@@ -35,8 +35,9 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     };
 
     let updateWarningPlugins = function() {
+        let {filename} = $scope.merge;
         $scope.merge.warningPlugins = $scope.plugins
-            .filter(p => p.warn && !p.active)
+            .filter(p => p.warn && !p.active && p.filename !== filename)
             .mapOnKey('filename');
     };
 
