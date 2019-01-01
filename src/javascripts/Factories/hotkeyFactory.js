@@ -10,20 +10,20 @@ ngapp.service('hotkeyFactory', function() {
         }],
         s: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: (scope) => scope.$broadcast('openModal', 'settings')
+            callback: scope => scope.$broadcast('openModal', 'settings')
         }, {
             modifiers: ['ctrlKey'],
-            callback: (scope) => scope.$broadcast('save')
+            callback: scope => scope.$broadcast('save')
         }],
         h: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: (scope) => scope.$emit('openModal', 'help')
+            callback: scope => scope.$emit('openModal', 'help')
         }],
         e: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: (scope) => scope.$emit('openModal', 'manageExtensions')
+            callback: scope => scope.$emit('openModal', 'manageExtensions')
         }],
-        ctrl: (scope) => {
+        ctrl: scope => {
             if (ctrlDown) return;
             scope.$broadcast('controlKeyPressed');
             ctrlDown = true;
@@ -32,7 +32,7 @@ ngapp.service('hotkeyFactory', function() {
     };
 
     this.baseHotkeysUp = {
-        ctrl: (scope) => {
+        ctrl: scope => {
             scope.$broadcast('controlKeyReleased');
             ctrlDown = false;
         }
@@ -75,11 +75,11 @@ ngapp.service('hotkeyFactory', function() {
             callback: 'openAdvancedSearchModal'
         }, {
             modifiers: ['ctrlKey'],
-            callback: 'toggleSearchBar'
+            callback: scope => scope.toggleSearchBar(true)
         }],
         m: [{
             modifiers: ['ctrlKey'],
-            callback: (scope) => scope.$emit('openModal', 'automate')
+            callback: scope => scope.$emit('openModal', 'automate')
         }],
         e: [{
             modifiers: ['ctrlKey'],
@@ -106,10 +106,10 @@ ngapp.service('hotkeyFactory', function() {
         }],
         v: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: (scope) => scope.pasteNodes(false)
+            callback: scope => scope.pasteNodes(false)
         }, {
             modifiers: ['ctrlKey'],
-            callback: (scope) => scope.pasteNodes(true)
+            callback: scope => scope.pasteNodes(true)
         }],
         b: [{
             modifiers: ['ctrlKey'],
@@ -121,14 +121,14 @@ ngapp.service('hotkeyFactory', function() {
     this.recordViewHotkeys = {
         leftArrow: [{
             modifiers: ['altKey'],
-            callback: (scope) => scope.$broadcast('navBack')
+            callback: scope => scope.$broadcast('navBack')
         }, {
             modifiers: [],
             callback: 'handleLeftArrow'
         }],
         rightArrow: [{
             modifiers: ['altKey'],
-            callback: (scope) => scope.$broadcast('navForward')
+            callback: scope => scope.$broadcast('navForward')
         }, {
             modifiers: [],
             callback: 'handleRightArrow'
@@ -140,7 +140,7 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'handleEnter',
         delete: 'deleteElements',
         insert: 'handleInsert',
-        backspace: (scope) => scope.$broadcast('navBack'),
+        backspace: scope => scope.$broadcast('navBack'),
         c: [{
             modifiers: ['ctrlKey', 'shiftKey'],
             callback: 'copyPaths'
@@ -150,20 +150,20 @@ ngapp.service('hotkeyFactory', function() {
         }],
         v: [{
             modifiers: ['ctrlKey', 'shiftKey'],
-            callback: (scope) => scope.pasteNodes(true)
+            callback: scope => scope.pasteNodes(true)
         }, {
             modifiers: ['ctrlKey'],
-            callback: (scope) => scope.pasteNodes()
+            callback: scope => scope.pasteNodes()
         }],
         f: [{
             modifiers: ['ctrlKey'],
-            callback: 'toggleSearchBar'
+            callback: scope => scope.toggleSearchBar(true)
         }],
         r: [{
             modifiers: ['ctrlKey'],
             callback: 'toggleReplaceBar'
         }],
-        f6: (scope) => scope.toggleAddressBar(true)
+        f6: scope => scope.toggleAddressBar(true)
     };
 
     this.treeSearchHotkeys = {
@@ -227,14 +227,70 @@ ngapp.service('hotkeyFactory', function() {
     };
 
     this.listViewHotkeys = {
-        upArrow: 'handleUpArrow',
-        downArrow: 'handleDownArrow',
-        space: 'handleSpace',
-        escape: 'clearSelection',
-        enter: 'handleEnter',
+        upArrow: [{
+            doNotStop: true,
+            modifiers: [],
+            callback: 'handleUpArrow'
+        }],
+        downArrow: [{
+            doNotStop: true,
+            modifiers: [],
+            callback: 'handleDownArrow'
+        }],
+        space: [{
+            doNotStop: true,
+            modifiers: [],
+            callback: 'handleSpace'
+        }],
+        escape: [{
+            doNotStop: true,
+            modifiers: [],
+            callback: scope => scope.clearSelection(true)
+        }],
+        enter: [{
+            doNotStop: true,
+            modifiers: [],
+            callback: 'handleEnter'
+        }],
         a: [{
+            doNotStop: true,
             modifiers: ['ctrlKey'],
             callback: 'selectAll'
+        }],
+        f: [{
+            doNotStop: true,
+            modifiers: ['ctrlKey'],
+            callback: scope => scope.toggleFilter(true)
+        }]
+    };
+
+    let closeFilter = (scope, e) => {
+        e.stopPropagation();
+        scope.toggleFilter(false);
+    };
+
+    this.listViewFilterHotkeys = {
+        escape: closeFilter,
+        enter: closeFilter,
+        a: [{
+            modifiers: ['ctrlKey'],
+            callback: (scope, e) => {
+                e.stopPropagation();
+                e.target.select();
+            }
+        }],
+        space: [{
+            modifiers: ['ctrlKey'],
+            callback: 'handleSpace'
+        }, {
+            modifiers: ['shiftKey'],
+            callback: 'handleSpace'
+        }, {
+            modifiers: [],
+            callback: (scope, e) => {
+                e.stopPropagation();
+                e.target.value += ' ';
+            }
         }]
     };
 

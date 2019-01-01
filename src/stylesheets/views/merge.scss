@@ -1,0 +1,64 @@
+.merge-view {
+  display: flex;
+  flex-direction: column;
+  background: $background_tint;
+
+  .scroll-container {
+    overflow: auto;
+    flex-grow: 1;
+  }
+
+  .center-container {
+    max-width: 1100px;
+    padding: 20px 50px;
+    margin: auto;
+  }
+
+  .primary-actions {
+    padding: 20px;
+    border-top: 1px solid $hard_border;
+    margin: 0;
+    background: $background;
+  }
+}
+
+merge-item {
+  .merge-info {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+
+    .status-plugins-unavailable {
+      color: $negative;
+    }
+
+    .status-no-plugins-to-merge {
+      color: $negative;
+    }
+
+    .status-up-to-date {
+      color: $secondary_action;
+    }
+
+    .status-ready-to-be-built {
+      color: $positive;
+    }
+  }
+
+  table {
+    min-width: 600px;
+    margin: 16px auto;
+
+    td:not(last-of-type) {
+      padding-right: 10px;
+    }
+
+    a {
+      color: $font_color !important;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

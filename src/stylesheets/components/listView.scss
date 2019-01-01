@@ -1,5 +1,13 @@
 list-view {
   text-align: left;
+  display: block;
+
+  &.scrollable {
+    .list-items {
+      padding: 15px;
+      overflow-y: auto;
+    }
+  }
 
   .list-item {
     white-space: nowrap;
@@ -30,5 +38,15 @@ list-view {
   .placeholder {
     min-height: 20px;
     color: $soft_font_color;
+  }
+
+  .filter-container {
+    padding: 8px 10px;
+    border-top: 1px solid $medium_border;
+
+    input[type="text"] {
+      margin-left: 4px;
+      min-width: 250px;
+    }
   }
 }

@@ -5,6 +5,8 @@
       { "label": "About" },
       { "label": "Getting Started" },
       { "label": "xEdit Comparison" },
+      { "label": "Merge Plugins Comparison" },
+      { "label": "Merging Workflows" },
       { "label": "Community" }
     ]
   },
@@ -67,6 +69,12 @@
         "label": "Log View"
       }]
     }, {
+      "label": "Merge View",
+      "modalViews": [{
+        "label": "Edit Merge Modal",
+        "description": "Allows you to set the name, filename, merge method, and plugins for a merge.  Also allows you to view and adjust how data files will be handled when the merge is built."
+      }]
+    }, {
       "label": "Clean View",
       "modalViews": [{
         "label": "Resolve Modal",
@@ -88,6 +96,13 @@
           { "label": "Core Settings" },
           { "label": "Tree View Settings" },
           { "label": "Record View Settings" },
+          { "label": "Merge Settings" },
+          {
+            "label": "Integration Settings",
+            "children": [
+              { "label": "Mod Manager Integration" }
+            ]
+          },
           { "label": "Error Caching Settings" }
         ]
       },
@@ -95,6 +110,7 @@
       { "label": "Edit Value Modal" },
       { "label": "Automate Modal" },
       { "label": "Resolve Modal" },
+      { "label": "Edit Merge Modal" },
       { "label": "Save Modal" }
     ]
   }, {
@@ -179,7 +195,7 @@
             ]
           },
           { "label": "Logger" },
-          { "label": "Polyfills" },
+          { "label": "Extensions" },
           { "label": "File Helpers" },
           { "label": "Scripting API" },
           { "label": "Modal API" },

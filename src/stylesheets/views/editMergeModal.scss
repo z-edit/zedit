@@ -1,0 +1,134 @@
+.edit-merge-modal {
+  .modal-container .modal {
+    min-width: 700px;
+    padding: 30px 40px 15px;
+  }
+
+  .disabled {
+    color: $negative;
+  }
+
+  .warn {
+    color: $neutral;
+  }
+
+  .required {
+    color: $positive;
+  }
+
+  .table-container {
+    overflow-y: auto;
+    max-width: 100%;
+    margin-top: 14px;
+    max-height: 500px;
+  }
+
+  .assets-list {
+    font-size: 14px;
+    overflow-y: auto;
+    max-width: 100%;
+    max-height: 400px;
+  }
+
+  table.files-table {
+    font-size: 14px;
+    width: 100%;
+
+    th {
+      min-width: 80px;
+      text-align: left;
+    }
+
+    td {
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 8px;
+    }
+  }
+
+  .plugins-tab list-view {
+    .list-items {
+      max-height: 51vh;
+      min-height: 51vh;
+    }
+  }
+
+  .data-tab {
+    padding: 14px 20px;
+
+    .content-message:last-child {
+      margin-bottom: 40px;
+    }
+  }
+
+  .data-folder-item {
+    display: flex;
+    margin: 5px 0;
+
+    .input-label {
+      min-width: 300px;
+      margin: 0;
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    input[type="text"] {
+      flex-grow: 1;
+      margin-right: 6px;
+    }
+  }
+
+  .details-tab {
+    input[type="text"], select {
+      width: 250px;
+    }
+  }
+
+  expandable-section.asset-section {
+    border: 1px solid $hard_border;
+    background-color: $secondary_background;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 5px;
+    width: 1000px;
+    user-select: initial;
+    max-width: calc(90vw - 108px);
+
+    .expander {
+      margin-right: 8px;
+    }
+
+    h3.title {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+    }
+
+    title {
+      display: inline-block;
+    }
+  }
+
+  expandable-section.assets-list-section {
+    display: block;
+    padding: 4px;
+
+    &:first-of-type {
+      margin-top: 16px;
+    }
+
+    .expander {
+      margin-right: 8px;
+    }
+
+    h3.title {
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      font-weight: normal;
+    }
+  }
+}

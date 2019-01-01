@@ -104,6 +104,29 @@
   section {
     margin: 15px;
   }
+
+  .scaling-modal {
+    padding: 0;
+    min-width: 450px;
+    max-width: 90%;
+    margin: 120px auto;
+    display: table;
+
+    section {
+      padding: 15px;
+      margin: 0;
+    }
+  }
+
+  .primary-actions {
+    text-align: center;
+
+    .action-btn {
+      font-size: 20px;
+      margin: 1px;
+      padding: 4px 8px;
+    }
+  }
 }
 
 .close-modal {

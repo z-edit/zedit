@@ -1,0 +1,23 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Relink Scripts</h2>
+
+            <section>
+                <list-view items="merges">
+                    <input type="checkbox" ng-model="$parent.item.active" ng-disabled="$parent.item.disabled"/>
+                    <span ng-class="{'negative-fg': $parent.item.disabled}" title="{{$parent.item.disabled ? 'Merge is not up-to-date' : ''}}">
+                        {{::$parent.item.merge.name}} ({{::$parent.item.merge.filename}})
+                    </span>
+                </list-view>
+            </section>
+
+            <div class="primary-actions">
+                <button type="button" class="action-btn" ng-click="relinkScripts()">OK</button>
+                <button type="button" class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

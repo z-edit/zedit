@@ -1,0 +1,161 @@
+<p>The edit merge modal allows you to create or edit merges.</p>
+
+<h2>Details Tab</h2>
+<p>The details tab allows you to edit the merge name, filename, and merge method.</p>
+
+<ul>
+    <li><b>Merge Name:</b> Used for display and identification purposes.  Should be unique.  Cannot include characters that are not allowed in folder/file names.</li>
+    <li><b>Merge Filename:</b> Used for the filename of the merged plugin produced when the merge is built.  Should be unique, and cannot be the name of an existing plugin file.  Cannot include characters that are not allowed in folder/file names.  Should have a valid plugin file extension: esp, esm or esl.</li>
+    <li><b>Merge Method:</b> The method used to merge plugins.  Currently only the standard "merge down" method is supported.  This is the same method that has been used by the Merge Plugins Script and Merge Plugins Standalone.  A future release will expose additional methods to merge down without relying on clamping and to merge up like CK version control.</li>
+</ul>
+
+<h2>Plugins Tab</h2>
+<p>The plugins tab allows you to select the plugins that should be merged.  Check the box by a plugin's filename to mark it to be part of the merge.  You can reorder plugins and masters to adjust the load order used during the merge.  Each plugin that will be loaded will have a hexadecimal load ordinal before its filename.  Bethesda plugins cannot be merged, and will have their checkboxes disabled.</p>
+
+<p>Plugins may be styled to indicate various states.  You can mouse over a plugin which is styled to get a tooltip explaining its current status.</p>
+
+<ul>
+    <li><span class="positive-fg">Positive:</span> The plugin is a master which is required by one of the plugins selected to be merged (or by one of its required masters).</li>
+    <li><span class="neutral-fg">Neutral:</span> The plugins is required by one of the plugins which has been selected to be merged.  Required plugins must be included in the merge if you want them to be usable once the merge completes.</li>
+    <li><span class="negative-fg">Negative:</span> The plugin is disabled and cannot be selected because one or more of its masters is not available.</li>
+</ul>
+
+<h2>Data Tab</h2>
+<p>The data tab allows you to view the data files associated with the plugins you're merging and configure how Merge Plugins will handle them per-merge.</p>
+
+<p>Paths provided here use the following placeholders:</p>
+
+<table class="legend">
+    <thead>
+    <tr>
+        <th>Placeholder</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><code>&lt;Plugin&gt;</code></td>
+        <td>A plugin filename, including extension.</td>
+    </tr>
+    <tr>
+        <td><code>&lt;PluginBase&gt;</code></td>
+        <td>A plugin filename, excluding extension.</td>
+    </tr>
+    <tr>
+        <td><code>&lt;FormID&gt;</code></td>
+        <td>A hexedecimal FormID.</td>
+    </tr>
+    <tr>
+        <td><code>&lt;#&gt;</code></td>
+        <td>A number.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Plugin Data Folders</h3>
+<p>You can set the data folders for plugins in the merge manually from this section if they weren't automatically detected correctly.  Plugin data folders are used for detection of general asset.  Plugin data folders are only relevant if you're using a mod manager that isolates mod files in their own folders.  You can set a plugin's data folder by typing it into the text input or by browsing for it by clicking the folder icon.</p>
+
+<h3>Bethesda Archives</h3>
+<p>Bethesda Archive Files (BSA and BA2) can be handled by zMerge.  You can either Extract, Copy, or Ignore the archives detected by zMerge.</p>
+
+<ul>
+    <li><b>Extract:</b> zMerge will extract all of the files from the archives into the merge output folder.</li>
+    <li><b>Copy:</b> zMerge will copy all of the archives to the merge output folder and rename them based on the merge filename and original archive filename.</li>
+    <li><b>Ignore:</b> zMerge will do nothing with the archive.</li>
+</ul>
+
+<p>If BSAs aren't handled properly a variety of issues may occur, including objects appearing pink or invisible.</p>
+
+<h3>NPC Face Data</h3>
+<p>NPC Face Data Files can be handled by zMerge.  These are files located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>meshes\actors\character\facegendata\facegeom\&lt;Plugin&gt;\&lt;FormID&gt;.nif</code>
+    </li>
+    <li>
+        <code>textures\actors\character\facegendata\facetint\&lt;Plugin&gt;\&lt;FormID&gt;.dds</code>
+    </li>
+</ul>
+
+<p>If NPC face data isn't handled properly character faces will appear abnormally colored or shaped.  This is commonly referred to as "the gray face bug".</p>
+
+<h3>NPC Voice Data</h3>
+<p>NPC Voice Data Files can be handled by zMerge.  These are files located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>sound\voice\&lt;Plugin&gt;\**\*_&lt;FormID&gt;_&lt;#&gt;.fuz</code>
+    </li>
+    <li>
+        <code>sound\voice\&lt;Plugin&gt;\**\*_&lt;FormID&gt;_&lt;#&gt;.wav</code>
+    </li>
+</ul>
+
+<p>If NPC voice data isn't handled character voices may be missing.</p>
+
+<h3>LOD Billboards</h3>
+<p>LOD Billboard Files can be handled by zMerge.  These are files located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>textures\terrain\lodgen\&lt;Plugin&gt;\&lt;FormID&gt;.dds</code>
+    </li>
+    <li>
+        <code>textures\terrain\lodgen\&lt;Plugin&gt;\&lt;FormID&gt;.txt</code>
+    </li>
+</ul>
+
+<p>If LOD billboards aren't handled properly, LODGen/DynDOLOD will not be able to generate LOD models for certain objects.</p>
+
+<h3>Script Fragments</h3>
+<p>Script Fragments can be handled by zMerge.  Scripts fragments are handled when the FormID of the record they are associated with was renumbered.  Due to the nature of how script fragments work, zMerge can only display them on the data tab if you're using a mod manager which isolates mod data files in separate folders like Mod Organizer.  Script fragments are located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>scripts\*qf_*_&lt;FormID&gt;.pex</code>
+    </li>
+    <li>
+        <code>scripts\*tif_*_&lt;FormID&gt;.pex</code>
+    </li>
+    <li>
+        <code>scripts\*sf_*_&lt;FormID&gt;.pex</code>
+    </li>
+    <li>
+        <code>scripts\*prkf_*_&lt;FormID&gt;.pex</code>
+    </li>
+    <li>
+        <code>scripts\*pf_*_&lt;FormID&gt;.pex</code>
+    </li>
+</ul>
+
+<p>If script fragments aren't handled properly certain quests, dialogue options, scripted scenes, perk effects, and NPC behaviors may not function correctly.</p>
+
+<h3>String Files</h3>
+<p>zMerge doesn't handle string files yet, but it will detect them and display them.</p>
+
+<h3>MCM Translations</h3>
+<p>Skyrim MCM Translation Files can be handled by zMerge.  These are files located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>interface\translations\&lt;PluginBase&gt;_*.txt</code>
+    </li>
+</ul>
+
+<p>zMerge combines MCM translation files and names them to associate them with the merged plugin.  If MCM translations aren't handled properly text in mod configuration menus will be replaced with variable names, e.g. <code>$SOME_STRING_VALUE</code>.</p>
+
+<h3>INI Files</h3>
+<p>INI Files can be handled by zMerge.  These are files located at the following paths:</p>
+
+<ul>
+    <li>
+        <code>&lt;PluginBase&gt;.ini</code>
+    </li>
+</ul>
+
+<p>zMerge combines INI files and names them to associate them with the merged plugin.  If INI files aren't handled properly, certain mod-specific INI settings will not be set properly.</p>
+
+<h3>General Assets</h3>
+<p>General Asset Files can be handled by zMerge.  These are all the files that aren't handled by the other asset handling routes.  If you enabled "Handle General Assets", all asset files in the folders associated with the plugins you're merging will be copied to the output merge folder.  This is useful if you're authoring a mod and want to combine separate modules into a single module for distribution, but is otherwise <span class="neutral-fg">not recommended</span>.  See <a href="docs://Overview/Merging Workflows">Merging Workflows</a> for more information.</p>
+

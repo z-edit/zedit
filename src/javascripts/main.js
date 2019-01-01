@@ -7,14 +7,13 @@ import path from 'path';
 import url from 'url';
 import { app, ipcMain, BrowserWindow, dialog } from 'electron';
 import createWindow from './helpers/window';
-import logger from './helpers/logger.js';
-
-// Special module holding environment variables which you declared
-// in config/env_xxx.json file.
-import env from './env';
+import Logger from './helpers/logger.js';
+global.env = require('./env');
+global.argv = process.argv;
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
+let logger = new Logger();
 logger.init('main');
 logger.info(`Using arch ${process.arch}`);
 
@@ -75,8 +74,9 @@ let openMainWindow = function() {
     logger.info('Main window created');
     logger.info('Loading application...');
     let verboseLogging = process.argv.includes('-verbose'),
+        dev = env.name === 'development' || process.argv.includes('-dev'),
         url = `app.html?verbose=${+verboseLogging}`;
-    loadPage(mainWindow, url, env.name === 'development');
+    loadPage(mainWindow, url, dev);
     mainWindow.once('ready-to-show', () => {
         logger.info('Application loaded.  Showing window.');
         mainWindow.show();
@@ -162,7 +162,7 @@ ipcMain.on('progress-title', (e, p) => progSend('progress-title', p));
 ipcMain.on('progress-message', (e, p) => {
     if (!lastProgressMessage)
         setTimeout(() => {
-            progSend('progress-message', p);
+            progSend('progress-message', lastProgressMessage);
             lastProgressMessage = undefined;
         }, 50);
     lastProgressMessage = p;

@@ -34,6 +34,16 @@
     }
   }
 
+  .jump-to-record {
+    &.disabled {
+      color: $medium_border;
+    }
+
+    &::before {
+      content: "\f064";
+    }
+  }
+
   .column-wrapper {
     border-bottom: 1px solid $medium_border;
     overflow-x: scroll;

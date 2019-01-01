@@ -10,15 +10,19 @@ import 'angularjs-scroll-glue';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
-import logger from './helpers/logger.js';
+import Logger from './helpers/logger.js';
+import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
-import './polyfills';
+import './extensions';
 import './color';
+window.env = remote.getGlobal('env');
+window.argv = remote.getGlobal('argv');
 window.md5File = require('md5-file');
 window.xelib = require('xelib').wrapper;
 window.appVersion = remote.app.getVersion();
 
 // init logger
+let logger = new Logger();
 logger.init('app');
 logger.info(`zEdit v${appVersion} ${process.arch}`);
 logger.addCallback('error', (msg) => window.alert(msg));
@@ -83,6 +87,7 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
 //=include Directives/*.js
 //=include Factories/*.js
 //=include Filters/*.js
+//=include Runners/**/*.js
 //=include Services/**/*.js
 //=include Views/**/*.js
 //== end angular files ==

@@ -120,3 +120,21 @@ ui-view {
     content: "\f054";
   }
 }
+
+section.header-section {
+  border-bottom: 1px solid $hard_border;
+
+  h2 {
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+  }
+}
+
+section.footer-section {
+  border-top: 1px solid $hard_border;
+
+  .primary-actions {
+    margin: 0;
+  }
+}
