@@ -335,6 +335,14 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             }
         };
 
+        scope.jumpTo = function(columnIndex) {
+            let linkedTreeView = scope.view.linkedTreeView;
+            if (!linkedTreeView) return;
+            let recordIndex = columnIndex - 1,
+                record = scope.getRecord(recordIndex);
+            linkedTreeView.scope.navigateToElement(record, false);
+        };
+
         scope.linkToView = function(className) {
             let targetView = layoutService.findView(view => {
                 return view.class === className && !view.linkedRecordView;
