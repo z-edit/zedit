@@ -1,0 +1,16 @@
+<div class="viewport sort-view" ng-keydown="onKeyDown($event)">
+    <div class="scroll-container">
+        <div class="center-container">
+            <list-view items="loadOrder" drag-type="groupedLoadOrder" ng-if="groupView">
+                <plugin-group ng-if="::$parent.item.isGroup" group="$parent.$parent.item"></plugin-group>
+                <plugin-row ng-if="::!$parent.item.isGroup" plugin="$parent.$parent.item"></plugin-row>
+            </list-view>
+        </div>
+    </div>
+
+    <div class="primary-actions">
+        <button class="action-btn" ng-click="sortLoadOrder()">Sort Load Order</button>
+        <button class="action-btn" ng-click="editGroups()">Edit Groups</button>
+        <button class="action-btn positive" ng-click="addGroup()">Add Group</button>
+    </div>
+</div>
