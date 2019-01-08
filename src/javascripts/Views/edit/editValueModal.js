@@ -11,10 +11,6 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     $scope.vtClass = vtLabel;
     $scope.valueType = node.value_type;
 
-    let tryParseColor = function(color) {
-        try { return new Color(color) } catch (e) {}
-    };
-
     // scope functions
     $scope.applyValue = function() {
         if ($scope.invalid) return;
@@ -106,16 +102,10 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     $scope.setupColor = function() {
-        $scope.textChanged = function() {
-            let c = tryParseColor($scope.value);
-            $scope.invalid = !c;
-            if (!$scope.invalid) $scope.color = c.toHex();
-        };
-
         $scope.applyValue = function() {
             if ($scope.invalid) return;
             errorService.try(function() {
-                let c = tryParseColor($scope.value);
+                let c = $scope.color;
                 xelib.SetValue(handle, 'Red', c.getRed().toString());
                 xelib.SetValue(handle, 'Green', c.getGreen().toString());
                 xelib.SetValue(handle, 'Blue', c.getBlue().toString());
@@ -123,18 +113,11 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
             });
         };
 
-        $scope.$watch('color', function() {
-            let c = new Color($scope.color);
-            $scope.value = c.toRGB();
-            $scope.colorStyle = {'background-color': `${$scope.value}`};
-        });
-
         // initialize color
         let red = xelib.GetValueEx(handle, 'Red'),
             green = xelib.GetValueEx(handle, 'Green'),
             blue = xelib.GetValueEx(handle, 'Blue');
         $scope.value = `rgb(${red}, ${green}, ${blue})`;
-        $scope.textChanged();
     };
 
     // initialization
