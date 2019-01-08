@@ -47,6 +47,11 @@
   white-space: nowrap;
 }
 
+.by-header {
+  display: inline-block;
+  margin-left: 6px;
+}
+
 .soft-border {
   border: 1px solid $soft-border;
 }
