@@ -1,0 +1,10 @@
+dds {
+  display: block;
+  padding: 8px 16px;
+
+  canvas {
+    width: 64px;
+    height: 64px;
+    border: 1px solid $hard_border;
+  }
+}
