@@ -3,11 +3,15 @@ ngapp.directive('dropdown', function() {
         restrict: 'E',
         transclude: {
             display: 'dropdownDisplay',
-            item: 'dropdownItem'
+            item: 'dropdownItem',
+            customItem: '?customItem',
+            customSelect: '?customSelect',
         },
         scope: {
             items: '=',
-            callback: '=onItemClick'
+            applyCustom: '=?',
+            callback: '=onItemClick',
+            maxHeight: '=?'
         },
         templateUrl: 'directives/dropdown.html',
         controller: 'dropdownController',
@@ -21,18 +25,28 @@ ngapp.directive('dropdown', function() {
 });
 
 ngapp.controller('dropdownController', function($scope, hotkeyService) {
+    $scope.allowCustom = angular.isDefined($scope.applyCustom);
+
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', 'dropdown');
     hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', 'dropdownItems');
+    hotkeyService.buildOnKeyDown($scope, 'onCustomKeyDown', 'dropdownCustom');
 
     // scope functions
     $scope.toggleDropdown = function() {
         $scope.showDropdown = !$scope.showDropdown;
         $scope.currentIndex = -1;
     };
-    $scope.onDropdownBlur = () => $scope.showDropdown = false;
-    $scope.handleEscape = () => $scope.showDropdown = false;
-    $scope.handleEnter = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
+    $scope.hideDropdown = () => $scope.showDropdown = false;
+    $scope.selectItem = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
+
+    $scope.toggleCustom = () => $scope.showCustom = !$scope.showCustom;
+    $scope.hideCustom = () => $scope.showCustom = false;
+
+    $scope.selectCustom = function() {
+        $scope.applyCustom($scope);
+        $scope.showCustom = false;
+    };
 
     $scope.handleUpArrow = function() {
         $scope.currentIndex--;
@@ -45,9 +59,15 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
     };
 
     // event handlers
+    $scope.onMouseOver = index => $scope.currentIndex = index;
+
     $scope.onItemClick = function(item) {
         if (item) $scope.callback(item);
         $scope.showDropdown = false;
     };
-    $scope.onMouseOver = (index) => $scope.currentIndex = index;
+
+    $scope.$watch('maxHeight', function() {
+        if (angular.isUndefined($scope.maxHeight)) return;
+        $scope.itemsStyle = { maxHeight: `${$scope.maxHeight}px` };
+    });
 });

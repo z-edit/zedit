@@ -1,4 +1,6 @@
 <div ng-mousedown="toggleDropdown()" ng-transclude="display"></div>
-<div ng-if="showDropdown" class="dropdown-items" ng-blur="onDropdownBlur()" ng-keydown="onItemsKeyDown($event)" tabindex="0" autofocus>
+<div ng-if="showDropdown" class="dropdown-items" ng-blur="hideDropdown()" ng-keydown="onItemsKeyDown($event)" tabindex="0" autofocus>
     <div ng-repeat="item in items" ng-click="onItemClick(item)" class="dropdown-item" ng-mouseover="onMouseOver($index)" ng-class="{'selected': $index == currentIndex}" ng-transclude="item"></div>
+    <div ng-if="allowCustom" ng-click="toggleCustom()" class="dropdown-item" ng-mouseover="onMouseOver(customIndex)" ng-class="{'selected' : customIndex == currentIndex}" ng-transclude="customItem"></div>
 </div>
+<div ng-if="showCustom" class="dropdown-items" ng-blur="hideCustom()" ng-transclude="custom" tabindex="0" ng-keydown="onCustomKeydown($event)" autofocus></div>

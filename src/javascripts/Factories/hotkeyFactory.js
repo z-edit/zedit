@@ -222,8 +222,13 @@ ngapp.service('hotkeyFactory', function() {
     this.dropdownItemsHotkeys = {
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
-        escape: 'handleEscape',
-        enter: 'handleEnter'
+        escape: 'hideDropdown',
+        enter: 'selectItem'
+    };
+
+    this.dropdownCustomHotkeys = {
+        escape: 'hideCustom',
+        enter: 'selectCustom'
     };
 
     this.listViewHotkeys = {
