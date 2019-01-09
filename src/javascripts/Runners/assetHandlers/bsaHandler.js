@@ -46,7 +46,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
         label: 'Extracted Files',
         priority: 100,
         handle: function(merge) {
-            if (merge.action !== 'Extract' || !merge.extracted.length) return;
+            if (merge.archiveAction !== 'Extract' || !merge.extracted.length) return;
             progressLogger.log(`Handling Extracted Files`);
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
@@ -54,6 +54,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
                     let localPath = filePath.slice(folderLen),
                         newPath = `${merge.dataPath}\\${localPath}`;
                     progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
+                    fh.jetpack.dir(fh.getDirectory(newPath));
                     fh.jetpack.move(filePath, newPath, { overwrite: true });
                 });
             });
