@@ -4,9 +4,10 @@ ngapp.directive('colorSwatch', function() {
         scope: {
             color: '='
         },
-        template: '',
+        template: '<div></div>',
         link: function(scope, element) {
-            let el = element[0];
+            let el = element[0],
+                div = el.firstElementChild;
 
             let onWheel = function(e) {
                 let up = e.deltaY > 0,
@@ -17,8 +18,9 @@ ngapp.directive('colorSwatch', function() {
             };
 
             let updateColor = function() {
-                el.style.backgroundColor = scope.color.toRGBA();
-                el.title = scope.color.toRGBA();
+                div.style.backgroundColor = scope.color.toRGBA();
+                div.style.borderColor = scope.color.toRGB();
+                div.title = scope.color.toRGBA();
             };
 
             el.addEventListener('wheel', onWheel);

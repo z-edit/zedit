@@ -1,6 +1,21 @@
 color-swatch {
   width: 64px;
-  height: 48px;
+  height: 64px;
   display: block;
   margin: 4px 0;
+
+  > div {
+    height: 100%;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 1.0em solid transparent;
+      border-right-color: inherit;
+      border-top-color: inherit;
+    }
+  }
 }
