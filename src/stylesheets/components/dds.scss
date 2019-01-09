@@ -1,0 +1,9 @@
+dds {
+  display: flex;
+
+  canvas {
+    width: 96px;
+    height: 96px;
+    border: 1px solid $hard_border;
+  }
+}

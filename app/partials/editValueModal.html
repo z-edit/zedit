@@ -61,11 +61,7 @@
                 <h2>Edit Color
                     <div class="path">{{::path}}</div>
                 </h2>
-                <color-picker ng-model="$parent.color"></color-picker>
-                <div class="color-input-container">
-                    <div class="color-sample" ng-style="$parent.colorStyle"></div>
-                    <input type="text" ng-model="$parent.value" ng-class="{'invalid' : invalid}" ng-change="textChanged()"/>
-                </div>
+                <color-input color="$parent.color" text="$parent.value" invalid="$parent.invalid"></color-input>
             </div>
 
             <div ng-if="::valueType === vtEnum">

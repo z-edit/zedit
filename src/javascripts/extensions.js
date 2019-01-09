@@ -231,6 +231,18 @@ Array.prototype.itemsAfter = function(arg) {
     return index > -1 ? this.slice(index + 1) : this.slice();
 };
 
+Array.prototype.insertAfter = function(arg, ...items) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return this.splice(index + 1, 0, ...items);
+};
+
+Array.prototype.insertBefore = function(arg, ...items) {
+    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
+        index = this[fn](arg);
+    return this.splice(index, 0, ...items);
+};
+
 Object.deepAssign = function(target, varArgs) {
     if (target === null) // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
