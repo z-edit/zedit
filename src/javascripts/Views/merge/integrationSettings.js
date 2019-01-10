@@ -1,4 +1,4 @@
-ngapp.controller('integrationSettingsController', function($scope, $rootScope, integrationService, progressService, errorService) {
+ngapp.controller('integrationSettingsController', function($scope, $rootScope, $timeout, integrationService, progressService, errorService) {
     // initialization
     const modOrganizerManagers = ['Mod Organizer', 'Mod Organizer 2'];
 
@@ -36,12 +36,14 @@ ngapp.controller('integrationSettingsController', function($scope, $rootScope, i
         if (updateDataFolders) $rootScope.$broadcast('updateDataFolders');
     });
 
-    $scope.$watch('settings.modsPath', () => {
-        updateDataFolders = true;
-        if (usingMO() && usingDefaultMergePath())
-            $scope.settings.mergePath = $scope.settings.modsPath;
+    $timeout(() => {
+        $scope.$watch('settings.modsPath', () => {
+            updateDataFolders = true;
+            if (usingMO() && usingDefaultMergePath())
+                $scope.settings.mergePath = $scope.settings.modsPath;
+        });
+        $scope.$watch('settings.modManager', () => updateDataFolders = true);
     });
-    $scope.$watch('settings.modManager', () => updateDataFolders = true);
 });
 
 ngapp.run(function(settingsService, integrationService) {
