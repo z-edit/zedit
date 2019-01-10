@@ -25,6 +25,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     $scope.startSession = function () {
         if (!appModeService.selectAppMode($scope.selectedAppMode)) return;
         profileService.selectProfile($scope.selectedProfile);
+        $scope.$emit('sessionStarted', $scope.selectedProfile);
         appModeService.runLoader($scope);
     };
 
