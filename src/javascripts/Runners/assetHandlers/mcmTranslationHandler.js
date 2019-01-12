@@ -1,15 +1,17 @@
-ngapp.run(function(mergeAssetService, progressLogger) {
-    let {forEachPlugin} = mergeAssetService;
+ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
+    let {findGameAssets, getOldPath} = assetHelpers,
+        {forEachPlugin} = mergeAssetService;
 
     const utf16marker = String.fromCharCode(65279),
           translationPath = 'interface\\translations\\';
 
     let loadTranslations = function(merge, translations) {
         merge.translations.forEach(entry => {
-            let dataFolder = merge.dataFolders[entry.plugin];
             entry.assets.forEach(asset => {
-                let fullPath = dataFolder + asset.filePath,
-                    content = fh.loadTextFile(fullPath, 'ucs2'),
+                let fullPath = getOldPath({
+                        folder: entry.folder,
+                        filePath: asset.filePath
+                    }, merge),
                     content = fh.loadTextFile(fullPath, 'ucs2').slice(1),
                     baseName = fh.getFileBase(entry.plugin).toLowerCase(),
                     language = fh.getFileBase(asset.filePath)
@@ -34,12 +36,10 @@ ngapp.run(function(mergeAssetService, progressLogger) {
     };
 
     let findMcmTranslations = function(plugin, folder) {
-        let sliceLen = folder.length;
-        return fh.getFiles(folder + translationPath, {
-            matching: `${fh.getFileBase(plugin)}*.txt`
-        }).map(filePath => ({
-            filePath: filePath.slice(sliceLen)
-        }));
+        let sliceLen = folder.length,
+            expr = `${fh.getFileBase(plugin)}*.txt`;
+        return findGameAssets(plugin, folder, translationPath, expr)
+            .map(filePath => ({ filePath: filePath.slice(sliceLen) }));
     };
 
     mergeAssetService.addHandler({
