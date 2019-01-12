@@ -295,7 +295,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 nodes = [];
             for (let i = 0; i < maxLen; i++)
                 nodes.push(scope.buildNode(node,
-                    useLabels ? getLabel(elementArrays, i) : name,
+                    useLabels ? getLabel(elementArrays, i) : name || `#${i}`,
                     elementArrays, i, setChildIndex));
             if (sorted && showArrayIndexes) scope.setArrayChildIndexes(nodes);
             return nodes;
@@ -303,6 +303,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         scope.buildNodes = function(node) {
             let names = xelib.GetDefNames(node.first_handle);
+            if (!names.length) return scope.buildArrayNodes(node);
             if (!names[0].length) return [];
             return node.value_type === xelib.vtArray ?
                 scope.buildArrayNodes(node, names[0]) :
