@@ -1,7 +1,8 @@
 ngapp.run(function(mergeAssetService, progressLogger) {
     let {forEachPlugin} = mergeAssetService;
 
-    let translationPath = 'interface\\translations\\';
+    const utf16marker = String.fromCharCode(65279),
+          translationPath = 'interface\\translations\\';
 
     let loadTranslations = function(merge, translations) {
         merge.translations.forEach(entry => {
@@ -9,6 +10,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
             entry.assets.forEach(asset => {
                 let fullPath = dataFolder + asset.filePath,
                     content = fh.loadTextFile(fullPath, 'ucs2'),
+                    content = fh.loadTextFile(fullPath, 'ucs2').slice(1),
                     baseName = fh.getFileBase(entry.plugin).toLowerCase(),
                     language = fh.getFileBase(asset.filePath)
                         .toLowerCase().replace(baseName, '');
@@ -26,7 +28,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
             let basePath = `${merge.dataPath}\\interface\\translations`,
                 baseName = fh.getFileBase(merge.filename).toLowerCase(),
                 filename = `${baseName}${language}.txt`,
-                content = translations[language];
+                content = utf16marker + translations[language];
             fh.saveTextFile(`${basePath}\\${filename}`, content, 'ucs2');
         });
     };
