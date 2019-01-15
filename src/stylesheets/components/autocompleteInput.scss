@@ -22,4 +22,9 @@ autocomplete-input {
       }
     }
   }
+
+  &.inline .dropdown {
+    position: initial;
+    border: none;
+  }
 }
