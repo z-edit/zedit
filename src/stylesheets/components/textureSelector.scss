@@ -1,0 +1,12 @@
+texture-selector {
+  autocomplete-input {
+    input[type="text"] {
+      width: 250px;
+    }
+
+    .dropdown {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  }
+}
