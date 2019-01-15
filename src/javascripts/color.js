@@ -48,6 +48,28 @@
         return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
     };
 
+    const rgbToHsl = (r, g, b) => {
+        r /= 255.0; g /= 255.0; b /= 255.0;
+        let max = Math.max(r, g, b),
+            min = Math.min(r, g, b),
+            h, s, l = (max + min) / 2.0;
+
+        if (max === min) {
+            h = s = 0;
+        } else {
+            let d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch(max) {
+                case r: h = (g - b) / d + ( g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, l];
+    };
+
     const parseRGBA = (color) => {
         let matches, r, g, b, a = 1;
 
@@ -88,13 +110,13 @@
         let matches, h, s, l, a = 1;
 
         if (matches = color.match(/hsl\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i)) {
-            h = parseInt(matches[1]);
-            s = parseInt(matches[2]);
-            l = parseInt(matches[3]);
+            h = parseInt(matches[1]) / 240.0;
+            s = parseInt(matches[2]) / 240.0;
+            l = parseInt(matches[3]) / 240.0;
         } else if (matches = color.match(/hsla\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d\.]+)\s*\)/i)) {
-            h = parseInt(matches[1]);
-            s = parseInt(matches[2]);
-            l = parseInt(matches[3]);
+            h = parseInt(matches[1]) / 240.0;
+            s = parseInt(matches[2]) / 240.0;
+            l = parseInt(matches[3]) / 240.0;
             a = parseFloat(matches[4]);
         } else {
             return;
@@ -201,6 +223,12 @@
 
         toRGB () {
             return `rgb(${this.getComponents(10).join(', ')})`;
+        }
+
+        toHSL () {
+            let [r, g, b] = this.getComponents(10),
+                [h, s, l] = rgbToHsl(r, g, b);
+            return `hsl(${Math.floor(h * 240)}, ${Math.floor(s * 240)}, ${Math.floor(l * 240)})`;
         }
 
         toRGBA () {
