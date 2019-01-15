@@ -1,0 +1,32 @@
+color-selector {
+  dropdown .dropdown-items {
+    display: flex;
+    top: -3px;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    color-swatch {
+      width: 48px;
+      height: 48px;
+    }
+
+    > .dropdown-item {
+      width: 72px;
+      flex-basis: 72px;
+    }
+  }
+
+  dropdown .custom-select {
+    padding: 3px;
+  }
+
+  custom-item {
+    display: inline-block;
+    margin: 19px 0;
+  }
+
+  .angular-color-picker {
+    margin: 10px 18px 0;
+    padding: 0;
+  }
+}
