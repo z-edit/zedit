@@ -4,7 +4,8 @@ ngapp.directive('colorInput', function() {
         scope: {
             text: '=?',
             color: '=?',
-            invalid: '=?'
+            invalid: '=?',
+            autoselect: '@'
         },
         templateUrl: 'directives/colorInput.html',
         controller: 'colorInputController'

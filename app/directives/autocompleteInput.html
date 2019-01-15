@@ -1,4 +1,4 @@
-<input type="text" ng-model="text" ng-keydown="onInputKeyDown($event)" ng-change="onTextChanged()" ng-blur="onInputBlur()">
+<input type="text" ng-model="text" ng-keydown="onInputKeyDown($event)" ng-change="onTextChanged()" ng-blur="onInputBlur()" select-text="autoselect">
 <div class="dropdown" ng-show="showDropdown">
     <span ng-show="searching">Searching...</span>
     <span ng-show="!searching && !results.length">No results found</span>

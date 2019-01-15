@@ -9,7 +9,8 @@ ngapp.directive('autocompleteInput', function() {
             getText: '=?',
             setCustom: '=?',
             minLength: '@',
-            pause: '@'
+            pause: '@',
+            autoselect: '@'
         },
         controller: 'autocompleteInputController'
     }
