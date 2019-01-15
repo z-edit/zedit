@@ -3,4 +3,7 @@
     <div ng-repeat="item in items" ng-click="onItemClick(item)" class="dropdown-item" ng-mouseover="onMouseOver($index)" ng-class="{'selected': $index == currentIndex}" ng-transclude="item"></div>
     <div ng-if="allowCustom" ng-click="toggleCustom()" class="dropdown-item" ng-mouseover="onMouseOver(customIndex)" ng-class="{'selected' : customIndex == currentIndex}" ng-transclude="customItem"></div>
 </div>
-<div ng-if="showCustom" class="dropdown-items" ng-blur="hideCustom()" ng-transclude="custom" tabindex="0" ng-keydown="onCustomKeydown($event)" autofocus></div>
+<div ng-if="showCustom" class="dropdown-items custom-select">
+    <div class="remove-item" ng-click="toggleCustom()"></div>
+    <div ng-transclude="customSelect"></div>
+</div>

@@ -40,7 +40,10 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
     $scope.hideDropdown = () => $scope.showDropdown = false;
     $scope.selectItem = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
 
-    $scope.toggleCustom = () => $scope.showCustom = !$scope.showCustom;
+    $scope.toggleCustom = () => {
+        $scope.showDropdown = false;
+        $scope.showCustom = !$scope.showCustom;
+    };
     $scope.hideCustom = () => $scope.showCustom = false;
 
     $scope.selectCustom = function() {

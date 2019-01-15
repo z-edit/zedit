@@ -29,6 +29,18 @@ dropdown {
       }
     }
   }
+
+  .custom-select {
+     padding: 3px 18px 3px 3px;
+   }
+
+  .remove-item {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 3px;
+    z-index: 1;
+  }
 }
 
 dropdown.combobox {
