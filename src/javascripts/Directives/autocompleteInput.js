@@ -48,7 +48,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'dropdownItems');
+    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'autocompleteInputHotkeys');
 
     // scope functions
     $scope.handleEscape = function() {

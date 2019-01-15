@@ -231,6 +231,13 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'selectCustom'
     };
 
+    this.autocompleteInputHotkeys = {
+        upArrow: 'handleUpArrow',
+        downArrow: 'handleDownArrow',
+        escape: 'handleEscape',
+        enter: 'handleEnter'
+    };
+
     this.listViewHotkeys = {
         upArrow: [{
             doNotStop: true,
