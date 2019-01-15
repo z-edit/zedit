@@ -1,5 +1,5 @@
-<color-picker ng-model="color"></color-picker>
+<color-picker ng-model="color" tabindex="0" ng-keydown="onKeyDown($event)"></color-picker>
 <div class="color-input-container">
     <div class="color-sample" ng-style="colorStyle"></div>
-    <input type="text" ng-model="text" ng-class="{'invalid' : invalid}" ng-change="textChanged()" select-text="autoselect"/>
+    <input type="text" ng-model="text" ng-class="{'invalid' : invalid}" ng-change="textChanged()" select-text="autoselect" ng-keydown="onKeyDown($event)"/>
 </div>

@@ -1,6 +1,10 @@
 .angular-color-picker {
   background: inherit !important;
   border: none !important;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 color-input {
@@ -21,16 +25,5 @@ color-input {
     align-items: center;
     justify-content: center;
     margin: 10px 0;
-  }
-}
-
-color-selector {
-  dropdown .custom-select {
-    padding: 3px;
-  }
-
-  .angular-color-picker {
-    margin: 10px 18px 0;
-    padding: 0;
   }
 }
