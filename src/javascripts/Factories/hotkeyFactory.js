@@ -226,14 +226,14 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'selectItem'
     };
 
-    this.dropdownCustomHotkeys = {
-        escape: 'hideCustom',
-        enter: 'selectCustom'
-    };
-
     this.autocompleteInputHotkeys = {
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
+        escape: 'handleEscape',
+        enter: 'handleEnter'
+    };
+
+    this.colorInputHotkeys = {
         escape: 'handleEscape',
         enter: 'handleEnter'
     };

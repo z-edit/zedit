@@ -12,11 +12,16 @@ ngapp.directive('colorInput', function() {
     }
 });
 
-ngapp.controller('colorInputController', function($scope) {
+ngapp.controller('colorInputController', function($scope, hotkeyService) {
+    // inherited functions
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'colorInput');
+
+    // helper functions
     let tryParseColor = function(color) {
         try { return new Color(color) } catch (e) {}
     };
 
+    // scope functions
     $scope.textChanged = function() {
         let c = tryParseColor($scope.text);
         $scope.invalid = !c;
@@ -30,6 +35,10 @@ ngapp.controller('colorInputController', function($scope) {
         $scope.text = c.toRGB();
         $scope.colorStyle = {'background-color': `${$scope.text}`};
     });
+
+    // event handlers
+    $scope.handleEscape = () => $scope.$emit('handleEscape');
+    $scope.handleEnter = () => $scope.$emit('handleEnter');
 
     // initialize color
     if ($scope.text) $scope.textChanged();
