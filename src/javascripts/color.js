@@ -24,6 +24,30 @@
         if (value > max) throw new Error(`Component "${label}" exceeds maximum value of ${max}.`);
     };
 
+    const hueToRgb = (p, q, t) => {
+        t = t + (t < 0) - (t > 1);
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+    };
+
+    const hslToRgb = (h, s, l) => {
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            let q = (l < 0.5) ? (l * (s + 1)) : (s + l - s * l),
+                p = 2 * l - q;
+            r = hueToRgb(p, q, h + 1/3);
+            g = hueToRgb(p, q, h);
+            b = hueToRgb(p, q, h - 1/3);
+        }
+
+        return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+    };
+
     const parseRGBA = (color) => {
         let matches, r, g, b, a = 1;
 
@@ -60,13 +84,39 @@
         }
     };
 
+    const parseHSLA = (color) => {
+        let matches, h, s, l, a = 1;
+
+        if (matches = color.match(/hsl\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/i)) {
+            h = parseInt(matches[1]);
+            s = parseInt(matches[2]);
+            l = parseInt(matches[3]);
+        } else if (matches = color.match(/hsla\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d\.]+)\s*\)/i)) {
+            h = parseInt(matches[1]);
+            s = parseInt(matches[2]);
+            l = parseInt(matches[3]);
+            a = parseFloat(matches[4]);
+        } else {
+            return;
+        }
+
+        let [r, g, b] = hslToRgb(h, s, l);
+
+        checkComponent('red', r);
+        checkComponent('green', g);
+        checkComponent('blue', b);
+        checkComponent('alpha', a, 1);
+
+        return { red: r, green: g, blue: b, alpha: a * 255 }
+    };
+
     class Color {
 
         constructor (color) {
             this.channel = undefined;
 
             if (typeof color === 'string') {
-                this.channel = parseHex(color) || parseRGBA(color);
+                this.channel = parseHex(color) || parseRGBA(color) || parseHSLA(color);
                 if (!this.channel) throw new Error('Failed to parse color.');
             } else if (typeof color === 'object') {
                 if (color.constructor === Array) {
