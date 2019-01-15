@@ -24,7 +24,7 @@ ngapp.directive('colorSwatch', function() {
             };
 
             el.addEventListener('wheel', onWheel);
-            scope.$watch('color', updateColor);
+            scope.$watch('color', updateColor, true);
 
             scope.$on('$destroy', () => {
                 el.removeEventListener('wheel', onWheel);
