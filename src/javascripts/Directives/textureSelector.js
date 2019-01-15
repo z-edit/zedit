@@ -23,9 +23,7 @@ ngapp.controller('textureSelectorController', function($scope, $timeout, recentS
             .map(path => path.slice(texturesLength));
     };
 
-    $scope.setTexture = texture => $scope.texture = texture;
-
-    $scope.setCustomTexture = function(texture) {
+    $scope.setTexture = function(texture) {
         $scope.$applyAsync(() => {
             $scope.texture = texture;
             recentService.add($scope.key, $scope.texture);

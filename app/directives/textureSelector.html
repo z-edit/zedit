@@ -1,4 +1,4 @@
-<dropdown items="recentTextures" apply-custom="setCustomTexture" on-item-click="setTexture">
+<dropdown items="recentTextures" custom="1" on-item-click="setTexture">
     <dropdown-display>
         <dds class="checkerboard-bg" texture-path="texture"></dds>
     </dropdown-display>
@@ -7,7 +7,7 @@
     </dropdown-item>
     <custom-item>Other...</custom-item>
     <custom-select>
-        <autocomplete-input class="inline" selected-item="texture" search="textureSearch" pause="750" set-custom="setCustomTexture" autoselect="1">
+        <autocomplete-input class="inline" selected-item="$parent.$parent.customItem" search="textureSearch" pause="750" autoselect="1">
             {{::$parent.result}}
         </autocomplete-input>
     </custom-select>

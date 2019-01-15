@@ -9,9 +9,10 @@ ngapp.directive('dropdown', function() {
         },
         scope: {
             items: '=',
-            applyCustom: '=?',
+            custom: '@',
             callback: '=onItemClick',
-            maxHeight: '=?'
+            maxHeight: '=?',
+            width: '=?'
         },
         templateUrl: 'directives/dropdown.html',
         controller: 'dropdownController',
@@ -25,12 +26,17 @@ ngapp.directive('dropdown', function() {
 });
 
 ngapp.controller('dropdownController', function($scope, hotkeyService) {
-    $scope.allowCustom = angular.isDefined($scope.applyCustom);
-
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', 'dropdown');
     hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', 'dropdownItems');
-    hotkeyService.buildOnKeyDown($scope, 'onCustomKeyDown', 'dropdownCustom');
+
+    let updateItemsStyle = function() {
+        $scope.itemsStyle = {};
+        if (angular.isDefined($scope.maxHeight))
+            $scope.itemsStyle.maxHeight = `${$scope.maxHeight}px`;
+        if (angular.isDefined($scope.width))
+            $scope.itemsStyle.width = `${$scope.width}px`;
+    };
 
     // scope functions
     $scope.toggleDropdown = function() {
@@ -47,8 +53,8 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
     $scope.hideCustom = () => $scope.showCustom = false;
 
     $scope.selectCustom = function() {
-        $scope.applyCustom($scope);
-        $scope.showCustom = false;
+        $scope.callback($scope.customItem);
+        $scope.hideCustom();
     };
 
     $scope.handleUpArrow = function() {
@@ -69,8 +75,17 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
         $scope.showDropdown = false;
     };
 
+    // event handlers
+    $scope.$on('handleEnter', $scope.selectCustom);
+    $scope.$on('handleEscape', $scope.hideCustom);
+
     $scope.$watch('maxHeight', function() {
         if (angular.isUndefined($scope.maxHeight)) return;
-        $scope.itemsStyle = { maxHeight: `${$scope.maxHeight}px` };
+        updateItemsStyle();
+    });
+
+    $scope.$watch('width', function() {
+        if (angular.isUndefined($scope.width)) return;
+        updateItemsStyle();
     });
 });
