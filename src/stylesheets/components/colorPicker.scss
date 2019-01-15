@@ -1,0 +1,16 @@
+.angular-color-picker {
+  background: inherit !important;
+  border: none !important;
+}
+
+color-input input[type="text"] {
+  margin: 10px auto;
+  display: block;
+}
+
+color-selector {
+  .angular-color-picker {
+    margin: 10px 4px 0 13px;
+    padding: 0;
+  }
+}
