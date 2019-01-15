@@ -10,12 +10,9 @@ ngapp.directive('textureSelector', function() {
     }
 });
 
-ngapp.controller('textureSelectorController', function($scope, $timeout, recentService, resourceService, hotkeyService) {
+ngapp.controller('textureSelectorController', function($scope, $timeout, recentService, resourceService) {
     recentService.store($scope.key, 10);
     $scope.recentTextures = recentService.get($scope.key);
-
-    // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'customSelect');
 
     // scope functions
     $scope.textureSearch = function(text) {
