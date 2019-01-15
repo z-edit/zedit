@@ -23,11 +23,13 @@ ngapp.controller('colorInputController', function($scope) {
     };
 
     $scope.$watch('color', function() {
-        let c = new Color($scope.color);
+        if (!$scope.color) return;
+        let c = tryParseColor($scope.color);
+        $scope.invalid = !c;
         $scope.text = c.toRGB();
         $scope.colorStyle = {'background-color': `${$scope.text}`};
     });
 
     // initialize color
-    $scope.textChanged();
+    if ($scope.text) $scope.textChanged();
 });

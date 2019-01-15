@@ -14,13 +14,20 @@ ngapp.controller('colorSelectorController', function($scope, recentService) {
     recentService.store($scope.key, 15);
     $scope.recentColors = recentService.get($scope.key);
 
-    $scope.setCustomTexture = function({customColor}) {
+    $scope.setCustomColor = function({customColor}) {
         $scope.color = customColor;
         recentService.add($scope.key, $scope.color);
     };
 
     $scope.setColor = function(item) {
-        $scope.color = item.color;
-        recentService.add($scope.key, $scope.color);
+        $scope.$applyAsync(() => {
+            $scope.color = item.color;
+            recentService.add($scope.key, $scope.color);
+        });
     };
+
+    $scope.$watch('color', () => {
+        if (!$scope.color) return;
+        $scope.customColor = $scope.color.toHex();
+    })
 });
