@@ -7,6 +7,7 @@ color-swatch {
   > div {
     height: 100%;
     position: relative;
+    cursor: inherit;
 
     &::after {
       content: '';
