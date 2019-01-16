@@ -26,6 +26,8 @@ ngapp.directive('dropdown', function() {
 });
 
 ngapp.controller('dropdownController', function($scope, hotkeyService) {
+    let lastHidden = new Date();
+
     // inherited functions
     hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', 'dropdown');
     hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', 'dropdownItems');
@@ -40,10 +42,18 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
 
     // scope functions
     $scope.toggleDropdown = function() {
+        let now = new Date();
+        if (now - lastHidden < 500) return;
         $scope.showDropdown = !$scope.showDropdown;
+        lastHidden = now;
         $scope.currentIndex = -1;
     };
-    $scope.hideDropdown = () => $scope.showDropdown = false;
+
+    $scope.hideDropdown = function() {
+        $scope.showDropdown = false;
+        lastHidden = new Date();
+    };
+
     $scope.selectItem = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
 
     $scope.toggleCustom = () => {
