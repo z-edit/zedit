@@ -16,9 +16,8 @@ ngapp.controller('colorSelectorController', function($scope, recentService) {
 
     $scope.setColor = function(color) {
         $scope.$applyAsync(() => {
-            if (typeof color === 'string')
-                color = new Color(color);
-            $scope.color = color;
+            color = new Color(color);
+            $scope.color.copyRGB(color);
             recentService.add($scope.key, $scope.color);
         });
     };

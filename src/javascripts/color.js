@@ -164,6 +164,12 @@
             }
         }
 
+        copyRGB(color) {
+            this.channel.red = color.channel.red;
+            this.channel.green = color.channel.green;
+            this.channel.blue = color.channel.blue;
+        }
+
         setRed (value) {
             if (!isNumberAndInRange(value, 0, 255)) {
                 throw new Error('Argument must be a number between 0 ~ 255.');

@@ -4,31 +4,39 @@ ngapp.directive('colorSwatch', function() {
         scope: {
             color: '='
         },
-        template: '<div></div>',
+        template: '<div ng-drag="onDrag()" ng-drop="onDrop()" drag-over="onDragOver()"></div>',
         link: function(scope, element) {
             let el = element[0],
                 div = el.firstElementChild;
 
-            let onWheel = function(e) {
-                let up = e.deltaY > 0,
-                    oldAlpha = scope.color.getAlpha(10),
-                    offset = up ? 5 : -5,
-                    newAlpha = Math.min(0, Math.max(255, oldAlpha + offset));
-                scope.color.setAlpha(newAlpha / 255.0);
-            };
-
+            // helper functions
             let updateColor = function() {
                 div.style.backgroundColor = scope.color.toRGBA();
                 div.style.borderColor = scope.color.toRGB();
                 div.title = scope.color.toRGBA();
             };
 
-            el.addEventListener('wheel', onWheel);
-            scope.$watch('color', updateColor, true);
+            // event handlers
+            scope.onDrag = function() {
+                scope.$root.dragData = {
+                    source: 'colorSwatch',
+                    color: scope.color
+                };
+                return true;
+            };
 
-            scope.$on('$destroy', () => {
-                el.removeEventListener('wheel', onWheel);
-            });
+            scope.onDragOver = function() {
+                let dragData = scope.$root.dragData;
+                if (dragData && dragData.source === 'colorSwatch') return true;
+            };
+
+            scope.onDrop = function() {
+                let dragData = scope.$root.dragData;
+                if (!dragData || dragData.source !== 'colorSwatch') return;
+                scope.color.copyRGB(dragData.color);
+            };
+
+            scope.$watch('color', updateColor, true);
         }
     }
 });
