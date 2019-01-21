@@ -11,6 +11,8 @@ import {Ini} from 'ini-api';
 
 let fh = {};
 
+let escapeChars = ['*', '#', '!', '(', ')', '[', ']', '{', '}', '+', '|'];
+
 fh.jetpack = jetpack;
 fh.minimatch = minimatch;
 fh.appPath = remote.app.getAppPath();
@@ -83,6 +85,14 @@ fh.pathToFileUrl = function(path) {
 
 fh.fileUrlToPath = function(fileUrl) {
     return fileUrl.startsWith('file:///') && fileUrl.slice(8);
+};
+
+fh.escapePattern = function(p) {
+    return p.split('').map(char => {
+        if (escapeChars.includes(char)) return '\\' + char;
+        if (char === '\\') return '/';
+        return char;
+    }).join('');
 };
 
 fh.extractArchive = function(filePath, destDir, empty = false) {

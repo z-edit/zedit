@@ -1,5 +1,6 @@
 ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
-    let service = this;
+    let service = this,
+        Minimatch = fh.minimatch.Minimatch;
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
         pluginExpr = /[^\\]+\.es[plm]\\/i,
@@ -27,9 +28,10 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
 
     // PUBLIC API
     this.findGeneralAssets = function(folder, merge) {
+        let basePattern = fh.escapePattern(folder);
         let exclusions = getRules(merge).map(rule => {
-            let pattern = `${folder}/${rule}`;
-            return new fh.minimatch.Minimatch(pattern, { nocase: true });
+            let pattern = `${basePattern}/${rule}`;
+            return new Minimatch(pattern, { nocase: true });
         });
         exclusions.push({ match: str => fragmentExpr.test(str) });
         return fh.getFiles(folder, { matching: '**/*' }).filter(filePath => {
@@ -69,7 +71,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
 
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
         let assets = fh.getFiles(folder + subfolder, { matching: expr }),
-            fullExpr = `${subfolder}\\${expr}`;
+            baseExpr = fh.escapePattern(subfolder),
+            fullExpr = `${baseExpr}/${expr}`;
         service.findBsaFiles(plugin, folder).forEach(bsaPath => {
             bsaHelpers.find(bsaPath, fullExpr).forEach(assetPath => {
                 assets.push(`${bsaPath}\\${assetPath}`);
