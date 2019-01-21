@@ -5,6 +5,7 @@ ngapp.directive('colorInput', function() {
             text: '=?',
             color: '=?',
             invalid: '=?',
+            showOk: '=?',
             autoselect: '@'
         },
         templateUrl: 'directives/colorInput.html',
