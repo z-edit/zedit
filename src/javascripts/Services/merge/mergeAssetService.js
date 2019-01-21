@@ -1,5 +1,6 @@
-ngapp.service('mergeAssetService', function(progressLogger) {
-    let handlers = [];
+ngapp.service('mergeAssetService', function(progressLogger, gameService) {
+    let gameDataFolder = gameService.dataPath,
+        handlers = [];
 
     // helper functions
     let fidReplacer = function(merge, plugin) {
@@ -29,8 +30,7 @@ ngapp.service('mergeAssetService', function(progressLogger) {
     };
 
     this.forEachPlugin = function(merge, callback, options = {}) {
-        let {useGameDataFolder} = options,
-            gameDataFolder = xelib.GetGlobal('DataPath');
+        let {useGameDataFolder} = options;
         merge.plugins.forEach(({filename, dataFolder, handle}) => {
             if (useGameDataFolder) dataFolder = gameDataFolder;
             callback(filename, dataFolder, handle);

@@ -1,5 +1,6 @@
-ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, referenceService, progressService) {
-    let {log, progress} = progressLogger;
+ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, referenceService, progressService, gameService) {
+    let {dataPath} = gameService,
+        {log, progress} = progressLogger;
 
     const mastersPath = 'File Header\\Master Files';
 
@@ -52,7 +53,6 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     let removeOldMergeFiles = function(merge) {
         progressService.progressMessage('Deleting old merge files');
         fh.delete(merge.dataPath);
-        let dataPath = xelib.GetGlobal('DataPath');
         fh.jetpack.remove(dataPath + merge.filename);
     };
 

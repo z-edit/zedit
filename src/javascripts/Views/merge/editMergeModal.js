@@ -1,10 +1,10 @@
-ngapp.controller('editMergeModalController', function($scope, mergeService, mergeStatusService) {
+ngapp.controller('editMergeModalController', function($scope, mergeService, mergeStatusService, gameService) {
     // initialization
     $scope.editing = $scope.modalOptions.hasOwnProperty('merge');
     $scope.merge = $scope.modalOptions.merge || mergeService.newMerge();
     $scope.experimental = env.allow_experimental_merge_methods;
-    let initialFilename = $scope.merge.filename;
-    let dataPath = xelib.GetGlobal('DataPath');
+    let initialFilename = $scope.merge.filename,
+        {dataPath} = gameService;
 
     let getWarningString = function(warningPlugins) {
         return (warningPlugins.length > 6 ?

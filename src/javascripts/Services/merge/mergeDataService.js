@@ -1,7 +1,7 @@
-ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
+ngapp.service('mergeDataService', function(mergeAssetService, settingsService, gameService) {
     let service = this,
         dataFolders = {},
-        dataPath;
+        {dataPath} = gameService;
 
     let pluginsInFolder = function(folder) {
         return fh.getFiles(folder, {
@@ -10,17 +10,11 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService) {
         });
     };
 
-    let getDataPath = function() {
-        dataPath = xelib.GetGlobal('DataPath');
-        return dataPath;
-    };
-
     let usingModManager = function() {
         return settingsService.settings.modManager !== 'None';
     };
 
     let findPlugins = function() {
-        let dataPath = xelib.GetGlobal('DataPath');
         if (!usingModManager()) return pluginsInFolder(dataPath);
         let modsPath = settingsService.settings.modsPath,
             pluginPaths = [];

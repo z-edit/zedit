@@ -1,5 +1,6 @@
-ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, progressLogger) {
-    let {copyAsset, findGeneralAssets} = assetHelpers,
+ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, progressLogger, gameService) {
+    let {dataPath} = gameService,
+        {copyAsset, findGeneralAssets} = assetHelpers,
         {sortModFolders} = mergeIntegrationService;
 
     let getPluginFolders = function(merge) {
@@ -23,7 +24,6 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, pro
         priority: 1,
         get: function(merge) {
             let folders = getPluginFolders(merge),
-                dataPath = xelib.GetGlobal('DataPath'),
                 modFolders = sortModFolders(Object.keys(folders));
 
             modFolders.forEach(folder => {

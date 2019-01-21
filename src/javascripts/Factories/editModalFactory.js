@@ -1,6 +1,7 @@
-ngapp.service('editModalFactory', function() {
+ngapp.service('editModalFactory', function(gameService) {
+    let {dataPath} = gameService;
+
     this.saveFileAs = function(node, scope) {
-        let dataPath = xelib.GetGlobal('DataPath');
         scope.$emit('openModal', 'edit', {
             title: 'Save File As',
             class: 'edit-modal save-file-as-modal',

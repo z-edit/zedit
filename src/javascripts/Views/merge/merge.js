@@ -6,8 +6,9 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker) {
-    const relinkGames = [xelib.gmTES5, xelib.gmSSE, xelib.gmFO4];
+ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
+    let relinkGames = [xelib.gmTES5, xelib.gmSSE, xelib.gmFO4],
+        {dataPath} = gameService;
 
     // helper functions
     let updateMergeStatuses = function() {
@@ -52,7 +53,6 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.removeUnavailablePlugins = function(merge) {
-        let dataPath = xelib.GetGlobal('DataPath');
         merge.plugins = merge.plugins.filter(plugin => plugin.available);
         merge.loadOrder = merge.loadOrder.filter(filename => {
             return fh.jetpack.exists(dataPath + filename);

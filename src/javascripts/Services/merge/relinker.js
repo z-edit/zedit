@@ -1,7 +1,7 @@
-ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger) {
+ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger, gameService) {
     let {log, warn, progress} = progressLogger,
         opcodes = require('pex-parser/src/opcodes.js'),
-        dataPath;
+        {dataPath} = gameService;
 
     const CALLMETHOD = opcodes.findByKey('name', 'callmethod');
 
@@ -26,15 +26,10 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
         });
     };
 
-    let getDataPath = function() {
-        if (!dataPath) dataPath = xelib.GetGlobal('DataPath');
-        return dataPath;
-    };
-
     let getScriptFilePath = function(entry) {
         let basePath = `scripts\\${entry.filename}`;
         return entry.bsa ? bsaHelpers.extractFile(entry.bsa, basePath) :
-            `${getDataPath()}\\${basePath}`;
+            `${dataPath}${basePath}`;
     };
 
     let buildFormIdMap = function(merges) {

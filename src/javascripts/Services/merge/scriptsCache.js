@@ -1,11 +1,11 @@
 ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, gameService) {
     let {log, error} = progressLogger;
 
-    let dataPath, cachePath, scriptsCachePath, archiveCachePath,
+    let {dataPath} = gameService,
+        cachePath, scriptsCachePath, archiveCachePath,
         archiveCache, scriptsCache;
 
     let getPaths = function() {
-        dataPath = xelib.GetGlobal('DataPath');
         cachePath = fh.jetpack.path('cache\\scripts');
         scriptsCachePath = `${cachePath}\\scriptsCache.json`;
         archiveCachePath = `${cachePath}\\archiveCache.json`;
