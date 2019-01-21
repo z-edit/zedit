@@ -21,7 +21,7 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
     };
 
     let unloadAfterIndex = function(index) {
-        let fileCount = parseInt(xelib.GetGlobal('FileCount'));
+        let fileCount = xelib.ElementCount(0);
         progressLogger.log('Unloading plugins');
         for (let i = fileCount - 1; i >= 0; i--) {
             let plugin = xelib.FileByIndex(i);
