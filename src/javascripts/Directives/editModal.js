@@ -7,10 +7,10 @@ ngapp.controller('editModalController', function($scope) {
     };
 
     $scope.validate = function() {
-        $scope.valid = $scope.modalOptions.isValid($scope.value);
+        $scope.valid = angular.isDefined($scope.value) &&
+            $scope.modalOptions.isValid($scope.value);
     };
 
     // initialization
     $scope.value = $scope.modalOptions.initialValue;
-    $scope.validate();
 });
