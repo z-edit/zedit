@@ -1,4 +1,4 @@
-dropdown {
+dropdown, dropover {
   position: relative;
 
   dropdown-display {
@@ -16,6 +16,7 @@ dropdown {
     font-weight: normal;
     min-width: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
 
     &:focus {
       outline: none;
@@ -30,10 +31,6 @@ dropdown {
       }
     }
   }
-
-  .custom-select {
-     padding: 3px 18px 3px 3px;
-   }
 
   .remove-item {
     position: absolute;

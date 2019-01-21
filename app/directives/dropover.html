@@ -1,0 +1,5 @@
+<div ng-click="toggleDropover()" ng-transclude="display"></div>
+<div ng-if="showDropover" class="dropdown-items">
+    <div class="remove-item" ng-click="hideDropover()"></div>
+    <div ng-transclude="drop"></div>
+</div>

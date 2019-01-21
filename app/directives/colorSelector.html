@@ -1,12 +1,8 @@
-<dropdown items="recentColors" width="width" custom="1" on-item-click="setColor">
-    <dropdown-display>
+<dropover callback="selectColor">
+    <display>
         <color-swatch class="checkerboard-bg" color="color"></color-swatch>
-    </dropdown-display>
-    <dropdown-item>
-        <color-swatch class="checkerboard-bg" color="$parent.item"></color-swatch>
-    </dropdown-item>
-    <custom-item>Custom</custom-item>
-    <custom-select>
-        <color-input color="$parent.$parent.customItem" text="customColorText" invalid="invalid" autoselect="1"></color-input>
-    </custom-select>
-</dropdown>
+    </display>
+    <drop>
+        <color-input color="$parent.$parent.customItem" text="customColorText" autoselect="1" show-ok="true"></color-input>
+    </drop>
+</dropover>
