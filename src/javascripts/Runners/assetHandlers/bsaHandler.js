@@ -7,7 +7,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
             let ext = fh.getFileExt(archive.filePath),
                 base = fh.getFileBase(merge.filename),
                 filename = `${base} - ${index}.${ext}`,
-                newPath = `${merge.dataPath}\\${filename}`;
+                newPath = fh.path(merge.dataPath, filename);
             progressLogger.log(`Copying ${archive.filePath} to ${newPath}`, true);
             fh.jetpack.copy(archive.filePath, newPath, { overwrite: true });
         },
@@ -52,7 +52,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
                 let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
                     let localPath = filePath.slice(folderLen),
-                        newPath = `${merge.dataPath}\\${localPath}`;
+                        newPath = fh.path(merge.dataPath, localPath);
                     progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
                     fh.jetpack.dir(fh.getDirectory(newPath));
                     fh.jetpack.move(filePath, newPath, { overwrite: true });

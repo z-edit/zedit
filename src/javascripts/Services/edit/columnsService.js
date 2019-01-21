@@ -23,8 +23,12 @@ ngapp.service('columnsService', function(columnsFactory) {
         });
     };
 
+    let getColumnsPath = function(viewName) {
+        return fh.userDir.path('columns', `${viewName}.json`);
+    };
+
     let loadColumns = function(viewName) {
-        let columnsPath = `${fh.userPath}columns\\${viewName}.json`,
+        let columnsPath = getColumnsPath(viewName),
             columns = fh.loadJsonFile(columnsPath) || columnsFactory[viewName];
         service[`${viewName}Columns`] = buildColumns(columns);
     };
@@ -50,7 +54,6 @@ ngapp.service('columnsService', function(columnsFactory) {
         let data = service[`${viewName}Columns`].map(function(column) {
             return Object.copyProperties(column, exportKeys);
         });
-        let columnsPath = `${fh.userPath}columns\\${viewName}.json`;
-        fh.saveJsonFile(columnsPath, data);
+        fh.saveJsonFile(getColumnsPath(viewName), data);
     };
 });

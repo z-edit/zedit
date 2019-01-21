@@ -5,6 +5,7 @@ import { enumerateValues, HKEY } from 'registry-js';
 import md5file from 'md5-file';
 import zip from 'adm-zip';
 import url from 'url';
+import path from 'path';
 import fs from 'fs';
 import {Ini} from 'ini-api';
 
@@ -16,6 +17,9 @@ fh.appPath = remote.app.getAppPath();
 fh.userPath = remote.app.getPath('userData');
 fh.userDir = jetpack.cwd(fh.userPath);
 fh.appDir = jetpack.cwd(fh.appPath);
+
+fh.normalize = path.normalize;
+fh.path = jetpack.path;
 
 // log app directory for reference
 console.log('App directory: ' + fh.appPath);

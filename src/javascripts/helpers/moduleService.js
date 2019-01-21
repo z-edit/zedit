@@ -18,7 +18,7 @@ export default function(ngapp, fh, logger) {
         return {
             info: info,
             path: modulePath,
-            code: fh.loadTextFile(`${modulePath}\\index.js`) || ''
+            code: fh.loadTextFile(fh.path(modulePath, 'index.js')) || ''
         }
     };
 
@@ -27,7 +27,7 @@ export default function(ngapp, fh, logger) {
     };
 
     let getModuleInfo = function(modulePath) {
-        let info = fh.loadJsonFile(`${modulePath}\\module.json`);
+        let info = fh.loadJsonFile(fh.path(modulePath, 'module.json'));
         return validateModule(info) && info;
     };
 
@@ -124,7 +124,8 @@ export default function(ngapp, fh, logger) {
             }).filter((info) => { return !!info });
         },
         loadDocs: function(modulePath) {
-            let docs = fh.loadJsonFile(`${modulePath}/docs/topics.json`);
+            let docsPath = fh.path(modulePath, 'docs', 'topics.json'),
+                docs = fh.loadJsonFile(docsPath);
             if (!docs) return;
             let moduleUrl = fh.pathToFileUrl(modulePath);
             docs.forEach(({topic}) => {
