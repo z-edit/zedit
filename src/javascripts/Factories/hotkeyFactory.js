@@ -226,6 +226,11 @@ ngapp.service('hotkeyFactory', function() {
         enter: 'selectItem'
     };
 
+    this.dropoverHotkeys = {
+        escape: 'hideDropover',
+        enter: 'select'
+    };
+
     this.autocompleteInputHotkeys = {
         upArrow: 'handleUpArrow',
         downArrow: 'handleDownArrow',
