@@ -2,7 +2,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     let {dataPath} = gameService,
         {log, progress} = progressLogger;
 
-    const mastersPath = 'File Header\\Master Files';
+    const MASTERS_PATH = 'File Header\\Master Files',
+          DEFAULT_MERGE_METHOD = 'Refactor';
 
     let mergesToBuild = [],
         buildIndex;
@@ -59,16 +60,17 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     let prepareMerge = function(merge) {
         let prepared = $q.defer();
         merge.dataPath = mergeService.getMergeDataPath(merge);
+        if (!merge.method) merge.method = DEFAULT_MERGE_METHOD;
         merge.failedToCopy = [];
         removeOldMergeFiles(merge);
         progressLogger.init('merge', `${merge.dataPath}\\merge`);
         log(`\r\nBuilding merge ${merge.name}`);
         log(`Merge Folder: ${merge.dataPath}`);
-        log(`Merge Method: ${merge.method || 'Clamp'}`);
+        log(`Merge Method: ${merge.method}`);
         tryPromise(mergeLoadService.loadPlugins(merge), () => {
             progress('Building references...', true);
             storePluginHandles(merge);
-            buildReferences(merge);
+            if (merge.method === 'Clamp') buildReferences(merge);
             progress('Preparing merge...', true);
             mergeDataService.buildMergeData(merge);
             prepareMergedPlugin(merge);
@@ -82,7 +84,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     // FINALIZATION
     let removePluginMasters = function(merge) {
         progress('Removing masters from merge...', true);
-        let masters = xelib.GetElement(merge.plugin, mastersPath);
+        let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         merge.plugins.forEach(plugin => {
             log(`Removing master ${plugin.filename}`);
             xelib.RemoveArrayItem(masters, '', 'MAST', plugin.filename);
