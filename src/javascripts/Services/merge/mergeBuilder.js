@@ -26,6 +26,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     };
 
     let buildReferences = function(merge) {
+        progress('Building references...', true);
         merge.plugins.forEach(plugin => {
             log(`Building references for ${plugin.filename}`);
             xelib.BuildReferences(plugin.handle);
@@ -68,7 +69,6 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         log(`Merge Folder: ${merge.dataPath}`);
         log(`Merge Method: ${merge.method}`);
         tryPromise(mergeLoadService.loadPlugins(merge), () => {
-            progress('Building references...', true);
             storePluginHandles(merge);
             if (merge.method === 'Clamp') buildReferences(merge);
             progress('Preparing merge...', true);
@@ -84,6 +84,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     // FINALIZATION
     let removePluginMasters = function(merge) {
         progress('Removing masters from merge...', true);
+        if (merge.method === 'Refactor')
+            return xelib.CleanMasters(merge.plugin);
         let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         merge.plugins.forEach(plugin => {
             log(`Removing master ${plugin.filename}`);

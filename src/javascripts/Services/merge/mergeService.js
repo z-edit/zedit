@@ -38,7 +38,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         let fids = merge.plugins.map(() => []);
         Object.keys(merge.usedFids).forEach(key => {
             let index = merge.usedFids[key];
-            fids[index].push(key);
+            if (index > -1) fids[index].push(key);
         });
         return fids.reduce((obj, a, index) => {
             let filename = merge.plugins[index].filename;
@@ -55,7 +55,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     let importMergeData = function(merge) {
         let path = `${getMergePath()}\\${merge.name}\\merge\\merge.json`,
             oldMerge = fh.loadJsonFile(path);
-        if (!merge.method) merge.method = 'Clamp';
+        if (!merge.method) merge.method = 'Refactor';
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
     };
@@ -66,7 +66,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return initMergeData({
             name: mergeName,
             filename: `${mergeName}.esp`,
-            method: 'Clamp',
+            method: 'Refactor',
             plugins: [],
             status: 'Ready to be built',
             archiveAction: 'Copy',

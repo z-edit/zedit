@@ -11,8 +11,8 @@
     <label>
         <span class="input-label">Merge Method</span>
         <select ng-model="merge.method">
-            <option value="Clamp">Merge down (standard)</option>
-            <option value="Refactor" ng-if="experimental">Merge down (experimental)</option>
+            <option value="Refactor">Merge down (improved)</option>
+            <option value="Clamp">Merge down (old)</option>
             <option value="Master" ng-if="experimental">Merge up (version control)</option>
         </select>
     </label>
