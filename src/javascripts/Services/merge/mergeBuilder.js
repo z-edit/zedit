@@ -152,7 +152,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
             logName: 'merge',
             current: 0,
             max: merges.reduce((sum, merge) => {
-                return sum + merge.plugins.length + 6;
+                return sum + merge.plugins.length + 5;
             }, 0)
         });
         buildNextMerge();
