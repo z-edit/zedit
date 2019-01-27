@@ -43,7 +43,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
         return fh.getFiles(folder, {
             matching: `${fh.getFileBase(plugin)}*.@(bsa|ba2)`,
             recursive: false
-        });
+        }).map(path => path.replace(/\//g, '\\'));
     };
 
     this.getOldPath = function(asset, merge) {

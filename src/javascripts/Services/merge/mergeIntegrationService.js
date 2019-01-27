@@ -1,6 +1,5 @@
 ngapp.service('mergeIntegrationService', function(settingsService, modManagerService, progressLogger, gameService) {
-    let service = this,
-        {appName, appDataPath} = gameService;
+    let service = this;
 
     const oldFormatGames = ['TES5', 'TES4', 'FO3', 'FNV'];
 
@@ -31,6 +30,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
 
     let getNewPluginsText = function(merge, pluginsText) {
         let pluginLines = pluginsText.split('\r\n'),
+            appName = gameService.appName,
             usingOldFormat = oldFormatGames.includes(appName);
         let newPluginLines = usingOldFormat ?
             pluginLines.filter(pluginNotInMerge(merge)) :
@@ -40,8 +40,7 @@ ngapp.service('mergeIntegrationService', function(settingsService, modManagerSer
 
     this.disablePlugins = function(merge) {
         progressLogger.log('Disabling merged plugins in plugins.txt');
-        let appDataPath = xelib.GetGlobal('AppDataPath'),
-            pluginsPath = appDataPath + 'plugins.txt',
+        let pluginsPath = fh.path(gameService.appDataPath, 'plugins.txt'),
             pluginsText = fh.loadTextFile(pluginsPath),
             newText = getNewPluginsText(merge, pluginsText);
         fh.saveTextFile(pluginsPath, newText);

@@ -7,8 +7,6 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
-    let {dataPath} = gameService;
-
     // helper functions
     let updatePluginsToCheckCount = function() {
         $scope.pluginsToCheckCount = $scope.plugins.filter(function(plugin) {
@@ -142,7 +140,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
             showContent: false
         })).filter(plugin => {
             if ($scope.ignorePlugin(plugin.filename)) return;
-            plugin.filePath = fh.normalize(`${dataPath}\\${plugin.filename}`);
+            plugin.filePath = fh.path(gameService.dataPath, plugin.filename);
             plugin.hash = md5File.sync(plugin.filePath);
             return true;
         });

@@ -1,6 +1,5 @@
 ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, gameService) {
-    let {dataPath} = gameService,
-        {getOldPath, getNewPath, findGameAssets} = assetHelpers,
+    let {getOldPath, getNewPath, findGameAssets} = assetHelpers,
         {forEachPlugin} = mergeAssetService;
 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
@@ -27,7 +26,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
     };
 
     let getFragmentsFromDisk = function(plugin, folder) {
-        if (folder === dataPath) return [];
+        if (folder === gameService.dataPath) return [];
         let folderLen = folder.length;
         return findGameAssets(plugin, folder, 'Scripts', '*.pex')
             .filter(filePath => fragmentExpr.test(filePath))

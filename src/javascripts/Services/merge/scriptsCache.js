@@ -1,8 +1,7 @@
 ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, gameService) {
     let {log, error} = progressLogger;
 
-    let {dataPath} = gameService,
-        cachePath, scriptsCachePath, archiveCachePath,
+    let cachePath, scriptsCachePath, archiveCachePath,
         archiveCache, scriptsCache;
 
     let getPaths = function() {
@@ -65,7 +64,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, g
 
     let cacheArchives = function() {
         log(`Caching archives`);
-        fh.getFiles(dataPath, {
+        fh.getFiles(gameService.dataPath, {
             matching: '*.@(bsa|ba2)',
             recursive: false
         }).forEach(filePath => {
@@ -81,7 +80,7 @@ ngapp.service('scriptsCache', function(pexService, bsaHelpers, progressLogger, g
 
     let cacheScripts = function() {
         log(`Caching loose scripts`);
-        fh.getFiles(`${dataPath}\\scripts`, {
+        fh.getFiles(fh.path(gameService.dataPath, 'scripts'), {
             matching: '*.pex',
             recursive: false
         }).forEach(filePath => cacheScript(filePath));

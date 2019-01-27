@@ -14,7 +14,7 @@ ngapp.service('bsaHelpers', function(progressLogger) {
     let loadBsaFiles = function(bsaPath) {
         if (!containerLoaded(bsaPath))
             xelib.LoadContainer(bsaPath);
-        return xelib.GetContainerFiles(bsaPath);
+        return xelib.GetContainerFiles(bsaPath, '');
     };
 
     let getBsaFiles = function(bsaPath) {
@@ -30,7 +30,7 @@ ngapp.service('bsaHelpers', function(progressLogger) {
     };
 
     this.extractFile = function(bsaFileName, filePath) {
-        let outputPath = fh.jetpack.path(`temp\\${bsaFileName}\\${filePath}`);
+        let outputPath = fh.path('temp', bsaFileName, filePath);
         if (fh.jetpack.exists(outputPath) !== 'file') {
             progressLogger.log(`Extracting ${filePath} from ${bsaFileName}`, true);
             xelib.ExtractFile(bsaFileName, filePath, outputPath);
@@ -46,7 +46,7 @@ ngapp.service('bsaHelpers', function(progressLogger) {
     };
 
     this.extractArchive = function(archive) {
-        let outputPath = fh.jetpack.path(`temp\\${archive.filename}`);
+        let outputPath = fh.path('temp', archive.filename);
         if (fh.jetpack.exists(outputPath) !== 'dir') {
             progressLogger.log(`Extracting ${archive.filename}`, true);
             outputPath += '\\';

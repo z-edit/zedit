@@ -1,6 +1,5 @@
 ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, progressLogger, gameService) {
-    let {dataPath} = gameService,
-        {copyAsset, findGeneralAssets} = assetHelpers,
+    let {copyAsset, findGeneralAssets} = assetHelpers,
         {sortModFolders} = mergeIntegrationService;
 
     let getPluginFolders = function(merge) {
@@ -27,7 +26,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, mergeIntegrationService, pro
                 modFolders = sortModFolders(Object.keys(folders));
 
             modFolders.forEach(folder => {
-                if (folder === dataPath) return;
+                if (folder === gameService.dataPath) return;
                 let plugins = folders[folder],
                     assets = getGeneralAssets(folder, merge);
                 if (assets.length === 0) return;

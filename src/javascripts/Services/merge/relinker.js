@@ -1,7 +1,6 @@
 ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger, gameService) {
     let {log, warn, progress} = progressLogger,
-        opcodes = require('pex-parser/src/opcodes.js'),
-        {dataPath} = gameService;
+        opcodes = require('pex-parser/src/opcodes.js');
 
     const CALLMETHOD = opcodes.findByKey('name', 'callmethod');
 
@@ -29,7 +28,7 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     let getScriptFilePath = function(entry) {
         let basePath = `scripts\\${entry.filename}`;
         return entry.bsa ? bsaHelpers.extractFile(entry.bsa, basePath) :
-            `${dataPath}${basePath}`;
+            fh.path(gameService.dataPath, basePath);
     };
 
     let buildFormIdMap = function(merges) {

@@ -34,11 +34,10 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
 
     // PUBLIC API
     this.loadPlugins = function(merge) {
-        let loadOrder = merge.plugins.mapOnKey('filename').join('\n');
         loaded = $q.defer();
         unloadAfterIndex(-1);
         xelib.ClearMessages();
-        xelib.LoadPlugins(loadOrder, true);
+        xelib.LoadPlugins(merge.loadOrder.join('\n'), true);
         checkIfLoaded();
         return loaded.promise;
     };

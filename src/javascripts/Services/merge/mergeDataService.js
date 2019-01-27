@@ -1,7 +1,6 @@
 ngapp.service('mergeDataService', function(mergeAssetService, settingsService, gameService) {
     let service = this,
-        dataFolders = {},
-        {dataPath} = gameService;
+        dataFolders = {};
 
     let pluginsInFolder = function(folder) {
         return fh.getFiles(folder, {
@@ -15,7 +14,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
     };
 
     let findPlugins = function() {
-        if (!usingModManager()) return pluginsInFolder(dataPath);
+        if (!usingModManager()) return pluginsInFolder(gameService.dataPath);
         let modsPath = settingsService.settings.modsPath,
             pluginPaths = [];
         fh.getDirectories(modsPath).forEach(dir => {
@@ -41,7 +40,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
     };
 
     this.getPluginDataFolder = function(plugin) {
-        return dataFolders[plugin] || dataPath || getDataPath();
+        return dataFolders[plugin] || gameService.dataPath;
     };
 
     this.updatePluginDataFolder = function(plugin) {
