@@ -1,6 +1,5 @@
 ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, referenceService, progressService, gameService) {
-    let {dataPath} = gameService,
-        {log, progress} = progressLogger;
+    let {log, progress} = progressLogger;
 
     const MASTERS_PATH = 'File Header\\Master Files',
           DEFAULT_MERGE_METHOD = 'Refactor';
@@ -54,7 +53,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     let removeOldMergeFiles = function(merge) {
         progressService.progressMessage('Deleting old merge files');
         fh.delete(merge.dataPath);
-        fh.jetpack.remove(dataPath + merge.filename);
+        let filePath = fh.path(gameService.dataPath, merge.filename);
+        fh.jetpack.remove(filePath);
     };
 
     let prepareMerge = function(merge) {

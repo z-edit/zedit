@@ -1,13 +1,12 @@
 ngapp.service('editModalFactory', function(gameService) {
-    let {dataPath} = gameService;
-
     this.saveFileAs = function(node, scope) {
+        let name = xelib.Name(node.handle);
         scope.$emit('openModal', 'edit', {
             title: 'Save File As',
             class: 'edit-modal save-file-as-modal',
             editType: 'string',
             maxLength: 64,
-            initialValue: `${dataPath}${xelib.Name(node.handle)}`,
+            initialValue: fh.path(gameService.dataPath, name),
             isValid: (value) => { return value.length > 0 },
             callback: (filePath) => {
                 xelib.SaveFile(node.handle, filePath);

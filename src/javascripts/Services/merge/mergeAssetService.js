@@ -1,6 +1,5 @@
 ngapp.service('mergeAssetService', function(progressLogger, gameService) {
-    let gameDataFolder = gameService.dataPath,
-        handlers = [];
+    let handlers = [];
 
     // helper functions
     let fidReplacer = function(merge, plugin) {
@@ -32,7 +31,7 @@ ngapp.service('mergeAssetService', function(progressLogger, gameService) {
     this.forEachPlugin = function(merge, callback, options = {}) {
         let {useGameDataFolder} = options;
         merge.plugins.forEach(({filename, dataFolder, handle}) => {
-            if (useGameDataFolder) dataFolder = gameDataFolder;
+            if (useGameDataFolder) dataFolder = gameService.dataPath;
             callback(filename, dataFolder, handle);
         });
     };

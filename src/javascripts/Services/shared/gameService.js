@@ -1,5 +1,6 @@
 ngapp.service('gameService', function() {
-    let {plugins, archives} = fh.loadResource('app/bethesdaFiles.json'),
+    let service = this,
+        {plugins, archives} = fh.loadResource('app/bethesdaFiles.json'),
         appName, dataPath, appDataPath;
 
     let includesIgnoreCase = function(a, str) {
@@ -9,12 +10,11 @@ ngapp.service('gameService', function() {
 
     // PUBLIC API
     this.isBethesdaPlugin = function(filename) {
-        return includesIgnoreCase(plugins[this.appName], filename);
+        return includesIgnoreCase(plugins[service.appName], filename);
     };
 
     this.isBethesdaArchive = function(filename) {
-        if (!appName) getAppName();
-        return includesIgnoreCase(archives[this.appName], filename);
+        return includesIgnoreCase(archives[service.appName], filename);
     };
 
     Object.defineProperty(this, 'dataPath', {

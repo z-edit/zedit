@@ -3,8 +3,7 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
     $scope.editing = $scope.modalOptions.hasOwnProperty('merge');
     $scope.merge = $scope.modalOptions.merge || mergeService.newMerge();
     $scope.experimental = env.allow_experimental_merge_methods;
-    let initialFilename = $scope.merge.filename,
-        {dataPath} = gameService;
+    let initialFilename = $scope.merge.filename;
 
     let getWarningString = function(warningPlugins) {
         return (warningPlugins.length > 6 ?
@@ -37,7 +36,7 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
 
     $scope.$watch('merge.filename', () => {
         if ($scope.merge.filename === initialFilename) return;
-        let path = `${dataPath}\\${$scope.merge.filename}`;
+        let path = fh.path(gameService.dataPath, $scope.merge.filename);
         $scope.pluginExists = fh.jetpack.exists(path) === 'file';
     });
 });
