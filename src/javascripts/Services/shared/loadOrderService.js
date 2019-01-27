@@ -125,7 +125,7 @@ ngapp.service('loadOrderService', function($rootScope) {
     this.updateIndexes = function(loadOrder) {
         let n = 0;
         loadOrder.filter(service.activeFilter)
-            .forEach((item) => item.index = n++);
+            .forEach(item => item.index = n++);
     };
 
     this.updateRequired = function(item) {
