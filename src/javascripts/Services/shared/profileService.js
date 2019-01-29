@@ -4,7 +4,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     let getProfile = name => service.profiles.findByKey('name', name);
 
     this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json') || [];
-    this.languages = ['English'];
+    this.languages = ['English', 'French', 'German', 'Italian', 'Spanish',
+        'Russian', 'Polish', 'Japanese', 'Portugese', 'Chinese'];
 
     this.saveProfiles = function() {
         let sanitizedProfiles = service.profiles.map(function(profile) {
