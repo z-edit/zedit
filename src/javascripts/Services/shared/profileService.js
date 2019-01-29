@@ -1,12 +1,37 @@
 ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
-    let service = this;
+    let service = this,
+        profilesPath = fh.userPath.path('profiles.json'),
+        localesPath = fh.appPath.path('locales.json');
 
-    let getProfile = name => service.profiles.findByKey('name', name);
-
-    this.profiles = fh.loadJsonFile(fh.userPath + 'profiles.json') || [];
+    this.profiles = fh.loadJsonFile(profilesPath) || [];
+    this.locales = fh.loadJsonFile(localesPath) || {};
     this.languages = ['English', 'French', 'German', 'Italian', 'Spanish',
         'Russian', 'Polish', 'Japanese', 'Portugese', 'Chinese'];
 
+    // helper functions
+    let getProfile = name => service.profiles.findByKey('name', name);
+
+    let getSystemLanguage = function() {
+        let localeLanguage = service.locales[window.locale];
+        return localeLanguage.replace(/\s\([^\)]+\)/, '');
+    };
+
+    let getDefaultLanguage = function() {
+        let systemLanguage = getSystemLanguage(),
+            languageSupported = service.languages.includes(systemLanguage);
+        return languageSupported ? systemLanguage : 'English';
+    };
+
+    let getNewProfileName = function(name) {
+        let counter = 2,
+            profileName = name,
+            existingProfile;
+        while (existingProfile = getProfile(profileName))
+            profileName = `${name} ${counter++}`;
+        return profileName;
+    };
+
+    // public api
     this.saveProfiles = function() {
         let sanitizedProfiles = service.profiles.map(function(profile) {
             return {
@@ -16,24 +41,15 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
                 language: profile.language
             };
         });
-        fh.saveJsonFile(fh.userPath + 'profiles.json', sanitizedProfiles);
-    };
-
-    this.newProfileName = function(name) {
-        let counter = 2,
-            profileName = name,
-            existingProfile;
-        while (existingProfile = getProfile(profileName))
-            profileName = `${name} ${counter++}`;
-        return profileName;
+        fh.saveJsonFile(profilesPath, sanitizedProfiles);
     };
 
     this.createProfile = function(game, gamePath) {
         return {
-            name: service.newProfileName(game.name),
+            name: getNewProfileName(game.name),
             gameMode: game.mode,
             gamePath: gamePath,
-            language: 'English'
+            language: getDefaultLanguage()
         }
     };
 

@@ -15,6 +15,8 @@ import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
 import './extensions';
 import './color';
+
+window.locale = remote.app.getLocale();
 window.env = remote.getGlobal('env');
 window.argv = remote.getGlobal('argv');
 window.md5File = require('md5-file');
