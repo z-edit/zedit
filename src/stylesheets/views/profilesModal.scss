@@ -1,56 +1,55 @@
-.profiles-modal {
-  .modal {
-    max-width: 700px !important;
+.profiles-modal .modal {
+  width: 850px;
+  max-width: 85% !important;
+}
+
+profile {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid $medium_border;
+  border-radius: 3px;
+  margin: 8px 0;
+  padding: 8px 0;
+
+  .remove-item {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-right: 3px;
+    font: 20px FontAwesome;
   }
 
-  .profile-container {
-    border: 1px solid $medium_border;
-    border-radius: 3px;
-    margin: 8px 0;
-    padding: 8px 0;
-    position: relative;
+  img {
+    width: 105px;
+    margin: 6px 8px;
+  }
 
-    .remove-item {
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding-right: 3px;
-      font: 20px FontAwesome;
+  select {
+    min-width: 100px;
+  }
+
+  .fa-folder-open-o {
+    cursor: pointer;
+    margin-left: 6px;
+  }
+
+  .right-column {
+    flex: 1;
+    text-align: left;
+    padding-right: 12px;
+
+    label {
+      display: flex;
+      align-items: center;
     }
 
-    select {
+    .input-label {
       min-width: 100px;
     }
 
-    img {
-      width: 105px;
-      margin: 6px 8px;
-      vertical-align: middle;
-    }
-
-    .fa-folder-open-o {
-      vertical-align: middle;
-      cursor: pointer;
-    }
-
-    .right-column {
-      display: inline-block;
-      width: 460px;
-      text-align: left;
-      vertical-align: top;
-      padding-right: 12px;
-
-      label {
-        display: block;
-
-        .input-label {
-          min-width: 100px;
-        }
-
-        .path-input {
-          width: 320px;
-        }
-      }
+    .path-input {
+      flex: 1;
     }
   }
 }
