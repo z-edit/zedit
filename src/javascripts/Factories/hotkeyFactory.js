@@ -190,6 +190,11 @@ ngapp.service('hotkeyFactory', function() {
         escape: 'closeBar'
     };
 
+    this.assetBrowserHotkeys = {
+        enter: 'go',
+        escape: 'close'
+    };
+
     this.recordSearchHotkeys = {
         escape: 'closeSearch',
         enter: [{
