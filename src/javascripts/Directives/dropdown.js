@@ -3,13 +3,10 @@ ngapp.directive('dropdown', function() {
         restrict: 'E',
         transclude: {
             display: 'dropdownDisplay',
-            item: 'dropdownItem',
-            customItem: '?customItem',
-            customSelect: '?customSelect',
+            item: 'dropdownItem'
         },
         scope: {
             items: '=',
-            custom: '@',
             callback: '=onItemClick',
             maxHeight: '=?',
             width: '=?'
@@ -54,17 +51,8 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
         lastHidden = new Date();
     };
 
-    $scope.selectItem = () => $scope.onItemClick($scope.items[$scope.currentIndex]);
-
-    $scope.toggleCustom = () => {
-        $scope.showDropdown = false;
-        $scope.showCustom = !$scope.showCustom;
-    };
-    $scope.hideCustom = () => $scope.showCustom = false;
-
-    $scope.selectCustom = function() {
-        $scope.callback($scope.customItem);
-        $scope.hideCustom();
+    $scope.selectItem = function() {
+        $scope.onItemClick($scope.items[$scope.currentIndex]);
     };
 
     $scope.handleUpArrow = function() {
@@ -86,9 +74,6 @@ ngapp.controller('dropdownController', function($scope, hotkeyService) {
     };
 
     // event handlers
-    $scope.$on('handleEnter', $scope.selectCustom);
-    $scope.$on('handleEscape', $scope.hideCustom);
-
     $scope.$watch('maxHeight', function() {
         if (angular.isUndefined($scope.maxHeight)) return;
         updateItemsStyle();
