@@ -1,0 +1,14 @@
+<div class="top-bar">
+    <button class="glyph-button up-level" ng-click="upLevel()" ng-disabled="atRoot" title="Up one level">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    <input type="text" ng-model="path" ng-keydown="onPathKeyDown($event)" ng-blur="onPathBlur" ng-class="{'error' : notFound}"/>
+    <div class="close">
+        <span class="fa fa-times" ng-click="close()"></span>
+    </div>
+</div>
+<div class="assets-container" vs-repeat>
+    <div class="row" ng-repeat="row in rows">
+        <asset-item ng-repeat="item in row"></asset-item>
+    </div>
+</div>
