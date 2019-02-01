@@ -1,14 +1,8 @@
-<dropdown items="recentTextures" custom="1" on-item-click="setTexture">
-    <dropdown-display>
+<dropover callback="setTexture">
+    <display>
         <dds class="checkerboard-bg" texture-path="texture"></dds>
-    </dropdown-display>
-    <dropdown-item>
-        {{::$parent.item}}
-    </dropdown-item>
-    <custom-item>Other...</custom-item>
-    <custom-select>
-        <autocomplete-input class="inline" selected-item="$parent.$parent.customItem" search="textureSearch" pause="750" autoselect="1">
-            {{::$parent.result}}
-        </autocomplete-input>
-    </custom-select>
-</dropdown>
+    </display>
+    <drop>
+        <asset-browser folder="textures" on-select="selectAsset" on-double-click="doubleClickAsset"></asset-browser>
+    </drop>
+</dropover>

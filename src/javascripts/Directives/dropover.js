@@ -40,4 +40,5 @@ ngapp.controller('dropoverController', function($scope, hotkeyService) {
     // event handlers
     $scope.$on('handleEnter', $scope.select);
     $scope.$on('handleEscape', $scope.hideDropover);
+    $scope.$on('hideDropover', $scope.hideDropover);
 });
