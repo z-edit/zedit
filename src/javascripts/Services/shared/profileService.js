@@ -49,7 +49,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
             name: getNewProfileName(game.name),
             gameMode: game.mode,
             gamePath: gamePath,
-            language: getDefaultLanguage()
+            language: 'English'
         }
     };
 
