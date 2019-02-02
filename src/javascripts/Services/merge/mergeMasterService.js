@@ -4,18 +4,23 @@ ngapp.service('mergeMasterService', function(progressLogger) {
     const MASTERS_PATH = 'File Header\\Master Files';
 
     // helper functions
-    let clobberMasters = function(merge, masters) {
+    let clobberMasters = function(merge) {
+        progress('Clobbering merge masters...', true);
+        let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         merge.plugins.forEach(plugin => {
             log(`Removing master ${plugin.filename}`);
             xelib.RemoveArrayItem(masters, '', 'MAST', plugin.filename);
         });
     };
 
-    let cleanMasters = function(merge, masters) {
+    let cleanMasters = function(merge) {
+        progress('Cleaning merge masters...', true);
+        let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         xelib.CleanMasters(merge.plugin);
         merge.plugins.forEach(plugin => {
             if (xelib.HasArrayItem(masters, '', 'MAST', plugin.filename))
-                throw new Error(`Failed to remove master ${plugin.filename}, please retry the merge with a different merging method.`);
+                throw new Error(`Failed to remove master ${plugin.filename}, ` +
+                    `please retry the merge with a different merging method.`);
         });
     };
 
@@ -39,10 +44,8 @@ ngapp.service('mergeMasterService', function(progressLogger) {
     };
 
     this.removeMasters = function(merge) {
-        progress('Removing masters from merge...', true);
-        let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         merge.method === 'Refactor' ?
-            cleanMasters(merge, masters) :
-            clobberMasters(merge, masters);
+            cleanMasters(merge) :
+            clobberMasters(merge);
     };
 });
