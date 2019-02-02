@@ -3,10 +3,11 @@ ngapp.service('mergeAssetService', function(progressLogger, gameService) {
 
     // helper functions
     let fidReplacer = function(merge, plugin) {
+        let fidMap = merge.fidMap[plugin];
         return function(match, fid) {
             let fidKey = fid.slice(2).toUpperCase();
-            if (merge.fidMap[plugin].hasOwnProperty(fidKey))
-                return match.replace(fid, merge.fidMap[plugin][fidKey]);
+            if (fidMap.hasOwnProperty(fidKey))
+                return match.replace(fid, `00${fidMap[fidKey]}`);
             return match;
         };
     };
