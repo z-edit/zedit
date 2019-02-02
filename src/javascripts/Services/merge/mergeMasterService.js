@@ -36,16 +36,19 @@ ngapp.service('mergeMasterService', function(progressLogger) {
         log(`Added ${merge.filename} as a master to the plugins being merged`);
     };
 
-    // public api
-    this.addMasters = function(merge) {
-        merge.method === 'Master' ?
-            addMastersToPlugins(merge) :
-            addMastersToMergedPlugin(merge);
+    let addMastersMethods = {
+        'Clobber': addMastersToMergedPlugin,
+        'Clean': addMastersToMergedPlugin,
+        'Master': addMastersToPlugins
     };
 
-    this.removeMasters = function(merge) {
-        merge.method === 'Clean' ?
-            cleanMasters(merge) :
-            clobberMasters(merge);
+    let removeMastersMethods = {
+        'Clobber': clobberMasters,
+        'Clean': cleanMasters,
+        'Master': () => {}
     };
+
+    // public api
+    this.addMasters = merge => addMastersMethods[merge.method](merge);
+    this.removeMasters = merge => removeMastersMethods[merge.method](merge);
 });
