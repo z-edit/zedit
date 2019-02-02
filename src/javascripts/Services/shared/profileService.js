@@ -1,7 +1,7 @@
 ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
     let service = this,
-        profilesPath = fh.userDir.path('profiles.json'),
-        localesPath = fh.appDir.path('locales.json');
+        profilesPath = fh.path(fh.userPath, 'profiles.json'),
+        localesPath = fh.path(fh.appPath, 'locales.json');
 
     this.profiles = fh.loadJsonFile(profilesPath) || [];
     this.locales = fh.loadJsonFile(localesPath) || {};
