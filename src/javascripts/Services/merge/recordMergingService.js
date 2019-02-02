@@ -34,13 +34,13 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
     };
 
     // TODO: don't copy losing overrides
-    let copyPluginRecords = function(plugin, merge, allowNew) {
+    let copyPluginRecords = function(plugin, merge, trackNew) {
         let newRecords = [];
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
-            let isNew = allowNew && isNewRecord(rec),
+            let track = trackNew && isNewRecord(rec),
                 newRec = tryCopy(rec, merge);
             if (!newRec) return;
-            isNew ? newRecords.push(newRec) : xelib.Release(newRec);
+            track ? newRecords.push(newRec) : xelib.Release(newRec);
         });
         return newRecords;
     };
@@ -83,14 +83,14 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
         });
     };
 
-    let copyRecords = function(merge, allowNew) {
+    let copyRecords = function(merge, trackNew) {
         progressLogger.progress('Copying records...');
-        if (allowNew) merge.newRecords = {};
+        if (trackNew) merge.newRecords = {};
         getMergePlugins(merge).forEachReverse((plugin, index) => {
             let pluginName = xelib.Name(plugin);
             progressLogger.log(`Copying records from ${pluginName}`);
-            let newRecords = copyPluginRecords(plugin, merge, allowNew, index);
-            if (allowNew) merge.newRecords[pluginName] = newRecords;
+            let newRecords = copyPluginRecords(plugin, merge, trackNew, index);
+            if (trackNew) merge.newRecords[pluginName] = newRecords;
             progressService.addProgress(1);
         });
     };
