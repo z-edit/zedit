@@ -1,2 +1,3 @@
-<img ng-src="item.thumbnail" />
+<img ng-if="::!showDds" ng-src="::item.image" />
+<dds ng-if="::showDds" texture-path="::item.filePath"></dds>
 <span ng-bind="::item.filename"></span>

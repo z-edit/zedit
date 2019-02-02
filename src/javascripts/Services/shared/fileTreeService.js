@@ -29,9 +29,9 @@ ngapp.service('fileTreeService', function() {
         }, tree);
     };
 
-    let addFile = function(folder, name) {
+    let addFile = function(folder, name, filePath) {
         let ext = fh.getFileExt(name);
-        folder.children.push({ name, type: 'file', ext });
+        folder.children.push({ name, filePath, type: 'file', ext });
     };
 
     let buildFileTree = function(folder) {
@@ -40,7 +40,7 @@ ngapp.service('fileTreeService', function() {
             let folders = filePath.split('\\'),
                 filename = folders.pop(),
                 folder = addFolders(tree, folders);
-            addFile(folder, filename);
+            addFile(folder, filename, filePath);
             return tree;
         }, { children: [] });
     };
