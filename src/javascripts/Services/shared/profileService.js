@@ -22,7 +22,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         return languageSupported ? systemLanguage : 'English';
     };
 
-    let getNewProfileName = function(name) {
+    // public api
+    this.getNewProfileName = function(name) {
         let counter = 2,
             profileName = name,
             existingProfile;
@@ -31,7 +32,6 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         return profileName;
     };
 
-    // public api
     this.saveProfiles = function() {
         let sanitizedProfiles = service.profiles.map(function(profile) {
             return {
@@ -46,7 +46,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
 
     this.createProfile = function(game, gamePath) {
         return {
-            name: getNewProfileName(game.name),
+            name: service.getNewProfileName(game.name),
             gameMode: game.mode,
             gamePath: gamePath,
             language: 'English'

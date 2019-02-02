@@ -8,7 +8,7 @@ ngapp.controller('profilesModalController', function ($scope, profileService) {
     // scope functions
     $scope.addProfile = function() {
         $scope.profiles.push({
-            name: profileService.newProfileName('New Profile'),
+            name: profileService.getNewProfileName('New Profile'),
             gameMode: 3,
             gamePath: '',
             language: 'English',
