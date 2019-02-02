@@ -1,8 +1,18 @@
 ngapp.service('pexService', function() {
     let service = this,
+        ffp = require('file-format-parser'),
         {PexFile} = require('pex-parser');
 
     const pluginExpr = new RegExp(/\.(esp|esm|esl)$/i);
+
+    this.setLogger = function(logger) {
+        ffp.setLogger({
+            info: (msg) => logger.info(msg, true),
+            log: (msg) => logger.log(msg, true),
+            warn: logger.warn,
+            error: logger.error
+        });
+    };
 
     this.loadScript = function(scriptPath) {
         let script = new PexFile(scriptPath);

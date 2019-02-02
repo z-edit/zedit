@@ -84,6 +84,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             if (!merge.handleScriptFragments ||
                 !merge.scriptFragments.length) return;
             progressLogger.log('Handling Script Fragments');
+            pexService.setLogger(progressLogger);
             merge.scriptFragments.forEach(entry => {
                 entry.assets.forEach(asset => {
                     fixFragment(merge, entry, asset);
