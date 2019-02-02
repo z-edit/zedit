@@ -136,8 +136,8 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
 
     let mergeMethods = {
         'Master': renumberAndCopy,
-        'Clamp': renumberAndCopy,
-        'Refactor': copyAndRefactor
+        'Clobber': renumberAndCopy,
+        'Clean': copyAndRefactor
     };
 
     // PUBLIC API

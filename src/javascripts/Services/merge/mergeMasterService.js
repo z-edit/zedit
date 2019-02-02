@@ -44,7 +44,7 @@ ngapp.service('mergeMasterService', function(progressLogger) {
     };
 
     this.removeMasters = function(merge) {
-        merge.method === 'Refactor' ?
+        merge.method === 'Clean' ?
             cleanMasters(merge) :
             clobberMasters(merge);
     };

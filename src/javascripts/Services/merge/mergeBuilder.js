@@ -1,7 +1,7 @@
 ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, mergeMasterService, referenceService, progressService, gameService) {
     let {log, progress} = progressLogger;
 
-    const DEFAULT_MERGE_METHOD = 'Refactor';
+    const DEFAULT_MERGE_METHOD = 'Clean';
 
     let mergesToBuild = [],
         buildIndex;
@@ -57,7 +57,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         log(`Merge Method: ${merge.method}`);
         tryPromise(mergeLoadService.loadPlugins(merge), () => {
             storePluginHandles(merge);
-            if (merge.method === 'Clamp') buildReferences(merge);
+            if (merge.method === 'Clobber') buildReferences(merge);
             progress('Preparing merge...', true);
             mergeDataService.buildMergeData(merge);
             prepareMergedPlugin(merge);
