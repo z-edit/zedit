@@ -6,7 +6,7 @@
 <ul>
     <li><b>Merge Name:</b> Used for display and identification purposes.  Should be unique.  Cannot include characters that are not allowed in folder/file names.</li>
     <li><b>Merge Filename:</b> Used for the filename of the merged plugin produced when the merge is built.  Should be unique, and cannot be the name of an existing plugin file.  Cannot include characters that are not allowed in folder/file names.  Should have a valid plugin file extension: esp, esm or esl.</li>
-    <li><b>Merge Method:</b> The method used to merge plugins.  Currently only the standard "merge down" method is supported.  This is the same method that has been used by the Merge Plugins Script and Merge Plugins Standalone.  A future release will expose additional methods to merge down without relying on clamping and to merge up like CK version control.</li>
+    <li><b>Merge Method:</b> The method used to merge plugins.  Currently two merge methods are supported.  There's the old "Merge down" method, which is the same method that has been used by the Merge Plugins Script and Merge Plugins Standalone.  There's also an improved "Merge down" method which doesn't use Form ID clamping, making it more robust.  A future release will expose an additional method to merge up like CK version control.</li>
 </ul>
 
 <h2>Plugins Tab</h2>
