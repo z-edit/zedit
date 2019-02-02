@@ -29,7 +29,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
         Object.keys(translations).forEach(language => {
             let basePath = fh.path(merge.dataPath, 'interface', 'translations'),
                 baseName = fh.getFileBase(merge.filename).toLowerCase(),
-                filePath = fh.path(basePath, baseName, `${language}.txt`),
+                filePath = fh.path(basePath, `${baseName}${language}.txt`),
                 content = utf16marker + translations[language];
             fh.saveTextFile(filePath, content, 'ucs2');
         });
