@@ -99,7 +99,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         }));
     });
 
-    $scope.$on('save', openSaveModal);
+    $scope.$on('save', () => openSaveModal(false));
 
     // handle hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'mergeView');
