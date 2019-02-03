@@ -6,7 +6,8 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('editController', function ($scope, $timeout, layoutService, hotkeyService, viewFactory) {
+ngapp.controller('editController', function ($scope, $timeout, layoutService, hotkeyService, viewFactory, eventService) {
+    // helper funcstions
     let getPluginItem = function(file) {
         return {
             handle: file,
@@ -15,7 +16,8 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
         }
     };
 
-    let openSaveModal = function(shouldFinalize) {
+    let openSaveModal = function(shouldFinalize = true) {
+        if ($scope.$root.modalActive) return;
         let plugins = xelib.GetElements()
             .filter(xelib.GetIsModified)
             .map(getPluginItem);
@@ -37,6 +39,7 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
         return filterView;
     };
 
+    // event handlers
     $scope.onViewportRender = function() {
         if (verbose) logger.info('Rendering viewport...');
     };
@@ -46,10 +49,7 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
         $scope.$emit('openModal', 'settings');
     });
 
-    $scope.$on('save', function() {
-        if ($scope.$root.modalActive) return;
-        openSaveModal(false);
-    });
+    $scope.$on('save', () => openSaveModal(false));
 
     $scope.$on('linkView', function(e, view) {
         $scope.$broadcast('toggleLinkMode', view);
@@ -78,12 +78,8 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
 
     // save data and terminate xelib when application is being closed
-    window.onbeforeunload = function(e) {
-        if (remote.app.forceClose) return;
-        e.returnValue = false;
-        if (!$scope.$root.modalActive) openSaveModal(true);
-    };
+    eventService.beforeClose(openSaveModal);
 
     // initialization
-    $scope.mainPane = layoutService.buildDefaultLayout();
+    $scope.mainPane = layoutService.buildDefaultLayout('Edit');
 });
