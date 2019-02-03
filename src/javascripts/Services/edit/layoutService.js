@@ -1,6 +1,8 @@
 ngapp.service('layoutService', function(viewFactory, randomService) {
-    let service = this,
-        defaultLayout = {
+    let service = this;
+
+    let defaultLayouts = {
+        'Edit': {
             "layout": "horizontal",
             "panes": [{
                 "width": "45%",
@@ -8,9 +10,17 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
             }, {
                 "tabs": ["recordView", "referencedByView", "logView"]
             }]
-        };
-    // TODO: load from disk instead
-    //defaultLayout = fh.loadJsonFile('layouts/default.json');
+        },
+        'Smash': {
+            "layout": "horizontal",
+            "panes": [{
+                "width": "45%",
+                "tabs": ["smashTreeView", "smashRuleView"]
+            }, {
+                "tabs": ["smashRecordView", "logView"]
+            }]
+        }
+    };
 
     this.buildPane = function(pane, parent) {
         pane.id = randomService.generateUniqueId();
@@ -24,9 +34,9 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
         });
     };
 
-    this.buildDefaultLayout = function() {
+    this.buildDefaultLayout = function(key) {
         if (verbose) logger.info('buildDefaultLayout()');
-        service.layout = angular.copy(defaultLayout);
+        service.layout = angular.copy(defaultLayouts[key]);
         service.buildPane(service.layout);
         if (verbose) logger.info(`built ${service.layout.panes.length} panes`);
         return service.layout;
