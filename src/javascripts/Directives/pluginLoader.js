@@ -10,11 +10,10 @@ ngapp.directive('pluginLoader', function() {
 ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout, xelibService, spinnerFactory, timerService) {
     // helper variables
     let appMode = `z${$rootScope.appMode.capitalize()}`;
-    timerService.start('loader');
 
     // initialization
-    $scope.loaded = false;
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
+    $scope.loadingMessage = 'Loading...';
 
     // helper functions
     let logMessages = function() {
@@ -37,6 +36,12 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         e.preventDefault();
     };
 
+    let ignoreInput = function() {
+        document.addEventListener('mousedown', ignore, true);
+        document.addEventListener('click', ignore, true);
+        document.addEventListener('mouseup', ignore, true);
+    };
+
     // scope functions
     $scope.checkIfLoaded = function() {
         logMessages();
@@ -53,10 +58,6 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
     };
 
     // event handlers
-    document.addEventListener('mousedown', ignore, true);
-    document.addEventListener('click', ignore, true);
-    document.addEventListener('mouseup', ignore, true);
-
     $scope.$on('filesLoaded', function() {
         $scope.loaded = true;
         $timeout(() => {
@@ -67,6 +68,15 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         }, 500);
     });
 
-    $scope.checkIfLoaded();
-    $scope.$emit('setTitle', `${appMode} - Loading Plugins`);
+    $scope.$on('loadPlugins', function(e, loadOrder) {
+        console.log("Loading: \n" + loadOrder);
+        xelib.ClearMessages();
+        xelib.LoadPlugins(loadOrder.join('\n'));
+        timerService.start('loader');
+        $scope.loaded = false;
+        $scope.loadingMessage = 'Loading...';
+        ignoreInput();
+        $scope.checkIfLoaded();
+        $scope.$emit('setTitle', `${appMode} - Loading Plugins`);
+    });
 });

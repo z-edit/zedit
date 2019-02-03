@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $q, protocolService, settingsService, themeService, buttonFactory, modalService, hotkeyService, contextMenuService) {
+ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolService, settingsService, themeService, buttonFactory, modalService, hotkeyService, contextMenuService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -41,6 +41,10 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, protocolServ
     $scope.$on('startDrag', (e, dragData) => $rootScope.dragData = dragData);
     $scope.$on('stopDrag', () => $rootScope.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
+
+    $scope.$on('loadPlugins', function(e, loadOrder) {
+        $timeout(() => $rootScope.$broadcast('loadPlugins', loadOrder));
+    });
 
     $scope.$on('restart', function() {
         remote.app.relaunch();

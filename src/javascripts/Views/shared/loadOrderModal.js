@@ -21,11 +21,9 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
             if (item.active) a.push(item.filename);
             return a;
         }, []);
-        console.log("Loading: \n" + loadOrder);
-        xelib.ClearMessages();
-        xelib.LoadPlugins(loadOrder.join('\n'));
         appModeService.goToAppView();
         $scope.$emit('closeModal');
+        $scope.$emit('loadPlugins', loadOrder);
     };
 
     $scope.itemToggled = function(item) {
