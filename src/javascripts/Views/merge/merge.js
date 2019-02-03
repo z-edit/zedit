@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
-    let relinkGames = [xelib.gmTES5, xelib.gmSSE, xelib.gmFO4];
+    let relinkGames = [xelib.gmTES5, xelib.gmSSE];
 
     // helper functions
     let updateMergeStatuses = function() {

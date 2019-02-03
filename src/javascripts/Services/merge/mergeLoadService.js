@@ -46,5 +46,5 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         unloadAfterIndex(-1);
         merge.plugins.forEach(plugin => { delete plugin.handle });
         delete merge.plugin;
-    }
+    };
 });
