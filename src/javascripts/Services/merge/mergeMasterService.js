@@ -1,5 +1,5 @@
 ngapp.service('mergeMasterService', function(progressLogger) {
-    let {log, progress} = progressLogger;
+    let {log, error, progress} = progressLogger;
 
     const MASTERS_PATH = 'File Header\\Master Files';
 
@@ -18,9 +18,10 @@ ngapp.service('mergeMasterService', function(progressLogger) {
         let masters = xelib.GetElement(merge.plugin, MASTERS_PATH);
         xelib.CleanMasters(merge.plugin);
         merge.plugins.forEach(plugin => {
-            if (xelib.HasArrayItem(masters, '', 'MAST', plugin.filename))
-                throw new Error(`Failed to remove master ${plugin.filename}, ` +
-                    `please retry the merge with a different merging method.`);
+            if (xelib.HasArrayItem(masters, '', 'MAST', plugin.filename)) {
+                error(`Failed to remove master ${plugin.filename}.`);
+                merge.builtWithErrors = true;
+            }
         });
     };
 

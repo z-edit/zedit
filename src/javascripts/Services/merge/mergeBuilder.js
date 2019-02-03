@@ -87,6 +87,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         mergeIntegrationService.runIntegrations(merge);
         mergeMasterService.removeMasters(merge);
         saveMergeFiles(merge);
+        if (merge.builtWithErrors)
+            throw new Error('Merge built with errors.');
         cleanupMerge(merge);
         log(`Completed merge ${merge.name}.`);
         progressLogger.close(false);
@@ -96,6 +98,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
     let onMergeError = function(err, merge) {
         cleanupMerge(merge);
         progressService.error(`${merge.name} failed to build`, err);
+        progressLogger.close(false);
     };
 
     let onMergeSuccess = function() {
@@ -104,6 +107,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
 
     let buildMerge = function(merge) {
         let progress = `${merge.name} (${buildIndex}/${mergesToBuild.length})`;
+        merge.builtWithErrors = false;
         progressService.progressTitle(`Building merge ${progress}`);
         tryPromise(prepareMerge(merge), () => {
             recordMergingService.mergeRecords(merge);
