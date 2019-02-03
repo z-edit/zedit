@@ -19,7 +19,7 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
         hidden: true
     }, {
         name: 'smash',
-        loader: 'storeLoadOrder',
+        loader: 'selectPatch',
         hidden: true
     }];
 
@@ -29,8 +29,14 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
             service.goToAppView();
         },
         selectLoadOrder: function(scope) {
-            scope.$emit('setTitle', `${$rootScope.appMode} - Selecting Load Order`);
+            let title = `${$rootScope.appMode} - Selecting Load Order`;
+            scope.$emit('setTitle', title);
             scope.$emit('openModal', 'loadOrder', {}, true);
+        },
+        selectPatch: function(scope) {
+            let title = `${$rootScope.appMode} - Selecting Smashed Patch`;
+            scope.$emit('setTitle', title);
+            scope.$emit('openModal', 'manageSmash', {}, true);
         }
     };
 
