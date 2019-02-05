@@ -28,7 +28,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     };
 
     let buildFileEntry = function(filename, results) {
-        let filePath = 'cache\\' + filename,
+        let filePath = fh.path('cache', 'errors', filename),
             cachedErrors = fh.loadJsonFile(filePath, {}),
             modified = fh.getDateModified(filePath);
         return {
@@ -58,7 +58,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
 
     let loadErrorCache = function() {
         errorCache = [];
-        fh.jetpack.find('cache', {
+        fh.jetpack.find('cache\\errors', {
             matching: '*.json',
             files: true,
             directories: false
@@ -85,7 +85,8 @@ ngapp.service('errorCacheService', function(errorMessageService) {
 
     // PUBLIC API
     this.loadPluginErrors = function(plugin) {
-        let filePath = `cache\\${plugin.filename}-${plugin.hash}.json`;
+        let filename = `${plugin.filename}-${plugin.hash}.json`,
+            filePath = fh.path('cache', 'errors', filename);
         if (fh.jetpack.exists(filePath)) {
             let cachedErrors = fh.loadJsonFile(filePath) || {},
                 errors = buildErrors(plugin, cachedErrors);
@@ -109,8 +110,9 @@ ngapp.service('errorCacheService', function(errorMessageService) {
 
     this.saveCache = function(cache) {
         cache.forEach(function(entry) {
-            let filename = `cache\\${entry.filename}-${entry.hash}.json`;
-            fh.saveJsonFile(filename, sanitizeErrors(entry.errors), true);
+            let filename = `${entry.filename}-${entry.hash}.json`,
+                filePath = fh.path('cache', 'errors', filename);
+            fh.saveJsonFile(filePath, sanitizeErrors(entry.errors), true);
         });
     };
 });
