@@ -83,10 +83,6 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         fh.openFile(plugin.dataFolder);
     };
 
-    $scope.toggleDetails = function(plugin) {
-        plugin.showDetails = !plugin.showDetails;
-    };
-
     // event handlers
     $scope.$on('settingsClick', function() {
         $scope.$emit('openModal', 'settings');
