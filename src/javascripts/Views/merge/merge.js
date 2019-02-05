@@ -18,11 +18,11 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         progressService.showProgress({ message: 'Loading merge data...' });
         mergeDataService.cacheDataFolders();
         mergeService.loadMerges();
-        progressService.hideProgress();
         let currentGameMode = $rootScope.profile.gameMode;
         $scope.allowRelinking = relinkGames.includes(currentGameMode);
         $scope.merges = mergeService.merges;
         updateMergeStatuses();
+        progressService.hideProgress();
     };
 
     let openSaveModal = function(shouldFinalize = true) {
@@ -42,7 +42,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.editMerge = function(merge) {
-        $scope.$emit('openModal', 'editMerge', { merge: merge });
+        $scope.$emit('openModal', 'editMerge', { merge });
     };
 
     $scope.deleteMerge = function(merge) {
