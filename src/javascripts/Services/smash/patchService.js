@@ -47,11 +47,11 @@ ngapp.service('patchService', function(settingsService, objectUtils, gameService
             filename: `${patchName}.esp`,
             patchType: 'Full load order patch',
             method: 'Master',
+            pluginExclusions: [],
             plugins: [],
             addedPlugins: [],
             changedPlugins: [],
             removedPlugins: [],
-            pluginExclusions: [],
             status: 'Ready to be built'
         });
     };

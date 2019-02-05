@@ -1,4 +1,4 @@
-ngapp.controller('smashController', function ($scope, $timeout, progressService, patchService, patchStatusService, patchBuilder, hotkeyService, eventService, loadOrderService) {
+ngapp.controller('smashController', function ($scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, loadOrderService) {
     // helper functions
     let updatePatchStatuses = function() {
         $scope.patches.forEach(patchStatusService.updateStatus);
@@ -23,8 +23,9 @@ ngapp.controller('smashController', function ($scope, $timeout, progressService,
     };
 
     // scope functions
-    $scope.buildMerge = function(patch) {
-        patchBuilder.buildPatch(patch);
+    $scope.buildPatch = function(patch) {
+        $scope.$root.patch = patch;
+        $state.go('base.editSmash');
     };
 
     $scope.editPatch = function(patch) {
