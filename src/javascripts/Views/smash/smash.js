@@ -1,42 +1,66 @@
-ngapp.config(['$stateProvider', function ($stateProvider) {
-    $stateProvider.state('base.smash', {
-        templateUrl: 'partials/smash.html',
-        controller: 'smashController',
-        url: '/smash'
-    });
-}]);
-
-ngapp.controller('smashController', function($scope, $timeout, progressService, hotkeyService, smashService, eventService, layoutService) {
+ngapp.controller('smashController', function ($scope, $timeout, progressService, patchService, patchStatusService, patchBuilder, hotkeyService, eventService, loadOrderService) {
     // helper functions
+    let updatePatchStatuses = function() {
+        $scope.patches.forEach(patchStatusService.updateStatus);
+    };
+
+    let init = function() {
+        progressService.showProgress({ message: 'Loading patch data...' });
+        patchService.loadPatches();
+        $scope.patches = patchService.patches;
+        updatePatchStatuses();
+        progressService.hideProgress();
+    };
+
     let openSaveModal = function(shouldFinalize = true) {
         if ($scope.$root.modalActive) return;
-        if (!shouldFinalize) return;
+        if (!shouldFinalize && !$scope.patches.length) return;
         $scope.$emit('openModal', 'save', {
             controller: 'smashSaveModalController',
             shouldFinalize: shouldFinalize,
+            patches: $scope.patches
         });
     };
 
-    // event handlers
-    $scope.onViewportRender = function() {
-        if (verbose) logger.info('Rendering viewport...');
+    // scope functions
+    $scope.buildMerge = function(patch) {
+        patchBuilder.buildPatch(patch);
     };
 
+    $scope.editPatch = function(patch) {
+        $scope.$emit('openModal', 'editPatch', { patch });
+    };
+
+    $scope.deletePatch = function(patch) {
+        let msg = `Are you sure you want to delete the patch "${patch.name}"?`;
+        if (!confirm(msg)) return;
+        $scope.patches.remove(patch);
+    };
+
+    $scope.createPatch = function() {
+        $scope.$emit('openModal', 'editPatch', { patches: $scope.patches });
+    };
+
+    // event handlers
     $scope.$on('settingsClick', function() {
-        if (!$scope.loaded) return;
         $scope.$emit('openModal', 'settings');
     });
 
     $scope.$on('save', () => openSaveModal(false));
 
-    $scope.$on('linkView', function(e, view) {
-        $scope.$broadcast('toggleLinkMode', view);
-        e.stopPropagation && e.stopPropagation();
-    });
+    // handle hotkeys
+    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'smashView');
 
     // save data and terminate xelib when application is being closed
     eventService.beforeClose(openSaveModal);
 
+    // update load order and merge statuses when program regains focus
+    eventService.onRegainFocus(() => {
+        if (xelib.GetLoadedFileNames().length > 0) return;
+        loadOrderService.init();
+        $scope.$applyAsync(updatePatchStatuses);
+    }, 3000);
+
     // initialization
-    $scope.mainPane = layoutService.buildDefaultLayout('Smash');
+    $timeout(init);
 });

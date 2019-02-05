@@ -1,5 +1,13 @@
-<div class="viewport" ng-if="loaded" ng-keydown="onKeyDown($event)" ng-init="onViewportRender()">
-    <pane pane="$parent.mainPane"></pane>
-</div>
+<div class="viewport smash-view" ng-keydown="onKeyDown($event)">
+    <div class="scroll-container">
+        <div class="center-container">
+            <div class="patch-items">
+                <patch-item ng-repeat="patch in patches" class="content-block"></patch-item>
+            </div>
+        </div>
+    </div>
 
-<plugin-loader></plugin-loader>
+    <div class="primary-actions">
+        <button class="action-btn positive" ng-click="createPatch()">Create Patch</button>
+    </div>
+</div>
