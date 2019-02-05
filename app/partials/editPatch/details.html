@@ -1,0 +1,25 @@
+<section>
+    <label>
+        <span class="input-label">Name</span>
+        <input type="text" ng-model="patch.name" />
+    </label>
+    <label>
+        <span class="input-label">Filename</span>
+        <input type="text" ng-model="patch.filename" />
+    </label>
+    <span class="negative-fg" ng-if="pluginExists">A plugin with this filename already exists, it will be deleted before the patch is built.</span>
+    <label>
+        <span class="input-label">Patch Type</span>
+        <select ng-model="patch.patchType">
+            <option value="Full load order">Full load order</option>
+            <option value="Specific plugins">Specific plugins</option>
+        </select>
+    </label>
+    <label>
+        <span class="input-label">Patch Method</span>
+        <select ng-model="patch.method">
+            <option value="Winning override">Winning override (safe)</option>
+            <option value="Master">Master (experimental)</option>
+        </select>
+    </label>
+</section>

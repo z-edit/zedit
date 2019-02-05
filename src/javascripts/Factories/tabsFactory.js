@@ -14,4 +14,15 @@ ngapp.service('tabsFactory', function() {
         templateUrl: 'partials/editMerge/data.html',
         controller: 'editMergeDataController'
     }];
+
+    this.editPatchModalTabs = [{
+        label: 'Details',
+        class: 'details-tab',
+        templateUrl: 'partials/editPatch/details.html'
+    }, {
+        label: 'Plugins',
+        class: 'plugins-tab',
+        templateUrl: 'partials/editPatch/plugins.html',
+        controller: 'editPatchPluginsController'
+    }]
 });
