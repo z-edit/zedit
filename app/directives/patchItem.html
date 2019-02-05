@@ -1,0 +1,48 @@
+<div class="content-title">{{patch.name}} ({{patch.filename}})
+    <span class="right">
+        <button class="action-btn small no-hover" ng-show="patch.canBuild" ng-click="buildPatch(patch)">
+            Build
+        </button>
+        <button class="action-btn small no-hover" ng-click="editPatch(patch)">
+            Edit
+        </button>
+        <button class="action-btn small negative no-hover" ng-click="deletePatch(patch)">
+            Delete
+        </button>
+    </span>
+</div>
+<div class="content-container">
+    <div class="patch-info">
+        <div>
+            <b>Status:</b>
+            <span class="status-{{patch.status | classify}}">{{patch.status}}</span>
+        </div>
+        <div>
+            <b>Last Built:</b>
+            <span class="last-built {{patch.dateBuilt ? 'neutral-fg' : 'negative-fg'}}">
+                {{patch.dateBuilt | customDate}}
+            </span>
+        </div>
+    </div>
+
+    <div class="patch-plugins">
+        <table>
+            <thead>
+            <tr>
+                <th>Plugin</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="plugin in patch.addedPlugins">
+                <td class="positive-fg" title="Plugin added">{{::plugin.filename}}</td>
+            </tr>
+            <tr ng-repeat="plugin in patch.changedPlugins">
+                <td class="neutral-fg" title="Plugin changed">{{::plugin.filename}}</td>
+            </tr>
+            <tr ng-repeat="plugin in patch.removedPlugins">
+                <td class="negative-fg" title="Plugin removed">{{::plugin.filename}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
