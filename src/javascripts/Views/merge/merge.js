@@ -27,7 +27,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
 
     let openSaveModal = function(shouldFinalize = true) {
         if ($scope.$root.modalActive) return;
-        if (!shouldFinalize && !$scope.mergedPlugins.length) return;
+        if (!shouldFinalize && !$scope.merges.length) return;
         $scope.$emit('openModal', 'save', {
             controller: 'mergeSaveModalController',
             shouldFinalize: shouldFinalize,
