@@ -31,10 +31,6 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return mergeObj;
     };
 
-    let exportMergeData = function() {
-        return service.merges.map(exportMerge);
-    };
-
     let getFidCache = function(merge) {
         let fids = merge.plugins.map(() => []);
         Object.keys(merge.usedFids).forEach(key => {
@@ -84,10 +80,12 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     this.saveMerges = function() {
-        fh.saveJsonFile(service.mergeDataPath, exportMergeData());
+        let mergeData = service.merges.map(exportMerge);
+        fh.saveJsonFile(service.mergeDataPath, mergeData);
     };
 
     this.loadMerges = function() {
+        if (service.merges) return;
         let profileName = settingsService.currentProfile;
         service.mergeDataPath = `profiles/${profileName}/merges.json`;
         service.merges = fh.loadJsonFile(service.mergeDataPath) || [];
