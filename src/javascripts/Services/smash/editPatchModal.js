@@ -24,4 +24,13 @@ ngapp.controller('editPatchModalController', function($scope, patchService, patc
         let path = fh.path(gameService.dataPath, $scope.patch.filename);
         $scope.pluginExists = fh.jetpack.exists(path) === 'file';
     });
+
+    $scope.$watch('patch.patchType', () => {
+        let useExclusions = $scope.patch.patchType === 'Full load order',
+            key = useExclusions ? 'pluginExclusions' : 'pluginInclusions',
+            delKey = useExclusions ? 'pluginInclusions' : 'pluginExclusions';
+        if ($scope.patch.hasOwnProperty(key)) return;
+        delete $scope.patch[delKey];
+        $scope.patch[key] = [];
+    });
 });
