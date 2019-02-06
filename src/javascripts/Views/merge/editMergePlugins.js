@@ -1,27 +1,28 @@
 ngapp.controller('editMergePluginsController', function($scope, $rootScope, mergeDataService, loadOrderService, gameService) {
-    let {isBethesdaPlugin} = gameService;
+    let {isBethesdaPlugin} = gameService,
+        {clearMergeData, getPluginDataFolder} = mergeDataService,
+        {updateWarnings, updateRequired, updateIndexes} = loadOrderService;
 
     // helper functions
     let activeFilter = item => item && item.active || item.required;
 
-    let getPluginObject = function(plugins, filename) {
-        return plugins && plugins.findByKey('filename', filename);
+    let getPluginObject = function(filename) {
+        if (!$scope.merge.plugins) return;
+        return $scope.merge.plugins.findByKey('filename', filename);
     };
 
     let buildPlugins = function() {
-        $scope.plugins = $rootScope.loadOrder.map(function(plugin) {
-            let filename = plugin.filename;
-            return {
-                filename: filename,
-                masterNames: plugin.masterNames.slice(),
-                active: !!getPluginObject($scope.merge.plugins, filename),
-                dataFolder: mergeDataService.getPluginDataFolder(filename)
-            }
-        });
+        $scope.plugins = $rootScope.loadOrder.map(plugin => ({
+            filename: plugin.filename,
+            masterNames: plugin.masterNames.slice(),
+            active: !!getPluginObject(plugin.filename),
+            isBethesdaPlugin: isBethesdaPlugin(plugin.filename),
+            dataFolder: getPluginDataFolder(plugin.filename)
+        }));
     };
 
     let mergePluginMap = function(plugin) {
-        let obj = getPluginObject($scope.merge.plugins, plugin.filename);
+        let obj = getPluginObject(plugin.filename);
         return {
             filename: plugin.filename,
             hash: obj && obj.hash,
@@ -53,16 +54,16 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
 
     // scope functions
     $scope.itemToggled = function() {
-        mergeDataService.clearMergeData($scope.merge);
+        clearMergeData($scope.merge);
         for (let i = $scope.plugins.length - 1; i >= 0; i--) {
             let item = $scope.plugins[i];
             if (item.disabled) continue;
             item.title = '';
             delete item.index;
-            loadOrderService.updateRequired(item);
-            loadOrderService.updateWarnings(item);
+            updateRequired(item);
+            updateWarnings(item);
         }
-        loadOrderService.updateIndexes($scope.plugins);
+        updateIndexes($scope.plugins);
         updateMergePlugins();
         updateWarningPlugins();
     };
@@ -74,7 +75,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     });
 
     $scope.$on('itemsReordered', function(e) {
-        loadOrderService.updateIndexes($scope.plugins);
+        updateIndexes($scope.plugins);
         updateMergePlugins();
         updateWarningPlugins();
         e.stopPropagation();
@@ -85,9 +86,8 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     loadOrderService.activateMode = false;
     loadOrderService.init($scope.plugins, activeFilter);
     $scope.plugins.forEach(plugin => {
-        loadOrderService.updateRequired(plugin);
-        loadOrderService.updateWarnings(plugin);
-        plugin.isBethesdaPlugin = isBethesdaPlugin(plugin.filename);
+        updateRequired(plugin);
+        updateWarnings(plugin);
     });
-    loadOrderService.updateIndexes($scope.plugins);
+    updateIndexes($scope.plugins);
 });
