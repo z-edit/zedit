@@ -4,6 +4,10 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
     let getAllRecords = plugin => xelib.GetRecords(plugin, '', true);
     let isNewRecord = rec => !xelib.IsOverride(rec) && !xelib.IsInjected(rec);
 
+    let pluginInMerge = (merge, plugin) => {
+        return !!merge.plugins.findByKey('filename', plugin);
+    };
+
     let tryCopy = function(rec, merge) {
         let name = xelib.LongName(rec);
         try {
@@ -33,11 +37,25 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
         merge.usedFids[newFid] = index;
     };
 
+    let isInjectedInMerge = function(merge, rec) {
+        return xelib.WithHandle(xelib.GetInjectionTarget(rec), file => {
+            if (!file) return false;
+            return pluginInMerge(merge, xelib.Name(file));
+        });
+    };
+
+    let shouldTrack = function(merge, rec) {
+        let isOverride = xelib.IsOverride(rec),
+            isInjected = xelib.IsInjected(rec);
+        return (!isOverride && !isInjected) ||
+            (isInjected && isInjectedInMerge(merge, rec));
+    };
+
     // TODO: don't copy losing overrides
     let copyPluginRecords = function(plugin, merge, trackNew) {
         let newRecords = [];
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
-            let track = trackNew && isNewRecord(rec),
+            let track = trackNew && shouldTrack(merge, rec),
                 newRec = tryCopy(rec, merge);
             if (!newRec) return;
             track ? newRecords.push(newRec) : xelib.Release(newRec);
