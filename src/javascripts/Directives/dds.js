@@ -33,7 +33,7 @@ ngapp.directive('dds', function() {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 if (!scope.texturePath) return;
                 let texturePath = `textures\\${scope.texturePath}`,
-                    imageData = xelib.GetBitmapResource(texturePath),
+                    imageData = xelib.GetTextureData(texturePath),
                     d = Math.max(imageData.width, imageData.height);
                 canvas.width = d;
                 canvas.height = d;
