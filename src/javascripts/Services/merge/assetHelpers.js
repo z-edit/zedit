@@ -70,7 +70,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     };
 
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
-        let assets = fh.getFiles(folder + subfolder, { matching: expr }),
+        let options = { matching: expr, ignoreCase: true },
+            assets = fh.getFiles(folder + subfolder, options),
             baseExpr = fh.escapePattern(subfolder),
             fullExpr = `${baseExpr}/${expr}`;
         service.findBsaFiles(plugin, folder).forEach(bsaPath => {
