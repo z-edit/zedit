@@ -155,5 +155,18 @@
       }
     ],
     "description": "Creates a new archive `name` in `folder` containing files at the `filePaths` relative to `folder`.  Uses archive type `archiveType`.  Compresses the archive if `compress` is true and packs data if `share` is true.  Pass a hexadecimal integer as a string to `af` or `ff` to set custom archive flags or file flags, respectively.  See the `archiveTypes` enumeration for a list of allowed archive types."
+  },
+  {
+    "name": "GetTextureData",
+    "args": [
+      {
+        "name": "resourceName",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "ImageData"
+    },
+    "description": "Return the pixel image data for the texture resource `resourceName`."
   }
 ]
