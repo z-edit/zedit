@@ -143,6 +143,10 @@
                 "description": "Game modes and loading files."
               },
               {
+                "label": "Archives",
+                "description": "Functions for handling bethesda archives and game data files."
+              },
+              {
                 "label": "Elements",
                 "description": "Functions for handling elements."
               },
