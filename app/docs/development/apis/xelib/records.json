@@ -220,6 +220,17 @@
     "description": "Returns a handle for the winning override of record `id`."
   },
   {
+    "name": "GetInjectionTarget",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the file that record `id` is injected into."
+  },
+  {
     "name": "FindNextRecord",
     "args": [{
       "name": "id",
