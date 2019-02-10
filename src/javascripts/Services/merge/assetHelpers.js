@@ -47,7 +47,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     };
 
     this.getOldPath = function(asset, merge) {
-        return bsaHelpers.extractAsset(merge, asset) ||
+        return bsaHelpers.extractAsset(asset) ||
             (asset.folder + asset.filePath);
     };
 

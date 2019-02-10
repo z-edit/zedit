@@ -38,7 +38,7 @@ ngapp.service('bsaHelpers', function(progressLogger) {
         return outputPath;
     };
 
-    this.extractAsset = function(merge, asset) {
+    this.extractAsset = function(asset) {
         let match = asset.filePath.match(bsaExpr);
         if (!match) return;
         let [,bsaFileName,filePath] = match;
