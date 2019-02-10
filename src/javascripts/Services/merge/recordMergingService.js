@@ -55,9 +55,12 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
     let copyPluginRecords = function(plugin, merge, trackNew) {
         let newRecords = [];
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
+            let fid = xelib.GetFormID(rec);
+            if (merge.copiedFids.includes(fid)) return;
             let track = trackNew && shouldTrack(merge, rec),
                 newRec = tryCopy(rec, merge);
             if (!newRec) return;
+            merge.copiedFids.push(fid);
             track ? newRecords.push(newRec) : xelib.Release(newRec);
         });
         return newRecords;
@@ -103,6 +106,7 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
 
     let copyRecords = function(merge, trackNew) {
         progressLogger.progress('Copying records...');
+        merge.copiedFids = [];
         if (trackNew) merge.newRecords = {};
         getMergePlugins(merge).forEachReverse((plugin, index) => {
             let pluginName = xelib.Name(plugin);
