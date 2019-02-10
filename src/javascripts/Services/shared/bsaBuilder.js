@@ -1,12 +1,4 @@
 ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogger) {
-    let archiveTypes = {
-        'TES3': xelib.baTES3,
-        'TES4': xelib.baTES4,
-        'TES5': xelib.baFO3,
-        'SSE': xelib.baSSE,
-        'FO4': xelib.baFO4
-    };
-
     let settings = settingsService.settings.archiveCreation;
 
     // PRIVATE API
@@ -50,7 +42,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
     };
 
     let buildArchive = function(archive) {
-        let aType = archiveTypes[gameService.appName];
+        let aType = xelib[`ba${gameService.appName}`] || xelib.baFO3;
         progressLogger.log(`Building archive ${archive.name} in ` +
             `${archive.folder}, with ${archive.filePaths.length} files.`);
         xelib.BuildArchive(archive.name, folder, archive.filePaths, aType);
@@ -88,6 +80,18 @@ ngapp.run(function($rootScope, settingsService, gameService) {
         templateUrl: `/partials/settings/archiveCreation.html`,
         defaultSettings: {
             archiveCreation: {
+                fileExprs: [
+                    'docs/**/*',
+                    'interface/**/*',
+                    'meshes/**/*',
+                    'lodsettings/**/*',
+                    'music/**/*',
+                    'scripts/*.pex',
+                    'scripts/source/*.psc',
+                    'seq/*.seq',
+                    'sound/**/*',
+                    'textures/**/*'
+                ],
                 createMultipleArchives: false,
                 minFileCount: 10
             }
