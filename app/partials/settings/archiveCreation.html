@@ -1,9 +1,17 @@
 <h2>Archive Creation Settings</h2>
 
+<h3>Files to include
+    <button class="action-btn small positive" ng-click="addFileExpr()">Add</button>
+</h3>
+<p>Use glob expressions. <a href="https://github.com/isaacs/node-glob#glob-primer">Click for more information.</a></p>
 <section>
-    <!-- TODO: files to include in BSA -->
+    <div ng-repeat="expr in settings.archiveCreation.fileExprs">
+        <input type="text" ng-model="expr" />
+        <span class="remove-item" ng-click="removeFileExpr($index)"></span>
+    </div>
 </section>
 
+<h3>Advanced</h3>
 <section>
     <div class="setting">
         <span class="input-label">Maximum archive file size</span>
