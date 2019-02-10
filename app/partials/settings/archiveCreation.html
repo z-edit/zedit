@@ -1,0 +1,24 @@
+<h2>Archive Creation Settings</h2>
+
+<section>
+    <!-- TODO: files to include in BSA -->
+</section>
+
+<section>
+    <div class="setting">
+        <span class="input-label">Maximum archive file size</span>
+        <number-input type="bytes" model="settings.archiveCreation.maxSize"></number-input>
+    </div>
+    <div class="setting">
+        <span class="input-label">Minimum files to create archive</span>
+        <number-input type="bytes" model="settings.archiveCreation.minFileCount"></number-input>
+    </div>
+    <label>
+        <input type="checkbox" ng-model="settings.archiveCreation.createTexturesArchive"/>
+        <span class="input-label">Create textures archive</span>
+    </label>
+    <label>
+        <input type="checkbox" ng-model="settings.archiveCreation.createMultipleArchives"/>
+        <span class="input-label">Create multiple archives</span>
+    </label>
+</section>
