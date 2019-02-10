@@ -71,7 +71,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             method: 'Clean',
             plugins: [],
             status: 'Ready to be built',
-            archiveAction: 'Copy',
+            archiveAction: 'Merge',
             handleFaceData: true,
             handleVoiceData: true,
             handleBillboards: true,
