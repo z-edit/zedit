@@ -243,6 +243,15 @@ Array.prototype.insertBefore = function(arg, ...items) {
     return this.splice(index, 0, ...items);
 };
 
+Array.prototype.partition = function(array, callback) {
+    let a1 = [], a2 = [];
+    for (let i = 0; i < array.length; i++) {
+        let item = array[i];
+        callback(item) ? a1.push(item) : a2.push(item);
+    }
+    return [a1, a2];
+};
+
 Object.deepAssign = function(target, varArgs) {
     if (target === null) // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
