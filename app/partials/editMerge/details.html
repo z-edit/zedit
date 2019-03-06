@@ -7,7 +7,7 @@
         <span class="input-label">Filename</span>
         <input type="text" ng-model="merge.filename" />
     </label>
-    <span class="negative-fg" ng-if="pluginExists">A plugin with this filename already exists, it will be deleted before the merge is built.</span>
+    <span class="neutral-fg" ng-if="pluginExists">A plugin with this filename already exists, it will be backed up once the merge is built.</span>
     <label>
         <span class="input-label">Merge Method</span>
         <select ng-model="merge.method">
