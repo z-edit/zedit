@@ -33,16 +33,26 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         progressLogger.log('Done building references');
     };
 
+    let getMergeFileName = function() {
+        let base = 'MergedPlugin',
+            fileName = `${base}.esp`,
+            n = 1;
+        while (true) {
+            let filePath = fh.path(gameService.dataPath, fileName);
+            if (!fh.jetpack.exists(filePath)) return fileName;
+            fileName = `${base}_${++n}.esp`;
+        }
+    };
+
     let prepareMergedPlugin = function(merge) {
-        merge.plugin = xelib.AddFile(merge.filename);
-        log(`Merging into ${merge.filename}`);
+        let mergeFileName = getMergeFileName();
+        merge.plugin = xelib.AddFile(mergeFileName);
+        log(`Merging into temporary file ${mergeFileName}`);
     };
 
     let removeOldMergeFiles = function(merge) {
         progressService.progressMessage('Deleting old merge files');
         fh.delete(merge.dataPath);
-        let filePath = fh.path(gameService.dataPath, merge.filename);
-        fh.jetpack.remove(filePath);
     };
 
     let prepareMerge = function(merge) {
