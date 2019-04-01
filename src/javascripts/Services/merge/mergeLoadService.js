@@ -32,26 +32,31 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
         }
     };
 
+    let getNotContiguousMessage = function(badPlugin) {
+        return badPlugin + ' makes the plugins to be merged not contiguous. ' +
+            'The clobber merge method requires the plugins being merged to ' +
+            'be contiguous. Please edit the merge and rearrange the plugins ' +
+            'being merged so they are loaded after the plugins they require.';
+    };
+
     let notContiguous = function(merge) {
+        if (merge.method !== 'Clobber') return;
         let started = false;
-        return merge.loadOrder.find(filename => {
+        let badPlugin = merge.loadOrder.find(filename => {
             let plugin = merge.plugins.findByKey('filename', filename);
             if (started && !plugin) return true;
             started = !!plugin;
         });
+        if (!badPlugin) return;
+        let message = getNotContiguousMessage(badPlugin);
+        loaded.reject(message);
+        return true;
     };
 
     // PUBLIC API
     this.loadPlugins = function(merge) {
         loaded = $q.defer();
-        if (merge.method === 'Clobber' && notContiguous(merge)) {
-            loaded.reject('The clobber merge method requires the plugins ' +
-                'being merged to be contiguous.  Please edit the merge and ' +
-                're-arrange the plugins being merged so they are loaded ' +
-                'after the plugins they require which are not included in ' +
-                'the merge.');
-            return loaded.promise;
-        }
+        if (notContiguous(merge)) return loaded.promise;
         unloadAfterIndex(-1);
         xelib.ClearMessages();
         xelib.LoadPlugins(merge.loadOrder.join('\n'), true);
