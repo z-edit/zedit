@@ -8,7 +8,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
 
     // helpers
     let tryPromise = function(action, onSuccess, onFailure) {
-        action.then(function() {
+        action.then(() => {
             try {
                 onSuccess();
             } catch (x) {

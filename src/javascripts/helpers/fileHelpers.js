@@ -146,7 +146,7 @@ fh.getFiles = function(path, options) {
 };
 
 fh.filterExists = function(folder, paths) {
-    return paths.filter(function(path) {
+    return paths.filter(path => {
         return jetpack.exists(`${folder}/${path}`);
     });
 };

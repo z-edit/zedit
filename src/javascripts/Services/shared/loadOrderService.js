@@ -18,7 +18,7 @@ ngapp.service('loadOrderService', function($rootScope) {
 
     let buildTitle = function(title, filenames) {
         if (filenames.length === 0) return '';
-        filenames.slice(0, 10).forEach(function(filename) {
+        filenames.slice(0, 10).forEach(filename => {
             title += `\r\n  - ${filename}`;
         });
         if (filenames.length > 10) title += '\r\n  - etc.';
@@ -73,7 +73,7 @@ ngapp.service('loadOrderService', function($rootScope) {
     };
 
     let updateMasters = function(loadOrder) {
-        loadOrder.forEach(function(item) {
+        loadOrder.forEach(item => {
             if (item.masters.includes(undefined)) {
                 disablePlugin(item);
             } else if (item.active && service.activateMode) {
@@ -98,13 +98,11 @@ ngapp.service('loadOrderService', function($rootScope) {
         let loadOrder = xelib.GetLoadOrder().split('\r\n'),
             activePlugins = xelib.GetActivePlugins().split('\r\n');
         console.log({loadOrder, activePlugins});
-        return loadOrder.map(function(filename) {
-            return {
-                filename: filename,
-                masterNames: getMasterNames(filename) || [],
-                active: activePlugins.includes(filename)
-            }
-        })
+        return loadOrder.map(filename => ({
+            filename: filename,
+            masterNames: getMasterNames(filename) || [],
+            active: activePlugins.includes(filename)
+        }));
     };
 
     // public api

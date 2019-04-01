@@ -38,7 +38,7 @@ export default function(ngapp, fh, logger) {
 
     let missingRequirementError = function(info) {
         let message = `Module ${info.name} requires modules which could not be found:`;
-        info.requires.forEach(function(requirement) {
+        info.requires.forEach(requirement => {
             if (modules.hasOwnProperty(requirement)) return;
             message += `\n- ${requirement}`;
         });
@@ -67,7 +67,7 @@ export default function(ngapp, fh, logger) {
 
     let allRequirementsLoaded = function(requirements) {
         if (!requirements) return true;
-        return requirements.reduce(function(b, requirement) {
+        return requirements.reduce((b, requirement) => {
             return b && modules.hasOwnProperty(requirement);
         }, true);
     };
@@ -101,7 +101,7 @@ export default function(ngapp, fh, logger) {
             lastUnloadedCount = 0,
             unloadedModules = modules;
         while (unloadedCount > 0 && unloadedCount !== lastUnloadedCount) {
-            unloadedModules = unloadedModules.filter(function(module) {
+            unloadedModules = unloadedModules.filter(module => {
                 if (!allRequirementsLoaded(module.info.requires)) return true;
                 build(module);
             });
@@ -117,11 +117,11 @@ export default function(ngapp, fh, logger) {
         getActiveModules: () => { return modules; },
         getInstalledModules: function() {
             let moduleFolders = getModuleFolders();
-            return moduleFolders.map(function(modulePath) {
+            return moduleFolders.map(modulePath => {
                 let info = getModuleInfo(modulePath);
                 if (info) info.modulePath = modulePath;
                 return info;
-            }).filter((info) => { return !!info });
+            }).filter(info => !!info);
         },
         loadDocs: function(modulePath) {
             let docsPath = fh.path(modulePath, 'docs', 'topics.json'),
@@ -137,7 +137,7 @@ export default function(ngapp, fh, logger) {
             logger.info('Loading modules...');
             let moduleFolders = getModuleFolders(),
                 modules = [];
-            moduleFolders.forEach(function(modulePath) {
+            moduleFolders.forEach(modulePath => {
                 let info = getModuleInfo(modulePath);
                 if (!info) return missingInfoError(modulePath);
                 modules.push(prepareModule(modulePath, info));

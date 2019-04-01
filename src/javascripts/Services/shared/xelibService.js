@@ -41,8 +41,8 @@ ngapp.service('xelibService', function() {
     this.fixReferences = function(oldRecords, newRecords) {
         let oldFormIds = getFormIds(oldRecords),
             newFormIds = getFormIds(newRecords);
-        newRecords.forEach(function(newRecord) {
-            oldFormIds.forEach(function(oldFormId, index) {
+        newRecords.forEach(newRecord => {
+            oldFormIds.forEach((oldFormId, index) => {
                 let newFormId = newFormIds[index];
                 xelib.ExchangeReferences(newRecord, oldFormId, newFormId);
             })

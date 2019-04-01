@@ -35,7 +35,7 @@ ngapp.service('themeService', function($timeout, settingsService) {
 
     this.getSyntaxThemes = function() {
         let themes = fh.jetpack.find('syntaxThemes', { matching: '*.css' });
-        return themes.map(function(theme) {
+        return themes.map(theme => {
             let filename = theme.split('\\').last();
             return {
                 filename: filename,

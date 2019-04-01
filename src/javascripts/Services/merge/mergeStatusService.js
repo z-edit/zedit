@@ -20,7 +20,7 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let allPluginsAvailable = function(merge) {
-        return merge.plugins.filter(function(plugin) {
+        return merge.plugins.filter(plugin => {
             plugin.available = pluginAvailable(plugin.filename);
             return !plugin.available;
         }).length === 0;
@@ -50,7 +50,7 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let updatePluginTitles = function(merge) {
-        merge.plugins.forEach(function(plugin) {
+        merge.plugins.forEach(plugin => {
             plugin.title = getPluginTitle(plugin);
         });
     };

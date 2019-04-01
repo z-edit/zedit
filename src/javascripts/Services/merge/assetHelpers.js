@@ -9,9 +9,9 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
         let lcFilename = filename.toLowerCase();
-        return merge.plugins.findIndex(plugin => {
+        return merge.plugins.contains(plugin => {
             return plugin.filename.toLowerCase() === lcFilename;
-        }) > -1;
+        });
     };
 
     let getRules = function(merge) {

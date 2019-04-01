@@ -1,5 +1,10 @@
 window.r = String.raw;
 
+// helpers
+let isFunction = arg => arg && arg.constructor === Function;
+let isObject = value => value && value.constructor === Object;
+
+// extensions
 String.prototype.setChar = function(pos, char) {
     return this.substr(0, pos) + char + this.substr(pos + 1, this.length);
 };
@@ -25,9 +30,7 @@ String.prototype.uncapitalize = function() {
 };
 
 String.prototype.titleCase = function() {
-    return this.replace(/[^\s]+/g, function(word) {
-        return word.capitalize();
-    });
+    return this.replace(/[^\s]+/g, word => word.capitalize());
 };
 
 String.prototype.humanize = function() {
@@ -35,7 +38,7 @@ String.prototype.humanize = function() {
 };
 
 String.prototype.toCamelCase = function() {
-    return this.uncapitalize().replace(/(\s|\-|\_|\.)+(.)/g, function(match) {
+    return this.uncapitalize().replace(/(\s|\-|\_|\.)+(.)/g, match => {
         return match.slice(-1).toUpperCase();
     });
 };
@@ -45,7 +48,7 @@ String.prototype.toPascalCase = function() {
 };
 
 String.prototype.underscore = function(separator = '_') {
-    return this.toCamelCase().replace(/[A-Z]/g, function(match) {
+    return this.toCamelCase().replace(/[A-Z]/g, match => {
         return separator + match.toLowerCase();
     })
 };
@@ -63,9 +66,10 @@ String.prototype.wordwrap = function(width = 60, brk = '\n', cut = false) {
     if (this.length === 0) return this;
     let cutExpr = cut ? `|.{${width}}|.+$` : `|\\S+?(\\s|$)`,
         expr = `.{1,${width}}(\\s|$)${cutExpr}`;
-    return this.match(new RegExp(expr, 'g')).map(function(str) {
-        return str.trim()
-    }).join(brk);
+    return this
+        .match(new RegExp(expr, 'g'))
+        .map(str => str.trim())
+        .join(brk);
 };
 
 // convert integer to a bytes string
@@ -102,10 +106,20 @@ Array.prototype.random = function() {
     return this[Math.floor((Math.random() * this.length))];
 };
 
+Array.prototype.getIndex = function(arg) {
+    return isFunction(arg) ? this.findIndex(arg) : this.indexOf(arg);
+};
+
 Array.prototype.remove = function(needle) {
-    let n = this.indexOf(needle);
+    let n = this.getIndex(needle);
     if (n > -1) this.splice(n, 1);
     return n;
+};
+
+Array.prototype.contains = function(callback) {
+    for (let i = 0; i < this.length; i++)
+        if (callback(this[i])) return true;
+    return false;
 };
 
 Array.prototype.subtract = function(otherArray) {
@@ -118,7 +132,7 @@ Array.prototype.findByKey = function(key, value) {
 };
 
 Array.prototype.sortOnKey = function(key) {
-    return this.sort(function(a, b) {
+    return this.sort((a, b) => {
         if (a[key] < b[key]) return -1;
         if (a[key] > b[key]) return 1;
         return 0;
@@ -164,7 +178,7 @@ Array.prototype.joinList = function(separator = ', ', lastSeparator = ' and ') {
 
 Array.prototype.groupBy = function(propertyName) {
     let obj = {};
-    this.forEach(function(item) {
+    this.forEach(item => {
         let key = item[propertyName] + '';
         if (obj.hasOwnProperty(key)) {
             obj[key].push(item);
@@ -176,16 +190,15 @@ Array.prototype.groupBy = function(propertyName) {
 };
 
 Array.prototype.forEachReverse = function(callback) {
-    for (let i = this.length - 1; i > -1; i--) {
+    for (let i = this.length - 1; i > -1; i--)
         callback(this[i], i, this);
-    }
 };
 
 Array.prototype.forEachNested = function(callback, nestingKey) {
     let nestedCallback = function(element, index, array) {
-        if (callback(element, index, array) && element.hasOwnProperty(nestingKey)) {
+        let res = callback(element, index, array);
+        if (res && element.hasOwnProperty(nestingKey))
             element[nestingKey].forEachReverse(nestedCallback);
-        }
     };
     this.forEachReverse(nestedCallback);
 };
@@ -200,9 +213,8 @@ Array.prototype.findMapping = function(callback) {
 
 Array.prototype.trimFalsy = function() {
     let n;
-    for (n = this.length - 1; n > -1; n--) {
+    for (n = this.length - 1; n > -1; n--)
         if (this[n]) break;
-    }
     return n < this.length - 1 ? this.slice(0, n + 1) : this;
 };
 
@@ -232,15 +244,11 @@ Array.prototype.itemsAfter = function(arg) {
 };
 
 Array.prototype.insertAfter = function(arg, ...items) {
-    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
-        index = this[fn](arg);
-    return this.splice(index + 1, 0, ...items);
+    return this.splice(this.getIndex(arg) + 1, 0, ...items);
 };
 
 Array.prototype.insertBefore = function(arg, ...items) {
-    let fn = arg.constructor === Function ? 'findIndex' : 'indexOf',
-        index = this[fn](arg);
-    return this.splice(index, 0, ...items);
+    return this.splice(this.getIndex(arg), 0, ...items);
 };
 
 Array.prototype.partition = function(array, callback) {
@@ -260,13 +268,10 @@ Object.deepAssign = function(target, varArgs) {
     for (let index = 1; index < arguments.length; index++) {
         let nextSource = arguments[index];
         if (nextSource === null) continue; // Skip over if undefined or null
-        Object.keys(nextSource).forEach(function (nextKey) {
+        Object.keys(nextSource).forEach(nextKey => {
             let value = nextSource[nextKey];
-            if (typeof value === 'object' && value !== null &&
-                value.constructor === Object) {
-                if (!Object.prototype.hasOwnProperty.call(to, nextKey)) {
-                    to[nextKey] = {};
-                }
+            if (isObject(value)) {
+                if (!to.hasOwnProperty(nextKey)) to[nextKey] = {};
                 Object.deepAssign(to[nextKey], value);
             } else {
                 to[nextKey] = value;
@@ -277,7 +282,7 @@ Object.deepAssign = function(target, varArgs) {
 };
 
 Object.defaults = function(target, defaults) {
-    Object.keys(defaults).forEach(function(key) {
+    Object.keys(defaults).forEach(key => {
         if (target.hasOwnProperty(key)) return;
         target[key] = defaults[key];
     });
@@ -286,7 +291,7 @@ Object.defaults = function(target, defaults) {
 
 Object.copyProperties = function(target, keys) {
     let newObj = {};
-    Object.keys(target).forEach(function(key) {
+    Object.keys(target).forEach(key => {
         if (!keys.includes(key)) return;
         newObj[key] = target[key];
     });

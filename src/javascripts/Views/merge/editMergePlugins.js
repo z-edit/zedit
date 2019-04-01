@@ -9,7 +9,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     };
 
     let buildPlugins = function() {
-        $scope.plugins = $rootScope.loadOrder.map(function(plugin) {
+        $scope.plugins = $rootScope.loadOrder.map(plugin => {
             let filename = plugin.filename;
             return {
                 filename: filename,

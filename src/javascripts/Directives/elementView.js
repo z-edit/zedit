@@ -32,13 +32,11 @@ ngapp.directive('elementView', function () {
         try {
             let parts = path.split('\\');
             let fields = view;
-            parts.forEach(function(part) {
+            parts.forEach(part => {
                 if (part.startsWith('[') && part.endsWith(']')) {
                     part = part.slice(1, -1);
                 }
-                let nextField = fields.find(function(field) {
-                    return (field.key === part);
-                });
+                let nextField = fields.findByKey('key', part);
                 if (!nextField) {
                     throw "Could not find field " + part;
                 } else if (nextField.hasOwnProperty('children')) {

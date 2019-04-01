@@ -2,12 +2,6 @@ ngapp.controller('coreSettingsController', function($scope, themeService) {
     // initialization
     $scope.themes = themeService.getThemes();
     $scope.syntaxThemes = themeService.getSyntaxThemes();
-    $scope.theme = $scope.themes.find(function(theme) {
-        return theme.filename === $scope.globalSettings.theme;
-    });
-    $scope.syntaxTheme = $scope.syntaxThemes.find(function(theme) {
-        return theme.filename === $scope.globalSettings.syntaxTheme;
-    }) || '';
     $scope.sampleCode = [
         'function foo(bar) {',
         '    if (bar == 1) {',
@@ -21,15 +15,21 @@ ngapp.controller('coreSettingsController', function($scope, themeService) {
     ].join('\r\n');
 
     // helper functions
+    let getTheme = function(name) {
+        return $scope.themes.findByKey('filename', name);
+    };
+
+    let getSyntaxTheme = function(name) {
+        return $scope.syntaxThemes.findByKey('filename', name);
+    };
+
     let setSyntaxTheme = function(name) {
-        let syntaxTheme = $scope.syntaxThemes.find(function(theme) {
-            return theme.name === name;
-        });
+        let syntaxTheme = getSyntaxTheme(name);
         if (name === '' || syntaxTheme) {
             $scope.syntaxTheme = syntaxTheme;
             $scope.syntaxThemeChanged();
         } else {
-            console.log(`Couldn't find preferred syntax theme ${theme}`);
+            console.log(`Couldn't find preferred syntax theme ${name}`);
         }
     };
 
@@ -45,4 +45,9 @@ ngapp.controller('coreSettingsController', function($scope, themeService) {
         $scope.globalSettings.syntaxTheme = syntaxTheme || '';
         $scope.$emit('setSyntaxTheme', syntaxTheme || '');
     };
+
+    // initialization
+    let {theme, syntaxTheme} = $scope.globalSettings;
+    $scope.theme = getTheme(theme);
+    $scope.syntaxTheme = getSyntaxTheme(syntaxTheme) || '';
 });

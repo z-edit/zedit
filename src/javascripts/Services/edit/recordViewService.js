@@ -18,7 +18,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
 
         let getMaxLength = function(arrays) {
             let maxLen = 0;
-            arrays.forEach(function(a) {
+            arrays.forEach(a => {
                 let len = a.length;
                 if (len > maxLen) maxLen = len;
             });
@@ -47,6 +47,17 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
             }
         };
 
+        let getClasses = function(node, handle) {
+            let classes = [],
+                conflictData = getConflictData(handle);
+            classes.push(ctClasses[conflictData[1]]);
+            if (xelib.GetIsModified(handle)) {
+                scope.addModifiedClass(node);
+                classes.push('modified');
+            }
+            return classes.join(' ');
+        };
+
         let getElementArrays = function(node) {
             return node.handles.map(h => {
                 return h ? xelib.GetNodeElements(scope.virtualNodes, h) : [];
@@ -54,7 +65,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         };
 
         let getLabel = function(elementArrays, index) {
-            let a = elementArrays.find(function(a) { return a.length > 0 });
+            let a = elementArrays.find(a => a.length > 0);
             return xelib.Name(a[index]);
         };
 
@@ -77,7 +88,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
                 width: '300px'
             }];
             scope.overrides = xelib.GetOverrides(scope.record);
-            scope.overrides.forEach(function(override) {
+            scope.overrides.forEach(override => {
                 scope.columns.push({
                     label: getRecordFileName(override),
                     handle: override,
@@ -106,7 +117,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         scope.resolveNode = function(path, record) {
             let node = undefined,
                 recordIndex = getRecordIndex(record);
-            path.split('\\').forEach(function(part) {
+            path.split('\\').forEach(part => {
                 let handle = node ? node.handles[recordIndex] : record;
                 handle = xelib.GetElementEx(handle, `${part}`);
                 try {
@@ -137,9 +148,10 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         scope.nodeMatches = function(oldNode, newNode) {
             if (oldNode.depth !== newNode.depth ||
                 oldNode.label !== newNode.label) return false;
-            return oldNode.handles.reduce(function(b, oldHandle, index) {
+            return oldNode.handles.reduce((b, oldHandle, index) => {
                 let newHandle = newNode.handles[index];
-                return b || oldHandle && newHandle && xelib.ElementEquals(oldHandle, newHandle);
+                return b || oldHandle && newHandle &&
+                    xelib.ElementEquals(oldHandle, newHandle);
             }, false);
         };
 
@@ -193,7 +205,7 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         scope.updateNodeLabels = function() {
             // TODO: Union name display
             if (!settings.recordView.showArrayIndexes) return;
-            scope.tree.forEach(function(node, index) {
+            scope.tree.forEach((node, index) => {
                 if (node.value_type !== xelib.vtArray ||
                     !forFirstHandle(node, xelib.IsSorted)) return;
                 scope.updateSortedArrayLabels(index, node.depth + 1);
@@ -222,26 +234,17 @@ ngapp.service('recordViewService', function($timeout, layoutService, settingsSer
         };
 
         scope.buildCells = function(node) {
-            let nodeModified = false;
             node.cells = [];
-            node.handles.forEach(function(handle) {
-                let value, classes = [];
-                if (handle) {
-                    let conflictData = getConflictData(handle);
-                    value = getValue(node, handle);
-                    classes.push(ctClasses[conflictData[1]]);
-                    if (xelib.GetIsModified(handle)) {
-                        nodeModified = true;
-                        classes.push('modified');
-                    }
-                }
+            node.handles.forEach(handle => {
                 node.cells.push({
-                    value: value || '',
-                    class: classes.join(' ')
+                    value: handle ? getValue(node, handle) : '',
+                    class: handle ? getClasses(node, handle) : ''
                 });
             });
-            if (nodeModified) scope.addModifiedClass(node);
-            node.cells.unshift({value: scope.getLabel(node), class: node.class});
+            node.cells.unshift({
+                value: scope.getLabel(node),
+                class: node.class
+            });
         };
 
         scope.getNodeData = function(node) {

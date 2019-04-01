@@ -120,7 +120,7 @@ ngapp.service('recordViewDragDropService', function(errorService, nodeHelpers) {
                 targetRecord = scope.getRecord(recordIndex),
                 cellHandle = getOrCreateCell(node, recordIndex),
                 draggedElement = getDraggedElement(dragData);
-            errorService.try(function() {
+            errorService.try(() => {
                 dropFrom[dragData.source](node, cellHandle, draggedElement);
                 scope.$root.$broadcast('recordUpdated', targetRecord);
                 scope.reload();

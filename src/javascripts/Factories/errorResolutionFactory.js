@@ -116,7 +116,7 @@ ngapp.service('errorResolutionFactory', function(pluginErrorHelpers, xelibServic
                 xelib.SetFormID(navmesh, newFormID, false, false);
                 let records = xelib.GetRecords(plugin, 'NAVM,NAVI', true);
                 xelib.WithHandles(records, function(records) {
-                    records.forEach(function(record) {
+                    records.forEach(record => {
                         xelib.ExchangeReferences(record, oldFormID, newFormID);
                     });
                 });

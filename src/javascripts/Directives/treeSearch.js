@@ -14,9 +14,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     // helper functions
     let getElementIndex = function(elements, element) {
-        return elements.findIndex(function(e) {
-            return xelib.ElementEquals(e, element);
-        });
+        return elements.findIndex(e => xelib.ElementEquals(e, element));
     };
 
     let getSearchFiles = function(files, file, reverse, noOffset) {
@@ -34,7 +32,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
         let result = 0;
         xelib.WithHandles(xelib.GetElements(0, ''), function(files) {
             let searchFiles = getSearchFiles(files, file, reverse, nodeIsFile);
-            searchFiles.find(function(file) {
+            searchFiles.find(file => {
                 if ($scope.cancelled) return true;
                 result = xelib.GetElement(file, search);
                 return result > 0;
@@ -45,7 +43,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     let findExactMatch = function(search, reverse = false) {
         let action = $q.defer();
-        $timeout(function() {
+        $timeout(() => {
             let start = Date.now(),
                 node = $scope.lastSelectedNode(),
                 file = node && xelib.GetElementFile(node.handle),
@@ -59,7 +57,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     let findPartialMatch = function(search, byName, reverse) {
         let action = $q.defer();
-        $timeout(function() {
+        $timeout(() => {
             let functionName = `Find${(reverse ? 'Previous' : 'Next')}Record`,
                 node = $scope.lastSelectedNode(),
                 handle = node ? node.handle : 0,
@@ -90,7 +88,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     $scope.previousResult = function() {
         progressService.showProgress({ message: 'Searching...' });
-        findElement(true).then(function(handle) {
+        findElement(true).then(handle => {
             $scope.notFound = !handle;
             if (handle) $scope.foundResult(handle);
             progressService.hideProgress();
@@ -99,7 +97,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
 
     $scope.nextResult = function() {
         progressService.showProgress({ message: 'Searching...' });
-        findElement().then(function(handle) {
+        findElement().then(handle => {
             $scope.notFound = !handle;
             if (handle) $scope.foundResult(handle);
             progressService.hideProgress();

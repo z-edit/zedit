@@ -28,7 +28,7 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
     };
 
     let createFilterView = function() {
-        let treeView = layoutService.findView(function(view) {
+        let treeView = layoutService.findView(view => {
             return view.class === 'tree-view';
         });
         let filterView = viewFactory.newView('filterView', true);
@@ -57,9 +57,9 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
     });
 
     $scope.$on('searchResults', function(e, options) {
-        let filterView = layoutService.findView(function(view) {
+        let filterView = layoutService.findView(view => {
             if (view.class === 'filter-view') {
-                view.searchOptions.nodes.forEach(function(node) {
+                view.searchOptions.nodes.forEach(node => {
                     xelib.Release(node.handle);
                 });
                 view.results.forEach(xelib.Release);

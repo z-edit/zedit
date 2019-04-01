@@ -18,15 +18,15 @@ ngapp.service('helpService', function() {
     };
 
     let getTopicId = function(topic) {
-        return topic.id || topic.label.split(' ').filter(function(part) {
+        return topic.id || topic.label.split(' ').filter(part => {
             return !part.match(/\[.+\]/);
-        }).map(function(str) {
+        }).map(str => {
             return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         }).join('').uncapitalize();
     };
 
     let processTopics = function(topics, path) {
-        return topics.map(function(topic) {
+        return topics.map(topic => {
             let id = getTopicId(topic);
             topic.templateUrl = `${path}/${id}.html`;
             if (!topic.children) return topic;

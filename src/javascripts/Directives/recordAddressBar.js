@@ -111,7 +111,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
         if (elementType !== xelib.etMainRecord) return;
         let path = xelib.Path(handle),
             newIndex = $scope.historyIndex;
-        $scope.history = $scope.history.filter(function(entry, index) {
+        $scope.history = $scope.history.filter((entry, index) => {
             if (index < $scope.historyIndex) newIndex--;
             return entry.path !== path;
         });

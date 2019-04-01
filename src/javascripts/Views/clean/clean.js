@@ -9,13 +9,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
     // helper functions
     let updatePluginsToCheckCount = function() {
-        $scope.pluginsToCheckCount = $scope.plugins.filter(function(plugin) {
+        $scope.pluginsToCheckCount = $scope.plugins.filter(plugin => {
             return !plugin.skip;
         }).length;
     };
 
     let openSaveModal = function(shouldFinalize) {
-        let pluginsToSave = $scope.plugins.filter(function(plugin) {
+        let pluginsToSave = $scope.plugins.filter(plugin => {
             return plugin.hasOwnProperty('errors');
         });
         if (!shouldFinalize && !pluginsToSave.length) return;
@@ -93,9 +93,9 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
 
     $scope.endErrorCheck = function() {
         $scope.checkingDone = true;
-        $scope.plugins.forEach(function(plugin) {
+        $scope.plugins.forEach(plugin => {
             if (!plugin.hasOwnProperty('groupedErrors')) return;
-            $scope.groupedErrors.forEach(function(errorGroup, index) {
+            $scope.groupedErrors.forEach((errorGroup, index) => {
                 let pluginErrors = plugin.groupedErrors[index].errors;
                 errorGroup.errors.unite(pluginErrors);
             });
@@ -103,7 +103,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.checkNextPlugin = function() {
-        let nextPlugin = $scope.plugins.find(function(plugin) {
+        let nextPlugin = $scope.plugins.find(plugin => {
             return !plugin.skip && plugin.status === 'Queued';
         });
         if (!nextPlugin) {
@@ -114,7 +114,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.startCheck = function() {
-        $scope.pluginsToCheck = $scope.plugins.filter(function(plugin) {
+        $scope.pluginsToCheck = $scope.plugins.filter(plugin => {
             if (!plugin.skip) {
                 clearErrors(plugin);
                 plugin.status = 'Queued';
@@ -147,7 +147,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.loadCache = function() {
-        $scope.plugins.forEach(function(plugin) {
+        $scope.plugins.forEach(plugin => {
             if (errorCacheService.loadPluginErrors(plugin)) {
                 $scope.totalErrors += plugin.errors.length;
                 pluginErrorService.groupErrors(plugin);

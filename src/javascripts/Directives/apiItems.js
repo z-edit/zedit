@@ -34,7 +34,7 @@ ngapp.controller('apiItemsController', function() {
 
     if (ctrl.path) ctrl.items = loadItems();
 
-    ctrl.items.forEach(function(item) {
+    ctrl.items.forEach(item => {
         if (!item.type) item.type = 'function';
         item.isEvent = item.type === 'event';
     });

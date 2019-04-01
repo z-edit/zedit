@@ -41,7 +41,7 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
     };
 
     $scope.close = function() {
-        $scope.allColumns.forEach(function(column) {
+        $scope.allColumns.forEach(column => {
             if (column.custom) columnsService.buildDataFunction(column);
         });
         $scope.$root.$broadcast('rebuildColumns');
@@ -52,7 +52,7 @@ ngapp.controller('editColumnsModalController', function($scope, xelibService, co
     // initialization
     $scope.allColumns = $scope.modalOptions.allColumns;
     $scope.viewName = $scope.modalOptions.viewName;
-    let firstCustomColumn = $scope.allColumns.find(function(column) {
+    let firstCustomColumn = $scope.allColumns.find(column => {
         return column.custom;
     });
     if (firstCustomColumn) $scope.selectColumn(firstCustomColumn);

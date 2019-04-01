@@ -18,7 +18,7 @@ ngapp.controller('filterViewController', function($scope, $timeout, viewFactory,
 
     // helper functions
     let linkToRecordView = function() {
-        let recordView = layoutService.findView(function(view) {
+        let recordView = layoutService.findView(view => {
             return view.class === 'record-view' && !view.linkedFilterView;
         });
         viewFactory.link($scope.view, recordView);

@@ -14,10 +14,8 @@ ngapp.service('gridService', function(htmlHelpers) {
         };
 
         scope.buildColumns = function() {
-            scope.columns = scope.allColumns.filter(function(column) {
-                return column.enabled;
-            });
-            let width = scope.columns.reduce(function(width, c) {
+            scope.columns = scope.allColumns.filterOnKey('enabled');
+            let width = scope.columns.reduce((width, c) => {
                 if (c.width) width += parseInt(c.width.slice(0, -1));
                 return width;
             }, 0);
@@ -31,7 +29,7 @@ ngapp.service('gridService', function(htmlHelpers) {
         };
 
         scope.buildColumnValues = function(node) {
-            node.column_values = scope.columns.map(function(column) {
+            node.column_values = scope.columns.map(column => {
                 try {
                     return column.getData(node, xelib);
                 } catch (x) {

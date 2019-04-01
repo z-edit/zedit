@@ -11,7 +11,7 @@ ngapp.controller('editMergeDataController', function($scope, mergeDataService, p
     };
 
     let checkNoAssets = function() {
-        $scope.noAssets = assetArrayNames.reduce(function(b, key) {
+        $scope.noAssets = assetArrayNames.reduce((b, key) => {
             return b && $scope.merge[key].length === 0;
         }, true);
     };

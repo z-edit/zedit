@@ -25,14 +25,14 @@ ngapp.controller('filterItemsController', function($scope, filterFactory) {
     };
 
     let exportFilter = function(filter) {
-        return filter.exportKeys.reduce(function(obj, key) {
+        return filter.exportKeys.reduce((obj, key) => {
             obj[key] = filter[key];
             return obj;
         }, { type: filter.type })
     };
 
     let exportFilters = function(filters) {
-        return filters.map(function(filter) {
+        return filters.map(filter => {
             let exportFn = filter.type === 'Group' ? exportGroup : exportFilter;
             return exportFn(filter);
         });
@@ -50,10 +50,11 @@ ngapp.controller('filterItemsController', function($scope, filterFactory) {
     };
 
     let importFilters = function(filters) {
-        return filters.map(function(filter) {
-            let baseFilter = filterFactory.filters[filter.type](),
-                importFn = filter.type === 'Group' ? importGroup : importFilter;
-            return importFn(baseFilter, filter);
+        return filters.map(filter => {
+            let baseFilter = filterFactory.filters[filter.type]();
+            return filter.type === 'Group' ?
+                importGroup(baseFilter, filter) :
+                importFilter(baseFilter, filter);
         });
     };
 

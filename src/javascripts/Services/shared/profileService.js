@@ -25,22 +25,19 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     // public api
     this.getNewProfileName = function(name) {
         let counter = 2,
-            profileName = name,
-            existingProfile;
-        while (existingProfile = getProfile(profileName))
+            profileName = name;
+        while (getProfile(profileName))
             profileName = `${name} ${counter++}`;
         return profileName;
     };
 
     this.saveProfiles = function() {
-        let sanitizedProfiles = service.profiles.map(function(profile) {
-            return {
-                name: profile.name,
-                gameMode: profile.gameMode,
-                gamePath: profile.gamePath || '',
-                language: profile.language
-            };
-        });
+        let sanitizedProfiles = service.profiles.map(profile => ({
+            name: profile.name,
+            gameMode: profile.gameMode,
+            gamePath: profile.gamePath || '',
+            language: profile.language
+        }));
         fh.saveJsonFile(profilesPath, sanitizedProfiles);
     };
 
@@ -54,8 +51,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     };
 
     this.detectMissingProfiles = function() {
-        xelib.games.forEach(function(game) {
-            let gameProfile = service.profiles.find(function(profile) {
+        xelib.games.forEach(game => {
+            let gameProfile = service.profiles.find(profile => {
                 return profile.gameMode === game.mode;
             });
             if (gameProfile) return;
@@ -79,9 +76,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     };
 
     this.getGame = function(gameMode) {
-        return xelib.games.find(function(game) {
-            return game.mode === gameMode;
-        });
+        return xelib.games.findByKey('mode', gameMode);
     };
 
     this.validateProfile = function(profile) {

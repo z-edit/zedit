@@ -19,7 +19,7 @@ ngapp.controller('refactorRecordsModalController', function($scope, referenceSer
 
     let refactorStrFunction = function(path) {
         return function() {
-            $scope.modalOptions.nodes.forEach(function(node) {
+            $scope.modalOptions.nodes.forEach(node => {
                 if (!xelib.HasElement(node.handle, path)) return;
                 let oldValue = xelib.GetValue(node.handle, path),
                     newValue = applyStrFunction(oldValue);
@@ -47,7 +47,7 @@ ngapp.controller('refactorRecordsModalController', function($scope, referenceSer
                 let fileHandles = [file, ...xelib.GetRequiredBy(file)];
                 referenceService.buildReferences(fileHandles, true);
             });
-            $scope.modalOptions.nodes.forEach(function(node, n) {
+            $scope.modalOptions.nodes.forEach((node, n) => {
                 xelib.SetFormID(node.handle, $scope.baseFormID + n);
             });
         }

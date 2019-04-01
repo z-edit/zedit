@@ -3,12 +3,10 @@ ngapp.service('filterFactory', function(searchService) {
 
     let getRecordTypes = function() {
         let map = xelib.GetSignatureNameMap();
-        recordTypes = Object.keys(map).sort().map(function(signature) {
-            return {
-                signature: signature,
-                name: map[signature]
-            }
-        });
+        recordTypes = Object.keys(map).sort().map(signature => ({
+            signature: signature,
+            name: map[signature]
+        }));
         return recordTypes;
     };
 

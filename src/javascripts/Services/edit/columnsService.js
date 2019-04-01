@@ -17,7 +17,7 @@ ngapp.service('columnsService', function(columnsFactory) {
     };
 
     let buildColumns = function(columns) {
-        return columns.map(function(column) {
+        return columns.map(column => {
             let columnType = column.getDataCode ? 'custom' : 'native';
             return buildColumn[columnType](column);
         });
@@ -51,7 +51,7 @@ ngapp.service('columnsService', function(columnsFactory) {
     };
 
     this.saveColumns = function(viewName) {
-        let data = service[`${viewName}Columns`].map(function(column) {
+        let data = service[`${viewName}Columns`].map(column => {
             return Object.copyProperties(column, exportKeys);
         });
         fh.saveJsonFile(getColumnsPath(viewName), data);

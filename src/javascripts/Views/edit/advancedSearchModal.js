@@ -7,12 +7,10 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     };
 
     let prepareNodes = function() {
-        return $scope.modalOptions.nodes.map(function(node) {
-            return {
-                handle: xelib.GetElementEx(node.handle),
-                element_type: node.element_type
-            }
-        });
+        return $scope.modalOptions.nodes.map(node => ({
+            handle: xelib.GetElementEx(node.handle),
+            element_type: node.element_type
+        }));
     };
 
     let getSearchScope = function() {

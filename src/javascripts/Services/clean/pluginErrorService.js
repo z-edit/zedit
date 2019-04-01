@@ -3,7 +3,7 @@ ngapp.service('pluginErrorService', function(errorService, pluginErrorHelpers, e
 
     // PRIVATE HELPER FUNCTIONS
     let getErrorResolution = function(resolutions, error) {
-        return resolutions.find(function(resolution) {
+        return resolutions.find(resolution => {
             if (!resolution.hasOwnProperty('available')) return true;
             try { return resolution.available(error) } catch (x) {}
         });
@@ -16,10 +16,10 @@ ngapp.service('pluginErrorService', function(errorService, pluginErrorHelpers, e
     // PUBLIC API
     this.groupErrors = function(plugin) {
         plugin.groupedErrors = errorTypeFactory.errorTypes();
-        plugin.groupedErrors.forEach(function(errorGroup) {
+        plugin.groupedErrors.forEach(errorGroup => {
             errorGroup.resolution = 'auto';
             errorGroup.showGroup = false;
-            errorGroup.errors = plugin.errors.filter(function(error) {
+            errorGroup.errors = plugin.errors.filter(error => {
                 return error.group === errorGroup.group;
             });
             service.setGroupResolutions(errorGroup);
@@ -37,7 +37,7 @@ ngapp.service('pluginErrorService', function(errorService, pluginErrorHelpers, e
     this.getResolutions = function(error) {
         let acronym = pluginErrorHelpers.errorAcronyms[error.group],
             resolutions = errorResolutionFactory.errorResolutions[acronym];
-        return resolutions.filter(function(resolution) {
+        return resolutions.filter(resolution => {
             if (!resolution.hasOwnProperty('available')) return true;
             return resolution.available(error);
         });
@@ -53,19 +53,17 @@ ngapp.service('pluginErrorService', function(errorService, pluginErrorHelpers, e
         let resolution = service.getGroupResolution(errorGroup);
         if (resolution.hasOwnProperty('available')) {
             let resolutions = getGroupResolutions(errorGroup);
-            errorGroup.errors.forEach(function(error) {
+            errorGroup.errors.forEach(error => {
                 error.resolution = getErrorResolution(resolutions, error);
             });
         } else {
-            errorGroup.errors.forEach(function(error) {
-                error.resolution = resolution;
-            });
+            errorGroup.errors.forEach(error => error.resolution = resolution);
         }
     };
 
     this.applyResolutions = function(plugin) {
         plugin.errorsResolved = true;
-        plugin.errors.forEach(function(error) {
+        plugin.errors.forEach(error => {
             if (!error.resolution || !error.resolution.execute) return;
             errorService.try(() => error.resolution.execute(error));
         });

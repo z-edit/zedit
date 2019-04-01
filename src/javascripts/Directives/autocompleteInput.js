@@ -40,8 +40,8 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     let getSearchResults = function() {
         startSearch();
         if ($scope.searchTimer) clearTimeout($scope.searchTimer);
-        $scope.searchTimer = setTimeout(function() {
-            $scope.$applyAsync(function() {
+        $scope.searchTimer = setTimeout(() => {
+            $scope.$applyAsync(() => {
                 $scope.results = $scope.search($scope.text);
                 $scope.searching = false;
             });
@@ -74,7 +74,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     $scope.setExact = function() {
-        let item = $scope.results.find(function(item) {
+        let item = $scope.results.find(item => {
             return $scope.getText(item) === $scope.text;
         });
         if (item) {
@@ -90,7 +90,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     $scope.onInputBlur = function() {
-        $timeout(function() {
+        $timeout(() => {
             $scope.setCustom ? $scope.setCustom($scope.text) : $scope.setExact();
             hideDropdown();
         }, 250);

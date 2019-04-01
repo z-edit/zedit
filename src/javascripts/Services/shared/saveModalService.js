@@ -1,7 +1,7 @@
 ngapp.service('saveModalService', function(errorService) {
     this.buildFunctions = function(scope) {
         scope.setMessage = function(message, detailedMessage = '') {
-            scope.$applyAsync(function() {
+            scope.$applyAsync(() => {
                 if (message) scope.message = message;
                 scope.detailedMessage = detailedMessage;
             });
@@ -13,7 +13,7 @@ ngapp.service('saveModalService', function(errorService) {
 
         scope.savePlugins = function() {
             scope.setMessage('Saving plugins');
-            scope.pluginsToSave.forEach(function(plugin, index) {
+            scope.pluginsToSave.forEach((plugin, index) => {
                 scope.setProgress(plugin.filename, index);
                 errorService.try(() => xelib.SaveFile(plugin.handle));
             });

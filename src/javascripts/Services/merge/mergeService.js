@@ -25,7 +25,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
 
     let exportMerge = function(merge) {
         let mergeObj = objectUtils.rebuildObject(merge, mergeExportKeys);
-        mergeObj.plugins = merge.plugins.map(function(plugin) {
+        mergeObj.plugins = merge.plugins.map(plugin => {
             return objectUtils.rebuildObject(plugin, pluginExportKeys);
         });
         return mergeObj;

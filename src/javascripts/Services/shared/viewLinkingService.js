@@ -19,7 +19,7 @@ ngapp.service('viewLinkingService', function() {
         };
 
         view.unlinkAll = function() {
-            allowLinkTo.forEach(function(viewClass) {
+            allowLinkTo.forEach(viewClass => {
                 let otherLinkKey = getLinkKey(viewClass),
                     linkedView = view[otherLinkKey];
                 if (!linkedView) return;

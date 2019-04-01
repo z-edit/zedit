@@ -65,14 +65,14 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.toggleSelected = function(targetValue) {
-        let selectedItems = $scope.items.filter(function(item) {
+        let selectedItems = $scope.items.filter(item => {
                 return item.selected && !item.disabled;
             }),
             toggle = angular.isUndefined(targetValue),
-            newActiveValues = selectedItems.map(function(item) {
+            newActiveValues = selectedItems.map(item => {
                 return toggle ? !item.active : targetValue;
             });
-        selectedItems.forEach(function(item, index) {
+        selectedItems.forEach((item, index) => {
             if (item.active !== newActiveValues[index]) {
                 item.active = newActiveValues[index];
                 $scope.$emit('itemToggled', item);

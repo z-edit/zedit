@@ -363,7 +363,7 @@ ngapp.service('hotkeyFactory', function() {
 
     // HELPER FUNCTIONS
     let sortHotkeys = function(hotkeys) {
-        hotkeys.sort(function(a, b) {
+        hotkeys.sort((a, b) => {
             return a.modifiers.length - b.modifiers.length;
         });
     };
@@ -383,7 +383,7 @@ ngapp.service('hotkeyFactory', function() {
     // PUBLIC API
     this.addHotkeys = function(label, hotkeys) {
         let target = factory[`${label}Hotkeys`];
-        Object.keys(hotkeys).forEach(function(key) {
+        Object.keys(hotkeys).forEach(key => {
             if (target.hasOwnProperty(key)) {
                 addHotkey(target, hotkeys, key);
             } else {
