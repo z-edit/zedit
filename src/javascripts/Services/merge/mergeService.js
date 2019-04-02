@@ -56,7 +56,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     let importMergeData = function(merge) {
         let path = `${getMergePath()}\\${merge.name}\\merge\\merge.json`,
             oldMerge = fh.loadJsonFile(path);
-        merge.method = !merge.method ? 'Clean' :
+        merge.method = !merge.method ? 'Clobber' :
             mergeMethodMap[merge.method] || merge.method;
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
@@ -68,7 +68,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         return initMergeData({
             name: mergeName,
             filename: `${mergeName}.esp`,
-            method: 'Clean',
+            method: 'Clobber',
             plugins: [],
             status: 'Ready to be built',
             archiveAction: 'Merge',
