@@ -96,7 +96,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     this.saveMergeData = function(merge) {
-        let path = `${merge.dataPath}\\merge`;
+        let path = `${merge.dataPath}\\merge - ${merge.name}`;
         fh.jetpack.dir(path);
         fh.saveJsonFile(`${path}\\merge.json`, exportMerge(merge));
         fh.saveJsonFile(`${path}\\map.json`, merge.fidMap || {});
