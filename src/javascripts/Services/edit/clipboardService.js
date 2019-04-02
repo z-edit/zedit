@@ -12,7 +12,6 @@ ngapp.service('clipboardService', function() {
     };
 
     this.copyText = function(text) {
-        _clipboard = undefined;
         clipboard.writeText(text);
     };
 
