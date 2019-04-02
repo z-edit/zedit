@@ -14,6 +14,21 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         $scope.merges.forEach(mergeStatusService.updateStatus);
     };
 
+    let updateMergeLoadOrder = function(merge) {
+        merge.loadOrder = $rootScope.loadOrder
+            .mapOnKey('filename')
+            .filter(filename => {
+                return merge.plugins.contains(p => p.filename === filename);
+            });
+    };
+
+    let updateMergeLoadOrders = function() {
+        $scope.merges.filter(merge => {
+            return merge.useGameLoadOrder &&
+                merge.status !== 'Plugins unavailable';
+        }).forEach(updateMergeLoadOrder);
+    };
+
     let init = function() {
         progressService.showProgress({ message: 'Loading merge data...' });
         mergeDataService.cacheDataFolders();
@@ -23,6 +38,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         $scope.allowRelinking = relinkGames.includes(currentGameMode);
         $scope.merges = mergeService.merges;
         updateMergeStatuses();
+        updateMergeLoadOrders();
     };
 
     let openSaveModal = function(shouldFinalize = true) {

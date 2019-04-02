@@ -70,6 +70,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             filename: `${mergeName}.esp`,
             method: 'Clobber',
             plugins: [],
+            loadOrder: [],
             status: 'Ready to be built',
             archiveAction: 'Merge',
             useGameLoadOrder: true,
