@@ -32,6 +32,9 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     let updateMergePlugins = function() {
         $scope.merge.plugins = $scope.plugins
             .filterOnKey('active').map(mergePluginMap);
+    };
+
+    let updateMergeLoadOrder = function() {
         $scope.merge.loadOrder = $scope.plugins
             .filter(p => p.required || p.active)
             .mapOnKey('filename');
@@ -42,6 +45,15 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         $scope.merge.warningPlugins = $scope.plugins
             .filter(p => p.warn && !p.active && p.filename !== filename)
             .mapOnKey('filename');
+    };
+
+    let addToLoadOrder = function(item) {
+        $scope.merge.useGameLoadOrder ? updateMergeLoadOrder() :
+            $scope.merge.loadOrder.push(item.filename);
+    };
+
+    let removeFromLoadOrder = function(item) {
+        $scope.merge.loadOrder.remove(item.filename);
     };
 
     // filtering
@@ -62,7 +74,6 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             loadOrderService.updateRequired(item);
             loadOrderService.updateWarnings(item);
         }
-        loadOrderService.updateIndexes($scope.plugins);
         updateMergePlugins();
         updateWarningPlugins();
     };
@@ -70,13 +81,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     // event handlers
     $scope.$on('itemToggled', function(e, item) {
         $scope.itemToggled(item);
-        e.stopPropagation();
-    });
-
-    $scope.$on('itemsReordered', function(e) {
-        loadOrderService.updateIndexes($scope.plugins);
-        updateMergePlugins();
-        updateWarningPlugins();
+        item.active ? addToLoadOrder(item) : removeFromLoadOrder(item);
         e.stopPropagation();
     });
 
@@ -89,5 +94,4 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         loadOrderService.updateWarnings(plugin);
         plugin.isBethesdaPlugin = isBethesdaPlugin(plugin.filename);
     });
-    loadOrderService.updateIndexes($scope.plugins);
 });

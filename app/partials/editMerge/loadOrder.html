@@ -1,0 +1,12 @@
+<section>
+    <label>
+        <input type="checkbox" ng-model="merge.useGameLoadOrder" /> Use game load order
+    </label>
+</section>
+
+<list-view class="scrollable" items="loadOrder" drag-type="mergeLoadOrder" disable-drag="merge.useGameLoadOrder">
+    <span ng-class="{'disabled': $parent.item.disabled, 'required' : $parent.item.required, 'warn' : $parent.item.warn}" title="{{$parent.item.title}}">
+        <span ng-show="$parent.item.active || $parent.item.required">[{{$parent.item.index | hex:2 }}]</span>
+        {{::$parent.item.filename}}
+    </span>
+</list-view>

@@ -9,6 +9,11 @@ ngapp.service('tabsFactory', function() {
         templateUrl: 'partials/editMerge/plugins.html',
         controller: 'editMergePluginsController'
     }, {
+        label: 'Load Order',
+        class: 'load-order-tab',
+        templateUrl: 'partials/editMerge/loadOrder.html',
+        controller: 'editMergeLoadOrderController'
+    }, {
         label: 'Data',
         class: 'data-tab',
         templateUrl: 'partials/editMerge/data.html',

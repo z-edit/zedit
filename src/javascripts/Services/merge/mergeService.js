@@ -72,6 +72,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             plugins: [],
             status: 'Ready to be built',
             archiveAction: 'Merge',
+            useGameLoadOrder: true,
             handleFaceData: true,
             handleVoiceData: true,
             handleBillboards: true,
