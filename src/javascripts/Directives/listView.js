@@ -7,7 +7,8 @@ ngapp.directive('listView', function() {
             items: '=',
             defaultAction: '=?',
             filters: '=?',
-            dragType: '@'
+            dragType: '@',
+            disableDrag: '=?'
         },
         controller: 'listViewController'
     }
@@ -149,7 +150,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.onItemDrag = function(index) {
-        if (!$scope.dragType) return;
+        if (!$scope.dragType || $scope.disableDrag) return;
         $scope.$root.$broadcast('startDrag', {
             source: $scope.dragType,
             index: index,
@@ -159,7 +160,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.onItemDragOver = function(e, index) {
-        if (!$scope.dragType) return;
+        if (!$scope.dragType || $scope.disableDrag) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
         if (dragData.index === index) return true;
@@ -177,7 +178,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     $scope.onItemDragLeave = (e) => removeClasses(e.target);
 
     $scope.onItemDrop = function(e, index) {
-        if (!$scope.dragType) return;
+        if (!$scope.dragType || $scope.disableDrag) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
         if (dragData.index === index) return;
