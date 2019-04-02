@@ -69,7 +69,7 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
     let renumberPluginRecords = function(plugin, merge, index) {
         let pluginName = xelib.Name(plugin),
             fidMap = merge.fidMap[pluginName] = {},
-            base = xelib.GetFileLoadOrder(plugin) << 24;
+            base = xelib.GetFileLoadOrder(plugin) * 0x1000000;
         progressLogger.log(`Renumbering FormIDs in ${pluginName}`);
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
             if (!isNewRecord(rec)) return;
@@ -120,7 +120,7 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
     let refactorPluginReferences = function(plugin, merge, index) {
         let pluginName = xelib.Name(plugin),
             fidMap = merge.fidMap[pluginName] = {},
-            base = xelib.GetFileLoadOrder(merge.plugin) << 24;
+            base = xelib.GetFileLoadOrder(merge.plugin) * 0x1000000;
         progressLogger.log(`Refactoring references to ${pluginName}`);
         merge.newRecords[pluginName].forEach(rec => {
             let oldFid = getFid(rec);
