@@ -1,5 +1,5 @@
 ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogger) {
-    let settings = settingsService.settings.archiveCreation;
+    let settings;
 
     // PRIVATE API
     let findArchive = function(archives, fileSize) {
@@ -65,6 +65,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
 
     // PUBLIC API
     this.buildArchives = function(baseName, folder) {
+        settings = settingsService.settings.archiveCreation;
         makeArchives(baseName, folder, fh.getFiles(folder, {
             matching: settings.fileExprs,
             ignoreCase: true
