@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
+ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeLoadService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
     let relinkGames = [xelib.gmTES5, xelib.gmSSE];
 
     // helper functions
@@ -14,19 +14,11 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         $scope.merges.forEach(mergeStatusService.updateStatus);
     };
 
-    let updateMergeLoadOrder = function(merge) {
-        merge.loadOrder = $rootScope.loadOrder
-            .mapOnKey('filename')
-            .filter(filename => {
-                return merge.plugins.contains(p => p.filename === filename);
-            });
-    };
-
     let updateMergeLoadOrders = function() {
         $scope.merges.filter(merge => {
             return merge.useGameLoadOrder &&
                 merge.status !== 'Plugins unavailable';
-        }).forEach(updateMergeLoadOrder);
+        }).forEach(mergeLoadService.resetMergeLoadOrder);
     };
 
     let init = function() {

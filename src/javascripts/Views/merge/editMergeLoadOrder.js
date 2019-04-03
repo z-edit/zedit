@@ -1,4 +1,4 @@
-ngapp.controller('editMergeLoadOrderController', function($scope, $timeout) {
+ngapp.controller('editMergeLoadOrderController', function($scope, $timeout, mergeLoadService) {
     // helper functions
     let pluginInMerge = function(filename) {
         return !!$scope.merge.plugins.findByKey('filename', filename);
@@ -23,6 +23,11 @@ ngapp.controller('editMergeLoadOrderController', function($scope, $timeout) {
     };
 
     // event handlers
+    $scope.$watch('merge.useGameLoadOrder', () => {
+        if (!$scope.merge.useGameLoadOrder) return;
+        mergeLoadService.resetMergeLoadOrder($scope.merge);
+    });
+
     $scope.$on('itemsReordered', function(e) {
         $timeout(updateIndexes);
         updateLoadOrder();
