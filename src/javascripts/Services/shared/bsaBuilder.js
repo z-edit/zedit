@@ -45,10 +45,11 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
 
     let buildArchive = function(archive, folder) {
         let aType = xelib[`ba${gameService.appName}`] || xelib.baFO3,
+            fileName = fh.path(folder, archive.name),
             filePaths = archive.filePaths.join('\n');
         progressLogger.log(`Building archive ${archive.name} in ` +
             `${folder}, with ${archive.filePaths.length} files.`);
-        xelib.BuildArchive(archive.name, folder + '\\', filePaths, aType);
+        xelib.BuildArchive(fileName, folder + '\\', filePaths, aType);
     };
 
     let makeArchives = function(baseName, folder, filePaths) {
