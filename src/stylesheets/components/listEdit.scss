@@ -1,0 +1,10 @@
+.list-edit {
+  > div {
+    margin: 6px 0;
+  }
+
+  input[type="text"] {
+    min-width: 300px;
+    margin-right: 2px;
+  }
+}
