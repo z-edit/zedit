@@ -29,7 +29,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
         let fileSize = fh.getFileSize(filePath),
             archive = findArchive(archives, fileSize) ||
                 addArchive(archives, baseName);
-        archive.filePaths.push(filePath.slice(folder.length));
+        archive.filePaths.push(filePath.slice(folder.length + 1));
         archive.totalSize += fileSize;
     };
 
@@ -48,7 +48,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
             filePaths = archive.filePaths.join('\n');
         progressLogger.log(`Building archive ${archive.name} in ` +
             `${folder}, with ${archive.filePaths.length} files.`);
-        xelib.BuildArchive(archive.name, folder, filePaths, aType);
+        xelib.BuildArchive(archive.name, folder + '\\', filePaths, aType);
     };
 
     let makeArchives = function(baseName, folder, filePaths) {
