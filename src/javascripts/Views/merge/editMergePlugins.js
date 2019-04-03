@@ -47,15 +47,6 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             .mapOnKey('filename');
     };
 
-    let addToLoadOrder = function(item) {
-        $scope.merge.useGameLoadOrder ? updateMergeLoadOrder() :
-            $scope.merge.loadOrder.push(item.filename);
-    };
-
-    let removeFromLoadOrder = function(item) {
-        $scope.merge.loadOrder.remove(item.filename);
-    };
-
     // filtering
     $scope.loadOrderFilters = [{
         label: 'Search',
@@ -76,12 +67,12 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         }
         updateMergePlugins();
         updateWarningPlugins();
+        updateMergeLoadOrder();
     };
 
     // event handlers
     $scope.$on('itemToggled', function(e, item) {
         $scope.itemToggled(item);
-        item.active ? addToLoadOrder(item) : removeFromLoadOrder(item);
         e.stopPropagation();
     });
 

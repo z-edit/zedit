@@ -1,4 +1,4 @@
-ngapp.controller('editMergeLoadOrder', function($scope) {
+ngapp.controller('editMergeLoadOrderController', function($scope) {
     // helper functions
     let pluginInMerge = function(filename) {
         return !!$scope.merge.plugins.findByKey('filename', filename);
@@ -16,8 +16,10 @@ ngapp.controller('editMergeLoadOrder', function($scope) {
     };
 
     let updateIndexes = function() {
-        let n = 0;
-        $scope.loadOrder.forEach(entry => entry.index = n++);
+        $scope.$applyAsync(() => {
+            let n = 0;
+            $scope.loadOrder.forEach(entry => entry.index = n++);
+        });
     };
 
     // event handlers
