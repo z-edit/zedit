@@ -16,11 +16,13 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
     };
 
     let addArchive = function(archives, baseName) {
-        archives.push({
+        let archive = {
             name: getArchiveName(archives.length, baseName),
             totalSize: 0,
             filePaths: []
-        });
+        };
+        archives.push(archive);
+        return archive;
     };
 
     let addFileToArchive = function(archives, baseName, filePath) {
@@ -41,11 +43,12 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
             `not enough files.`);
     };
 
-    let buildArchive = function(archive) {
-        let aType = xelib[`ba${gameService.appName}`] || xelib.baFO3;
+    let buildArchive = function(archive, folder) {
+        let aType = xelib[`ba${gameService.appName}`] || xelib.baFO3,
+            filePaths = archive.filePaths.join('\n');
         progressLogger.log(`Building archive ${archive.name} in ` +
-            `${archive.folder}, with ${archive.filePaths.length} files.`);
-        xelib.BuildArchive(archive.name, folder, archive.filePaths, aType);
+            `${folder}, with ${archive.filePaths.length} files.`);
+        xelib.BuildArchive(archive.name, folder, filePaths, aType);
     };
 
     let makeArchives = function(baseName, folder, filePaths, compress) {
@@ -59,7 +62,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
                 return maxArchiveReached(archive);
             if (archive.filePaths.length < settings.minFileCount)
                 return notEnoughFiles(archive);
-            buildArchive(archive);
+            buildArchive(archive, folder);
         });
     };
 
