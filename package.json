@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "electron": "^2.0.8",
-    "electron-builder": "^20.28.4",
+    "electron-builder": "^20.39.0",
     "electron-rebuild": "^1.8.2",
     "gulp": "^4.0.0",
     "gulp-batch": "^1.0.5",
