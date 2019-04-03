@@ -52,6 +52,13 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
         xelib.BuildArchive(fileName, folder + '\\', filePaths, aType);
     };
 
+    let deleteFiles = function(archive, folder) {
+        archive.filePaths.forEach(filePath => {
+            fh.jetpack.remove(fh.path(folder, filePath));
+        });
+        fh.deleteEmptyFolders(folder);
+    };
+
     let makeArchives = function(baseName, folder, filePaths) {
         let maxArchives = settings.createMultipleArchives ? 999 :
                 (settings.createTexturesArchive ? 2 : 1);
@@ -64,6 +71,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
             if (archive.filePaths.length < settings.minFileCount)
                 return notEnoughFiles(archive);
             buildArchive(archive, folder);
+            deleteFiles(archive, folder);
         });
     };
 

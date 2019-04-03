@@ -56,6 +56,17 @@ fh.saveTextFile = function(filePath, value, encoding = 'utf8') {
     fs.writeFileSync(filePath, value, { encoding });
 };
 
+fh.deleteEmptyFolders = function(folder) {
+    let canDelete = true;
+    jetpack.list(folder).forEach(filename => {
+        let filePath = fh.path(folder, filename),
+            isDir = jetpack.exists(filePath) === 'dir';
+        canDelete = isDir && fh.deleteEmptyFolders(filePath) && canDelete;
+    });
+    if (canDelete) jetpack.remove(folder);
+    return canDelete;
+};
+
 fh.delete = function(path) {
     if(!fs.existsSync(path)) return;
     let isDir = fs.lstatSync(path).isDirectory();
