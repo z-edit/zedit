@@ -13,7 +13,7 @@ ngapp.run(function($rootScope, settingsService, gameService) {
 
     settingsService.registerSettings({
         label: 'Archive Creation Settings',
-        templateUrl: `/partials/settings/archiveCreation.html`,
+        templateUrl: `partials/settings/archiveCreation.html`,
         controller: 'archiveCreationSettingsController',
         defaultSettings: {
             archiveCreation: {
