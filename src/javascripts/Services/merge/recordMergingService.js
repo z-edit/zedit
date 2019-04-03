@@ -44,14 +44,22 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
         });
     };
 
+    let isOverrideInMerge = function(merge, rec) {
+        return xelib.WithHandle(xelib.GetMasterRecord(rec), master => {
+            return xelib.WithHandle(xelib.GetElementFile(master), file => {
+                return pluginInMerge(merge, xelib.Name(file));
+            });
+        });
+    };
+
     let shouldTrack = function(merge, rec) {
         let isOverride = xelib.IsOverride(rec),
             isInjected = xelib.IsInjected(rec);
         return (!isOverride && !isInjected) ||
-            (isInjected && isInjectedInMerge(merge, rec));
+            (isInjected && isInjectedInMerge(merge, rec)) ||
+            (isOverride && isOverrideInMerge(merge, rec));
     };
 
-    // TODO: don't copy losing overrides
     let copyPluginRecords = function(plugin, merge, trackNew) {
         let newRecords = [];
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
