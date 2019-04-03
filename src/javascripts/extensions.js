@@ -84,7 +84,9 @@ Number.prototype.toBytes = function(precision = 1) {
 // parse input bytes string into an integer
 window.parseBytes = function(bytesString) {
     let sp = bytesString.split(' '),
-        power = byteUnits.indexOf(sp[1]);
+        power = byteUnits.findIndex(unit => {
+            return unit.toLowerCase() === sp[1].toLowerCase();
+        });
     if (power === -1) return 0;
     return Math.floor(Number.parseFloat(sp[0]) * Math.pow(1024, power));
 };
