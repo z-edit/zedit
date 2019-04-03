@@ -69,7 +69,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
         handle: function(merge) {
             if (merge.archiveAction !== 'Merge') return;
             progressLogger.log('Building Merged BSAs');
-            bsaBuilder.buildArchives(merge.dataFolder);
+            let baseName = fh.getFileBase(merge.filename);
+            bsaBuilder.buildArchives(baseName, merge.dataPath);
         }
     })
 });
