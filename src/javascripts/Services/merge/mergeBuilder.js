@@ -61,7 +61,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         if (!merge.method) merge.method = DEFAULT_MERGE_METHOD;
         merge.failedToCopy = [];
         removeOldMergeFiles(merge);
-        progressLogger.init('merge', `${merge.dataPath}\\merge`);
+        let mergeFolderPath = `${merge.dataPath}\\merge - ${merge.name}`;
+        progressLogger.init('merge', mergeFolderPath);
         log(`\r\nBuilding merge ${merge.name}`);
         log(`Merge Folder: ${merge.dataPath}`);
         log(`Merge Method: ${merge.method}`);
