@@ -2,7 +2,7 @@
   "name": "zedit",
   "productName": "zEdit",
   "description": "A development environment for Bethesda Plugin Files.",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "author": "Mator",
   "copyright": "© 2017, Mator",
   "repository": "https://github.com/matortheeternal/zedit",
