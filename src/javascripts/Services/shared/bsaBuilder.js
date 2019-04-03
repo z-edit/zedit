@@ -25,11 +25,11 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
         return archive;
     };
 
-    let addFileToArchive = function(archives, baseName, filePath) {
+    let addFileToArchive = function(archives, baseName, filePath, folder) {
         let fileSize = fh.getFileSize(filePath),
             archive = findArchive(archives, fileSize) ||
                 addArchive(archives, baseName);
-        archive.filePaths.push(filePath);
+        archive.filePaths.push(filePath.slice(folder.length));
         archive.totalSize += fileSize;
     };
 
@@ -51,11 +51,11 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
         xelib.BuildArchive(archive.name, folder, filePaths, aType);
     };
 
-    let makeArchives = function(baseName, folder, filePaths, compress) {
+    let makeArchives = function(baseName, folder, filePaths) {
         let maxArchives = settings.createMultipleArchives ? 999 :
                 (settings.createTexturesArchive ? 2 : 1);
         filePaths.reduce((archives, filePath) => {
-            addFileToArchive(archives, baseName, filePath, compress);
+            addFileToArchive(archives, baseName, filePath, folder);
             return archives;
         }, []).forEach((archive, index) => {
             if (index + 1 > maxArchives)
