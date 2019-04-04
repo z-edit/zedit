@@ -1,6 +1,6 @@
 <list-view class="scrollable" items="plugins" filters="loadOrderFilters">
     <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled || $parent.item.isBethesdaPlugin" ng-show="!$parent.item.blacklisted" />
-    <span ng-class="{'disabled': $parent.item.disabled, 'required' : $parent.item.required, 'warn' : $parent.item.warn}" title="{{$parent.item.title}}">
+    <span ng-class="{'negative-fg': $parent.item.disabled, 'required' : $parent.item.required, 'neutral-fg' : $parent.item.warn}" title="{{$parent.item.title}}">
         {{::$parent.item.filename}}
     </span>
 </list-view>
