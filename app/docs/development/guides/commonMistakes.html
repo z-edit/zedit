@@ -1,0 +1,19 @@
+<h2>1. Declaring a variable without using <code>let</code>, <code>var</code>, or <code>const</code></h2>
+
+<p>You should always use <code>let</code> when declaring a variable for the first time.  While your code may run without using <code>let</code>, what you're doing is <a href="http://blog.niftysnippets.org/2008/03/horror-of-implicit-globals.html">creating global variables</a> which can cause serious issues.</p>
+
+<h2>2. Putting data in your <code>.js</code> script files</h2>
+
+<p>If you have a large amount of data (e.g. an array of objects), move it outside of your patcher/script JavaScript files into a JSON file and load that file from disk using zEdit's <code>fileHelpers</code> API.  Putting data directly into your script makes it bloated and difficult to work with.</p>
+
+<h2>3. Distributing your entire module/patcher folder instead of just the <code>dist</code> folder</h2>
+
+<p>If you're working off of the <a href="https://github.com/z-edit/zedit-example-patcher">zedit-example-patcher</a> or the <a href="https://github.com/z-edit/zedit-module-boilerplate">zedit-module-boilerplate</a> repository you should not be packaging your entire development folder for distribution.  Instead, run <code>npm run release</code> from the command line to build your code and generate a release archive from the <code>dist</code> folder.</p>
+
+<h2>4. Storing everything on <code>locals</code></h2>
+
+<p>You don't need to use <code>locals</code> to store everything in your patcher.  Any variables/functions which don't need to be reset each time your patcher is re-run can be declared as variables before you call <code>registerPatcher</code> using <code>let</code>.  Effectively, the only things that need to be stored on locals are values that are dependent on <code>xelib</code> or filesystem calls that need to be used in your <code>process</code> blocks or <code>finalize</code> function.</p>
+
+<h2>5. Setting <code>patchFileName</code></h2>
+
+<p>While setting a filename for your patch plugin is supported, it is not recommended.  If you don't set <code>patchFileName</code> in your patcher's <code>defaultSettings</code>, it will default to <code>zPatch.esp</code>.  This is recommended because UPF supports multiple patchers targetting the same plugin file.  There's no advantage to having your patcher target a separate plugin file, it just means patchers are taking up more slots in user's load orders.  Also, keep in mind, <code>patchFileName</code> only sets the default/initial filename your patcher is assigned to - users can change the plugins patchers target from the manage patchers modal.</p>

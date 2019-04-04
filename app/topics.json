@@ -13,7 +13,7 @@
   { "label": "Application Modes" },
   { "label": "Game Modes" },
   { "label": "Profiles" },
-  { "label":  "Arguments "},
+  { "label": "Arguments"},
   {
     "label": "Modules",
     "children": [
@@ -216,7 +216,8 @@
         "children": [
           { "label": "Creating Modules" },
           { "label": "Debugging Modules" },
-          { "label": "JavaScript" }
+          { "label": "JavaScript" },
+          { "label": "Common Mistakes" }
         ]
       }
     ]
