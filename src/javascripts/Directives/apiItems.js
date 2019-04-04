@@ -37,5 +37,6 @@ ngapp.controller('apiItemsController', function() {
     ctrl.items.forEach(item => {
         if (!item.type) item.type = 'function';
         item.isEvent = item.type === 'event';
+        item.isOptions = item.type === 'options';
     });
 });

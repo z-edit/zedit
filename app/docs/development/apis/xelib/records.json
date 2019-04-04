@@ -72,8 +72,8 @@
   },
   {
     "name": "GetREFRs Options",
-    "type": "enumeration",
-    "members": [
+    "type": "options",
+    "options": [
       {
         "key": "excludeDeleted",
         "description": "Pass true to exclude deleted REFRs."

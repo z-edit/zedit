@@ -1,4 +1,4 @@
-<div ng-repeat="item in vm.items" ng-init="short = !vm.api && !item.args && !item.api" ng-class="{'tint-bg' : vm.tintBg, 'legacy' : item.legacy}">
+<div ng-repeat="item in vm.items" ng-init="short = item.isOptions || !vm.api && !item.args && !item.api" ng-class="{'tint-bg' : vm.tintBg, 'legacy' : item.legacy}">
     <span class="title" ng-click="item.expanded = !item.expanded">
         <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}"></span>
         {{::item.name}}
@@ -33,6 +33,11 @@
         <div ng-if="::item.members">
             <span class="api-section-title">Members</span>
             <enumeration-members members="item.members"></enumeration-members>
+        </div>
+
+        <div ng-if="::item.options">
+            <span class="api-section-title">Options</span>
+            <function-options options="item.options"></function-options>
         </div>
 
         <div ng-if="::item.objectSchema">
