@@ -67,9 +67,7 @@ ngapp.service('mergeLoadService', function($rootScope, $q, $timeout, progressSer
     this.resetMergeLoadOrder = function(merge) {
         merge.loadOrder = $rootScope.loadOrder
             .mapOnKey('filename')
-            .filter(filename => {
-                return merge.plugins.contains(p => p.filename === filename);
-            });
+            .filter(filename => merge.loadOrder.includes(filename));
     };
 
     this.unload = function(merge) {
