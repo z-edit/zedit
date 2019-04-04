@@ -9,15 +9,12 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     };
 
     let buildPlugins = function() {
-        $scope.plugins = $rootScope.loadOrder.map(plugin => {
-            let filename = plugin.filename;
-            return {
-                filename: filename,
-                masterNames: plugin.masterNames.slice(),
-                active: !!getPluginObject($scope.merge.plugins, filename),
-                dataFolder: mergeDataService.getPluginDataFolder(filename)
-            }
-        });
+        $scope.plugins = $rootScope.loadOrder.map(plugin => ({
+            filename: plugin.filename,
+            masterNames: plugin.masterNames.slice(),
+            active: !!getPluginObject($scope.merge.plugins, plugin.filename),
+            dataFolder: mergeDataService.getPluginDataFolder(plugin.filename)
+        }));
     };
 
     let mergePluginMap = function(plugin) {
