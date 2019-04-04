@@ -7,7 +7,7 @@ ngapp.controller('editMergeLoadOrderController', function($scope, $timeout, merg
     let buildLoadOrder = function() {
         $scope.loadOrder = $scope.merge.loadOrder.map(filename => ({
             filename: filename,
-            active: pluginInMerge(filename),
+            active: pluginInMerge(filename)
         }));
     };
 

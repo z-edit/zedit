@@ -5,6 +5,7 @@
 </section>
 
 <list-view class="scrollable" items="loadOrder" drag-type="mergeLoadOrder" disable-drag="merge.useGameLoadOrder">
-    <span>[{{$parent.item.index | hex:2 }}]</span>
-    {{::$parent.item.filename}}
+    <span ng-class="{'positive-fg' : $parent.item.active}">
+        [{{$parent.item.index | hex:2 }}] {{::$parent.item.filename}}
+    </span>
 </list-view>
