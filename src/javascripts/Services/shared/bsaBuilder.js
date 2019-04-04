@@ -1,5 +1,7 @@
-ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogger) {
-    let settings;
+ngapp.service('bsaBuilder', function($rootScope, settingsService, gameService, progressLogger) {
+    let archiveExts = { 'FO4': '.ba2' },
+        settings,
+        archiveExt;
 
     // PRIVATE API
     let findArchive = function(archives, fileSize) {
@@ -9,10 +11,10 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
     };
 
     let getArchiveName = function(numArchives, baseName) {
-        if (numArchives === 0) return `${baseName}.bsa`;
+        if (numArchives === 0) return baseName + archiveExt;
         if (settings.createTexturesArchive && numArchives === 1)
-            return `${baseName} - Textures.bsa`;
-        return `${baseName} - ${numArchives + 1}.bsa`;
+            return `${baseName} - Textures${archiveExt}`;
+        return `${baseName} - ${numArchives + 1}${archiveExt}`;
     };
 
     let addArchive = function(archives, baseName) {
@@ -61,7 +63,7 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
 
     let makeArchives = function(baseName, folder, filePaths) {
         let maxArchives = settings.createMultipleArchives ? 999 :
-                (settings.createTexturesArchive ? 2 : 1);
+            (settings.createTexturesArchive ? 2 : 1);
         filePaths.reduce((archives, filePath) => {
             addFileToArchive(archives, baseName, filePath, folder);
             return archives;
@@ -83,4 +85,10 @@ ngapp.service('bsaBuilder', function(settingsService, gameService, progressLogge
             ignoreCase: true
         }));
     };
+
+    // event handlers
+    $rootScope.$on('sessionStarted', () => {
+        archiveExt = archiveExts[gameService.appName] || '.bsa';
+        settings = settingsService.settings.archiveCreation;
+    });
 });
