@@ -1,0 +1,42 @@
+<p>The archive creation settings tab allows you to configure how Bethesda archive files are created when merging plugins.</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Setting</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap">Files to include</td>
+        <td>
+            A list of <a href="https://github.com/isaacs/node-glob#glob-primer">glob expressions</a> used to find files to include when building a Bethesda archive file.  You can add a new expression by clicking the "Add" button and delete an existing expression by clicking the red "X" button by it.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Maximum archive size</td>
+        <td>
+            The maximum filesize an archive is allowed to reach before files are moved into a different archive or left loose.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Minimum files per archive</td>
+        <td>
+            The minimum number of files required to create a Bethesda archive file.  If there are less than this many files available to be archived, a Bethesda archive file will not be created.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Create textures archive</td>
+        <td>
+            If enabled, a ` - Textures` archive will be created if the maximum archive file size is reached on the first archive.
+        </td>
+    </tr>
+    <tr>
+        <td class="nowrap">Creature multiple archives</td>
+        <td>
+            If enabled, an extra archive will be created whenever the maximum archive file size is reached on an archive.  Extra archives are named in the format: <code>&lt;BaseName&gt; - &lt;ArchiveNumber&gt;.&lt;ArchiveExtension&gt;</code>.
+        </td>
+    </tr>
+    </tbody>
+</table>
