@@ -25,15 +25,15 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let allPluginsAvailable = function(merge) {
-        return merge.plugins.filter(plugin => {
+        return merge.plugins.reduce((b, plugin) => {
             plugin.available = pluginAvailable(plugin.filename);
-            return !plugin.available;
-        }).length === 0;
+            return b && plugin.available;
+        }, true);
     };
 
     let mergedPluginExists = function(merge) {
         let mergePath = settingsService.settings.mergePath,
-            path = `${mergePath}\\${merge.name}\\${merge.filename}`;
+            path = fh.path(mergePath, merge.name, merge.filename);
         return fh.jetpack.exists(path);
     };
 

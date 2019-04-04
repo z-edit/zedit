@@ -21,10 +21,11 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     };
 
     let mergePluginMap = function(plugin) {
-        let obj = getPluginObject($scope.merge.plugins, plugin.filename);
+        let obj = getPluginObject($scope.merge.plugins, plugin.filename),
+            pluginPath = fh.path(plugin.dataFolder, plugin.filename);
         return {
             filename: plugin.filename,
-            hash: obj && obj.hash,
+            hash: obj ? obj.hash : fh.getMd5Hash(pluginPath),
             dataFolder: plugin.dataFolder
         }
     };
