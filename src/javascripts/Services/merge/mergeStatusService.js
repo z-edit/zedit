@@ -1,17 +1,22 @@
 ngapp.service('mergeStatusService', function($rootScope, settingsService) {
-    let getOldPlugin = function(merge, filename) {
-        if (!merge.oldPlugins) return;
-        return merge.oldPlugins.findByKey('filename', filename);
+    let getPluginObject = function(plugins, filename) {
+        return plugins && plugins.findByKey('filename', filename);
     };
 
     let pluginsChanged = function(merge) {
-        return merge.plugins.filter(plugin => {
-            let oldPlugin = getOldPlugin(merge, plugin.filename);
+        return merge.plugins.reduce((b, plugin) => {
+            let oldPlugin = getPluginObject(merge.oldPlugins, plugin.filename);
             plugin.added = !oldPlugin;
             plugin.changed = oldPlugin && (plugin.hash !== oldPlugin.hash ||
                 plugin.dataFolder !== oldPlugin.dataFolder);
-            return plugin.changed || plugin.added;
-        }).length > 0;
+            return b || plugin.changed || plugin.added;
+        }, false);
+    };
+
+    let pluginsRemoved = function(merge) {
+        return merge.oldPlugins.reduce((b, plugin) => {
+            return b || !getPluginObject(merge.plugins, plugin.filename);
+        }, false);
     };
 
     let pluginAvailable = function(filename) {
@@ -33,7 +38,8 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let upToDate = function(merge) {
-        return mergedPluginExists(merge) && !pluginsChanged(merge);
+        return mergedPluginExists(merge) && !pluginsChanged(merge)
+            && !pluginsRemoved(merge);
     };
 
     let getStatus = function(merge) {
