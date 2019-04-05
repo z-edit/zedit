@@ -46,7 +46,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     // scope functions
     $scope.buildMerge = function(merge) {
         mergeBuilder.buildMerges([merge]);
-        mergeStatusService.updateStatus(merge);
+
     };
 
     $scope.editMerge = function(merge) {
@@ -78,9 +78,6 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         });
         if (mergesToBuild.length === 0) return;
         mergeBuilder.buildMerges(mergesToBuild);
-        mergesToBuild.forEach(merge => {
-            mergeStatusService.updateStatus(merge);
-        });
     };
 
     $scope.relinkScripts = function() {

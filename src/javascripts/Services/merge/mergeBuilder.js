@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, mergeMasterService, referenceService, progressService, gameService) {
+ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeService, mergeStatusService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, mergeMasterService, referenceService, progressService, gameService) {
     let {log, progress} = progressLogger;
 
     const DEFAULT_MERGE_METHOD = 'Clean';
@@ -100,6 +100,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         saveMergeFiles(merge);
         if (merge.builtWithErrors)
             throw new Error('Merge built with errors.');
+        merge.oldPlugins = angular.copy(merge.plugins);
+        mergeStatusService.updateStatus(merge);
         cleanupMerge(merge);
         log(`Completed merge ${merge.name}.`);
         progressLogger.close(false);
@@ -114,6 +116,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
 
     let onMergeSuccess = function() {
         progressService.success(`${mergesToBuild.length} merges built successfully`);
+        $rootScope.$applyAsync();
     };
 
     let buildMerge = function(merge) {
