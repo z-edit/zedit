@@ -54,12 +54,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     let importMergeData = function(merge) {
-        let oldMerge = fh.loadJsonFile(fh.path(
-            getMergePath(),
-            merge.name,
-            `merge - ${merge.name}`,
-            'merge.json'
-        ));
+        let mergeFolder = service.getMergeFolder(merge),
+            oldMerge = fh.loadJsonFile(fh.path(mergeFolder, 'merge.json'));
         merge.method = !merge.method ? 'Clobber' :
             mergeMethodMap[merge.method] || merge.method;
         merge.oldPlugins = oldMerge && oldMerge.plugins;
