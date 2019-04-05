@@ -1,4 +1,4 @@
-ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, progressLogger, gameService) {
+ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, settingsService, mergeService, progressLogger, gameService) {
     let {log, warn, progress} = progressLogger,
         opcodes = require('pex-parser/src/opcodes.js');
 
@@ -33,10 +33,10 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
 
     let buildFormIdMap = function(merges) {
         progress('Building Form ID map');
-        let mergePath = settingsService.settings.mergePath;
         return merges.reduce((fidMap, merge) => {
             log(`Loading FormID map for ${merge.name}`);
-            let path = `${mergePath}\\${merge.name}\\merge\\map.json`,
+            let mergeFolderPath = mergeService.getMergeFolder(merge),
+                path = fh.path(mergeFolderPath, 'map.json'),
                 map = fh.loadJsonFile(path);
             if (!map) warn(`Form ID map for ${merge.name} not found at ${path}`);
             return Object.assign(fidMap, map || {});

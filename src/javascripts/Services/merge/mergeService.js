@@ -67,6 +67,16 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     // public api
+    this.getMergeFolder = function(merge) {
+        let baseFolder = fh.path(getMergePath(), merge.name);
+        let mergeFolders = fh.getFiles(baseFolder, {
+            matching: 'merge*',
+            directories: true,
+            files: false
+        });
+        return mergeFolders[0] || fh.path(baseFolder, 'merge');
+    };
+
     this.newMerge = function() {
         let mergeName = getNewMergeName();
         return initMergeData({
