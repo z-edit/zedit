@@ -66,7 +66,7 @@ TODO
             - `change` - Nested change object only present when `type` is `ResolveArrayItem`.
 
 ## Merging differences
-When merging differences in a given override record we can ignore previous overrides and skip their processing.  We only need to process the final "leaves" of the record tree relative to the root.  E.g.
+Assuming all plugins use the same resolution rules, when merging differences in a given override record we can ignore previous overrides and skip their processing.  We only need to process the final "leaves" of the record tree relative to the root.  E.g.
 
 ```
                   A
