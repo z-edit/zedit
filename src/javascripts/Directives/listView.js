@@ -45,6 +45,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         });
     };
 
+    let onSameItem = function(dragData, e, index) {
+        return e.target === dragData.element &&
+            index === dragData.index;
+    };
+
     // inherited variables and functions
     $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
@@ -149,9 +154,10 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (e.button === 2) $scope.showContextMenu(e);
     };
 
-    $scope.onItemDrag = function(index) {
+    $scope.onItemDrag = function(e, index) {
         if (!$scope.dragType || $scope.disableDrag) return;
         $scope.$root.$broadcast('startDrag', {
+            element: e.target,
             source: $scope.dragType,
             index: index,
             getItem: () => $scope.items.splice(index, 1)[0]
@@ -163,7 +169,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!$scope.dragType || $scope.disableDrag) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
-        if (dragData.index === index) return true;
+        if (onSameItem(dragData, e, index)) return true;
         let after = e.offsetY > (e.target.offsetHeight / 2);
         e.target.classList[after ? 'add' : 'remove']('insert-after');
         e.target.classList[after ? 'remove' : 'add']('insert-before');
@@ -181,7 +187,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!$scope.dragType || $scope.disableDrag) return;
         let dragData = $scope.$root.dragData;
         if (!dragData || dragData.source !== $scope.dragType) return;
-        if (dragData.index === index) return;
+        if (onSameItem(dragData, e, index)) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
             lengthBefore = $scope.items.length,
             movedItem = dragData.getItem(),

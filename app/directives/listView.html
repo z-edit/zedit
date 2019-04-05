@@ -1,5 +1,5 @@
 <div class="list-items" ng-class="{'dragging' : dragging}">
-    <div ng-repeat="item in items" class="list-item" ng-class="{'selected': item.selected}" ng-mousedown="onItemMouseDown($event, $index)" ng-drag="onItemDrag($index)" ng-drop="onItemDrop($event, $index)" drag-over="onItemDragOver($event, $index)" drag-leave="onItemDragLeave($event)" ng-transclude></div>
+    <div ng-repeat="item in items" class="list-item" ng-class="{'selected': item.selected}" ng-mousedown="onItemMouseDown($event, $index)" ng-drag="onItemDrag($event, $index)" ng-drop="onItemDrop($event, $index)" drag-over="onItemDragOver($event, $index)" drag-leave="onItemDragLeave($event)" ng-transclude></div>
     <div ng-if="!items.length && dragType" class="placeholder" ng-drop="onPlaceholderDrop($event)" drag-over="onPlaceholderDragOver()"></div>
 </div>
 <div class="filter-container" ng-if="filterItems">
