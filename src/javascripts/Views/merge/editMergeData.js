@@ -1,6 +1,6 @@
 ngapp.controller('editMergeDataController', function($scope, mergeDataService, progressService) {
-    let assetArrayNames = ['archives', 'faceData', 'voiceData',
-        'scriptFragments', 'stringFiles', 'translations', 'iniFiles'];
+    let assetArrayNames = ['faceData', 'voiceData', 'scriptFragments',
+        'stringFiles', 'translations', 'iniFiles'];
 
     // helper functions
     let buildMergeData = function() {
@@ -33,6 +33,12 @@ ngapp.controller('editMergeDataController', function($scope, mergeDataService, p
         plugin.dataFolder = newPath;
         $scope.setDataFolder(plugin);
     };
+
+    // event handlers
+    $scope.$watch('merge.buildMergedArchive', () => {
+        if (!$scope.merge.buildMergedArchive) return;
+        $scope.merge.archiveAction = 'Extract';
+    });
 
     // initialization
     buildMergeData();

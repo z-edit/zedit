@@ -50,14 +50,19 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
 
     let importPluginData = function(plugin) {
         mergeDataService.updatePluginDataFolder(plugin);
-        plugin.hash = fh.getMd5Hash(plugin.dataFolder + plugin.filename);
+        let pluginPath = fh.path(plugin.dataFolder, plugin.filename);
+        plugin.hash = fh.getMd5Hash(pluginPath);
     };
 
     let importMergeData = function(merge) {
         let mergeFolder = service.getMergeFolder(merge),
             oldMerge = fh.loadJsonFile(fh.path(mergeFolder, 'merge.json'));
-        merge.method = !merge.method ? 'Clobber' :
-            mergeMethodMap[merge.method] || merge.method;
+        merge = Object.assign(service.newMerge(), merge);
+        merge.method = mergeMethodMap[merge.method] || merge.method;
+        if (merge.archiveAction === 'Merge') {
+            merge.buildMergedArchive = true;
+            merge.archiveAction = 'Extract';
+        }
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
     };
@@ -82,8 +87,9 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             plugins: [],
             loadOrder: [],
             status: 'Ready to be built',
-            archiveAction: 'Merge',
-            useGameLoadOrder: true,
+            archiveAction: 'Extract',
+            buildMergedArchive: false,
+            useGameLoadOrder: false,
             handleFaceData: true,
             handleVoiceData: true,
             handleBillboards: true,

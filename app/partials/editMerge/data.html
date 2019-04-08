@@ -9,24 +9,24 @@
     </content>
 </expandable-section>
 
-<div ng-show="noAssets" class="content-message">
-    No data files were found for this merge.
-</div>
-
-<expandable-section class="asset-section" ng-if="merge.archives.length">
+<expandable-section class="asset-section" ng-if="merge.plugins.length">
     <title>Bethesda Archives ({{merge.archives.length}})</title>
     <content>
         <label>
+            <input type="checkbox" ng-model="merge.buildMergedArchive" />
+            Build Merged Archive
+        </label>
+
+        <label>
             Archive Action
-            <select ng-model="merge.archiveAction">
-                <option>Merge</option>
+            <select ng-model="merge.archiveAction" ng-disabled="merge.buildMergedArchive">
                 <option>Extract</option>
                 <option>Copy</option>
                 <option>Ignore</option>
             </select>
         </label>
 
-        <div class="table-container">
+        <div class="table-container" ng-if="merge.archives.length">
             <table class="files-table">
                 <thead>
                 <tr>
@@ -46,6 +46,10 @@
         </div>
     </content>
 </expandable-section>
+
+<div ng-show="noAssets" class="content-message">
+    No data files were found for this merge.
+</div>
 
 <expandable-section class="asset-section" ng-if="merge.faceData.length">
     <title>NPC Face Data</title>

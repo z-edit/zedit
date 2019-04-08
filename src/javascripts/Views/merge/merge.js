@@ -46,7 +46,6 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     // scope functions
     $scope.buildMerge = function(merge) {
         mergeBuilder.buildMerges([merge]);
-
     };
 
     $scope.editMerge = function(merge) {

@@ -16,8 +16,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
             progressLogger.log(`Copying ${archive.filePath} to ${newPath}`, true);
             fh.jetpack.copy(archive.filePath, newPath, { overwrite: true });
         },
-        "Extract": extractAction,
-        "Merge": extractAction
+        "Extract": extractAction
     };
 
     mergeAssetService.addHandler({
@@ -67,8 +66,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
         label: 'Merged BSA',
         priority: 200,
         handle: function(merge) {
-            if (merge.archiveAction !== 'Merge') return;
-            progressLogger.log('Building Merged BSAs');
+            if (!merge.buildMergedArchive) return;
+            progressLogger.log('Building Merged Archives');
             let baseName = fh.getFileBase(merge.filename);
             bsaBuilder.buildArchives(baseName, merge.dataPath);
         }
