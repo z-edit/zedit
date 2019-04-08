@@ -1,6 +1,6 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'buildMergedArchive', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'],
         mergeMethodMap = { Clamp: 'Clobber', Refactor: 'Clean' };
 
@@ -65,6 +65,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         }
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
+        return merge;
     };
 
     // public api
@@ -108,8 +109,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     this.loadMerges = function() {
         let profileName = settingsService.currentProfile;
         service.mergeDataPath = `profiles/${profileName}/merges.json`;
-        service.merges = fh.loadJsonFile(service.mergeDataPath) || [];
-        service.merges.forEach(importMergeData);
+        let merges = fh.loadJsonFile(service.mergeDataPath) || [];
+        service.merges = merges.map(importMergeData);
         service.saveMerges();
     };
 
