@@ -97,6 +97,10 @@
     title {
       display: inline-block;
     }
+
+    label:not(:first-of-type) {
+      margin-top: 10px;
+    }
   }
 
   expandable-section.assets-list-section {

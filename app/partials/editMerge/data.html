@@ -10,16 +10,16 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.plugins.length">
-    <title>Bethesda Archives ({{merge.archives.length}})</title>
+    <title>Bethesda Archives</title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.buildMergedArchive" />
             Build Merged Archive
         </label>
 
-        <label>
+        <label ng-hide="merge.buildMergedArchive">
             Archive Action
-            <select ng-model="merge.archiveAction" ng-disabled="merge.buildMergedArchive">
+            <select ng-model="merge.archiveAction">
                 <option>Extract</option>
                 <option>Copy</option>
                 <option>Ignore</option>
