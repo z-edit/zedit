@@ -48,13 +48,16 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
         progressService.showProgress(progress);
     };
 
-    // TODO: Prompt and ShowModal?
     let buildZEditContext = function(targetScope) {
         return Object.deepAssign({
             NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
             GetSelectedRecords: getSelectedRecords(targetScope),
-            progressService: { showProgress }
+            progressService: { showProgress },
+            log: logger.log,
+            info: logger.info,
+            warn: logger.warn,
+            error: logger.error
         }, interApiService.getApi('zeditScripting'));
     };
 
