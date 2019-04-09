@@ -5,7 +5,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
           fragmentPath = 'VMAD\\Script Fragments\\fileName';
 
-    let fragmentExpr = /.*scripts[\/\\].*(qf|tif|sf|prkf|pf)_.*_[a-f0-9]{8}.pex/i;
+    let fragmentExpr = /.*scripts[\/\\].*_([a-f0-9]{8}).pex/i;
 
     let getPluginHandle = function(merge, filename) {
         let plugin = merge.plugins.findByKey('filename', filename);

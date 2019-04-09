@@ -4,7 +4,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
         pluginExpr = /[^\\]+\.es[plm]\\/i,
-        fragmentExpr = /.*scripts[\/\\].*(qf|tif|sf)_.*_[a-f0-9]{8}.pex$/i;
+        fragmentExpr = /.*scripts[\/\\].*_[a-f0-9]{8}.pex$/i;
 
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
