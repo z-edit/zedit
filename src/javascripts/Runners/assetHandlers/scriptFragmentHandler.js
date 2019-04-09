@@ -44,7 +44,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             return getFragmentsFromPlugin(pluginFile, group, fragments);
         }, []).filter(fragment => {
             let fragmentFile = fragmentFiles.find(f => {
-                return f.filename === fragment.filename;
+                return f.filename.equals(fragment.filename, true);
             });
             if (!fragmentFile) return;
             fragment.filePath = fragmentFile.filePath;
