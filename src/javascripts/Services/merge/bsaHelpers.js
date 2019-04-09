@@ -50,10 +50,9 @@ ngapp.service('bsaHelpers', function(progressLogger) {
     };
 
     this.extractArchive = function(archive) {
-        let outputPath = fh.path('temp', archive.filename);
+        let outputPath = fh.path('temp', archive.filename) + '\\';
         if (fh.jetpack.exists(outputPath) !== 'dir') {
             progressLogger.log(`Extracting ${archive.filename}`, true);
-            outputPath += '\\';
             xelib.ExtractContainer(archive.filePath, outputPath, true);
         }
         return outputPath;

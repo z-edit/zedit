@@ -50,7 +50,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
             if (!merge.extracted.length) return;
             progressLogger.log('Handling Extracted Files');
             merge.extracted.forEach(folder => {
-                let folderLen = folder.length + 1;
+                let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
                     let localPath = filePath.slice(folderLen),
                         newPath = fh.path(merge.dataPath, localPath);
