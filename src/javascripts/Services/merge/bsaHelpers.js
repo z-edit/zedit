@@ -29,6 +29,10 @@ ngapp.service('bsaHelpers', function(progressLogger) {
         return getBsaFiles(bsaPath).filter(path => expr.match(path));
     };
 
+    this.getFiles = function(bsaPath) {
+        return getBsaFiles(bsaPath);
+    };
+
     this.extractFile = function(bsaFileName, filePath) {
         let outputPath = fh.path('temp', bsaFileName, filePath);
         if (fh.jetpack.exists(outputPath) !== 'file') {

@@ -26,24 +26,16 @@
             </select>
         </label>
 
-        <div class="table-container" ng-if="merge.archives.length">
-            <table class="files-table">
-                <thead>
-                <tr>
-                    <th>File</th>
-                    <th>File Size</th>
-                    <th>Associated Plugin</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="archive in merge.archives">
-                    <td title="{{::archive.filePath}}">{{::archive.filename}}</td>
-                    <td>{{::archive.fileSize | bytes}}</td>
-                    <td>{{::archive.plugin}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.archives">
+            <title>{{::entry.filename}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">
+                        {{::asset}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 

@@ -29,7 +29,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
                         plugin: plugin,
                         filePath: bsaPath,
                         filename: fh.getFileName(bsaPath),
-                        fileSize: fh.getFileSize(bsaPath)
+                        assets: bsaHelpers.getFiles(bsaPath)
                     });
                 });
             }, { useGameDataFolder: true });
