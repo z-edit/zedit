@@ -56,7 +56,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
                         newPath = fh.path(merge.dataPath, localPath);
                     progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
                     fh.jetpack.dir(fh.getDirectory(newPath));
-                    fh.jetpack.move(filePath, newPath, { overwrite: true });
+                    fh.jetpack.copy(filePath, newPath, { overwrite: true });
                 });
             });
         }
