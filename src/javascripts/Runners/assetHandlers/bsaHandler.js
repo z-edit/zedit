@@ -50,11 +50,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
             if (!merge.extracted.length) return;
             progressLogger.log('Handling Extracted Files');
             merge.extracted.forEach(folder => {
-                let folderLen = folder.length;
+                let folderLen = folder.length + 1;
                 findGeneralAssets(folder, merge).forEach(filePath => {
                     let localPath = filePath.slice(folderLen),
                         newPath = fh.path(merge.dataPath, localPath);
-                    progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
+                    progressLogger.log(`Copying ${filePath} to ${newPath}`, true);
                     fh.jetpack.dir(fh.getDirectory(newPath));
                     fh.jetpack.copy(filePath, newPath, { overwrite: true });
                 });
