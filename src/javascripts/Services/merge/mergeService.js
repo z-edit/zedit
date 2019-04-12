@@ -87,7 +87,6 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             method: 'Clobber',
             plugins: [],
             loadOrder: [],
-            status: 'Ready to be built',
             archiveAction: 'Extract',
             buildMergedArchive: false,
             useGameLoadOrder: false,

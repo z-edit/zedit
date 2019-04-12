@@ -1,4 +1,5 @@
 ngapp.service('mergeStatusService', function($rootScope, settingsService) {
+    // private
     let getPluginObject = function(plugins, filename) {
         return plugins && plugins.findByKey('filename', filename);
     };
@@ -61,10 +62,15 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
         });
     };
 
+    // public
     this.updateStatus = function(merge) {
         merge.status = getStatus(merge);
         merge.canBuild = merge.status === 'Up to date' ||
             merge.status === 'Ready to be built';
         updatePluginTitles(merge);
+    };
+
+    this.readyToBeBuilt = function(merge) {
+        return merge.status === 'Ready to be built';
     };
 });

@@ -7,11 +7,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeLoadService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
-    let relinkGames = [xelib.gmTES5, xelib.gmSSE];
+    let {cacheDataFolders, updatePluginDataFolder} = mergeDataService,
+        {readyToBeBuilt, updateStatus} = mergeStatusService,
+        relinkGames = [xelib.gmTES5, xelib.gmSSE];
 
     // helper functions
     let updateMergeStatuses = function() {
-        $scope.merges.forEach(mergeStatusService.updateStatus);
+        $scope.merges.forEach(updateStatus);
     };
 
     let updateMergeLoadOrders = function() {
@@ -35,7 +37,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
 
     let openSaveModal = function(shouldFinalize = true) {
         if ($scope.$root.modalActive) return;
-        if (!shouldFinalize && !$scope.mergedPlugins.length) return;
+        if (!shouldFinalize && !$scope.merges.length) return;
         $scope.$emit('openModal', 'save', {
             controller: 'mergeSaveModalController',
             shouldFinalize: shouldFinalize,
@@ -49,7 +51,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.editMerge = function(merge) {
-        $scope.$emit('openModal', 'editMerge', { merge: merge });
+        $scope.$emit('openModal', 'editMerge', { merge });
     };
 
     $scope.deleteMerge = function(merge) {
@@ -64,7 +66,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
             let filePath = fh.path(gameService.dataPath, filename);
             return fh.jetpack.exists(filePath);
         });
-        mergeStatusService.updateStatus(merge);
+        updateStatus(merge);
     };
 
     $scope.createMerge = function() {
@@ -72,9 +74,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     };
 
     $scope.buildMerges = function() {
-        let mergesToBuild = $scope.merges.filter(merge => {
-            return merge.status === 'Ready to be built';
-        });
+        let mergesToBuild = $scope.merges.filter(readyToBeBuilt);
         if (mergesToBuild.length === 0) return;
         mergeBuilder.buildMerges(mergesToBuild);
     };
@@ -87,20 +87,16 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         fh.openFile(plugin.dataFolder);
     };
 
-    $scope.toggleDetails = function(plugin) {
-        plugin.showDetails = !plugin.showDetails;
-    };
-
     // event handlers
     $scope.$on('settingsClick', function() {
         $scope.$emit('openModal', 'settings');
     });
 
     $scope.$on('updateDataFolders', function() {
-        mergeDataService.cacheDataFolders();
-        $scope.merges.forEach(merge => merge.plugins.forEach(plugin => {
-            mergeDataService.updatePluginDataFolder(plugin);
-        }));
+        cacheDataFolders();
+        $scope.merges.forEach(merge =>
+            merge.plugins.forEach(updatePluginDataFolder)
+        );
     });
 
     $scope.$on('save', () => openSaveModal(false));
