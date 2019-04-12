@@ -56,6 +56,7 @@ ngapp.service('loadOrderService', function($rootScope) {
     };
 
     let activatePlugin = function(item) {
+        if (item.disabled) return;
         item.active = true;
         service.activateMasters(item);
     };
