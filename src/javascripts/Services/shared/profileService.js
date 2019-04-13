@@ -81,7 +81,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
 
     this.validateProfile = function(profile) {
         let game = service.getGame(profile.gameMode),
-            exePath = profile.gamePath + game.exeName;
+            exePath = fh.path(profile.gamePath, game.exeName);
         profile.valid = fh.jetpack.exists(exePath) === 'file';
     };
 

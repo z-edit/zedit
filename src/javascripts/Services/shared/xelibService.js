@@ -28,7 +28,9 @@ ngapp.service('xelibService', function() {
     this.startSession = function(profile) {
         logger.info(`User selected profile: ${profile.name}`);
         logger.info(`Using game mode: ${xelib.gameModes[profile.gameMode]}`);
-        xelib.SetGamePath(profile.gamePath);
+        let gamePath = profile.gamePath;
+        if (!gamePath.endsWith('\\')) gamePath += '\\';
+        xelib.SetGamePath(gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
         printPaths();
