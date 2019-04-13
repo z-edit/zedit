@@ -1,0 +1,14 @@
+<div class="viewport test-view">
+    <div class="scroll-container">
+        <div class="center-container">
+            <div class="test-items">
+                <test-item ng-repeat="test in tests" class="content-block"></test-item>
+            </div>
+        </div>
+    </div>
+
+    <div class="primary-actions">
+        <button class="action-btn" ng-click="runTests()">Run Tests</button>
+        <button class="action-btn positive" ng-click="createTest()">Create Test</button>
+    </div>
+</div>
