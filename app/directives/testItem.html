@@ -1,0 +1,44 @@
+<div class="content-title">{{test.name}}
+    <span class="right">
+        <button class="action-btn small no-hover" ng-show="test.canRun" ng-click="runTest(test)">
+            Run
+        </button>
+        <button class="action-btn small no-hover" ng-click="editTest(test)">
+            Edit
+        </button>
+        <button class="action-btn small negative no-hover" ng-click="deleteTest(test)">
+            Delete
+        </button>
+    </span>
+</div>
+<div class="content-container">
+    <div class="test-info">
+        <div>
+            <b>Status:</b>
+            <span class="status-{{test.status | classify}}">{{test.status}}</span>
+        </div>
+        <div>
+            <b>Last Run:</b>
+            <span class="last-run {{test.dateRun ? 'neutral-fg' : 'negative-fg'}}">
+                {{test.dateRun | customDate}}
+            </span>
+        </div>
+    </div>
+
+    <div class="test-files">
+        <table>
+            <thead>
+            <tr>
+                <th>File</th>
+                <th>Folder</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="testFile in test.testFiles">
+                <td ng-class="{'positive-fg': testFile.added, 'neutral-fg' : testFile.changed, 'negative-fg' : !testFile.available}" title="{{testFile.title}}">{{::testFile.path}}</td>
+                <td>{{::testFile.folder}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
