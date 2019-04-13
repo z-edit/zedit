@@ -21,6 +21,10 @@ ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
         name: 'smash',
         loader: 'storeLoadOrder',
         hidden: true
+    }, {
+        name: 'test',
+        loader: 'storeLoadOrder',
+        hidden: true
     }];
 
     let loaders = {
