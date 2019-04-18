@@ -31,7 +31,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     // scope functions
     $scope.showContextMenu = function(e) {
-        if ($scope.focusedIndex === 0 || !$scope.selectedNodes.length) return;
+        if ($scope.focusedIndex === 0) return;
         contextMenuService.showContextMenu($scope, e);
     };
 
