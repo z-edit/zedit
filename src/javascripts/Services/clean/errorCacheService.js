@@ -3,7 +3,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
 
     // PRIVATE HELPER FUNCTIONS
     let buildErrors = function(plugin, errors) {
-        return errors.map(function(error) {
+        return errors.map(error => {
             let rec = xelib.GetRecord(plugin.handle, error.f);
             let x = {
                 handle: rec,
@@ -42,7 +42,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
         let fileRegex = /(.+\.es[p|m])\-([a-zA-Z0-9]{32})\.json/,
             results = fileRegex.exec(filename);
         if (!results) return;
-        let entry = errorCache.find(function(entry) {
+        let entry = errorCache.find(entry => {
             return entry.filename === results[1];
         });
         let file = buildFileEntry(filename, results);
@@ -62,7 +62,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
             matching: '*.json',
             files: true,
             directories: false
-        }).forEach(function(path) {
+        }).forEach(path => {
             try {
                 addCacheEntry(fh.getFileName(path));
             } catch(x) {
@@ -72,7 +72,7 @@ ngapp.service('errorCacheService', function(errorMessageService) {
     };
 
     let sanitizeErrors = function(errors) {
-        return errors.map(function(error) {
+        return errors.map(error => {
             let x = {
                 g: error.group,
                 f: error.form_id

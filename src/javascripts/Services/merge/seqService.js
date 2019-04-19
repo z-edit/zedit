@@ -13,12 +13,13 @@ ngapp.service('seqService', function(progressLogger) {
     };
 
     let masterIsMerged = function(rec, merge) {
+        if (merge.method === 'Clean') return xelib.IsMaster(rec);
         return xelib.WithHandle(xelib.GetMasterRecord(rec), m => {
             return xelib.WithHandle(xelib.GetElementFile(m), f => {
                 let masterName = xelib.Name(f);
-                return merge.plugins.findIndex(plugin => {
+                return merge.plugins.contains(plugin => {
                     return plugin.filename === masterName;
-                }) > -1;
+                });
             });
         });
     };

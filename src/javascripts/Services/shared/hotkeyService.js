@@ -19,8 +19,8 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
     buildKeyCodes(112, 123, (i) => { return `f${i - 111}`; }); // f1-f12
 
     let getSatisfiedAction = function(actions, e) {
-        return actions.find(function(a) {
-            return a.modifiers.reduce(function(b, modifier) {
+        return actions.find(a => {
+            return a.modifiers.reduce((b, modifier) => {
                 return b && e[modifier];
             }, true);
         });
@@ -43,7 +43,7 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
 
     let keyEventHandler = function(scope, hotkeys) {
         return function (e) {
-            let hotkey = Object.keys(hotkeys).find(function(key) {
+            let hotkey = Object.keys(hotkeys).find(key => {
                 return e.keyCode === keycodes[key];
             }) || 'default';
             if (!hotkeys[hotkey]) return;

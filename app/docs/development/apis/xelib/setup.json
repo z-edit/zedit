@@ -79,6 +79,17 @@
     "description": "Array of game objects corresponding to each supported game mode."
   },
   {
+    "name": "GetGamePath",
+    "args": [{
+      "name": "gameMode",
+      "type": "integer"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Retrieves the path to the game corresponding to `gameMode` from the registry.  Returns an empty string if the game path cannot be found.  See the `gameModes` enumeration for a list of allowed valid game modes."
+  },
+  {
     "name": "SetGamePath",
     "icons": ["warn"],
     "args": [{
@@ -86,6 +97,17 @@
       "type": "string"
     }],
     "description": "Sets the game path to be used when loading plugin and resource files to `gamePath`."
+  },
+  {
+    "name": "GetGameLanguage",
+    "args": [{
+      "name": "gameMode",
+      "type": "integer"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Retrieves the the language used for `gameMode` from the game INI file.  Returns an empty string if the game INI file cannot be found.  See the `gameModes` enumeration for a list of allowed valid game modes."
   },
   {
     "name": "SetLanguage",
@@ -180,17 +202,6 @@
       "type": "integer"
     },
     "description": "Returns the status of the loader.  See `loaderStates` for more information."
-  },
-  {
-    "name": "GetGamePath",
-    "args": [{
-      "name": "gameMode",
-      "type": "integer"
-    }],
-    "returns": {
-      "type": "string"
-    },
-    "description": "Retrieves the path to the game corresponding to `gameMode` from the registry.  Returns an empty string if the game path cannot be found."
   },
   {
     "name": "GetLoadedFileNames",

@@ -84,6 +84,38 @@
         }],
         "description": "See [progressService.progressTitle](docs://Development/APIs/Angular Services/Progress Service)."
       }]
+    }, {
+      "name": "log",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "Outputs a message to the zEdit log, viewable on the [log view](docs://Views/Edit View/Log View)."
+    }, {
+      "name": "info",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "Outputs an informational message to the zEdit log, viewable on the [log view](docs://Views/Edit View/Log View)."
+    }, {
+      "name": "warn",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "Outputs a warning message to the zEdit log, viewable on the [log view](docs://Views/Edit View/Log View)."
+    }, {
+      "name": "error",
+      "type": "function",
+      "args": [{
+        "name": "message",
+        "type": "string"
+      }],
+      "description": "Outputs an error message to the zEdit log, viewable on the [log view](docs://Views/Edit View/Log View)."
     }]
   },
   {

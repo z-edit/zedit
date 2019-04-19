@@ -69,6 +69,7 @@ h2, h3 {
   color: $secondary_action;
   border: none;
   background: none;
+  cursor: pointer;
 
   &:focus {
     outline: none;

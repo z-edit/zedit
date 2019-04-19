@@ -55,5 +55,80 @@
       "type": "function"
     }],
     "description": "Executes `callback`. Any handles retrieved from `xelib` in `callback` will not be added to the active handle group."
+  },
+  {
+    "name": "WithHandleGroup",
+    "args": [{
+      "name": "callback",
+      "type": "function"
+    }],
+    "description": "Executes `callback` in a handle group. Any handles retrieved from `xelib` in `callback` will be automatically released once it finishes executing."
+  },
+  {
+    "name": "ExtractSignature",
+    "args": [{
+      "name": "str",
+      "type": "string"
+    }],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Extracts a signature from a string.  E.g. extracts `ARMO`, from `ArmorIronCuirass \"Iron Armor\" [ARMO:00012E49]`."
+  },
+  {
+    "name": "BuildReferenceMap",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to get records from."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "Comma separated list of record signatures to search for."
+    }, {
+      "name": "keyFn",
+      "type": "function",
+      "description": "Function to execute on a record to get the key associated with it.  Defaults to xelib.EditorID."
+    }, {
+      "name": "valueFn",
+      "type": "function",
+      "description": "Function to execute on a record to get the value associated with it.  When null, the record's handle is returned.  Defaults to null."
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Gets all records matching `search` found in `id` and returns an object with properties corresponding to each record found.  The object's properties have keys produced by calling `keyFn` on the record and values produced by calling `valueFn` on the record.  If `valueFn` is falsy, the record's handle is used as the value."
+  },
+  {
+    "name": "ResolveElements",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to resolve elements from."
+    }, {
+      "name": "paths",
+      "type": "object",
+      "description": "Object with keys corresponding to identifier names and values corresponding to paths to resolve."
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Returns an object constructed by mapping each value in the `paths` object to an element resolved relative to `id`."
+  },
+  {
+    "name": "ResolveElementsEx",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to resolve elements from."
+    }, {
+      "name": "paths",
+      "type": "object",
+      "description": "Object with keys corresponding to identifier names and values corresponding to paths to resolve."
+    }],
+    "returns": {
+      "type": "object"
+    },
+    "description": "Returns an object constructed by mapping each value in the `paths` object to an element resolved relative to `id`.  Raises an exception if any element fails to resolve."
   }
 ]

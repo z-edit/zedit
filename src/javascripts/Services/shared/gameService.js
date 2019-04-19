@@ -5,7 +5,7 @@ ngapp.service('gameService', function() {
 
     let includesIgnoreCase = function(a, str) {
         str = str.toLowerCase();
-        return a.find(f => f.toLowerCase() === str) !== undefined;
+        return a.contains(f => f.toLowerCase() === str);
     };
 
     // PUBLIC API

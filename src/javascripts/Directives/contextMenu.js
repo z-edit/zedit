@@ -17,7 +17,7 @@ ngapp.directive('contextMenu', function($timeout, htmlHelpers) {
             e.style.top = '0';
             e.style.left = '0';
             e.style.visibility = 'hidden';
-            $timeout(function() {
+            $timeout(() => {
                 if (e.offsetHeight > window.innerHeight) {
                     scope.offset.top = 45;
                     scope.showScroll = true;
@@ -97,7 +97,7 @@ ngapp.controller('contextMenuController', function($scope, $element, $timeout, h
         $scope.currentIndex = index;
         if (index > -1) {
             let currentItem = getCurrentItem();
-            $timeout(function() {
+            $timeout(() => {
                 if ($scope.currentIndex !== index) return;
                 currentItem.expanded = true;
             }, 100);

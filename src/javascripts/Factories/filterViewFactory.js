@@ -4,7 +4,7 @@ ngapp.service('filterViewFactory', function(viewFactory, viewLinkingService) {
 
         view.destroy = function() {
             view.scope.treeView.destroy();
-            view.searchOptions.nodes.forEach(function(node) {
+            view.searchOptions.nodes.forEach(node => {
                 xelib.Release(node.handle);
             });
             view.results.forEach(xelib.Release);

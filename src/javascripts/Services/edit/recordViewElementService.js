@@ -77,7 +77,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.addElement = function(node, index) {
-            errorService.try(function() {
+            errorService.try(() => {
                 let handle = node.handles[index];
                 if (handle) { // append element to array
                     if (node.value_type !== xelib.vtArray) return;
@@ -110,7 +110,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
         };
 
         scope.deleteElement = function(node) {
-            errorService.try(function() {
+            errorService.try(() => {
                 let handle = node.handles[scope.focusedIndex - 1];
                 xelib.RemoveElement(handle);
             });
@@ -126,7 +126,7 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
                 return `Delete ${path} from ${recordName} in ${fileName}?`;
             } else {
                 let message = `Delete ${scope.selectedNodes.length} elements from ${recordName} in ${fileName}?`;
-                scope.selectedNodes.slice(0, 8).forEach(function(node) {
+                scope.selectedNodes.slice(0, 8).forEach(node => {
                     message += `\r\n  - ${xelib.LocalPath(node.handles[recordIndex])}`;
                 });
                 if (scope.selectedNodes.length > 8) {

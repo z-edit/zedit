@@ -4,18 +4,6 @@
     padding: 30px 40px 15px;
   }
 
-  .disabled {
-    color: $negative;
-  }
-
-  .warn {
-    color: $neutral;
-  }
-
-  .required {
-    color: $positive;
-  }
-
   .table-container {
     overflow-y: auto;
     max-width: 100%;
@@ -100,14 +88,18 @@
       margin-right: 8px;
     }
 
-    h3.title {
-      margin: 0 !important;
+    .title {
       display: flex;
       align-items: center;
+      font-size: 1.17em;
     }
 
     title {
       display: inline-block;
+    }
+
+    label:not(:first-of-type) {
+      margin-top: 10px;
     }
   }
 
@@ -123,8 +115,7 @@
       margin-right: 8px;
     }
 
-    h3.title {
-      margin: 0 !important;
+    .title {
       display: flex;
       align-items: center;
       font-size: 16px;

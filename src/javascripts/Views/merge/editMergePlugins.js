@@ -15,17 +15,17 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         $scope.plugins = $rootScope.loadOrder.map(plugin => ({
             filename: plugin.filename,
             masterNames: plugin.masterNames.slice(),
-            active: !!getPluginObject(plugin.filename),
-            isBethesdaPlugin: isBethesdaPlugin(plugin.filename),
-            dataFolder: getPluginDataFolder(plugin.filename)
+            active: !!getPluginObject($scope.merge.plugins, plugin.filename),
+            dataFolder: mergeDataService.getPluginDataFolder(plugin.filename)
         }));
     };
 
     let mergePluginMap = function(plugin) {
-        let obj = getPluginObject(plugin.filename);
+        let obj = getPluginObject($scope.merge.plugins, plugin.filename),
+            pluginPath = fh.path(plugin.dataFolder, plugin.filename);
         return {
             filename: plugin.filename,
-            hash: obj && obj.hash,
+            hash: obj ? obj.hash : fh.getMd5Hash(pluginPath),
             dataFolder: plugin.dataFolder
         }
     };
@@ -33,6 +33,9 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
     let updateMergePlugins = function() {
         $scope.merge.plugins = $scope.plugins
             .filterOnKey('active').map(mergePluginMap);
+    };
+
+    let updateMergeLoadOrder = function() {
         $scope.merge.loadOrder = $scope.plugins
             .filter(p => p.required || p.active)
             .mapOnKey('filename');
@@ -63,9 +66,9 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
             updateRequired(item);
             updateWarnings(item);
         }
-        updateIndexes($scope.plugins);
         updateMergePlugins();
         updateWarningPlugins();
+        updateMergeLoadOrder();
     };
 
     // event handlers
@@ -74,20 +77,17 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         e.stopPropagation();
     });
 
-    $scope.$on('itemsReordered', function(e) {
-        updateIndexes($scope.plugins);
-        updateMergePlugins();
-        updateWarningPlugins();
-        e.stopPropagation();
-    });
-
     // initialization
     buildPlugins();
     loadOrderService.activateMode = false;
     loadOrderService.init($scope.plugins, activeFilter);
     $scope.plugins.forEach(plugin => {
-        updateRequired(plugin);
-        updateWarnings(plugin);
+        loadOrderService.updateRequired(plugin);
+        loadOrderService.updateWarnings(plugin);
+        plugin.bethesda = isBethesdaPlugin(plugin.filename);
+        if (plugin.bethesda) {
+            plugin.disabled = true;
+            plugin.title = 'Official Bethesda plugins cannot be merged.'
+        }
     });
-    updateIndexes($scope.plugins);
 });

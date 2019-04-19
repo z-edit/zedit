@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService,  appModeService, argService) {
+ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService, appModeService, argService, errorService) {
     // helper functions
     let selectAppMode = function(appModeName) {
         $scope.selectedAppMode = $scope.appModes.includes(appModeName) ?
@@ -19,6 +19,11 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
             profileService.getDefaultProfile();
         if ($scope.selectedProfile.name === profileName)
             $timeout($scope.startSession);
+    };
+
+    let handleArgs = function() {
+        selectAppMode(argService.getArgValue('-appMode'));
+        selectProfile(argService.getArgValue('-profile'));
     };
 
     // scope functions
@@ -45,7 +50,5 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     $scope.profiles = profileService.profiles;
     $scope.appModes = appModeService.getAppModes();
     $timeout(() => window.startupCompleted = true);
-
-    selectAppMode(argService.getArgValue('-appMode'));
-    selectProfile(argService.getArgValue('-profile'));
+    errorService.try(handleArgs);
 });

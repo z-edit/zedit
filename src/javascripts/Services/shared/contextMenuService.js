@@ -3,7 +3,7 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
 
     this.buildMenuItems = function(scope, items) {
         let menuItems = [];
-        items.forEach(function(item) {
+        items.forEach(item => {
             if (!item.visible(scope, menuItems)) return;
             if (typeof item.build === 'function') {
                 item.build(scope, menuItems);
@@ -25,7 +25,7 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
         // event handlers
         scope.$on('openContextMenu', function(e, offset, items) {
             if (!items.length) return;
-            $timeout(function() {
+            $timeout(() => {
                 scope.showContextMenu = true;
                 scope.contextMenuOffset = offset;
                 let buildTemplateUrl = function(item) {

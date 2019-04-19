@@ -31,7 +31,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     // scope functions
     $scope.showContextMenu = function(e) {
-        if ($scope.focusedIndex === 0 || !$scope.selectedNodes.length) return;
+        if ($scope.focusedIndex === 0) return;
         contextMenuService.showContextMenu($scope, e);
     };
 
@@ -81,7 +81,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
             if (oldIndex !== index) {
                 $timeout($scope.updateNodeLabels);
             } else if (node.selected && e.button === 0) {
-                $timeout(function() {
+                $timeout(() => {
                     if (!!$scope.$root.dragData || !node.selected ||
                         $scope.focusedIndex !== index) return;
                     $scope.editElementInline(node, index);

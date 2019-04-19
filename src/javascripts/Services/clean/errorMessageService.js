@@ -37,7 +37,7 @@ ngapp.service('errorMessageService', function(pluginErrorHelpers) {
     };
 
     this.getErrorMessages = function(errors) {
-        errors.forEach(function(error) {
+        errors.forEach(error => {
             error.message = service.getErrorMessage(error);
         });
     };

@@ -28,7 +28,9 @@ ngapp.service('xelibService', function() {
     this.startSession = function(profile) {
         logger.info(`User selected profile: ${profile.name}`);
         logger.info(`Using game mode: ${xelib.gameModes[profile.gameMode]}`);
-        xelib.SetGamePath(profile.gamePath);
+        let gamePath = profile.gamePath;
+        if (!gamePath.endsWith('\\')) gamePath += '\\';
+        xelib.SetGamePath(gamePath);
         xelib.SetLanguage(profile.language);
         xelib.SetGameMode(profile.gameMode);
         printPaths();
@@ -41,8 +43,8 @@ ngapp.service('xelibService', function() {
     this.fixReferences = function(oldRecords, newRecords) {
         let oldFormIds = getFormIds(oldRecords),
             newFormIds = getFormIds(newRecords);
-        newRecords.forEach(function(newRecord) {
-            oldFormIds.forEach(function(oldFormId, index) {
+        newRecords.forEach(newRecord => {
+            oldFormIds.forEach((oldFormId, index) => {
                 let newFormId = newFormIds[index];
                 xelib.ExchangeReferences(newRecord, oldFormId, newFormId);
             })

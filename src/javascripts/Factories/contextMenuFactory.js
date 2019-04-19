@@ -15,7 +15,7 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
     };
 
     let testNodes = function(nodes, testFn) {
-        return nodes.reduce(function (b, node) {
+        return nodes.reduce((b, node) => {
             return b && testFn(node);
         }, true);
     };
@@ -76,12 +76,10 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 label: `Add ${isFileNode(node) ? 'group' : 'record'}`,
                 hotkey: 'Insert',
                 disabled: !addList.length,
-                children: addList.map(function(label) {
-                    return {
-                        label: label,
-                        callback: () => scope.addElement(node, label)
-                    };
-                })
+                children: addList.map(label => ({
+                    label: label,
+                    callback: () => scope.addElement(node, label)
+                }))
             });
         }
     }, {

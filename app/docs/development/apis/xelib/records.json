@@ -71,6 +71,25 @@
     "description": "Conflict all state returned by `ConflictAll`.  Corresponds to the overall conflict status of an element."
   },
   {
+    "name": "GetREFRs Options",
+    "type": "options",
+    "options": [
+      {
+        "key": "excludeDeleted",
+        "description": "Pass true to exclude deleted REFRs."
+      },
+      {
+        "key": "excludeDisabled",
+        "description": "Pass true to exclude disabled REFRs."
+      },
+      {
+        "key": "excludeXESP",
+        "description": "Pass true to exclude REFRs which have an XESP element."
+      }
+    ],
+    "description": "Options that can be passed to `GetREFRs`."
+  },
+  {
     "name": "GetFormID",
     "args": [{
       "name": "id",
@@ -169,6 +188,26 @@
     "description": "Returns an array of all records matching `search` found in `id`.  Pass `0` for `id` to search all loaded files."
   },
   {
+    "name": "GetREFRs",
+    "args": [{
+      "name": "id",
+      "type": "handle",
+      "description": "Element to get REFRs from."
+    }, {
+      "name": "search",
+      "type": "string",
+      "description": "Comma separated list of base record signatures to search for."
+    }, {
+      "name": "opts",
+      "type": "object",
+      "description": "Object with options to use when searching for REFRs.  See the `GetREFRs` options documentation for more information."
+    }],
+    "returns": {
+      "type": "array of handle"
+    },
+    "description": "Returns an array of all REFR records referencing base records with signatures in `search` found within `id`.  See the `GetREFRs` options documentation for more information."
+  },
+  {
     "name": "GetOverrides",
     "args": [{
       "name": "id",
@@ -218,6 +257,17 @@
       "type": "handle"
     },
     "description": "Returns a handle for the winning override of record `id`."
+  },
+  {
+    "name": "GetInjectionTarget",
+    "args": [{
+      "name": "id",
+      "type": "handle"
+    }],
+    "returns": {
+      "type": "handle"
+    },
+    "description": "Returns a handle for the file that record `id` is injected into."
   },
   {
     "name": "FindNextRecord",

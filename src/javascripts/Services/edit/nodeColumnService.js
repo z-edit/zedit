@@ -35,7 +35,7 @@ ngapp.service('nodeColumnService', function(stylesheetService) {
         };
 
         scope.updateWidths = function() {
-            let width = scope.columns.reduce(function(total, column) {
+            let width = scope.columns.reduce((total, column) => {
                     return total + parseInt(column.width.slice(0, -2));
                 }, 0),
                 columnsSelector = `${treeSelector} .node-columns.fix-width`,
@@ -45,8 +45,8 @@ ngapp.service('nodeColumnService', function(stylesheetService) {
         };
 
         scope.resizeColumns = function() {
-            scope.columns.forEach(function(column, index) {
-                if (column.width) scope.columnResized(index, column.width, true)
+            scope.columns.forEach(({width}, index) => {
+                if (width) scope.columnResized(index, width, true);
             });
             if (allowOverflow) scope.updateWidths();
         };

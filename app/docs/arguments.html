@@ -1,0 +1,40 @@
+<p>zEdit supports the following arguments:</p>
+
+<table>
+    <thead>
+    <tr>
+        <th class="nowrap">Argument</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td class="nowrap"><code>-appMode="AppName"</code></td>
+        <td>Sets the application mode to <code>AppName</code>.  Supported application mode names are: <code>edit</code>, <code>merge</code>, and <code>clean</code>.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>-profile="ProfileName"</code></td>
+        <td>Sets the current profile to <code>ProfileName</code> and starts the application with that profile.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>-dev</code></td>
+        <td>Opens the developer console before the main application window gets created.  Using this argument is recommended for debugging modules.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>-skipLoadOrder</code></td>
+        <td>Automatically loads your current load order when the application mode is set to <code>edit</code> or <code>clean</code>.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>-verbose</code></td>
+        <td>Enables verbose logging.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>--disable-transparency</code></td>
+        <td>Disables transparency for the progress window.  Use this if you have window transparency disabled or if your OS does not support window transparency.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>--inspector-fix</code></td>
+        <td>Makes the progress window non-modal, allowing you to interact with the main application window and the inspector when it is embedded in the main application window.  This argument is deprecated and may be removed in a future release.  (detach the inspector to a separate window instead)</td>
+    </tr>
+    </tbody>
+</table>

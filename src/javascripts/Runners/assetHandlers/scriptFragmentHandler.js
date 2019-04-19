@@ -5,7 +5,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
           fragmentPath = 'VMAD\\Script Fragments\\fileName';
 
-    let fragmentExpr = /.*scripts[\/\\].*(qf|tif|sf|prkf|pf)_.*_[a-f0-9]{8}.pex/i;
+    let fragmentExpr = /.*scripts[\/\\].*_([a-f0-9]{8}).pex/i;
 
     let getPluginHandle = function(merge, filename) {
         let plugin = merge.plugins.findByKey('filename', filename);
@@ -44,7 +44,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             return getFragmentsFromPlugin(pluginFile, group, fragments);
         }, []).filter(fragment => {
             let fragmentFile = fragmentFiles.find(f => {
-                return f.filename === fragment.filename;
+                return f.filename.equals(fragment.filename, true);
             });
             if (!fragmentFile) return;
             fragment.filePath = fragmentFile.filePath;

@@ -10,14 +10,26 @@
 </ul>
 
 <h2>Plugins Tab</h2>
-<p>The plugins tab allows you to select the plugins that should be merged.  Check the box by a plugin's filename to mark it to be part of the merge.  You can reorder plugins and masters to adjust the load order used during the merge.  Each plugin that will be loaded will have a hexadecimal load ordinal before its filename.  Bethesda plugins cannot be merged, and will have their checkboxes disabled.</p>
+<p>The plugins tab allows you to select the plugins that should be merged.  Check the box by a plugin's filename to mark it to be part of the merge.  Bethesda plugins cannot be merged, and will have their checkboxes disabled.</p>
 
-<p>Plugins may be styled to indicate various states.  You can mouse over a plugin which is styled to get a tooltip explaining its current status.</p>
+<p>Plugins may be styled to indicate various states.  You can move your mouse over a plugin which is styled to get a tooltip explaining its current status.</p>
 
 <ul>
     <li><span class="positive-fg">Positive:</span> The plugin is a master which is required by one of the plugins selected to be merged (or by one of its required masters).</li>
     <li><span class="neutral-fg">Neutral:</span> The plugins is required by one of the plugins which has been selected to be merged.  Required plugins must be included in the merge if you want them to be usable once the merge completes.</li>
     <li><span class="negative-fg">Negative:</span> The plugin is disabled and cannot be selected because one or more of its masters is not available.</li>
+</ul>
+
+<h2>Load Order Tab</h2>
+<p>The load order tab allows you to view and adjust the load order of the plugins in the merge.  The "Use game load order" option will disable manual load order adjustment in favor of using the order of plugins from the game's load order.  You can reorder plugins using drag and drop when the "Use game load order" option is disabled.</p>
+
+<p>Note: Adding or removing a plugin from a merge will reset the merge's load order to the game's load order - any custom order will be lost.</p>
+
+<p>Plugins on the load order tab are styled to indicate various states:</p>
+
+<ul>
+    <li><span class="positive-fg">Positive:</span> The plugin is part of the merge.</li>
+    <li><span class="negative-fg">Negative:</span> The plugin's load order position will cause an error when merging.  Move your mouse over the plugin to get a tooltip explaining the problem.</li>
 </ul>
 
 <h2>Data Tab</h2>
@@ -59,6 +71,7 @@
 <p>Bethesda Archive Files (BSA and BA2) can be handled by zMerge.  You can either Extract, Copy, or Ignore the archives detected by zMerge.</p>
 
 <ul>
+    <li><b>Merge:</b> zMerge will extract existing archives and create one or more archives to hold all of the assets associated with the new merged plugin.</li>
     <li><b>Extract:</b> zMerge will extract all of the files from the archives into the merge output folder.</li>
     <li><b>Copy:</b> zMerge will copy all of the archives to the merge output folder and rename them based on the merge filename and original archive filename.</li>
     <li><b>Ignore:</b> zMerge will do nothing with the archive.</li>

@@ -29,9 +29,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
     };
 
     let getCurrentTabIndex = function() {
-        return $scope.tabs.findIndex(function(tab) {
-            return tab.active;
-        });
+        return $scope.tabs.findIndex(tab => tab.active);
     };
 
     let selectTab = function(index) {
@@ -59,8 +57,8 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
     $scope.newTab = function() {
         let newTab = viewFactory.newView('newTabView', true);
         newTab.pane = $scope.pane;
-        $scope.$applyAsync(function() {
-            $scope.tabs.forEach((tab) => tab.active = false);
+        $scope.$applyAsync(() => {
+            $scope.tabs.forEach(tab => tab.active = false);
             $scope.tabs.push(newTab);
         });
     };

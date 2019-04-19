@@ -1,0 +1,14 @@
+<table class="options-table">
+    <thead>
+    <tr>
+        <th>Key</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="option in options">
+        <td>{{::option.key}}</td>
+        <td marked="::option.description || '\\-'"></td>
+    </tr>
+    </tbody>
+</table>

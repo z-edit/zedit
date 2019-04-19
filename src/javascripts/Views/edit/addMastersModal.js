@@ -3,14 +3,15 @@ ngapp.controller('addMastersModalController', function($scope, $timeout, errorSe
     let selectedFile = $scope.modalOptions.handle,
         availableMasters = xelib.GetAvailableMasters(selectedFile);
     $scope.filename = xelib.Name(selectedFile);
-    $scope.availableMasters = availableMasters.map(function(master){
-        return { name: master, active: false };
-    });
+    $scope.availableMasters = availableMasters.map(master => ({
+        name: master,
+        active: false
+    }));
 
     // scope functions
     $scope.applyValue = function() {
-        errorService.try(function() {
-            $scope.availableMasters.forEach(function(master) {
+        errorService.try(() => {
+            $scope.availableMasters.forEach(master => {
                 if (!master.active) return;
                 xelib.AddMaster(selectedFile, master.name);
             });

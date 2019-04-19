@@ -29,6 +29,10 @@ ngapp.service('bsaHelpers', function(progressLogger) {
         return getBsaFiles(bsaPath).filter(path => expr.match(path));
     };
 
+    this.getFiles = function(bsaPath) {
+        return getBsaFiles(bsaPath);
+    };
+
     this.extractFile = function(bsaFileName, filePath) {
         let outputPath = fh.path('temp', bsaFileName, filePath);
         if (fh.jetpack.exists(outputPath) !== 'file') {
@@ -38,7 +42,7 @@ ngapp.service('bsaHelpers', function(progressLogger) {
         return outputPath;
     };
 
-    this.extractAsset = function(merge, asset) {
+    this.extractAsset = function(asset) {
         let match = asset.filePath.match(bsaExpr);
         if (!match) return;
         let [,bsaFileName,filePath] = match;
@@ -46,10 +50,9 @@ ngapp.service('bsaHelpers', function(progressLogger) {
     };
 
     this.extractArchive = function(archive) {
-        let outputPath = fh.path('temp', archive.filename);
+        let outputPath = fh.path('temp', archive.filename) + '\\';
         if (fh.jetpack.exists(outputPath) !== 'dir') {
             progressLogger.log(`Extracting ${archive.filename}`, true);
-            outputPath += '\\';
             xelib.ExtractContainer(archive.filePath, outputPath, true);
         }
         return outputPath;

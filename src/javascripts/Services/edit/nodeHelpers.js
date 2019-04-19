@@ -24,7 +24,7 @@ ngapp.service('nodeHelpers', function() {
     };
 
     this.reduceHandles = function(handles, handleKeyFn) {
-        handles.reduce((obj, handle) => {
+        return handles.reduce((obj, handle) => {
             let key = handleKeyFn(handle);
             if (obj.hasOwnProperty(key)) {
                 xelib.Release(handle);

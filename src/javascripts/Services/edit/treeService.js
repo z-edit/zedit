@@ -32,10 +32,9 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
         scope.getNodeForElement = function(handle) {
             let handles = xelib.GetDuplicateHandles(handle);
             for (let j = 0; j < handles.length; j++) {
-                let h = handles[j],
-                    newNode = scope.tree.find(function(node) {
-                        return scope.nodeHasHandle(node, h)
-                    });
+                let newNode = scope.tree.find(node => {
+                    return scope.nodeHasHandle(node, handles[j])
+                });
                 if (newNode) return newNode;
             }
         };
@@ -103,16 +102,14 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 if (child.selected) scope.selectSingle(child, false);
             }
             let removedNodes = scope.tree.splice(startIndex, endIndex - startIndex);
-            removedNodes.forEach(function(node) {
+            removedNodes.forEach(node => {
                 if (node.handle) xelib.Release(node.handle);
                 if (node.kac) xelib.Release(node.kac);
-                if (node.handles) {
-                    node.handles.forEach((handle) => handle && xelib.Release(handle));
-                }
+                if (node.handles)
+                    node.handles.forEach(handle => handle && xelib.Release(handle));
             });
-            if (scope.prevNode && scope.prevNode.parent === node) {
+            if (scope.prevNode && scope.prevNode.parent === node)
                 scope.prevNode = undefined;
-            }
         };
 
         scope.toggleNode = function(e, node) {

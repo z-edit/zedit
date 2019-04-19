@@ -61,7 +61,7 @@ ngapp.service('extensionService', function(themeService) {
     };
 
     this.getTabs = function() {
-        return tabs.map(function(tab) {
+        return tabs.map(tab => {
             let tabVarName = tab.toCamelCase();
             return {
                 label: tab,

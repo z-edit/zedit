@@ -32,11 +32,11 @@ ngapp.service('referencedByViewService', function(layoutService) {
         };
 
         scope.sortGrid = function() {
-            let colIndex = scope.columns.findIndex(function(column) {
+            let colIndex = scope.columns.findIndex(column => {
                 return column.label === scope.sort.column;
             });
             if (colIndex === -1) return;
-            scope.grid.sort(function(a, b) {
+            scope.grid.sort((a, b) => {
                 let v1 = a.column_values[colIndex] || '',
                     v2 = b.column_values[colIndex] || '';
                 if (v1 < v2) return -1;
@@ -52,8 +52,9 @@ ngapp.service('referencedByViewService', function(layoutService) {
         };
 
         scope.linkToRecordView = function() {
-            let recordView = layoutService.findView(function(view) {
-                return view.class === 'record-view' && !view.linkedReferencedByView;
+            let recordView = layoutService.findView(view => {
+                return view.class === 'record-view' &&
+                    !view.linkedReferencedByView;
             });
             if (!recordView) return;
             scope.view.linkTo(recordView);

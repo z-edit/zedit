@@ -1,0 +1,172 @@
+[
+  {
+    "name": "archiveTypes",
+    "type": "enumeration",
+    "description": "Passed to `BuildArchive`.",
+    "members": [
+      {
+        "key": "baNone",
+        "description": "Unused."
+      }, {
+        "key": "baTES3",
+        "description": "Used for Morrowind archives."
+      }, {
+        "key": "baFO3",
+        "description": "Used for Fallout 3, Oblivion, and Skyrim Classic archives."
+      }, {
+        "key": "baSSE",
+        "description": "Used for Skyrim: Special Edition archives."
+      }, {
+        "key": "baFO4",
+        "description": "Used for Fallout 4 archives."
+      }, {
+        "key": "baFO4dds",
+        "description": "Used for Fallout 4 texture archives."
+      }
+    ]
+  },
+  {
+    "name": "ExtractContainer",
+    "args": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "destination",
+        "type": "string"
+      },
+      {
+        "name": "replace",
+        "type": "boolean"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Extracts container `name` to `destination`, replacing existing files if `replace` is true.  Returns true if the container is extracted successfully."
+  },
+  {
+    "name": "ExtractFile",
+    "args": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "name": "destination",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Extracts file `source` from container `name` to `destination`.  Returns true if the file is extracted successfully."
+  },
+  {
+    "name": "GetContainerFiles",
+    "args": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "folder",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the file paths in container `name` in `folder`."
+  },
+  {
+    "name": "GetFileContainer",
+    "args": [
+      {
+        "name": "path",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "string"
+    },
+    "description": "Returns the name of the container where the winning version of the file `path` is stored."
+  },
+  {
+    "name": "GetLoadedContainers",
+    "args": [],
+    "returns": {
+      "type": "array of string"
+    },
+    "description": "Returns an array of the names of the currently loaded containers."
+  },
+  {
+    "name": "LoadContainer",
+    "args": [
+      {
+        "name": "filePath",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "boolean"
+    },
+    "description": "Loads the container at `filePath`.  Returns true if the container is loaded succesfully."
+  },
+  {
+    "name": "BuildArchive",
+    "args": [
+      {
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "name": "folder",
+        "type": "string"
+      },
+      {
+        "name": "filePaths",
+        "type": "string"
+      },
+      {
+        "name": "archiveType",
+        "type": "integer"
+      },
+      {
+        "name": "compress",
+        "type": "boolean"
+      },
+      {
+        "name": "share",
+        "type": "boolean"
+      },
+      {
+        "name": "af",
+        "type": "string"
+      },
+      {
+        "name": "ff",
+        "type": "string"
+      }
+    ],
+    "description": "Creates a new archive `name` in `folder` containing files at the `filePaths` relative to `folder`.  Uses archive type `archiveType`.  Compresses the archive if `compress` is true and packs data if `share` is true.  Pass a hexadecimal integer as a string to `af` or `ff` to set custom archive flags or file flags, respectively.  See the `archiveTypes` enumeration for a list of allowed archive types."
+  },
+  {
+    "name": "GetTextureData",
+    "args": [
+      {
+        "name": "resourceName",
+        "type": "string"
+      }
+    ],
+    "returns": {
+      "type": "ImageData"
+    },
+    "description": "Return the pixel image data for the texture resource `resourceName`."
+  }
+]

@@ -15,7 +15,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
     let getRecordHandles = function(handles) {
         let records = [];
         xelib.WithHandles(handles, function(handles) {
-            handles.forEach(function(handle) {
+            handles.forEach(handle => {
                 gettingRecordsMessage(handle);
                 records.unite(xelib.GetRecords(handle, '', true));
             });
@@ -69,8 +69,8 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
             signaturesStr = signatures.join(','),
             filenames = getCustomScopeFilenames(customScope),
             handles = [];
-        filenames.forEach(function(filename) {
-            xelib.WithHandle(xelib.FileByName(filename), function(file) {
+        filenames.forEach(filename => {
+            xelib.WithHandle(xelib.FileByName(filename), file => {
                 gettingRecordsMessage(file);
                 handles.unite(xelib.GetRecords(file, signaturesStr, true));
             });
@@ -105,7 +105,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
                 records = resolvedScope.handles,
                 count = records.length,
                 {filters, mode} = filterOptions,
-                results = records.filter(function(record, index) {
+                results = records.filter((record, index) => {
                     filteringMessage(index, count);
                     return service.filter(record, filters, mode);
                 });
@@ -126,7 +126,7 @@ ngapp.service('searchService', function(progressService, nodeHelpers) {
     this.filter = function(record, filters, filterMode) {
         return filterMode === 'or' ?
             filters.find(filter => filter.test(record)) :
-            filters.reduce(function(passed, filter) {
+            filters.reduce((passed, filter) => {
                 return passed && filter.test(record);
             }, true);
     };

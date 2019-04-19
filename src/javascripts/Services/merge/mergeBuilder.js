@@ -1,4 +1,4 @@
-ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, mergeMasterService, referenceService, progressService, gameService) {
+ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeService, mergeStatusService, recordMergingService, mergeDataService, mergeAssetService, mergeIntegrationService, seqService, mergeLoadService, mergeMasterService, referenceService, progressService, gameService) {
     let {log, progress} = progressLogger;
 
     const DEFAULT_MERGE_METHOD = 'Clean';
@@ -8,7 +8,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
 
     // helpers
     let tryPromise = function(action, onSuccess, onFailure) {
-        action.then(function() {
+        action.then(() => {
             try {
                 onSuccess();
             } catch (x) {
@@ -33,16 +33,26 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         progressLogger.log('Done building references');
     };
 
+    let getMergeFileName = function(filename) {
+        let base = fh.getFileBase(filename),
+            ext = fh.getFileExt(filename),
+            n = 2;
+        while (true) {
+            let filePath = fh.path(gameService.dataPath, filename);
+            if (!fh.jetpack.exists(filePath)) return filename;
+            filename = `${base}_${n++}.${ext}`;
+        }
+    };
+
     let prepareMergedPlugin = function(merge) {
-        merge.plugin = xelib.AddFile(merge.filename);
-        log(`Merging into ${merge.filename}`);
+        let filename = getMergeFileName(merge.filename);
+        merge.plugin = xelib.AddFile(filename);
+        log(`Merging into ${filename}`);
     };
 
     let removeOldMergeFiles = function(merge) {
         progressService.progressMessage('Deleting old merge files');
         fh.delete(merge.dataPath);
-        let filePath = fh.path(gameService.dataPath, merge.filename);
-        fh.jetpack.remove(filePath);
     };
 
     let prepareMerge = function(merge) {
@@ -51,7 +61,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         if (!merge.method) merge.method = DEFAULT_MERGE_METHOD;
         merge.failedToCopy = [];
         removeOldMergeFiles(merge);
-        progressLogger.init('merge', `${merge.dataPath}\\merge`);
+        let mergeFolderPath = `${merge.dataPath}\\merge - ${merge.name}`;
+        progressLogger.init('merge', mergeFolderPath);
         log(`\r\nBuilding merge ${merge.name}`);
         log(`Merge Folder: ${merge.dataPath}`);
         log(`Merge Method: ${merge.method}`);
@@ -89,6 +100,8 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
         saveMergeFiles(merge);
         if (merge.builtWithErrors)
             throw new Error('Merge built with errors.');
+        merge.oldPlugins = angular.copy(merge.plugins);
+        mergeStatusService.updateStatus(merge);
         cleanupMerge(merge);
         log(`Completed merge ${merge.name}.`);
         progressLogger.close(false);
@@ -103,6 +116,7 @@ ngapp.service('mergeBuilder', function($q, progressLogger, mergeService, recordM
 
     let onMergeSuccess = function() {
         progressService.success(`${mergesToBuild.length} merges built successfully`);
+        $rootScope.$applyAsync();
     };
 
     let buildMerge = function(merge) {

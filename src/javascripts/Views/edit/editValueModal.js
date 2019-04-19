@@ -14,7 +14,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     // scope functions
     $scope.applyValue = function() {
         if ($scope.invalid) return;
-        errorService.try(function() {
+        errorService.try(() => {
             xelib.SetValue(handle, '', $scope.value);
             $scope.afterApplyValue();
         });
@@ -34,14 +34,14 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
 
         let bytesToStr = function(bytes) {
             let a = bytes.map((byte) => { return parseInt(byte, 16); });
-            return a.reduce(function(str, byte) {
+            return a.reduce((str, byte) => {
                 let char = isPrintable(byte) ? String.fromCharCode(byte) : '.';
                 return str + char;
             }, '');
         };
 
         $scope.applyValue = function() {
-            errorService.try(function() {
+            errorService.try(() => {
                 xelib.SetValue(handle, '', $scope.bytes.join(' '));
                 $scope.afterApplyValue();
             });
@@ -88,12 +88,10 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
         // initialize flags
         $scope.defaultAction = $scope.applyValue;
         let enabledFlags = value.split(', ');
-        $scope.flags = xelib.GetAllFlags(handle).map(function(flag) {
-            return {
-                name: flag,
-                active: flag !== '' && enabledFlags.includes(flag)
-            }
-        });
+        $scope.flags = xelib.GetAllFlags(handle).map(flag => ({
+            name: flag,
+            active: flag !== '' && enabledFlags.includes(flag)
+        }));
     };
 
     $scope.setupEnum = function(value) {
@@ -104,7 +102,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     $scope.setupColor = function() {
         $scope.applyValue = function() {
             if ($scope.invalid) return;
-            errorService.try(function() {
+            errorService.try(() => {
                 let c = $scope.color;
                 xelib.SetValue(handle, 'Red', c.getRed().toString());
                 xelib.SetValue(handle, 'Green', c.getGreen().toString());

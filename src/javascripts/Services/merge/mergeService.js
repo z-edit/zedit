@@ -1,6 +1,6 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'method', 'loadOrder', 'extractArchives', 'buildArchive', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'buildMergedArchive', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'],
         mergeMethodMap = { Clamp: 'Clobber', Refactor: 'Clean' };
 
@@ -25,7 +25,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
 
     let exportMerge = function(merge) {
         let mergeObj = objectUtils.rebuildObject(merge, mergeExportKeys);
-        mergeObj.plugins = merge.plugins.map(function(plugin) {
+        mergeObj.plugins = merge.plugins.map(plugin => {
             return objectUtils.rebuildObject(plugin, pluginExportKeys);
         });
         return mergeObj;
@@ -46,28 +46,46 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
 
     let importPluginData = function(plugin) {
         mergeDataService.updatePluginDataFolder(plugin);
-        plugin.hash = fh.getMd5Hash(plugin.dataFolder + plugin.filename);
+        let pluginPath = fh.path(plugin.dataFolder, plugin.filename);
+        plugin.hash = fh.getMd5Hash(pluginPath);
     };
 
     let importMergeData = function(merge) {
-        let path = `${getMergePath()}\\${merge.name}\\merge\\merge.json`,
-            oldMerge = fh.loadJsonFile(path);
-        merge.method = !merge.method ? 'Clean' :
-            mergeMethodMap[merge.method] || merge.method;
+        let mergeFolder = service.getMergeFolder(merge),
+            oldMerge = fh.loadJsonFile(fh.path(mergeFolder, 'merge.json'));
+        merge = Object.assign(service.newMerge(), merge);
+        merge.method = mergeMethodMap[merge.method] || merge.method;
+        if (merge.archiveAction === 'Merge') {
+            merge.buildMergedArchive = true;
+            merge.archiveAction = 'Extract';
+        }
         merge.oldPlugins = oldMerge && oldMerge.plugins;
         merge.plugins.forEach(importPluginData);
+        return merge;
     };
 
     // public api
+    this.getMergeFolder = function(merge) {
+        let baseFolder = fh.path(getMergePath(), merge.name);
+        let mergeFolders = fh.getFiles(baseFolder, {
+            matching: 'merge*',
+            directories: true,
+            files: false
+        });
+        return mergeFolders[0] || fh.path(baseFolder, 'merge');
+    };
+
     this.newMerge = function() {
         let mergeName = getNewMergeName();
         return initMergeData({
             name: mergeName,
             filename: `${mergeName}.esp`,
-            method: 'Clean',
+            method: 'Clobber',
             plugins: [],
-            status: 'Ready to be built',
-            archiveAction: 'Copy',
+            loadOrder: [],
+            archiveAction: 'Extract',
+            buildMergedArchive: false,
+            useGameLoadOrder: false,
             handleFaceData: true,
             handleVoiceData: true,
             handleBillboards: true,
@@ -88,13 +106,13 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         if (service.merges) return;
         let profileName = settingsService.currentProfile;
         service.mergeDataPath = `profiles/${profileName}/merges.json`;
-        service.merges = fh.loadJsonFile(service.mergeDataPath) || [];
-        service.merges.forEach(importMergeData);
+        let merges = fh.loadJsonFile(service.mergeDataPath) || [];
+        service.merges = merges.map(importMergeData);
         service.saveMerges();
     };
 
     this.saveMergeData = function(merge) {
-        let path = `${merge.dataPath}\\merge`;
+        let path = `${merge.dataPath}\\merge - ${merge.name}`;
         fh.jetpack.dir(path);
         fh.saveJsonFile(`${path}\\merge.json`, exportMerge(merge));
         fh.saveJsonFile(`${path}\\map.json`, merge.fidMap || {});

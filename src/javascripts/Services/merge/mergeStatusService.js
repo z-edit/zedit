@@ -1,17 +1,23 @@
 ngapp.service('mergeStatusService', function($rootScope, settingsService) {
-    let getOldPlugin = function(merge, filename) {
-        if (!merge.oldPlugins) return;
-        return merge.oldPlugins.findByKey('filename', filename);
+    // private
+    let getPluginObject = function(plugins, filename) {
+        return plugins && plugins.findByKey('filename', filename);
     };
 
     let pluginsChanged = function(merge) {
-        return merge.plugins.filter(plugin => {
-            let oldPlugin = getOldPlugin(merge, plugin.filename);
+        return merge.plugins.reduce((b, plugin) => {
+            let oldPlugin = getPluginObject(merge.oldPlugins, plugin.filename);
             plugin.added = !oldPlugin;
             plugin.changed = oldPlugin && (plugin.hash !== oldPlugin.hash ||
                 plugin.dataFolder !== oldPlugin.dataFolder);
-            return plugin.changed || plugin.added;
-        }).length > 0;
+            return b || plugin.changed || plugin.added;
+        }, false);
+    };
+
+    let pluginsRemoved = function(merge) {
+        return merge.oldPlugins.reduce((b, plugin) => {
+            return b || !getPluginObject(merge.plugins, plugin.filename);
+        }, false);
     };
 
     let pluginAvailable = function(filename) {
@@ -20,20 +26,21 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let allPluginsAvailable = function(merge) {
-        return merge.plugins.filter(function(plugin) {
+        return merge.plugins.reduce((b, plugin) => {
             plugin.available = pluginAvailable(plugin.filename);
-            return !plugin.available;
-        }).length === 0;
+            return b && plugin.available;
+        }, true);
     };
 
     let mergedPluginExists = function(merge) {
         let mergePath = settingsService.settings.mergePath,
-            path = `${mergePath}\\${merge.name}\\${merge.filename}`;
+            path = fh.path(mergePath, merge.name, merge.filename);
         return fh.jetpack.exists(path);
     };
 
     let upToDate = function(merge) {
-        return mergedPluginExists(merge) && !pluginsChanged(merge);
+        return mergedPluginExists(merge) && !pluginsChanged(merge)
+            && !pluginsRemoved(merge);
     };
 
     let getStatus = function(merge) {
@@ -50,15 +57,20 @@ ngapp.service('mergeStatusService', function($rootScope, settingsService) {
     };
 
     let updatePluginTitles = function(merge) {
-        merge.plugins.forEach(function(plugin) {
+        merge.plugins.forEach(plugin => {
             plugin.title = getPluginTitle(plugin);
         });
     };
 
+    // public
     this.updateStatus = function(merge) {
         merge.status = getStatus(merge);
         merge.canBuild = merge.status === 'Up to date' ||
             merge.status === 'Ready to be built';
         updatePluginTitles(merge);
+    };
+
+    this.readyToBeBuilt = function(merge) {
+        return merge.status === 'Ready to be built';
     };
 });

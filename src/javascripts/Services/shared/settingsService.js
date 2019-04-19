@@ -11,7 +11,7 @@ ngapp.service('settingsService', function($rootScope) {
     let buildSettings = function(settings, global = false) {
         let defaults = {},
             defaultsPath = global ? 'defaultGlobalSettings' : 'defaultSettings';
-        tabs.forEach(function(tab) {
+        tabs.forEach(tab => {
             if (!tab[defaultsPath]) return;
             Object.deepAssign(defaults, tab[defaultsPath])
         });
@@ -47,15 +47,13 @@ ngapp.service('settingsService', function($rootScope) {
     };
 
     this.getTabs = function() {
-        return tabs.filter(function(tab) {
+        return tabs.filter(tab => {
             return !tab.appModes || tab.appModes.includes($rootScope.appMode);
-        }).map(function(tab) {
-            return {
-                label: tab.label,
-                templateUrl: tab.templateUrl,
-                controller: tab.controller,
-                customActions: tab.customActions
-            };
-        });
+        }).map(tab => ({
+            label: tab.label,
+            templateUrl: tab.templateUrl,
+            controller: tab.controller,
+            customActions: tab.customActions
+        }));
     };
 });

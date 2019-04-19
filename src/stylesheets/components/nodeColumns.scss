@@ -23,8 +23,10 @@
   }
 
   .column {
-    padding: 5px 8px 4px;
+    padding: 5px 26px 4px 8px;
     position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:last-of-type {
       flex: 1;

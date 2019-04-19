@@ -5,7 +5,7 @@ ngapp.controller('cleanSaveModalController', function($scope, $timeout, saveModa
     // helper functions
     let applyErrorResolutions = function() {
         $scope.setMessage('Applying error resolutions');
-        $scope.pluginsToSave.forEach(function(plugin, index) {
+        $scope.pluginsToSave.forEach((plugin, index) => {
             $scope.setProgress(plugin.filename, index);
             pluginErrorService.applyResolutions(plugin);
         });
@@ -13,7 +13,7 @@ ngapp.controller('cleanSaveModalController', function($scope, $timeout, saveModa
 
     let buildErrorCache = function() {
         let cache = [];
-        $scope.pluginsToProcess.forEach(function(plugin, index) {
+        $scope.pluginsToProcess.forEach((plugin, index) => {
             $scope.setProgress(plugin.filename, index);
             if (plugin.loadedCache) return;
             cache.push(errorCacheService.createCache(plugin));

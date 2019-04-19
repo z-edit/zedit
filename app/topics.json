@@ -13,6 +13,7 @@
   { "label": "Application Modes" },
   { "label": "Game Modes" },
   { "label": "Profiles" },
+  { "label": "Arguments"},
   {
     "label": "Modules",
     "children": [
@@ -20,7 +21,8 @@
       { "label": "Standard Modules" },
       { "label": "Documentation" }
     ]
-  }, {
+  },
+  {
     "label": "Views",
     "modalViews": [{
       "label": "Manage Extensions Modal",
@@ -83,7 +85,8 @@
     }, {
       "label": "Progress View"
     }]
-  }, {
+  },
+  {
     "label": "Modal Views",
     "children": [
       { "label": "Help Modal" },
@@ -96,13 +99,14 @@
           { "label": "Core Settings" },
           { "label": "Tree View Settings" },
           { "label": "Record View Settings" },
-          { "label": "Merge Settings" },
           {
             "label": "Integration Settings",
             "children": [
               { "label": "Mod Manager Integration" }
             ]
           },
+          { "label": "Merge Settings" },
+          { "label": "Archive Creation Settings" },
           { "label": "Error Caching Settings" }
         ]
       },
@@ -113,7 +117,8 @@
       { "label": "Edit Merge Modal" },
       { "label": "Save Modal" }
     ]
-  }, {
+  },
+  {
     "label": "Development",
     "children": [
       {
@@ -137,6 +142,10 @@
               {
                 "label": "Setup",
                 "description": "Game modes and loading files."
+              },
+              {
+                "label": "Resources",
+                "description": "Functions for handling bethesda archives and game data files."
               },
               {
                 "label": "Elements",
@@ -207,7 +216,8 @@
         "children": [
           { "label": "Creating Modules" },
           { "label": "Debugging Modules" },
-          { "label": "JavaScript" }
+          { "label": "JavaScript" },
+          { "label": "Common Mistakes" }
         ]
       }
     ]

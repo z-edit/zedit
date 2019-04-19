@@ -7,7 +7,7 @@ ngapp.controller('errorCachingController', function($scope, errorCacheService) {
     $scope.deleteCacheEntry = function(cache, file) {
         if (!file || cache.files.length === 1) {
             let index = $scope.errorCache.indexOf(cache);
-            cache.files.forEach(function(file) {
+            cache.files.forEach(file => {
                 $scope.deleteCacheFile(`${cache.filename}-${file.hash}.json`);
             });
             $scope.errorCache.splice(index, 1);
@@ -20,9 +20,7 @@ ngapp.controller('errorCachingController', function($scope, errorCacheService) {
 
     $scope.clearErrorCache = function() {
         if (!confirm('Clear the entire error cache?')) return;
-        $scope.errorCache.forEach(function(cache) {
-            $scope.deleteCacheEntry(cache);
-        });
+        $scope.errorCache.forEach(cache => $scope.deleteCacheEntry(cache));
     };
 
     // initialization

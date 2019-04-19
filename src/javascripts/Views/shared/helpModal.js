@@ -46,7 +46,7 @@ ngapp.controller('helpModalController', function($scope, $element, $timeout, hel
 
     // event listeners
     $scope.$on("helpNavigateTo", function(e, path) {
-        errorService.try(function() {
+        errorService.try(() => {
             $scope.$applyAsync(() => $scope.navigateTo(path));
         });
     });

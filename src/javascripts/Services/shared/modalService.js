@@ -21,7 +21,7 @@ ngapp.service('modalService', function($rootScope) {
 
         scope.$on('openModal', function(e, label, options = {}, lock = false) {
             if ($rootScope.lockModal) return;
-            scope.$evalAsync(function() {
+            scope.$evalAsync(() => {
                 $rootScope.modalActive = true;
                 $rootScope.lockModal = lock;
                 scope.modalOptions = buildOptions(label, options);
@@ -31,7 +31,7 @@ ngapp.service('modalService', function($rootScope) {
         });
 
         scope.$on('closeModal', function(e) {
-            scope.$applyAsync(function() {
+            scope.$applyAsync(() => {
                 $rootScope.modalActive = false;
                 $rootScope.lockModal = false;
                 scope.modalOptions = undefined;

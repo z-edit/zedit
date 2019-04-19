@@ -33,7 +33,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         scope.buildTree = function() {
             if (verbose) logger.info('scope.buildTree called');
             xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
-            scope.tree = getElements(0, '').map(function(handle) {
+            scope.tree = getElements(0, '').map(handle => {
                 return scope.buildNode(handle, -1);
             });
         };
@@ -55,7 +55,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         scope.resolveNode = function(path) {
             let node = undefined,
                 handle = 0;
-            path.split('\\').forEach(function(part) {
+            path.split('\\').forEach(part => {
                 let nextHandle = xelib.GetElementEx(handle, `${part}`);
                 if (handle > 0) xelib.Release(handle);
                 handle = nextHandle;
@@ -126,7 +126,7 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
         };
 
         scope.buildColumnValues = function(node) {
-            node.column_values = scope.columns.map(function(column) {
+            node.column_values = scope.columns.map(column => {
                 let v = { value : '' };
                 errorService.try(() => v = column.getData(node, xelib));
                 return v;
@@ -146,23 +146,20 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             scope.buildColumnValues(node);
         };
 
-        scope.buildNode = function(handle, depth) {
-            return {
-                handle: handle,
-                depth: depth + 1
-            }
-        };
+        scope.buildNode = (handle, depth) => ({
+            handle: handle,
+            depth: depth + 1
+        });
 
         scope.buildNodes = function(node) {
             let path = nodeHelpers.isRecordNode(node) ? 'Child Group' : '',
                 elements = getElements(node.handle, path);
             if (nodeHelpers.isFileNode(node) && hideFileHeaders()) {
-                let index = elements.findIndex(function(element) {
+                elements.remove(element => {
                     return xelib.Signature(element) === 'TES4';
                 });
-                if (index > -1) elements.splice(index, 1);
             }
-            return elements.map((e) => { return scope.buildNode(e, node.depth); });
+            return elements.map(e => scope.buildNode(e, node.depth));
         };
     };
 });

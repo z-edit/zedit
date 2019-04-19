@@ -4,14 +4,14 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
         pluginExpr = /[^\\]+\.es[plm]\\/i,
-        fragmentExpr = /.*scripts[\/\\].*(qf|tif|sf)_.*_[a-f0-9]{8}.pex$/i;
+        fragmentExpr = /.*scripts[\/\\].*_[a-f0-9]{8}.pex$/i;
 
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
         let lcFilename = filename.toLowerCase();
-        return merge.plugins.findIndex(plugin => {
+        return merge.plugins.contains(plugin => {
             return plugin.filename.toLowerCase() === lcFilename;
-        }) > -1;
+        });
     };
 
     let getRules = function(merge) {
@@ -47,7 +47,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     };
 
     this.getOldPath = function(asset, merge) {
-        return bsaHelpers.extractAsset(merge, asset) ||
+        return bsaHelpers.extractAsset(asset) ||
             (asset.folder + asset.filePath);
     };
 
@@ -70,7 +70,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
     };
 
     this.findGameAssets = function(plugin, folder, subfolder, expr) {
-        let assets = fh.getFiles(folder + subfolder, { matching: expr }),
+        let options = { matching: expr, ignoreCase: true },
+            assets = fh.getFiles(folder + subfolder, options),
             baseExpr = fh.escapePattern(subfolder),
             fullExpr = `${baseExpr}/${expr}`;
         service.findBsaFiles(plugin, folder).forEach(bsaPath => {

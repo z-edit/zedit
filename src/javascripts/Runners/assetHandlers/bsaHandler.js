@@ -1,6 +1,10 @@
-ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) {
+ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, progressLogger) {
     let {findBsaFiles, findGeneralAssets}  = assetHelpers,
         {forEachPlugin} = mergeAssetService;
+
+    let extractAction = function(archive, merge) {
+        merge.extracted.push(bsaHelpers.extractArchive(archive));
+    };
 
     let actions = {
         "Copy": function(archive, merge, index, oneArchive) {
@@ -12,12 +16,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
             progressLogger.log(`Copying ${archive.filePath} to ${newPath}`, true);
             fh.jetpack.copy(archive.filePath, newPath, { overwrite: true });
         },
-        "Extract": function(archive, merge) {
-            merge.extracted.push(bsaHelpers.extractArchive(archive));
-        },
-        "Merge": function(archive, merge) {
-            merge.extracted.push(bsaHelpers.extractArchive(archive));
-        }
+        "Extract": extractAction
     };
 
     mergeAssetService.addHandler({
@@ -30,7 +29,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
                         plugin: plugin,
                         filePath: bsaPath,
                         filename: fh.getFileName(bsaPath),
-                        fileSize: fh.getFileSize(bsaPath)
+                        assets: bsaHelpers.getFiles(bsaPath)
                     });
                 });
             }, { useGameDataFolder: true });
@@ -38,7 +37,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
         handle: function(merge) {
             let action = actions[merge.archiveAction];
             if (!merge.archives.length || !action) return;
-            progressLogger.log(`Handling Bethesda Archive Files`);
+            progressLogger.log('Handling Bethesda Archive Files');
             let oneArchive = merge.archives.length === 1;
             merge.archives.forEach((a, n) => action(a, merge, n, oneArchive));
         }
@@ -48,18 +47,29 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, progressLogger) 
         label: 'Extracted Files',
         priority: 100,
         handle: function(merge) {
-            if (merge.archiveAction !== 'Extract' || !merge.extracted.length) return;
-            progressLogger.log(`Handling Extracted Files`);
+            if (!merge.extracted.length) return;
+            progressLogger.log('Handling Extracted Files');
             merge.extracted.forEach(folder => {
                 let folderLen = folder.length;
                 findGeneralAssets(folder, merge).forEach(filePath => {
                     let localPath = filePath.slice(folderLen),
                         newPath = fh.path(merge.dataPath, localPath);
-                    progressLogger.log(`Moving ${filePath} to ${newPath}`, true);
+                    progressLogger.log(`Copying ${filePath} to ${newPath}`, true);
                     fh.jetpack.dir(fh.getDirectory(newPath));
-                    fh.jetpack.move(filePath, newPath, { overwrite: true });
+                    fh.jetpack.copy(filePath, newPath, { overwrite: true });
                 });
             });
+        }
+    });
+
+    mergeAssetService.addHandler({
+        label: 'Merged BSA',
+        priority: 200,
+        handle: function(merge) {
+            if (!merge.buildMergedArchive) return;
+            progressLogger.log('Building Merged Archives');
+            let baseName = fh.getFileBase(merge.filename);
+            bsaBuilder.buildArchives(baseName, merge.dataPath);
         }
     })
 });

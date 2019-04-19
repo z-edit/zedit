@@ -2,7 +2,7 @@
   "name": "zedit",
   "productName": "zEdit",
   "description": "A development environment for Bethesda Plugin Files.",
-  "version": "0.5.4",
+  "version": "0.6.4",
   "author": "Mator",
   "copyright": "© 2017, Mator",
   "repository": "https://github.com/matortheeternal/zedit",
@@ -65,11 +65,11 @@
     "registry-js": "^1.0.7",
     "ui-router-extras": "^0.1.3",
     "windows-drive-letters": "^3.1.0",
-    "xelib": "github:matortheeternal/xelib"
+    "xelib": "github:z-edit/xelib"
   },
   "devDependencies": {
     "electron": "^2.0.8",
-    "electron-builder": "^20.28.4",
+    "electron-builder": "^20.39.0",
     "electron-rebuild": "^1.8.2",
     "gulp": "^4.0.0",
     "gulp-batch": "^1.0.5",

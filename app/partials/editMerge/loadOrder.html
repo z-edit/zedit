@@ -1,0 +1,11 @@
+<section>
+    <label>
+        <input type="checkbox" ng-model="merge.useGameLoadOrder" /> Use game load order
+    </label>
+</section>
+
+<list-view class="scrollable" items="loadOrder" drag-type="mergeLoadOrder" disable-drag="merge.useGameLoadOrder">
+    <span ng-class="{'positive-fg' : $parent.item.inMerge, 'negative-fg' : $parent.item.error}" title="{{$parent.item.title}}">
+        [{{$parent.item.index | hex:2 }}] {{::$parent.item.filename}}
+    </span>
+</list-view>

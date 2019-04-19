@@ -7,9 +7,10 @@ ngapp.controller('copyIntoModalController', function($scope) {
     // helper functions
     let getMaxLoadOrder = function() {
         let maxLoadOrder = -1;
-        $scope.modalOptions.nodes.forEach(function(node) {
-            xelib.WithHandle(xelib.GetElementFile(node.handle), function(file) {
-                maxLoadOrder = Math.max(maxLoadOrder, xelib.GetFileLoadOrder(file));
+        $scope.modalOptions.nodes.forEach(node => {
+            xelib.WithHandle(xelib.GetElementFile(node.handle), file => {
+                let loadOrder = xelib.GetFileLoadOrder(file);
+                maxLoadOrder = Math.max(maxLoadOrder, loadOrder);
             });
         });
         return maxLoadOrder;
@@ -32,19 +33,13 @@ ngapp.controller('copyIntoModalController', function($scope) {
         let plugins = getPluginObjects();
         if ($scope.asOverride) {
             let maxLoadOrder = getMaxLoadOrder();
-            plugins = plugins.filter(function(plugin) {
-                return plugin.loadOrder > maxLoadOrder;
-            });
+            plugins = plugins.filter(p => p.loadOrder > maxLoadOrder);
         }
         $scope.plugins = plugins.concat(newPluginItem);
     };
 
     let getActiveFileNames = function() {
-        return $scope.plugins.filter(function(plugin) {
-            return plugin.active;
-        }).map(function(plugin) {
-            return plugin.filename;
-        });
+        return $scope.plugins.filterOnKey('active').mapOnKey('filename');
     };
 
     // scope functions
