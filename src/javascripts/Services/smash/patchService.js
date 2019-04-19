@@ -42,18 +42,16 @@ ngapp.service('patchService', function(settingsService, objectUtils, gameService
     // public api
     this.newPatch = function() {
         let patchName = getNewPatchName();
-        return initPatchData({
+        return {
             name: patchName,
             filename: `${patchName}.esp`,
             patchType: 'Full load order patch',
             method: 'Master',
             pluginExclusions: [],
             plugins: [],
-            addedPlugins: [],
-            changedPlugins: [],
-            removedPlugins: [],
+            baseRule: 'Default.json',
             status: 'Ready to be built'
-        });
+        };
     };
 
     this.savePatches = function() {
