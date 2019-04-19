@@ -1,5 +1,6 @@
-ngapp.controller('editPatchPluginsController', function($scope, $rootScope,  loadOrderService, gameService) {
-    let {isBethesdaPlugin} = gameService;
+ngapp.controller('editPatchPluginsController', function($scope, $rootScope,  loadOrderService) {
+    // TODO: have the load order here behave like it does in the load order modal!
+    // When a user disables a plugin, disable the plugins that require it
 
     // helper functions
     let activeFilter = item => item && item.active || item.required;
@@ -15,31 +16,25 @@ ngapp.controller('editPatchPluginsController', function($scope, $rootScope,  loa
         $scope.plugins = $rootScope.loadOrder.map(plugin => ({
             filename: plugin.filename,
             masterNames: plugin.masterNames.slice(),
-            active: pluginInPatch(plugin.filename),
-            isBethesdaPlugin: isBethesdaPlugin(plugin.filename)
+            active: pluginInPatch(plugin.filename)
         }));
     };
 
-    let patchPluginMap = function(plugin) {
-        return {
-            filename: plugin.filename,
-            hash: plugin.hash
-        }
-    };
-
-    let updatePatchPlugins = function() {
-        $scope.patch.plugins = $scope.plugins
-            .filterOnKey('active').map(patchPluginMap);
-        $scope.patch.loadOrder = $scope.plugins
-            .filter(p => p.required || p.active)
+    let updateExclusions = function() {
+        $scope.patch.pluginExclusions = $scope.plugins
+            .filter(plugin => !plugin.active)
             .mapOnKey('filename');
     };
 
-    let updateWarningPlugins = function() {
-        let {filename} = $scope.patch;
-        $scope.patch.warningPlugins = $scope.plugins
-            .filter(p => p.warn && !p.active && p.filename !== filename)
+    let updateInclusions = function() {
+        $scope.patch.pluginInclusions = $scope.plugins
+            .filter(plugin => plugin.active)
             .mapOnKey('filename');
+    };
+
+    let updatePatch = function() {
+        let useExclusions = $scope.patch.patchType === 'Full load order';
+        useExclusions ? updateExclusions() : updateInclusions();
     };
 
     // filtering
@@ -60,20 +55,12 @@ ngapp.controller('editPatchPluginsController', function($scope, $rootScope,  loa
             loadOrderService.updateWarnings(item);
         }
         loadOrderService.updateIndexes($scope.plugins);
-        updatePatchPlugins();
-        updateWarningPlugins();
+        updatePatch();
     };
 
     // event handlers
     $scope.$on('itemToggled', function(e, item) {
         $scope.itemToggled(item);
-        e.stopPropagation();
-    });
-
-    $scope.$on('itemsReordered', function(e) {
-        loadOrderService.updateIndexes($scope.plugins);
-        updatePatchPlugins();
-        updateWarningPlugins();
         e.stopPropagation();
     });
 

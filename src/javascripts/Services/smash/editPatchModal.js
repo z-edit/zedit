@@ -5,9 +5,8 @@ ngapp.controller('editPatchModalController', function($scope, patchService, patc
 
     // scope functions
     $scope.save = function() {
-        let {warningPlugins} = $scope.patch;
-        if (warningPlugins && warningPlugins.length > 0 && !pluginWarning()) return;
-        if (!$scope.editing) $scope.modalOptions.patchs.push($scope.patch);
+        if (!$scope.editing) $scope.modalOptions.patches.push($scope.patch);
+        patchService.updatePatchPlugins($scope.patch);
         patchStatusService.updateStatus($scope.patch);
         $scope.$emit('closeModal');
     };
