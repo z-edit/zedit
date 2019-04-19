@@ -33,14 +33,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="plugin in patch.addedPlugins">
-                <td class="positive-fg" title="Plugin added">{{::plugin.filename}}</td>
-            </tr>
-            <tr ng-repeat="plugin in patch.changedPlugins">
-                <td class="neutral-fg" title="Plugin changed">{{::plugin.filename}}</td>
-            </tr>
-            <tr ng-repeat="plugin in patch.removedPlugins">
-                <td class="negative-fg" title="Plugin removed">{{::plugin.filename}}</td>
+            <tr ng-repeat="plugin in patch.plugins">
+                <td ng-class="{'positive-fg': plugin.added, 'neutral-fg' : plugin.changed, 'negative-fg' : !plugin.available}" title="{{plugin.title}}">{{::plugin.filename}}</td>
             </tr>
             </tbody>
         </table>
