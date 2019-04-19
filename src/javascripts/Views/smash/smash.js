@@ -1,3 +1,11 @@
+ngapp.config(['$stateProvider', function ($stateProvider) {
+    $stateProvider.state('base.smash', {
+        templateUrl: 'partials/smash.html',
+        controller: 'smashController',
+        url: '/smash'
+    });
+}]);
+
 ngapp.controller('smashController', function ($scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, loadOrderService) {
     // helper functions
     let updatePatchStatuses = function() {
