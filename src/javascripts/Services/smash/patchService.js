@@ -43,10 +43,6 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils,
             patch.pluginInclusions.includes(plugin.filename);
     };
 
-    let getPluginHash = function(plugin) {
-        return fh.getMd5Hash(gameService.dataPath + plugin.filename);
-    };
-
     // public api
     this.newPatch = function() {
         let patchName = getNewPatchName();
@@ -90,7 +86,7 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils,
             .filter(plugin => pluginInPatch(patch, plugin))
             .map(plugin => ({
                 filename: plugin.filename,
-                hash: plugin.hash || getPluginHash(plugin)
+                hash: plugin.hash
             }));
         return patch;
     };

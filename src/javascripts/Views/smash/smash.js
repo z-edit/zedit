@@ -6,14 +6,20 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('smashController', function ($scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, loadOrderService) {
+ngapp.controller('smashController', function ($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, gameService, loadOrderService) {
     // helper functions
     let updatePatchStatuses = function() {
         $scope.patches.forEach(patchStatusService.updateStatus);
     };
 
+    let getPluginHash = function(plugin) {
+        let pluginPath = fh.path(gameService.dataPath, plugin.filename);
+        return fh.getMd5Hash(pluginPath);
+    };
+
     let init = function() {
         progressService.showProgress({ message: 'Loading patch data...' });
+        $rootScope.loadOrder.forEach(getPluginHash);
         patchService.loadPatches();
         $scope.patches = patchService.patches;
         updatePatchStatuses();
