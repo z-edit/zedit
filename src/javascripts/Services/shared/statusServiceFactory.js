@@ -1,6 +1,9 @@
 ngapp.service('statusServiceFactory', function($rootScope) {
     this.buildStatusService = function(service, options) {
-        let {itemPath, pluginChangedMessage, getPluginChanged} = options;
+        let {
+            itemPath, pluginChangedMessage,
+            noPluginsMessage, getPluginChanged
+        } = options;
 
         // private
         let getPluginObject = function(plugins, filename) {
@@ -45,7 +48,7 @@ ngapp.service('statusServiceFactory', function($rootScope) {
         };
 
         let getStatus = function(item) {
-            if (item.plugins.length === 0) return 'No plugins to item';
+            if (item.plugins.length === 0) return noPluginsMessage;
             if (!allPluginsAvailable(item)) return 'Plugins unavailable';
             if (upToDate(item)) return 'Up to date';
             return 'Ready to be built';
@@ -54,7 +57,7 @@ ngapp.service('statusServiceFactory', function($rootScope) {
         let getPluginTitle = function(plugin) {
             if (!plugin.available) return 'Plugin unavailable to load.';
             if (plugin.added) return 'Plugin just added to item.';
-            if (plugin.changed) return pluginChangedText;
+            if (plugin.changed) return pluginChangedMessage;
         };
 
         let updatePluginTitles = function(item) {
