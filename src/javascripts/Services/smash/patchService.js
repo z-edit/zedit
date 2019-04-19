@@ -1,7 +1,8 @@
-ngapp.service('patchService', function(settingsService, objectUtils, gameService) {
+ngapp.service('patchService', function($rootScope, settingsService, objectUtils, gameService) {
     let service = this,
-        patchExportKeys = ['name', 'filename', 'plugins', 'dateBuilt'],
-        pluginExportKeys = ['filename', 'hash', 'dataFolder'];
+        patchExportKeys = ['name', 'filename', 'baseRule', 'patchType',
+            'method', 'pluginExclusions', 'pluginInclusions', 'dateBuilt'],
+        pluginExportKeys = ['filename', 'hash'];
 
     // private functions
     let getPatchPath = function() {
@@ -20,8 +21,9 @@ ngapp.service('patchService', function(settingsService, objectUtils, gameService
         return patchName;
     };
 
-    let exportPatch = function(patch) {
+    let exportPatch = function(patch, exportPlugins = false) {
         let patchObj = objectUtils.rebuildObject(patch, patchExportKeys);
+        if (!exportPlugins) return patchObj;
         patchObj.plugins = patch.plugins.map(function(plugin) {
             return objectUtils.rebuildObject(plugin, pluginExportKeys);
         });
@@ -36,22 +38,27 @@ ngapp.service('patchService', function(settingsService, objectUtils, gameService
         let path = fh.path(getPatchPath(), patch.name, 'patch', 'patch.json'),
             oldPatch = fh.loadJsonFile(path);
         patch.oldPlugins = oldPatch && oldPatch.plugins;
-        patch.plugins.forEach(importPluginData);
+        service.updatePatchPlugins(patch);
+    };
+
+    let pluginInPatch = (patch, plugin) => {
+        return patch.patchType === 'Full load order' ?
+            !patch.pluginExclusions.includes(plugin.filename) :
+            patch.pluginInclusions.includes(plugin.filename);
     };
 
     // public api
     this.newPatch = function() {
         let patchName = getNewPatchName();
-        return {
+        return service.updatePatchPlugins({
             name: patchName,
             filename: `${patchName}.esp`,
-            patchType: 'Full load order patch',
+            patchType: 'Full load order',
             method: 'Master',
             pluginExclusions: [],
-            plugins: [],
             baseRule: 'Default.json',
             status: 'Ready to be built'
-        };
+        });
     };
 
     this.savePatches = function() {
@@ -71,10 +78,20 @@ ngapp.service('patchService', function(settingsService, objectUtils, gameService
     this.savePatchData = function(patch) {
         let path = `${patch.dataPath}\\patch`;
         fh.jetpack.dir(path);
-        fh.saveJsonFile(`${path}\\patch.json`, exportPatch(patch));
+        fh.saveJsonFile(`${path}\\patch.json`, exportPatch(patch, true));
     };
 
     this.getPatchDataPath = function(patch) {
         return `${getPatchPath()}\\${patch.name}`;
+    };
+
+    this.updatePatchPlugins = function(patch) {
+        patch.plugins = $rootScope.loadOrder
+            .filter(plugin => pluginInPatch(patch, plugin))
+            .map(plugin => ({
+                filename: plugin.filename,
+                hash: plugin.hash
+            }));
+        return patch;
     };
 });
