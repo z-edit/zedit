@@ -30,10 +30,6 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils,
         return patchObj;
     };
 
-    let importPluginData = function(plugin) {
-        plugin.hash = fh.getMd5Hash(gameService.dataPath + plugin.filename);
-    };
-
     let importPatchData = function(patch) {
         let path = fh.path(getPatchPath(), patch.name, 'patch', 'patch.json'),
             oldPatch = fh.loadJsonFile(path);
@@ -45,6 +41,10 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils,
         return patch.patchType === 'Full load order' ?
             !patch.pluginExclusions.includes(plugin.filename) :
             patch.pluginInclusions.includes(plugin.filename);
+    };
+
+    let getPluginHash = function(plugin) {
+        return fh.getMd5Hash(gameService.dataPath + plugin.filename);
     };
 
     // public api
@@ -90,7 +90,7 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils,
             .filter(plugin => pluginInPatch(patch, plugin))
             .map(plugin => ({
                 filename: plugin.filename,
-                hash: plugin.hash
+                hash: plugin.hash || getPluginHash(plugin)
             }));
         return patch;
     };
