@@ -1,5 +1,5 @@
-<list-view class="scrollable" items="plugins" drag-type="patchPlugins" filters="loadOrderFilters">
-    <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled || $parent.item.isBethesdaPlugin" ng-show="!$parent.item.blacklisted" />
+<list-view class="scrollable" items="plugins" filters="loadOrderFilters">
+    <input type="checkbox" ng-model="$parent.item.active" ng-change="itemToggled($parent.item)" ng-disabled="$parent.item.disabled" />
     <span ng-class="{'disabled': $parent.item.disabled, 'required' : $parent.item.required, 'warn' : $parent.item.warn}" title="{{$parent.item.title}}">
         <span ng-show="$parent.item.active || $parent.item.required">[{{$parent.item.index | hex:2 }}]</span>
         {{::$parent.item.filename}}
