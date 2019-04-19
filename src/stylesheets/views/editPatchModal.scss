@@ -1,0 +1,19 @@
+.edit-patch-modal {
+  .modal-container .modal {
+    min-width: 700px;
+    padding: 30px 40px 15px;
+  }
+
+  .plugins-tab list-view {
+    .list-items {
+      max-height: 51vh;
+      min-height: 51vh;
+    }
+  }
+
+  .details-tab {
+    input[type="text"], select {
+      width: 250px;
+    }
+  }
+}
