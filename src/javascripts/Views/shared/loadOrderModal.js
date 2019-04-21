@@ -17,13 +17,12 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
 
     // scope functions
     $scope.loadPlugins = function() {
-        let loadOrder = $scope.loadOrder.reduce((a, item) => {
-            if (item.active) a.push(item.filename);
-            return a;
-        }, []);
+        let loadOrder = $scope.loadOrder
+            .filterOnKey('active')
+            .mapOnKey('filename');
         appModeService.goToAppView();
         $scope.$emit('closeModal');
-        $scope.$emit('loadPlugins', loadOrder);
+        $rootScope.$broadcast('loadPlugins', loadOrder);
     };
 
     $scope.itemToggled = function(item) {

@@ -42,10 +42,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
     $scope.$on('stopDrag', () => $rootScope.dragData = undefined);
     $scope.$on('setTitle', (e, title) => $scope.title = title);
 
-    $scope.$on('loadPlugins', function(e, loadOrder) {
-        $timeout(() => $rootScope.$broadcast('loadPlugins', loadOrder));
-    });
-
     $scope.$on('restart', function() {
         remote.app.relaunch();
         remote.app.forceClose = true;
