@@ -30,10 +30,10 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
             scope.resizeColumns();
         };
 
-        scope.buildTree = function() {
+        scope.buildTree = function(root = 0) {
             if (verbose) logger.info('scope.buildTree called');
             xelib.SetSortMode(scope.sort.column, scope.sort.reverse);
-            scope.tree = getElements(0, '').map(handle => {
+            scope.tree = getElements(root, '').map(handle => {
                 return scope.buildNode(handle, -1);
             });
         };
