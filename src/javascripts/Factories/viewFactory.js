@@ -29,13 +29,13 @@ ngapp.service('viewFactory', function(randomService) {
         return angular.copy(accessibleViews);
     };
 
-    this.new = function(viewName) {
-        return {
+    this.new = function(viewName, options) {
+        return Object.assign({
             templateUrl: `partials/${viewName}.html`,
             controller: `${viewName}Controller`,
             class: viewName.underscore('-'),
             label: viewName.humanize(),
             destroy: () => {}
-        };
+        }, options || {});
     }
 });
