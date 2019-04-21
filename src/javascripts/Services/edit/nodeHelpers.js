@@ -15,6 +15,13 @@ ngapp.service('nodeHelpers', function() {
         return xelib.GetIsEditable(node.handle);
     };
 
+    this.isTopGroupNode = function(node) {
+        if (!service.isGroupNode(node)) return false;
+        return xelib.WithHandle(xelib.GetContainer(node.handle), parent => {
+            return service.isFileNode(parent);
+        });
+    };
+
     this.getNodeHandles = function(nodes) {
         return nodes.mapOnKey('handle');
     };
