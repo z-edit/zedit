@@ -39,14 +39,17 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
         });
     };
 
-    this.getPluginDataFolder = function(plugin) {
-        return dataFolders[plugin] || gameService.dataPath;
+    this.getPluginDataFolder = function(plugin, mergeFolder) {
+        if (!dataFolders[plugin]) return gameService.dataPath;
+        let folder = dataFolders.find(folder => folder !== mergeFolder);
+        return folder || gameService.dataPath;
     };
 
-    this.updatePluginDataFolder = function(plugin) {
-        let {filename} = plugin;
-        if (plugin.dataFolder && !dataFolders.hasOwnProperty(filename)) return;
-        plugin.dataFolder =  service.getPluginDataFolder(filename);
+    this.updatePluginDataFolder = function(plugin, merge) {
+        plugin.dataFolder = service.getPluginDataFolder(
+            plugin.filename,
+            merge && merge.dataFolder
+        );
     };
 
     this.setPluginDataFolder = function(plugin, dataFolder) {
@@ -56,7 +59,8 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
     this.cacheDataFolders = function() {
         findPlugins().forEach(filePath => {
             let plugin = fh.getFileName(filePath);
-            dataFolders[plugin] = fh.getDirectory(filePath) + '\\';
+            if (!dataFolders[plugin]) dataFolders[plugin] = [];
+            dataFolders[plugin].unshift(fh.getDirectory(filePath));
         });
     };
 

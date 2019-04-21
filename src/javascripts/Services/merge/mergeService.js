@@ -1,4 +1,4 @@
-ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils) {
+ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils, gameService) {
     let service = this,
         mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'buildMergedArchive', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'],
@@ -44,9 +44,8 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
         }, {});
     };
 
-    let importPluginData = function(plugin) {
-        mergeDataService.updatePluginDataFolder(plugin);
-        let pluginPath = fh.path(plugin.dataFolder, plugin.filename);
+    let getPluginHash = function(plugin) {
+        let pluginPath = fh.path(gameService.dataPath, plugin.filename);
         plugin.hash = fh.getMd5Hash(pluginPath);
     };
 
@@ -60,7 +59,7 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             merge.archiveAction = 'Extract';
         }
         merge.oldPlugins = oldMerge && oldMerge.plugins;
-        merge.plugins.forEach(importPluginData);
+        merge.plugins.forEach(getPluginHash);
         return merge;
     };
 

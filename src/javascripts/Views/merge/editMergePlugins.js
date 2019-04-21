@@ -1,7 +1,7 @@
 ngapp.controller('editMergePluginsController', function($scope, $rootScope, mergeDataService, loadOrderService, gameService) {
     let {isBethesdaPlugin} = gameService,
         {clearMergeData, getPluginDataFolder} = mergeDataService,
-        {updateWarnings, updateRequired, updateIndexes} = loadOrderService;
+        {updateWarnings, updateRequired} = loadOrderService;
 
     // helper functions
     let activeFilter = item => item && item.active || item.required;
@@ -15,13 +15,16 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         $scope.plugins = $rootScope.loadOrder.map(plugin => ({
             filename: plugin.filename,
             masterNames: plugin.masterNames.slice(),
-            active: !!getPluginObject($scope.merge.plugins, plugin.filename),
-            dataFolder: mergeDataService.getPluginDataFolder(plugin.filename)
+            active: !!getPluginObject(plugin.filename),
+            dataFolder: getPluginDataFolder(
+                plugin.filename,
+                $scope.merge.dataFolder
+            )
         }));
     };
 
     let mergePluginMap = function(plugin) {
-        let obj = getPluginObject($scope.merge.plugins, plugin.filename),
+        let obj = getPluginObject(plugin.filename),
             pluginPath = fh.path(plugin.dataFolder, plugin.filename);
         return {
             filename: plugin.filename,
