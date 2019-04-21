@@ -11,7 +11,7 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
                 "tabs": ["recordView", "referencedByView", "logView"]
             }]
         },
-        'Smash': {
+        'BuildPatch': {
             "layout": "horizontal",
             "panes": [{
                 "width": "45%",
