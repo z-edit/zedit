@@ -1,11 +1,9 @@
-ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, editModalFactory) {
+ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers) {
     let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
     // helper functions
-    let isFileNode = nodeHelpers.isFileNode;
-    let isRecordNode = nodeHelpers.isRecordNode;
-    let isGroupNode = nodeHelpers.isGroupNode;
-    let isEditableNode = nodeHelpers.isEditableNode;
+    let {isFileNode, isRecordNode, isGroupNode,
+        isEditableNode, isTopGroupNode } = nodeHelpers;
 
     let divider = {
         visible: (scope, items) => {
@@ -302,6 +300,79 @@ ngapp.service('contextMenuFactory', function(referenceService, nodeHelpers, edit
                 hotkey: 'Ctrl+Shift+V',
                 disabled: !scope.canPaste(),
                 callback: () => scope.pasteNodes()
+            })
+        }
+    }];
+
+    this.smashTreeViewItems = [{
+        id: 'Exclude from patch',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last();
+            return node && isTopGroupNode(node) || isRecordNode(node);
+        },
+        build: (scope, items) => {
+            items.push({
+                label: 'Exclude from patch',
+                hotkey: 'Delete',
+                callback: () => scope.excludeNodes()
+            });
+        }
+    }, {
+        id: 'Manage exclusions',
+        visible: () => true,
+        build: (scope, items) => {
+            items.push({
+                label: 'Manage exclusions',
+                hotkey: 'Ctrl+M',
+                callback: scope.manageExclusions
+            });
+        }
+    }, divider, {
+        id: 'Regenerate patch',
+        visible: () => true,
+        build: (scope, items) => {
+            items.push({
+                label: 'Regenerate patch',
+                hotkey: 'Ctrl+R',
+                callback: scope.regeneratePatch
+            });
+        }
+    }, {
+        id: 'Toggle ITPOs',
+        visible: () => true,
+        build: (scope, items) => {
+            items.push({
+                label: scope.showITPOs ? 'Hide ITPOs' : 'Show ITPOs',
+                hotkey: '', // TODO
+                callback: scope.toggleITPOs
+            })
+        }
+    }, divider, {
+        id: 'Open',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last();
+            return node && !isGroupNode(node);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Open in record view',
+                hotkey: 'Enter',
+                callback: () => scope.open(node)
+            });
+        }
+    }, {
+        id: 'Open in new',
+        visible: (scope) => {
+            let node = scope.selectedNodes.last();
+            return node && !isGroupNode(node);
+        },
+        build: (scope, items) => {
+            let node = scope.selectedNodes.last();
+            items.push({
+                label: 'Open in new record view',
+                hotkey: 'Ctrl+Enter',
+                callback: () => scope.open(node, true)
             })
         }
     }];
