@@ -57,18 +57,25 @@ ngapp.service('columnsFactory', function(nodeHelpers, settingsService) {
         }
     }];
 
-    this.treeView = [{
+    let formIdColumn ={
         label: 'FormID',
         width: '40%',
         enabled: true
-    }, {
+    };
+
+    let editorIdColumn = {
         label: 'EditorID',
         width: '25%',
         enabled: true
-    }, {
+    };
+
+    let nameColumn = {
         label: 'Name',
         enabled: true
-    }];
+    };
+
+    this.treeView = [formIdColumn, editorIdColumn, nameColumn];
+    this.smashTreeView = [formIdColumn, editorIdColumn, nameColumn];
 
     this.referencedByView = [{
         label: 'Record',
