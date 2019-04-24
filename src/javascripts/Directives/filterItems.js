@@ -9,12 +9,13 @@ ngapp.directive('filterItems', function() {
     }
 });
 
-ngapp.controller('filterItemsController', function($scope, filterFactory) {
+ngapp.controller('filterItemsController', function($scope, recordFilterService) {
     let filtersPath = fh.jetpack.dir('filters').path(),
-        jsonFileTypeFilter = { name: 'JSON File', extensions: ['json'] };
+        jsonFileTypeFilter = { name: 'JSON File', extensions: ['json'] },
+        recordFilters = recordFilterService.getFilters();
 
     $scope.groupModes = ['and', 'or'];
-    $scope.filterTypes = Object.keys(filterFactory.filters);
+    $scope.filterTypes = Object.keys(recordFilters);
 
     let exportGroup = function(filter) {
         return {
@@ -51,7 +52,7 @@ ngapp.controller('filterItemsController', function($scope, filterFactory) {
 
     let importFilters = function(filters) {
         return filters.map(filter => {
-            let baseFilter = filterFactory.filters[filter.type]();
+            let baseFilter = recordFilters[filter.type]();
             return filter.type === 'Group' ?
                 importGroup(baseFilter, filter) :
                 importFilter(baseFilter, filter);
@@ -59,13 +60,13 @@ ngapp.controller('filterItemsController', function($scope, filterFactory) {
     };
 
     $scope.filterTypeChanged = function(filter) {
-        let newFilter = filterFactory.filters[filter.type](filter.path),
+        let newFilter = recordFilters[filter.type](filter.path),
             index = $scope.filters.indexOf(filter);
         $scope.filters.splice(index, 1, newFilter);
     };
 
     $scope.addChildFilter = function(filter) {
-        filter.children.push(filterFactory.filters.String())
+        filter.children.push(recordFilters.String())
     };
 
     $scope.removeFilter = function(index) {

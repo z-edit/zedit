@@ -1,4 +1,4 @@
-ngapp.controller('advancedSearchModalController', function($scope, searchService, filterFactory) {
+ngapp.controller('advancedSearchModalController', function($scope, searchService, recordFilterService) {
     let validSearchScopes = {
         etFile: ['All files', 'Selected files', 'Custom'],
         etGroupRecord: ['All files', 'Selected files', 'Selected groups', 'Custom'],
@@ -75,7 +75,7 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     };
 
     $scope.addFilter = function() {
-        $scope.filters.push(filterFactory.filters.String());
+        $scope.filters.push(recordFilters.String());
     };
 
     $scope.searchScopeChanged = function() {
@@ -93,7 +93,8 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
     let nodes = $scope.modalOptions.nodes,
         node = nodes[0],
         filterOptions = $scope.modalOptions.filterOptions,
-        elementType = node && xelib.elementTypes[node.element_type];
+        elementType = node && xelib.elementTypes[node.element_type],
+        recordFilters = recordFilterService.getFilters();
 
     $scope.searchScopes = validSearchScopes[elementType || 'default'];
     setSearchScope($scope.modalOptions.scope);
