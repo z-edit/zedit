@@ -68,6 +68,9 @@ ngapp.service('recordChangeService', function() {
         if (Signature(ovr) !== Signature(mst)) return;
         let changes = [];
         getChanges(changes, mst, ovr);
-        if (changes.length) return changes;
+        if (changes.length) return {
+            formId: xelib.GetHexFormID(mst, true),
+            changes: changes
+        };
     };
 });
