@@ -1,7 +1,8 @@
-ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService) {
+ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService, progressLogger) {
     let {WithEachHandle, GetRecords, IsOverride, Name,
             WithHandle, GetPreviousOverride, GetElementFile} = xelib,
-        {getRecordChanges} = recordChangeService;
+        {getRecordChanges} = recordChangeService,
+        {log, progress} = progressLogger;
 
     let cache = {};
 
@@ -23,8 +24,9 @@ ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService
         });
     };
 
-    let buildCache = function(file, filePath) {
+    let buildCache = function(file, filename, filePath) {
         let cache = {};
+        log(`Getting changes in ${filename}`);
         WithEachHandle(GetRecords(file, true), rec => {
             if (!IsOverride(rec)) return;
             WithHandle(GetPreviousOverride(rec, file), masterRec => {
@@ -40,12 +42,13 @@ ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService
 
     // public
     this.updateCache = function() {
+        progress('Updating plugin diff cache');
         xelib.WithEachHandle(xelib.GetElements(), file => {
             let filename = xelib.Name(file),
                 hash = getFileHash(filename),
                 filePath = getCacheFilePath(filename, hash);
             cache[filename] = fh.loadJsonFile(filePath) ||
-                buildCache(file, filePath);
+                buildCache(file, filename, filePath);
         });
     };
 });
