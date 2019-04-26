@@ -1,4 +1,4 @@
-ngapp.service('patchBuilder', function(progressLogger, progressService) {
+ngapp.service('patchBuilder', function(progressLogger, progressService, pluginDiffCacheService) {
     let {log, progress} = progressLogger;
 
     // PUBLIC API
@@ -11,5 +11,6 @@ ngapp.service('patchBuilder', function(progressLogger, progressService) {
             current: 0,
             max: 1
         });
+        pluginDiffCacheService.updateCache();
     };
 });

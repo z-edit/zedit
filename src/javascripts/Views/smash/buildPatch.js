@@ -47,6 +47,9 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
 
     $scope.$on('filesLoaded', function() {
         patchBuilder.buildPatch($rootScope.patch);
+    });
+
+    $scope.$on('patchBuilt', function() {
         $scope.patchBuilt = true;
     });
 
