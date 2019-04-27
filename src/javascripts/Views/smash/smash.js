@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, gameService, loadOrderService) {
+ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, gameService, loadOrderService, patchPrepService) {
     // helper functions
     let updatePatchStatuses = function() {
         $scope.patches.forEach(patchStatusService.updateStatus);
@@ -38,8 +38,14 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
 
     // scope functions
     $scope.buildPatch = function(patch) {
-        $rootScope.patch = patch;
-        $state.go('base.buildPatch');
+        tryPromise(() => patchPrepService.preparePatch(patch), () => {
+            progressService.hideProgress();
+            $rootScope.patch = patch;
+            $state.go('base.buildPatch');
+        }, err => {
+            progressService.hideProgress();
+            alert('Error preparing patch:\n' + err);
+        });
     };
 
     $scope.editPatch = function(patch) {
