@@ -1,4 +1,4 @@
-ngapp.service('patchService', function($rootScope, settingsService, objectUtils, gameService) {
+ngapp.service('patchService', function($rootScope, settingsService, objectUtils) {
     let service = this,
         patchExportKeys = ['name', 'filename', 'baseRule', 'patchType',
             'method', 'pluginExclusions', 'pluginInclusions', 'dateBuilt'],
