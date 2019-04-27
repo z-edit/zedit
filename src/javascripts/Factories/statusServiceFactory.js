@@ -20,9 +20,10 @@ ngapp.service('statusServiceFactory', function($rootScope) {
         };
 
         let pluginsRemoved = function(item) {
-            return item.oldPlugins.reduce((b, plugin) => {
-                return b || !getPluginObject(item.plugins, plugin.filename);
-            }, false);
+            item.removedPlugins = item.oldPlugins.filter(plugin => {
+                return !getPluginObject(item.plugins, plugin.filename);
+            });
+            return item.removedPlugins.length > 0;
         };
 
         let pluginAvailable = function(filename) {
