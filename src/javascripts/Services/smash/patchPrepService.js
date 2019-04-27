@@ -55,6 +55,16 @@ ngapp.service('patchPrepService', function($q, $rootScope, progressService, plug
         });
     };
 
+    let unloadAllPlugins = function() {
+        let fileCount = xelib.ElementCount(0);
+        for (let i = fileCount - 1; i >= 0; i--) {
+            let plugin = xelib.FileByIndex(i);
+            logger.log(`Unloading ${xelib.Name(plugin)}`);
+            xelib.UnloadPlugin(plugin);
+            xelib.Release(plugin);
+        }
+    };
+
     let deleteOldPatchRecords = function(patch, action) {
         try {
             progressMessage('Deleting old patch records...');
@@ -62,6 +72,7 @@ ngapp.service('patchPrepService', function($q, $rootScope, progressService, plug
                 getPatchRecordsToRemove(patch, patchPlugin)
                     .forEach(fid => removePatchRecord(patchPlugin, fid));
             });
+            unloadAllPlugins();
             action.resolve('Patch cleaned successfully.');
         } catch (x) {
             action.reject(x);
