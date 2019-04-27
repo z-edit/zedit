@@ -15,4 +15,12 @@ ngapp.service('errorService', function($exceptionHandler) {
     this.tryEach = function(items, callback) {
         items.forEach(item => service.try(() => callback(item)));
     };
+
+    this.tryPromise = function(callback, onSuccess, onError) {
+        try {
+            callback().then(onSuccess, onError);
+        } catch (x) {
+            onError(x);
+        }
+    }
 });
