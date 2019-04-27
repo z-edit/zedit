@@ -1,4 +1,4 @@
-ngapp.service('findRecordsToPatchService', function(pluginDiffCacheService, progressLogger) {
+ngapp.service('recordsToPatchService', function(pluginDiffCacheService, progressLogger) {
     let {getOldCache, getCache} = pluginDiffCacheService,
         {log, progress} = progressLogger;
 

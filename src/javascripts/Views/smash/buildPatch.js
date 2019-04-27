@@ -28,7 +28,10 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
     };
 
     let loadPlugins = function() {
-        let loadOrder = $rootScope.patch.plugins.mapOnKey('filename');
+        let {filename, plugins, updated} = $rootScope.patch,
+            loadOrder = plugins.mapOnKey('filename');
+        if (updated && $rootScope.loadOrder.includes(filename))
+            loadOrder.push(filename);
         $rootScope.$broadcast('loadPlugins', loadOrder);
     };
 
