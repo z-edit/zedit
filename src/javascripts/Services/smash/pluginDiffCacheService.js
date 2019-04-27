@@ -1,6 +1,6 @@
 ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService, progressLogger) {
     let {WithEachHandle, GetRecords, IsOverride, Name,
-            WithHandle, GetPreviousOverride, GetElementFile} = xelib,
+            WithHandle, GetMasterRecord, GetElementFile} = xelib,
         {getRecordChanges} = recordChangeService,
         {log, progress} = progressLogger;
 
@@ -30,7 +30,7 @@ ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService
         log(`Getting changes in ${filename}`);
         WithEachHandle(GetRecords(file, true), rec => {
             if (!IsOverride(rec)) return;
-            WithHandle(GetPreviousOverride(rec, file), masterRec => {
+            WithHandle(GetMasterRecord(rec, file), masterRec => {
                 let masterName = getElementFileName(masterRec);
                 if (!cache.hasOwnProperty(masterName))
                     cache[masterName] = [];
