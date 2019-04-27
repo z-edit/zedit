@@ -4,7 +4,8 @@ ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService
         {getRecordChanges} = recordChangeService,
         {log, progress} = progressLogger;
 
-    let cache = {};
+    let cache = {},
+        oldCache = {};
 
     // private
     let getFileHash = function(filename) {
@@ -50,5 +51,16 @@ ngapp.service('pluginDiffCacheService', function($rootScope, recordChangeService
             cache[filename] = fh.loadJsonFile(filePath) ||
                 buildCache(file, filename, filePath);
         });
+    };
+
+    this.getOldCache = function(plugin) {
+        let filePath = getCacheFilePath(plugin.filename, plugin.hash);
+        if (!oldCache.hasOwnProperty(filePath))
+            oldCache[filePath] = fh.loadJsonFile(filePath);
+        return oldCache[filePath];
+    };
+
+    this.getCache = function(plugin) {
+        return cache[plugin.filename];
     };
 });
