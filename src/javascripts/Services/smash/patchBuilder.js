@@ -40,18 +40,19 @@ ngapp.service('patchBuilder', function(progressLogger, progressService, pluginDi
 
     // PUBLIC API
     this.buildPatch = function(patch) {
-        progressService.showProgress({
-            determinate: true,
-            title: 'Building Smashed Patch',
-            message: 'Initializing...',
-            logName: 'smash',
-            current: 0,
-            max: 1
-        });
         pluginDiffCacheService.updateCache();
         let records = loadPatch(patch) && findRecordsToPatch(patch),
             excludeFn = records && (fid => records.includes(fid)),
             changes = mergeChanges(patch, excludeFn);
         applyChanges(patch, changes);
     };
+
+    this.showProgress = () => progressService.showProgress({
+        determinate: true,
+        title: 'Building Smashed Patch',
+        message: 'Initializing...',
+        logName: 'smash',
+        current: 0,
+        max: 1
+    });
 });
