@@ -53,6 +53,12 @@ JSON structure which serves as the base rule for all plugins being patched.
 
 Per-plugin differences from the base rule.  When patching rules are taken from the base rule and then overridden by plugin rules.
 
+These have the same schema as the base rule, in addition to the following properties:
+
+- `baseRule` - Object which contains information about the base rule the plugin rule is defined relative to.
+  - `fileName` - The filename of the baseRule.
+  - `version` - The version of the baseRule.
+
 ## How rule changes are inferred
 
 ### Value copied
