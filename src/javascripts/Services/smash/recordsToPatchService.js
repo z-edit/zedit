@@ -1,6 +1,5 @@
 ngapp.service('recordsToPatchService', function(pluginDiffCacheService, progressLogger) {
-    let {getOldCache, getCache} = pluginDiffCacheService,
-        {log, progress} = progressLogger;
+    let {log, progress} = progressLogger;
 
     // private
     let isOldCacheNotFoundError = error =>
@@ -21,7 +20,7 @@ ngapp.service('recordsToPatchService', function(pluginDiffCacheService, progress
 
     let pluginAdded = function(plugin, records, skipLog) {
         if (!skipLog) log(`Plugin added: ${plugin.filename}`);
-        let cache = getCache(plugin);
+        let cache = pluginDiffCacheService.getCache(plugin);
         if (!cache) throw new Error(`Cache not found for ${plugin.filename}`);
         handleChangedRecords(cache, records);
     };
@@ -39,9 +38,6 @@ ngapp.service('recordsToPatchService', function(pluginDiffCacheService, progress
             patch.plugins.forEach(plugin => {
                 if (plugin.changed) pluginChanged(patch, plugin, records);
                 if (plugin.added) pluginAdded(plugin, records);
-            });
-            patch.removedPlugins.forEach(plugin => {
-                pluginRemoved(plugin, records);
             });
             return records;
         } catch (x) {
