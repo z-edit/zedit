@@ -4,10 +4,12 @@
 ## Patch object schema
 - `name` - The name of the patch, used for the folder name.
 - `filename` - The filename of the patch used for the plugin.
+- `ruleFile` - The filename of the base rule file to use when building this patch.
 - `patchType` - Either `Full load order patch` or `Patch specific plugins`.
 - `method` - Either `Master` or `Winning override`.  Affects what record is copied when patching starts.  Defaults to master for patching full load orders and winning override for patching specific plugins.
 - `plugins` - Array of objects for the plugins in the patch.  Each object has the following properties:
     - `filename` - The filename of the plugin.
+    - `ruleFile` - The filename of the rule file to use when patching this plugin.  Can be `undefined`.
     - `hash` - The MD5 hash of the plugin.
 - `addedPlugins` - Array of plugin filenames that were just added to the patch.  Gets cleared when the patch is built and saved to disk.
 - `removedPlugins` - Array of plugin filenames that were just removed from the patch.  Gets cleared when the patch is built and saved to disk.
@@ -54,16 +56,12 @@ TODO
 
 ## Plugin diff cache schema
 
-- `filename` - The filename of the plugin.
-- `hash` - The MD5 hash of the plugin.
-- `overrides` - Has dynamic properties:
-    - `[masterName]` - Contains an array of objects which represent the differences between each override record and its original master record from `masterName`.  Each override object has the following properties:
-        - `formId` - The local hexadecimal form ID of the record.
-        - `changes` - Array of objects representing changes in the record relative to its master.  Each object has the following properties:
-            - `path` - The path to the element change.
-            - `type` - The type of change.  Can be: `AddArrayItem`, `RemoveArrayItem`, `SetValue`, `AddElementValue`, `RemoveElement`, or `ResolveArrayItem`
-            - `value` - The value to apply for the change.  Can be a string or an object.
-            - `change` - Nested change object only present when `type` is `ResolveArrayItem`.
+- `[masterName]` - Contains an array of objects which represent the differences between each override record and its original master record from `masterName`.  Each override object has the following properties:
+  - `formId` - The local hexadecimal form ID of the record.
+  - `changes` - Array of objects representing changes in the record relative to its master.  Each object has the following properties:
+    - `path` - The local path to the element change.
+    - `type` - The type of change.  Can be: `Created`, `Removed`, or `Changed`.
+    - `value` - The string value to apply for the change.
 
 ## Merging differences
 Assuming all plugins use the same resolution rules, when merging differences in a given override record we can ignore previous overrides and skip their processing.  We only need to process the final "leaves" of the record tree relative to the root.  E.g.
