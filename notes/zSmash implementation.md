@@ -22,6 +22,33 @@
 
 JSON structure which serves as the base rule for all plugins being patched.
 
+- `description` - Description of the rule.
+- `version` - Version # of the rule.  (?)
+- `created` - Date the rule was created.
+- `updated` - Date the rule was last updated.
+- `records` - Object containing properties corresponding to rules associated with different records.
+  - `[signature]` - Contains an object which describes how to resolve conflicts in records with signature `signature`.
+    - `process` - Whether or not the record should be processed.
+    - `merge` - Whether or not the record's fields should be merged with previous or should just replace all previous changes.
+    - `keepDeletions` - Whether or not deletions should be forwarded.
+    - `overrideDeletions` - Whether or not deletions can be overridden.
+    - `priority` - The global priority for changes.
+    - `force`? - Potential option to ignore later changes unless they belong to a plugin which has the forced plugin as a master.
+    - `groups` - Array of element group rules.
+      - `name` - Name of the element group.
+      - `description` - Description for the element group.
+      - `path` - Path from which the element group is defined.
+      - `elements` - Array of element names associated with the group.
+    - `elements` - Array of element rules
+      - `name` - Name of the element (used for display purposes only)
+      - `process` - Whether or not the element should be processed.
+      - `merge` - Whether or not the element's child elements should be merged.
+      - `keepDeletions` - Whether or not deletions should be forwarded.
+      - `overrideDeletions` - Whether or not deletions can be overridden.
+      - `priority` - The global priority for changes.
+      - `force`? - Potential option to ignore later changes unless they belong to a plugin which has the forced plugin as a master.
+      - `elements` - Array of child elements.
+
 ### Plugin rules
 
 Per-plugin differences from the base rule.  When patching rules are taken from the base rule and then overridden by plugin rules.
