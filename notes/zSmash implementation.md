@@ -37,13 +37,13 @@ JSON structure which serves as the base rule for all plugins being patched.
       - `description` - Description for the element group.
       - `path` - Path from which the element group is defined.
       - `elements` - Array of element names associated with the group.
-    - `elements` - Array of element rules in order order
+    - `elements` - Array of element rules in sort order
       - `name` - Name of the element (used for display purposes only)
       - `process` - Whether or not the element should be processed.
       - `entity` - Whether or not the element should be treated as a single entity.
       - `deletions` - Whether or not deletions should be forwarded.
       - `priority` - The priority offset for changes.
-      - `elements` - Array of child elements in order order
+      - `elements` - Array of child elements in sort order
 
 ### Plugin rules
 
