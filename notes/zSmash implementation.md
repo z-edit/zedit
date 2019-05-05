@@ -29,25 +29,21 @@ JSON structure which serves as the base rule for all plugins being patched.
 - `records` - Object containing properties corresponding to rules associated with different records.
   - `[signature]` - Contains an object which describes how to resolve conflicts in records with signature `signature`.
     - `process` - Whether or not the record should be processed.
-    - `merge` - Whether or not the record's fields should be merged with previous or should just replace all previous changes.
-    - `keepDeletions` - Whether or not deletions should be forwarded.
-    - `overrideDeletions` - Whether or not deletions can be overridden.
-    - `priority` - The global priority for changes.
-    - `force`? - Potential option to ignore later changes unless they belong to a plugin which has the forced plugin as a master.
+    - `deletions` - Whether or not deletions should be forwarded.
+    - `entity` - Whether or not the record should be treated as a single entity.
+    - `priority` - The priority offset for changes.
     - `groups` - Array of element group rules.
       - `name` - Name of the element group.
       - `description` - Description for the element group.
       - `path` - Path from which the element group is defined.
       - `elements` - Array of element names associated with the group.
-    - `elements` - Array of element rules
+    - `elements` - Array of element rules in order order
       - `name` - Name of the element (used for display purposes only)
       - `process` - Whether or not the element should be processed.
-      - `merge` - Whether or not the element's child elements should be merged.
-      - `keepDeletions` - Whether or not deletions should be forwarded.
-      - `overrideDeletions` - Whether or not deletions can be overridden.
-      - `priority` - The global priority for changes.
-      - `force`? - Potential option to ignore later changes unless they belong to a plugin which has the forced plugin as a master.
-      - `elements` - Array of child elements.
+      - `entity` - Whether or not the element should be treated as a single entity.
+      - `deletions` - Whether or not deletions should be forwarded.
+      - `priority` - The priority offset for changes.
+      - `elements` - Array of child elements in order order
 
 ### Plugin rules
 
