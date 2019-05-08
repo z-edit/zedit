@@ -1,6 +1,6 @@
 ngapp.run(function(recordFilterService) {
     let buildSignatures = function(filter) {
-        filter.signatures = filter.value.split(',').map(String.prototype.trim);
+        filter.signatures = filter.value.split(',').map(str => str.trim());
         return filter.signatures;
     };
 
