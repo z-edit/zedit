@@ -7,7 +7,10 @@ ngapp.service('treeViewService', function($timeout, treeViewFactory, settingsSer
 
         // helper functions
         let getElements = function(id, path) {
-            return xelib.GetElements(id, path, true, scope.view.filter);
+            return xelib.GetElements(id, path, {
+                sort: true,
+                filter: Boolean(scope.view.filter)
+            });
         };
 
         let hideFileHeaders = function() {
