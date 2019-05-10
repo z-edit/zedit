@@ -4,7 +4,7 @@ ngapp.directive('pane', function () {
         templateUrl: 'directives/pane.html',
         controller: 'paneController',
         scope: {
-            pane: "=?"
+            pane: '=?'
         }
     }
 });

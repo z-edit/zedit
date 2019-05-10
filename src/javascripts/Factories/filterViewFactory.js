@@ -19,5 +19,10 @@ ngapp.service('filterViewFactory', function(viewFactory, viewLinkingService) {
 });
 
 ngapp.run(function(viewFactory, filterViewFactory) {
-    viewFactory.registerView('filterView', filterViewFactory.new);
+    viewFactory.registerView({
+        id: 'filterView',
+        name: 'Filter View',
+        new: filterViewFactory.new,
+        isAccessible: () => false
+    });
 });

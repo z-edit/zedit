@@ -5,5 +5,10 @@ ngapp.service('logViewFactory', function(viewFactory) {
 });
 
 ngapp.run(function(viewFactory, logViewFactory) {
-    viewFactory.registerView('logView', logViewFactory.new, 'Log View');
+    viewFactory.registerView({
+        id: 'logView',
+        name: 'Log View',
+        new: logViewFactory.new,
+        isAccessible: () => true
+    });
 });

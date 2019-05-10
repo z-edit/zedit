@@ -22,8 +22,14 @@ ngapp.service('recordViewFactory', function(viewFactory, viewLinkingService) {
     };
 });
 
-ngapp.run(function(viewFactory, recordViewFactory, settingsService) {
-    viewFactory.registerView('recordView', recordViewFactory.new, 'Record View');
+ngapp.run(function($rootScope, viewFactory, recordViewFactory, settingsService) {
+    viewFactory.registerView({
+        id: 'recordView',
+        name: 'Record View',
+        new: recordViewFactory.new,
+        isAccessible: () => $rootScope.appMode === 'edit'
+    });
+
     settingsService.registerSettings({
         label: 'Record View',
         appModes: ['edit'],

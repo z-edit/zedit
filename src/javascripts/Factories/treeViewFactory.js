@@ -22,8 +22,14 @@ ngapp.service('treeViewFactory', function(viewFactory, viewLinkingService) {
     };
 });
 
-ngapp.run(function(viewFactory, treeViewFactory, settingsService) {
-    viewFactory.registerView('treeView', treeViewFactory.new, 'Tree View');
+ngapp.run(function($rootScope, viewFactory, treeViewFactory, settingsService) {
+    viewFactory.registerView({
+        id: 'treeView',
+        name: 'Tree View',
+        new: treeViewFactory.new,
+        isAccessible: () => $rootScope.appMode === 'edit'
+    });
+
     settingsService.registerSettings({
         label: 'Tree View',
         appModes: ['edit'],

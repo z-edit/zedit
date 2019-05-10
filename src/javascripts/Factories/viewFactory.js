@@ -1,6 +1,5 @@
 ngapp.service('viewFactory', function(randomService) {
-    let viewConstructors = {},
-        accessibleViews = {};
+    let views = [];
 
     this.link = function(view, otherView) {
         if (!view || !otherView) return;
@@ -13,20 +12,23 @@ ngapp.service('viewFactory', function(randomService) {
         delete linkedView[linkKey];
     };
 
-    this.registerView = function(viewName, constructor, accessibleName) {
-        viewConstructors[viewName] = constructor;
-        if (accessibleName) accessibleViews[accessibleName] = viewName;
+    this.registerView = function(view) {
+        views.push(view);
     };
 
     this.newView = function(viewName, active = false) {
-        let view = viewConstructors[viewName]();
-        view.id = randomService.generateUniqueId();
-        view.active = active;
-        return view;
+        let view = views.find(view => {
+            return view.name === viewName;
+        });
+        if (!view) throw new Error('Could not resolve view ' + viewName);
+        let instance = view.new();
+        instance.id = randomService.generateUniqueId();
+        instance.active = active;
+        return instance;
     };
 
     this.getAccessibleViews = function() {
-        return angular.copy(accessibleViews);
+        return views.filter(view => view.isAccessible());
     };
 
     this.new = function(viewName, options) {

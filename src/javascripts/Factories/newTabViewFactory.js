@@ -11,5 +11,9 @@ ngapp.service('newTabViewFactory', function() {
 });
 
 ngapp.run(function(viewFactory, newTabViewFactory) {
-    viewFactory.registerView('newTabView', newTabViewFactory.new);
+    viewFactory.registerView({
+        id: 'newTabView',
+        new: newTabViewFactory.new,
+        isAccessible: () => false
+    });
 });

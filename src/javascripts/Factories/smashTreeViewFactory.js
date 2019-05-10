@@ -24,10 +24,11 @@ ngapp.service('smashTreeViewFactory', function(viewFactory, viewLinkingService) 
     };
 });
 
-ngapp.run(function(viewFactory, smashTreeViewFactory) {
-    viewFactory.registerView(
-        'smashTreeView',
-        smashTreeViewFactory.new,
-        'Smash Tree View'
-    );
+ngapp.run(function($rootScope, viewFactory, smashTreeViewFactory) {
+    viewFactory.registerView({
+        id: 'smashTreeView',
+        new: smashTreeViewFactory.new,
+        name: 'Smash Tree View',
+        isAccessible: () => $rootScope.appMode === 'smash'
+    });
 });

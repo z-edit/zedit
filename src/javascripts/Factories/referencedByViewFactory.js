@@ -18,7 +18,11 @@ ngapp.service('referencedByViewFactory', function(viewFactory, viewLinkingServic
     };
 });
 
-ngapp.run(function(viewFactory, referencedByViewFactory) {
-    viewFactory.registerView('referencedByView', referencedByViewFactory.new,
-        'Referenced By View');
+ngapp.run(function($rootScope, viewFactory, referencedByViewFactory) {
+    viewFactory.registerView({
+        id: 'referencedByView',
+        name: 'Referenced By View',
+        new: referencedByViewFactory.new,
+        isAccessible: () => $rootScope.appMode === 'edit'
+    });
 });
