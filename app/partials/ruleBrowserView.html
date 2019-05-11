@@ -1,0 +1,43 @@
+<expandable-section>
+    <section-title>
+        <span>Base Rules</span>
+        <button class="glyph-button positive" ng-click="newRule($event, 'Base')" title="New Base Rule">
+            <i class="fa fa-plus"></i>
+        </button>
+    </section-title>
+    <content>
+        <div class="pane-message" ng-if="!baseRules.length">
+            No base rules found.
+        </div>
+        <ul ng-if="baseRules.length">
+            <li ng-repeat="baseRule in baseRules">
+                <a ng-click="selectRule(baseRule)">
+                    {{::baseRule.filename}}
+                </a>
+            </li>
+        </ul>
+    </content>
+</expandable-section>
+
+<expandable-section>
+    <section-title>
+        <span>Plugin Rules</span>
+        <button class="glyph-button positive" ng-click="newRule($event, 'Plugin')" title="New Plugin Rule">
+            <i class="fa fa-plus"></i>
+        </button>
+    </section-title>
+    <content>
+        <div class="pane-message" ng-if="!pluginRules.length">
+            No plugin rules found.
+        </div>
+        <ul ng-if="pluginRules.length">
+            <li ng-repeat="pluginRule in pluginRules">
+                <a ng-click="selectRule(pluginRule)">
+                    {{::pluginRule.filename}}
+                </a>
+            </li>
+        </ul>
+    </content>
+</expandable-section>
+
+<view-linker ng-show="linking" class="{{linkClass}}" ng-click="link()"></view-linker>
