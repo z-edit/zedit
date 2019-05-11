@@ -2,7 +2,7 @@ ngapp.run(function(contextMenuService, nodeHelpers) {
     let { addContextMenu } = contextMenuService,
         { isGroupNode } = nodeHelpers;
 
-    addContextMenu('referencedByViewItems', [
+    addContextMenu('referencedByView', [
         {
             id: 'Open',
             visible: (scope) => {

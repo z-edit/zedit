@@ -1,9 +1,9 @@
-ngapp.run(function(contextMenuService) {
+ngapp.run(function(contextMenuService, nodeHelpers) {
     let { divider, addContextMenu } = contextMenuService,
         { testNodes } = nodeHelpers,
         uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray, xelib.vtStruct];
 
-    addContextMenu('recordViewItems', [
+    addContextMenu('recordView', [
         {
             id: 'Add',
             visible: (scope) => {

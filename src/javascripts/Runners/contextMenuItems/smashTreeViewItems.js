@@ -1,8 +1,8 @@
-ngapp.run(function(contextMenuService) {
+ngapp.run(function(contextMenuService, nodeHelpers) {
     let { divider } = contextMenuService,
         { isRecordNode, isGroupNode, isTopGroupNode } = nodeHelpers;
 
-    contextMenuService.addContextMenu('smashTreeViewItems', [
+    contextMenuService.addContextMenu('smashTreeView', [
         {
             id: 'Exclude from patch',
             visible: (scope) => {

@@ -1,5 +1,5 @@
 ngapp.run(function(contextMenuService) {
-    contextMenuService.addContextMenu('ruleTree', [
+    contextMenuService.addContextMenu('ruleTreeView', [
         // TODO
     ]);
 });

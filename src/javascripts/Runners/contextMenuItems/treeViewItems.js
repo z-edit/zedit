@@ -3,7 +3,7 @@ ngapp.run(function(contextMenuService, nodeHelpers) {
         { isFileNode, isRecordNode, isGroupNode,
           isEditableNode, testNodes } = nodeHelpers;
 
-    addContextMenu('treeViewItems', [
+    addContextMenu('treeView', [
         {
             id: 'Add',
             visible: (scope) => {
