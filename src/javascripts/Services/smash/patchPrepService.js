@@ -108,9 +108,13 @@ ngapp.service('patchPrepService', function($q, $rootScope, progressService, plug
     // PUBLIC API
     this.preparePatch = function(patch) {
         showProgress({ message: 'Preparing patch...' });
-        let patchPlugin = $rootScope.loadOrder
-            .findByKey('filename', patch.filename);
-        if (!patchPlugin) return;
+        let action = $q.defer(),
+            patchPlugin = $rootScope.loadOrder
+                .findByKey('filename', patch.filename);
+        if (!patchPlugin) {
+            action.resolve('No old patch plugin found.');
+            return action.promise;
+        }
         return patch.updated ? cleanPatch(patch) : backupPlugin(patch);
     };
 });
