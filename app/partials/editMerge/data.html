@@ -1,5 +1,5 @@
 <expandable-section class="asset-section" ng-if="merge.plugins.length">
-    <title>Plugin Data Folders ({{merge.plugins.length}})</title>
+    <section-title>Plugin Data Folders ({{merge.plugins.length}})</section-title>
     <content>
         <div class="data-folder-item" ng-repeat="plugin in merge.plugins">
             <span class="input-label" title="{{::plugin.filename}}">{{::plugin.filename}}</span>
@@ -10,7 +10,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.plugins.length">
-    <title>Bethesda Archives</title>
+    <section-title>Bethesda Archives</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.buildMergedArchive" />
@@ -27,7 +27,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.archives">
-            <title>{{::entry.filename}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.filename}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets">
@@ -44,7 +44,7 @@
 </div>
 
 <expandable-section class="asset-section" ng-if="merge.faceData.length">
-    <title>NPC Face Data</title>
+    <section-title>NPC Face Data</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleFaceData"/>
@@ -52,7 +52,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.faceData">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets" title="{{::asset.npc}}">
@@ -65,7 +65,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.voiceData.length">
-    <title>NPC Voice Data</title>
+    <section-title>NPC Voice Data</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleVoiceData"/>
@@ -73,7 +73,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.voiceData">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets" title="{{::asset.dialogue}}">
@@ -86,7 +86,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.billboards.length">
-    <title>LOD Billboards</title>
+    <section-title>LOD Billboards</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleBillboards"/>
@@ -94,7 +94,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.billboards">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets">
@@ -107,7 +107,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.scriptFragments.length">
-    <title>Script Fragments</title>
+    <section-title>Script Fragments</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleScriptFragments"/>
@@ -115,7 +115,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.scriptFragments">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets" title="{{::asset.record}}">
@@ -128,7 +128,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.stringFiles.length">
-    <title>String Files ({{merge.stringFiles.length}})</title>
+    <section-title>String Files ({{merge.stringFiles.length}})</section-title>
     <content>
         <label ng-if="false">
             <input type="checkbox" ng-model="merge.handleStringFiles"/>
@@ -155,7 +155,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.translations.length">
-    <title>MCM Translations</title>
+    <section-title>MCM Translations</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleTranslations"/>
@@ -163,7 +163,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.translations">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets">
@@ -176,7 +176,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.iniFiles.length">
-    <title>INI Files ({{merge.iniFiles.length}})</title>
+    <section-title>INI Files ({{merge.iniFiles.length}})</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.handleIniFiles"/>
@@ -192,7 +192,7 @@
 </expandable-section>
 
 <expandable-section class="asset-section" ng-if="merge.generalAssets.length">
-    <title>General Assets</title>
+    <section-title>General Assets</section-title>
     <content>
         <label>
             <input type="checkbox" ng-model="merge.copyGeneralAssets"/>
@@ -200,7 +200,7 @@
         </label>
 
         <expandable-section class="assets-list-section" ng-repeat="entry in merge.generalAssets">
-            <title>{{::entry.folder}} ({{::entry.assets.length}} assets)</title>
+            <section-title>{{::entry.folder}} ({{::entry.assets.length}} assets)</section-title>
             <content>
                 <div class="assets-list" vs-repeat>
                     <div ng-repeat="asset in entry.assets">{{::asset.filePath}}</div>

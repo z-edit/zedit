@@ -2,7 +2,7 @@ ngapp.directive('expandableSection', function($timeout) {
     return {
         restrict: 'E',
         transclude: {
-            title: 'title',
+            sectionTitle: 'sectionTitle',
             content: 'content'
         },
         templateUrl: 'directives/expandableSection.html',
