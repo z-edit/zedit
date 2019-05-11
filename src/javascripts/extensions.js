@@ -262,6 +262,11 @@ Array.prototype.partition = function(array, callback) {
     return [a1, a2];
 };
 
+Array.prototype.filterSelf = function(callback) {
+    this.filter(callback).forEach(this.remove);
+    return this;
+};
+
 Object.deepAssign = function(target, varArgs) {
     if (target === null) // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
