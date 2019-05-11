@@ -1,0 +1,49 @@
+<div ng-if="rule">
+    <h2>{{editing ? 'Edit' : 'Create'}} {{rule.rulesType}} Rule</h2>
+
+    <h3>Name</h3>
+    <section>
+        <input type="text" ng-model="rule.name">
+    </section>
+
+    <h3>Dates</h3>
+    <section>
+        <div class="pairs">
+            <div class="pair">
+                <div class="label">Created</div>
+                <div class="value">May 10, 2019</div>
+            </div>
+            <div class="pair">
+                <div class="label">Updated</div>
+                <div class="value">May 10, 2019</div>
+            </div>
+        </div>
+    </section>
+
+    <h3>Version</h3>
+    <section>
+        <input type="text" ng-model="rule.version">
+    </section>
+
+    <h3>Description</h3>
+    <section>
+        <textarea ng-model="rule.description"></textarea>
+    </section>
+
+    <h3>Tree</h3>
+    <section>
+        <!-- TODO -->
+    </section>
+
+    <div class="primary-actions">
+        <button class="action-btn" ng-click="save()">Save</button>
+    </div>
+</div>
+
+<div class="message-container" ng-if="!rule">
+    <div class="pane-message">
+        Select a rule from the Rule Browser to view it here.
+    </div>
+</div>
+
+<view-linker ng-show="linking" class="{{linkClass}}" ng-click="link()"></view-linker>
