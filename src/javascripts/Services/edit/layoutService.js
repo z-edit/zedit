@@ -15,9 +15,9 @@ ngapp.service('layoutService', function(viewFactory, randomService) {
             "layout": "horizontal",
             "panes": [{
                 "width": "45%",
-                "tabs": ["smashTreeView", "smashRuleView"]
+                "tabs": ["smashTreeView", "ruleBrowserView"]
             }, {
-                "tabs": ["smashRecordView", "logView"]
+                "tabs": [/*"smashRecordView", */"ruleView", "logView"]
             }]
         }
     };

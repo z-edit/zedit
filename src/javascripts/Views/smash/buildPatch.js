@@ -49,8 +49,10 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
     });
 
     $scope.$on('filesLoaded', function() {
-        patchBuilder.showProgress();
-        patchBuilder.buildPatch($rootScope.patch);
+        $scope.patchBuilt = true;
+        //patchBuilder.showProgress();
+        // TODO: re-enable
+        //patchBuilder.buildPatch($rootScope.patch);
     });
 
     $scope.$on('patchBuilt', function() {
