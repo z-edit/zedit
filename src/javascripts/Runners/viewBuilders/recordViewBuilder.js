@@ -6,7 +6,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService)
             let scope = view.scope;
             scope.tree && view.releaseTree(scope.tree);
             scope.virtualNodes && xelib.ReleaseNodes(scope.virtualNodes);
-            this.unlinkAll();
+            view.unlinkAll();
         };
 
         view.releaseTree = function(tree) {
