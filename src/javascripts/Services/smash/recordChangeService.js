@@ -17,22 +17,22 @@ ngapp.service('recordChangeService', function() {
         });
     };
 
-    let elementCreated = function(changes, element) {
+    let elementCreated = function(changes, ovrElement) {
         changes.push({
-            path: LocalPath(element),
+            path: LocalPath(ovrElement),
             type: 'Created'
         });
     };
 
-    let elementRemoved = function(changes, element) {
+    let elementRemoved = function(changes, mstElement) {
         changes.push({
-            path: LocalPath(element),
+            path: LocalPath(mstElement),
             type: 'Removed'
         });
     };
 
     let elementChanged = function(changes, mstElement, ovrElement) {
-        let vt = ValueType(element);
+        let vt = ValueType(ovrElement);
         if (objectTypes.includes(vt)) {
             getChanges(changes, mstElement, ovrElement);
         } else {
@@ -40,9 +40,9 @@ ngapp.service('recordChangeService', function() {
                 ovrValue = GetValue(ovrElement);
             if (mstValue === ovrValue) return;
             changes.push({
-                path: LocalPath(element),
+                path: LocalPath(ovrElement),
                 type: 'Changed',
-                value: ovrValue
+                value: ovrValue // TODO: handle reference fields
             });
         }
     };
@@ -54,9 +54,9 @@ ngapp.service('recordChangeService', function() {
                     ovrPresent = ovrElement !== 0,
                     mstPresent = mstElement !== 0;
                 if (ovrPresent && !mstPresent)
-                    elementCreated(changes, ovrElement);
+                    elementCreated(changes, ovrElement, index);
                 if (mstPresent && !ovrPresent)
-                    elementRemoved(changes, mstElement);
+                    elementRemoved(changes, mstElement, index);
                 if (mstPresent && ovrPresent)
                     elementChanged(changes, mstElement, ovrElement);
             });
@@ -65,11 +65,13 @@ ngapp.service('recordChangeService', function() {
 
     // public
     this.getRecordChanges = function(mst, ovr) {
-        if (Signature(ovr) !== Signature(mst)) return;
+        let sig = Signature(ovr);
+        if (sig !== Signature(mst)) return;
         let changes = [];
         getChanges(changes, mst, ovr);
         if (changes.length) return {
             formId: xelib.GetHexFormID(mst, true),
+            sig: sig,
             changes: changes
         };
     };
