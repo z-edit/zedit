@@ -9,11 +9,6 @@ ngapp.directive('ruleTree', function() {
     }
 });
 
-ngapp.controller('ruleTreeController', function($scope, contextMenuFactory, contextMenuService) {
-    $scope.contextMenuItems = contextMenuFactory.ruleTreeItems;
-
-    $scope.showContextMenu = function(e) {
-        if ($scope.focusedIndex === 0) return;
-        contextMenuService.showContextMenu($scope, e);
-    };
+ngapp.controller('ruleTreeController', function($scope, contextMenuService) {
+    contextMenuService.buildFunctions($scope, 'ruleTree');
 });

@@ -48,4 +48,10 @@ ngapp.service('nodeHelpers', function() {
         let handles = service.mapNodeHandles(nodes, mapFn);
         return service.reduceHandles(handles, keyFn);
     };
+
+    this.testNodes = function(nodes, testFn) {
+        return nodes.reduce((b, node) => {
+            return b && testFn(node);
+        }, true);
+    };
 });

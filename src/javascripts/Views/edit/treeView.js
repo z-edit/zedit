@@ -1,4 +1,4 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -10,7 +10,6 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     let filterView = $scope.$parent.view;
     let openableTypes = [xelib.etMainRecord, xelib.etFile];
     $scope.allColumns = columnsService.getColumns('treeView');
-    $scope.contextMenuItems = contextMenuFactory.treeViewItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -20,12 +19,9 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     nodeSelectionService.buildFunctions($scope, true);
     nodeColumnService.buildFunctions($scope, '.tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
+    contextMenuService.buildFunctions($scope, 'treeView');
 
     // scope functions
-    $scope.showContextMenu = function(e) {
-        contextMenuService.showContextMenu($scope, e);
-    };
-
     $scope.open = function(node, newView) {
         if (!openableTypes.includes(node.element_type)) return;
         let recordView = newView ?

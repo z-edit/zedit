@@ -14,7 +14,7 @@ ngapp.directive('listView', function() {
     }
 });
 
-ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, contextMenuFactory, htmlHelpers) {
+ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, htmlHelpers) {
     // initialization
     $scope.parent = htmlHelpers.findParent($element[0], el => {
         return el.hasAttribute('list-view-parent');
@@ -51,15 +51,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     // inherited variables and functions
-    $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
     hotkeyService.buildOnKeyDown($scope, 'onFilterKeyDown', 'listViewFilter');
+    contextMenuService.buildFunctions($scope, 'listView');
 
     // scope functions
-    $scope.showContextMenu = function(e) {
-        contextMenuService.showContextMenu($scope, e);
-    };
-
     $scope.clearSelection = function(resetPrevIndex) {
         $scope.items.forEach(item => item.selected = false);
         if (resetPrevIndex) prevIndex = -1;

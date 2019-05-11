@@ -1,5 +1,13 @@
 ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
-    let service = this;
+    let service = this,
+        contextMenus = {};
+
+    this.divider = () => ({
+        visible: (scope, items) => {
+            return items.length > 0 && !items.last().divider;
+        },
+        build: (scope, items) => items.push({ divider: true })
+    });
 
     this.buildMenuItems = function(scope, items) {
         let menuItems = [];
@@ -14,11 +22,22 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
         return menuItems;
     };
 
-    this.showContextMenu = function(scope, e) {
-        let offset = { top: e.clientY, left: e.clientX},
-            items = scope.contextMenuItems,
-            menuItems = service.buildMenuItems(scope, items);
-        $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
+    this.addContextMenu = function(name, items) {
+        contextMenus[name] = items;
+    };
+
+    this.getContextMenu = function(menuName) {
+        return contextMenus[menuName];
+    };
+
+    this.buildFunctions = function(scope, menuName) {
+        let items = contextMenus[menuName];
+
+        scope.showContextMenu = function(e) {
+            let offset = { top: e.clientY, left: e.clientX},
+                menuItems = service.buildMenuItems(scope, items);
+            $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
+        };
     };
 
     this.init = function(scope) {
@@ -54,5 +73,5 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
 
         // hide context menu when window loses focus
         window.onblur = () => scope.$applyAsync(() => scope.showContextMenu = false);
-    }
+    };
 });

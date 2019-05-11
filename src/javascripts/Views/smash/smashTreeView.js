@@ -1,4 +1,4 @@
-ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, contextMenuFactory, nodeHelpers) {
+ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -9,7 +9,6 @@ ngapp.controller('smashTreeViewController', function($rootScope, $scope, $elemen
     // helper variables
     let openableTypes = [xelib.etMainRecord];
     $scope.allColumns = columnsService.getColumns('smashTreeView');
-    $scope.contextMenuItems = contextMenuFactory.smashTreeViewItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -19,12 +18,9 @@ ngapp.controller('smashTreeViewController', function($rootScope, $scope, $elemen
     nodeSelectionService.buildFunctions($scope, true);
     nodeColumnService.buildFunctions($scope, '.tree-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
+    contextMenuService.buildFunctions($scope, 'smashTreeView');
 
     // scope functions
-    $scope.showContextMenu = function(e) {
-        contextMenuService.showContextMenu($scope, e);
-    };
-
     $scope.open = function(node, newView) {
         if (!openableTypes.includes(node.element_type)) return;
         let recordView = newView ?

@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, nodeColumnService, hotkeyService, contextMenuService, contextMenuFactory) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, nodeColumnService, hotkeyService, contextMenuService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -9,7 +9,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     // helper/scope variables
     let viewsToLink = ['tree-view', 'referenced-by-view', 'filter-view'];
     $scope.overrides = [];
-    $scope.contextMenuItems = contextMenuFactory.recordViewItems;
 
     // inherited functions
     treeService.buildFunctions($scope, $element);
@@ -19,6 +18,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     nodeSelectionService.buildFunctions($scope, false, true);
     nodeColumnService.buildFunctions($scope, '.record-view', false, true);
     hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
+    contextMenuService.buildFunctions($scope, 'recordView');
 
     // helper functions
     let fixTopBorder = function() {
@@ -30,11 +30,6 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     };
 
     // scope functions
-    $scope.showContextMenu = function(e) {
-        if ($scope.focusedIndex === 0) return;
-        contextMenuService.showContextMenu($scope, e);
-    };
-
     $scope.toggleAddressBar = function(visible) {
         $scope.showAddressBar = visible;
         fixTopBorder();

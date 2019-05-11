@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService, contextMenuFactory) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -7,7 +7,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     $scope.canSortAll = true;
     $scope.sort = { column: 'Record', reverse: false };
     $scope.allColumns = columnsService.getColumns('referencedByView');
-    $scope.contextMenuItems = contextMenuFactory.referencedByViewItems;
 
     // inherited functions
     gridService.buildFunctions($scope, $element);
@@ -15,6 +14,7 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     referencedByViewService.buildFunctions($scope);
     nodeColumnService.buildFunctions($scope, '.referenced-by-view', true);
     hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
+    contextMenuService.buildFunctions($scope, 'referencedByView');
 
     // helper functions
     let getAllReferencesBuilt = function() {
@@ -30,10 +30,6 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
         } else {
             $scope.record = xelib.GetElementEx(node.handle, '');
         }
-    };
-
-    $scope.showContextMenu = function(e) {
-        contextMenuService.showContextMenu($scope, e);
     };
 
     $scope.openColumnsModal = function() {
