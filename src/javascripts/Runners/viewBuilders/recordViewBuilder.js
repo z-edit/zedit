@@ -1,5 +1,5 @@
-ngapp.service('recordViewFactory', function(viewFactory, viewLinkingService) {
-    this.new = function() {
+ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService) {
+    let newView = function() {
         let view = viewFactory.new('recordView');
 
         view.destroy = function() {
@@ -20,13 +20,11 @@ ngapp.service('recordViewFactory', function(viewFactory, viewLinkingService) {
 
         return view;
     };
-});
 
-ngapp.run(function($rootScope, viewFactory, recordViewFactory, settingsService) {
     viewFactory.registerView({
         id: 'recordView',
         name: 'Record View',
-        new: recordViewFactory.new,
+        new: newView,
         isAccessible: () => $rootScope.appMode === 'edit'
     });
 

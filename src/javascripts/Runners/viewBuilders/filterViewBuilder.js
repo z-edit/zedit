@@ -1,5 +1,5 @@
-ngapp.service('filterViewFactory', function(viewFactory, viewLinkingService) {
-    this.new = function() {
+ngapp.run(function(viewFactory, viewLinkingService) {
+    let newView = function() {
         let view = viewFactory.new('filterView');
 
         view.destroy = function() {
@@ -16,13 +16,11 @@ ngapp.service('filterViewFactory', function(viewFactory, viewLinkingService) {
 
         return view;
     };
-});
 
-ngapp.run(function(viewFactory, filterViewFactory) {
     viewFactory.registerView({
         id: 'filterView',
         name: 'Filter View',
-        new: filterViewFactory.new,
+        new: newView,
         isAccessible: () => false
     });
 });

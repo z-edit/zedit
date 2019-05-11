@@ -1,5 +1,5 @@
-ngapp.service('smashTreeViewFactory', function(viewFactory, viewLinkingService) {
-    this.new = function() {
+ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
+    let newView = function() {
         let view = viewFactory.new('smashTreeView', {
             templateUrl: `partails/treeView.html`
         });
@@ -22,12 +22,10 @@ ngapp.service('smashTreeViewFactory', function(viewFactory, viewLinkingService) 
 
         return view;
     };
-});
 
-ngapp.run(function($rootScope, viewFactory, smashTreeViewFactory) {
     viewFactory.registerView({
         id: 'smashTreeView',
-        new: smashTreeViewFactory.new,
+        new: newView,
         name: 'Smash Tree View',
         isAccessible: () => $rootScope.appMode === 'smash'
     });

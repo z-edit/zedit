@@ -1,5 +1,5 @@
-ngapp.service('treeViewFactory', function(viewFactory, viewLinkingService) {
-    this.new = function() {
+ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService) {
+    let newView = function() {
         let view = viewFactory.new('treeView');
 
         view.releaseTree = function(tree) {
@@ -20,13 +20,11 @@ ngapp.service('treeViewFactory', function(viewFactory, viewLinkingService) {
 
         return view;
     };
-});
 
-ngapp.run(function($rootScope, viewFactory, treeViewFactory, settingsService) {
     viewFactory.registerView({
         id: 'treeView',
         name: 'Tree View',
-        new: treeViewFactory.new,
+        new: newView,
         isAccessible: () => $rootScope.appMode === 'edit'
     });
 

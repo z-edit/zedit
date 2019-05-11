@@ -16,11 +16,9 @@ ngapp.service('viewFactory', function(randomService) {
         views.push(view);
     };
 
-    this.newView = function(viewName, active = false) {
-        let view = views.find(view => {
-            return view.name === viewName;
-        });
-        if (!view) throw new Error('Could not resolve view ' + viewName);
+    this.newView = function(viewId, active = false) {
+        let view = views.findByKey('id', viewId);
+        if (!view) throw new Error('Could not resolve view ' + viewId);
         let instance = view.new();
         instance.id = randomService.generateUniqueId();
         instance.active = active;

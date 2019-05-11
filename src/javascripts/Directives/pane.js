@@ -87,9 +87,9 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
         e.currentTarget.scrollLeft += e.deltaY > 0 ? 20 : -20;
     };
 
-    $scope.$on('changeView', function(e, viewName) {
+    $scope.$on('changeView', function(e, viewId) {
         let tabIndex = e.targetScope.$index,
-            viewTab = viewFactory.newView(viewName, true);
+            viewTab = viewFactory.newView(viewId, true);
         viewTab.pane = $scope.pane;
         $scope.tabs.splice(tabIndex, 1, viewTab);
         e.stopPropagation();

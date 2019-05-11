@@ -1,5 +1,5 @@
-ngapp.service('referencedByViewFactory', function(viewFactory, viewLinkingService) {
-    this.new = function() {
+ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
+    let newView = function() {
         let view = viewFactory.new('referencedByView');
 
         view.releaseGrid = function(grid) {
@@ -16,13 +16,11 @@ ngapp.service('referencedByViewFactory', function(viewFactory, viewLinkingServic
 
         return view;
     };
-});
 
-ngapp.run(function($rootScope, viewFactory, referencedByViewFactory) {
     viewFactory.registerView({
         id: 'referencedByView',
         name: 'Referenced By View',
-        new: referencedByViewFactory.new,
+        new: newView,
         isAccessible: () => $rootScope.appMode === 'edit'
     });
 });
