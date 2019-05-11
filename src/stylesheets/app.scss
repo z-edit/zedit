@@ -38,6 +38,7 @@
 'components/nodes',
 'components/nodeColumns',
 'components/viewLinker',
+'components/pairs',
 'views/start',
 'views/edit',
 'views/clean',
@@ -65,4 +66,6 @@
 'views/refactorModal',
 'views/resolveModal',
 'views/settingsModal',
-'views/referencedByView';
+'views/referencedByView',
+'views/ruleView',
+'views/ruleBrowserView';
