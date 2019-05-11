@@ -1,0 +1,23 @@
+.rule-view {
+  text-align: initial;
+  padding: 0 16px;
+
+  input[type="text"] {
+    font-size: 16px;
+    padding: 4px 8px;
+    min-width: 300px;
+  }
+
+  textarea {
+    font-size: 16px;
+    padding: 4px 8px;
+    min-width: 500px;
+    max-width: 500px;
+    min-height: 100px;
+  }
+
+  .primary-actions button {
+    font-size: 22px;
+    padding: 6px 14px;
+  }
+}
