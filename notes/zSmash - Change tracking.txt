@@ -1,0 +1,42 @@
+Amulet of Articulation
+
+Mastered in: Skyrim.esm
+
+Zims Immersive Artifacts:
+Master versions it has knowledge of:
+  - Skyrim.esm
+
+Compare against Skyrim.esm and cache change information relative to Skyrim.esm
+
+
+--
+
+MLU.esp:
+Master versions it has knowledge of:
+  - Unofficial Skyrim Legendary Edition Patch.esp
+  - Skyrim.esm
+
+Compare against Skyrim.esm and cache change information relative to Skyrim.esm
+THEN: we can ignore any changes performed in the Unofficial Skyrim Legendary Edition Patch UNLESS some kind of special patching rule tells us otherwise.
+
+--
+
+OMEGA ZIA MLU Patch.esp
+Master versions it has knowledge of:
+  - Skyrim.esm
+  - MLU.esp
+  - ZIA_Complete Pack_V4.esp
+
+Because it has knowledge of MLU.esp and ZIA_Complete Pack_V4.esp, we can ignore changes in those overrides UNLESS there is some special patching rule that tells us otherwise.
+
+----
+
+What this means for the data format:
+
+- We only need to track changes relative to the master record.
+- When we are merging changes, we need to keep track of which file a change came from.
+- When we are merging changes, we can "overwrite" changes when the change we are dealing with comes from an override record in a file that has the file that the change to be overwritten comes from as a master.  => BASED UPON PATCHING RULES!
+- The patching rules that can influence this are:
+  - Obviously, we completely skip a change if the patching rules say we should skip it
+  - If a change which is currently recorded has a priority which is higher than that of the current patching rule, then we do not overwrite
+

@@ -1,0 +1,65 @@
+// changes for Update.esm
+{
+  "Skyrim.esm": [
+    {
+      "formId": "00015C6E",
+      "sig": "LVLI",
+      "changes": [
+        {
+          "path": "Leveled List Entries\\[0]\\Count",
+          "type": "Changed",
+          "value": "2"
+        }
+      ]
+    }
+  ]
+}
+
+// changes for New File.esp
+{
+  "Skyrim.esm": [
+    {
+      "formId": "00015C6E",
+      "sig": "LVLI",
+      "changes": [
+        {
+          "path": "Leveled List Entries\\[1]",
+          "type": "Removed"
+        }
+      ]
+    }
+  ]
+}
+
+// merged changeset
+{
+  "Skyrim.esm": [
+    "00015C6E": [
+      {
+        "plugin": "Update.esm",
+        "priority": 0,
+        "path": "Leveled List Entries\\[0]\\Count",
+        "type": "Changed",
+        "value": "2"
+      },
+      {
+        "plugin": "New Plugin.esp",
+        "priority": 0,
+        "path": "Leveled List Entries\\[1]",
+        "type": "Removed"
+      }
+    ]
+  ]
+}
+
+// ---
+later on...
+
+// when handling type: "Changed"
+let pluginFile = resolveFile(change.plugin),
+    element = xelib.GetElement(pluginFile, change.path),
+    winningElement = xelib.WinningElement(element)
+if (winningElement) return;
+xelib.SetValue(winningElement, change.value);
+
+// when handling type: "Removed"

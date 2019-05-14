@@ -1,0 +1,120 @@
+{
+  "description": "This is Smash.All.",
+  "records": {
+    "AACT": {
+      "process": true,
+      "keepDeletions": true,
+      "overrideDeletions": true,
+      "merge": true,
+      "groups": [],
+      "elements": [
+        {
+          "name": "Record Header"
+        },
+        {
+          "name": "EDID - Editor ID",
+          "process": true
+        }
+      ],
+    },
+    "ARMO": {
+      "process": true,
+      "merge": true,
+      "groups": [],
+      "elements": [
+        {
+          "name": "KWDA - Keywords",
+          "process": true,
+          "merge": true
+        }
+      ],
+    },
+    "WEAP": {
+      "process": true,
+      "priority": 100
+    },
+    "WTHR": {
+      "process": true,
+      "merge": false
+    },
+    "LVLI": {
+      "process": true,
+      "merge": true,
+      "groups": [],
+      "elements": [
+        {
+          "name": "Leveled List Entries",
+          "process": true,
+          "merge": true,
+          "overwrite": true,
+          "keepDeletions": true,
+          "elements": [
+            {
+              "name": "Leveled List Entry",
+              "elements": [
+                {
+                  "name": "LVLO - Base Data",
+                  "process": true,
+                  "merge": true,
+                  "elements": [
+                    {
+                      "name": "Level",
+                      "process": true
+                    },
+                    {
+                      "name": "Reference",
+                      "process": true
+                    },
+                    {
+                      "name": "Count",
+                      "process": true,
+                      "priority": 100
+                    }
+                  ]
+                },
+                {
+                  "name": "COED - Extra Data",
+                  "process": true,
+                  "elements": [
+                    {}
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+    },
+    "NPC_": {
+      "process": true,
+      "merge": true,
+      "groups": [
+        {
+          "name": "Visual NPC Data",
+          "description": "We forward NPC Visual Data altogether so we don't break NPC FaceGenData.",
+          "path": "",
+          "elements": [
+            "Head Parts", 
+            "HCLF - Hair Color", 
+            "FTST - Head texture", 
+            "QNAM - Texture lighting", 
+            "NAM9 - Face morph", 
+            "NAMA - Face parts", 
+            "Tint Layers"
+          ]
+        }
+      ],
+      "elements": [
+        {
+          "name": "HCLF - Hair Color",
+          "process": true
+        },
+        {
+         "name": "Head Parts",
+         "process": true,
+         "merge": true
+        }
+      ]
+    }
+  }
+}
