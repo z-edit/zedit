@@ -89,7 +89,8 @@ ngapp.service('loadOrderService', function($rootScope) {
             handle = xelib.LoadPluginHeader(filename);
             return xelib.GetMasterNames(handle);
         } catch(x) {
-            error(x.stack);
+            error(`Failed to get masters for ${filename}.  ` +
+                `The plugin may be corrupted.\n` + x.stack);
         } finally {
             if (handle) xelib.UnloadPlugin(handle);
         }
