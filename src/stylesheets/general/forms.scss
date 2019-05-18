@@ -64,6 +64,7 @@ input, textarea, select {
   background-color: $background;
   color: $font_color;
   border: 1px solid $hard_border;
+  font-family: inherit;
 }
 
 input[type="text"] {
