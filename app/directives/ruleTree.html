@@ -1,0 +1,13 @@
+<div class="message" ng-show="treeEmpty">There are no records to display.</div>
+<div ng-repeat="(sig,item) in tree" ng-mousedown="clearSelection()">
+    <div class="item" ng-class="{'selected' : item.selected}" ng-mousedown="select($event, sig)">
+        <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}" ng-click="toggleExpansion(item)"></span>
+        <input type="checkbox" ng-model="item.process"> {{::sig}} - {{::item.name}}
+    </div>
+    <div ng-if="item.expanded" class="children">
+        <div ng-hide="item.elements.length" class="message">
+            No elements to display.
+        </div>
+        <element-rule-node ng-repeat="element in item.elements"></element-rule-node>
+    </div>
+</div>
