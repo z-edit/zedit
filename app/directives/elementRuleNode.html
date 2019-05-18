@@ -1,0 +1,8 @@
+<div ng-mousedown="select($event)" ng-class="{'selected': element.selected}" class="item">
+    <span class="expander {{element.expanded ? 'expanded' : 'collapsed'}}" ng-click="toggleExpansion()" ng-if="::element.elements.length"></span>
+    <span class="placeholder" ng-if="::!element.elements.length"></span>
+    <input type="checkbox" ng-model="element.process"> {{::element.name}}
+</div>
+<div class="children" ng-if="element.expanded">
+    <element-rule-node ng-repeat="element in element.elements"></element-rule-node>
+</div>
