@@ -85,6 +85,19 @@ ngapp.run(['$rootScope', '$state', function($rootScope, $state) {
     });
 }]);
 
+// angular extensions
+angular.inherit = function(scope, attribute) {
+    if (angular.isUndefined(scope[attribute])) {
+        scope[attribute] = scope.$parent[attribute];
+    }
+};
+
+angular.default = function(scope, attribute, value) {
+    if (angular.isUndefined(scope[attribute])) {
+        scope[attribute] = value;
+    }
+};
+
 //== begin angular files ==
 //=include Directives/*.js
 //=include Factories/*.js
