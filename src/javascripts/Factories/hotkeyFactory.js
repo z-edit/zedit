@@ -361,6 +361,28 @@ ngapp.service('hotkeyFactory', function() {
         default: 'stopPropagation'
     };
 
+    this.ruleTreeHotkeys = {
+        upArrow: 'handleUpArrow',
+        downArrow: 'handleDownArrow',
+        space: 'handleSpace',
+        escape: [{
+            callback: scope => scope.clearSelection(true)
+        }],
+        enter: 'handleEnter',
+        a: [{
+            modifiers: ['ctrlKey'],
+            callback: 'selectAll'
+        }],
+        f: [{
+            modifiers: ['ctrlKey'],
+            callback: scope => scope.toggleFilter(true)
+        }],
+        pageUp: 'handlePageUp',
+        pageDown: 'handlePageDown',
+        delete: 'deleteRecords',
+        insert: 'handleInsert'
+    };
+
     // HELPER FUNCTIONS
     let sortHotkeys = function(hotkeys) {
         hotkeys.sort((a, b) => {
