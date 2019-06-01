@@ -1,13 +1,14 @@
 // functions shared by the tree view and the record view
 ngapp.service('treeService', function($timeout, htmlHelpers) {
-    this.buildFunctions = function(scope, element) {
+    let {resolveElement} = htmlHelpers;
+
+    this.buildFunctions = function(scope) {
         // helper fucntions
         let reExpandNode = function(node) {
             let newNode = scope.getNewNode(node);
-            if (newNode) {
-                scope.getNodeData(newNode);
-                scope.expandNode(newNode);
-            }
+            if (!newNode) return;
+            scope.getNodeData(newNode);
+            scope.expandNode(newNode);
         };
 
         let reSelectNode = function(node) {
@@ -29,20 +30,6 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             scope.treeElement.scrollTop = scrollOffset;
         };
 
-        scope.getNodeForElement = function(handle) {
-            let handles = xelib.GetDuplicateHandles(handle);
-            for (let j = 0; j < handles.length; j++) {
-                let newNode = scope.tree.find(node => {
-                    return scope.nodeHasHandle(node, handles[j])
-                });
-                if (newNode) return newNode;
-            }
-        };
-
-        scope.resolveNodeError = (path, part) => {
-            return new Error(`Failed to resolve node "${part}" in path "${path}"`);
-        };
-
         scope.addModifiedClass = function(item) {
             let classes = item.class.split(' ');
             if (!classes.includes('modified')) {
@@ -51,17 +38,21 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             }
         };
 
-        scope.hasNoChildren = function(node) {
-            let checkIndex = scope.tree.indexOf(node) + 1;
-            if (checkIndex >= scope.tree.length) return true;
-            return scope.tree[checkIndex].depth <= node.depth;
-        };
-
         scope.setNodeModified = function(node) {
             while (node) {
                 if (node.has_data) scope.addModifiedClass(node);
                 node = node.parent;
             }
+        };
+
+        scope.resolveNodeError = (path, part) => {
+            return new Error(`Failed to resolve node "${part}" in path "${path}"`);
+        };
+
+        scope.hasNoChildren = function(node) {
+            let checkIndex = scope.tree.indexOf(node) + 1;
+            if (checkIndex >= scope.tree.length) return true;
+            return scope.tree[checkIndex].depth <= node.depth;
         };
 
         scope.expandNode = function(node) {
@@ -102,12 +93,7 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 if (child.selected) scope.selectSingle(child, false);
             }
             let removedNodes = scope.tree.splice(startIndex, endIndex - startIndex);
-            removedNodes.forEach(node => {
-                if (node.handle) xelib.Release(node.handle);
-                if (node.kac) xelib.Release(node.kac);
-                if (node.handles)
-                    node.handles.forEach(handle => handle && xelib.Release(handle));
-            });
+            if (scope.cleanupNode) removedNodes.forEach(scope.cleanupNode);
             if (scope.prevNode && scope.prevNode.parent === node)
                 scope.prevNode = undefined;
         };
@@ -131,9 +117,11 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 scope.clearSelection(true);
             if (e.button === 2) scope.showContextMenu(e);
         };
+    };
 
+    this.buildTabViewFunctions = function(scope, element) {
         scope.focusSearchInput = function() {
-            let searchInput = htmlHelpers.resolveElement(scope.tabView, 'search-bar/input');
+            let searchInput = resolveElement(scope.tabView, 'search-bar/input');
             searchInput.focus();
         };
 
@@ -148,8 +136,27 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
 
         scope.resolveElements = function() {
             scope.tabView = element[0];
-            scope.treeElement = htmlHelpers.resolveElement(scope.tabView, '.nodes');
-            scope.columnsElement = htmlHelpers.resolveElement(scope.tabView, '.column-wrapper');
+            scope.treeElement = resolveElement(scope.tabView, '.nodes');
+            scope.columnsElement = resolveElement(scope.tabView, '.column-wrapper');
         };
-    }
+    };
+
+    this.buildHandleFunctions = function(scope) {
+        scope.getNodeForElement = function(handle) {
+            let handles = xelib.GetDuplicateHandles(handle);
+            for (let j = 0; j < handles.length; j++) {
+                let newNode = scope.tree.find(node => {
+                    return scope.nodeHasHandle(node, handles[j])
+                });
+                if (newNode) return newNode;
+            }
+        };
+
+        scope.cleanupNode = function(node) {
+            if (node.handle) xelib.Release(node.handle);
+            if (node.kac) xelib.Release(node.kac);
+            if (!node.handles) return;
+            node.handles.forEach(handle => handle && xelib.Release(handle));
+        };
+    };
 });

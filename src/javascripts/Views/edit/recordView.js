@@ -11,7 +11,9 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.overrides = [];
 
     // inherited functions
-    treeService.buildFunctions($scope, $element);
+    treeService.buildFunctions($scope);
+    treeService.buildTabViewFunctions($scope, $element);
+    treeService.buildHandleFunctions($scope, $element);
     recordViewService.buildFunctions($scope);
     recordViewElementService.buildFunctions($scope);
     recordViewDragDropService.buildFunctions($scope);

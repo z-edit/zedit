@@ -103,7 +103,6 @@ ngapp.service('recordViewElementService', function(errorService, settingsService
             });
         };
 
-
         scope.editElementInline = function(node, index) {
             if (scope.$root.modalActive || !canEdit(node, index)) return;
             node.cells[index].editing = true;

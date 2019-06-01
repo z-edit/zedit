@@ -12,7 +12,9 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.allColumns = columnsService.getColumns('treeView');
 
     // inherited functions
-    treeService.buildFunctions($scope, $element);
+    treeService.buildFunctions($scope);
+    treeService.buildTabViewFunctions($scope, $element);
+    treeService.buildHandleFunctions($scope, $element);
     treeViewService.buildFunctions($scope);
     treeViewElementService.buildFunctions($scope);
     typeToSearchService.buildFunctions($scope);
@@ -87,9 +89,6 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
         $scope.setNodeModified(node);
     });
     $scope.$on('reloadGUI', $scope.reload);
-    $scope.$on('getSelectedNodes', function(e) {
-        e.targetScope.selectedNodes = $scope.selectedNodes;
-    });
     $scope.$on('rebuildColumns', function() {
         $scope.buildColumns();
         $scope.reload();

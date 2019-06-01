@@ -95,9 +95,6 @@ ngapp.controller('smashTreeViewController', function($rootScope, $scope, $elemen
         $scope.setNodeModified(node);
     });
     $scope.$on('reloadGUI', $scope.reload);
-    $scope.$on('getSelectedNodes', function(e) {
-        e.targetScope.selectedNodes = $scope.selectedNodes;
-    });
     $scope.$on('rebuildColumns', function() {
         $scope.buildColumns();
         $scope.reload();
