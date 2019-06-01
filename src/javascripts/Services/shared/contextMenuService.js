@@ -2,10 +2,15 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
     let service = this,
         contextMenus = {};
 
+    // private helpers
+    let removeTrailingDividers = function(menuItems) {
+        for (let i = menuItems.length - 1; i >= 0; i--)
+            if (menuItems[i].divider) menuItems.splice(-1, 1);
+    };
+
+    // public api
     this.divider = () => ({
-        visible: (scope, items) => {
-            return items.length > 0 && !items.last().divider;
-        },
+        visible: (scope, items) => items.length > 0,
         build: (scope, items) => items.push({ divider: true })
     });
 
@@ -13,12 +18,9 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
         let menuItems = [];
         items.forEach(item => {
             if (!item.visible(scope, menuItems)) return;
-            if (typeof item.build === 'function') {
-                item.build(scope, menuItems);
-            } else {
-                item.build.forEach((fn) => fn(scope, menuItems));
-            }
+            item.build(scope, menuItems);
         });
+        removeTrailingDividers(menuItems);
         return menuItems;
     };
 
