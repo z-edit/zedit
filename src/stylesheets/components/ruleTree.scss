@@ -1,19 +1,40 @@
 rule-tree {
-  .children {
-    padding-left: 25px;
+  .nodes .vs-repeat-after-content {
+    border: none;
+    margin: 0;
   }
 
-  .item {
-    display: flex;
-    align-items: center;
-    margin: 2px 0;
-  }
+  .node .icons {
+    font: 16px FontAwesome;
 
-  .placeholder {
-    padding-left: 16px;
-  }
+    .deletions-icon::before {
+      color: $negative;
+      content: '\f056';
+    }
 
-  input[type="checkbox"] {
-    margin: 3px 5px 3px 6px;
+    .entity-icon {
+      background: $secondary_action;
+      font: 14px sans-serif;
+      border-radius: 50%;
+      width: 15px;
+      font-weight: bold;
+      display: inline-block;
+      text-align: center;
+      height: 15px;
+      box-shadow: 0 0 4px $secondary_action;
+
+      &::before {
+        content: '1';
+      }
+    }
+
+    .group-icon::before {
+      content: '\f0c1';
+    }
+
+    .priority-icon::before {
+      color: $neutral;
+      content: '\f069';
+    }
   }
 }
