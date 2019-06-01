@@ -1,13 +1,19 @@
-<div class="message" ng-show="treeEmpty">There are no records to display.</div>
-<div ng-repeat="(sig,item) in tree" ng-mousedown="clearSelection()">
-    <div class="item" ng-class="{'selected' : item.selected}" ng-mousedown="select($event, sig)">
-        <span class="expander {{item.expanded ? 'expanded' : 'collapsed'}}" ng-click="toggleExpansion(item)"></span>
-        <input type="checkbox" ng-model="item.process"> {{::sig}} - {{::item.name}}
+<div class="nodes" tabindex="0" ng-keydown="onTreeKeyDown($event)" ng-mousedown="onTreeMouseDown($event)" vs-repeat>
+    <div ng-repeat="node in tree" class="node" tree-node>
+        <span ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
+            <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="node.can_expand"></span>
+            <span class="placeholder" ng-if="!node.can_expand"></span>
+            <input type="checkbox" ng-model="node.data.process" ng-click="toggleProcess(node)"> {{::node.name}}
+            <span class="icons" ng-if="node.has_data">
+                <span class="deletions-icon" ng-if="::node.data.deletions" title="Forwards child node deletions"></span>
+                <span class="entity-icon" ng-if="::node.data.entity" title="Treated as a single entity"></span>
+                <span class="group-icon" ng-if="::node.data.group" title="Group: {{::node.data.group}}"></span>
+                <span class="priority-icon" ng-if="::node.data.priority" title="Priority: {{::node.data.priority}}"></span>
+            </span>
+        </span>
     </div>
-    <div ng-if="item.expanded" class="children">
-        <div ng-hide="item.elements.length" class="message">
-            No elements to display.
-        </div>
-        <element-rule-node ng-repeat="element in item.elements"></element-rule-node>
-    </div>
+</div>
+
+<div ng-if="!tree.length" class="message" ng-mousedown="onMessageMouseDown($event)">
+    There are no records to display.
 </div>

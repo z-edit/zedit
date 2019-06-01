@@ -2,75 +2,99 @@ ngapp.directive('ruleTree', function() {
     return {
         restrict: 'E',
         scope: {
-            tree: '=?'
+            records: '=?'
         },
         templateUrl: 'directives/ruleTree.html',
         controller: 'ruleTreeController'
     }
 });
 
-ngapp.controller('ruleTreeController', function($scope, $element, contextMenuService, smashRecordRuleService) {
+ngapp.controller('ruleTreeController', function($scope, $element, contextMenuService, ruleTreeService, smashRecordRuleService, hotkeyService, nodeSelectionService, treeService) {
+    // inherited functions
+    treeService.buildFunctions($scope, $element);
+    ruleTreeService.buildFunctions($scope, $element);
+    nodeSelectionService.buildFunctions($scope, true);
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'ruleTree');
     contextMenuService.buildFunctions($scope, 'ruleTree');
 
-    $element[0].addEventListener('mousedown', function(e) {
-        if (e.button === 2) $scope.showContextMenu(e);
-    });
-
-    // scope functions
-    $scope.updateTreeEmpty = function() {
-        $scope.treeEmpty = Object.keys($scope.tree).length === 0;
-    };
-
-    $scope.toggleExpansion = function(node) {
-        node.expanded = !node.expanded;
-    };
-
-    $scope.clearSelection = function() {
-        $scope.selectedRecord = null;
-        Object.keys($scope.tree).forEach(key => {
-            let record = $scope.tree[key];
-            record.selected = false;
-            $scope.selectedElement = null;
-            record.elements.forEach(element => {
-                element.selected = false;
-            });
+    // event handlers
+    $scope.toggleProcess = function(node) {
+        if (!node.data.elements) return;
+        let newState = node.data.process;
+        node.data.elements.forEach(function toggleElement(e) {
+            e.process = newState;
+            if (!e.elements) return;
+            e.elements.forEach(toggleElement);
         });
     };
 
-    $scope.select = function(e, sig) {
-        $scope.clearSelection();
-        let item = $scope.tree[sig];
-        item.selected = true;
-        $scope.selectedRecord = item;
-        $scope.selectedSig = sig;
-        e.stopPropagation();
+    $scope.toggleDeletions = function() {
+        $scope.selectedNodes.forEach(node => {
+            node.data.deletions = !node.data.deletions;
+            $scope.rebuildNode(node);
+        });
     };
 
-    $scope.addRecord = function(sig) {
-        smashRecordRuleService.addRecord($scope.tree, sig);
-        $scope.updateTreeEmpty();
+    $scope.toggleEntity = function() {
+        $scope.selectedNodes.forEach(node => {
+            node.data.entity = !node.data.entity;
+            $scope.rebuildNode(node);
+        });
     };
 
-    $scope.addRecordsFromFile = function(filename) {
-        smashRecordRuleService.addRecordsFromFile($scope.tree, filename);
-        $scope.updateTreeEmpty();
+    $scope.createOrEditGroup = function() {
+        $scope.$emit('openModal', 'editSmashGroup', {
+            nodes: $scope.selectedNodes
+        });
     };
 
-    $scope.addAllRecords = function() {
-        smashRecordRuleService.addAllRecords($scope.tree);
-        $scope.updateTreeEmpty();
+    $scope.increasePriority = function() {
+        $scope.selectedNodes.forEach(node => {
+            node.data.priority = (node.data.priority || 0) + 100;
+            $scope.rebuildNode(node);
+        });
     };
 
-    $scope.removeRecord = function() {
-        delete $scope.tree[$scope.selectedSig];
-        $scope.updateTreeEmpty();
+    $scope.decreasePriority = function() {
+        $scope.selectedNodes.forEach(node => {
+            node.data.priority = (node.data.priority || 0) - 100;
+            $scope.rebuildNode(node);
+        });
     };
 
-    $scope.pruneRecords = function() {
-        smashRecordRuleService.pruneRecords(tree);
-        $scope.updateTreeEmpty();
+    $scope.setPriority = function() {
+        $scope.$emit('openModal', 'editSmashPriority', {
+            nodes: $scope.selectedNodes
+        });
     };
+
+    $scope.removeGroup = function() {
+        $scope.selectedNodes.forEach(node => {
+            delete node.data.group;
+            $scope.rebuildNode(node);
+        });
+    };
+
+    $scope.onNodeDoubleClick = function(e, node) {
+        if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
+        if (node.can_expand) $scope.toggleNode(null, node);
+    };
+
+    $scope.handleDelete = function(e) {
+        $scope.deleteNodes();
+        e.stopImmediatePropagation();
+    };
+
+    $scope.onMessageMouseDown = function(e) {
+        if (e.button === 2) $scope.showContextMenu(e);
+    };
+
+    $scope.$on('nodeUpdated', (e, node) => {
+        $scope.rebuildNode(node);
+        $scope.setNodeModified(node);
+    });
 
     // initialization
-    $scope.updateTreeEmpty();
+    $scope.resolveElements();
+    $scope.buildTree();
 });
