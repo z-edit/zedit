@@ -1,6 +1,11 @@
 let initNodeFn = function(scope, element) {
     let el = element[0];
 
+    // helper functions
+    let updateClass = function() {
+        el.className = `${el.className} ${scope.node.class}`;
+    };
+
     // event listeners
     el.addEventListener('mousedown', function(e) {
         scope.$applyAsync(() => scope.onNodeMouseDown(e, scope.node));
@@ -16,8 +21,8 @@ let initNodeFn = function(scope, element) {
 
     // initialize node data
     if (scope.node.hasData) return;
-    scope.getNodeData(scope.node);
-    el.className = `${el.className} ${scope.node.class}`;
+    if (scope.getNodeData) scope.getNodeData(scope.node);
+    if (scope.node.class) updateClass();
 };
 
 ngapp.directive('treeNode', function() {
