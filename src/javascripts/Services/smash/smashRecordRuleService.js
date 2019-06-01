@@ -2,35 +2,35 @@ ngapp.service('smashRecordRuleService', function() {
     let service = this;
 
     // PUBLIC API
-    this.addRecord = function(tree, sig) {
+    this.addRecord = function(records, sig) {
         xelib.WithHandle(xelib.GetRecordDef(sig), def => {
-            tree[sig] = xelib.DefToObject(def);
+            records[sig] = xelib.DefToObject(def);
         });
     };
 
-    this.addRecordsFromFile = function(tree, filename) {
+    this.addRecordsFromFile = function(records, filename) {
         xelib.WithHandle(xelib.FileByName(filename), file => {
             xelib.WithEachHandle(xelib.GetRecords(file, '', true), rec => {
                 if (!xelib.IsOverride(rec)) return;
                 let sig = xelib.Signature(rec);
-                if (tree.hasOwnProperty(sig)) return;
-                service.addRecord(tree, sig);
+                if (records.hasOwnProperty(sig)) return;
+                service.addRecord(records, sig);
             });
         });
     };
 
-    this.addAllRecords = function(tree) {
+    this.addAllRecords = function(records) {
         let map = xelib.GetSignatureNameMap();
-        Object.keys(map).forEach(sig => {
-            if (tree.hasOwnProperty(sig)) return;
-            service.addRecord(tree, sig);
+        Object.keys(map).sort().forEach(sig => {
+            if (records.hasOwnProperty(sig)) return;
+            service.addRecord(records, sig);
         });
     };
 
-    this.pruneRecords = function(tree) {
-        Object.keys(tree).forEach(key => {
-            if (tree[key].process) return;
-            delete tree[key];
+    this.pruneRecords = function(records) {
+        Object.keys(records).forEach(key => {
+            if (records[key].process) return;
+            delete records[key];
         });
     };
 });
