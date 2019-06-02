@@ -49,6 +49,18 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
             return new Error(`Failed to resolve node "${part}" in path "${path}"`);
         };
 
+        scope.getChildNodes = function(node, includeGrandChildren = false) {
+            let index = scope.tree.indexOf(node) + 1,
+                nodes = [];
+            for (; index < scope.tree.length; index++) {
+                let child = scope.tree[index];
+                let depthDiff = child.depth - node.depth;
+                if (depthDiff < 1) return nodes;
+                if (depthDiff > 1 && !includeGrandChildren) continue;
+                nodes.push(child);
+            }
+        };
+
         scope.hasNoChildren = function(node) {
             let checkIndex = scope.tree.indexOf(node) + 1;
             if (checkIndex >= scope.tree.length) return true;
