@@ -1,4 +1,7 @@
 ngapp.service('eventService', function() {
+    let service = this;
+
+    // PUBLIC API
     this.onRegainFocus = function(callback, delay) {
         let focusTimeout, lostFocus = false;
 
@@ -19,5 +22,19 @@ ngapp.service('eventService', function() {
             e.returnValue = false;
             callback();
         };
+    };
+
+    this.addEventListener = function(scope, element, event, fn) {
+        element.addEventListener(event, fn);
+        scope.$on('$destroy', function() {
+            element.removeEventListener(event, fn);
+        });
+    };
+
+    this.handleEvents = function(scope, element, events) {
+        Object.keys(events).forEach(function(event) {
+            var fn = events[event];
+            service.addEventListener(scope, element, event, fn);
+        });
     };
 });
