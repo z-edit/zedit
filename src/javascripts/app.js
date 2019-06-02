@@ -101,6 +101,7 @@ angular.default = function(scope, attribute, value) {
 //== begin angular files ==
 //=include Directives/*.js
 //=include Factories/*.js
+//=include Interfaces/*.js
 //=include Filters/*.js
 //=include Runners/**/*.js
 //=include Services/**/*.js

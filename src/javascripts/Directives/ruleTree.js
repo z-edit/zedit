@@ -9,25 +9,18 @@ ngapp.directive('ruleTree', function() {
     }
 });
 
-ngapp.controller('ruleTreeController', function($scope, $element, contextMenuService, ruleTreeService, smashRecordRuleService, hotkeyService, nodeSelectionService, treeService) {
+ngapp.controller('ruleTreeController', function($scope, $element, contextMenuService, ruleTreeService, smashRecordRuleService, hotkeyService, nodeSelectionService, treeService, checkboxTreeInterface) {
+    // implement interfaces
+    checkboxTreeInterface($scope);
+
     // inherited functions
     treeService.buildFunctions($scope, $element);
     ruleTreeService.buildFunctions($scope, $element);
     nodeSelectionService.buildFunctions($scope, true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'ruleTree');
     contextMenuService.buildFunctions($scope, 'ruleTree');
+    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'ruleTree');
 
     // event handlers
-    $scope.toggleProcess = function(node) {
-        if (!node.data.elements) return;
-        let newState = node.data.process;
-        node.data.elements.forEach(function toggleElement(e) {
-            e.process = newState;
-            if (!e.elements) return;
-            e.elements.forEach(toggleElement);
-        });
-    };
-
     $scope.toggleDeletions = function() {
         $scope.selectedNodes.forEach(node => {
             node.data.deletions = !node.data.deletions;
@@ -75,6 +68,7 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuSer
         });
     };
 
+    // event handlers
     $scope.onNodeDoubleClick = function(e, node) {
         if (e.srcElement && e.srcElement.classList.contains('expand-node')) return;
         if (node.can_expand) $scope.toggleNode(null, node);

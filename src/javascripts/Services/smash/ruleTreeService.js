@@ -46,15 +46,19 @@ ngapp.service('ruleTreeService', function($timeout, settingsService, htmlHelpers
             return `${sig} - ${scope.records[sig].name}`;
         };
 
-        scope.buildRecordNode = sig => ({
-            name: scope.getRecordName(sig),
-            signature: sig,
-            path: sig,
-            class: '',
-            depth: 1,
-            can_expand: scope.records[sig].elements.length > 0,
-            data: scope.records[sig]
-        });
+        scope.buildRecordNode = sig => {
+            let data = scope.records[sig];
+            return {
+                name: scope.getRecordName(sig),
+                signature: sig,
+                path: sig,
+                state: scope.getNodeState(data),
+                class: '',
+                depth: 1,
+                can_expand: data.elements.length > 0,
+                data: data
+            };
+        };
 
         scope.recordsSelected = function() {
             if (!scope.selectedNodes.length) return;
@@ -96,6 +100,8 @@ ngapp.service('ruleTreeService', function($timeout, settingsService, htmlHelpers
                 return {
                     name: name,
                     depth: node.depth + 1,
+                    parent: node,
+                    state: scope.getNodeState(e),
                     class: '',
                     groups: node.groups || node.data.groups,
                     path: [node.path, name].join('/'),

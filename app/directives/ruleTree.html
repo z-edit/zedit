@@ -3,7 +3,7 @@
         <span ng-style="{'padding-left': (node.depth * 20 + 8 + 'px')}">
             <span class="expand-node {{node.expanded ? 'expanded' : 'collapsed'}}" ng-mousedown="toggleNode($event, node)" ng-if="node.can_expand"></span>
             <span class="placeholder" ng-if="!node.can_expand"></span>
-            <input type="checkbox" ng-model="node.data.process" ng-click="toggleProcess(node)"> {{::node.name}}
+            <input type="checkbox" ng-state="node.state" ng-click="toggleProcess(node, $event)"> {{::node.name}}
             <span class="icons" ng-if="node.has_data">
                 <span class="deletions-icon" ng-if="::node.data.deletions" title="Forwards child node deletions"></span>
                 <span class="entity-icon" ng-if="::node.data.entity" title="Treated as a single entity"></span>
