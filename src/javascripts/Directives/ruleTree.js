@@ -74,6 +74,15 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuSer
         if (node.can_expand) $scope.toggleNode(null, node);
     };
 
+    $scope.handleSpace = function(e) {
+        $scope.$applyAsync(() => {
+            $scope.selectedNodes.forEach(node => {
+                $scope.toggleProcess(node);
+            });
+        });
+        e.stopImmediatePropagation();
+    };
+
     $scope.handleDelete = function(e) {
         $scope.deleteNodes();
         e.stopImmediatePropagation();
