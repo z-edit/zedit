@@ -42,6 +42,7 @@ ngapp.directive('splitBar', function (htmlHelpers) {
                 if (!scope.resizeCallback) return;
                 scope.resizeCallback(scope.$index, width);
             };
+
             let handleMouseDown = function(e) {
                 // only trigger when left mouse button is pressed
                 if (e.button !== 0 && e.type !== 'touchstart') return;
@@ -52,6 +53,7 @@ ngapp.directive('splitBar', function (htmlHelpers) {
                 e.preventDefault();
                 e.stopImmediatePropagation();
             };
+
             let handleMouseUp = function(e) {
                 if (!moving) return;
                 moving = false;

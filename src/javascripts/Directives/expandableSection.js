@@ -1,4 +1,4 @@
-ngapp.directive('expandableSection', function($timeout) {
+ngapp.directive('expandableSection', function($timeout, eventService) {
     return {
         restrict: 'E',
         transclude: {
@@ -11,11 +11,13 @@ ngapp.directive('expandableSection', function($timeout) {
                 iconElement = titleElement.children[0],
                 contentElement = element[0].children[1];
 
-            titleElement.addEventListener('click', function() {
-                contentElement.classList.toggle('ng-hide');
-                iconElement.classList.toggle('collapsed');
-                iconElement.classList.toggle('expanded');
-                $timeout(() => scope.$broadcast('vsRepeatTrigger'));
+            eventService.handleEvents(scope, titleElement, {
+                click: () => {
+                    contentElement.classList.toggle('ng-hide');
+                    iconElement.classList.toggle('collapsed');
+                    iconElement.classList.toggle('expanded');
+                    $timeout(() => scope.$broadcast('vsRepeatTrigger'));
+                }
             });
         }
     }

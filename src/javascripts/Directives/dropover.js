@@ -1,4 +1,4 @@
-ngapp.directive('dropover', function() {
+ngapp.directive('dropover', function(eventService) {
     return {
         restrict: 'E',
         transclude: {
@@ -12,8 +12,10 @@ ngapp.directive('dropover', function() {
         controller: 'dropoverController',
         link: function(scope, element) {
             element[0].setAttribute('tabindex', '0');
-            element[0].addEventListener('keydown', function(e) {
-                scope.$applyAsync(() => scope.onDropoverKeyDown(e));
+            eventService.handleEvents(scope, element[0], {
+                keydown: e => {
+                    scope.$applyAsync(() => scope.onDropoverKeyDown(e));
+                }
             });
         }
     }

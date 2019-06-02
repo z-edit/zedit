@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolService, settingsService, themeService, buttonFactory, modalService, hotkeyService, contextMenuService) {
+ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolService, settingsService, themeService, buttonFactory, modalService, hotkeyService, contextMenuService, eventService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -58,8 +58,10 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
     // global hotkeys
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'base');
     hotkeyService.buildOnKeyUp($scope, 'onKeyUp', 'base');
-    document.addEventListener('keydown', $scope.onKeyDown);
-    document.addEventListener('keyup', $scope.onKeyUp);
+    eventService.handleEvents($scope, document.body, {
+        keydown: $scope.onKeyDown,
+        keyup: $scope.onKeyUp
+    });
 
     // initialization
     settingsService.loadGlobalSettings();

@@ -1,4 +1,4 @@
-ngapp.directive('dropdown', function() {
+ngapp.directive('dropdown', function(eventService) {
     return {
         restrict: 'E',
         transclude: {
@@ -18,8 +18,10 @@ ngapp.directive('dropdown', function() {
         controller: 'dropdownController',
         link: function(scope, element) {
             element[0].setAttribute('tabindex', '0');
-            element[0].addEventListener('keydown', function(e) {
-                scope.$applyAsync(() => scope.onDropdownKeyDown(e));
+            eventService.handleEvents(scope, element[0], {
+                keydown: e => {
+                    scope.$applyAsync(() => scope.onDropdownKeyDown(e));
+                }
             });
         }
     }
