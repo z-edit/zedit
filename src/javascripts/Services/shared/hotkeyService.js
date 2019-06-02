@@ -1,4 +1,4 @@
-ngapp.service('hotkeyService', function() {
+ngapp.service('hotkeyService', function(keyCodeService) {
     let keycodes = keyCodeService.getKeyCodes(),
         hotkeys = {};
 
@@ -73,6 +73,7 @@ ngapp.service('hotkeyService', function() {
 
     this.addHotkeys = function(label, newHotkeys) {
         let target = hotkeys[label];
+        if (!target) target = hotkeys[label] = {};
         Object.keys(newHotkeys).forEach(key => {
             if (target.hasOwnProperty(key)) {
                 addHotkey(target, newHotkeys, key);

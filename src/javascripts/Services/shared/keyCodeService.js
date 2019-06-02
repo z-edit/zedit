@@ -1,4 +1,4 @@
-ngapp.service('keycodeService', function() {
+ngapp.service('keyCodeService', function() {
     let baseKeyCodes = {
         backspace: 8, tab: 9, enter: 13, escape: 27, space: 32,
         shift: 16, ctrl: 17, alt: 18,
