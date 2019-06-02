@@ -5,8 +5,8 @@ ngapp.directive('ngState', function() {
         restrict: 'A',
         link: function(scope, element, attributes) {
             scope.$watch(attributes.ngState, value => {
-                element.checked = Boolean(value);
-                element.indeterminate = value === CHECKBOX_INDETERMINATE;
+                element[0].checked = Boolean(value);
+                element[0].indeterminate = value === CHECKBOX_INDETERMINATE;
             });
         }
     }
