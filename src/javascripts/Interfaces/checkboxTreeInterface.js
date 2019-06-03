@@ -3,19 +3,17 @@ ngapp.factory('checkboxTreeInterface', function() {
     const CHECKBOX_CHECKED = 1;
     const CHECKBOX_INDETERMINATE = 2;
 
-    let useIndeterminate = function(foundNodes) {
-        return foundNodes[0] + foundNodes[1] + foundNodes[2] > 1;
+    let indeterminate = function(foundStates) {
+        return foundStates[2] || foundStates[0] && foundStates[1];
     };
 
     let getStateFromChildren = function(element) {
-        let foundStates = [0, 0, 0];
-        element.elements.find(e => {
-            foundStates[getState(e)] = 1;
-            return useIndeterminate(foundStates);
-        });
-        return useIndeterminate(foundStates) ?
-            CHECKBOX_INDETERMINATE :
-            foundStates.findIndex(n => n);
+        let foundStates = [false, false, false];
+        for (let i = 0; i < element.elements.length; i++) {
+            foundStates[getState(element.elements[i])] = true;
+            if (indeterminate(foundStates)) return CHECKBOX_INDETERMINATE;
+        }
+        return foundStates.findIndex(n => n);
     };
 
     let getState = function(element) {
@@ -25,9 +23,6 @@ ngapp.factory('checkboxTreeInterface', function() {
             CHECKBOX_UNCHECKED;
     };
 
-    // set parent state to indeterminate if a child is set to
-    // indeterminate or not all children are set to process
-    // and not all children are set to not process
     let updateState = function(node) {
         node.state = getState(node.data);
         node.data.process = node.state > 0;
