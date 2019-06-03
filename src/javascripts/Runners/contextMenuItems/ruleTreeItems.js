@@ -27,7 +27,7 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
     };
 
     let nodesSelected = scope => scope.selectedNodes.length > 0;
-
+    let multipleNodesSelected = scope => scope.selectedNodes.length > 1;
     let getGroup = scope => scope.prevNode && scope.prevNode.data.group;
 
     addContextMenu('ruleTree', [
@@ -111,7 +111,10 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
         },
         {
             id: 'Group',
-            visible: scope => scope.elementsSelected(),
+            visible: scope => {
+                return scope.elementsSelected() &&
+                    multipleNodesSelected();
+            },
             build: (scope, items) => {
                 let group = getGroup(scope);
                 items.push({
