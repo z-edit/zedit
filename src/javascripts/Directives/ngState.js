@@ -1,5 +1,5 @@
 ngapp.directive('ngState', function(eventService) {
-    const CHECKBOX_INDETERMINATE = 2;
+    const INDETERMINATE = 2;
 
     return {
         restrict: 'A',
@@ -10,7 +10,7 @@ ngapp.directive('ngState', function(eventService) {
 
             scope.$watch(attributes.ngState, value => {
                 element[0].checked = Boolean(value);
-                element[0].indeterminate = value === CHECKBOX_INDETERMINATE;
+                element[0].indeterminate = value === INDETERMINATE;
             });
         }
     }
