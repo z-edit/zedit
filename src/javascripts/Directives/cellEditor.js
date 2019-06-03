@@ -6,7 +6,7 @@ ngapp.directive('cellEditor', function() {
     }
 });
 
-ngapp.controller('cellEditorController', function($scope, $timeout, $element, errorService, hotkeyService, htmlHelpers) {
+ngapp.controller('cellEditorController', function($scope, $timeout, $element, errorService, hotkeyInterface, htmlHelpers) {
     const refInputPath = 'reference-select/autocomplete-input/input',
         enumSelectPath = 'enum-select/select';
 
@@ -24,7 +24,7 @@ ngapp.controller('cellEditorController', function($scope, $timeout, $element, er
     $scope.isOther = !$scope.isEnum && !$scope.isReference;
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'cellEditor');
+    hotkeyInterface($scope, 'onKeyDown', 'cellEditor');
 
     // helper functions
     let setNewValue = function() {

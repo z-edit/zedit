@@ -1,6 +1,6 @@
-ngapp.controller('cleanSaveModalController', function($scope, $timeout, saveModalService, pluginErrorService, errorCacheService) {
+ngapp.controller('cleanSaveModalController', function($scope, $timeout, saveModalInterface, pluginErrorService, errorCacheService) {
     // inherited functions
-    saveModalService.buildFunctions($scope);
+    saveModalInterface($scope);
 
     // helper functions
     let applyErrorResolutions = function() {

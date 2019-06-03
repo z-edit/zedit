@@ -1,4 +1,4 @@
-ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService, hotkeyService) {
+ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService, hotkeyInterface) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;
@@ -51,7 +51,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     }];
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onModalKeyDown', 'automateModal');
+    hotkeyInterface($scope, 'onModalKeyDown', 'automateModal');
 
     // scope functions
     $scope.setSortMode = function(sortMode) {

@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyService, mergeService, mergeLoadService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
+ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progressService, hotkeyInterface, mergeService, mergeLoadService, mergeBuilder, mergeDataService, mergeStatusService, loadOrderService, eventService, relinker, gameService) {
     let {cacheDataFolders, updatePluginDataFolder} = mergeDataService,
         {readyToBeBuilt, updateStatus} = mergeStatusService,
         relinkGames = [xelib.gmTES5, xelib.gmSSE];
@@ -101,7 +101,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
     $scope.$on('save', () => openSaveModal(false));
 
     // handle hotkeys
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'mergeView');
+    hotkeyInterface($scope, 'onKeyDown', 'mergeView');
 
     // save data and terminate xelib when application is being closed
     eventService.beforeClose(openSaveModal);

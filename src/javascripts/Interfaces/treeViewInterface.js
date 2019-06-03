@@ -1,5 +1,5 @@
-ngapp.service('treeViewService', function($timeout, settingsService, nodeHelpers, errorService) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('treeViewInterface', function($timeout, settingsService, nodeHelpers, errorService) {
+    return function(scope) {
         // helper variables
         let ctClasses = ['ct-unknown', 'ct-ignored', 'ct-not-defined', 'ct-identical-to-master', 'ct-only-one', 'ct-hidden-by-mod-group', 'ct-master', 'ct-conflict-benign', 'ct-override', 'ct-identical-to-master-wins-conflict', 'ct-conflict-wins', 'ct-conflict-loses'],
             caClasses = ['ca-unknown', 'ca-only-one', 'ca-no-conflict', 'ca-conflict-benign', 'ca-override', 'ca-conflict', 'ca-conflict-critical'],

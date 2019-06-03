@@ -32,16 +32,6 @@ ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
         return contextMenus[menuName];
     };
 
-    this.buildFunctions = function(scope, menuName) {
-        let items = contextMenus[menuName];
-
-        scope.showContextMenu = function(e) {
-            let offset = { top: e.clientY, left: e.clientX},
-                menuItems = service.buildMenuItems(scope, items);
-            $timeout(() => scope.$emit('openContextMenu', offset, menuItems));
-        };
-    };
-
     this.init = function(scope) {
         // event handlers
         scope.$on('openContextMenu', function(e, offset, items) {

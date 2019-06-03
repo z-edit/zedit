@@ -1,5 +1,5 @@
-ngapp.service('gridService', function(htmlHelpers) {
-    this.buildFunctions = function(scope, element) {
+ngapp.factory('gridInterface', function(htmlHelpers) {
+    return function(scope, element) {
         scope.reload = function() {
             if (!scope.grid) return;
             let oldGrid = scope.grid;

@@ -1,6 +1,6 @@
-ngapp.controller('mergeSaveModalController', function($scope, $timeout, saveModalService, mergeService) {
+ngapp.controller('mergeSaveModalController', function($scope, $timeout, saveModalInterface, mergeService) {
     // inherited functions
-    saveModalService.buildFunctions($scope);
+    saveModalInterface($scope);
 
     // helper functions
     let saveData = function() {

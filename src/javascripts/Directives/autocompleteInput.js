@@ -16,7 +16,7 @@ ngapp.directive('autocompleteInput', function() {
     }
 });
 
-ngapp.controller('autocompleteInputController', function($scope, $timeout, hotkeyService) {
+ngapp.controller('autocompleteInputController', function($scope, $timeout, hotkeyInterface) {
     Object.defaults($scope, {
         minLength: 2,
         pause: 250,
@@ -49,7 +49,7 @@ ngapp.controller('autocompleteInputController', function($scope, $timeout, hotke
     };
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onInputKeyDown', 'autocompleteInput');
+    hotkeyInterface($scope, 'onInputKeyDown', 'autocompleteInput');
 
     // scope functions
     $scope.handleEscape = function() {

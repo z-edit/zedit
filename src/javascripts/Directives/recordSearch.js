@@ -1,4 +1,4 @@
-ngapp.controller('recordSearchController', function($scope, $q, $timeout, hotkeyService) {
+ngapp.controller('recordSearchController', function($scope, $q, $timeout, hotkeyInterface) {
     // helper variables
     let pKey = 80, vKey = 86,
         searchOptionKeys = [pKey, vKey];
@@ -10,7 +10,7 @@ ngapp.controller('recordSearchController', function($scope, $q, $timeout, hotkey
     $scope.searchBy = ['Path', 'Value'];
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'recordSearch');
+    hotkeyInterface($scope, 'onSearchKeyDown', 'recordSearch');
 
     // scope functions
     $scope.foundResult = function(handle) {

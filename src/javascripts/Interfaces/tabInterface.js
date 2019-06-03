@@ -1,5 +1,5 @@
-ngapp.service('tabService', function() {
-    this.buildFunctions = function(scope) {
+ngapp.factory('tabInterface', function() {
+    return function(scope) {
         // helper functions
         let selectTab = function(tab) {
             scope.tabs.forEach((tab) => tab.selected = false);

@@ -1,5 +1,5 @@
-ngapp.service('saveModalService', function(errorService) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('saveModalInterface', function(errorService) {
+    return function(scope) {
         scope.setMessage = function(message, detailedMessage = '') {
             scope.$applyAsync(() => {
                 if (message) scope.message = message;

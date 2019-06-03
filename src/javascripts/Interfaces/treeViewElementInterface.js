@@ -1,5 +1,5 @@
-ngapp.service('treeViewElementService', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService, nodeHelpers) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('treeViewElementInterface', function($q, editModalFactory, errorService, settingsService, clipboardService, xelibService, referenceService, nodeHelpers) {
+    return function(scope) {
         // helper variables
         let settings = settingsService.settings;
 

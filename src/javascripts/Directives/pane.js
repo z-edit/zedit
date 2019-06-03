@@ -9,7 +9,7 @@ ngapp.directive('pane', function () {
     }
 });
 
-ngapp.controller('paneController', function ($scope, $element, viewFactory, hotkeyService) {
+ngapp.controller('paneController', function ($scope, $element, viewFactory, hotkeyInterface) {
     Object.defaults($scope, $scope.pane || $scope.$parent.pane);
 
     // verbose logging
@@ -81,7 +81,7 @@ ngapp.controller('paneController', function ($scope, $element, viewFactory, hotk
     };
 
     // event handling
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'pane');
+    hotkeyInterface($scope, 'onKeyDown', 'pane');
 
     $scope.onWheel = function(e) {
         e.currentTarget.scrollLeft += e.deltaY > 0 ? 20 : -20;

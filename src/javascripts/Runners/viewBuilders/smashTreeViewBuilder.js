@@ -1,4 +1,4 @@
-ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
+ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
     let newView = function() {
         let view = viewFactory.new('smashTreeView', {
             templateUrl: `partials/treeView.html`
@@ -16,7 +16,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
             view.unlinkAll();
         };
 
-        viewLinkingService.buildFunctions(view, 'linkedSmashTreeView', [
+        viewLinkingInterface(view, 'linkedSmashTreeView', [
             'smash-record-view'
         ]);
 

@@ -1,6 +1,6 @@
-ngapp.controller('smashSaveModalController', function($scope, $timeout, saveModalService, patchService) {
+ngapp.controller('smashSaveModalController', function($scope, $timeout, saveModalInterface, patchService) {
     // inherited functions
-    saveModalService.buildFunctions($scope);
+    saveModalInterface($scope);
 
     // helper functions
     let saveData = function() {

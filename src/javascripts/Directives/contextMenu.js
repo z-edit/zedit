@@ -44,13 +44,13 @@ ngapp.directive('contextMenu', function($timeout, htmlHelpers) {
     }
 });
 
-ngapp.controller('contextMenuController', function($scope, $element, $timeout, hotkeyService) {
+ngapp.controller('contextMenuController', function($scope, $element, $timeout, hotkeyInterface) {
     // scope and helper variables
     $scope.currentIndex = -1;
     let table = $element[0].firstElementChild;
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onMenuKeyDown', 'contextMenu');
+    hotkeyInterface($scope, 'onMenuKeyDown', 'contextMenu');
 
     // helper functions
     let getCurrentItem = function() {

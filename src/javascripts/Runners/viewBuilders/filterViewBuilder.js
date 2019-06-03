@@ -1,4 +1,4 @@
-ngapp.run(function(viewFactory, viewLinkingService) {
+ngapp.run(function(viewFactory, viewLinkingInterface) {
     let newView = function() {
         let view = viewFactory.new('filterView');
 
@@ -10,7 +10,7 @@ ngapp.run(function(viewFactory, viewLinkingService) {
             view.results.forEach(xelib.Release);
         };
 
-        viewLinkingService.buildFunctions(view, 'linkedFilterView', [
+        viewLinkingInterface(view, 'linkedFilterView', [
             'record-view'
         ]);
 

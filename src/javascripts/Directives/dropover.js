@@ -21,9 +21,9 @@ ngapp.directive('dropover', function(eventService) {
     }
 });
 
-ngapp.controller('dropoverController', function($scope, hotkeyService) {
+ngapp.controller('dropoverController', function($scope, hotkeyInterface) {
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onDropoverKeyDown', 'dropover');
+    hotkeyInterface($scope, 'onDropoverKeyDown', 'dropover');
 
     // scope functions
     $scope.toggleDropover = function() {

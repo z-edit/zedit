@@ -1,4 +1,4 @@
-ngapp.controller('tabsModalController', function($scope, tabService) {
+ngapp.controller('tabsModalController', function($scope, tabInterface) {
     $scope.tabs = [{
         label: 'First Tab',
         templateUrl: 'partials/tabsModal/firstTab.html',
@@ -9,5 +9,5 @@ ngapp.controller('tabsModalController', function($scope, tabService) {
         controller: 'secondTabController'
     }];
 
-    tabService.buildFunctions($scope);
+    tabInterface($scope);
 });

@@ -27,12 +27,12 @@ ngapp.directive('dropdown', function(eventService) {
     }
 });
 
-ngapp.controller('dropdownController', function($scope, hotkeyService) {
+ngapp.controller('dropdownController', function($scope, hotkeyInterface) {
     let lastHidden = new Date();
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onItemsKeyDown', 'dropdown');
-    hotkeyService.buildOnKeyDown($scope, 'onDropdownKeyDown', 'dropdownItems');
+    hotkeyInterface($scope, 'onItemsKeyDown', 'dropdown');
+    hotkeyInterface($scope, 'onDropdownKeyDown', 'dropdownItems');
 
     let updateItemsStyle = function() {
         $scope.itemsStyle = {};

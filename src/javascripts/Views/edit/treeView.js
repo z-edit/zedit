@@ -1,4 +1,4 @@
-ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, nodeHelpers) {
+ngapp.controller('treeViewController', function($scope, $element, $timeout, columnsService, treeInterface, treeViewInterface, treeViewElementInterface, nodeSelectionInterface, nodeColumnInterface, layoutService, hotkeyInterface, typeToSearchInterface, contextMenuInterface, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -12,16 +12,14 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.allColumns = columnsService.getColumns('treeView');
 
     // inherited functions
-    treeService.buildFunctions($scope);
-    treeService.buildTabViewFunctions($scope, $element);
-    treeService.buildHandleFunctions($scope, $element);
-    treeViewService.buildFunctions($scope);
-    treeViewElementService.buildFunctions($scope);
-    typeToSearchService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope, true);
-    nodeColumnService.buildFunctions($scope, '.tree-view', true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
-    contextMenuService.buildFunctions($scope, 'treeView');
+    treeInterface($scope);
+    treeViewInterface($scope);
+    treeViewElementInterface($scope);
+    typeToSearchInterface($scope);
+    nodeSelectionInterface($scope, true);
+    nodeColumnInterface($scope, '.tree-view', true);
+    contextMenuInterface($scope, 'treeView');
+    hotkeyInterface($scope, 'onTreeKeyDown', 'treeView');
 
     // scope functions
     $scope.open = function(node, newView) {

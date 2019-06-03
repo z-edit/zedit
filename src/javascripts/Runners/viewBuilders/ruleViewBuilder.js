@@ -1,10 +1,10 @@
-ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
+ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
     let newView = function() {
         let view = viewFactory.new('ruleView');
 
         view.destroy = () => view.unlinkAll();
 
-        viewLinkingService.buildFunctions(view, 'linkedRuleView', [
+        viewLinkingInterface(view, 'linkedRuleView', [
             'rule-browser-view'
         ]);
 

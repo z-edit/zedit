@@ -9,16 +9,14 @@ ngapp.directive('ruleTree', function() {
     }
 });
 
-ngapp.controller('ruleTreeController', function($scope, $element, contextMenuService, ruleTreeService, smashRecordRuleService, hotkeyService, nodeSelectionService, treeService, checkboxTreeInterface) {
+ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInterface, ruleTreeInterface, smashRecordRuleService, hotkeyInterface, nodeSelectionInterface, treeInterface, checkboxTreeInterface) {
     // implement interfaces
     checkboxTreeInterface($scope);
-
-    // inherited functions
-    treeService.buildFunctions($scope, $element);
-    ruleTreeService.buildFunctions($scope, $element);
-    nodeSelectionService.buildFunctions($scope, true);
-    contextMenuService.buildFunctions($scope, 'ruleTree');
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'ruleTree');
+    treeInterface($scope, $element, false, false);
+    ruleTreeInterface($scope, $element);
+    nodeSelectionInterface($scope, true);
+    contextMenuInterface($scope, 'ruleTree');
+    hotkeyInterface($scope, 'onTreeKeyDown', 'ruleTree');
 
     // event handlers
     $scope.toggleDeletions = function() {

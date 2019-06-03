@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout,  hotkeyService, eventService, layoutService, patchBuilder) {
+ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout,  hotkeyInterface, eventService, layoutService, patchBuilder) {
     // helper functions
     let getPluginItem = file => ({
         handle: file,
@@ -60,7 +60,7 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
     });
 
     // handle hotkeys
-    //hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'buildPatchView');
+    //hotkeyInterface($scope, 'onKeyDown', 'buildPatchView');
 
     // save data and terminate xelib when application is being closed
     eventService.beforeClose(openSaveModal);

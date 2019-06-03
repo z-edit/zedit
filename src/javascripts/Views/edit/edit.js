@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('editController', function ($scope, $timeout, layoutService, hotkeyService, viewFactory, eventService) {
+ngapp.controller('editController', function ($scope, $timeout, layoutService, hotkeyInterface, viewFactory, eventService) {
     // helper funcstions
     let getPluginItem = function(file) {
         return {
@@ -75,7 +75,7 @@ ngapp.controller('editController', function ($scope, $timeout, layoutService, ho
     });
 
     // handle hotkeys
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editView');
+    hotkeyInterface($scope, 'onKeyDown', 'editView');
 
     // save data and terminate xelib when application is being closed
     eventService.beforeClose(openSaveModal);

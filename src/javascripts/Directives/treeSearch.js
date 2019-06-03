@@ -1,4 +1,4 @@
-ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyService, errorService, nodeHelpers) {
+ngapp.controller('treeSearchController', function($scope, $q, $timeout, progressService, hotkeyInterface, errorService, nodeHelpers) {
     // helper variables
     let eKey = 69, fKey = 70, nKey = 78,
         searchOptionKeys = [fKey, eKey, nKey];
@@ -10,7 +10,7 @@ ngapp.controller('treeSearchController', function($scope, $q, $timeout, progress
     $scope.searchBy = ['Form ID', 'Editor ID', 'Name'];
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onSearchKeyDown', 'treeSearch');
+    hotkeyInterface($scope, 'onSearchKeyDown', 'treeSearch');
 
     // helper functions
     let getElementIndex = function(elements, element) {

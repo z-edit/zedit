@@ -6,7 +6,7 @@ ngapp.directive('recordAddressBar', function () {
     }
 });
 
-ngapp.controller('recordAddressBarController', function($scope, $element, xelibService, hotkeyService, htmlHelpers) {
+ngapp.controller('recordAddressBarController', function($scope, $element, xelibService, hotkeyInterface, htmlHelpers) {
     let addressInput = htmlHelpers.resolveElement($element[0], 'input');
 
     // scope variables
@@ -14,7 +14,7 @@ ngapp.controller('recordAddressBarController', function($scope, $element, xelibS
     $scope.historyIndex = -1;
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onAddressKeyDown', 'addressBar');
+    hotkeyInterface($scope, 'onAddressKeyDown', 'addressBar');
 
     // scope functions
     $scope.historyGo = function() {

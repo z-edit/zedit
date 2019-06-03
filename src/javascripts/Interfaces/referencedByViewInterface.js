@@ -1,5 +1,5 @@
-ngapp.service('referencedByViewService', function(layoutService) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('referencedByViewInterface', function(layoutService) {
+    return function(scope) {
         // scope functions
         scope.buildGrid = function() {
             scope.grid = xelib.GetReferencedBy(scope.record)

@@ -1,5 +1,5 @@
-ngapp.service('recordViewElementService', function(errorService, settingsService, clipboardService, nodeHelpers) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('recordViewElementInterface', function(errorService, settingsService, clipboardService, nodeHelpers) {
+    return function(scope) {
         let uneditableValueTypes = [xelib.vtUnknown, xelib.vtArray,
                 xelib.vtStruct],
             trueValueTypes = [xelib.vtBytes, xelib.vtNumber, xelib.vtText,

@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeService, recordViewService, recordViewElementService, recordViewDragDropService, nodeSelectionService, nodeColumnService, hotkeyService, contextMenuService) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeInterface, recordViewInterface, recordViewElementInterface, recordViewDragDropInterface, nodeSelectionInterface, nodeColumnInterface, hotkeyInterface, contextMenuService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -11,16 +11,16 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
     $scope.overrides = [];
 
     // inherited functions
-    treeService.buildFunctions($scope);
-    treeService.buildTabViewFunctions($scope, $element);
-    treeService.buildHandleFunctions($scope, $element);
-    recordViewService.buildFunctions($scope);
-    recordViewElementService.buildFunctions($scope);
-    recordViewDragDropService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope, false, true);
-    nodeColumnService.buildFunctions($scope, '.record-view', false, true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'recordView');
-    contextMenuService.buildFunctions($scope, 'recordView');
+    treeInterface($scope);
+    treeInterface.buildTabViewFunctions($scope, $element);
+    treeInterface.buildHandleFunctions($scope, $element);
+    recordViewInterface($scope);
+    recordViewElementInterface($scope);
+    recordViewDragDropInterface($scope);
+    nodeSelectionInterface($scope, false, true);
+    nodeColumnInterface($scope, '.record-view', false, true);
+    hotkeyInterface($scope, 'onTreeKeyDown', 'recordView');
+    contextMenuInterface($scope, 'recordView');
 
     // helper functions
     let fixTopBorder = function() {

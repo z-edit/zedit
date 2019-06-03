@@ -1,4 +1,4 @@
-ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeService, treeViewService, treeViewElementService, nodeSelectionService, nodeColumnService, layoutService, hotkeyService, typeToSearchService, contextMenuService, nodeHelpers) {
+ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeInterface, treeViewInterface, treeViewElementInterface, nodeSelectionInterface, nodeColumnInterface, layoutService, hotkeyInterface, typeToSearchInterface, contextMenuService, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -11,14 +11,14 @@ ngapp.controller('smashTreeViewController', function($rootScope, $scope, $elemen
     $scope.allColumns = columnsService.getColumns('smashTreeView');
 
     // inherited functions
-    treeService.buildFunctions($scope, $element);
-    treeViewService.buildFunctions($scope);
-    treeViewElementService.buildFunctions($scope);
-    typeToSearchService.buildFunctions($scope);
-    nodeSelectionService.buildFunctions($scope, true);
-    nodeColumnService.buildFunctions($scope, '.tree-view', true);
-    hotkeyService.buildOnKeyDown($scope, 'onTreeKeyDown', 'treeView');
-    contextMenuService.buildFunctions($scope, 'smashTreeView');
+    treeInterface($scope, $element);
+    treeViewInterface($scope);
+    treeViewElementInterface($scope);
+    typeToSearchInterface($scope);
+    nodeSelectionInterface($scope, true);
+    nodeColumnInterface($scope, '.tree-view', true);
+    hotkeyInterface($scope, 'onTreeKeyDown', 'treeView');
+    contextMenuInterface($scope, 'smashTreeView');
 
     // scope functions
     $scope.open = function(node, newView) {

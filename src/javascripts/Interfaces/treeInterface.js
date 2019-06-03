@@ -1,8 +1,48 @@
-// functions shared by the tree view and the record view
-ngapp.service('treeService', function($timeout, htmlHelpers) {
+ngapp.factory('treeInterface', function($timeout, htmlHelpers) {
     let {resolveElement} = htmlHelpers;
 
-    this.buildFunctions = function(scope) {
+    let buildTabViewFunctions = function(scope, element) {
+        scope.focusSearchInput = function() {
+            let searchInput = resolveElement(scope.tabView, 'search-bar/input');
+            searchInput.focus();
+        };
+
+        scope.toggleSearchBar = function(visible) {
+            scope.showSearchBar = visible;
+            if (visible) {
+                $timeout(scope.focusSearchInput, 50);
+            } else {
+                scope.treeElement.focus();
+            }
+        };
+
+        scope.resolveElements = function() {
+            scope.tabView = element[0];
+            scope.treeElement = resolveElement(scope.tabView, '.nodes');
+            scope.columnsElement = resolveElement(scope.tabView, '.column-wrapper');
+        };
+    };
+
+    let buildHandleFunctions = function(scope) {
+        scope.getNodeForElement = function(handle) {
+            let handles = xelib.GetDuplicateHandles(handle);
+            for (let j = 0; j < handles.length; j++) {
+                let newNode = scope.tree.find(node => {
+                    return scope.nodeHasHandle(node, handles[j])
+                });
+                if (newNode) return newNode;
+            }
+        };
+
+        scope.cleanupNode = function(node) {
+            if (node.handle) xelib.Release(node.handle);
+            if (node.kac) xelib.Release(node.kac);
+            if (!node.handles) return;
+            node.handles.forEach(handle => handle && xelib.Release(handle));
+        };
+    };
+
+    return function(scope, element, tabView = true, handles = true) {
         // helper fucntions
         let reExpandNode = function(node) {
             let newNode = scope.getNewNode(node);
@@ -129,46 +169,8 @@ ngapp.service('treeService', function($timeout, htmlHelpers) {
                 scope.clearSelection(true);
             if (e.button === 2) scope.showContextMenu(e);
         };
-    };
 
-    this.buildTabViewFunctions = function(scope, element) {
-        scope.focusSearchInput = function() {
-            let searchInput = resolveElement(scope.tabView, 'search-bar/input');
-            searchInput.focus();
-        };
-
-        scope.toggleSearchBar = function(visible) {
-            scope.showSearchBar = visible;
-            if (visible) {
-                $timeout(scope.focusSearchInput, 50);
-            } else {
-                scope.treeElement.focus();
-            }
-        };
-
-        scope.resolveElements = function() {
-            scope.tabView = element[0];
-            scope.treeElement = resolveElement(scope.tabView, '.nodes');
-            scope.columnsElement = resolveElement(scope.tabView, '.column-wrapper');
-        };
-    };
-
-    this.buildHandleFunctions = function(scope) {
-        scope.getNodeForElement = function(handle) {
-            let handles = xelib.GetDuplicateHandles(handle);
-            for (let j = 0; j < handles.length; j++) {
-                let newNode = scope.tree.find(node => {
-                    return scope.nodeHasHandle(node, handles[j])
-                });
-                if (newNode) return newNode;
-            }
-        };
-
-        scope.cleanupNode = function(node) {
-            if (node.handle) xelib.Release(node.handle);
-            if (node.kac) xelib.Release(node.kac);
-            if (!node.handles) return;
-            node.handles.forEach(handle => handle && xelib.Release(handle));
-        };
+        if (tabView) buildTabViewFunctions(scope, element);
+        if (handles) buildHandleFunctions(scope);
     };
 });

@@ -14,7 +14,7 @@ ngapp.directive('listView', function() {
     }
 });
 
-ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, htmlHelpers) {
+ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyInterface, contextMenuService, htmlHelpers) {
     // initialization
     $scope.parent = htmlHelpers.findParent($element[0], el => {
         return el.hasAttribute('list-view-parent');
@@ -51,9 +51,9 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     // inherited variables and functions
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
-    hotkeyService.buildOnKeyDown($scope, 'onFilterKeyDown', 'listViewFilter');
-    contextMenuService.buildFunctions($scope, 'listView');
+    hotkeyInterface($scope, 'onKeyDown', 'listView');
+    hotkeyInterface($scope, 'onFilterKeyDown', 'listViewFilter');
+    contextMenuInterface($scope, 'listView');
 
     // scope functions
     $scope.clearSelection = function(resetPrevIndex) {

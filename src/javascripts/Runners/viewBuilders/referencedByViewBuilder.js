@@ -1,4 +1,4 @@
-ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
+ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
     let newView = function() {
         let view = viewFactory.new('referencedByView');
 
@@ -10,7 +10,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingService) {
             view.scope.grid && view.releaseGrid(view.scope.grid);
         };
 
-        viewLinkingService.buildFunctions(view, 'linkedReferencedByView', [
+        viewLinkingInterface(view, 'linkedReferencedByView', [
             'record-view'
         ]);
 

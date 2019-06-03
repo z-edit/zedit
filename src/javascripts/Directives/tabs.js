@@ -7,7 +7,7 @@ ngapp.directive('tabs', function() {
     }
 });
 
-ngapp.controller('tabsController', function($scope, $attrs, tabService, tabsFactory) {
+ngapp.controller('tabsController', function($scope, $attrs, tabInterface, tabsFactory) {
     $scope.tabs = tabsFactory[$attrs.source];
-    tabService.buildFunctions($scope);
+    tabInterface($scope);
 });

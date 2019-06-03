@@ -1,4 +1,4 @@
-ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, pluginErrorService, hotkeyService) {
+ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, pluginErrorService, hotkeyInterface) {
     // HELPER FUNCTIONS
     let prepareResolutions = function() {
         $scope.resolutions = pluginErrorService.getResolutions($scope.error);
@@ -40,7 +40,7 @@ ngapp.controller('resolveModalController', function ($scope, errorTypeFactory, p
     };
 
     // SET UP HOTKEYS
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'resolveModal');
+    hotkeyInterface($scope, 'onKeyDown', 'resolveModal');
 
     // INITIALIZATION
     $scope.errorsToResolve = $scope.modalOptions.errors;

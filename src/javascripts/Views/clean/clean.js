@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
+ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyInterface, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
     // helper functions
     let updatePluginsToCheckCount = function() {
         $scope.pluginsToCheckCount = $scope.plugins.filter(plugin => {
@@ -174,7 +174,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     });
 
     // handle hotkeys
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'cleanView');
+    hotkeyInterface($scope, 'onKeyDown', 'cleanView');
 
     // save data and terminate xelib when application is being closed
     window.onbeforeunload = function(e) {

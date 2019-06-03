@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewService, referenceService, columnsService, hotkeyService, nodeSelectionService, nodeColumnService, contextMenuService) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewInterface, referenceService, columnsService, hotkeyInterface, nodeSelectionInterface, nodeColumnInterface, contextMenuService) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -9,12 +9,12 @@ ngapp.controller('referencedByViewController', function($scope, $element, $timeo
     $scope.allColumns = columnsService.getColumns('referencedByView');
 
     // inherited functions
-    gridService.buildFunctions($scope, $element);
-    nodeSelectionService.buildFunctions($scope, false);
-    referencedByViewService.buildFunctions($scope);
-    nodeColumnService.buildFunctions($scope, '.referenced-by-view', true);
-    hotkeyService.buildOnKeyDown($scope, 'onGridKeyDown', 'referencedByView');
-    contextMenuService.buildFunctions($scope, 'referencedByView');
+    gridInterface($scope, $element);
+    nodeSelectionInterface($scope, false);
+    referencedByViewInterface($scope);
+    nodeColumnInterface($scope, '.referenced-by-view', true);
+    hotkeyInterface($scope, 'onGridKeyDown', 'referencedByView');
+    contextMenuInterface($scope, 'referencedByView');
 
     // helper functions
     let getAllReferencesBuilt = function() {

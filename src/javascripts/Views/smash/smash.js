@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyService, eventService, gameService, loadOrderService, patchPrepService, errorService) {
+ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyInterface, eventService, gameService, loadOrderService, patchPrepService, errorService) {
     // helper functions
     let updatePatchStatuses = function() {
         $scope.patches.forEach(patchStatusService.updateStatus);
@@ -70,7 +70,7 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
     $scope.$on('save', () => openSaveModal(false));
 
     // handle hotkeys
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'smashView');
+    hotkeyInterface($scope, 'onKeyDown', 'smashView');
 
     // save data and terminate xelib when application is being closed
     eventService.beforeClose(openSaveModal);

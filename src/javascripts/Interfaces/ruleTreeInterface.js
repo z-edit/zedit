@@ -1,7 +1,7 @@
-ngapp.service('ruleTreeService', function($timeout, settingsService, htmlHelpers) {
+ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpers) {
     let {resolveElement, findParent} = htmlHelpers;
 
-    this.buildFunctions = function(scope, element) {
+    return function(scope, element) {
         let settings = settingsService.settings;
 
         // helper functions

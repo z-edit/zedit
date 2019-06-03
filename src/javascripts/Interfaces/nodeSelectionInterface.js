@@ -1,5 +1,5 @@
-ngapp.service('nodeSelectionService', function() {
-    this.buildFunctions = function(scope, allowMultiSelect, grid) {
+ngapp.factory('nodeSelectionInterface', function() {
+    return function(scope, allowMultiSelect, grid) {
         // initialize variables
         let lastRange = [], nodeHeight = 20;
         scope.selectedNodes = [];

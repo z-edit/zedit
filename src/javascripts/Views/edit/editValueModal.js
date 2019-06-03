@@ -1,4 +1,4 @@
-ngapp.controller('editValueModalController', function($scope, $timeout, errorService, hotkeyService) {
+ngapp.controller('editValueModalController', function($scope, $timeout, errorService, hotkeyInterface) {
     // variables
     let opts = $scope.modalOptions,
         node = opts.targetNode,
@@ -119,7 +119,7 @@ ngapp.controller('editValueModalController', function($scope, $timeout, errorSer
     };
 
     // initialization
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'editValueModal');
+    hotkeyInterface($scope, 'onKeyDown', 'editValueModal');
 
     let setupFunctions = {
         vtBytes: $scope.setupBytes,

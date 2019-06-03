@@ -1,4 +1,4 @@
-ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService) {
+ngapp.run(function($rootScope, viewFactory, viewLinkingInterface, settingsService) {
     let newView = function() {
         let view = viewFactory.new('recordView');
 
@@ -14,7 +14,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService)
             tree.forEach((node) => node.handles.forEach(releaseHandle));
         };
 
-        viewLinkingService.buildFunctions(view, 'linkedRecordView', [
+        viewLinkingInterface(view, 'linkedRecordView', [
             'tree-view', 'referenced-by-view', 'filter-view'
         ]);
 

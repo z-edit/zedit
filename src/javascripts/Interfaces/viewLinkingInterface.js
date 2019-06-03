@@ -1,5 +1,5 @@
-ngapp.service('viewLinkingService', function() {
-    this.buildFunctions = function(view, linkKey, allowLinkTo) {
+ngapp.factory('viewLinkingInterface', function() {
+    return function(view, linkKey, allowLinkTo) {
         let getLinkKey = function(className) {
             return `linked${className.toPascalCase()}`;
         };

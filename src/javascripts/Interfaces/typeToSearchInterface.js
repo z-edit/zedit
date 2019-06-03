@@ -1,5 +1,5 @@
-ngapp.service('typeToSearchService', function() {
-    this.buildFunctions = function(scope) {
+ngapp.factory('typeToSearchInterface', function() {
+    return function(scope) {
         let letterTimeout, queueLetter, letterQueue = '';
 
         // helper functions

@@ -13,11 +13,11 @@ ngapp.directive('colorInput', function() {
     }
 });
 
-ngapp.controller('colorInputController', function($scope, hotkeyService) {
+ngapp.controller('colorInputController', function($scope, hotkeyInterface) {
     let skip = false;
 
     // inherited functions
-    hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'colorInput');
+    hotkeyInterface($scope, 'onKeyDown', 'colorInput');
 
     // helper functions
     let tryParseColor = function(color) {

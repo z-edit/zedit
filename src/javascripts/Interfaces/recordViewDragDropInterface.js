@@ -1,5 +1,5 @@
-ngapp.service('recordViewDragDropService', function(errorService, nodeHelpers) {
-    this.buildFunctions = function(scope) {
+ngapp.factory('recordViewDragDropInterface', function(errorService, nodeHelpers) {
+    return function(scope) {
         // PRIVATE
         let isReference = function(node) {
             return node.value_type === xelib.vtReference;

@@ -1,4 +1,4 @@
-ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService) {
+ngapp.run(function($rootScope, viewFactory, viewLinkingInterface, settingsService) {
     let newView = function() {
         let view = viewFactory.new('treeView');
 
@@ -14,7 +14,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingService, settingsService)
             view.unlinkAll();
         };
 
-        viewLinkingService.buildFunctions(view, 'linkedTreeView', [
+        viewLinkingInterface(view, 'linkedTreeView', [
             'record-view'
         ]);
 

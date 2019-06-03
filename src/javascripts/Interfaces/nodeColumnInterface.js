@@ -1,5 +1,7 @@
-ngapp.service('nodeColumnService', function(stylesheetService) {
-    this.buildFunctions = function(scope, treeSelector, columnsEditable, allowOverflow) {
+ngapp.factory('nodeColumnInterface', function(stylesheetService) {
+    let {setProperty} = stylesheetService;
+
+    return function(scope, treeSelector, columnsEditable, allowOverflow) {
         if (columnsEditable) {
             scope.showColumnsModal = () => scope.$emit('openModal', 'columns');
         }
@@ -18,7 +20,7 @@ ngapp.service('nodeColumnService', function(stylesheetService) {
         scope.setFirstSplitBarLeft = function(width) {
             let selector = `${treeSelector} .first-split-bar`,
                 left = parseInt(width.slice(0, -2)) - 3;
-            stylesheetService.setProperty(selector, 'left', `${left}px`)
+            setProperty(selector, 'left', `${left}px`)
         };
 
         scope.columnResized = function(index, width, skipWidth) {
@@ -26,12 +28,10 @@ ngapp.service('nodeColumnService', function(stylesheetService) {
             if (allowOverflow && !index) scope.setFirstSplitBarLeft(width);
             if (allowOverflow && !skipWidth) scope.updateWidths();
             let selector = `${treeSelector} .column-${index}`;
-            stylesheetService.setProperty(selector, 'width', width);
+            setProperty(selector, 'width', width);
             // this hack really shouldn't be necessary, but if it isn't set
             // the column widths don't get applied properly
-            if (allowOverflow) {
-                stylesheetService.setProperty(selector, 'min-width', width);
-            }
+            if (allowOverflow) setProperty(selector, 'min-width', width);
         };
 
         scope.updateWidths = function() {
@@ -40,8 +40,8 @@ ngapp.service('nodeColumnService', function(stylesheetService) {
                 }, 0),
                 columnsSelector = `${treeSelector} .node-columns.fix-width`,
                 nodeSelector = `${treeSelector} .node.fix-width`;
-            stylesheetService.setProperty(columnsSelector, 'min-width', `${width + 17}px`);
-            stylesheetService.setProperty(nodeSelector, 'min-width', `${width}px`);
+            setProperty(columnsSelector, 'min-width', `${width + 17}px`);
+            setProperty(nodeSelector, 'min-width', `${width}px`);
         };
 
         scope.resizeColumns = function() {
