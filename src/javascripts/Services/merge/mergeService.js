@@ -111,11 +111,14 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
     };
 
     this.saveMergeData = function(merge) {
-        let path = `${merge.dataPath}\\merge - ${merge.name}`;
-        fh.jetpack.dir(path);
-        fh.saveJsonFile(`${path}\\merge.json`, exportMerge(merge));
-        fh.saveJsonFile(`${path}\\map.json`, merge.fidMap || {});
-        fh.saveJsonFile(`${path}\\fidCache.json`, getFidCache(merge), true);
+        let folderPath = fh.path(merge.dataPath, `merge - ${merge.name}`),
+            mergePath = fh.path(folderPath, 'merge.json'),
+            mapPath = fh.path(folderPath, 'map.json'),
+            fidCachePath = fh.path(folderPath, 'fidCache.json');
+        fh.jetpack.dir(folderPath);
+        fh.saveJsonFile(mergePath, exportMerge(merge));
+        fh.saveJsonFile(mapPath, merge.fidMap || {});
+        fh.saveJsonFile(fidCachePath, getFidCache(merge), true);
     };
 
     this.getMergeDataPath = function(merge) {
