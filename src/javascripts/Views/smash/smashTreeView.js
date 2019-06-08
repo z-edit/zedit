@@ -1,4 +1,4 @@
-ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeInterface, treeViewInterface, treeViewElementInterface, nodeSelectionInterface, nodeColumnInterface, layoutService, hotkeyInterface, typeToSearchInterface, contextMenuService, nodeHelpers) {
+ngapp.controller('smashTreeViewController', function($rootScope, $scope, $element, $timeout, columnsService, treeInterface, treeViewInterface, treeViewElementInterface, nodeSelectionInterface, nodeColumnInterface, layoutService, hotkeyInterface, typeToSearchInterface, contextMenuInterface, nodeHelpers) {
     // link view to scope
     $scope.view = $scope.$parent.treeView || $scope.$parent.tab;
     $scope.view.scope = $scope;
