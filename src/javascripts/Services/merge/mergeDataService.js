@@ -53,7 +53,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
     };
 
     this.setPluginDataFolder = function(plugin, dataFolder) {
-        dataFolders[plugin] = dataFolder;
+        dataFolders[plugin] = [fh.normalize(dataFolder)];
     };
 
     this.cacheDataFolders = function() {
