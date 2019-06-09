@@ -1,0 +1,19 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal big-modal" ng-keydown="onKeyDown($event)">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>Set Element Priority</h2>
+
+            <h3>Priority</h3>
+            <section>
+                <number-input model="priority"></number-input>
+            </section>
+
+            <div class="primary-actions">
+                <button class="action-btn" ng-click="setPriority()">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
