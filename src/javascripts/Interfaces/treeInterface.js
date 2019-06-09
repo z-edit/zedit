@@ -99,6 +99,7 @@ ngapp.factory('treeInterface', function($timeout, htmlHelpers) {
                 if (depthDiff > 1 && !includeGrandChildren) continue;
                 nodes.push(child);
             }
+            return nodes;
         };
 
         scope.hasNoChildren = function(node) {
