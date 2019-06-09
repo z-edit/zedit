@@ -1,0 +1,34 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal big-modal" ng-keydown="onKeyDown($event)">
+        <form>
+            <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+            <h2>{{editing ? 'Edit' : 'Create'}} Element Group</h2>
+
+            <h3>Group Name</h3>
+            <section>
+                <input type="text" ng-model="group.name">
+            </section>
+
+            <h3>Description</h3>
+            <section>
+                <textarea ng-model="group.description"></textarea>
+            </section>
+
+            <h3>Elements</h3>
+            <section>
+                <div ng-repeat="element in elements">
+                    <label>
+                        <input type="checkbox" ng-model="element.active">
+                        {{::element.name}}
+                    </label>
+                </div>
+            </section>
+
+            <div class="primary-actions">
+                <button class="action-btn" ng-click="createGroup()">OK</button>
+                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
