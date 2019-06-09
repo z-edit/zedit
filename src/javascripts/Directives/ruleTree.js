@@ -89,7 +89,7 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
     $scope.handleSpace = function(e) {
         $scope.$applyAsync(() => {
             $scope.selectedNodes.forEach(node => {
-                $scope.toggleProcess(node);
+                $scope.toggleCheckbox(node);
             });
         });
         e.stopImmediatePropagation();

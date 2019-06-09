@@ -1,4 +1,8 @@
 ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpers) {
+    const UNCHECKED = 0;
+    const CHECKED = 1;
+    const INDETERMINATE = 2;
+
     let {resolveElement, findParent} = htmlHelpers;
 
     return function(scope, element) {
@@ -22,6 +26,38 @@ ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpe
             scope.selectedNodes.forEach(scope.deleteRecord);
             scope.clearSelection(true);
             scope.reload();
+        };
+
+        let updateParentStates = function(parent) {
+            if (!parent) return;
+            scope.updateNodeState(parent);
+            updateParentStates(parent.parent);
+        };
+
+        let setChildElementStates = function(element, process) {
+            if (!element.elements) return;
+            element.elements.forEach(e => {
+                e.process = process;
+                setChildElementStates(e, process);
+            });
+        };
+
+        let isIndeterminate = function(foundStates) {
+            return foundStates[2] || foundStates[0] && foundStates[1];
+        };
+
+        let getNodeState = function(element) {
+            if (element.elements) return getStateFromChildren(element);
+            return element.process ? CHECKED : UNCHECKED;
+        };
+
+        let getStateFromChildren = function(element) {
+            let foundStates = [false, false, false];
+            for (let i = 0; i < element.elements.length; i++) {
+                foundStates[getNodeState(element.elements[i])] = true;
+                if (isIndeterminate(foundStates)) return INDETERMINATE;
+            }
+            return foundStates.findIndex(n => n);
         };
 
         // scope functions
@@ -133,5 +169,20 @@ ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpe
                 return el.classList.contains('rule-view');
             });
         };
+
+        scope.getNodeState = getNodeState;
+
+        // events
+        scope.$on('updateNodeState', function(e, node) {
+            node.state = scope.getNodeState(node.data);
+            node.data.process = node.state > 0;
+        });
+
+        scope.$on('setNodeState', function(e, node, newState) {
+            let process = Boolean(newState);
+            setChildElementStates(node.data, process);
+            node.data.process = process;
+            updateParentStates(node.parent);
+        });
     };
 });
