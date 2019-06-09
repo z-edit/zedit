@@ -1,0 +1,6 @@
+<div class="items-container">
+    <div ng-repeat="item in items">
+        <ng-transclude></ng-transclude>
+        <span class="remove-item" ng-click="removeItem($index)" title="Remove"></span>
+    </div>
+</div>
