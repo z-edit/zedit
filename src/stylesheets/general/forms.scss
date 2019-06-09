@@ -67,6 +67,11 @@ input, textarea, select {
   font-family: inherit;
 }
 
+textarea {
+  width: 100%;
+  min-height: 80px;
+}
+
 input[type="text"] {
   padding: 2px 4px;
 }
