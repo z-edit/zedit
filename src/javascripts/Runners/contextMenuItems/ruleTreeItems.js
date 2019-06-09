@@ -155,7 +155,7 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
             visible: nodesSelected,
             build: (scope, items) => {
                 items.push({
-                    label: 'Increase priority',
+                    label: 'Set priority',
                     callback: scope.setPriority
                 });
             }
