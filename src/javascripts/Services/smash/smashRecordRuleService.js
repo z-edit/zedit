@@ -3,8 +3,11 @@ ngapp.service('smashRecordRuleService', function() {
 
     // PUBLIC API
     this.addRecord = function(records, sig) {
+        if (records.hasOwnProperty(sig)) return;
         xelib.WithHandle(xelib.GetRecordDef(sig), def => {
-            records[sig] = xelib.DefToObject(def);
+            let recordEntry = xelib.DefToObject(def);
+            recordEntry.groups = [];
+            records[sig] = recordEntry;
         });
     };
 
@@ -13,7 +16,6 @@ ngapp.service('smashRecordRuleService', function() {
             xelib.WithEachHandle(xelib.GetRecords(file, '', true), rec => {
                 if (!xelib.IsOverride(rec)) return;
                 let sig = xelib.Signature(rec);
-                if (records.hasOwnProperty(sig)) return;
                 service.addRecord(records, sig);
             });
         });
@@ -22,7 +24,6 @@ ngapp.service('smashRecordRuleService', function() {
     this.addAllRecords = function(records) {
         let map = xelib.GetSignatureNameMap();
         Object.keys(map).sort().forEach(sig => {
-            if (records.hasOwnProperty(sig)) return;
             service.addRecord(records, sig);
         });
     };
