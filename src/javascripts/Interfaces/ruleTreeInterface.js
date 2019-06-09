@@ -170,6 +170,14 @@ ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpe
             });
         };
 
+        scope.updateNodes = function(node) {
+            node.state = scope.getNodeState(node.data);
+            scope.rebuildNode(node);
+            scope.getChildNodes(node).forEach(child => {
+                scope.updateNodes(child);
+            });
+        };
+
         scope.getNodeState = getNodeState;
 
         // events
