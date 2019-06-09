@@ -1,11 +1,12 @@
 ngapp.service('contextMenuService', function($timeout, $document, htmlHelpers) {
-    let service = this,
-        contextMenus = {};
+    let contextMenus = {};
 
     // private helpers
     let removeTrailingDividers = function(menuItems) {
-        for (let i = menuItems.length - 1; i >= 0; i--)
-            if (menuItems[i].divider) menuItems.splice(-1, 1);
+        for (let i = menuItems.length - 1; i >= 0; i--) {
+            if (!menuItems[i].divider) break;
+            menuItems.pop();
+        }
     };
 
     // public api
