@@ -18,6 +18,12 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
     contextMenuInterface($scope, 'ruleTree');
     hotkeyInterface($scope, 'onTreeKeyDown', 'ruleTree');
 
+    // helper functions
+    let deleteEmptyGroup = function(node) {
+        if (node.group.elements.length > 0) return;
+        node.groups.remove(node.group);
+    };
+
     // event handlers
     $scope.toggleDeletions = function() {
         $scope.selectedNodes.forEach(node => {
@@ -34,8 +40,12 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
     };
 
     $scope.createOrEditGroup = function() {
+        let node = $scope.selectedNodes[0];
         $scope.$emit('openModal', 'editSmashGroup', {
-            nodes: $scope.selectedNodes
+            groups: node.groups,
+            nodes: $scope.selectedNodes,
+            siblingNodes: $scope.getChildNodes(node.parent),
+            nodesUpdated: nodes => nodes.forEach($scope.rebuildNode)
         });
     };
 
@@ -61,7 +71,11 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
 
     $scope.removeGroup = function() {
         $scope.selectedNodes.forEach(node => {
+            if (!node.group) return;
+            node.group.elements.remove(node.name);
+            deleteEmptyGroup(node);
             delete node.data.group;
+            delete node.group;
             $scope.rebuildNode(node);
         });
     };

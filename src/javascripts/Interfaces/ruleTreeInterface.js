@@ -104,7 +104,7 @@ ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpe
                     state: scope.getNodeState(e),
                     class: '',
                     groups: node.groups || node.data.groups,
-                    path: [node.path, name].join('/'),
+                    path: [node.path, name].join('/'), // TODO: use sort index?
                     can_expand: Boolean(e.elements),
                     data: e
                 };
@@ -123,7 +123,8 @@ ngapp.factory('ruleTreeInterface', function($timeout, settingsService, htmlHelpe
 
         scope.getNodeData = function(node) {
             node.has_data = true;
-            // TODO: resolve node group
+            if (!node.groups) return;
+            node.group = node.groups.findByKey('name', node.data.group);
         };
 
         scope.resolveElements = function() {
