@@ -8,8 +8,9 @@ ngapp.controller('editSmashPriorityModalController', function($scope) {
 
     // SCOPE FUNCTIONS
     $scope.setPriority = function() {
-        let {nodes} = $scope.modalOptions;
+        let {nodes, nodesUpdated} = $scope.modalOptions;
         nodes.forEach(node => node.data.priority = $scope.priority);
+        nodesUpdated(nodes);
         $scope.$emit('closeModal');
     };
 

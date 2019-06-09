@@ -30,6 +30,8 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
         if (node.data.priority === -0) node.data.priority = 0;
     };
 
+    let nodesUpdated = nodes => nodes.forEach($scope.rebuildNode);
+
     // event handlers
     $scope.toggleDeletions = function() {
         $scope.selectedNodes.forEach(node => {
@@ -51,7 +53,7 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
             groups: node.groups,
             nodes: $scope.selectedNodes,
             siblingNodes: $scope.getChildNodes(node.parent),
-            nodesUpdated: nodes => nodes.forEach($scope.rebuildNode)
+            nodesUpdated
         });
     };
 
@@ -73,7 +75,8 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
 
     $scope.setPriority = function() {
         $scope.$emit('openModal', 'editSmashPriority', {
-            nodes: $scope.selectedNodes
+            nodes: $scope.selectedNodes,
+            nodesUpdated
         });
     };
 
