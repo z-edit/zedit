@@ -27,8 +27,7 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
     };
 
     let nodesSelected = scope => scope.selectedNodes.length > 0;
-    let multipleNodesSelected = scope => scope.selectedNodes.length > 1;
-    let getGroup = scope => scope.prevNode && scope.prevNode.data.group;
+    let nodesInGroup = scope => scope.selectedNodes.some(node => node.group);
 
     addContextMenu('ruleTree', [
         {
@@ -111,21 +110,18 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
         },
         {
             id: 'Group',
-            visible: scope => {
-                return scope.elementsSelected() &&
-                    multipleNodesSelected();
-            },
+            visible: scope => scope.elementsSelected(),
             build: (scope, items) => {
-                let group = getGroup(scope);
+                let editing = nodesInGroup(scope);
                 items.push({
-                    label: `${group ? 'Edit' : 'Create'} group`,
+                    label: `${editing ? 'Edit' : 'Create'} group`,
                     callback: scope.createOrEditGroup
                 });
             }
         },
         {
             id: 'Remove group',
-            visible: getGroup,
+            visible: nodesInGroup,
             build: (scope, items) => {
                 items.push({
                     label: 'Remove group',
