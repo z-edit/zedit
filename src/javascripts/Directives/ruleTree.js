@@ -24,6 +24,12 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
         node.groups.remove(node.group);
     };
 
+    let roundPriority = function(node) {
+        if (Math.abs(node.data.priority) >= 51) return;
+        node.data.priority = Math.round(node.data.priority / 100) * 100;
+        if (node.data.priority === -0) node.data.priority = 0;
+    };
+
     // event handlers
     $scope.toggleDeletions = function() {
         $scope.selectedNodes.forEach(node => {
@@ -52,6 +58,7 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
     $scope.increasePriority = function() {
         $scope.selectedNodes.forEach(node => {
             node.data.priority = (node.data.priority || 0) + 100;
+            roundPriority(node);
             $scope.rebuildNode(node);
         });
     };
@@ -59,6 +66,7 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
     $scope.decreasePriority = function() {
         $scope.selectedNodes.forEach(node => {
             node.data.priority = (node.data.priority || 0) - 100;
+            roundPriority(node);
             $scope.rebuildNode(node);
         });
     };
