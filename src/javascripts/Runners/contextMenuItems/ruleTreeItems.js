@@ -109,6 +109,16 @@ ngapp.run(function(contextMenuService, smashRecordRuleService) {
             }
         },
         {
+            id: 'Apply default rules',
+            visible: nodesSelected,
+            build: (scope, items) => {
+                items.push({
+                    label: 'Apply default rules',
+                    callback: scope.applyDefaultRules
+                })
+            }
+        },
+        {
             id: 'Group',
             visible: scope => scope.elementsSelected(),
             build: (scope, items) => {

@@ -47,6 +47,13 @@ ngapp.controller('ruleTreeController', function($scope, $element, contextMenuInt
         });
     };
 
+    $scope.applyDefaultRules = function() {
+        $scope.selectedNodes.forEach(node => {
+            smashRecordRuleService.applyDefaultRules(node.data);
+            $scope.updateNodes(node);
+        });
+    };
+
     $scope.createOrEditGroup = function() {
         let node = $scope.selectedNodes[0];
         $scope.$emit('openModal', 'editSmashGroup', {
