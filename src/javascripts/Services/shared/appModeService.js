@@ -1,40 +1,8 @@
-ngapp.service('appModeService', function($rootScope, $state, loadOrderService) {
-    let service = this;
+ngapp.service('appModeService', function($rootScope, $state) {
+    let appModes = [];
+    let loaders = {};
 
-    let appModes = [{
-        name: 'edit',
-        loader: 'selectLoadOrder'
-    }, {
-        name: 'clean',
-        loader: 'selectLoadOrder',
-        confirm: function() {
-            return confirm('The zClean application mode is still being developed.  Cleaning plugins may lead to CTDs.  Backups of any plugins cleaned with zClean will be saved to the zEdit Backups folder in your game\'s data directory.  Are you sure you want to proceed?');
-        }
-    }, {
-        name: 'merge',
-        loader: 'storeLoadOrder'
-    }, {
-        name: 'sort',
-        loader: 'storeLoadOrder',
-        hidden: true
-    }, {
-        name: 'smash',
-        loader: 'storeLoadOrder',
-        hidden: true
-    }];
-
-    let loaders = {
-        storeLoadOrder: function() {
-            loadOrderService.init();
-            service.goToAppView();
-        },
-        selectLoadOrder: function(scope) {
-            let title = `${$rootScope.appMode} - Selecting Load Order`;
-            scope.$emit('setTitle', title);
-            scope.$emit('openModal', 'loadOrder', {}, true);
-        }
-    };
-
+    // PUBLIC API
     this.getAppModes = function() {
         return appModes.filter(m => {
             return !m.hidden || env.show_hidden_appmodes;
