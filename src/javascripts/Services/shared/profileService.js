@@ -30,7 +30,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
             name: service.getNewProfileName(game.name),
             gameMode: game.mode,
             gamePath: gamePath,
-            language: 'English'
+            language: 'English',
+            background: `./app/images/backgrounds/${game.name}.jpg`
         }
     };
 
