@@ -1,8 +1,8 @@
-ngapp.controller('profilesModalController', function ($scope, profileService) {
+ngapp.controller('profilesModalController', function ($scope, languageService, profileService) {
     // initialize scope variables
     $scope.games = xelib.games;
-    $scope.languages = profileService.languages;
-    $scope.profiles = profileService.profiles;
+    $scope.languages = languageService.getLanguages();
+    $scope.profiles = profileService.getProfiles();
     $scope.defaultProfile = profileService.getDefaultProfile();
 
     // scope functions
@@ -14,17 +14,15 @@ ngapp.controller('profilesModalController', function ($scope, profileService) {
             language: 'English',
             valid: false
         });
-        if (!$scope.defaultProfile) {
-            $scope.defaultProfile = $scope.profiles[0];
-        }
+        if ($scope.defaultProfile) return;
+        $scope.defaultProfile = $scope.profiles[0];
     };
 
     $scope.removeProfile = function(profile) {
         let index = $scope.profiles.indexOf(profile);
         $scope.profiles.splice(index, 1);
-        if ($scope.profiles.length === 0) {
-            $scope.defaultProfile = undefined;
-        }
+        if ($scope.profiles.length > 0) return;
+        $scope.defaultProfile = undefined;
     };
 
     $scope.validateProfile = function(profile) {

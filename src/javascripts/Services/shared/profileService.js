@@ -1,26 +1,10 @@
 ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
     let service = this,
         profilesPath = fh.path(fh.userPath, 'profiles.json'),
-        localesPath = fh.path(fh.appPath, 'locales.json');
-
-    this.profiles = fh.loadJsonFile(profilesPath) || [];
-    this.locales = fh.loadJsonFile(localesPath) || {};
-    this.languages = ['English', 'French', 'German', 'Italian', 'Spanish',
-        'Russian', 'Polish', 'Japanese', 'Portugese', 'Chinese'];
+        profiles = fh.loadJsonFile(profilesPath) || [];
 
     // helper functions
-    let getProfile = name => service.profiles.findByKey('name', name);
-
-    let getSystemLanguage = function() {
-        let localeLanguage = service.locales[window.locale];
-        return localeLanguage.replace(/\s\([^\)]+\)/, '');
-    };
-
-    let getDefaultLanguage = function() {
-        let systemLanguage = getSystemLanguage(),
-            languageSupported = service.languages.includes(systemLanguage);
-        return languageSupported ? systemLanguage : 'English';
-    };
+    let getProfile = name => profiles.findByKey('name', name);
 
     // public api
     this.getNewProfileName = function(name) {
@@ -32,7 +16,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     };
 
     this.saveProfiles = function() {
-        let sanitizedProfiles = service.profiles.map(profile => ({
+        let sanitizedProfiles = profiles.map(profile => ({
             name: profile.name,
             gameMode: profile.gameMode,
             gamePath: profile.gamePath || '',
@@ -52,27 +36,24 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
 
     this.detectMissingProfiles = function() {
         xelib.games.forEach(game => {
-            let gameProfile = service.profiles.find(profile => {
-                return profile.gameMode === game.mode;
-            });
+            let gameProfile = profiles.findByKey('gameMode', game.mode);
             if (gameProfile) return;
             let gamePath = xelib.GetGamePath(game.mode);
-            if (gamePath !== '') {
-                service.profiles.push(service.createProfile(game, gamePath));
-            }
+            if (gamePath === '') return;
+            profiles.push(service.createProfile(game, gamePath));
         });
     };
 
     this.getDefaultProfile = function() {
-        return service.profiles.findByKey('valid', true);
+        return profiles.findByKey('valid', true);
     };
 
     this.setDefaultProfile = function(defaultProfile) {
         if (!defaultProfile) return;
-        let n = service.profiles.indexOf(defaultProfile);
+        let n = profiles.indexOf(defaultProfile);
         if (n === 0) return;
-        service.profiles.splice(n, 1);
-        service.profiles.unshift(defaultProfile);
+        profiles.splice(n, 1);
+        profiles.unshift(defaultProfile);
     };
 
     this.getGame = function(gameMode) {
@@ -86,7 +67,11 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     };
 
     this.validateProfiles = function() {
-        service.profiles.forEach(service.validateProfile);
+        profiles.forEach(service.validateProfile);
+    };
+
+    this.getProfiles = function() {
+        return profiles.filterOnKey('valid');
     };
 
     this.selectProfile = function(selectedProfile) {
