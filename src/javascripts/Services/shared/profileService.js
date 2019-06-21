@@ -1,18 +1,44 @@
 ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
     let service = this,
         profilesPath = fh.path(fh.userPath, 'profiles.json'),
-        profiles = fh.loadJsonFile(profilesPath) || [];
+        profiles;
 
     // helper functions
     let getProfile = name => profiles.findByKey('name', name);
 
+    let getDefaultBackground = game => {
+        let imagesDir = fh.appDir.cwd('app', 'images'),
+            backgroundPath = imagesDir.path('backgrounds', `${game.name}.jpg`)
+        return { url: fh.pathToFileUrl(backgroundPath) };
+    };
+
+    let getGame = function(gameMode) {
+        return xelib.games.findByKey('mode', gameMode);
+    };
+
     // public api
+    this.validateProfile = function(profile) {
+        let game = getGame(profile.gameMode),
+            exePath = fh.path(profile.gamePath, game.exeName);
+        profile.valid = fh.jetpack.exists(exePath) === 'file';
+    };
+
     this.getNewProfileName = function(name) {
         let counter = 2,
             profileName = name;
         while (getProfile(profileName))
             profileName = `${name} ${counter++}`;
         return profileName;
+    };
+
+    this.loadProfiles = function() {
+        profiles = fh.loadJsonFile(profilesPath) || [];
+        profiles.forEach(profile => {
+            service.validateProfile(profile);
+            if (profile.background) return;
+            let game = xelib.games[profile.gameMode];
+            profile.background = getDefaultBackground(game);
+        });
     };
 
     this.saveProfiles = function() {
@@ -31,7 +57,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
             gameMode: game.mode,
             gamePath: gamePath,
             language: 'English',
-            background: `./app/images/backgrounds/${game.name}.jpg`
+            background: getDefaultBackground(game)
         }
     };
 
@@ -57,20 +83,6 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         profiles.unshift(defaultProfile);
     };
 
-    this.getGame = function(gameMode) {
-        return xelib.games.findByKey('mode', gameMode);
-    };
-
-    this.validateProfile = function(profile) {
-        let game = service.getGame(profile.gameMode),
-            exePath = fh.path(profile.gamePath, game.exeName);
-        profile.valid = fh.jetpack.exists(exePath) === 'file';
-    };
-
-    this.validateProfiles = function() {
-        profiles.forEach(service.validateProfile);
-    };
-
     this.getProfiles = function() {
         return profiles.filterOnKey('valid');
     };
@@ -80,6 +92,4 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         $rootScope.profile = selectedProfile;
         xelibService.startSession(selectedProfile);
     };
-
-    this.detectMissingProfiles();
 });

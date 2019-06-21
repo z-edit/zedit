@@ -8,7 +8,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 
 ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService, appModeService, argService, errorService) {
     let {getDefaultAppMode, getAppModes} = appModeService,
-        {getDefaultProfile, getProfiles} = profileService;
+        {loadProfiles, getDefaultProfile, getProfiles} = profileService;
 
     // helper functions
     let selectAppMode = function(appModeId) {
@@ -46,8 +46,13 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
         $scope.selectedProfile = getDefaultProfile();
     });
 
+    $scope.$watch('selectedProfile', function(profile) {
+        $scope.background = profile.background;
+        $scope.$emit('backgroundChanged', $scope.background);
+    });
+
     // initialization
-    profileService.validateProfiles();
+    loadProfiles();
     $scope.appVersion = window.appVersion;
     $scope.profiles = getProfiles();
     $scope.appModes = getAppModes();

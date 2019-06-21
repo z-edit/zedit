@@ -53,6 +53,14 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
         currentWindow.close();
     });
 
+    $scope.$on('backgroundChanged', function(e, background) {
+        $scope.backgroundStyle = {
+            'background': `url('${background.url}')`,
+            'background-size': 'cover',
+            'background-position': 'center'
+        };
+    });
+
     $scope.$watch('title', () => document.title = $scope.title);
 
     // global hotkeys
