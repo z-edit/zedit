@@ -2,7 +2,7 @@
 
 <div class="restart-message" ng-if="showRestart">
     The application needs to be restarted for your changes to be applied.
-    <button class="action-btn small negative" ng-click="restart()">Restart Now</button>
+    <button class="action small negative" ng-click="restart()">Restart Now</button>
 </div>
 
 <div ng-repeat="module in modules" class="module-item">
@@ -15,15 +15,15 @@
         {{::module.description}}
     </div>
     <div class="footer">
-        <button class="action-btn" ng-if="false" ng-click="toggleModule(module)">
+        <button class="action" ng-if="false" ng-click="toggleModule(module)">
             {{::(module.enabled ? 'Disable' : 'Enable')}}
         </button>
-        <button class="action-btn negative" ng-click="uninstallModule(module)">
+        <button class="action negative" ng-click="uninstallModule(module)">
             Uninstall
         </button>
     </div>
 </div>
 
 <div class="primary-actions">
-    <button class="action-btn" ng-click="installModule()">Install Module</button>
+    <button class="action" ng-click="installModule()">Install Module</button>
 </div>

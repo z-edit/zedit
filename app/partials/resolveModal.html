@@ -17,18 +17,18 @@
 
             <div class="modal-footer">
                 <div>
-                    <button class="action-btn" ng-click="previousError()" ng-show="errorIndex > 0">
+                    <button class="action" ng-click="previousError()" ng-show="errorIndex > 0">
                         <span class="fa fa-chevron-left"></span>
                         Previous
                     </button>
                 </div>
                 <error-resolutions></error-resolutions>
                 <div>
-                    <button class="action-btn" ng-click="nextError()" ng-show="errorIndex < errorsToResolve.length - 1">
+                    <button class="action" ng-click="nextError()" ng-show="errorIndex < errorsToResolve.length - 1">
                         Next
                         <span class="fa fa-chevron-right"></span>
                     </button>
-                    <button class="action-btn" ng-click="$emit('closeModal')" ng-show="errorIndex === errorsToResolve.length - 1">
+                    <button class="action" ng-click="$emit('closeModal')" ng-show="errorIndex === errorsToResolve.length - 1">
                         Done
                         <span class="fa fa-check"></span>
                     </button>

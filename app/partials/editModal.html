@@ -8,8 +8,8 @@
             <textarea ng-if="::(modalOptions.editType === 'text')" ng-model="$parent.value" maxlength="{{::modalOptions.maxLength}}" ng-change="validate()"></textarea>
 
             <div class="primary-actions">
-                <button class="action-btn" ng-click="applyValue()" ng-disabled="invalid">OK</button>
-                <button class="action-btn" ng-click="$emit('closeModal')">Cancel</button>
+                <button class="action" ng-click="applyValue()" ng-disabled="invalid">OK</button>
+                <button class="action" ng-click="$emit('closeModal')">Cancel</button>
             </div>
         </form>
     </div>

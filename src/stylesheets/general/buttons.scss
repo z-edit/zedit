@@ -1,5 +1,7 @@
 button {
-  font-family: 'Roboto', sans-serif;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .primary-actions {
@@ -11,8 +13,7 @@ button {
   }
 }
 
-.action-btn {
-  color: $inverse_font_color !important;
+button.action {
   text-align: center;
   cursor: pointer;
   display: inline-block;
@@ -47,6 +48,14 @@ button {
     background-color: $positive;
   }
 
+  &.big {
+    font-size: 32px;
+    padding: 12px 28px 14px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
   &.small {
     font-size: 12px;
     padding: 4px 6px;
@@ -56,6 +65,15 @@ button {
     background-color: $action_disabled !important;
     cursor: default;
   }
+}
+
+button.text {
+  background: none;
+  border: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 3px;
 }
 
 h2, h3 {

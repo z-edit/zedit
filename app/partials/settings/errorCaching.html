@@ -9,12 +9,12 @@
 
 <h3>
     Error Cache
-    <button class="action-btn negative small" ng-click="clearErrorCache()">Clear</button>
+    <button class="action negative small" ng-click="clearErrorCache()">Clear</button>
 </h3>
 <div class="cache-container">
     <div class="cache-item" ng-repeat="item in errorCache" ng-hide="item.deleted">
         <div class="delete-item">
-            <button class="action-btn negative small" ng-click="deleteCache(item)">
+            <button class="action negative small" ng-click="deleteCache(item)">
                 Delete
             </button>
         </div>

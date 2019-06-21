@@ -2,5 +2,5 @@
 <div class="color-input-container">
     <div class="color-sample" ng-style="colorStyle"></div>
     <input type="text" ng-model="text" ng-class="{'invalid' : invalid}" ng-change="textChanged()" select-text="autoselect" ng-keydown="onKeyDown($event)"/>
-    <button ng-if="showOk" class="btn action-btn" ng-click="$emit('handleEnter')">OK</button>
+    <button ng-if="showOk" class="btn action" ng-click="$emit('handleEnter')">OK</button>
 </div>

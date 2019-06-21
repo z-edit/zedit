@@ -14,7 +14,7 @@
     <tr ng-repeat="error in group.errors">
         <td class="error-cell">{{ ::error.message.join('\n\r - ') }}</td>
         <td class="resolution-cell">
-            <button class="action-btn small" ng-click="resolveError(group, error)">
+            <button class="action small" ng-click="resolveError(group, error)">
                 {{ error.resolution.label }}
             </button>
         </td>

@@ -27,7 +27,7 @@
                 <div class="content-title">{{::plugin.filename}}
                     <span ng-show="checking || plugin.errors">({{plugin.status}})</span>
                     <span class="right" ng-hide="checking">
-                        <button class="action-btn small no-hover {{plugin.skip ? 'negative' : 'positive'}}" ng-click="toggleSkip(plugin)">{{plugin.skip ? 'Skip' : 'Process'}}</button>
+                        <button class="action small no-hover {{plugin.skip ? 'negative' : 'positive'}}" ng-click="toggleSkip(plugin)">{{plugin.skip ? 'Skip' : 'Process'}}</button>
                     </span>
                     <span class="right" ng-show="plugin.checking">
                         <span class="fa fa-circle-o-notch fa-spin" title="Error check in progress..."></span>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="primary-actions" ng-show="!checking">
-            <button class="action-btn" ng-click="startCheck()">Check For Errors</button>
+            <button class="action" ng-click="startCheck()">Check For Errors</button>
         </div>
     </div>
 </div>
