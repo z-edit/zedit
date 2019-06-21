@@ -1,44 +1,33 @@
-.game-logo-container {
-  padding: 8px;
+.start-pane {
+  width: 27.5%;
+  min-width: 500px;
+  padding: 0 32px 50px;
+  background: rgba($background, 0.8);
 }
 
-.appmode-select {
-  margin: 0.67em 0;
-  padding: 2px 40px 2px 8px;
-  border-color: $soft_font_color;
-  font-size: 2em;
-  font-weight: bold;
-
-  @include dropdown-triangle(10px);
+.secondary-actions {
+  padding: 7px 14px;
 }
 
-.profile-controls {
-  select, span {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  span.fa {
-    margin-left: 4px;
-    font-size: 30px;
-    cursor: pointer;
-  }
-
-  select {
-    min-width: 140px;
-    padding: 4px;
-    padding-right: 35px;
-    border-color: $soft_font_color;
-    font-size: 20px;
-
-    @include dropdown-triangle(10px);
-  }
-}
-
-.app-version {
+.image-controls {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 4px 6px;
-  font-size: 12px;
+  top: 50px;
+  right: 14px;
+  font-size: 14px;
+
+  .fa {
+    text-shadow: 0 1px 3px $modal_shadow;
+  }
+}
+
+.image-by {
+  position: absolute;
+  bottom: 8px;
+  right: 14px;
+  font-size: 14px;
+  font-weight: 600;
+
+  a {
+    text-shadow: 0 1px 1px $modal_shadow, 0 1px 2px $modal_shadow;
+  }
 }
