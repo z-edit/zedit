@@ -23,7 +23,11 @@
   color: gray;
 }
 
-.right-item {
+.flex {
+  display: flex;
+}
+
+.right {
   float: right;
 }
 
@@ -40,7 +44,23 @@
 }
 
 .center {
-  text-align : center;
+  text-align: center;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.heavy {
+  font-weight: 700;
+}
+
+.margin14 {
+  margin: 14px 0;
 }
 
 .nowrap {
