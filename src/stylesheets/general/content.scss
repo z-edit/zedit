@@ -34,6 +34,19 @@ a {
   }
 }
 
+a.plain {
+  color: $font_color;
+}
+
+a.brighten {
+  color: $medium_font_color;
+
+  &:hover {
+    text-decoration: none;
+    color: $font_color;
+  }
+}
+
 code {
   background-color: $secondary_background;
   padding: 0 3px;
