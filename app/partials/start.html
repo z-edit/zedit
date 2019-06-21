@@ -1,25 +1,38 @@
-<div class="flex-container">
-    <div>
-        <select ng-model="selectedAppMode" class="appmode-select" title="Select application mode.">
-            <option ng-repeat="appMode in appModes" value="{{::appMode}}">
-                z{{::appMode.capitalize()}}
-            </option>
-        </select>
-        <div class="game-logo-container">
-            <img ng-src="images/games/{{selectedProfile.gameMode || 'undefined'}}.png"/>
-        </div>
-        <div class="profile-controls">
-            <select ng-model="selectedProfile" ng-options="profile as profile.name for profile in profiles | profileValid" title="Select profile.">
-                <option value="">None</option>
-            </select>
-            <span class="fa fa-gear" ng-click="$emit('openModal', 'profiles')" title="Manage profiles."></span>
-        </div>
-        <div class="primary-actions">
-            <button class="action-btn" ng-click="startSession()" ng-disabled="!selectedProfile">Start Session</button>
+<div class="start-pane vertical-flex">
+    <h4>Profile:</h4>
+    <select ng-model="selectedProfile" class="material-select" ng-options="profile as profile.name for profile in profiles | profileValid">
+        <option value="">None</option>
+    </select>
+
+    <h4>Application Mode:</h4>
+    <select ng-model="selectedAppMode" class="material-select" ng-options="appMode as appMode.name for appMode in appModes"></select>
+
+    <p>{{selectedAppMode.description}}</p>
+
+    <p>If you are a beginner, you can learn how to get started using <strong>{{selectedAppMode.name}}</strong> by visiting the <a ng-href="docs://Application Modes/{{::selectedAppMode.name}}">Getting Started Guide</a>.</p>
+
+    <hr>
+
+    <div class="flex margin14">
+        <button class="action big" ng-click="startSession()" ng-disabled="!selectedProfile">Start Session</button>
+
+        <div class="vertical-flex secondary-actions">
+            <button class="text" ng-click="$emit('openModal', 'profiles')" title="Manage your profiles">Profiles</button>
+            <button class="text" ng-click="$emit('openModal', 'modules')" title="Manage modules">Modules</button>
         </div>
     </div>
+
+    <hr>
+
+    <div class="right small bold">v{{appVersion}}</div>
 </div>
 
-<div class="app-version">
-    zEdit v{{appVersion}}
+<div class="image-controls">
+    <button class="text" ng-click="nextBackground()" title="Next background">
+        <span class="fa fa-chevron-right"></span>
+    </button>
+</div>
+
+<div class="image-by" ng-if="background.author">
+    <a ng-href="{{background.source}}" class="brighten">Image by {{background.author}}</a>
 </div>
