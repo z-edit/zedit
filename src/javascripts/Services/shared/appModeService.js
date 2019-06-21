@@ -6,7 +6,11 @@ ngapp.service('appModeService', function($rootScope, $state) {
     this.getAppModes = function() {
         return appModes.filter(m => {
             return !m.hidden || env.show_hidden_appmodes;
-        }).mapOnKey('name');
+        });
+    };
+
+    this.getDefaultAppMode = function() {
+        return appModes.findByKey('default');
     };
 
     this.addAppMode = function(appMode) {
