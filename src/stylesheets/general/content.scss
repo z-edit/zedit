@@ -151,3 +151,42 @@ section.footer-section {
     margin: 0;
   }
 }
+
+.vertical-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;
+
+  p {
+    text-align: left;
+  }
+
+  .right {
+    align-self: flex-end;
+  }
+}
+
+h4 {
+  margin: 14px 0 0;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+hr {
+  width: 100%;
+}
+
+.material-select {
+  width: 100%;
+  padding: 4px;
+  padding-right: 35px;
+  border: none;
+  border-bottom: 2px solid $soft_font_color;
+  background: none;
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  -webkit-appearance: none;
+}
