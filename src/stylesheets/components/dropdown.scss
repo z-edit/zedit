@@ -74,6 +74,12 @@ dropdown.material {
     border-bottom: 2px solid $soft_font_color;
     display: block;
     text-align: left;
+
+    .fa {
+      position: absolute;
+      right: 6px;
+      top: 10px;
+    }
   }
 
   .dropdown-items {

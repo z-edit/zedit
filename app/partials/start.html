@@ -3,6 +3,7 @@
     <dropdown class="material" items="profiles" on-item-click="selectProfile">
         <dropdown-display>
             {{selectedProfile.name}}
+            <span class="fa fa-chevron-down"></span>
         </dropdown-display>
         <dropdown-item>{{::$parent.item.name}}</dropdown-item>
     </dropdown>
@@ -11,6 +12,7 @@
     <dropdown class="material" items="appModes" on-item-click="selectAppMode">
         <dropdown-display>
             {{selectedAppMode.name}}
+            <span class="fa fa-chevron-down"></span>
         </dropdown-display>
         <dropdown-item>{{::$parent.item.name}}</dropdown-item>
     </dropdown>
