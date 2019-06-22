@@ -1,6 +1,5 @@
 button {
-  font-family: inherit;
-  color: inherit;
+  font-family: 'Roboto', sans-serif;
   cursor: pointer;
 }
 
@@ -15,9 +14,9 @@ button {
 
 button.action {
   text-align: center;
-  cursor: pointer;
   display: inline-block;
   background-color: $action;
+  color: $inverse_font_color;
   border-radius: 2px;
   border: none;
   margin: 2px;
