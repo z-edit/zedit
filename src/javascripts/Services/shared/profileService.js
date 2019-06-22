@@ -83,8 +83,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         profiles.unshift(defaultProfile);
     };
 
-    this.getProfiles = function() {
-        return profiles.filterOnKey('valid');
+    this.getProfiles = function(includeInvalid) {
+        return profiles.filter(p => includeInvalid || p.valid);
     };
 
     this.selectProfile = function(selectedProfile) {

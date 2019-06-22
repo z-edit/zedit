@@ -2,7 +2,7 @@ ngapp.controller('profilesModalController', function ($scope, languageService, p
     // initialize scope variables
     $scope.games = xelib.games;
     $scope.languages = languageService.getLanguages();
-    $scope.profiles = profileService.getProfiles();
+    $scope.profiles = profileService.getProfiles(true);
     $scope.defaultProfile = profileService.getDefaultProfile();
 
     // scope functions
