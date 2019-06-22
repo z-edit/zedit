@@ -5,6 +5,7 @@ button {
 
 .primary-actions {
   margin: 16px;
+  text-align: center;
 
   button {
     font-size: 28px;
@@ -16,13 +17,14 @@ button.action {
   text-align: center;
   display: inline-block;
   background-color: $action;
-  color: $inverse_font_color;
+  color: $action_font_color;
   border-radius: 2px;
   border: none;
-  margin: 2px;
   font-size: 18px;
-  padding: 4px 8px;
-  font-weight: 500;
+  margin: 1px;
+  padding: 8px 14px;
+  font-weight: 600;
+  text-transform: uppercase;
   -webkit-transition: background-color 0.2s ease-in-out;
 
   &.small {
@@ -32,19 +34,31 @@ button.action {
   }
 
   &:hover:not(.no-hover) {
-    background-color: $action_hover !important;
+    background-color: $action_hover;
   }
 
   &.negative {
     background-color: $negative;
+
+    &:hover:not(.no-hover) {
+      background-color: $negative_hover;
+    }
   }
 
   &.neutral {
     background-color: $neutral;
+
+    &:hover:not(.no-hover) {
+      background-color: $neutral_hover;
+    }
   }
 
   &.positive {
     background-color: $positive;
+
+    &:hover:not(.no-hover) {
+      background-color: $positive_hover;
+    }
   }
 
   &.big {
@@ -56,6 +70,13 @@ button.action {
   }
 
   &.small {
+    font-size: 14px;
+    padding: 4px 6px 3px;
+    text-transform: none;
+    font-weight: 500;
+  }
+
+  &.tiny {
     font-size: 12px;
     padding: 4px 6px;
   }

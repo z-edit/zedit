@@ -8,7 +8,7 @@ hex-input {
     &:focus {
       outline: none;
       background: $action;
-      color: $inverse_font_color;
+      color: $action_font_color;
     }
   }
 }

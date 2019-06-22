@@ -21,15 +21,19 @@ $strong_selected: #6b9aba;
 $font_color: #383838;
 $medium_font_color: #555;
 $soft_font_color: #888;
-$inverse_font_color: #fff;
-$negative: crimson;
-$neutral: #f80;
-$positive: green;
+$action_font_color: #fff;
+$negative: #be1424;
+$negative_hover: #9b1423;
+$neutral: #ffb725;
+$neutral_hover: #c38923;
+$positive: #008100;
+$positive_hover: #006900;
 $strong_action: #80ccff;
 $action: #53a5c9;
 $action_hover: #456573;
+$action_font_color: #fff;
 $action_disabled: #555;
-$secondary_action: dodgerblue;
+$secondary_action: #0aa4ff;
 
 // conflict colors
 $base: #000;

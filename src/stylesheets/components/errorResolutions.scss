@@ -9,7 +9,7 @@ error-resolutions {
     background: none !important;
 
     &.selected, &:hover {
-      color: $inverse_font_color !important;
+      color: $action_font_color !important;
 
       &.positive {
         background: $positive !important;

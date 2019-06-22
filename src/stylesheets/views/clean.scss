@@ -26,13 +26,13 @@
     background-color: $action_hover;
     font-size: 16px;
     font-weight: 500;
-    color: $inverse_font_color;
+    color: $action_font_color;
 
     span {
       color: $strong_action;
 
       &.fa {
-        color: $inverse_font_color;
+        color: $action_font_color;
         float: left;
         cursor: pointer;
 

@@ -10,10 +10,10 @@
         {{::theme.description}}
     </div>
     <div class="footer">
-        <button class="action" ng-click="applyTheme(theme)" ng-if="!theme.active">
+        <button class="action small" ng-click="applyTheme(theme)" ng-if="!theme.active">
             Apply
         </button>
-        <button class="action negative" ng-click="uninstallTheme(theme)" ng-disabled="$first && $last">
+        <button class="action small negative" ng-click="uninstallTheme(theme)" ng-disabled="$first && $last">
             Uninstall
         </button>
     </div>

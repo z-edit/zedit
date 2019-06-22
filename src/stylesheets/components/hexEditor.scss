@@ -9,7 +9,7 @@ hex-editor {
 
     &:focus {
       background: $action;
-      color: $inverse_font_color;
+      color: $action_font_color;
       outline: none;
     }
   }

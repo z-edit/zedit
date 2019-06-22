@@ -22,7 +22,7 @@ profile {
 
   img {
     width: 105px;
-    margin: 6px 8px;
+    margin: 6px 20px 0 8px;
   }
 
   select {
@@ -45,7 +45,8 @@ profile {
     }
 
     .input-label {
-      min-width: 100px;
+      min-width: 120px;
+      font-weight: 600;
     }
 
     .path-input {
