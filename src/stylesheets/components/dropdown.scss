@@ -61,3 +61,24 @@ dropdown.combobox {
     overflow-y: auto;
   }
 }
+
+dropdown.material {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 100%;
+
+  dropdown-display {
+    padding: 4px;
+    padding-right: 35px;
+    border-bottom: 2px solid $soft_font_color;
+    display: block;
+    text-align: left;
+  }
+
+  .dropdown-items {
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: inherit;
+  }
+}

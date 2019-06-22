@@ -1,15 +1,23 @@
 <div class="start-pane vertical-flex">
     <h4>Profile:</h4>
-    <select ng-model="selectedProfile" class="material-select" ng-options="profile as profile.name for profile in profiles | profileValid">
-        <option value="">None</option>
-    </select>
+    <dropdown class="material" items="profiles" on-item-click="selectProfile">
+        <dropdown-display>
+            {{selectedProfile.name}}
+        </dropdown-display>
+        <dropdown-item>{{::$parent.item.name}}</dropdown-item>
+    </dropdown>
 
     <h4>Application Mode:</h4>
-    <select ng-model="selectedAppMode" class="material-select" ng-options="appMode as appMode.name for appMode in appModes"></select>
+    <dropdown class="material" items="appModes" on-item-click="selectAppMode">
+        <dropdown-display>
+            {{selectedAppMode.name}}
+        </dropdown-display>
+        <dropdown-item>{{::$parent.item.name}}</dropdown-item>
+    </dropdown>
 
     <p>{{selectedAppMode.description}}</p>
 
-    <p>If you are a beginner, you can learn how to get started using <strong>{{selectedAppMode.name}}</strong> by visiting the <a ng-href="docs://Application Modes/{{::selectedAppMode.name}}">Getting Started Guide</a>.</p>
+    <p ng-if="beginner">If you are a beginner, you can learn how to get started using <strong>{{selectedAppMode.name}}</strong> by visiting the <a ng-href="docs://Application Modes/{{::selectedAppMode.name}}">Getting Started Guide</a>.</p>
 
     <hr>
 

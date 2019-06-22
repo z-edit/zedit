@@ -35,6 +35,14 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
         appModeService.runLoader($scope);
     };
 
+    $scope.selectProfile = function(profile) {
+        $scope.selectedProfile = profile;
+    };
+
+    $scope.selectAppMode = function(appMode) {
+        $scope.selectedAppMode = appMode;
+    };
+
     // event listeners
     $scope.$on('settingsClick', function() {
         if ($rootScope.profile) return;
