@@ -9,10 +9,6 @@ ngapp.service('appModeService', function($rootScope, $state) {
         });
     };
 
-    this.getDefaultAppMode = function() {
-        return appModes.findByKey('default');
-    };
-
     this.addAppMode = function(appMode) {
         appModes.push(appMode);
     };

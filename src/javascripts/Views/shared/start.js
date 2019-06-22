@@ -7,13 +7,13 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
 }]);
 
 ngapp.controller('startController', function ($scope, $rootScope, $state, $timeout, profileService, appModeService, argService, errorService) {
-    let {getDefaultAppMode, getAppModes} = appModeService,
+    let {getAppModes} = appModeService,
         {loadProfiles, getDefaultProfile, getProfiles} = profileService;
 
     // helper functions
     let selectAppMode = function(appModeId) {
-        let appMode = $scope.appModes.findByKey('id', appModeId);
-        $scope.selectedAppMode = appMode || getDefaultAppMode();
+        $scope.selectedAppMode = $scope.appModes.findByKey('id', appModeId) ||
+            $scope.appModes.find(appMode => appMode.default);
     };
 
     let selectProfile = function(profileName) {
