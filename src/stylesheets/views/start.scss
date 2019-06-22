@@ -5,8 +5,17 @@
   background: rgba($background, 0.8);
 }
 
+dropdown.appmode {
+  text-transform: none;
+}
+
 .secondary-actions {
-  padding: 7px 14px;
+  padding: 0 14px;
+
+  button.text {
+    margin-top: 7px;
+    padding: 0 6px;
+  }
 }
 
 .image-controls {

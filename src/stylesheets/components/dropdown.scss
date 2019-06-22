@@ -63,13 +63,13 @@ dropdown.combobox {
 }
 
 dropdown.material {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
   text-transform: uppercase;
   width: 100%;
 
   dropdown-display {
-    padding: 4px;
+    padding-left: 4px;
     padding-right: 35px;
     border-bottom: 2px solid $soft_font_color;
     display: block;
