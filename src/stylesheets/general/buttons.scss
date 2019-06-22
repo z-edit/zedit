@@ -74,6 +74,11 @@ button.text {
   font-weight: 600;
   font-size: 16px;
   padding: 3px;
+  transition: color ease-in-out 0.2s;
+
+  &:hover {
+    color: $secondary_action;
+  }
 }
 
 h2, h3 {
