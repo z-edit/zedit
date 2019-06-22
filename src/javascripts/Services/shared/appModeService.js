@@ -21,10 +21,9 @@ ngapp.service('appModeService', function($rootScope, $state) {
         $state.go(`base.${$rootScope.appMode}`);
     };
 
-    this.selectAppMode = function(appModeName) {
-        let appMode = appModes.findByKey('name', appModeName);
+    this.selectAppMode = function(appMode) {
         if (appMode.confirm && !appMode.confirm()) return;
-        $rootScope.appMode = appModeName;
+        $rootScope.appMode = appMode.name;
         return true;
     };
 
