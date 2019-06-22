@@ -78,6 +78,7 @@ ui-view {
   flex-direction: column;
   min-height: 0;
   text-align: center;
+  transition: background ease-in-out 0.3s;
 
   .container {
     padding: 20px 40px;
