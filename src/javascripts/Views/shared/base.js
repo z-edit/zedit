@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolService, settingsService, themeService, buttonFactory, modalService, hotkeyInterface, contextMenuService, eventService) {
+ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolService, settingsService, themeService, buttonService, modalService, hotkeyInterface, contextMenuService, eventService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -16,9 +16,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
 
     // scope functions
     $scope.buttonClick = (button, e) => button.onClick($scope, e);
-    $scope.extensionsClick = () => $scope.$emit('openModal', 'manageExtensions');
-    $scope.settingsClick = () => $scope.$broadcast('settingsClick');
-    $scope.helpClick = () => $scope.$emit('openModal', 'help');
     $scope.minimizeClick = () => currentWindow.minimize();
     $scope.restoreClick = () => toggleMaximized(currentWindow);
     $scope.closeClick = () => currentWindow.close();
@@ -78,6 +75,6 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
     modalService.init($scope);
     protocolService.init($scope);
     $scope.title = 'zEdit - New Session';
-    $scope.buttons = buttonFactory.buttons;
+    $scope.buttons = buttonService.getButtons();
     $scope.$emit('appStart');
 });
