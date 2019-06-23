@@ -21,6 +21,6 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
         id: 'referencedByView',
         name: 'Referenced By View',
         new: newView,
-        isAccessible: () => $rootScope.appMode === 'edit'
+        isAccessible: () => $rootScope.appMode.id === 'edit'
     });
 });

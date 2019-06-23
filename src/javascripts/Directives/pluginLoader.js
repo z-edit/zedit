@@ -8,8 +8,7 @@ ngapp.directive('pluginLoader', function() {
 });
 
 ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout, xelibService, spinnerFactory, timerService) {
-    // helper variables
-    let appMode = `z${$rootScope.appMode.capitalize()}`;
+    let {appMode, profile} = $rootScope;
 
     // initialization
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
@@ -26,7 +25,7 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
 
     let doneLoading = function() {
         $scope.$emit('filesLoaded');
-        $scope.$emit('setTitle', `${appMode} - ${$rootScope.profile.name}`);
+        $scope.$emit('setTitle', `${appMode.name} - ${profile.name}`);
         let secondsStr = timerService.getSecondsStr('loader');
         logger.info(`Files loaded in ${secondsStr}`);
     };
@@ -77,6 +76,6 @@ ngapp.controller('pluginLoaderController', function($rootScope, $scope, $timeout
         $scope.loadingMessage = 'Loading...';
         ignoreInput();
         $scope.checkIfLoaded();
-        $scope.$emit('setTitle', `${appMode} - Loading Plugins`);
+        $scope.$emit('setTitle', `${appMode.name} - Loading Plugins`);
     });
 });

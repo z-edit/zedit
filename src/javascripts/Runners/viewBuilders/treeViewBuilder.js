@@ -25,7 +25,7 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingInterface, settingsServic
         id: 'treeView',
         name: 'Tree View',
         new: newView,
-        isAccessible: () => $rootScope.appMode === 'edit'
+        isAccessible: () => $rootScope.appMode.id === 'edit'
     });
 
     settingsService.registerSettings({

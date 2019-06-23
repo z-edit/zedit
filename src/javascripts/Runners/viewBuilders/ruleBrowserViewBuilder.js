@@ -17,6 +17,6 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
         id: 'ruleBrowserView',
         new: newView,
         name: 'Rule Browser View',
-        isAccessible: () => $rootScope.appMode === 'smash'
+        isAccessible: () => $rootScope.appMode.id === 'smash'
     });
 });

@@ -15,6 +15,6 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
         id: 'ruleView',
         new: newView,
         name: 'Rule View',
-        isAccessible: () => $rootScope.appMode === 'smash'
+        isAccessible: () => $rootScope.appMode.id === 'smash'
     });
 });

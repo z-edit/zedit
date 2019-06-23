@@ -1,7 +1,7 @@
 ngapp.run(function($rootScope, appModeService) {
     appModeService.addLoader('selectLoadOrder', function(scope) {
-        let title = `${$rootScope.appMode} - Selecting Load Order`;
-        scope.$emit('setTitle', title);
+        let {appMode} = $rootScope;
+        scope.$emit('setTitle', `${appMode.name} - Selecting Load Order`);
         scope.$emit('openModal', 'loadOrder', {}, true);
     });
 });

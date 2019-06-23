@@ -27,6 +27,6 @@ ngapp.run(function($rootScope, viewFactory, viewLinkingInterface) {
         id: 'smashTreeView',
         new: newView,
         name: 'Tree View',
-        isAccessible: () => $rootScope.appMode === 'smash'
+        isAccessible: () => $rootScope.appMode.id === 'smash'
     });
 });

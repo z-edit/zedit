@@ -48,7 +48,7 @@ ngapp.service('settingsService', function($rootScope) {
 
     this.getTabs = function() {
         return tabs.filter(tab => {
-            return !tab.appModes || tab.appModes.includes($rootScope.appMode);
+            return !tab.appModes || tab.appModes.includes($rootScope.appMode.id);
         }).map(tab => ({
             label: tab.label,
             templateUrl: tab.templateUrl,

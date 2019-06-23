@@ -32,7 +32,8 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
         if (!appModeService.selectAppMode($scope.selectedAppMode)) return;
         profileService.selectProfile($scope.selectedProfile);
         $scope.$emit('sessionStarted', $scope.selectedProfile);
-        appModeService.runLoader($scope);
+        let {loader} = $scope.selectedAppMode;
+        appModeService.runLoader($scope, loader);
     };
 
     $scope.selectProfile = function(profile) {

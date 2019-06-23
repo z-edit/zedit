@@ -18,17 +18,16 @@ ngapp.service('appModeService', function($rootScope, $state) {
     };
 
     this.goToAppView = function() {
-        $state.go(`base.${$rootScope.appMode}`);
+        $state.go(`base.${$rootScope.appMode.id}`);
     };
 
     this.selectAppMode = function(appMode) {
         if (appMode.confirm && !appMode.confirm()) return;
-        $rootScope.appMode = appMode.name;
+        $rootScope.appMode = appMode;
         return true;
     };
 
-    this.runLoader = function(scope) {
-        let appMode = appModes.findByKey('name', $rootScope.appMode);
-        loaders[appMode.loader](scope);
+    this.runLoader = function(scope, loaderName) {
+        loaders[loaderName](scope);
     };
 });
