@@ -2,18 +2,22 @@ export default function(ngapp, fh, logger) {
     let modules = {},
         loaders = {
             default: function({module, fh, logger, ngapp, moduleService}) {
-                Function.execute({
+                service.executeModule(module, {
                     ngapp, fh, logger, moduleService,
                     info: module.info,
                     moduleUrl: fh.pathToFileUrl(module.path),
                     modulePath: module.path
-                }, module.code, module.info.id);
+                });
                 service.loadDocs(module.path);
             }
         },
         deferredModules = [];
 
     // PRIVATE FUNCTIONS
+    let isNewModule = function(module) {
+        return /module\.exports\s*=\s*/.test(module.code);
+    };
+
     let prepareModule = function(modulePath, info) {
         return {
             info: info,
@@ -151,6 +155,13 @@ export default function(ngapp, fh, logger) {
             let module = prepareModule(modulePath, info);
             return allRequirementsLoaded(info.requires) ?
                 build(module) : missingRequirementError(info);
+        },
+        executeModule: function(module, args) {
+            if (isNewModule(module)) {
+                require(module.path)(args);
+            } else {
+                Function.execute(args, module.code, module.info.id);
+            }
         },
         loadDeferredModules: function() {
             logger.info('Loading deferred modules...');
