@@ -20,8 +20,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
             'fomod/**/*', 'screenshot?(s)/**/*', 'scripts/source/*.psc'];
         merge.plugins.forEach(plugin => {
             let basePluginName = fh.getFileBase(plugin.filename);
-            rules.push(`**/${basePluginName}.@(seq|ini)`,
-                `**/${plugin.filename}/**/*`);
+            rules.push(`**/${fh.escapePattern(basePluginName)}.@(seq|ini)`);
+            rules.push(`**/${fh.escapePattern(plugin.filename)}/**/*`);
         });
         return rules;
     };
