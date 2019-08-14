@@ -13,10 +13,10 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
         }
     };
 
-    let keyFromCharCode = (i) => { return String.fromCharCode(i).toLowerCase() };
+    let keyFromCharCode = i => String.fromCharCode(i).toLowerCase();
     buildKeyCodes(48, 57, keyFromCharCode); // 0-9
     buildKeyCodes(65, 90, keyFromCharCode); // a-z
-    buildKeyCodes(112, 123, (i) => { return `f${i - 111}`; }); // f1-f12
+    buildKeyCodes(112, 123, i => `f${i - 111}`); // f1-f12
 
     let getSatisfiedAction = function(actions, e) {
         return actions.find(a => {
