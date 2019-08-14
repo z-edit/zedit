@@ -67,7 +67,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         script.stringTable[0] = fileName;
         fh.jetpack.dir(fh.getDirectory(newPath));
         pexService.saveScript(script, newPath);
-        xelib.SetValue(a.handle, fileName);
+        xelib.SetValue(a.handle, '', fileName);
     };
 
     mergeAssetService.addHandler({
