@@ -1,11 +1,14 @@
 ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, gameService) {
     let {getOldPath, getNewPath, findGameAssets} = assetHelpers,
-        {forEachPlugin} = mergeAssetService;
+        {forEachPlugin} = mergeAssetService,
+        {log} = progressLogger;
 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
-          fragmentPath = 'VMAD\\Script Fragments\\fileName';
+          fragmentPath = 'VMAD\\Script Fragments';
 
     let fragmentExpr = /.*scripts[\/\\].*_([a-f0-9]{8}).pex/i;
+
+    let mergedPluginFragments = [];
 
     let getPluginHandle = function(merge, filename) {
         let plugin = merge.plugins.findByKey('filename', filename);
@@ -19,7 +22,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             if (handle) fragments.push({
                 handle: handle,
                 record: xelib.LongName(record),
-                filename: xelib.GetValue(handle) + '.pex'
+                filename: xelib.GetValue(handle, 'fileName') + '.pex'
             });
         });
         return fragments;
@@ -36,13 +39,16 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             }));
     };
 
-    let findScriptFragments = function(merge, plugin, folder) {
+    let findScriptFragments = function(merge, plugin, folder, useMergePlugin) {
         let pluginFile = getPluginHandle(merge, plugin),
             fragmentFiles = getFragmentsFromDisk(plugin, folder);
         if (!pluginFile) return fragmentFiles;
-        return fragmentGroups.reduce((fragments, group) => {
-            return getFragmentsFromPlugin(pluginFile, group, fragments);
-        }, []).filter(fragment => {
+        if (!useMergePlugin || !mergedPluginFragments || !mergedPluginFragments.length) {
+            mergedPluginFragments = fragmentGroups.reduce((fragments, group) => {
+                return getFragmentsFromPlugin(useMergePlugin ? merge.plugin : pluginFile, group, fragments);
+            }, []);
+        }
+        return mergedPluginFragments.filter(fragment => {
             let fragmentFile = fragmentFiles.find(f => {
                 return f.filename.equals(fragment.filename, true);
             });
@@ -67,7 +73,19 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         script.stringTable[0] = fileName;
         fh.jetpack.dir(fh.getDirectory(newPath));
         pexService.saveScript(script, newPath);
-        xelib.SetValue(a.handle, '', fileName);
+        let oldFileName = xelib.GetValue(a.handle, `fileName`);
+        log(`Changing fragment fileName from ${oldFileName} to ${fileName}`);
+        xelib.SetValue(a.handle, 'fileName', fileName);
+        let fragmentHandle = xelib.GetElement(a.handle, 'Fragments');
+        if (fragmentHandle) {
+            let numberOfFragments = xelib.ElementCount(fragmentHandle);
+            log(`Found ${numberOfFragments} fragments to fix for ${fileName}`);
+            for (let i = 0; i < numberOfFragments; i++) {
+                let oldValue = xelib.GetValue(a.handle, `Fragments\\[${i}]\\scriptName`);
+                log(`Changing fragment ${i} scriptName from ${oldValue} to ${fileName}`);
+                xelib.SetValue(a.handle, `Fragments\\[${i}]\\scriptName`, fileName);
+            }
+        }
     };
 
     mergeAssetService.addHandler({
@@ -75,15 +93,22 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         priority: 1,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder) => {
-                let assets = findScriptFragments(merge, plugin, folder);
+                let assets = findScriptFragments(merge, plugin, folder, false);
                 if (assets.length === 0) return;
                 merge.scriptFragments.push({ plugin, folder, assets });
             });
         },
         handle: function(merge) {
+            progressLogger.log('Handling Script Fragments');
+            merge.scriptFragments = [];
+            mergedPluginFragments = [];
+            forEachPlugin(merge, (plugin, folder) => {
+                let assets = findScriptFragments(merge, plugin, folder, true);
+                if (assets.length === 0) return;
+                merge.scriptFragments.push({ plugin, folder, assets });
+            });
             if (!merge.handleScriptFragments ||
                 !merge.scriptFragments.length) return;
-            progressLogger.log('Handling Script Fragments');
             pexService.setLogger(progressLogger);
             merge.scriptFragments.forEach(entry => {
                 entry.assets.forEach(asset => {
