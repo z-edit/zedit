@@ -4,7 +4,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         {log} = progressLogger;
 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
-          fragmentPath = 'VMAD\\Script Fragments';
+          fragmentPath = 'VMAD';
 
     let fragmentExpr = /.*scripts[\/\\].*_([a-f0-9]{8}).pex/i;
 
@@ -22,7 +22,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             if (handle) fragments.push({
                 handle: handle,
                 record: xelib.LongName(record),
-                filename: xelib.GetValue(handle, 'fileName') + '.pex'
+                filename: xelib.GetValue(handle, 'Script Fragments\\fileName') + '.pex'
             });
         });
         return fragments;
@@ -73,17 +73,35 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         script.stringTable[0] = fileName;
         fh.jetpack.dir(fh.getDirectory(newPath));
         pexService.saveScript(script, newPath);
-        let oldFileName = xelib.GetValue(a.handle, `fileName`);
+        let oldFileName = xelib.GetValue(a.handle, `Script Fragments\\fileName`);
         log(`Changing fragment fileName from ${oldFileName} to ${fileName}`);
-        xelib.SetValue(a.handle, 'fileName', fileName);
-        let fragmentHandle = xelib.GetElement(a.handle, 'Fragments');
+        xelib.SetValue(a.handle, 'Script Fragments\\fileName', fileName);
+        let fragmentHandle = xelib.GetElement(a.handle, 'Script Fragments\\Fragments');
         if (fragmentHandle) {
             let numberOfFragments = xelib.ElementCount(fragmentHandle);
             log(`Found ${numberOfFragments} fragments to fix for ${fileName}`);
             for (let i = 0; i < numberOfFragments; i++) {
-                let oldValue = xelib.GetValue(a.handle, `Fragments\\[${i}]\\scriptName`);
-                log(`Changing fragment ${i} scriptName from ${oldValue} to ${fileName}`);
-                xelib.SetValue(a.handle, `Fragments\\[${i}]\\scriptName`, fileName);
+                let oldValue = xelib.GetValue(a.handle, `Script Fragments\\Fragments\\[${i}]\\scriptName`);
+                if (oldValue === oldFileName) { 
+                    log(`Changing fragment ${i} scriptName from ${oldValue} to ${fileName}`);
+                    xelib.SetValue(a.handle, `Script Fragments\\Fragments\\[${i}]\\scriptName`, fileName);
+                } else {
+                    log(`Not changing fragment ${i} scriptName from ${oldValue} to ${fileName} (different script)`);
+                }
+            }
+        }
+        let scriptHandle = xelib.GetElement(a.handle, 'Scripts');
+        if (scriptHandle) {
+            let numberOfScripts = xelib.ElementCount(scriptHandle);
+            log(`Found ${numberOfScripts} scripts to fix for ${fileName}`);
+            for (let i = 0; i < numberOfScripts; i++) {
+                let oldValue = xelib.GetValue(a.handle, `Scripts\\[${i}]\\scriptName`);
+                if (oldValue === oldFileName) {
+                    log(`Changing script ${i} scriptName from ${oldValue} to ${fileName}`);
+                    xelib.SetValue(a.handle, `Scripts\\[${i}]\\scriptName`, fileName);
+                } else {
+                    log(`Not changing script ${i} scriptName from ${oldValue} to ${fileName} (different script)`);
+                }
             }
         }
     };
