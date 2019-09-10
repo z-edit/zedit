@@ -3,7 +3,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         {forEachPlugin} = mergeAssetService;
 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
-          fragmentPath = 'VMAD\\Script Fragments\\fileName';
+        fragmentsPath = 'VMAD\\Script Fragments';
 
     let fragmentExpr = /.*scripts[\/\\].*_([a-f0-9]{8}).pex/i;
 
@@ -15,11 +15,11 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
     let getFragmentsFromPlugin = function(pluginFile, group, fragments = []) {
         let records = xelib.GetRecords(pluginFile, group, true);
         xelib.WithEachHandle(records, record => {
-            let handle = xelib.GetElement(record, fragmentPath);
+            let handle = xelib.GetElement(record, fragmentsPath);
             if (handle) fragments.push({
-                handle: handle,
+                handle: record,
                 record: xelib.LongName(record),
-                filename: xelib.GetValue(handle) + '.pex'
+                filename: xelib.GetValue(handle, 'fileName') + '.pex'
             });
         });
         return fragments;
@@ -58,6 +58,17 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         filePath: a.filePath
     });
 
+    let getMergeRecord = function(merge, entry, rec) {
+        let fidMap = merge.fidMap[entry.plugin],
+            oldFid = xelib.GetHexFormID(rec, false, true),
+            newFid = fidMap[oldFid] || oldFid,
+            targetPlugin = merge.method === 'Clobber' ?
+                entry.plugin : merge.plugin,
+            ordinal = getLoadOrder(targetPlugin),
+            formId = ordinal * 0x1000000 + parseInt(newFid, 16);
+        return xelib.GetRecord(merge.plugin, formId, false);
+    };
+
     let fixFragment = function(merge, entry, a) {
         let asset = buildFragmentAssetObj(entry, a),
             oldPath = getOldPath(asset, merge),
@@ -67,7 +78,12 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         script.stringTable[0] = fileName;
         fh.jetpack.dir(fh.getDirectory(newPath));
         pexService.saveScript(script, newPath);
-        xelib.SetValue(a.handle, '', fileName);
+        let mergeRecord = getMergeRecord(merge, entry, a.handle),
+            fragments = xelib.GetElement(mergeRecord, fragmentsPath);
+        xelib.SetValue(fragments, 'fileName', fileName);
+        xelib.GetElements(fragments, 'Fragments').forEach(fragment => {
+            xelib.SetValue(fragment, 'scriptName', filename);
+        });
     };
 
     mergeAssetService.addHandler({
