@@ -1,10 +1,15 @@
-ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
+ngapp.run(function(mergeAssetService, progressLogger, assetHelpers, gameService) {
     let {findGameAssets, getOldPath, getNewPath} = assetHelpers,
         {log} = progressLogger;
 
     const dialogViewPath = 'DialogueViews',
           dialogViewExpr =  /^([0-9A-F]{8}).xml$/i,
           tooltipExpr = /^([0-9A-F]{8})/i;
+
+    let getPluginHandle = function(merge, filename) {
+        let plugin = merge.plugins.findByKey('filename', filename);
+        return plugin ? plugin.handle : 0;
+    };
 
     let getDialogViewsFromPlugin = function(pluginFile) {
         let dialogViews = [],
@@ -38,13 +43,13 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
                 return f.filename.equals(dialogView.filename, true);
             });
             if (!dialogViewFile) return;
-            dialogViewFile.filePath = dialogView.filePath;
+            dialogView.filePath = dialogViewFile.filePath;
             return true;
         });
     };
 
     let rewriteTooltips = function(asset, merge, doc) {
-        let tooltips = doc.getElementsbyTagName('ToolTip');
+        let tooltips = doc.getElementsByTagName('ToolTip');
         Array.from(tooltips).forEach(tooltip => {
             tooltip.textContent = tooltip.textContent.replace(
                 tooltipExpr, merge.fidReplacer[asset.plugin]
@@ -54,7 +59,7 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
 
     let modifyXml = function(filePath, callback) {
         let text = fh.loadTextFile(filePath),
-            doc = new DOMParser().parseFromString(text),
+            doc = new DOMParser().parseFromString(text, 'application/xml'),
             serializer = new XMLSerializer();
         callback(doc);
         return serializer.serializeToString(doc);
@@ -77,7 +82,7 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers) {
                let assets = findDialogViews(merge, plugin, folder);
                if (assets.length === 0) return;
                merge.dialogViews.push({ plugin, folder, assets });
-           }, { useGameDataFolder: true });
+           });
        },
        handle: function(merge) {
            if (!merge.handleDialogViews || !merge.dialogViews.length) return;

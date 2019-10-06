@@ -199,11 +199,16 @@
             Handle Dialog Views
         </label>
 
-        <section>
-            <div class="assets-list">
-                <div ng-repeat="file in merge.dialogViews">{{::file.filePath}}</div>
-            </div>
-        </section>
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.dialogViews">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 
