@@ -191,6 +191,22 @@
     </content>
 </expandable-section>
 
+<expandable-section class="asset-section" ng-if="merge.dialogViews.length">
+    <title>Dialog Views ({{merge.dialogViews.length}})</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleDialogViews"/>
+            Handle Dialog Views
+        </label>
+
+        <section>
+            <div class="assets-list">
+                <div ng-repeat="file in merge.dialogViews">{{::file.filePath}}</div>
+            </div>
+        </section>
+    </content>
+</expandable-section>
+
 <expandable-section class="asset-section" ng-if="merge.generalAssets.length">
     <title>General Assets</title>
     <content>
