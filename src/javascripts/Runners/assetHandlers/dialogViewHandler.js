@@ -97,5 +97,5 @@ ngapp.run(function(mergeAssetService, progressLogger, assetHelpers, gameService)
                });
            });
        }
-   })
+   });
 });
