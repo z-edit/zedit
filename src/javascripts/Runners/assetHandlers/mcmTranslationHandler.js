@@ -1,6 +1,7 @@
 ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
     let {findGameAssets, getOldPath} = assetHelpers,
-        {forEachPlugin} = mergeAssetService;
+        {forEachPlugin} = mergeAssetService,
+        {log} = progressLogger;
 
     const utf16marker = String.fromCharCode(65279),
           translationPath = 'interface\\translations\\';
@@ -31,6 +32,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
                 baseName = fh.getFileBase(merge.filename).toLowerCase(),
                 filePath = fh.path(basePath, `${baseName}${language}.txt`),
                 content = utf16marker + translations[language];
+            log(`Saving ${language} translation to ${filePath}`, true);
             fh.saveTextFile(filePath, content, 'ucs2');
         });
     };
@@ -54,7 +56,7 @@ ngapp.run(function(mergeAssetService, assetHelpers, progressLogger) {
         },
         handle: function(merge) {
             if (!merge.handleTranslations || !merge.translations.length) return;
-            progressLogger.log(`Handling MCM Translation Files`);
+            log(`Handling MCM Translation Files`);
             let translations = {};
             loadTranslations(merge, translations);
             saveTranslations(merge, translations);

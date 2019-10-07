@@ -34,6 +34,7 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
             stringFiles: [],
             translations: [],
             iniFiles: [],
+            dialogViews: [],
             extracted: [],
             generalAssets: []
         });
