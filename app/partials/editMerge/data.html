@@ -106,27 +106,6 @@
     </content>
 </expandable-section>
 
-<expandable-section class="asset-section" ng-if="merge.scriptFragments.length">
-    <title>Script Fragments</title>
-    <content>
-        <label>
-            <input type="checkbox" ng-model="merge.handleScriptFragments"/>
-            Handle Script Fragments
-        </label>
-
-        <expandable-section class="assets-list-section" ng-repeat="entry in merge.scriptFragments">
-            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
-            <content>
-                <div class="assets-list" vs-repeat>
-                    <div ng-repeat="asset in entry.assets" title="{{::asset.record}}">
-                        {{::asset.filePath}}
-                    </div>
-                </div>
-            </content>
-        </expandable-section>
-    </content>
-</expandable-section>
-
 <expandable-section class="asset-section" ng-if="merge.stringFiles.length">
     <title>String Files ({{merge.stringFiles.length}})</title>
     <content>
