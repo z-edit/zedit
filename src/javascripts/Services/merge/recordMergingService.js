@@ -1,4 +1,4 @@
-ngapp.service('recordMergingService', function(progressLogger, progressService) {
+ngapp.service('recordMergingService', function(progressLogger, progressService, settingsService) {
     let getFid = rec => xelib.GetHexFormID(rec, false, true);
     let getMergePlugins = merge => merge.plugins.mapOnKey('handle');
     let getAllRecords = plugin => xelib.GetRecords(plugin, '', true);
@@ -74,6 +74,11 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
         return newRecords;
     };
 
+    let shouldRenumber = function(merge, oldFid) {
+        return merge.usedFids[oldFid] > -1 ||
+            settingsService.settings.renumberAll;
+    };
+
     let renumberPluginRecords = function(plugin, merge, index) {
         let pluginName = xelib.Name(plugin),
             fidMap = merge.fidMap[pluginName] = {},
@@ -82,7 +87,7 @@ ngapp.service('recordMergingService', function(progressLogger, progressService) 
         xelib.WithEachHandle(getAllRecords(plugin), rec => {
             if (!isNewRecord(rec)) return;
             let oldFid = getFid(rec);
-            if (merge.usedFids[oldFid] > -1) {
+            if (shouldRenumber(merge, oldFid)) {
                 let newFormId = base + getNextFormId(merge);
                 renumberRecord(rec, oldFid, newFormId, merge, fidMap, index);
             } else {
