@@ -1,6 +1,10 @@
 ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, gameService) {
     let {getOldPath, getNewPath, findGameAssets} = assetHelpers,
-        {forEachPlugin} = mergeAssetService;
+        {GetRecords, WithHandle, GetElement, Release, LongName,
+         GetValue, GetHexFormID, GetRecord, SetValue, GetElements} = xelib,
+        {loadScript, saveScript, setLogger} = pexService,
+        {forEachPlugin} = mergeAssetService,
+        {log} = progressLogger;
 
     const fragmentGroups = ['QUST', 'INFO', 'SCEN', 'PERK', 'PACK'],
         fragmentsPath = 'VMAD\\Script Fragments';
@@ -13,13 +17,15 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
     };
 
     let getFragmentsFromPlugin = function(pluginFile, group, fragments = []) {
-        let records = xelib.GetRecords(pluginFile, group, true);
-        xelib.WithEachHandle(records, record => {
-            let handle = xelib.GetElement(record, fragmentsPath);
-            if (handle) fragments.push({
-                handle: record,
-                record: xelib.LongName(record),
-                filename: xelib.GetValue(handle, 'fileName') + '.pex'
+        let records = GetRecords(pluginFile, group, true);
+        records.forEach(record => {
+            WithHandle(GetElement(record, fragmentsPath), handle => {
+                if (!handle) return Release(record);
+                fragments.push({
+                    handle: record,
+                    record: LongName(record),
+                    filename: GetValue(handle, 'fileName') + '.pex'
+                });
             });
         });
         return fragments;
@@ -60,13 +66,13 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
 
     let getMergeRecord = function(merge, entry, rec) {
         let fidMap = merge.fidMap[entry.plugin],
-            oldFid = xelib.GetHexFormID(rec, false, true),
+            oldFid = GetHexFormID(rec, false, true),
             newFid = fidMap[oldFid] || oldFid,
             targetPlugin = merge.method === 'Clobber' ?
-                entry.plugin : merge.plugin,
-            ordinal = getLoadOrder(targetPlugin),
+                entry.plugin : merge.filename,
+            ordinal = merge.ordinals[targetPlugin],
             formId = ordinal * 0x1000000 + parseInt(newFid, 16);
-        return xelib.GetRecord(merge.plugin, formId, false);
+        return GetRecord(merge.plugin, formId, false);
     };
 
     let fixFragment = function(merge, entry, a) {
@@ -74,15 +80,16 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
             oldPath = getOldPath(asset, merge),
             newPath = getNewPath(asset, merge, fragmentExpr, true),
             fileName = fh.getFileBase(newPath),
-            script = pexService.loadScript(oldPath);
+            script = loadScript(oldPath);
+        log(`Recompiling ${oldPath}, new filename: ${fileName}`, true);
         script.stringTable[0] = fileName;
         fh.jetpack.dir(fh.getDirectory(newPath));
-        pexService.saveScript(script, newPath);
+        saveScript(script, newPath);
         let mergeRecord = getMergeRecord(merge, entry, a.handle),
-            fragments = xelib.GetElement(mergeRecord, fragmentsPath);
-        xelib.SetValue(fragments, 'fileName', fileName);
-        xelib.GetElements(fragments, 'Fragments').forEach(fragment => {
-            xelib.SetValue(fragment, 'scriptName', filename);
+            fragments = GetElement(mergeRecord, fragmentsPath);
+        SetValue(fragments, 'fileName', fileName);
+        GetElements(fragments, 'Fragments').forEach(fragment => {
+            SetValue(fragment, 'scriptName', fileName);
         });
     };
 
@@ -99,8 +106,8 @@ ngapp.run(function(mergeAssetService, assetHelpers, pexService, progressLogger, 
         handle: function(merge) {
             if (!merge.handleScriptFragments ||
                 !merge.scriptFragments.length) return;
-            progressLogger.log('Handling Script Fragments');
-            pexService.setLogger(progressLogger);
+            log('Handling Script Fragments');
+            setLogger(progressLogger);
             merge.scriptFragments.forEach(entry => {
                 entry.assets.forEach(asset => {
                     fixFragment(merge, entry, asset);
