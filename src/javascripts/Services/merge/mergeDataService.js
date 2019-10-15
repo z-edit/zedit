@@ -30,7 +30,6 @@ ngapp.service('mergeDataService', function(mergeAssetService, settingsService, g
             faceData: [],
             voiceData: [],
             billboards: [],
-            scriptFragments: [],
             stringFiles: [],
             translations: [],
             iniFiles: [],
