@@ -33,7 +33,9 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
             let pattern = `${basePattern}/${rule}`;
             return new Minimatch(pattern, { nocase: true });
         });
-        exclusions.push({ match: str => fragmentExpr.test(str) });
+        if (merge.handleScriptFragments) {
+            exclusions.push({ match: str => fragmentExpr.test(str) });
+        }
         return fh.getFiles(folder, { matching: '**/*' }).filter(filePath => {
             return !exclusions.find(expr => expr.match(filePath));
         });
