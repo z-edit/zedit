@@ -25,19 +25,9 @@ ngapp.service('mergeMasterService', function(progressLogger) {
         });
     };
 
-    let buildOrdinals = function(merge) {
-        let masterNames = xelib.GetMasterNames(merge.plugin);
-        merge.ordinals = masterNames.reduce((ordinals, filename, index) => {
-            ordinals[filename] = index;
-            return ordinals;
-        }, {});
-        merge.ordinals[merge.filename] = Object.keys(merge.ordinals).length;
-    };
-
     let addMastersToMergedPlugin = function(merge) {
         xelib.AddAllMasters(merge.plugin);
         log(`Added masters to merged plugin`);
-        buildOrdinals(merge);
     };
 
     let addMastersToPlugins = function(merge) {
@@ -45,7 +35,6 @@ ngapp.service('mergeMasterService', function(progressLogger) {
             xelib.AddMaster(plugin.handle, merge.filename);
         });
         log(`Added ${merge.filename} as a master to the plugins being merged`);
-        buildOrdinals(merge);
     };
 
     let addMastersMethods = {
