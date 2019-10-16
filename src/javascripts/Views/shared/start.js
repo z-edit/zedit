@@ -17,6 +17,7 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
         $scope.selectedProfile = profileName ?
             $scope.profiles.findByKey('name', profileName) :
             profileService.getDefaultProfile();
+        if (!$scope.selectedProfile) return;
         if ($scope.selectedProfile.name === profileName)
             $timeout($scope.startSession);
     };
