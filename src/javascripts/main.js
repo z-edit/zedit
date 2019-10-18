@@ -69,7 +69,8 @@ let openMainWindow = function() {
     mainWindow = createWindow('main', {
         frame: false,
         show: false,
-        backgroundColor: '#555'
+        backgroundColor: '#555',
+        webPreferences: { nodeIntegration: true }
     });
     logger.info('Main window created');
     logger.info('Loading application...');
@@ -101,7 +102,8 @@ let openProgressWindow = function() {
         maximizable: false,
         minimizable: false,
         resizable: false,
-        movabale: false
+        movabale: false,
+        webPreferences: { nodeIntegration: true }
     });
     progressWindow.hide();
     loadPage(progressWindow, 'progress.html');

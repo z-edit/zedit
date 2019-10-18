@@ -3,8 +3,7 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
         Minimatch = fh.minimatch.Minimatch;
 
     let archiveExpr = /^[^\\]+\.(bsa|ba2)\\/i,
-        pluginExpr = /[^\\]+\.es[plm]\\/i,
-        fragmentExpr = /.*scripts[\/\\].*_[a-f0-9]{8}.pex$/i;
+        pluginExpr = /[^\\]+\.es[plm]\\/i;
 
     // PRIVATE
     let mergeHasPlugin = function(merge, filename) {
@@ -20,8 +19,8 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
             'fomod/**/*', 'screenshot?(s)/**/*', 'scripts/source/*.psc'];
         merge.plugins.forEach(plugin => {
             let basePluginName = fh.getFileBase(plugin.filename);
-            rules.push(`**/${basePluginName}.@(seq|ini)`,
-                `**/${plugin.filename}/**/*`);
+            rules.push(`**/${fh.escapePattern(basePluginName)}.@(seq|ini)`);
+            rules.push(`**/${fh.escapePattern(plugin.filename)}/**/*`);
         });
         return rules;
     };
@@ -33,7 +32,6 @@ ngapp.service('assetHelpers', function(bsaHelpers, progressLogger) {
             let pattern = `${basePattern}/${rule}`;
             return new Minimatch(pattern, { nocase: true });
         });
-        exclusions.push({ match: str => fragmentExpr.test(str) });
         return fh.getFiles(folder, { matching: '**/*' }).filter(filePath => {
             return !exclusions.find(expr => expr.match(filePath));
         });

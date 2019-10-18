@@ -106,27 +106,6 @@
     </content>
 </expandable-section>
 
-<expandable-section class="asset-section" ng-if="merge.scriptFragments.length">
-    <section-title>Script Fragments</section-title>
-    <content>
-        <label>
-            <input type="checkbox" ng-model="merge.handleScriptFragments"/>
-            Handle Script Fragments
-        </label>
-
-        <expandable-section class="assets-list-section" ng-repeat="entry in merge.scriptFragments">
-            <section-title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</section-title>
-            <content>
-                <div class="assets-list" vs-repeat>
-                    <div ng-repeat="asset in entry.assets" title="{{::asset.record}}">
-                        {{::asset.filePath}}
-                    </div>
-                </div>
-            </content>
-        </expandable-section>
-    </content>
-</expandable-section>
-
 <expandable-section class="asset-section" ng-if="merge.stringFiles.length">
     <section-title>String Files ({{merge.stringFiles.length}})</section-title>
     <content>
@@ -188,6 +167,27 @@
                 <div ng-repeat="file in merge.iniFiles">{{::file.filePath}}</div>
             </div>
         </section>
+    </content>
+</expandable-section>
+
+<expandable-section class="asset-section" ng-if="merge.dialogViews.length">
+    <title>Dialog Views ({{merge.dialogViews.length}})</title>
+    <content>
+        <label>
+            <input type="checkbox" ng-model="merge.handleDialogViews"/>
+            Handle Dialog Views
+        </label>
+
+        <expandable-section class="assets-list-section" ng-repeat="entry in merge.dialogViews">
+            <title>{{::entry.plugin}} ({{::entry.assets.length}} assets)</title>
+            <content>
+                <div class="assets-list" vs-repeat>
+                    <div ng-repeat="asset in entry.assets">
+                        {{::asset.filePath}}
+                    </div>
+                </div>
+            </content>
+        </expandable-section>
     </content>
 </expandable-section>
 

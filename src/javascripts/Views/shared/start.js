@@ -17,9 +17,12 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     };
 
     let selectProfile = function(profileName) {
-        let profile = $scope.profiles.findByKey('name', profileName);
-        $scope.selectedProfile = profile || getDefaultProfile();
-        if (profile) $timeout($scope.startSession);
+        $scope.selectedProfile = profileName ?
+            $scope.profiles.findByKey('name', profileName) :
+            profileService.getDefaultProfile();
+        if (!$scope.selectedProfile) return;
+        if ($scope.selectedProfile.name === profileName)
+            $timeout($scope.startSession);
     };
 
     let handleArgs = function() {

@@ -1,6 +1,6 @@
 ngapp.service('mergeService', function(settingsService, mergeDataService, objectUtils, gameService) {
     let service = this,
-        mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'buildMergedArchive', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleScriptFragments', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'copyGeneralAssets', 'dateBuilt'],
+        mergeExportKeys = ['name', 'filename', 'method', 'useGameLoadOrder', 'loadOrder', 'buildMergedArchive', 'archiveAction', 'handleFaceData', 'handleVoiceData', 'handleBillboards', 'handleStringFiles', 'handleTranslations', 'handleIniFiles', 'handleDialogViews', 'copyGeneralAssets', 'dateBuilt'],
         pluginExportKeys = ['filename', 'hash', 'dataFolder'],
         mergeMethodMap = { Clamp: 'Clobber', Refactor: 'Clean' };
 
@@ -88,10 +88,10 @@ ngapp.service('mergeService', function(settingsService, mergeDataService, object
             handleFaceData: true,
             handleVoiceData: true,
             handleBillboards: true,
-            handleScriptFragments: true,
             handleStringFiles: true,
             handleTranslations: true,
             handleIniFiles: true,
+            handleDialogViews: true,
             copyGeneralAssets: false
         });
     };

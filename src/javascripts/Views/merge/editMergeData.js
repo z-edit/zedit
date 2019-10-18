@@ -1,6 +1,6 @@
 ngapp.controller('editMergeDataController', function($scope, mergeDataService, progressService) {
-    let assetArrayNames = ['faceData', 'voiceData', 'scriptFragments',
-        'stringFiles', 'translations', 'iniFiles'];
+    let assetArrayNames = ['faceData', 'voiceData', 'stringFiles',
+        'translations', 'iniFiles', 'dialogViews'];
 
     // helper functions
     let buildMergeData = function() {

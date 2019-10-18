@@ -88,9 +88,7 @@ ngapp.controller('editMergePluginsController', function($scope, $rootScope, merg
         loadOrderService.updateRequired(plugin);
         loadOrderService.updateWarnings(plugin);
         plugin.bethesda = isBethesdaPlugin(plugin.filename);
-        if (plugin.bethesda) {
-            plugin.disabled = true;
-            plugin.title = 'Official Bethesda plugins cannot be merged.'
-        }
+        if (!plugin.bethesda) return;
+        plugin.title = 'Official Bethesda plugins cannot be merged.'
     });
 });
