@@ -22,7 +22,9 @@ ngapp.controller('loadOrderModalController', function ($rootScope, $scope, $time
             .mapOnKey('filename');
         appModeService.goToAppView();
         $scope.$emit('closeModal');
-        $rootScope.$broadcast('loadPlugins', loadOrder);
+        $timeout(() => {
+            $rootScope.$broadcast('loadPlugins', loadOrder)
+        }, 200);
     };
 
     $scope.itemToggled = function(item) {
