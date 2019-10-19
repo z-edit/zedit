@@ -1,6 +1,6 @@
 .viewport {
   height: 100%;
-  background: linear-gradient($background, rgba($background, 0.8));
+  background: $background;
 
   > pane {
     height: 100%;
