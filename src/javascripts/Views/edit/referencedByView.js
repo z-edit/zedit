@@ -1,4 +1,4 @@
-ngapp.controller('referencedByViewController', function($scope, $element, $timeout, gridService, referencedByViewInterface, referenceService, columnsService, hotkeyInterface, nodeSelectionInterface, nodeColumnInterface, contextMenuService) {
+ngapp.controller('referencedByViewController', function($scope, $element, $timeout, referenceService, columnsService, gridInterface, referencedByViewInterface, hotkeyInterface, nodeSelectionInterface, nodeColumnInterface, contextMenuInterface) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;

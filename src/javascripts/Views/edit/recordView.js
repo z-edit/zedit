@@ -1,4 +1,4 @@
-ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeInterface, recordViewInterface, recordViewElementInterface, recordViewDragDropInterface, nodeSelectionInterface, nodeColumnInterface, hotkeyInterface, contextMenuService) {
+ngapp.controller('recordViewController', function($scope, $element, $timeout, htmlHelpers, treeInterface, recordViewInterface, recordViewElementInterface, recordViewDragDropInterface, nodeSelectionInterface, nodeColumnInterface, hotkeyInterface, contextMenuInterface) {
     // link view to scope
     $scope.view = $scope.$parent.tab;
     $scope.view.scope = $scope;
@@ -12,8 +12,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     // inherited functions
     treeInterface($scope);
-    treeInterface.buildTabViewFunctions($scope, $element);
-    treeInterface.buildHandleFunctions($scope, $element);
+    treeInterface($scope, $element);
     recordViewInterface($scope);
     recordViewElementInterface($scope);
     recordViewDragDropInterface($scope);

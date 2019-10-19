@@ -12,7 +12,7 @@ ngapp.controller('treeViewController', function($scope, $element, $timeout, colu
     $scope.allColumns = columnsService.getColumns('treeView');
 
     // inherited functions
-    treeInterface($scope);
+    treeInterface($scope, $element);
     treeViewInterface($scope);
     treeViewElementInterface($scope);
     typeToSearchInterface($scope);
