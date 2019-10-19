@@ -1,7 +1,9 @@
 plugin-loader {
   display: flex;
+  flex-direction: column;
   background: rgba($modal_shadow, 0.5);
   align-items: stretch;
   justify-content: center;
   height: 100%;
+  padding-bottom: 10%;
 }
