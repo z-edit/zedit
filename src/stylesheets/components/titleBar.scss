@@ -50,6 +50,9 @@ title-bar {
     }
 
     .help {
+      font-weight: bold;
+      margin-right: 4px;
+
       &::before {
         content: '?';
       }
