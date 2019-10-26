@@ -9,7 +9,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
     let getNewScriptPath = function() {
         let filePath = `scripts\\New Script.js`,
             counter = 2;
-        while (fh.jetpack.exists(filePath)) {
+        while (fh.fileExists(filePath)) {
             filePath = `scripts\\New Script ${counter++}.js`;
         }
         return filePath;
@@ -64,7 +64,7 @@ ngapp.controller('automateModalController', function($scope, $rootScope, $timeou
             originalFilename = script.filePath.split('\\').last();
         if (originalFilename !== script.filename) {
             let newFilePath = `scripts\\${script.filename}`;
-            if (fh.jetpack.exists(script.filePath)) {
+            if (fh.fileExists(script.filePath)) {
                 fh.jetpack.move(script.filePath, newFilePath);
             }
             script.filePath = newFilePath;

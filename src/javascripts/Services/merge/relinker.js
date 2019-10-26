@@ -80,7 +80,7 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
         progress(`Relinking ${scripts.length} scripts`);
         scripts.forEach(entry => {
             let filePath = getScriptFilePath(entry);
-            if (!filePath || !fh.jetpack.exists(filePath)) return;
+            if (!filePath || !fh.fileExists(filePath)) return;
             log(`Relinking ${filePath}`);
             let script = pexService.loadScript(filePath),
                 newPath = `${relinkerPath}\\scripts\\${entry.filename}`;

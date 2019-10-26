@@ -39,7 +39,7 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
             n = 2;
         while (true) {
             let filePath = fh.path(gameService.dataPath, filename);
-            if (!fh.jetpack.exists(filePath)) return filename;
+            if (!fh.fileExists(filePath)) return filename;
             filename = `${base}_${n++}.${ext}`;
         }
     };

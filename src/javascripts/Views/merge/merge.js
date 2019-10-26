@@ -63,7 +63,7 @@ ngapp.controller('mergeController', function($rootScope, $scope, $timeout, progr
         merge.plugins = merge.plugins.filter(plugin => plugin.available);
         merge.loadOrder = merge.loadOrder.filter(filename => {
             let filePath = fh.path(gameService.dataPath, filename);
-            return fh.jetpack.exists(filePath);
+            return fh.fileExists(filePath);
         });
         updateStatus(merge);
     };

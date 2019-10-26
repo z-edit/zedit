@@ -26,13 +26,29 @@ fh.path = jetpack.path;
 // log app directory for reference
 console.log('App directory: ' + fh.appPath);
 
+fh.directoryExists = function(path) {
+    try {
+        return jetpack.exists(path) === 'dir';
+    } catch (x) {
+        return false;
+    }
+};
+
+fh.fileExists = function(path) {
+    try {
+        return jetpack.exists(path) === 'file';
+    } catch (x) {
+        return false;
+    }
+};
+
 fh.loadJsonFile = function(filePath) {
-    if (jetpack.exists(filePath) === 'file')
-        return jetpack.read(filePath, 'json');
+    if (!fh.fileExists(filePath)) return;
+    return jetpack.read(filePath, 'json');
 };
 
 fh.loadTextFile = function(filePath, encoding = 'utf8') {
-    if (jetpack.exists(filePath) !== 'file') return;
+    if (!fh.fileExists(filePath)) return;
     return fs.readFileSync(filePath, { encoding });
 };
 
@@ -78,7 +94,7 @@ fh.delete = function(path) {
 };
 
 fh.openFile = function(filePath) {
-    if (jetpack.exists(filePath))
+    if (fh.fileExists(filePath))
         shell.openItem(jetpack.path(filePath));
 };
 
@@ -91,7 +107,7 @@ fh.pathToFileUrl = function(path) {
         pathname: jetpack.path(path).replace(/\\/g, '/'),
         protocol: 'file:',
         slashes: true
-    })
+    });
 };
 
 fh.fileUrlToPath = function(fileUrl) {
@@ -136,12 +152,12 @@ fh.getFileSize = function(filePath) {
 };
 
 fh.getMd5Hash = function(filePath) {
-    if (jetpack.exists(filePath) !== 'file') return;
+    if (!fh.fileExists(filePath)) return;
     return md5file.sync(filePath);
 };
 
 fh.getDirectories = function(path) {
-    if (jetpack.exists(path) !== 'dir') return [];
+    if (!fh.directoryExists(path)) return [];
     return jetpack.find(path, {
         matching: '*',
         files: false,
@@ -151,7 +167,7 @@ fh.getDirectories = function(path) {
 };
 
 fh.getFiles = function(path, options) {
-    if (jetpack.exists(path) !== 'dir') return [];
+    if (!fh.directoryExists(path)) return [];
     return jetpack.find(path, options)
         .map(path => jetpack.path(path));
 };

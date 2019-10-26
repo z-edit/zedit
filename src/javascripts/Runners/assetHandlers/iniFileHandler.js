@@ -10,7 +10,7 @@ ngapp.run(function(mergeAssetService, progressLogger) {
             mergeAssetService.forEachPlugin(merge, (plugin, folder) => {
                 let filename = `${fh.getFileBase(plugin)}.ini`,
                     filePath = folder + filename;
-                if (fh.jetpack.exists(filePath) !== 'file') return;
+                if (!fh.fileExists(filePath)) return;
                 merge.iniFiles.push({
                     plugin, folder,
                     filePath: filename

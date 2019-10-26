@@ -47,7 +47,7 @@ ngapp.service('themeService', function($timeout, settingsService) {
     this.getCurrentTheme = function() {
         let settingsTheme = settingsService.globalSettings.theme,
             themePath = `themes\\${settingsTheme}`;
-        if (!settingsTheme || !fh.jetpack.exists(themePath)) {
+        if (!settingsTheme || !fh.fileExists(themePath)) {
             let availableThemes = service.getThemes();
             return availableThemes[0].filename;
         }
@@ -57,7 +57,7 @@ ngapp.service('themeService', function($timeout, settingsService) {
     this.getCurrentSyntaxTheme = function() {
         let settingsTheme = settingsService.globalSettings.syntaxTheme,
             themePath = `syntaxThemes\\${settingsTheme}`;
-        if (!settingsTheme || !fh.jetpack.exists(themePath)) {
+        if (!settingsTheme || !fh.fileExists(themePath)) {
             return '';
         }
         return settingsTheme;

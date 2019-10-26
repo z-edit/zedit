@@ -21,7 +21,7 @@ ngapp.controller('editPatchModalController', function($scope, patchService, patc
     $scope.$watch('patch.filename', () => {
         if ($scope.patch.filename === initialFilename) return;
         let path = fh.path(gameService.dataPath, $scope.patch.filename);
-        $scope.pluginExists = fh.jetpack.exists(path) === 'file';
+        $scope.pluginExists = fh.fileExists(path);
     });
 
     $scope.$watch('patch.patchType', () => {

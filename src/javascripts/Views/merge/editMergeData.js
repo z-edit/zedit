@@ -19,7 +19,7 @@ ngapp.controller('editMergeDataController', function($scope, mergeDataService, p
     // scope functions
     $scope.setDataFolder = function(plugin) {
         let filename = plugin.filename;
-        if (!fh.jetpack.exists(`${plugin.dataFolder}\\${filename}`))
+        if (!fh.fileExists(`${plugin.dataFolder}\\${filename}`))
             return updatePluginDataFolder(plugin, $scope.merge);
         mergeDataService.setPluginDataFolder(filename, plugin.dataFolder);
     };

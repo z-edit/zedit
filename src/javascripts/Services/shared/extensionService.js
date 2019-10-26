@@ -19,18 +19,18 @@ ngapp.service('extensionService', function(themeService) {
     };
 
     let loadModuleInfo = function(dir) {
-        if (fh.jetpack.exists(`${dir}\\dist\\module.json`))
+        if (fh.fileExists(`${dir}\\dist\\module.json`))
             dir = `${dir}\\dist`;
         return [fh.loadJsonFile(`${dir}\\module.json`), dir];
     };
 
     let getModuleInfo = function(modulePath) {
         let dir = modulePath;
-        if (fh.jetpack.exists(`${dir}\\module.json`)) {
+        if (fh.fileExists(`${dir}\\module.json`)) {
             return loadModuleInfo(dir);
         } else {
             dir = fh.getDirectories(modulePath).find(dir => {
-                return fh.jetpack.exists(`${dir}\\module.json`);
+                return fh.fileExists(`${dir}\\module.json`);
             });
             if (!dir) throw new Error('No module.json found.');
             return loadModuleInfo(dir);
@@ -40,7 +40,7 @@ ngapp.service('extensionService', function(themeService) {
     let installModule = function(sourcePath) {
         let [info, dir] = getModuleInfo(sourcePath),
             modulePath = `modules\\${info.id}`;
-        if (fh.jetpack.exists(modulePath)) {
+        if (fh.directoryExists(modulePath)) {
             // TODO: prompt here
             fh.jetpack.remove(modulePath);
         }

@@ -19,7 +19,7 @@ ngapp.service('vortexService', function($rootScope, fileSearchService, profileSe
             gameName = game.shortName,
             documentsPath = `${process.env.USERPROFILE}\\My Documents`,
             modsPath = `${documentsPath}\\mods\\${gameName}`;
-        return fh.jetpack.exists(modsPath) ? modsPath : '';
+        return fh.directoryExists(modsPath) ? modsPath : '';
     };
 
     this.detect = function(settings) {

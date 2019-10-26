@@ -35,10 +35,7 @@ export default function(ngapp, fh, logger) {
         return validateModule(info) && info;
     };
 
-    let getModuleFolders = function() {
-        if (!fh.jetpack.exists('modules')) return [];
-        return fh.getDirectories('modules');
-    };
+    let getModuleFolders = () => fh.getDirectories('modules');
 
     let missingRequirementError = function(info) {
         let message = `Module ${info.name} requires modules which could not be found:`;

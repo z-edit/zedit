@@ -60,7 +60,7 @@ ngapp.service('modOrganizerService', function(fileSearchService, progressLogger)
 
     this.getPortableModsPath = function(managerPath) {
         let modsPath = `${managerPath}\\mods`;
-        if (fh.jetpack.exists(modsPath) === 'dir') return modsPath;
+        if (fh.directoryExists(modsPath)) return modsPath;
         return '';
     };
 

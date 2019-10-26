@@ -38,13 +38,13 @@ ngapp.service('statusServiceFactory', function($rootScope) {
             }, true);
         };
 
-        let itemdPluginExists = function(item) {
+        let itemPluginExists = function(item) {
             let path = fh.path(itemPath, item.name, item.filename);
-            return fh.jetpack.exists(path);
+            return fh.fileExists(path);
         };
 
         let upToDate = function(item) {
-            return itemdPluginExists(item) && !pluginsChanged(item)
+            return itemPluginExists(item) && !pluginsChanged(item)
                 && !pluginsRemoved(item);
         };
 

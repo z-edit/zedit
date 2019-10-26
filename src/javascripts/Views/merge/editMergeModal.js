@@ -37,6 +37,6 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
     $scope.$watch('merge.filename', () => {
         if ($scope.merge.filename === initialFilename) return;
         let path = fh.path(gameService.dataPath, $scope.merge.filename);
-        $scope.pluginExists = fh.jetpack.exists(path) === 'file';
+        $scope.pluginExists = fh.fileExists(path);
     });
 });
