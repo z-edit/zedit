@@ -2,8 +2,6 @@
 
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const watch = require('gulp-watch');
-const batch = require('gulp-batch');
 const plumber = require('gulp-plumber');
 const wait = require('gulp-wait');
 const jetpack = require('fs-jetpack');
@@ -40,24 +38,6 @@ gulp.task('environment', function(done) {
     let configFile = 'config/env_' + utils.getEnvName() + '.json';
     projectDir.copy(configFile, destDir.path('env.json'), { overwrite: true });
     done();
-});
-
-gulp.task('watch', function() {
-    let beepOnError = function (done) {
-        return function (err) {
-            if (err) {
-                utils.beepSound();
-            }
-            done(err);
-        };
-    };
-
-    watch('src/**/*.js', batch(function (events, done) {
-        gulp.start('bundle', beepOnError(done));
-    }));
-    watch('src/**/*.scss', batch(function (events, done) {
-        gulp.start('sass', beepOnError(done));
-    }));
 });
 
 gulp.task('build', gulp.series('bundle', 'sass', 'copySyntaxThemes', 'environment'));
