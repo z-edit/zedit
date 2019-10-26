@@ -1,8 +1,8 @@
 ngapp.service('recordChangeService', function() {
     let objectTypes = [xelib.vtArray, xelib.vtStruct];
 
-    let {WithEachHandle, GetElements, GetValue,
-        LocalPath, Signature, ValueType} = xelib;
+    let {WithHandles, GetElements, GetValue,
+        PathName, Signature, ValueType} = xelib;
 
     // private
     let getSparseElements = function(id) {
@@ -10,8 +10,8 @@ ngapp.service('recordChangeService', function() {
     };
 
     let withSparseElements = function(mst, ovr, callback) {
-        WithEachHandle(getSparseElements(mst), mstElements => {
-            WithEachHandle(getSparseElements(ovr), ovrElements => {
+        WithHandles(getSparseElements(mst), mstElements => {
+            WithHandles(getSparseElements(ovr), ovrElements => {
                 callback(mstElements, ovrElements);
             });
         });
@@ -19,31 +19,46 @@ ngapp.service('recordChangeService', function() {
 
     let elementCreated = function(changes, ovrElement) {
         changes.push({
-            path: LocalPath(ovrElement),
+            key: PathName(ovrElement),
             type: 'Created'
         });
     };
 
     let elementRemoved = function(changes, mstElement) {
         changes.push({
-            path: LocalPath(mstElement),
+            key: PathName(mstElement),
             type: 'Removed'
         });
     };
 
-    let elementChanged = function(changes, mstElement, ovrElement) {
+    let handleNestedChanges = function(changes, mstElement, ovrElement) {
+        let nestedChanges = [];
+        getChanges(nestedChanges, mstElement, ovrElement);
+        if (nestedChanges.length === 0) return;
+        changes.push({
+            key: PathName(ovrElement),
+            type: "Changed",
+            changes: nestedChanges
+        });
+    };
+
+    let handleValueChanged = function(changes, mstElement, ovrElement) {
+        let mstValue = GetValue(mstElement),
+            ovrValue = GetValue(ovrElement);
+        if (mstValue === ovrValue) return;
+        changes.push({
+            key: PathName(ovrElement),
+            type: 'Changed',
+            value: ovrValue // TODO: handle reference fields
+        });
+    };
+
+    let elementChanged = function(changes, mstElement, ovrElement, parentVt) {
         let vt = ValueType(ovrElement);
         if (objectTypes.includes(vt)) {
-            getChanges(changes, mstElement, ovrElement);
+            handleNestedChanges(changes, mstElement, ovrElement, parentVt);
         } else {
-            let mstValue = GetValue(mstElement),
-                ovrValue = GetValue(ovrElement);
-            if (mstValue === ovrValue) return;
-            changes.push({
-                path: LocalPath(ovrElement),
-                type: 'Changed',
-                value: ovrValue // TODO: handle reference fields
-            });
+            handleValueChanged(changes, mstElement, ovrElement, parentVt);
         }
     };
 
@@ -54,9 +69,9 @@ ngapp.service('recordChangeService', function() {
                     ovrPresent = ovrElement !== 0,
                     mstPresent = mstElement !== 0;
                 if (ovrPresent && !mstPresent)
-                    elementCreated(changes, ovrElement, index);
+                    elementCreated(changes, ovrElement);
                 if (mstPresent && !ovrPresent)
-                    elementRemoved(changes, mstElement, index);
+                    elementRemoved(changes, mstElement);
                 if (mstPresent && ovrPresent)
                     elementChanged(changes, mstElement, ovrElement);
             });
