@@ -54,11 +54,24 @@ button.action {
   }
 
   &.positive {
-    background-color: $positive;
+    &:not(.border) {
+      background-color: $positive;
 
-    &:hover:not(.no-hover) {
-      background-color: $positive_hover;
+      &:hover:not(.no-hover) {
+        background-color: $positive_hover;
+      }
     }
+
+    &.border {
+      color: $positive;
+      background: transparent !important;
+      border-color: $positive;
+    }
+  }
+
+  &.border {
+    background: none !important;
+    border: 2px solid;
   }
 
   &.big {
