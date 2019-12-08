@@ -28,16 +28,9 @@ ngapp.service('extensionService', function(themeService) {
     };
 
     let getModuleInfo = function(modulePath) {
-        let dir = modulePath;
-        if (fh.fileExists(`${dir}\\module.json`)) {
-            return loadModuleInfo(dir);
-        } else {
-            dir = fh.getDirectories(modulePath).find(dir => {
-                return fh.fileExists(`${dir}\\module.json`);
-            });
-            if (!dir) throw new Error('No module.json found.');
-            return loadModuleInfo(dir);
-        }
+        let [filePath] = fh.getFiles(modulePath, { matching: 'module.json' });
+        if (!filePath) throw new Error('No module.json found.');
+        return loadModuleInfo(fh.getDirectory(filePath));
     };
 
     let installModule = function(sourcePath) {
