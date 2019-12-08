@@ -1,5 +1,8 @@
 ngapp.service('extensionService', function(themeService) {
-    const tabs = ['Installed Modules', 'Installed Themes'];
+    const tabs = [
+        'Installed Modules', 'Installed Themes',
+        'Browse Modules', 'Browse Themes'
+    ];
     let installedThemes, installedModules;
 
     let copyThemeFile = function(themeFilePath) {
