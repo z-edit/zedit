@@ -8,7 +8,7 @@
     No modules found.
 </div>
 
-<div ng-repeat="module in modules" class="module-item">
+<div ng-repeat="module in modules | limitTo: perPage : offset" class="module-item">
     <div class="module-header">
         <span class="module-title" title="{{::module.id}}">{{::module.name}}</span>
         <span class="module-author">by {{::module.author}}</span>
@@ -45,3 +45,5 @@
         </div>
     </div>
 </div>
+
+<page-controls ng-if="modules" per-page="10" items="modules"></page-controls>

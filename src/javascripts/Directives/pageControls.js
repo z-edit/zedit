@@ -4,11 +4,15 @@ ngapp.directive('pageControls', function($parse) {
         scope: false,
         templateUrl: 'directives/pageControls.html',
         controller: 'pageControlsController',
+        priority: 1100,
         link: function(scope, element, attrs) {
-            scope.perPage = $parse(attrs.perPage);
+            scope.perPage = $parse(attrs.perPage)(scope);
+            scope.offset = 0;
 
             scope.$watch(attrs.items, function() {
-                scope.numItems = scope[attrs.items].length;
+                let items = scope[attrs.items];
+                if (!items) return;
+                scope.numItems = items.length;
                 scope.numPages = Math.ceil(scope.numItems / scope.perPage);
                 scope.pages = Array.from({length: 5}, (v, k) => k + 1);
                 scope.currentPage = 1;
@@ -31,6 +35,7 @@ ngapp.controller('pageControlsController', function($scope) {
     let updateVisiblePages = function() {
         let prev = true;
         $scope.visiblePages = [];
+        if (!$scope.pages) return;
         $scope.pages.forEach(page => {
             prev = showPage(page) && addPage(page, !prev);
         });
@@ -38,7 +43,7 @@ ngapp.controller('pageControlsController', function($scope) {
 
     $scope.goToPage = function(page) {
         $scope.currentPage = page;
-        modalHelpers.scrollToTop();
+        $scope.$emit('scrollToTop');
     };
 
     $scope.$watch('currentPage', function() {
