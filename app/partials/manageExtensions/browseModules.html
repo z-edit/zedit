@@ -39,7 +39,7 @@
             <button class="action positive" ng-click="installModule(module)" ng-disabled="::!module.links.github" ng-hide="module.installed" title="{{::module.links.github ? '' : 'Module installation is only supported for modules hosted on GitHub.'}}">
                 Install
             </button>
-            <button class="action positive border" ng-show="module.installed" disabled>
+            <button class="border positive" ng-show="module.installed" disabled>
                 Installed
             </button>
         </div>

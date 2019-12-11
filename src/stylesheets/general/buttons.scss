@@ -1,23 +1,9 @@
 button {
   font-family: 'Roboto', sans-serif;
   cursor: pointer;
-}
-
-.primary-actions {
-  margin: 16px;
-  text-align: center;
-
-  button {
-    font-size: 28px;
-    padding: 8px 16px;
-  }
-}
-
-button.action {
   text-align: center;
   display: inline-block;
-  background-color: $action;
-  color: $action_font_color;
+  background: none;
   border-radius: 2px;
   border: none;
   font-size: 18px;
@@ -25,13 +11,33 @@ button.action {
   padding: 8px 14px;
   font-weight: 600;
   text-transform: uppercase;
-  -webkit-transition: background-color 0.2s ease-in-out;
+
+  &.big {
+    font-size: 32px;
+    padding: 12px 28px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 
   &.small {
     font-size: 14px;
-    padding: 2px 6px;
+    padding: 4px 6px 3px;
+    text-transform: none;
     vertical-align: middle;
+    font-weight: 500;
   }
+
+  &.tiny {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+}
+
+button.action {
+  background-color: $action;
+  color: $action_font_color;
+  -webkit-transition: background-color 0.2s ease-in-out;
 
   &:hover:not(.no-hover) {
     background-color: $action_hover;
@@ -54,44 +60,11 @@ button.action {
   }
 
   &.positive {
-    &:not(.border) {
-      background-color: $positive;
+    background-color: $positive;
 
-      &:hover:not(.no-hover) {
-        background-color: $positive_hover;
-      }
+    &:hover:not(.no-hover) {
+      background-color: $positive_hover;
     }
-
-    &.border {
-      color: $positive;
-      background: transparent !important;
-      border-color: $positive;
-    }
-  }
-
-  &.border {
-    background: none !important;
-    border: 2px solid;
-  }
-
-  &.big {
-    font-size: 32px;
-    padding: 12px 28px 14px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: bold;
-  }
-
-  &.small {
-    font-size: 14px;
-    padding: 4px 6px 3px;
-    text-transform: none;
-    font-weight: 500;
-  }
-
-  &.tiny {
-    font-size: 12px;
-    padding: 4px 6px;
   }
 
   &:disabled {
@@ -100,12 +73,29 @@ button.action {
   }
 }
 
+button.border {
+  border-radius: 2px;
+  border: 2px solid $action;
+  color: $action;
+
+  &.positive {
+    color: $positive;
+    border-color: $positive;
+  }
+
+  &.neutral {
+    color: $neutral;
+    border-color: $neutral;
+  }
+
+  &.negative {
+    color: $negative;
+    border-color: $negative;
+  }
+}
+
 button.text {
   color: inherit;
-  background: none;
-  border: none;
-  text-transform: uppercase;
-  font-weight: 600;
   font-size: 20px;
   padding: 3px;
   transition: color ease-in-out 0.2s;
@@ -115,18 +105,9 @@ button.text {
   }
 }
 
-h2, h3 {
-  button {
-    margin: 0;
-  }
-}
-
-.glyph-button {
+button.icon {
   font-size: 14px;
   color: $secondary_action;
-  border: none;
-  background: none;
-  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -151,5 +132,20 @@ h2, h3 {
 
   &:before {
     content: "\f115";
+  }
+}
+
+.primary-actions {
+  margin: 16px;
+  text-align: center;
+
+  button {
+    font-size: 22px;
+  }
+}
+
+h2, h3 {
+  button {
+    margin: 0;
   }
 }
