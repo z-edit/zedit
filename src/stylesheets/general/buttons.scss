@@ -32,6 +32,10 @@ button {
     font-size: 12px;
     padding: 4px 6px;
   }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 button.action {
@@ -69,7 +73,6 @@ button.action {
 
   &:disabled {
     background-color: $action_disabled !important;
-    cursor: default;
   }
 }
 
@@ -107,6 +110,7 @@ button.text {
 
 button.icon {
   font-size: 14px;
+  padding: 1px 6px;
   color: $secondary_action;
 
   &:focus {
