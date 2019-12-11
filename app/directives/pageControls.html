@@ -1,0 +1,12 @@
+<button class="icon" ng-if="currentPage > 1" ng-click="goToPage(currentPage - 1)" title="Previous Page">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+</button>
+<span ng-repeat="page in visiblePages">
+    <span class="page-ellipsis" ng-if="page.showElipsis">...</span>
+    <button class="icon" ng-click="goToPage(page.number)" ng-disabled="page.number == currentPage">
+        {{page.number}}
+    </button>
+</span>
+<button class="icon" ng-if="currentPage < numPages" ng-click="goToPage(currentPage + 1)" title="Next Page">
+    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+</button>
