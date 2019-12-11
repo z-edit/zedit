@@ -1,15 +1,15 @@
-ngapp.directive('filterItems', function() {
+ngapp.directive('recordFilterItems', function() {
     return {
         restrict: 'E',
         scope: {
             filters: '='
         },
-        templateUrl: 'directives/filterItems.html',
-        controller: 'filterItemsController'
+        templateUrl: 'directives/recordFilterItems.html',
+        controller: 'recordFilterItemsController'
     }
 });
 
-ngapp.controller('filterItemsController', function($scope, recordFilterService) {
+ngapp.controller('recordFilterItemsController', function($scope, recordFilterService) {
     let filtersPath = fh.jetpack.dir('filters').path(),
         jsonFileTypeFilter = { name: 'JSON File', extensions: ['json'] },
         recordFilters = recordFilterService.getFilters();
