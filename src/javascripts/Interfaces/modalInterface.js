@@ -15,6 +15,13 @@ ngapp.factory('modalInterface', function($rootScope) {
             return $rootScope.modalActive && opts && opts.modal === modalName;
         };
 
+        let getModalContainer = function() {
+            let elements = document.getElementsByClassName('modal-container');
+            if (!elements.length)
+                throw new Error('Could not find modal container.');
+            return elements[0];
+        };
+
         scope.activateModal = function(modalName) {
             if (!modalActive(modalName)) scope.$emit('openModal', modalName);
         };
@@ -37,6 +44,13 @@ ngapp.factory('modalInterface', function($rootScope) {
                 scope.modalOptions = undefined;
                 scope.showModal = false;
             });
+            e.stopPropagation && e.stopPropagation();
+        });
+
+        scope.$on('scrollToTop', function(e) {
+            if (!scope.showModal) return;
+            let modalContainer = getModalContainer();
+            modalContainer.scrollTop = 0;
             e.stopPropagation && e.stopPropagation();
         });
     };
