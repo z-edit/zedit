@@ -11,7 +11,6 @@ const ngapp = angular.module('progress', ['vs-repeat', 'luegg.directives', 'angu
 //=include Directives/progressModal.js
 //=include Directives/loader.js
 //=include Factories/spinnerFactory.js
-//=include Services/Shared/modalInterface.js
 //== end angular assets ==
 
 ngapp.run(function($rootScope, $timeout, spinnerFactory) {
