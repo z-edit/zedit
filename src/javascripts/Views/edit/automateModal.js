@@ -1,4 +1,4 @@
-ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, modalService, automationService, hotkeyInterface) {
+ngapp.controller('automateModalController', function($scope, $rootScope, $timeout, automationService, hotkeyInterface) {
     // helper functions
     let compare = function(a, b) {
         if (a < b) return -1;

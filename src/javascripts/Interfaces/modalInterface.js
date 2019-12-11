@@ -1,4 +1,4 @@
-ngapp.service('modalService', function($rootScope) {
+ngapp.factory('modalInterface', function($rootScope) {
     let buildOptions = function(label, options) {
         let basePath = options.basePath || 'partials';
         return Object.assign({
@@ -9,7 +9,7 @@ ngapp.service('modalService', function($rootScope) {
         }, options);
     };
 
-    this.init = function(scope) {
+    return function(scope) {
         let modalActive = function(modalName) {
             let opts = scope.modalOptions;
             return $rootScope.modalActive && opts && opts.modal === modalName;
