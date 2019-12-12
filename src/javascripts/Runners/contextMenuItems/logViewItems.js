@@ -6,7 +6,6 @@ ngapp.run(function(contextMenuService) {
             build: (scope, items) => {
                 items.push({
                     label: 'Copy log',
-                    hotkey: 'Ctrl+C',
                     callback: scope.copyLog
                 });
             }
@@ -17,7 +16,6 @@ ngapp.run(function(contextMenuService) {
             build: (scope, items) => {
                 items.push({
                     label: 'Clear log',
-                    hotkey: 'Ctrl+L',
                     callback: scope.clearLog
                 });
             }
