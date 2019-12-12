@@ -44,6 +44,11 @@ ngapp.controller('logViewController', function($scope, contextMenuInterface, cli
     // event handlers
     logger.addCallback('log', onLogMessage);
 
+    $scope.onMouseDown = function(e) {
+        if (e.button !== 2) return;
+        $scope.showContextMenu(e);
+    };
+
     $scope.$on('destroy', function() {
         logger.removeCallback('log', onLogMessage);
     });
