@@ -7,7 +7,7 @@ ngapp.config(['$stateProvider', function($stateProvider) {
     });
 }]);
 
-ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolInterface, settingsService, themeInterface, buttonService, modalInterface, hotkeyInterface, contextMenuInterface, eventService) {
+ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, protocolInterface, settingsService, themeInterface, buttonService, modalInterface, hotkeyInterface, rootContextMenuInterface, eventService) {
     // helper variables
     let currentWindow = remote.getCurrentWindow();
 
@@ -71,7 +71,7 @@ ngapp.controller('baseController', function($scope, $rootScope, $q, $timeout, pr
     // initialization
     settingsService.loadGlobalSettings();
     themeInterface($scope);
-    contextMenuInterface($scope);
+    rootContextMenuInterface($scope);
     modalInterface($scope);
     protocolInterface($scope);
     $scope.title = 'zEdit - New Session';
