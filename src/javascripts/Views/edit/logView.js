@@ -28,7 +28,7 @@ ngapp.controller('logViewController', function($scope, contextMenuInterface, cli
     };
 
     $scope.copyLog = function() {
-        let text = $scope.messages.reduce((text, msg) => text + msg.text, '');
+        let text = $scope.messages.mapOnKey('text').join('\r\n');
         clipboardService.copyText(text);
     };
 
