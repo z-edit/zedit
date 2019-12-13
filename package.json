@@ -4,7 +4,7 @@
   "description": "A development environment for Bethesda Plugin Files.",
   "version": "0.6.5",
   "author": "Mator",
-  "copyright": "© 2017, Mator",
+  "copyright": "© 2019, Mator",
   "repository": "https://github.com/matortheeternal/zedit",
   "license": "MIT",
   "main": "app/main.js",
