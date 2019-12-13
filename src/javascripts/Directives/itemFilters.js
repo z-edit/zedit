@@ -11,6 +11,9 @@ ngapp.controller('itemFiltersController', function($scope, $timeout) {
         updateTimeout = null;
 
     $scope.activeFilters = [];
+    $scope.filters.forEach(filter => {
+        filter.enabled = false;
+    });
 
     $scope.toggleFilter = function(filter) {
         let fnName = filter.enabled ? 'remove' : 'push';
