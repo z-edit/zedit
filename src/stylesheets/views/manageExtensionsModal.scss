@@ -3,6 +3,7 @@
   margin: 20px 0;
   padding: 12px;
   background-color: $secondary_background;
+  border-radius: 4px;
 
   .header {
     display: flex;
@@ -45,5 +46,89 @@
   .restart-message {
     color: $negative;
     text-align: center;
+  }
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+
+  .module-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .module-author {
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-top: 6px;
+    white-space: nowrap;
+    font-size: small;
+  }
+
+  .module-icons {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    margin-left: 8px;
+  }
+}
+
+.module-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+
+  .links {
+    a {
+      text-decoration: none !important;
+    }
+
+    img {
+      width: 32px;
+    }
+  }
+}
+
+.module-icons {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-left: 8px;
+
+  .icon {
+    font: 28px/1 FontAwesome;
+    margin-left: 6px;
+  }
+
+  .icon-api::before {
+    color: $negative_hover;
+    content: "\f013"; // cog
+  }
+
+  .icon-tool::before {
+    color: $neutral_hover;
+    content: "\f0ad"; // wrench
+  }
+
+  .icon-core::before {
+    color: $secondary_action;
+    content: "\f069"; // asterisk
+  }
+
+  .icon-patcher::before {
+    color: $positive_hover;
+    content: "\f12e"; // puzzle piece
+  }
+
+  img {
+    width: 32px;
+    height: 32px;
+  }
+
+  img[title="FO4"] {
+    margin-left: 6px;
   }
 }

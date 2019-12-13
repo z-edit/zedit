@@ -1,5 +1,7 @@
 <h2>Installed Modules ({{modules.length}})</h2>
 
+<p>Modules are installed to <a ng-click="openModulesFolder()">{{::modulesFolderPath}}</a></p>
+
 <div class="restart-message" ng-if="showRestart">
     The application needs to be restarted for your changes to be applied.
     <button class="action small negative" ng-click="restart()">Restart Now</button>

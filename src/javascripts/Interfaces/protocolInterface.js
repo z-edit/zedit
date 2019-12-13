@@ -1,5 +1,5 @@
-ngapp.service('protocolService', function($document) {
-    this.init = function(scope) {
+ngapp.factory('protocolInterface', function($document) {
+    return function(scope) {
         let handleHttpLink = (href) => fh.openUrl(href);
 
         let handleDocsLink = function(href) {

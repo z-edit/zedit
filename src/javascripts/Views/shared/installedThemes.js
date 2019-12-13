@@ -1,4 +1,5 @@
 ngapp.controller('installedThemesController', function($scope, extensionService, settingsService) {
+    $scope.themesFolderPath = fh.appDir.path('themes');
     $scope.themes = extensionService.getInstalledThemes();
 
     // scope functions
@@ -17,6 +18,10 @@ ngapp.controller('installedThemesController', function($scope, extensionService,
         }
         fs.jetpack.remove(`themes\\${theme.filename}`);
         $scope.themes.remove(theme);
+    };
+
+    $scope.openModulesFolder = function() {
+        fh.openUrl(fh.pathToFileUrl($scope.themesFolderPath));
     };
 
     $scope.openRepo = function(module) {

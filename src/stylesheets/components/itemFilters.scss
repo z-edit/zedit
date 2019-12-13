@@ -1,0 +1,71 @@
+item-filters {
+  display: block;
+  border-top: 1px solid $hard_border;
+  border-bottom: 1px solid $hard_border;
+  padding: 10px;
+  margin: 24px 0;
+
+  .filter-selection {
+    display: flex;
+    align-items: flex-start;
+    margin: 8px 0;
+
+    .filters {
+      flex: 1;
+      display: flex;
+
+    }
+
+    strong {
+      margin-right: 12px;
+    }
+  }
+
+  .filter {
+    border: 1px solid $font_color;
+    border-radius: 4px;
+    padding: 0 4px;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: $secondary_action;
+      border-color: $secondary_action;
+    }
+
+    &.enabled {
+      color: $secondary_action;
+      border-color: $secondary_action;
+
+      &:hover {
+        color: $negative;
+        border-color: $negative;
+      }
+    }
+  }
+
+  .remove-item {
+    display: inline-block;
+  }
+
+  .active-filters {
+    > div {
+      margin: 10px;
+    }
+
+    .options {
+      display: inline-block;
+
+      label {
+        display: block;
+      }
+    }
+
+    .filter-label {
+      display: inline-block;
+      vertical-align: top;
+      min-width: 120px;
+    }
+  }
+}

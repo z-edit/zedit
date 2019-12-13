@@ -1,19 +1,51 @@
 <h2>Browse Modules</h2>
 
-<span class="help-message">Modules are published via the <a href="https://github.com/matortheeternal/zedit-registry">zedit-registry</a> repo and are installed to {{::modulesFolderPath}}.</span>
+<p>Modules are published via the <a href="https://github.com/z-edit/zedit-registry">zedit-registry</a>.</p>
 
-<div ng-repeat="module in modules" class="module-item">
+<item-filters></item-filters>
+
+<loader message="'Retrieving modules...'" spinner-opts="spinnerOpts" ng-if="!modules"></loader>
+
+<div class="content-message" ng-if="modules" ng-show="!modules.length">
+    No modules found.
+</div>
+
+<div ng-repeat="module in modules | limitTo: perPage : offset" class="module-item">
     <div class="module-header">
-        <span class="module-title" title="{{::module.id}}" ng-click="openRepo(module)">{{::module.name}}</span>
-        <span class="module-version" title="{{::module.releaseInfo}}">{{::module.version}}</span>
-        <span class="module-author">{{::module.author}}</span>
+        <span class="module-title" title="{{::module.id}}">{{::module.name}}</span>
+        <span class="module-author">by {{::module.author}}</span>
+        <span class="module-icons">
+            <span ng-repeat="type in module.types" title="{{::type}}" class="icon icon-{{::type}}"></span>
+            <span ng-if="::module.games">
+                <img ng-repeat="game in module.games" title="{{::game}}" ng-src="images/icons/{{::game}}.png" alt="" />
+            </span>
+        </span>
     </div>
     <div class="module-description">
         {{::module.description}}
     </div>
     <div class="module-footer">
-        <button class="action positive" ng-click="installModule(module)">
-            Install
-        </button>
+        <div class="links">
+            <a ng-href="{{::module.links.github}}" ng-if="::module.links.github">
+                <img ng-src="images/icons/github.png" title="GitHub" alt="" />
+            </a>
+            <a ng-href="{{::module.links.nexus}}" ng-if="::module.links.nexus">
+                <img ng-src="images/icons/nexus.png" title="Nexus Mods" alt="" />
+            </a>
+            <a ng-href="{{::module.links.nexus2}}" ng-if="::module.links.nexus2">
+                <img ng-src="images/icons/nexus2.png" title="Nexus Mods (Secondary)" alt="" />
+            </a>
+        </div>
+
+        <div class="buttons">
+            <button class="action positive" ng-click="installModule(module)" ng-disabled="::!module.links.github" ng-hide="module.installed" title="{{::module.links.github ? '' : 'Module installation is only supported for modules hosted on GitHub.'}}">
+                Install
+            </button>
+            <button class="border positive" ng-show="module.installed" disabled>
+                Installed
+            </button>
+        </div>
     </div>
 </div>
+
+<page-controls ng-if="modules" per-page="10" items="modules"></page-controls>

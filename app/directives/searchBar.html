@@ -1,6 +1,6 @@
 <input type="text" ng-model="search" ng-keydown="onSearchKeyDown($event)" ng-class="{'error' : notFound}" ng-blur="blurSearch()"/>
-<button class="glyph-button previous-result" ng-disabled="!search.length" ng-click="previousResult()"></button>
-<button class="glyph-button next-result" ng-disabled="!search.length" ng-click="nextResult()"></button>
+<button class="icon previous-result" ng-disabled="!search.length" ng-click="previousResult()"></button>
+<button class="icon next-result" ng-disabled="!search.length" ng-click="nextResult()"></button>
 <span class="divider"></span>
 <label>
     Search by
