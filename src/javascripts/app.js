@@ -103,6 +103,7 @@ angular.default = function(scope, attribute, value) {
 //=include Factories/*.js
 //=include Interfaces/*.js
 //=include Filters/*.js
+//=include Providers/*.js
 //=include Runners/**/*.js
 //=include Services/**/*.js
 //=include Views/**/*.js
