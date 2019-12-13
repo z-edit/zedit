@@ -14,7 +14,9 @@ ngapp.directive('pageControls', function($parse) {
                 if (!items) return;
                 scope.numItems = items.length;
                 scope.numPages = Math.ceil(scope.numItems / scope.perPage);
-                scope.pages = Array.from({length: 5}, (v, k) => k + 1);
+                scope.pages = Array.from({
+                    length: scope.numPages
+                }, (v, k) => k + 1);
                 scope.currentPage = 1;
             });
         }
@@ -48,7 +50,8 @@ ngapp.controller('pageControlsController', function($scope) {
 
     $scope.$watch('currentPage', function() {
         $scope.offset = $scope.perPage * ($scope.currentPage - 1);
+        updateVisiblePages();
     });
 
-    $scope.$watch('currentPage', updateVisiblePages);
+    $scope.$watch('numPages', updateVisiblePages);
 });
