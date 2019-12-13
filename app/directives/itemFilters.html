@@ -1,0 +1,29 @@
+<div class="filter-selection">
+    <strong>Filters:</strong>
+    <div class="filters">
+        <div class="filter" ng-repeat="filter in filters" ng-class="{'enabled': filter.enabled}" ng-click="toggleFilter(filter)" title="{{filter.description}}">
+            {{filter.name}}
+            <div class="remove-item" ng-show="filter.enabled"></div>
+        </div>
+    </div>
+</div>
+
+<div class="active-filters">
+    <div ng-repeat="filter in activeFilters">
+        <div ng-if="::filter.type === 'text'" ng-init="filter.value = ''">
+            <label>
+                <span class="filter-label" title="{{::filter.description}}">{{::filter.name}}</span>
+                <input type="text" ng-model="filter.value" ng-change="filtersChanged()">
+            </label>
+        </div>
+        <div ng-if="::filter.type === 'options'" ng-init="filter.value = {}">
+            <span class="filter-label" title="{{::filter.description}}">{{::filter.name}}</span>
+            <div class="options">
+                <label ng-repeat="option in filter.options">
+                    <input type="checkbox" ng-model="filter.value[option.id]" ng-change="filtersChanged()">
+                    {{::option.name}}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
