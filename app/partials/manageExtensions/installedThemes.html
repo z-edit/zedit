@@ -1,5 +1,7 @@
 <h2>Installed Themes ({{themes.length}})</h2>
 
+<p>Themes are installed to <a ng-click="openThemesFolder()">{{::themesFolderPath}}</a></p>
+
 <div ng-repeat="theme in themes" class="theme-item">
     <div class="header">
         <span class="title" ng-click="openRepo(theme)" ng-class="{'no-link' : !module.repo}">{{::theme.name}}</span>

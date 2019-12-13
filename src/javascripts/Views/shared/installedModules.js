@@ -1,4 +1,5 @@
 ngapp.controller('installedModulesController', function($scope, extensionService) {
+    $scope.modulesFolderPath = fh.appDir.path('modules');
     $scope.modules = extensionService.getInstalledModules();
 
     // scope functions
@@ -9,6 +10,10 @@ ngapp.controller('installedModulesController', function($scope, extensionService
 
     $scope.toggleModule = function(module) {
         // TODO
+    };
+
+    $scope.openModulesFolder = function() {
+        fh.openUrl(fh.pathToFileUrl($scope.modulesFolderPath));
     };
 
     $scope.openRepo = function(module) {
