@@ -1,6 +1,6 @@
-ngapp.controller('browseModulesController', function($scope, extensionRegistry, extensionService, spinnerFactory) {
-    $scope.modulesFolderPath = fh.appDir.path('modules');
+ngapp.controller('browseModulesController', function($scope, extensionRegistry, extensionService, spinnerFactory, moduleFilters) {
     $scope.spinnerOpts = spinnerFactory.defaultOptions;
+    $scope.filters = moduleFilters;
 
     let installedModules = extensionService.getInstalledModules();
 
@@ -10,8 +10,19 @@ ngapp.controller('browseModulesController', function($scope, extensionRegistry, 
 
     extensionRegistry.retrieveModules().then(modules => {
         modules.forEach(setInstalled);
-        $scope.modules = modules;
+        $scope.allModules = modules;
+        $scope.updateItems();
     });
+
+    $scope.updateItems = function() {
+        if (!$scope.allModules) return;
+        $scope.modules = $scope.allModules.filter(module => {
+            if (!$scope.activeFilters) return true;
+            return $scope.activeFilters.every(filter => {
+                return filter.test(module, filter.value);
+            });
+        });
+    };
 
     $scope.openLink = url => fh.openUrl(url);
 

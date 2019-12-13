@@ -1,6 +1,8 @@
 <h2>Browse Themes</h2>
 
-<span class="help-message">Themes are published via the <a href="https://github.com/matortheeternal/zedit-registry">zedit-registry</a> repo and are installed to {{::themesFolderPath}}.</span>
+<p>Themes are published via the <a href="https://github.com/matortheeternal/zedit-registry">zedit-registry</a>.</p>
+
+<item-filters></item-filters>
 
 <loader message="'Retrieving themes...'" spinner-opts="spinnerOpts" ng-if="!themes"></loader>
 
@@ -8,7 +10,7 @@
     No themes found.
 </div>
 
-<div ng-repeat="theme in themes" class="theme-item">
+<div ng-repeat="theme in themes | limitTo: perPage : offset" class="theme-item">
     <div class="theme-header">
         <span class="theme-title">{{::theme.name}}</span>
         <span class="theme-author">by {{::theme.author}}</span>
@@ -22,3 +24,5 @@
         </button>
     </div>
 </div>
+
+<page-controls ng-if="themes" per-page="10" items="themes"></page-controls>
