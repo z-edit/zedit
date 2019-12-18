@@ -1,10 +1,14 @@
 ngapp.service('extensionService', function(themeService) {
+    let service = this;
+
     const tabs = [
         'Installed Modules', 'Installed Themes',
         'Browse Modules', 'Browse Themes'
     ];
+
     let installedThemes, installedModules;
 
+    // helper methods
     let copyThemeFile = function(themeFilePath) {
         let themeFileName = fh.extractFileName(themeFilePath);
         fs.jetpack.copy(themeFilePath, `themes/${themeFileName}`)
@@ -36,10 +40,8 @@ ngapp.service('extensionService', function(themeService) {
     let installModule = function(sourcePath) {
         let [info, dir] = getModuleInfo(sourcePath),
             modulePath = `modules\\${info.id}`;
-        if (fh.directoryExists(modulePath)) {
-            // TODO: prompt here
+        if (fh.directoryExists(modulePath))
             fh.jetpack.remove(modulePath);
-        }
         fh.jetpack.copy(dir || sourcePath, modulePath);
     };
 
@@ -56,6 +58,7 @@ ngapp.service('extensionService', function(themeService) {
         fh.jetpack.remove(tempPath);
     };
 
+    // service functions
     this.getTabs = function() {
         return tabs.map(tab => {
             let tabVarName = tab.toCamelCase();
@@ -68,26 +71,26 @@ ngapp.service('extensionService', function(themeService) {
     };
 
     this.getInstalledThemes = function(forceRefresh) {
-        if (!installedThemes || forceRefresh) {
+        if (!installedThemes || forceRefresh)
             installedThemes = themeService.getThemes();
-        }
         return installedThemes;
     };
 
     this.getInstalledModules = function(forceRefresh) {
-        if (!installedModules || forceRefresh) {
+        if (!installedModules || forceRefresh)
             installedModules = moduleService.getInstalledModules();
-        }
         return installedModules;
     };
 
     this.installTheme = function(themeFilePath) {
         let isZip = fh.getFileExt(themeFilePath) === 'zip';
         (isZip ? extractThemeArchive : copyThemeFile)(themeFilePath);
+        service.getInstalledThemes(true);
     };
 
     this.installModule = function(moduleFilePath) {
         let isZip = fh.getFileExt(moduleFilePath) === 'zip';
         (isZip ? extractModuleArchive : copyModule)(moduleFilePath);
+        service.getInstalledModules(true);
     };
 });

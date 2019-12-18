@@ -22,9 +22,9 @@ ngapp.factory('protocolInterface', function($document) {
 
         // handle link protocols properly
         $document.bind('click', function(event) {
-            if (event.target.tagName !== 'A') return;
-            if (!event.target.href) return;
-            if (handleLink(event.target.href)) event.preventDefault();
+            let target = event.path.find(el => el.tagName === 'A');
+            if (!target || !target.href) return;
+            if (handleLink(target.href)) event.preventDefault();
         });
     };
 });
