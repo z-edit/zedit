@@ -1,4 +1,4 @@
-ngapp.service('loadOrderService', function($rootScope) {
+ngapp.service('loadOrderService', function($rootScope, gameService) {
     let service = this,
         disabledTitle = 'This plugin cannot be loaded because it requires plugins \r\n' +
         'which are unavailable or cannot be loaded:',
@@ -153,5 +153,14 @@ ngapp.service('loadOrderService', function($rootScope) {
         updateMasters(plugins);
         plugins.forEach(service.updateRequired);
         service.updateIndexes(plugins);
+    };
+
+    this.storePluginHashes = function(skipFn) {
+        $rootScope.loadOrder.forEach(plugin => {
+            if (skipFn && skipFn(plugin)) return;
+            if (plugin.hash) return;
+            plugin.filePath = fh.path(gameService.dataPath, plugin.filename);
+            plugin.hash = md5File.sync(plugin.filePath);
+        });
     };
 });

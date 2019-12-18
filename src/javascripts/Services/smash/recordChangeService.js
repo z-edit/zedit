@@ -1,18 +1,80 @@
-ngapp.service('recordChangeService', function() {
+ngapp.service('recordChangeService', function(settingsService, xelibService) {
     let objectTypes = [xelib.vtArray, xelib.vtStruct];
 
-    let {WithHandles, GetElements, GetValue,
-        PathName, Signature, ValueType} = xelib;
+    let {WithHandles, GetElements, GetEnabledFlags,
+        GetValue, SortKey, GetHexFormID, Name, PathName,
+        Signature, ValueType, IsSorted} = xelib;
+
+    let valueFunctions = {
+        [xelib.vtFlags]: function(element) {
+            try {
+                return GetEnabledFlags(element).join(',');
+            } catch (x) {
+                return GetValue(element);
+            }
+        },
+        [xelib.vtReference]: xelibService.getReferenceValue
+    };
 
     // private
+    let skipRecord = function(sig) {
+        let {recordsToSkip} = settingsService.settings.smash;
+        return recordsToSkip.includes(sig);
+    };
+
     let getSparseElements = function(id) {
         return GetElements(id, '', { sparse: true });
+    };
+
+    let getSortFn = function(sortedKeys) {
+        return (obj, element) => {
+            let sortKey = SortKey(element);
+            sortedKeys.add(sortKey);
+            obj[sortKey] = element;
+            return obj;
+        };
+    };
+
+    let sortElements = function(mstElements, ovrElements) {
+        let sortedKeys = new Set(),
+            sortFn = getSortFn(sortedKeys),
+            mstSorted = mstElements.reduce(sortFn, {}),
+            ovrSorted = ovrElements.reduce(sortFn, {});
+        mstElements.length = sortedKeys.size;
+        ovrElements.length = sortedKeys.size;
+        Array.from(sortedKeys).sort().forEach((sortKey, index) => {
+            mstElements[index] = mstSorted[sortKey] || 0;
+            ovrElements[index] = ovrSorted[sortKey] || 0;
+        });
+    };
+
+    let filterRH = function(elements) {
+        let {recordHeaderRules} = settingsService.settings.smash;
+        return elements.filter(element => {
+            return recordHeaderRules[Name(element)];
+        });
+    };
+
+    let IsRecordHeader = function(element) {
+        return Name(element) === 'Record Header';
+    };
+
+    let padElements = function(mstElements, ovrElements) {
+        while (mstElements.length < ovrElements.length)
+            mstElements.push(0);
+        while (ovrElements.length < mstElements.length)
+            ovrElements.push(0);
     };
 
     let withSparseElements = function(mst, ovr, callback) {
         WithHandles(getSparseElements(mst), mstElements => {
             WithHandles(getSparseElements(ovr), ovrElements => {
-                callback(mstElements, ovrElements);
+                IsSorted(mst)
+                    ? sortElements(mstElements, ovrElements)
+                    : padElements(mstElements, ovrElements);
+                IsRecordHeader(mst)
+                    ? callback(filterRH(mstElements), filterRH(ovrElements))
+                    : callback(mstElements, ovrElements);
             });
         });
     };
@@ -42,23 +104,24 @@ ngapp.service('recordChangeService', function() {
         });
     };
 
-    let handleValueChanged = function(changes, mstElement, ovrElement) {
-        let mstValue = GetValue(mstElement),
-            ovrValue = GetValue(ovrElement);
+    let handleValueChanged = function(changes, mstElement, ovrElement, vt) {
+        let getValueFn = valueFunctions[vt] || GetValue,
+            mstValue = getValueFn(mstElement),
+            ovrValue = getValueFn(ovrElement);
         if (mstValue === ovrValue) return;
         changes.push({
             key: PathName(ovrElement),
             type: 'Changed',
-            value: ovrValue // TODO: handle reference fields
+            value: ovrValue
         });
     };
 
-    let elementChanged = function(changes, mstElement, ovrElement, parentVt) {
+    let elementChanged = function(changes, mstElement, ovrElement) {
         let vt = ValueType(ovrElement);
         if (objectTypes.includes(vt)) {
-            handleNestedChanges(changes, mstElement, ovrElement, parentVt);
+            handleNestedChanges(changes, mstElement, ovrElement);
         } else {
-            handleValueChanged(changes, mstElement, ovrElement, parentVt);
+            handleValueChanged(changes, mstElement, ovrElement, vt);
         }
     };
 
@@ -81,11 +144,11 @@ ngapp.service('recordChangeService', function() {
     // public
     this.getRecordChanges = function(mst, ovr) {
         let sig = Signature(ovr);
-        if (sig !== Signature(mst)) return;
+        if (skipRecord(sig) || sig !== Signature(mst)) return;
         let changes = [];
         getChanges(changes, mst, ovr);
         if (changes.length) return {
-            formId: xelib.GetHexFormID(mst, true),
+            formId: GetHexFormID(mst, true),
             sig: sig,
             changes: changes
         };

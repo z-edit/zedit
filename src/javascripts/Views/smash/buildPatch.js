@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout,  hotkeyInterface, eventService, layoutService, patchBuilder) {
+ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout,  hotkeyInterface, eventService, layoutService, smashedPatchBuilder, loadOrderService, gameService) {
     // helper functions
     let getPluginItem = file => ({
         handle: file,
@@ -50,9 +50,11 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
 
     $scope.$on('filesLoaded', function() {
         $scope.patchBuilt = true;
-        //patchBuilder.showProgress();
-        // TODO: re-enable
-        //patchBuilder.buildPatch($rootScope.patch);
+        loadOrderService.storePluginHashes(plugin => {
+            return gameService.isGameEsmOrExe(plugin.filename);
+        });
+        smashedPatchBuilder.showProgress();
+        smashedPatchBuilder.buildPatch($rootScope.patch);
     });
 
     $scope.$on('patchBuilt', function() {

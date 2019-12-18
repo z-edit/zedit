@@ -30,3 +30,5 @@ merges/
 temp/
 /cache/scripts/*.json
 build/config\.gypi
+cache/pluginDiffs/
+patches/New Patch/
