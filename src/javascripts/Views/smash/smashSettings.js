@@ -4,7 +4,15 @@ ngapp.run(function(settingsService) {
         appModes: ['smash'],
         templateUrl: 'partials/settings/smash.html',
         defaultSettings: {
-            patchPath: fh.jetpack.path('patches')
+            smash: {
+                patchPath: fh.jetpack.path('patches'),
+                recordHeaderRules: {
+                    "Record Flags": true,
+                    "Version Control Info 1": false,
+                    "Version Control Info 2": false
+                },
+                recordsToSkip: ['DOBJ', 'NAVI', 'NAVM']
+            }
         }
     });
 });
