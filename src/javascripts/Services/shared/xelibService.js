@@ -54,4 +54,15 @@ ngapp.service('xelibService', function() {
             })
         });
     };
+
+    let getLocalFormID = function(ref) {
+        if (!ref) return '000000';
+        return GetHexFormID(ref, false, true);
+    };
+
+    this.getReferenceValue = function(element) {
+        let ref = GetLinksTo(element),
+            file = GetElementFile(ref || element);
+        return `{${Name(file)}:${getLocalFormID(ref)}}`;
+    };
 });
