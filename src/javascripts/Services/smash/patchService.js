@@ -6,7 +6,7 @@ ngapp.service('patchService', function($rootScope, settingsService, objectUtils)
 
     // private functions
     let getPatchPath = function() {
-        let patchPath = settingsService.settings.patchPath;
+        let {patchPath} = settingsService.settings.smash;
         fh.jetpack.dir(patchPath);
         return patchPath;
     };
