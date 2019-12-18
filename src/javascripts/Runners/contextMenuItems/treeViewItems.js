@@ -1,4 +1,4 @@
-ngapp.run(function(contextMenuService, nodeHelpers) {
+ngapp.run(function(contextMenuService, nodeHelpers, referenceService) {
     let { divider, addContextMenu } = contextMenuService,
         { isFileNode, isRecordNode, isGroupNode,
           isEditableNode, testNodes } = nodeHelpers;
