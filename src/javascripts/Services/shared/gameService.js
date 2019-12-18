@@ -1,7 +1,8 @@
-ngapp.service('gameService', function() {
+ngapp.service('gameService', function($rootScope) {
     let service = this,
+        {GetGlobal, games} = xelib,
         {plugins, archives} = fh.loadResource('app/bethesdaFiles.json'),
-        appName, dataPath, appDataPath;
+        appName, dataPath, appDataPath, game;
 
     let includesIgnoreCase = function(a, str) {
         str = str.toLowerCase();
@@ -17,24 +18,45 @@ ngapp.service('gameService', function() {
         return includesIgnoreCase(archives[service.appName], filename);
     };
 
+    this.isGameEsm = function(filename) {
+        return filename === service.gameEsmFilename;
+    };
+
+    this.isGameEsmOrExe = function(filename) {
+        return service.isGameEsm(filename) || filename.endsWith('.exe');
+    };
+
     Object.defineProperty(this, 'dataPath', {
         get: function() {
-            if (!dataPath) dataPath = xelib.GetGlobal('DataPath');
+            if (!dataPath) dataPath = GetGlobal('DataPath');
             return dataPath;
         }
     });
 
     Object.defineProperty(this, 'appName', {
         get: function() {
-            if (!appName) appName = xelib.GetGlobal('AppName');
+            if (!appName) appName = GetGlobal('AppName');
             return appName;
         }
     });
 
     Object.defineProperty(this, 'appDataPath', {
         get: function() {
-            if (!appDataPath) appDataPath = xelib.GetGlobal('AppDataPath');
+            if (!appDataPath) appDataPath = GetGlobal('AppDataPath');
             return appDataPath;
+        }
+    });
+
+    Object.defineProperty(this, 'currentGame', {
+        get: function() {
+            if (!game) game = games.findByKey('mode', $rootScope.profile.gameMode);
+            return game;
+        }
+    });
+
+    Object.defineProperty(this, 'gameEsmFilename', {
+        get: function() {
+            return `${service.currentGame.shortName}.esm`;
         }
     });
 });
