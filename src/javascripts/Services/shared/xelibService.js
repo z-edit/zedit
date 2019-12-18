@@ -3,10 +3,14 @@ ngapp.service('xelibService', function() {
 
     let service = this;
 
+    let {GetGlobal, GetMessages, GetExceptionMessage, SetGamePath,
+        SetLanguage, SetGameMode, ExchangeReferences, GetFormID,
+        GetHexFormID, GetLinksTo, GetElementFile, Name, gameModes} = xelib;
+
     let printPaths = function() {
         try {
             pathsToPrint.forEach(pathName => {
-                let path = xelib.GetGlobal(pathName),
+                let path = GetGlobal(pathName),
                     method = fh.jetpack.exists(path) ? 'info' : 'warn';
                 logger[method](`${pathName}: ${path}`);
             });
@@ -18,8 +22,8 @@ ngapp.service('xelibService', function() {
 
     this.getExceptionInformation = function() {
         try {
-            logger.info(xelib.GetMessages());
-            logger.error(xelib.GetExceptionMessage());
+            logger.info(GetMessages());
+            logger.error(GetExceptionMessage());
         } catch (e) {
             logger.error('Failed to get exception information: ' + e.stack);
         }
@@ -27,17 +31,17 @@ ngapp.service('xelibService', function() {
 
     this.startSession = function(profile) {
         logger.info(`User selected profile: ${profile.name}`);
-        logger.info(`Using game mode: ${xelib.gameModes[profile.gameMode]}`);
+        logger.info(`Using game mode: ${gameModes[profile.gameMode]}`);
         let gamePath = profile.gamePath;
         if (!gamePath.endsWith('\\')) gamePath += '\\';
-        xelib.SetGamePath(gamePath);
-        xelib.SetLanguage(profile.language);
-        xelib.SetGameMode(profile.gameMode);
+        SetGamePath(gamePath);
+        SetLanguage(profile.language);
+        SetGameMode(profile.gameMode);
         printPaths();
     };
 
     let getFormIds = function(records) {
-        return records.map((record) => { return xelib.GetFormID(record) });
+        return records.map(record => GetFormID(record));
     };
 
     this.fixReferences = function(oldRecords, newRecords) {
@@ -46,7 +50,7 @@ ngapp.service('xelibService', function() {
         newRecords.forEach(newRecord => {
             oldFormIds.forEach((oldFormId, index) => {
                 let newFormId = newFormIds[index];
-                xelib.ExchangeReferences(newRecord, oldFormId, newFormId);
+                ExchangeReferences(newRecord, oldFormId, newFormId);
             })
         });
     };
