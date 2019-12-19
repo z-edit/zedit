@@ -59,6 +59,7 @@ ngapp.controller('buildPatchController', function($rootScope, $scope, $timeout, 
 
     $scope.$on('patchBuilt', function() {
         $scope.patchBuilt = true;
+        $scope.$emit('setTitle', 'zSmash - Editing patch');
     });
 
     // handle hotkeys

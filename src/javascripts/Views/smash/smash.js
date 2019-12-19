@@ -18,12 +18,14 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
     };
 
     let init = function() {
+        $scope.$emit('setTitle', 'zSmash - Loading patches');
         progressService.showProgress({ message: 'Loading patch data...' });
         $rootScope.loadOrder.forEach(getPluginHash);
         smashPatchService.loadPatches();
         $scope.patches = smashPatchService.patches;
         updatePatchStatuses();
         progressService.hideProgress();
+        $scope.$emit('setTitle', 'zSmash - Patch management');
     };
 
     let openSaveModal = function(shouldFinalize = true) {
@@ -38,11 +40,13 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
 
     // scope functions
     $scope.buildPatch = function(patch) {
+        $scope.$emit('setTitle', 'zSmash - Building patch');
         errorService.tryPromise(() => smashPrepService.preparePatch(patch), () => {
             progressService.hideProgress();
             $rootScope.patch = patch;
             $state.go('base.buildPatch');
         }, err => {
+            $scope.$emit('setTitle', 'zSmash - Patch management');
             progressService.hideProgress();
             alert('Error preparing patch:\n' + err);
         });
