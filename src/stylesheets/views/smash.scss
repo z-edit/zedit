@@ -1,7 +1,7 @@
 .smash-view {
   display: flex;
   flex-direction: column;
-  background: $background_tint;
+  background: rgba($background_tint, 0.5);
 
   .scroll-container {
     overflow: auto;
