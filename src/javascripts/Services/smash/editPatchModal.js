@@ -1,13 +1,13 @@
-ngapp.controller('editPatchModalController', function($scope, patchService, patchStatusService, gameService) {
+ngapp.controller('editPatchModalController', function($scope, smashPatchService, smashStatusService, gameService) {
     $scope.editing = $scope.modalOptions.hasOwnProperty('patch');
-    $scope.patch = $scope.modalOptions.patch || patchService.newPatch();
+    $scope.patch = $scope.modalOptions.patch || smashPatchService.newPatch();
     let initialFilename = $scope.patch.filename;
 
     // scope functions
     $scope.save = function() {
         if (!$scope.editing) $scope.modalOptions.patches.push($scope.patch);
-        patchService.updatePatchPlugins($scope.patch);
-        patchStatusService.updateStatus($scope.patch);
+        smashPatchService.updatePatchPlugins($scope.patch);
+        smashStatusService.updateStatus($scope.patch);
         $scope.$emit('closeModal');
     };
 

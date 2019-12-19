@@ -1,4 +1,4 @@
-ngapp.service('patchStatusService', function(settingsService, statusServiceFactory) {
+ngapp.service('smashStatusService', function(settingsService, statusServiceFactory) {
     statusServiceFactory.buildStatusService(this, {
         itemPath: settingsService.settings.smash.patchPath,
         pluginChangedMessage: 'Plugin changed.',

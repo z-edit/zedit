@@ -1,11 +1,11 @@
-ngapp.controller('smashSaveModalController', function($scope, $timeout, saveModalInterface, patchService) {
+ngapp.controller('smashSaveModalController', function($scope, $timeout, saveModalInterface, smashPatchService) {
     // inherited functions
     saveModalInterface($scope);
 
     // helper functions
     let saveData = function() {
         let shouldFinalize = $scope.modalOptions.shouldFinalize;
-        patchService.savePatches();
+        smashPatchService.savePatches();
         shouldFinalize ? $scope.finalize() : $scope.$emit('closeModal');
     };
 

@@ -6,10 +6,10 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, patchService, patchStatusService, hotkeyInterface, eventService, gameService, loadOrderService, patchPrepService, errorService) {
+ngapp.controller('smashController', function($rootScope, $scope, $timeout, $state, progressService, smashPatchService, smashStatusService, hotkeyInterface, eventService, gameService, loadOrderService, smashPrepService, errorService) {
     // helper functions
     let updatePatchStatuses = function() {
-        $scope.patches.forEach(patchStatusService.updateStatus);
+        $scope.patches.forEach(smashStatusService.updateStatus);
     };
 
     let getPluginHash = function(plugin) {
@@ -20,8 +20,8 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
     let init = function() {
         progressService.showProgress({ message: 'Loading patch data...' });
         $rootScope.loadOrder.forEach(getPluginHash);
-        patchService.loadPatches();
-        $scope.patches = patchService.patches;
+        smashPatchService.loadPatches();
+        $scope.patches = smashPatchService.patches;
         updatePatchStatuses();
         progressService.hideProgress();
     };
@@ -38,7 +38,7 @@ ngapp.controller('smashController', function($rootScope, $scope, $timeout, $stat
 
     // scope functions
     $scope.buildPatch = function(patch) {
-        errorService.tryPromise(() => patchPrepService.preparePatch(patch), () => {
+        errorService.tryPromise(() => smashPrepService.preparePatch(patch), () => {
             progressService.hideProgress();
             $rootScope.patch = patch;
             $state.go('base.buildPatch');

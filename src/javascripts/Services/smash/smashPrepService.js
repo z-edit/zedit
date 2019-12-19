@@ -1,4 +1,4 @@
-ngapp.service('patchPrepService', function($q, $rootScope, progressService, pluginDiffCacheService) {
+ngapp.service('smashPrepService', function($q, $rootScope, progressService, pluginDiffCacheService) {
     let {WithHandle, FileByName, HasElement, LoadPlugin, LoadPlugins,
             GetLoaderStatus, LoadPluginHeader, GetMasterNames,
             BackupPlugin, GetElement, RemoveElement} = xelib,

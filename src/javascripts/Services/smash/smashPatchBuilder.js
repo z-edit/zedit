@@ -1,4 +1,4 @@
-ngapp.service('smashedPatchBuilder', function(progressLogger, progressService, pluginDiffCacheService, recordsToPatchService, changeMergeService, patchService) {
+ngapp.service('smashPatchBuilder', function(progressLogger, progressService, pluginDiffCacheService, recordsToPatchService, changeMergeService, smashPatchService) {
     let {findRecordsToPatch} = recordsToPatchService;
 
     // PRIVATE
@@ -16,7 +16,7 @@ ngapp.service('smashedPatchBuilder', function(progressLogger, progressService, p
 
     // PUBLIC API
     this.buildPatch = function(patch) {
-        let smashFolderPath = patchService.getPatchDataPath(patch);
+        let smashFolderPath = smashPatchService.getPatchDataPath(patch);
         progressLogger.init('smash', smashFolderPath);
         pluginDiffCacheService.updateCache();
         let records = loadPatch(patch) && findRecordsToPatch(patch),
