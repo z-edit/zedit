@@ -44,7 +44,7 @@
   "dependencies": {
     "@octokit/rest": "^16.35.2",
     "adm-zip": "^0.4.11",
-    "angular": "1.5.1",
+    "angular": "^1.7.9",
     "angular-color-picker": "github:matortheeternal/angular-color-picker",
     "angular-elastic-input": "^2.4.0",
     "angular-marked": "^1.2.2",
@@ -66,7 +66,6 @@
     "registry-js": "^1.0.7",
     "request": "^2.88.0",
     "request-progress": "^3.0.0",
-    "ui-router-extras": "^0.1.3",
     "windows-drive-letters": "^3.1.0",
     "xelib": "github:z-edit/xelib"
   },
