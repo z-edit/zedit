@@ -10,6 +10,7 @@ import createWindow from './helpers/window';
 import Logger from './helpers/logger.js';
 global.env = require('./env');
 global.argv = process.argv;
+app.commandLine.appendSwitch('remote-debugging-port', '9222');
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
@@ -91,19 +92,21 @@ let openProgressWindow = function() {
     logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
     progressWindow = new BrowserWindow({
-        parent: mainWindow,
+        /*parent: mainWindow,*/
+        width: 900,
+        height: 1000,
         title: "zEdit Progress",
         modal: m,
         show: true,
-        frame: false,
+        frame: true,
         closable: false,
         transparent: t,
         focusable: true,
-        maximizable: false,
-        minimizable: false,
-        resizable: false,
-        movabale: false,
-        webPreferences: { nodeIntegration: true }
+        maximizable: true,
+        minimizable: true,
+        resizable: true,
+        movabale: true,
+        webPreferences: { nodeIntegration: true}
     });
     progressWindow.hide();
     loadPage(progressWindow, 'progress.html');
