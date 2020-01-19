@@ -26,6 +26,7 @@ themes/
 syntaxThemes/
 scripts/history.json
 *.zip
+*.rar
 logs/
 merges/
 temp/
