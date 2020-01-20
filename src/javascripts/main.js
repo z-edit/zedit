@@ -12,7 +12,7 @@ global.env = require('./env');
 global.argv = process.argv;
 
 /*Enable debugger like WebStrom to connect to zEdit*/
-if(env.debugger || process.argv.includes('-debugger'))
+if(env.debugger || process.argv.includes('--debugger'))
     app.commandLine.appendSwitch('remote-debugging-port', '9222');
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
@@ -96,8 +96,8 @@ let openProgressWindow = function() {
     logger.info('Creating progress window...');
 
     let progressWindowOptions;
-    // Added Argument so that the process window doesn't block the main windows anymore -> makes ufp debugging easier
-    if (env.debug_process || process.argv.includes('-debug-process'))
+    // Added Argument so that the process window doesn't block the main window anymore -> makes ufp debugging easier
+    if (env.debug_process || process.argv.includes('--debug-process'))
         progressWindowOptions = {
             width: 900,
             height: 1000,

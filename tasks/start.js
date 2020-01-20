@@ -22,5 +22,5 @@ function getApp(arg) {
 
 gulp.task('start', gulp.series('build', gulp.parallel('watch', getApp())));
 
-gulp.task('start-debug', gulp.series('build', gulp.parallel('watch', getApp(["-dev", "-debugger", "-debug-process"]))));
+gulp.task('start-debug', gulp.series('build', gulp.parallel('watch', getApp(["-dev", "--debugger", "--debug-process"]))));
 
