@@ -7,7 +7,6 @@ const batch = require('gulp-batch');
 const plumber = require('gulp-plumber');
 const wait = require('gulp-wait');
 const jetpack = require('fs-jetpack');
-const gulpif = require('gulp-if');
 const bundle = require('./bundle');
 const utils = require('./utils');
 
@@ -16,18 +15,13 @@ const srcDir = jetpack.cwd('./src');
 const jsDir = srcDir.cwd('./javascripts');
 const destDir = jetpack.cwd('./app');
 
-function bunde(removeDebug = true) {
-    return function() {
-        return Promise.all([
-            bundle(jsDir.path('main.js'), destDir.path('main.js'), removeDebug),
-            bundle(jsDir.path('app.js'), destDir.path('app.js'), removeDebug),
-            bundle(jsDir.path('progress.js'), destDir.path('progress.js'), removeDebug)
-        ]);
-    }
-}
-
-gulp.task('bundle', bunde(true));
-gulp.task('bundle-debug', bunde(false));
+gulp.task('bundle', function() {
+    return Promise.all([
+        bundle(jsDir.path('main.js'), destDir.path('main.js')),
+        bundle(jsDir.path('app.js'), destDir.path('app.js')),
+        bundle(jsDir.path('progress.js'), destDir.path('progress.js'))
+    ]);
+});
 
 gulp.task('sass', function() {
     return gulp.src(srcDir.path('stylesheets/themes/*'))
@@ -67,4 +61,3 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build', gulp.series('bundle', 'sass', 'copySyntaxThemes', 'environment'));
-gulp.task('build-debug', gulp.series('bundle-debug', 'sass', 'copySyntaxThemes', 'environment'));
