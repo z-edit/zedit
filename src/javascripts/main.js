@@ -10,7 +10,9 @@ import createWindow from './helpers/window';
 import Logger from './helpers/logger.js';
 global.env = require('./env');
 global.argv = process.argv;
+//<remove>
 app.commandLine.appendSwitch('remote-debugging-port', '9222');
+//</remove>
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 
@@ -91,7 +93,26 @@ let openProgressWindow = function() {
     logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
     logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
-    progressWindow = new BrowserWindow({
+
+    // noinspection JSUnusedAssignment
+    let progressWindowOptions = {
+        parent: mainWindow,
+        title: "zEdit Progress",
+        modal: m,
+        show: true,
+        frame: false,
+        closable: false,
+        transparent: t,
+        focusable: true,
+        maximizable: false,
+        minimizable: false,
+        resizable: false,
+        movabale: false,
+        webPreferences: { nodeIntegration: true }
+    };
+
+    //<remove> debugging a ufp patch isn't fun when the progressWindow blocks the debugger
+    progressWindowOptions = {
         /*parent: mainWindow,*/
         width: 900,
         height: 1000,
@@ -107,7 +128,10 @@ let openProgressWindow = function() {
         resizable: true,
         movabale: true,
         webPreferences: { nodeIntegration: true}
-    });
+    };
+    //</remove>
+
+    progressWindow = new BrowserWindow(progressWindowOptions);
     progressWindow.hide();
     loadPage(progressWindow, 'progress.html');
     logger.info('Progress window created');

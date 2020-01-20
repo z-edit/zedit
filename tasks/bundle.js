@@ -5,6 +5,9 @@ const include = require('gulp-include');
 const rollup = require('gulp-rollup');
 const jetpack = require('fs-jetpack');
 const path = require('path');
+const replace = require('gulp-replace');
+const remove = require('gulp-remove-dev');
+const gulpif = require('gulp-if');
 
 const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
     'console', 'constants', 'crypto', 'dgram', 'dns', 'domain', 'events',
@@ -27,8 +30,9 @@ let generateExternalModulesList = function() {
 
 let cached = {};
 
-module.exports = function(src, dest) {
+module.exports = function(src, dest, removeDebug = true) {
     return gulp.src('./src/javascripts/**/*.js')
+        .pipe(gulpif(removeDebug, remove()))
         .pipe(include())
         .pipe(rollup({
             input: src,
