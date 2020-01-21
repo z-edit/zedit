@@ -2,7 +2,7 @@
     <div class="modal" list-view-parent>
         <div class="close-modal" ng-click="$emit('closeModal')"></div>
 
-        <form ng-hide="showCustomScopeTab">
+        <form ng-hide="showCustomScopeTab" class="advanced-search">
             <h2>Advanced Search</h2>
             <section>
                 <label>
@@ -36,7 +36,7 @@
             </div>
         </form>
 
-        <form ng-show="showCustomScopeTab">
+        <form ng-show="showCustomScopeTab" class="custom-scope">
             <h2>Create Custom Scope</h2>
 
             <div class="flex">
