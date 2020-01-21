@@ -57,9 +57,9 @@
                     </div>
 
                     <div class="list-commands">
-                        <button class="action-btn positive" ng-click="removeFilterFiles()">Remove Filter</button>
-                        <button class="action-btn positive" ng-click="allVisible(customScope.files, true)">Check All</button>
-                        <button class="action-btn positive" ng-click="allVisible(customScope.files, false)">Uncheck All</button>
+                        <button class="action-btn positive" ng-click="removeFilterForFiles()">Remove Filter</button>
+                        <button class="action-btn positive" ng-click="newStateForVisible(customScope.files, true)">Check All</button>
+                        <button class="action-btn positive" ng-click="newStateForVisible(customScope.files, false)">Uncheck All</button>
                     </div>
                 </div>
                 <div>
@@ -77,9 +77,9 @@
                         <label for="adv-filter-groups">Filter (RegEx)</label>
                     </div>
                     <div class="list-commands">
-                        <button class="action-btn positive" ng-click="removeFilterGroups()">Remove Filter</button>
-                        <button class="action-btn positive" ng-click="allVisible(customScope.groups, true)">Check All</button>
-                        <button class="action-btn positive" ng-click="allVisible(customScope.groups, false)">Uncheck All</button>
+                        <button class="action-btn positive" ng-click="removeFilterForGroups()">Remove Filter</button>
+                        <button class="action-btn positive" ng-click="newStateForVisible(customScope.groups, true)">Check All</button>
+                        <button class="action-btn positive" ng-click="newStateForVisible(customScope.groups, false)">Uncheck All</button>
                     </div>
                 </div>
             </div>

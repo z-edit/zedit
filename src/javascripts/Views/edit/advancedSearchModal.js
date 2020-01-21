@@ -101,34 +101,34 @@ ngapp.controller('advancedSearchModalController', function($scope, searchService
         }
     }
 
-    $scope.allVisible = function(items, newState) {
+    $scope.newStateForVisible = function(items, newState) {
         items.forEach((item) => {
             if(item.visible)
                 item.active = newState;
         });
-    }
+    };
 
     $scope.filterFiles = function(filter) {
         $scope.customScope.files.forEach((file) => {
             file.visible = !filter || atLeastOneRegexMatch(filter, file.filename);
         });
-    }
+    };
 
     $scope.filterGroups = function(filter) {
         $scope.customScope.groups.forEach((group) => {
             group.visible = !filter || atLeastOneRegexMatch(filter, group.signature + " - " + group.name);
         });
-    }
+    };
 
-    $scope.removeFilterFiles = function() {
+    $scope.removeFilterForFiles = function() {
         $scope.filterFiles();
         $scope.fileFilter = "";
-    }
+    };
 
-    $scope.removeFilterGroups = function() {
+    $scope.removeFilterForGroups = function() {
         $scope.filterGroups();
         $scope.groupFilter = "";
-    }
+    };
 
     // initialization
     let nodes = $scope.modalOptions.nodes,
