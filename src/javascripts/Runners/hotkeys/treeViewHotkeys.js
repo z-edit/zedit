@@ -18,7 +18,9 @@ ngapp.run(function(hotkeyService) {
         }],
         m: [{
             modifiers: ['ctrlKey'],
-            callback: scope => scope.$emit('openModal', 'automate')
+            callback: scope => scope.$emit('openModal', 'automate', {
+                targetScope: scope
+            })
         }],
         e: [{
             modifiers: ['ctrlKey'],
