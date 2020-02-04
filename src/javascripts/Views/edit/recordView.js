@@ -152,13 +152,17 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
 
     $scope.$on('controlKeyPressed', function() {
-        if (!$scope.refCell) return;
-        $scope.$applyAsync(() => $scope.refCell.underline = true);
+        $scope.$applyAsync(() => {
+            if (!$scope.refCell) return;
+            $scope.refCell.underline = true
+        });
     });
 
     $scope.$on('controlKeyReleased', function() {
-        if (!$scope.refCell) return;
-        $scope.$applyAsync(() => $scope.refCell.underline = false);
+        $scope.$applyAsync(() => {
+            if (!$scope.refCell) return;
+            $scope.refCell.underline = false;
+        });
     });
 
     // reload when hide unassigned/non-conflicting is toggled
