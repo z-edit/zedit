@@ -1,19 +1,20 @@
 ngapp.service('recordChangeService', function(settingsService, xelibService) {
-    let objectTypes = [xelib.vtArray, xelib.vtStruct];
-
     let {WithHandles, GetElements, GetEnabledFlags,
         GetValue, SortKey, GetHexFormID, Name, PathName,
-        Signature, ValueType, IsSorted} = xelib;
+        Signature, ValueType, IsSorted,
+        vtFlags, vtReference, vtArray, vtStruct} = xelib;
+
+    let objectTypes = [vtArray, vtStruct];
 
     let valueFunctions = {
-        [xelib.vtFlags]: function(element) {
+        [vtFlags]: function(element) {
             try {
                 return GetEnabledFlags(element).join(',');
             } catch (x) {
                 return GetValue(element);
             }
         },
-        [xelib.vtReference]: xelibService.getReferenceValue
+        [vtReference]: xelibService.getReferenceValue
     };
 
     // private
@@ -55,7 +56,7 @@ ngapp.service('recordChangeService', function(settingsService, xelibService) {
         });
     };
 
-    let IsRecordHeader = function(element) {
+    let isRecordHeader = function(element) {
         return Name(element) === 'Record Header';
     };
 
@@ -72,7 +73,7 @@ ngapp.service('recordChangeService', function(settingsService, xelibService) {
                 IsSorted(mst)
                     ? sortElements(mstElements, ovrElements)
                     : padElements(mstElements, ovrElements);
-                IsRecordHeader(mst)
+                isRecordHeader(mst)
                     ? callback(filterRH(mstElements), filterRH(ovrElements))
                     : callback(mstElements, ovrElements);
             });
