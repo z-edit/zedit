@@ -1,8 +1,23 @@
 <div class="viewport merge-view" ng-keydown="onKeyDown($event)">
+    <div class="top-bar">
+        <label class="search">
+            <span>Search</span>
+            <input type="text" ng-model="searchText" ng-change="search()">
+        </label>
+
+        <label class="sort">
+            <span>Sort by</span>
+            <select ng-model="sortMode"  ng-change="search()" ng-options="sortMode as sortMode.name for sortMode in mergeSortModes"></select>
+            <button class="icon" ng-click="toggleSortDirection()" title="Toggle sort direction">
+                <span class="fa {{sortIconClass}}"></span>
+            </button>
+        </label>
+    </div>
+
     <div class="scroll-container">
         <div class="center-container">
             <div class="merge-items">
-                <merge-item ng-repeat="merge in merges" class="content-block"></merge-item>
+                <merge-item ng-repeat="merge in mergeItems" class="content-block"></merge-item>
             </div>
         </div>
     </div>

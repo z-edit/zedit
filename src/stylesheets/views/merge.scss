@@ -3,6 +3,21 @@
   flex-direction: column;
   background: $background_tint;
 
+  .top-bar {
+    padding: 14px;
+    border-bottom: 1px solid $hard_border;
+    margin: 0;
+    background: $background;
+
+    label {
+      border: 1px solid $soft_border;
+      border-radius: 6px;
+      background: $background_tint;
+      margin: 0 4px;
+      padding: 6px;
+    }
+  }
+
   .scroll-container {
     overflow: auto;
     flex-grow: 1;

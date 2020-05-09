@@ -24,6 +24,7 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
         if (warningPlugins && warningPlugins.length > 0 && !pluginWarning()) return;
         if (!$scope.editing) $scope.modalOptions.merges.push($scope.merge);
         mergeStatusService.updateStatus($scope.merge);
+        $scope.$emit('mergesUpdated');
         $scope.$emit('closeModal');
     };
 
