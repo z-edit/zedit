@@ -44,6 +44,7 @@ ngapp.factory('hotkeyInterface', function(hotkeyService, keyCodeService) {
     // PUBLIC INTERFACE
     return function(scope, functionName, label) {
         let hotkeys = hotkeyService.getHotkeys(label);
+        if (!hotkeys) return;
         scope[functionName] = keyEventHandler(scope, hotkeys);
     };
 });

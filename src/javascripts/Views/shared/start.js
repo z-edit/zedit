@@ -47,16 +47,18 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
         $scope.selectedAppMode = appMode;
     };
 
+    $scope.updateProfiles = function() {
+        $scope.profiles = getProfiles();
+        $scope.selectedProfile = getDefaultProfile();
+    };
+
     // event listeners
     $scope.$on('settingsClick', function() {
         if ($rootScope.profile) return;
         $scope.$emit('openModal', 'profiles');
     });
 
-    $scope.$on('profilesUpdated', function() {
-        $scope.profiles = getProfiles();
-        $scope.selectedProfile = getDefaultProfile();
-    });
+    $scope.$on('profilesUpdated', $scope.updateProfiles);
 
     $scope.$watch('selectedProfile', function(profile) {
         $scope.background = profile.background;
@@ -66,8 +68,8 @@ ngapp.controller('startController', function ($scope, $rootScope, $state, $timeo
     // initialization
     loadProfiles();
     $scope.appVersion = window.appVersion;
-    $scope.profiles = getProfiles();
     $scope.appModes = getAppModes();
+    $scope.updateProfiles();
     $timeout(() => window.startupCompleted = true);
     errorService.try(handleArgs);
 });

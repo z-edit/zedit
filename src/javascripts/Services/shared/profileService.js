@@ -6,17 +6,17 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
     // helper functions
     let getProfile = name => profiles.findByKey('name', name);
 
-    let getDefaultBackground = game => {
-        let imagesDir = fh.appDir.cwd('app', 'images'),
-            backgroundPath = imagesDir.path('backgrounds', `${game.name}.jpg`)
-        return { url: fh.pathToFileUrl(backgroundPath) };
-    };
-
     let getGame = function(gameMode) {
         return xelib.games.findByKey('mode', gameMode);
     };
 
     // public api
+    this.getDefaultBackground = game => {
+        let imagesDir = fh.appDir.cwd('app', 'images'),
+            backgroundPath = imagesDir.path('backgrounds', `${game.name}.jpg`)
+        return { url: fh.pathToFileUrl(backgroundPath) };
+    };
+
     this.validateProfile = function(profile) {
         let game = getGame(profile.gameMode),
             exePath = fh.path(profile.gamePath, game.exeName);
@@ -33,11 +33,12 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
 
     this.loadProfiles = function() {
         profiles = fh.loadJsonFile(profilesPath) || [];
+        service.detectMissingProfiles();
         profiles.forEach(profile => {
             service.validateProfile(profile);
             if (profile.background) return;
             let game = xelib.games[profile.gameMode];
-            profile.background = getDefaultBackground(game);
+            profile.background = service.getDefaultBackground(game);
         });
     };
 
@@ -57,7 +58,7 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
             gameMode: game.mode,
             gamePath: gamePath,
             language: 'English',
-            background: getDefaultBackground(game)
+            background: service.getDefaultBackground(game)
         }
     };
 
