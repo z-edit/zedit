@@ -28,10 +28,10 @@ JSON structure which serves as the base rule for all plugins being patched.
 - `updated` - Date the rule was last updated.
 - `records` - Object containing properties corresponding to rules associated with different records.
   - `[signature]` - Contains an object which describes how to resolve conflicts in records with signature `signature`.
-    - `process` - Whether or not the record should be processed.
-    - `deletions` - Whether or not deletions should be forwarded.
-    - `entity` - Whether or not the record should be treated as a single entity.
-    - `priority` - The priority offset for changes.
+    - `process` - Whether or not the record should be processed. (default true)
+    - `deletions` - Whether or not deletions should be forwarded. (default false)
+    - `overwrite` - Whether or not changes should be merged.  (default false)
+    - `priority` - The priority offset for changes. (default 0)
     - `groups` - Array of element group rules.
       - `name` - Name of the element group.
       - `description` - Description for the element group.
@@ -40,7 +40,7 @@ JSON structure which serves as the base rule for all plugins being patched.
     - `elements` - Array of element rules in sort order
       - `name` - Name of the element (used for display purposes only)
       - `process` - Whether or not the element should be processed.
-      - `entity` - Whether or not the element should be treated as a single entity.
+      - `overwrite` - Whether or not changes should be merged.
       - `deletions` - Whether or not deletions should be forwarded.
       - `priority` - The priority offset for changes.
       - `elements` - Array of child elements in sort order
@@ -91,36 +91,3 @@ TODO
     - `path` - The local path to the element change.
     - `type` - The type of change.  Can be: `Created`, `Removed`, or `Changed`.
     - `value` - The string value to apply for the change.
-
-## Merging differences
-Assuming all plugins use the same resolution rules, when merging differences in a given override record we can ignore previous overrides and skip their processing.  We only need to process the final "leaves" of the record tree relative to the root.  E.g.
-
-```
-                  A
-                 / \
-                /   \
-               B     C
-              /     / \
-             /     /   \
-            /     /     \
-           D     E       F
-          / \             \
-         /   \             \
-        /     \             \
-       G       H             I
-                            / \
-                           /   \
-                          /     \
-                         J       K
-                          \     /
-                           \   /
-                            \ /
-                             L
-```
-
-We only need to process:
-
-- `E` relative to `A`
-- `G` relative to `A`
-- `H` relative to `A`
-- `L` relative to `A`

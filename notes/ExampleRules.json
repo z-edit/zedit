@@ -15,7 +15,7 @@
           "name": "EDID - Editor ID",
           "process": true
         }
-      ],
+      ]
     },
     "ARMO": {
       "process": true,
@@ -27,7 +27,7 @@
           "process": true,
           "merge": true
         }
-      ],
+      ]
     },
     "WEAP": {
       "process": true,
@@ -83,7 +83,7 @@
             }
           ]
         }
-      ],
+      ]
     },
     "NPC_": {
       "process": true,
