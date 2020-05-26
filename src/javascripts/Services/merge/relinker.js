@@ -2,7 +2,7 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     let {log, warn, progress} = progressLogger,
         opcodes = require('pex-parser/src/opcodes.js');
 
-    const CALLMETHOD = opcodes.findByKey('name', 'callmethod');
+    const CALLSTATIC = opcodes.findByKey('name', 'callstatic');
 
     let getMergedPlugins = function(merges) {
         let mergedPlugins = {};
@@ -51,17 +51,17 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
         let functions = pexService.getFunctions(script);
         functions.forEach(fn => {
             fn.instructions.forEach(n => {
-                if (n.op !== CALLMETHOD.code) return;
+                if (n.op !== CALLSTATIC.code) return;
                 let methodName = resolveString(script, n.arguments[1]);
                 if (methodName !== 'GetFormFromFile') return;
-                let filename = resolveString(script, n.arguments[3]);
+                let filename = resolveString(script, n.arguments[5]);
                 log(`Found GetFormFromFile call targetting ${filename}`, true);
                 if (!fidMap.hasOwnProperty(filename)) return;
-                let oldFormId = xelib.Hex(n.arguments[2].data, 6),
+                let oldFormId = xelib.Hex(n.arguments[4].data, 6),
                     newFormId = fidMap[filename][oldFormId];
                 if (!newFormId) return log(`Form ID ${oldFormId} not renumbered`);
                 log(`Changing Form ID from ${oldFormId} to ${newFormId}`);
-                n.arguments[2].data = parseInt(newFormId, 16);
+                n.arguments[4].data = parseInt(newFormId, 16);
             });
         });
     };
