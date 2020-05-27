@@ -33,7 +33,7 @@ ngapp.service('seqService', function(progressLogger) {
             if (!isSEQ(qust)) return;
             let fid = xelib.GetFormID(qust, true);
             if (masterIsMerged(qust, merge)) {
-                fid = fid & 0x00FFFFFF | masterCount << 24;
+                fid = fid % 0x1000000 + masterCount * 0x1000000;
             } else if (masterIsSEQ(qust)) return;
             formIds.push(fid);
         });
