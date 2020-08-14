@@ -7,7 +7,7 @@ ngapp.run(function(recordFilterService) {
             return obj;
         }, {});
 
-    recordFilterService.addFilter('Conflict Status', (path = '') => Object.Assign({
+    recordFilterService.addFilter('Conflict Status', (path = '') => Object.assign({
         type: 'Conflict Status',
         path: path,
         conflictAllOptions: xelib.conflictAll,
