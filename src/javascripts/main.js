@@ -12,6 +12,7 @@ global.env = require('./env');
 global.argv = process.argv;
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
+let webPreferences = { nodeIntegration: true, contextIsolation: false, enableRemoteModule: true };
 
 let logger = new Logger();
 logger.init('main');
@@ -70,7 +71,7 @@ let openMainWindow = function() {
         frame: false,
         show: false,
         backgroundColor: '#555',
-        webPreferences: { nodeIntegration: true }
+        webPreferences
     });
     logger.info('Main window created');
     logger.info('Loading application...');
@@ -103,7 +104,7 @@ let openProgressWindow = function() {
         minimizable: false,
         resizable: false,
         movabale: false,
-        webPreferences: { nodeIntegration: true }
+        webPreferences
     });
     progressWindow.hide();
     loadPage(progressWindow, 'progress.html');
@@ -129,6 +130,7 @@ let crashHandler = function()  {
 };
 
 let createWindows = function() {
+    app.allowRendererProcessReuse = false;
     logger.info('Creating windows');
     openMainWindow();
     mainWindow.webContents.on('crash', crashHandler);
