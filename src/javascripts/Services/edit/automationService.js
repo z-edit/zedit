@@ -43,6 +43,22 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
         }
     };
 
+    let setSearchResults = function(targetScope) {
+        return function(results) {
+            xelib.OutsideHandleGroup(() => {
+                try {
+                    targetScope.$root.$broadcast('searchResults', {
+                        results,
+                        scope: 'All files',
+                        searchOptions: { nodes: [] }
+                    });
+                } catch (x) {
+                    logger.error(`Failed to set search results, ${x.message}`);
+                }
+            });
+        }
+    };
+
     let showProgress = function(progress) {
         keepOpen = progress.determinate;
         progressService.showProgress(progress);
@@ -53,6 +69,7 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
             NavigateToElement: navigateToElement(targetScope),
             GetSelectedNodes: getSelectedNodes(targetScope),
             GetSelectedRecords: getSelectedRecords(targetScope),
+            SetSearchResults: setSearchResults(targetScope),
             progressService: { showProgress },
             log: logger.log,
             info: logger.info,
