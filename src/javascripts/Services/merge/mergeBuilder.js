@@ -21,7 +21,9 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
     let storePluginHandles = function(merge) {
         merge.plugins.forEach(plugin => {
             plugin.handle = xelib.FileByName(plugin.filename);
+            plugin.loadOrder = xelib.GetFileLoadOrder(plugin.handle)
         });
+        merge.plugins.sortOnKey('loadOrder');
     };
 
     let buildReferences = function(merge) {
