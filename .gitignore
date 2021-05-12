@@ -32,3 +32,4 @@ temp/
 build/config\.gypi
 cache/pluginDiffs/
 patches/New Patch/
+AllRecords.esp/
