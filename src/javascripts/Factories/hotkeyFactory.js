@@ -39,6 +39,7 @@ ngapp.service('hotkeyFactory', function() {
     };
 
     this.editViewHotkeys = {};
+    this.mergeViewHotkeys = {};
 
     this.paneHotkeys = {
         tab: [{
