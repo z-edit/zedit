@@ -12,7 +12,7 @@ global.env = require('./env');
 global.argv = process.argv;
 
 /*Enable debugger like WebStrom to connect to zEdit*/
-if(env.debugger || process.argv.includes('--debugger'))
+if (env.debugger || process.argv.includes('--debugger'))
     app.commandLine.appendSwitch('remote-debugging-port', '9222');
 
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;

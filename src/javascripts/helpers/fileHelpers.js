@@ -68,7 +68,7 @@ fh.deleteEmptyFolders = function(folder) {
 };
 
 fh.delete = function(path) {
-    if(!fs.existsSync(path)) return;
+    if (!fs.existsSync(path)) return;
     let isDir = fs.lstatSync(path).isDirectory();
     if (!isDir) return fs.unlinkSync(path);
     fs.readdirSync(path).forEach(file => {
