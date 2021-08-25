@@ -33,8 +33,12 @@
         <td>Disables transparency for the progress window.  Use this if you have window transparency disabled or if your OS does not support window transparency.</td>
     </tr>
     <tr>
-        <td class="nowrap"><code>--inspector-fix</code></td>
-        <td>Makes the progress window non-modal, allowing you to interact with the main application window and the inspector when it is embedded in the main application window.  This argument is deprecated and may be removed in a future release.  (detach the inspector to a separate window instead)</td>
+        <td class="nowrap"><code>--debug-progress</code></td>
+        <td>Makes the progress window non-modal and fully interactable, allowing you to interact with the main application window and the inspector when it is embedded in the main application window.  Generally it is recommended to just detach the inspector to a separate window instead of using this argument, but you can use this option if you encounter issues related to the progress window.</td>
+    </tr>
+    <tr>
+        <td class="nowrap"><code>--external-debugger</code></td>
+        <td>Opens port 9222 on localhost for debugging. You can now use an external debugger like VS Code and WebStorm (<a href="https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients">Clients</a>).</td>
     </tr>
     </tbody>
 </table>

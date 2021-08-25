@@ -91,24 +91,23 @@ let openMainWindow = function() {
 
 let openProgressWindow = function() {
     let t = !process.argv.includes('--disable-transparency'),
-        m = !process.argv.includes('--inspector-fix');
+        debugProgress = process.argv.includes('--debug-progress');
     logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
     logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
 
-    let debug = env.debug_process || process.argv.includes('--debug-process');
     let progressWindowOptions = {
         title: "zEdit Progress",
-        modal: m,
+        modal: !debugProgress,
         show: true,
-        frame: debug,
+        frame: debugProgress,
         closable: false,
         transparent: t,
         focusable: true,
-        maximizable: debug,
-        minimizable: debug,
-        resizable: debug,
-        movabale: debug,
+        maximizable: debugProgress,
+        minimizable: debugProgress,
+        resizable: debugProgress,
+        movabale: debugProgress,
         webPreferences: {nodeIntegration: true}
     };
     if (debug) {
