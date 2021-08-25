@@ -34,6 +34,7 @@
     "rebuild": "electron-rebuild",
     "prerelease": "gulp build --env=production",
     "start": "gulp start",
+    "start-debug": "gulp start-debug",
     "pack": "electron-builder --dir",
     "release": "electron-builder --x64 -p never"
   },
