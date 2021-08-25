@@ -39,3 +39,7 @@ Gruntfile.js
 # misc
 *.gz
 *.md
+
+# xelib
+*.Hardcoded.dat
+XEditLib.dll
