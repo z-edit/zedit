@@ -1,8 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const sass = require('gulp-sass');
-const watch = require('gulp-watch');
+const sass = require('gulp-sass')(require('sass'));
 const batch = require('gulp-batch');
 const plumber = require('gulp-plumber');
 const wait = require('gulp-wait');
@@ -52,10 +51,10 @@ gulp.task('watch', function() {
         };
     };
 
-    watch('src/**/*.js', batch(function (events, done) {
+    gulp.watch('src/**/*.js', batch(function (events, done) {
         gulp.start('bundle', beepOnError(done));
     }));
-    watch('src/**/*.scss', batch(function (events, done) {
+    gulp.watch('src/**/*.scss', batch(function (events, done) {
         gulp.start('sass', beepOnError(done));
     }));
 });
