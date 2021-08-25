@@ -11,10 +11,6 @@ import Logger from './helpers/logger.js';
 global.env = require('./env');
 global.argv = process.argv;
 
-/*Enable debugger like WebStrom to connect to zEdit*/
-if (env.debugger || process.argv.includes('--debugger'))
-    app.commandLine.appendSwitch('remote-debugging-port', '9222');
-
 let mainWindow, progressWindow, showProgressTimeout, lastProgressMessage;
 let webPreferences = { nodeIntegration: true, contextIsolation: false, enableRemoteModule: true };
 
@@ -28,6 +24,12 @@ logger.info(`Using arch ${process.arch}`);
 if (env.name !== 'production') {
     let userDataPath = app.getPath('userData');
     app.setPath('userData', `${userDataPath} (${env.name})`);
+}
+
+// external debugger support
+if (env.externalDebugger || process.argv.includes('--external-debugger')) {
+    app.commandLine.appendSwitch('remote-debugging-port', '9222');
+    logger.info('Remote debugging enabled on port 9222.');
 }
 
 let getPageUrl = function(page) {

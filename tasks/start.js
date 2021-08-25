@@ -31,7 +31,7 @@ gulp.task('start-debug', gulp.series(
     'build',
     gulp.parallel(
         'watch',
-        getApp(["-dev", "--debugger", "--debug-process"])
+        getApp(["-dev", "--external-debugger", "--debug-progress"])
     )
 ));
 
