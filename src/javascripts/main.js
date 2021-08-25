@@ -95,41 +95,25 @@ let openProgressWindow = function() {
     logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
     logger.info('Creating progress window...');
 
-    let progressWindowOptions;
-    // Added Argument so that the process window doesn't block the main window anymore -> makes ufp debugging easier
-    if (env.debug_process || process.argv.includes('--debug-process'))
-        progressWindowOptions = {
-            width: 900,
-            height: 1000,
-            title: "zEdit Progress",
-            modal: m,
-            show: true,
-            frame: true,
-            closable: false,
-            transparent: t,
-            focusable: true,
-            maximizable: true,
-            minimizable: true,
-            resizable: true,
-            movabale: true,
-            webPreferences: {nodeIntegration: true}
-        };
-    else
-        progressWindowOptions = {
-            parent: mainWindow,
-            title: "zEdit Progress",
-            modal: m,
-            show: true,
-            frame: false,
-            closable: false,
-            transparent: t,
-            focusable: true,
-            maximizable: false,
-            minimizable: false,
-            resizable: false,
-            movabale: false,
-            webPreferences: {nodeIntegration: true}
-        };
+    let debug = env.debug_process || process.argv.includes('--debug-process');
+    let progressWindowOptions = {
+        title: "zEdit Progress",
+        modal: m,
+        show: true,
+        frame: debug,
+        closable: false,
+        transparent: t,
+        focusable: true,
+        maximizable: debug,
+        minimizable: debug,
+        resizable: debug,
+        movabale: debug,
+        webPreferences: {nodeIntegration: true}
+    };
+    if (debug) {
+        progressWindowOptions.width = 900;
+        progressWindowOptions.height = 1000;
+    }
 
     progressWindow = new BrowserWindow(progressWindowOptions);
     progressWindow.hide();
