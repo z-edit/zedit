@@ -55,11 +55,13 @@ ngapp.service('hotkeyService', function(hotkeyFactory) {
 
     this.buildOnKeyDown = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}Hotkeys`];
+        if (!hotkeys) return;
         scope[label] = keyEventHandler(scope, hotkeys);
     };
 
     this.buildOnKeyUp = function(scope, label, view) {
         let hotkeys = hotkeyFactory[`${view}HotkeysUp`];
+        if (!hotkeys) return;
         scope[label] = keyEventHandler(scope, hotkeys);
     };
 });

@@ -1,6 +1,5 @@
 import 'angular';
 import 'angular-ui-router';
-import 'ui-router-extras';
 import 'angular-spinner';
 import 'angular-color-picker';
 import 'angular-elastic-input';
@@ -58,8 +57,8 @@ try {
 
 // set up angular application
 const ngapp = angular.module('zedit', [
-    'ui.router', 'ct.ui.router.extras', 'angularSpinner', 'vs-repeat',
-    'mp.colorPicker', 'puElasticInput', 'hc.marked', 'luegg.directives'
+    'ui.router', 'angularSpinner', 'vs-repeat', 'mp.colorPicker',
+    'puElasticInput', 'hc.marked', 'luegg.directives'
 ]);
 
 ngapp.config(function($urlMatcherFactoryProvider, $compileProvider) {

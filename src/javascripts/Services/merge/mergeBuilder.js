@@ -21,7 +21,9 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
     let storePluginHandles = function(merge) {
         merge.plugins.forEach(plugin => {
             plugin.handle = xelib.FileByName(plugin.filename);
+            plugin.loadOrder = xelib.GetFileLoadOrder(plugin.handle)
         });
+        merge.plugins.sortOnKey('loadOrder');
     };
 
     let buildReferences = function(merge) {
@@ -52,6 +54,9 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
 
     let removeOldMergeFiles = function(merge) {
         progressService.progressMessage('Deleting old merge files');
+        let folderPath = fh.path(merge.dataPath, `merge - ${merge.name}`);
+        if (!fh.directoryExists(folderPath))
+            throw new Error('The merge destination folder is not empty and does not appear to have been used to build this merge.  Please select a different folder or clear it manually.  ' + merge.dataPath);
         fh.delete(merge.dataPath);
     };
 

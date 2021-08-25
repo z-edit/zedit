@@ -121,7 +121,7 @@ ngapp.controller('recordViewController', function($scope, $element, $timeout, ht
 
     $scope.releaseHandles = function(oldValue) {
         xelib.Release(oldValue);
-        xelib.ReleaseNodes($scope.virtualNodes);
+        if ($scope.virtualNodes) xelib.ReleaseNodes($scope.virtualNodes);
         $scope.overrides.forEach(xelib.Release);
         $scope.overrides = [];
     };
