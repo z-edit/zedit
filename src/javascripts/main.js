@@ -95,7 +95,7 @@ let openProgressWindow = function() {
     let t = !process.argv.includes('--disable-transparency'),
         debugProgress = process.argv.includes('--debug-progress');
     logger.info(`Window transparency is ${t ? 'en' : 'dis'}abled`);
-    logger.info(`Progress window is${m ? ' not ' : ' '}modal`);
+    logger.info(`Progress window is${debugProgress ? ' ' : ' not '}modal`);
     logger.info('Creating progress window...');
 
     let progressWindowOptions = {
@@ -112,7 +112,7 @@ let openProgressWindow = function() {
         movabale: debugProgress,
         webPreferences: {nodeIntegration: true}
     };
-    if (debug) {
+    if (debugProgress) {
         progressWindowOptions.width = 900;
         progressWindowOptions.height = 1000;
     }
