@@ -26,6 +26,22 @@ fh.path = jetpack.path;
 // log app directory for reference
 console.log('App directory: ' + fh.appPath);
 
+fh.directoryExists = function(path) {
+    try {
+        return jetpack.exists(path) === 'dir';
+    } catch (x) {
+        return false;
+    }
+};
+
+fh.fileExists = function(path) {
+    try {
+        return jetpack.exists(path) === 'file';
+    } catch (x) {
+        return false;
+    }
+};
+
 fh.loadJsonFile = function(filePath) {
     if (jetpack.exists(filePath) === 'file')
         return jetpack.read(filePath, 'json');
