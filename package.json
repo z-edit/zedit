@@ -72,7 +72,7 @@
     "gulp-batch": "^1.0.5",
     "gulp-include": "^2.3.1",
     "gulp-plumber": "^1.2.0",
-    "gulp-rollup": "^2.16.2",
+    "gulp-rollup": "^2.17.0",
     "gulp-sass": "^5.0.0",
     "gulp-util": "^3.0.6",
     "gulp-wait": "0.0.2",
