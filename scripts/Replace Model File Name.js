@@ -1,8 +1,8 @@
 /* This script replaces the substrings in the model path string. */
 
 /* You can change this variables */
-const replaceWhat= 'armor'; // replace what substring
-const replaceWith = 'armor'; // replace with substring
+const replaceWhat= 'armor\\'; // replace what substring
+const replaceWith = 'armor\\weapon'; // replace with substring
 const isFirstEntryOnly = true; // change only the first found replaceWhat substring?
 const isSkipExistence = false; // skip checking for replaceWith substring existence in model path?
 // paths to model to be changed
