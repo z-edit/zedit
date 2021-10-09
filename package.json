@@ -65,6 +65,7 @@
     "xelib": "github:z-edit/xelib"
   },
   "devDependencies": {
+    "browser-sync": "2.27.5",
     "electron": "^12.0.7",
     "electron-builder": "^22.11.7",
     "electron-rebuild": "^1.11.0",
