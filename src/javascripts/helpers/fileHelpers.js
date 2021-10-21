@@ -184,7 +184,7 @@ fh.getRegistryValues = function(hkey, path) {
 
 // helper function for selecting a directory
 fh.selectDirectory = function(title, defaultPath) {
-    let selection = remote.dialog.showOpenDialog({
+    let selection = remote.dialog.showOpenDialogSync({
         title: title,
         defaultPath: defaultPath,
         properties: ['openDirectory']
@@ -193,7 +193,7 @@ fh.selectDirectory = function(title, defaultPath) {
 };
 
 fh.selectFile = function(title, defaultPath, filters = []) {
-    let selection = remote.dialog.showOpenDialog({
+    let selection = remote.dialog.showOpenDialogSync({
         title: title,
         defaultPath: defaultPath,
         filters: filters,
