@@ -24,6 +24,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     // helper variables
     let prevIndex = -1,
+        firstFilteredIndex = -1,
         eventListeners = {
             click: e => $scope.$apply(() => $scope.onParentClick(e)),
             keydown: e => $scope.$apply(() => {
@@ -220,15 +221,23 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
-    $scope.filterChanged = function() {
+    $scope.filterChanged = function(isNew = true) {
         if (!$scope.filterItems) return;
-        let index = $scope.items.findIndex(item => {
+        let index = $scope.items.findIndex((item, i) => {
+            // Skip items that are before the previously selected index.
+            if (!isNew && i <= prevIndex) return false;
+
+            // Find the next index such that all filters are satisfied.
             return $scope.filterItems.reduce((b, f) => {
                 return b && f.filter(item, f.text);
             }, true);
         });
-        if (index === -1) return;
+        if (index === -1) {
+            if (isNew) return;
+            index = firstFilteredIndex;
+        }
         $scope.selectItem({}, index);
+        if (isNew) firstFilteredIndex = index;
     };
 
     $scope.$on('destroy', () => toggleEventListeners(false));
