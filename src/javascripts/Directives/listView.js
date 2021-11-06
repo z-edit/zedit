@@ -51,6 +51,12 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
             index === dragData.index;
     };
 
+    let checkFilters = function(item) {
+        return $scope.filterItems.reduce((b, f) => {
+            return b && f.filter(item, f.text);
+        }, true);
+    }
+
     // inherited variables and functions
     $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
@@ -223,14 +229,19 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     $scope.filterChanged = function(isNew = true) {
         if (!$scope.filterItems) return;
+
+        // If the current selection matches all filters, just keep it selected
+        // even if it's not necessarily the first possible match.
+        let prevMatches = isNew && prevIndex !== -1 && checkFilters($scope.items[prevIndex]);
+
+        // Even if prevMatches is true, still search for the index of the first
+        // match so firstFilteredIndex can be set.
         let index = $scope.items.findIndex((item, i) => {
             // Skip items that are before the previously selected index.
             if (!isNew && i <= prevIndex) return false;
 
             // Find the next index such that all filters are satisfied.
-            return $scope.filterItems.reduce((b, f) => {
-                return b && f.filter(item, f.text);
-            }, true);
+            return checkFilters(item);
         });
         if (index === -1) {
             if (isNew || firstFilteredIndex === -1) {
@@ -240,7 +251,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
             // The end has been reached; cycle back to the start.
             index = firstFilteredIndex;
         }
-        $scope.selectItem({}, index);
+        if (!prevMatches) $scope.selectItem({}, index);
         if (isNew) firstFilteredIndex = index;
     };
 
