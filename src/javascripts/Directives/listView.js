@@ -233,7 +233,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
             }, true);
         });
         if (index === -1) {
-            if (isNew) return;
+            if (isNew || firstFilteredIndex === -1) {
+                firstFilteredIndex = -1;
+                return;
+            }
+            // The end has been reached; cycle back to the start.
             index = firstFilteredIndex;
         }
         $scope.selectItem({}, index);
