@@ -14,6 +14,18 @@ ngapp.directive('listView', function() {
     }
 });
 
+ngapp.filter('listViewFilter', function() {
+    return function(items, filterItems, filterOptions) {
+        if (!filterOptions.onlyShowMatches) return items;
+        if (!filterItems) return items;
+        return items.filter(item => {
+            return filterItems.reduce((b, f) => {
+                return b && f.filter(item, f.text);
+            }, true);
+        });
+    }
+});
+
 ngapp.controller('listViewController', function($scope, $timeout, $element, hotkeyService, contextMenuService, contextMenuFactory, htmlHelpers) {
     // initialization
     $scope.parent = htmlHelpers.findParent($element[0], el => {
@@ -21,16 +33,43 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     });
 
     $scope.listItems = $element[0].firstElementChild;
+    $scope.filteredItems = $scope.items;
+    $scope.filterOptions = {
+      onlyShowMatches: false
+    };
 
     // helper variables
-    let prevIndex = -1,
-        firstFilteredIndex = -1,
+    let firstFilteredIndex = -1,
         eventListeners = {
             click: e => $scope.$apply(() => $scope.onParentClick(e)),
             keydown: e => $scope.$apply(() => {
                 $scope.items && $scope.onKeyDown(e)
             })
         };
+
+    const prevIndex = {
+        _value: -1,
+        _filteredValue: -1,
+        get value() {
+            return this._value;
+        },
+        get filteredValue() {
+            return this._filteredValue;
+        },
+        set filteredValue(i) {
+            this._filteredValue = i;
+            this._value = i > -1 ? $scope.filteredItems[i].index : -1;
+        }
+    }
+
+    $scope.$watchCollection("filteredItems", function() {
+        if ($scope.filterOptions.onlyShowMatches) {
+            prevIndex.filteredValue = toFilteredIndex(prevIndex.value);
+            firstFilteredIndex = $scope.filteredItems.length > 0 ? 0 : -1;
+        } else {
+            prevIndex.filteredValue = prevIndex.value;
+        }
+    });
 
     // helper functions
     let removeClasses = function(element) {
@@ -57,6 +96,12 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         }, true);
     }
 
+    let toFilteredIndex = function(index) {
+        return $scope.filteredItems.findIndex(item => {
+            return item.index === index;
+        });
+    }
+
     // inherited variables and functions
     $scope.contextMenuItems = contextMenuFactory.checkboxListItems;
     hotkeyService.buildOnKeyDown($scope, 'onKeyDown', 'listView');
@@ -69,12 +114,13 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
 
     $scope.clearSelection = function(resetPrevIndex) {
         $scope.items.forEach(item => item.selected = false);
-        if (resetPrevIndex) prevIndex = -1;
+        if (resetPrevIndex) prevIndex.filteredValue = -1;
     };
 
     $scope.selectAll = function() {
+        if ($scope.filterOptions.onlyShowMatches) $scope.clearSelection(false);
         $scope.items.forEach(item => item.selected = true);
-        prevIndex = $scope.items.length - 1;
+        prevIndex.filteredValue = $scope.filteredItems.length - 1;
     };
 
     $scope.toggleSelected = function(targetValue) {
@@ -107,22 +153,22 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.selectItem = function(e, index, scroll = true) {
-        let item = $scope.items[index];
+        let item = $scope.filteredItems[index];
         if (scroll) $scope.scrollTo(index);
-        if (e.shiftKey && prevIndex > -1) {
-            let start = Math.min(index, prevIndex),
-                end = Math.max(index, prevIndex);
+        if (e.shiftKey && prevIndex.filteredValue > -1) {
+            let start = Math.min(index, prevIndex.filteredValue),
+                end = Math.max(index, prevIndex.filteredValue);
             if (!e.ctrlKey) $scope.clearSelection();
             for (let i = start; i <= end; i++) {
-                $scope.items[i].selected = true;
+                $scope.filteredItems[i].selected = true;
             }
         } else if (e.ctrlKey) {
             item.selected = !item.selected;
-            prevIndex = index;
+            prevIndex.filteredValue = index;
         } else {
             $scope.clearSelection(true);
             item.selected = true;
-            prevIndex = index;
+            prevIndex.filteredValue = index;
         }
     };
 
@@ -138,13 +184,13 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.handleUpArrow = function() {
-        prevIndex = (prevIndex < 1 ? $scope.items.length : prevIndex) - 1;
-        $scope.selectItem({}, prevIndex);
+        prevIndex.filteredValue = (prevIndex.filteredValue < 1 ? $scope.filteredItems.length : prevIndex.filteredValue) - 1;
+        $scope.selectItem({}, prevIndex.filteredValue);
     };
 
     $scope.handleDownArrow = function() {
-        prevIndex = (prevIndex >= $scope.items.length - 1 ? -1 : prevIndex) + 1;
-        $scope.selectItem({}, prevIndex);
+        prevIndex.filteredValue = (prevIndex.filteredValue >= $scope.filteredItems.length - 1 ? -1 : prevIndex.filteredValue) + 1;
+        $scope.selectItem({}, prevIndex.filteredValue);
     };
 
     $scope.onParentClick = function(e) {
@@ -156,7 +202,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.onItemMouseDown = function(e, index) {
-        let item = $scope.items[index];
+        let item = $scope.filteredItems[index];
         if (e.button !== 2 || !item.selected) $scope.selectItem(e, index);
         if (e.button === 2) $scope.showContextMenu(e);
     };
@@ -167,7 +213,7 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
             element: e.target,
             source: $scope.dragType,
             index: index,
-            getItem: () => $scope.items.splice(index, 1)[0]
+            getItem: () => $scope.items.splice($scope.filteredItems[index].index, 1)[0]
         });
         return true;
     };
@@ -196,12 +242,12 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!dragData || dragData.source !== $scope.dragType) return;
         if (onSameItem(dragData, e, index)) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
-            lengthBefore = $scope.items.length,
+            lengthBefore = $scope.filteredItems.length,
             movedItem = dragData.getItem(),
-            adjust = lengthBefore > $scope.items.length && index > dragData.index;
+            adjust = lengthBefore > $scope.filteredItems.length && index > dragData.index;
         removeClasses(e.target);
-        $scope.items.splice(index + after - adjust, 0, movedItem);
-        prevIndex = index + after - adjust;
+        $scope.items.splice($scope.filteredItems[index + after - adjust].index, 0, movedItem);
+        prevIndex.filteredValue = index + after - adjust;
         $scope.$emit('itemsReordered');
         return true;
     };
@@ -230,19 +276,32 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     $scope.filterChanged = function(isNew = true) {
         if (!$scope.filterItems) return;
 
+        if ($scope.filterOptions.onlyShowMatches && !isNew) {
+            // It's not new, so firstFilteredIndex is already set.
+            // The next index doesn't need to be searched for;
+            // it's trivially +1 since only matching items are being shown.
+            if ($scope.filteredItems.length > 0) $scope.handleDownArrow();
+            return;
+        }
+
         // If the current selection matches all filters, just keep it selected
         // even if it's not necessarily the first possible match.
-        let prevMatches = isNew && prevIndex !== -1 && checkFilters($scope.items[prevIndex]);
+        let prevMatches = isNew && prevIndex.filteredValue !== -1 && checkFilters($scope.filteredItems[prevIndex.filteredValue]);
 
-        // Even if prevMatches is true, still search for the index of the first
-        // match so firstFilteredIndex can be set.
-        let index = $scope.items.findIndex((item, i) => {
-            // Skip items that are before the previously selected index.
-            if (!isNew && i <= prevIndex) return false;
+        // When only matches are shown, the first index is trivially 0.
+        // If all items are shown, then it does need to be searched for.
+        let index = $scope.filteredItems.length > 0 ? 0 : -1;
+        if (!$scope.filterOptions.onlyShowMatches) {
+            // Even if prevMatches is true, still search for the index of the first
+            // match so firstFilteredIndex can be set.
+            index = $scope.filteredItems.findIndex((item, i) => {
+                // Skip items that are before the previously selected index.
+                if (!isNew && i <= prevIndex.filteredValue) return false;
 
-            // Find the next index such that all filters are satisfied.
-            return checkFilters(item);
-        });
+                // Find the next index such that all filters are satisfied.
+                return checkFilters(item);
+            });
+        }
         if (index === -1) {
             if (isNew || firstFilteredIndex === -1) {
                 firstFilteredIndex = -1;
@@ -254,6 +313,16 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!prevMatches) $scope.selectItem({}, index);
         if (isNew) firstFilteredIndex = index;
     };
+
+    $scope.onOnlyShowMatchesChanged = function() {
+        // This executes before the filter is updated so that the
+        // firstFilteredIndex is still valid.
+        if (!$scope.filterOptions.onlyShowMatches) {
+            if (firstFilteredIndex > -1) {
+                firstFilteredIndex = $scope.filteredItems[firstFilteredIndex].index;
+            }
+        }
+    }
 
     $scope.$on('destroy', () => toggleEventListeners(false));
 
