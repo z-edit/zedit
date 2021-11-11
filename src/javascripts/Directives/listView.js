@@ -273,20 +273,12 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         return true;
     };
 
-    $scope.filterChanged = function(isNew = true) {
+    $scope.filterChanged = function() {
         if (!$scope.filterItems) return;
-
-        if ($scope.filterOptions.onlyShowMatches && !isNew) {
-            // It's not new, so firstFilteredIndex is already set.
-            // The next index doesn't need to be searched for;
-            // it's trivially +1 since only matching items are being shown.
-            if ($scope.filteredItems.length > 0) $scope.handleDownArrow();
-            return;
-        }
 
         // If the current selection matches all filters, just keep it selected
         // even if it's not necessarily the first possible match.
-        let prevMatches = isNew && prevIndex.filteredValue !== -1 && checkFilters($scope.filteredItems[prevIndex.filteredValue]);
+        let prevMatches = prevIndex.filteredValue !== -1 && checkFilters($scope.filteredItems[prevIndex.filteredValue]);
 
         // When only matches are shown, the first index is trivially 0.
         // If all items are shown, then it does need to be searched for.
@@ -295,24 +287,39 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
             // Even if prevMatches is true, still search for the index of the first
             // match so firstFilteredIndex can be set.
             index = $scope.filteredItems.findIndex((item, i) => {
-                // Skip items that are before the previously selected index.
-                if (!isNew && i <= prevIndex.filteredValue) return false;
-
                 // Find the next index such that all filters are satisfied.
                 return checkFilters(item);
             });
         }
         if (index === -1) {
-            if (isNew || firstFilteredIndex === -1) {
-                firstFilteredIndex = -1;
-                return;
-            }
-            // The end has been reached; cycle back to the start.
-            index = firstFilteredIndex;
+            firstFilteredIndex = -1;
+            return;
         }
         if (!prevMatches) $scope.selectItem({}, index);
-        if (isNew) firstFilteredIndex = index;
+        firstFilteredIndex = index;
     };
+
+    $scope.selectNextFiltered = function() {
+        if (!$scope.filterItems || $scope.filteredItems.length === 0 || firstFilteredIndex === -1) return;
+
+        if ($scope.filterOptions.onlyShowMatches) {
+            // The next index doesn't need to be searched for;
+            // it's trivially +1 since only matching items are being shown.
+            $scope.handleDownArrow();
+            return;
+        }
+
+        let index = $scope.filteredItems.findIndex((item, i) => {
+            // Find the next index such that all filters are satisfied.
+            // Skip items that are at/before the previously selected index.
+            return i > prevIndex.filteredValue && checkFilters(item);
+        });
+
+        // The end has been reached; cycle back to the start.
+        if (index === -1) index = firstFilteredIndex;
+
+        $scope.selectItem({}, index);
+    }
 
     $scope.onOnlyShowMatchesChanged = function() {
         // This executes before the filter is updated so that the

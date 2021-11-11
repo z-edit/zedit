@@ -289,7 +289,7 @@ ngapp.service('hotkeyFactory', function() {
         },
         enter: (scope, e) => {
             e.stopPropagation();
-            scope.filterChanged(false);
+            scope.selectNextFiltered();
         },
         a: [{
             modifiers: ['ctrlKey'],
