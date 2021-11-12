@@ -65,10 +65,16 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     $scope.$watchCollection("filteredItems", function() {
         if ($scope.filterOptions.onlyShowMatches) {
             prevIndex.filteredValue = toFilteredIndex(prevIndex.value);
+
+            // When only matches are shown, the first index is trivially 0.
             firstFilteredIndex = $scope.filteredItems.length > 0 ? 0 : -1;
         } else {
             prevIndex.filteredValue = prevIndex.value;
         }
+
+        // Can't know if the change happened cause of onlyShowMatches or
+        // filteredItems, so call it always.
+        $scope.filterChanged();
     });
 
     // helper functions
@@ -274,29 +280,35 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
     };
 
     $scope.filterChanged = function() {
-        if (!$scope.filterItems) return;
+        let prevMatches = false;
 
-        // If the current selection matches all filters, just keep it selected
-        // even if it's not necessarily the first possible match.
-        let prevMatches = prevIndex.filteredValue !== -1 && checkFilters($scope.filteredItems[prevIndex.filteredValue]);
+        if ($scope.filterOptions.onlyShowMatches) {
+            // When only matches are shown, the first index is trivially 0.
+            firstFilteredIndex = $scope.filteredItems.length > 0 ? 0 : -1;
 
-        // When only matches are shown, the first index is trivially 0.
-        // If all items are shown, then it does need to be searched for.
-        let index = $scope.filteredItems.length > 0 ? 0 : -1;
-        if (!$scope.filterOptions.onlyShowMatches) {
-            // Even if prevMatches is true, still search for the index of the first
-            // match so firstFilteredIndex can be set.
-            index = $scope.filteredItems.findIndex((item, i) => {
-                // Find the next index such that all filters are satisfied.
-                return checkFilters(item);
-            });
+            if (!$scope.filterItems || firstFilteredIndex === -1) return;
+
+            prevMatches = prevIndex.filteredValue !== -1;
+        } else {
+            if (!$scope.filterItems) return;
+
+            firstFilteredIndex = $scope.filteredItems.findIndex(checkFilters);
+            if (firstFilteredIndex === -1) return;
+
+            // If the first index is the previous index, then it's already known
+            // that the previous index is a match.
+            prevMatches = firstFilteredIndex === prevIndex.value || (prevIndex.value !== -1 && checkFilters($scope.items[prevIndex.value]));
         }
-        if (index === -1) {
-            firstFilteredIndex = -1;
-            return;
+
+        // Don't select the item if the previous selection already matches,
+        // or if the found index is already selected.
+        if (!prevMatches && !$scope.filteredItems[firstFilteredIndex].selected) {
+            $scope.selectItem({}, firstFilteredIndex); // This also calls scrollTo.
+        } else {
+            // Even if the selection remains, it may have gone out of view if
+            // onlyShowMatches was toggled.
+            $scope.scrollTo(firstFilteredIndex);
         }
-        if (!prevMatches) $scope.selectItem({}, index);
-        firstFilteredIndex = index;
     };
 
     $scope.selectNextFiltered = function() {
