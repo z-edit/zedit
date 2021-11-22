@@ -249,10 +249,16 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (onSameItem(dragData, e, index)) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
             lengthBefore = $scope.filteredItems.length,
-            movedItem = dragData.getItem(),
+            movedItem = dragData.getItem(), // The item is removed in-place.
             adjust = lengthBefore > $scope.filteredItems.length && index > dragData.index;
         removeClasses(e.target);
-        $scope.items.splice($scope.filteredItems[index + after - adjust].index, 0, movedItem);
+        // Translate the index to the one in the unfiltered items array. If the
+        // destination index is the end of the array, then there won't be an
+        // item at that index within filteredItems. In such case, the translated
+        // index should just be the last index in the items array + 1
+        // i.e. the length of the items array.
+        const spliceStart = index < $scope.filteredItems.length ? $scope.filteredItems[index].index : $scope.items.length;
+        $scope.items.splice(spliceStart + after - adjust, 0, movedItem);
         prevIndex.filteredValue = index + after - adjust;
         $scope.$emit('itemsReordered');
         return true;
