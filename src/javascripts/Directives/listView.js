@@ -248,15 +248,24 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         if (!dragData || dragData.source !== $scope.dragType) return;
         if (onSameItem(dragData, e, index)) return;
         let after = e.offsetY > (e.target.offsetHeight / 2),
-            lengthBefore = $scope.filteredItems.length,
+            // This and adjust cannot use filteredItem's length because that
+            // array will still not be updated yet after getItem is called.
+            lengthBefore = $scope.items.length,
             movedItem = dragData.getItem(), // The item is removed in-place.
-            adjust = lengthBefore > $scope.filteredItems.length && index > dragData.index;
+            adjust = lengthBefore > $scope.items.length && index > dragData.index;
         removeClasses(e.target);
         // Translate the index to the one in the unfiltered items array. If the
         // destination index is the end of the array, then there won't be an
         // item at that index within filteredItems. In such case, the translated
         // index should just be the last index in the items array + 1
         // i.e. the length of the items array.
+        //
+        // It may seem like items.length is wrong to use when onlyShowMatches
+        // is true. However, when it's true, the item at that index will still
+        // exist in filteredItems because the array has not been updated yet to
+        // reflect the deletion caused by getItem(). It does reflect the change
+        // when onlyShowMatches is false because filteredItems then refers to
+        // the same array instance as `items`.
         const spliceStart = index < $scope.filteredItems.length ? $scope.filteredItems[index].index : $scope.items.length;
         $scope.items.splice(spliceStart + after - adjust, 0, movedItem);
         $scope.$emit('itemsReordered');
