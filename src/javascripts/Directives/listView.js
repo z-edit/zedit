@@ -259,8 +259,11 @@ ngapp.controller('listViewController', function($scope, $timeout, $element, hotk
         // i.e. the length of the items array.
         const spliceStart = index < $scope.filteredItems.length ? $scope.filteredItems[index].index : $scope.items.length;
         $scope.items.splice(spliceStart + after - adjust, 0, movedItem);
-        prevIndex.filteredValue = index + after - adjust;
         $scope.$emit('itemsReordered');
+        // Unfortunately, execution order is important here.
+        // This must happen after itemsReordered is handled.
+        // The setter relies on the `index` property of the item being updated.
+        prevIndex.filteredValue = index + after - adjust;
         return true;
     };
 
