@@ -17,23 +17,6 @@
     "description": "Returns true if the `Keywords` array on `record` has an element matching `value`."
   },
   {
-    "name": "GetKeyword",
-    "args": [
-      {
-        "name": "record",
-        "type": "handle"
-      },
-      {
-        "name": "value",
-        "type": "string"
-      }
-    ],
-    "returns": {
-      "type": "handle"
-    },
-    "description": "Finds the first item in the `Keywords` array on `record` matching `value`.  Returns a handle to the element if found, else returns `0`."
-  },
-  {
     "name": "AddKeyword",
     "args": [
       {
@@ -80,23 +63,6 @@
       "type": "boolean"
     },
     "description": "Returns true if the `FormIDs` array on `record` has an element matching `value`."
-  },
-  {
-    "name": "GetFormID",
-    "args": [
-      {
-        "name": "record",
-        "type": "handle"
-      },
-      {
-        "name": "value",
-        "type": "string"
-      }
-    ],
-    "returns": {
-      "type": "handle"
-    },
-    "description": "Finds the first item in the `FormIDs` array on `record` matching `value`.  Returns a handle to the element if found, else returns `0`."
   },
   {
     "name": "AddFormID",
@@ -147,23 +113,6 @@
     "description": "Returns true if the `Music Tracks` array on `record` has an element matching `value`."
   },
   {
-    "name": "GetMusicTrack",
-    "args": [
-      {
-        "name": "record",
-        "type": "handle"
-      },
-      {
-        "name": "value",
-        "type": "string"
-      }
-    ],
-    "returns": {
-      "type": "handle"
-    },
-    "description": "Finds the first item in the `Music Tracks` array on `record` matching `value`.  Returns a handle to the element if found, else returns `0`."
-  },
-  {
     "name": "AddMusicTrack",
     "args": [
       {
@@ -212,23 +161,6 @@
     "description": "Returns true if the `Footstep Sets` array on `record` has an element matching `value`."
   },
   {
-    "name": "GetFootstep",
-    "args": [
-      {
-        "name": "record",
-        "type": "handle"
-      },
-      {
-        "name": "value",
-        "type": "string"
-      }
-    ],
-    "returns": {
-      "type": "handle"
-    },
-    "description": "Finds the first item in the `Footstep Sets` array on `record` matching `value`.  Returns a handle to the element if found, else returns `0`."
-  },
-  {
     "name": "AddFootstep",
     "args": [
       {
@@ -275,23 +207,6 @@
       "type": "boolean"
     },
     "description": "Returns true if the `Additional Races` array on `record` has an element matching `value`."
-  },
-  {
-    "name": "GetAdditionalRace",
-    "args": [
-      {
-        "name": "record",
-        "type": "handle"
-      },
-      {
-        "name": "value",
-        "type": "string"
-      }
-    ],
-    "returns": {
-      "type": "handle"
-    },
-    "description": "Finds the first item in the `Additional Races` array on `record` matching `value`.  Returns a handle to the element if found, else returns `0`."
   },
   {
     "name": "AddAdditionalRace",
