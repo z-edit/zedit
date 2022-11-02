@@ -1,4 +1,4 @@
-ngapp.service('nexusModManagerService', function($rootScope, fileSearchService, profileService) {
+ngapp.service('nexusModManagerService', function($rootScope, fileSearchService, gameService) {
     let service = this;
 
     this.getModManagerPath = function() {
@@ -16,7 +16,7 @@ ngapp.service('nexusModManagerService', function($rootScope, fileSearchService, 
 
     this.getModsPath = function(managerPath) {
         if (!managerPath) return '';
-        let game = profileService.getGame($rootScope.profile.gameMode),
+        let game = gameService.getGame($rootScope.profile.gameMode),
             gameName = game.shortName,
             modsPath = `${managerPath}\\${gameName}\\Mods\\VirtualInstall`;
         return fh.jetpack.exists(modsPath) ? modsPath : '';

@@ -17,6 +17,10 @@ ngapp.service('gameService', function() {
         return includesIgnoreCase(archives[service.appName], filename);
     };
 
+    this.getGame = function(gameMode) {
+        return xelib.games.findByKey('mode', gameMode);
+    };
+
     Object.defineProperty(this, 'dataPath', {
         get: function() {
             if (!dataPath) dataPath = xelib.GetGlobal('DataPath');

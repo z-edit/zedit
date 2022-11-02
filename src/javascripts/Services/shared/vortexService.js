@@ -1,4 +1,4 @@
-ngapp.service('vortexService', function($rootScope, fileSearchService, profileService) {
+ngapp.service('vortexService', function($rootScope, fileSearchService, gameService) {
     let service = this;
 
     this.getModManagerPath = function() {
@@ -15,7 +15,7 @@ ngapp.service('vortexService', function($rootScope, fileSearchService, profileSe
     };
 
     this.getModsPath = function() {
-        let game = profileService.getGame($rootScope.profile.gameMode),
+        let game = gameService.getGame($rootScope.profile.gameMode),
             gameName = game.shortName,
             documentsPath = `${process.env.USERPROFILE}\\My Documents`,
             modsPath = `${documentsPath}\\mods\\${gameName}`;

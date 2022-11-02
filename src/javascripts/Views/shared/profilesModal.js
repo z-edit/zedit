@@ -1,4 +1,4 @@
-ngapp.controller('profilesModalController', function ($scope, profileService) {
+ngapp.controller('profilesModalController', function ($scope, profileService, gameService) {
     // initialize scope variables
     $scope.games = xelib.games;
     $scope.languages = profileService.languages;
@@ -39,7 +39,7 @@ ngapp.controller('profilesModalController', function ($scope, profileService) {
     };
 
     $scope.browse = function(profile) {
-        let game = profileService.getGame(profile.gameMode),
+        let game = gameService.getGame(profile.gameMode),
             prompt = `Select your ${game.name} directory`,
             newGamePath = fh.selectDirectory(prompt, profile.gamePath);
         if (!newGamePath) return;

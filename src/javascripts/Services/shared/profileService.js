@@ -1,4 +1,4 @@
-ngapp.service('profileService', function($rootScope, settingsService, xelibService) {
+ngapp.service('profileService', function($rootScope, settingsService, xelibService, gameService) {
     let service = this,
         profilesPath = fh.path(fh.userPath, 'profiles.json'),
         localesPath = fh.path(fh.appPath, 'locales.json');
@@ -75,12 +75,8 @@ ngapp.service('profileService', function($rootScope, settingsService, xelibServi
         service.profiles.unshift(defaultProfile);
     };
 
-    this.getGame = function(gameMode) {
-        return xelib.games.findByKey('mode', gameMode);
-    };
-
     this.validateProfile = function(profile) {
-        let game = service.getGame(profile.gameMode),
+        let game = gameService.getGame(profile.gameMode),
             exePath = fh.path(profile.gamePath, game.exeName);
         profile.valid = fh.jetpack.exists(exePath) === 'file';
     };

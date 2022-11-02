@@ -6,7 +6,7 @@ ngapp.config(['$stateProvider', function ($stateProvider) {
     });
 }]);
 
-ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, profileService, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
+ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $element, hotkeyService, pluginErrorService, errorMessageService, errorTypeFactory, errorCacheService, gameService) {
     // helper functions
     let updatePluginsToCheckCount = function() {
         $scope.pluginsToCheckCount = $scope.plugins.filter(plugin => {
@@ -126,7 +126,7 @@ ngapp.controller('cleanController', function ($rootScope, $scope, $timeout, $ele
     };
 
     $scope.ignorePlugin = function(filename) {
-        let game = profileService.getGame($rootScope.profile.gameMode),
+        let game = gameService.getGame($rootScope.profile.gameMode),
             gameEsmFilename = `${game.shortName}.esm`;
         return filename.endsWith('.dat') || (filename === gameEsmFilename);
     };
