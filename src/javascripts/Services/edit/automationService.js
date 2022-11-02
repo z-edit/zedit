@@ -21,6 +21,25 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
         };
     };
 
+    let getRecordViewNodes = function(targetScope) {
+        let {linkedRecordView} = targetScope.view;
+        let recordViewScope = linkedRecordView && linkedRecordView.scope;
+        return function() {
+            if (!recordViewScope) return [];
+            if (!recordViewScope.tree) return [];
+            return recordViewScope.tree.map(node => ({
+                label: node.label,
+                handles: node.handles.slice(),
+                cells: node.cells.map(cell => ({
+                    value: cell.value,
+                    class: cell.class
+                })),
+                value_type: node.value_type,
+                class: node.class
+            }));
+        }
+    };
+
     let getSelectedRecords = function(targetScope) {
         return function(sig) {
             if (!targetScope.selectedNodes) return [];
@@ -70,6 +89,7 @@ ngapp.service('automationService', function($rootScope, $timeout, interApiServic
             GetSelectedNodes: getSelectedNodes(targetScope),
             GetSelectedRecords: getSelectedRecords(targetScope),
             SetSearchResults: setSearchResults(targetScope),
+            GetRecordViewNodes: getRecordViewNodes(targetScope),
             progressService: { showProgress },
             log: logger.log,
             info: logger.info,
