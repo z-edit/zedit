@@ -19,12 +19,19 @@ ngapp.run(function(mergeAssetService, assetHelpers, bsaHelpers, bsaBuilder, prog
         "Extract": extractAction
     };
 
+    let hasBsa = function(archives, bsaPath) {
+        return archives.some(archive => {
+            return archive.filePath === bsaPath;
+        });
+    };
+
     mergeAssetService.addHandler({
         label: 'Bethesda Archive Files',
         priority: -1,
         get: function(merge) {
             forEachPlugin(merge, (plugin, folder) => {
                 findBsaFiles(plugin, folder).forEach(bsaPath => {
+                    if (hasBsa(merge.archives, bsaPath)) return;
                     merge.archives.push({
                         plugin: plugin,
                         filePath: bsaPath,
