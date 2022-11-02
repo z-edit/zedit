@@ -168,6 +168,8 @@ fh.getDirectories = function(path) {
 
 fh.getFiles = function(path, options) {
     if (jetpack.exists(path) !== 'dir') return [];
+    if (!options.hasOwnProperty('ignoreCase'))
+        options.ignoreCase = true;
     return jetpack.find(path, options)
         .map(path => jetpack.path(path));
 };
