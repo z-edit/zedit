@@ -47,9 +47,7 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
     };
 
     let isEsm = function(filename) {
-        let expr = /esm/i,
-            ext = fh.getFileExt(filename);
-        return expr.test(ext);
+        return fh.getFileExt(filename).toLowerCase() === 'esm';
     };
 
     let prepareMergedPlugin = function(merge) {
