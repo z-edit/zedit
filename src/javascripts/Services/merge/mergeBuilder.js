@@ -46,10 +46,18 @@ ngapp.service('mergeBuilder', function($q, $rootScope, progressLogger, mergeServ
         }
     };
 
+    let isEsm = function(filename) {
+        let expr = /esm/i,
+            ext = fh.getfileExt(filename);
+        return expr.test(ext);
+    };
+
     let prepareMergedPlugin = function(merge) {
         let filename = getMergeFileName(merge.filename);
         merge.plugin = xelib.AddFile(filename);
         log(`Merging into ${filename}`);
+        if (isEsm(merge.filename))
+            xelib.SetIsESM(merge.plugin, true);
     };
 
     let removeOldMergeFiles = function(merge) {
