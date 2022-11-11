@@ -30,7 +30,7 @@ ngapp.controller('editMergeModalController', function($scope, mergeService, merg
     // event handlers
     $scope.$watch('merge.name', (newVal, oldVal) => {
         let baseName = $scope.merge.filename.slice(0, -4);
-        if (oldVal !== baseName) return;
+        if (newVal === oldVal || oldVal !== baseName) return;
         $scope.merge.filename = `${newVal}.esp`;
     });
 
