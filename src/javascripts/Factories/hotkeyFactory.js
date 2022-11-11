@@ -282,14 +282,15 @@ ngapp.service('hotkeyFactory', function() {
         }]
     };
 
-    let closeFilter = (scope, e) => {
-        e.stopPropagation();
-        scope.toggleFilter(false);
-    };
-
     this.listViewFilterHotkeys = {
-        escape: closeFilter,
-        enter: closeFilter,
+        escape: (scope, e) => {
+            e.stopPropagation();
+            scope.toggleFilter(false);
+        },
+        enter: (scope, e) => {
+            e.stopPropagation();
+            scope.selectNextFiltered();
+        },
         a: [{
             modifiers: ['ctrlKey'],
             callback: (scope, e) => {
