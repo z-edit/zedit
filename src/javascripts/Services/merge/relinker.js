@@ -56,9 +56,10 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
                 if (methodName !== 'GetFormFromFile') return;
                 let filename = resolveString(script, n.arguments[5]);
                 log(`Found GetFormFromFile call targetting ${filename}`, true);
-                if (!fidMap.hasOwnProperty(filename)) return;
+                let mapping = cUtils.findValueInMapByLoweredKey(fidMap, filename);
+                if (!mapping) return;
                 let oldFormId = xelib.Hex(n.arguments[4].data, 6),
-                    newFormId = fidMap[filename][oldFormId];
+                    newFormId = mapping[oldFormId];
                 if (!newFormId) return log(`Form ID ${oldFormId} not renumbered`);
                 log(`Changing Form ID from ${oldFormId} to ${newFormId}`);
                 n.arguments[4].data = parseInt(newFormId, 16);
@@ -69,7 +70,7 @@ ngapp.service('relinker', function(scriptsCache, bsaHelpers, pexService, setting
     let fixStrings = function(script, merges) {
         let mergedPlugins = getMergedPlugins(merges);
         script.stringTable.forEach((str, index) => {
-            let newStr = mergedPlugins[str];
+            let newStr = cUtils.findValueInMapByLoweredKey(mergedPlugins, str);
             if (!newStr) return;
             log(`Changing string ${index} from ${str} to ${newStr}`);
             script.stringTable[index] = newStr;

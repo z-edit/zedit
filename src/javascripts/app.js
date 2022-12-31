@@ -9,6 +9,7 @@ import 'angularjs-scroll-glue';
 import { remote, ipcRenderer, clipboard } from 'electron';
 import jetpack from 'fs-jetpack';
 import fh from './helpers/fileHelpers';
+import cUtils from './helpers/collectionsUtils';
 import Logger from './helpers/logger.js';
 import { Ini } from 'ini-api';
 import buildModuleService from './helpers/moduleService';
