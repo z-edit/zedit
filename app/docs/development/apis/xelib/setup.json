@@ -45,6 +45,14 @@
       {
         "key": "gmFO4",
         "description": "Fallout 4"
+      },
+      {
+        "key": "gmTES5VR",
+        "description": "Skyrim VR"
+      },
+      {
+        "key": "gmFO4VR",
+        "description": "Fallout 4 VR"
       }
     ]
   },
