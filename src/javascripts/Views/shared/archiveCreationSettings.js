@@ -40,8 +40,8 @@ ngapp.run(function($rootScope, settingsService, gameService) {
         if (settings.archiveCreation.initialized) return;
         Object.assign(settings.archiveCreation, {
             initialized: true,
-            createTexturesArchive: gameService.appName === 'SSE',
-            maxSize: (gameService.appName === 'FO4' ? 16 : 2) * GIGABYTE
+            createTexturesArchive: gameService.appName === 'SSE' || gameService.appName === 'TES5VR',
+            maxSize: (gameService.appName === 'FO4' || gameService.appName === 'FO4VR' ? 16 : 2) * GIGABYTE
         });
         settingsService.saveProfileSettings();
     });

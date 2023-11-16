@@ -1,5 +1,5 @@
 ngapp.service('bsaBuilder', function($rootScope, settingsService, gameService, progressLogger) {
-    let archiveExts = { 'FO4': '.ba2' },
+    let archiveExts = { 'FO4': '.ba2', 'FO4VR': '.ba2' },
         settings,
         archiveExt;
 
